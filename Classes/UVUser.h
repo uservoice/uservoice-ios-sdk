@@ -1,0 +1,71 @@
+//
+//  UVUser.h
+//  UserVoice
+//
+//  Created by Mirko Froehlich on 10/26/09.
+//  Copyright 2009 UserVoice Inc. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "UVBaseModel.h"
+
+@interface UVUser : UVBaseModel {
+	NSInteger userId;
+	NSString *name;
+	NSString *displayName;
+	NSString *email;
+	BOOL emailConfirmed;
+	BOOL suggestionsNeedReload;
+	NSInteger ideaScore;
+	NSInteger activityScore;
+	NSInteger karmaScore;
+	NSInteger supportedSuggestionsCount;
+	NSInteger createdSuggestionsCount;
+	NSString *url;
+	NSString *avatarUrl;
+	NSMutableArray *supportedSuggestions;
+	NSMutableArray *createdSuggestions;
+	NSDate *createdAt;
+}
+
+@property (assign) NSInteger userId;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *displayName;
+@property (nonatomic, retain) NSString *email;
+@property (assign) BOOL emailConfirmed;
+@property (assign) BOOL suggestionsNeedReload;
+@property (assign) NSInteger ideaScore;
+@property (assign) NSInteger activityScore;
+@property (assign) NSInteger karmaScore;
+@property (assign) NSInteger createdSuggestionsCount;
+@property (assign) NSInteger supportedSuggestionsCount;
+@property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSString *avatarUrl;
+@property (nonatomic, retain) NSMutableArray *supportedSuggestions;
+@property (nonatomic, retain) NSMutableArray *createdSuggestions;
+@property (nonatomic, retain) NSDate *createdAt;
+
+// fetch
++ (id)getWithUserId:(NSInteger)userId delegate:(id)delegate;
+
+// discover
++ (id)discoverWithEmail:(NSString *)email delegate:(id)delegate;
++ (id)discoverWithGUID:(NSString *)guid delegate:(id)delegate;
+
+// create
++ (id)createWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
++ (id)createWithGUID:(NSString *)guid andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
++ (id)createWithSsoToken:(NSString *)token andDelegate:(id)delegate;
++ (id)retrieveCurrentUser:(id)delegate;
+
+// update
+- (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate;
+
+- (BOOL)hasEmail;
+- (BOOL)hasConfirmedEmail;
+- (BOOL)hasUnconfirmedEmail;
+
+// Returns the user's name, or "Anonymous" if they don't have one.
+- (NSString *)nameOrAnonymous;
+
+@end
