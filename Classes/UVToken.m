@@ -18,7 +18,10 @@
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-	[self setBaseURL:[self siteURL]];
+	
+	NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
+	BOOL useHttps = range.location == NSNotFound; // not pointing to a us.com (aka dev) url => use https
+	[self setBaseURL:[self siteURLWithHTTPS:useHttps]];
 }
 
 + (BOOL) exists {

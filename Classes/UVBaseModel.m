@@ -17,8 +17,7 @@
 
 + (NSURL *)siteURLWithHTTPS:(BOOL)https {
 	UVConfig *config = [UVSession currentSession].config;
-	// NSString *protocol = https ? @"https" : @"http";
-	NSString *protocol = @"http";
+	NSString *protocol = https ? @"https" : @"http";
 	return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@", protocol, config.site]];
 }
 

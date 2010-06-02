@@ -58,6 +58,9 @@
 + (id)createWithSsoToken:(NSString *)token andDelegate:(id)delegate;
 + (id)retrieveCurrentUser:(id)delegate;
 
+// use https (updates and creations only)
++ (void)useHTTPS:(BOOL)secure;
+
 // update
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate;
 
