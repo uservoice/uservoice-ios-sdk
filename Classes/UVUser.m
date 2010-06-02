@@ -98,7 +98,7 @@
 }
 
 // only called when instigated by the user, creates a local user
-+ (id)createWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
++ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							aName == nil ? @"" : aName, @"user[display_name]",

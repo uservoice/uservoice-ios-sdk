@@ -48,8 +48,7 @@
 										 andSsoToken:(NSString *)token {
 	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 	
-	// exchange the sso token for an access token, store it then load up the root view
-	
+	// exchange the sso token for an access token, store it then load up the root view	
 	UIViewController *rootViewController = [[[UVRootViewController alloc] init] autorelease];
 	[self showUserVoice:rootViewController forController:viewController];
 }

@@ -53,7 +53,7 @@
 + (id)discoverWithGUID:(NSString *)guid delegate:(id)delegate;
 
 // create
-+ (id)createWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
++ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
 + (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
 + (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate;
 + (id)retrieveCurrentUser:(id)delegate;

@@ -158,7 +158,7 @@
 	if (self.email && [self.email length] > 1) {
 		[self showActivityIndicator];
 		// create the user, access token and return
-		[UVUser createWithEmail:self.email andName:self.name andDelegate:self];
+		[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
 		
 	} else {
 		NSString *msg = @"Please enter your email address.";

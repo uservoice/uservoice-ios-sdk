@@ -72,7 +72,7 @@
 	} else {
 		if (self.email && [self.email length] > 1) {
 			[self showActivityIndicator];
-			[UVUser createWithEmail:self.email andName:self.name andDelegate:self];
+			[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
 			
 		} else {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
