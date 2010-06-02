@@ -12,6 +12,7 @@
 #import "UVSession.h"
 #import "UVToken.h"
 #import "YOAuthToken.h"
+#import "UVConfig.h"
 
 @implementation UVUser
 
@@ -156,7 +157,7 @@
 							newName == nil ? @"" : newName, @"user[display_name]",
 							newEmail == nil ? @"" : newEmail, @"user[email]",
 							nil];
-	[self useHTTPS:YES];
+	[[self class] useHTTPS:YES];
 	return [[self class] putPath:path
 					  withParams:params
 						  target:delegate

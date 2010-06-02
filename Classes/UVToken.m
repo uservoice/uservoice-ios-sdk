@@ -10,6 +10,7 @@
 #import "YOAuthToken.h"
 #import "UVSession.h"
 #import "UVResponseDelegate.h"
+#import "UVConfig.h"
 
 @implementation UVToken
 
