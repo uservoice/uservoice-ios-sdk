@@ -77,6 +77,7 @@
 			label.textColor = [UVStyleSheet dimBlueColor];
 		}
 	} else {
+		label.font = [UIFont boldSystemFontOfSize:14];
 		label.text = @"You will need to sign in to vote.";
 		label.textColor = [UVStyleSheet darkRedColor];
 	}

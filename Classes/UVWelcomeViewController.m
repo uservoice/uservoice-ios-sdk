@@ -106,7 +106,7 @@
 
 - (void)addQuestionCell:(UITableViewCell *)cell labelWithText:(NSString *)text alignment:(UITextAlignment)alignment {
 	// Simply stack up all labels with the same frame. The alignment will take care of things.
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 49, 280, 12)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 49, 280, 15)];
 	
 	label.backgroundColor = [UIColor clearColor];
 	label.font = [UIFont systemFontOfSize:12];
@@ -177,7 +177,7 @@
 	[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
 		
 	if (!enabled) {
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 66, 300, 15)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, 300, 20)];
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
 		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
@@ -247,7 +247,7 @@
 	if (indexPath.section == 0) {
 		return 44;
 	} else {
-		return [UVSession currentSession].user==nil ? 66 : 50;
+		return [UVSession currentSession].user==nil ? 70 : 50;
 	}
 }
 

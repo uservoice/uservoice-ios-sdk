@@ -173,6 +173,7 @@
 	label.textColor = [UIColor darkGrayColor];
 	label.backgroundColor = [UIColor clearColor];
 	label.text = self.suggestion.categoryString;
+	[label sizeToFit];
 	[cell.contentView addSubview:label];
 	[label release];
 }
@@ -193,9 +194,14 @@
 	[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 	[cell.contentView addSubview:segments];
 	[segments release];
-	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 12)];
+	UILabel *label;
+	if ([UVSession currentSession].user != nil) {
+		label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 13)];
+	} else {
+		label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 17)];
+	}
 	label.tag = VOTE_LABEL_TAG;
+	label.numberOfLines = 0;
 	label.backgroundColor = [UIColor clearColor];
 	label.textAlignment = UITextAlignmentCenter;
 	label.font = [UIFont systemFontOfSize:12];
@@ -263,7 +269,7 @@
 	[self removeBackgroundFromCell:cell];
 	
 	// Name label
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 85, 13)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 85, 15)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor grayColor];
 	label.textAlignment = UITextAlignmentRight;
@@ -276,7 +282,7 @@
 	UVUserButton *nameButton = [UVUserButton buttonWithUserId:self.suggestion.creatorId
 														 name:self.suggestion.creatorName
 												   controller:self
-													   origin:CGPointMake(95, 15)
+													   origin:CGPointMake(95, 13)
 													 maxWidth:205
 														 font:[UIFont boldSystemFontOfSize:13]
 														color:[UVStyleSheet dimBlueColor]];
@@ -293,7 +299,7 @@
 	[label release];
 
 	// Date
-	label = [[UILabel alloc] initWithFrame:CGRectMake(95, 43, 205, 13)];
+	label = [[UILabel alloc] initWithFrame:CGRectMake(95, 43, 205, 14)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor blackColor];
 	label.textAlignment = UITextAlignmentLeft;
