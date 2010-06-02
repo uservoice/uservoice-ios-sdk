@@ -112,5 +112,6 @@ Invoke UserVoice View - SSO With New Users Only
 													andSite:@"YOUR_USERVOICE_URL"
 													 andKey:@"YOUR_KEY"
 												  andSecret:@"YOUR_SECRET"
-												   andEmail:@"USER_EMAIL",
-											 andDisplayName:@"USER_DISPLAY_NAME"];
+												   andEmail:@"USER_EMAIL"
+											 andDisplayName:@"USER_DISPLAY_NAME"
+													andGUID:@"GUID"];
