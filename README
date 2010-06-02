@@ -2,15 +2,18 @@ Overview
 ========
 
 The UserVoice iPhone SDK is distributed as a static library, along with several
-resource files. In order to embed the UserVoice functionality into your own
+resource files. This distribution concept is well described in this post:
+
+http://www.clintharris.net/2009/iphone-app-shared-libraries/
+
+In order to embed the UserVoice functionality into your own
 iPhone app, you need to perform the following steps:
 
-1. Copy the SDK into your project
-2. Update a few build settings
+1. Clone the SDK from GitHub (or download the zip)
+2. Add the SDK to your project (a simple drag'n'drop followed by updating a few settings)
 3. Add the UserVoice resources
 4. Register your iPhone app on the UserVoice website
-5. Download the customized plist file and add it to your project
-6. Add a single line of code where you want to invoke the UserVoice functionality
+6. Add an '#import' and a single line of code where you want to invoke the UserVoice functionality
 
 The instructions below describe this process in more detail.
 
@@ -18,15 +21,10 @@ The instructions below describe this process in more detail.
 Instructions
 ============
 
-Copy the SDK into your project
+Add the SDK to your project
 ------------------------------
-* Unzip the UserVoice iPhone SDK.
-* Copy the contained UserVoice folder into your project.
-
-  *Note: Technically you can copy this folder wherever you want, inside or outside
-         of your project directory. The instructions below assume that the UserVoice
-         folder is located within the root of your project folder, so you may need to
-         adjust the various paths accordingly.*
+* Go to the directory where you cloned the SDK (or where you unzipped it) and click on UserVoice.xcodeproj
+* Drag the UserVoice group to the root of your app project
 
 
 Update Build Settings
@@ -35,39 +33,62 @@ Update Build Settings
 *Note: We will describe how to change the necessary settings on the target level. Most of these settings can be specified either at the target or the project level.*
 
 * Double-click on the app target.
+
 * Click on the General tab.
-* Add QuartzCore.framework, SystemConfiguration.framework, and libxml2.dylib.
+* In 'Direct Dependencies' click add and choose UserVoice.
+* In 'Linked Libraries' add QuartzCore.framework, SystemConfiguration.framework, and libxml2.dylib.
+
 * Click on the Build tab.
-* Make sure that the Configuration drop-down shows "All Configurations"
-* Look for Additional SDKs
-* Double-click, then add "`UserVoice/SDK/$(PLATFORM_NAME)$(IPHONEOS_DEPLOYMENT_TARGET).sdk`"
-* Look for Header Search Paths
-* Double-click, then add "`UserVoice/SDK/$(PLATFORM_NAME)$(IPHONEOS_DEPLOYMENT_TARGET).sdk/usr/local/include`"
-* Look for Other Linker Flags
-* Double-click, then add "`-lUserVoice -ObjC -all_load`"
+* Make sure that the Configuration drop-down shows "All Configurations".
+
+* Look for Header Search Paths.
+* Double-click, then add "PATH_TO_USERVOICE_SDK/**".
+
+* Look for Other Linker Flags.
+* Double-click, then add "`-ObjC -all_load`".
+
+
+Update Binary Linked Libraries
+------------------------------
+
+* Drag libUserVoice.a from within the UserVoice group to 'Link Binary With Libraries' in your app's target.
+
 
 Add Resources
 -------------
 
-* Right-click on Resources, then choose Add -> Existing Files.
-* Select the "`UserVoice/Resources/UserVoice`" folder. In the dialog, leave "Copy items..." unchecked but make sure "Recursively create groups..." is selected. Then click Add.
+* Create a group called UVResources
+* Right-click on UVResources, then choose Add -> Existing Files.
+* Select the "UserVoice/Resources" folder. In the dialog, leave "Copy items..." unchecked and then click Add.
 
 
-Download and add plist
-----------------------
+Obtain Key And Secret
+-----------------------
 
-* Download your custom `UserVoice.plist` file from the UserVoice website.
-* Copy it into the root of your project directory.
-* Right-click on Resources, then choose Add -> Existing Files.
-* Select "`UserVoice.plist`". Leave "Copy items..." unchecked. Click Add.
+* Go to the admin section of your UserVoice account and click 'Apps & Plugins'.
+* Click on the iPhone tab and click create.
+* Make a note of your key and secret and of your forum URL.
 
-Invoke UserVoice View
----------------------
+
+Invoke UserVoice View - Standard Login
+--------------------------------------
 
 * Add the following import statement to the class that is responsible for launching the UserVoice view (probably a view controller):
 
-  `#import <UserVoice/UserVoice.h>`
+    #import "UserVoice.h"
+
 * In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
-  `[UserVoice presentUserVoiceModalViewControllerForParent:self];`
+	[UserVoice presentUserVoiceModalViewControllerForParent:self
+													andSite:@"YOUR_USERVOICE_URL"
+													 andKey:@"YOUR_KEY"
+												  andSecret:@"YOUR_SECRET"];
+												  
+Invoke UserVoice View - SSO With Existing Users
+-----------------------------------------------
+
+
+Invoke UserVoice View - SSO With New Users Only
+-----------------------------------------------
+												  
 

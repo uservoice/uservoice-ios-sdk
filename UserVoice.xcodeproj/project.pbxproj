@@ -682,7 +682,6 @@
 		ACBA711F1182B6CB000D0A0B /* UVNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNetworkUtils.m; sourceTree = "<group>"; };
 		ACBA824711399A2B006D5219 /* UVActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVActivityIndicator.h; sourceTree = "<group>"; };
 		ACBA824811399A2B006D5219 /* UVActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVActivityIndicator.m; sourceTree = "<group>"; };
-		ACDDB1F610FCFB99009079D6 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README; path = Doc/README; sourceTree = "<group>"; };
 		ACDDB22710FD1249009079D6 /* UVNSURLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNSURLAdditions.h; sourceTree = "<group>"; };
 		ACDDB22810FD1249009079D6 /* UVNSURLAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNSURLAdditions.m; sourceTree = "<group>"; };
 		ACEE427B10A9EDC1003D8751 /* UVResponseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVResponseViewController.h; sourceTree = "<group>"; };
@@ -794,6 +793,7 @@
 		D2620EE911B597290053EA4C /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
 		D2620EEA11B597290053EA4C /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
 		D2620EEB11B597290053EA4C /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
+		D26EA79811B5D6AE00D13F85 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libUserVoice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUserVoice.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVProfileEditViewController.h; sourceTree = "<group>"; };
 		D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVProfileEditViewController.m; sourceTree = "<group>"; };
@@ -825,8 +825,8 @@
 		0867D691FE84028FC02AAC07 /* UserVoice */ = {
 			isa = PBXGroup;
 			children = (
+				D26EA79811B5D6AE00D13F85 /* README */,
 				D2620C4B11B586230053EA4C /* Resources */,
-				ACDDB1F510FCFB7A009079D6 /* Doc */,
 				AC312140108D363D00000D5F /* Include */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				AC312517109231A200000D5F /* Vendor */,
@@ -1265,14 +1265,6 @@
 				AC3538DF110F8474006FD1C1 /* UIWindowAdditions.h */,
 			);
 			path = Three20;
-			sourceTree = "<group>";
-		};
-		ACDDB1F510FCFB7A009079D6 /* Doc */ = {
-			isa = PBXGroup;
-			children = (
-				ACDDB1F610FCFB99009079D6 /* README */,
-			);
-			name = Doc;
 			sourceTree = "<group>";
 		};
 		D2620C4B11B586230053EA4C /* Resources */ = {
