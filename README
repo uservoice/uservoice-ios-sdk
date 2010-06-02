@@ -5,13 +5,11 @@ IMPORTANT: The UserVoice iPhone SDK is currently in beta, if you wish to try it 
 
 http://www.uservoice.com/iphone
 
-The UserVoice iPhone SDK is distributed as a static library, along with several
-resource files. This distribution concept is well described in this post:
+The UserVoice iPhone SDK is distributed as a static library, along with several resource files. This distribution concept is well described in this post:
 
 http://www.clintharris.net/2009/iphone-app-shared-libraries/
 
-In order to embed the UserVoice functionality into your own
-iPhone app, you need to perform the following steps:
+In order to embed the UserVoice functionality into your own iPhone app, you need to perform the following steps:
 
 1. Have a UserVoice account!
 2. Clone the SDK from GitHub (or download the zip)
@@ -34,8 +32,6 @@ Add the SDK to your project
 
 Update Build Settings
 ---------------------
-
-*Note: We will describe how to change the necessary settings on the target level. Most of these settings can be specified either at the target or the project level.*
 
 * Double-click on the app target.
 
