@@ -15,6 +15,7 @@
 #import "UVStyleSheet.h"
 #import "UVQuestion.h"
 #import "UVAnswer.h"
+#import "UVSignInViewController.h"
 
 #define UV_FORUM_LIST_TAG_CELL_LABEL 1000
 #define UV_FORUM_LIST_TAG_CELL_IMAGE 1001
@@ -154,6 +155,7 @@
 
 - (void)initCellForQuestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	NSArray *items = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
@@ -179,7 +181,7 @@
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
 		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
-		label.font = [UIFont systemFontOfSize:12];
+		label.font = [UIFont boldSystemFontOfSize:14];
 		label.text = @"You will need to sign in to answer.";		
 		label.textColor = [UVStyleSheet darkRedColor];
 		
@@ -215,7 +217,8 @@
 		identifier = @"Forum";
 
 	} else if (indexPath.section >= UV_FORUM_LIST_SECTION_QUESTIONS) {
-			identifier = @"Question";
+		identifier = @"Question";
+		if ([UVSession currentSession].user != nil)
 			selectable = NO;
 	}
 	
@@ -270,8 +273,14 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	switch (indexPath.section) {
-		case UV_FORUM_LIST_SECTION_FORUMS: {
+		case UV_FORUM_LIST_SECTION_FORUMS: {			
 			UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
+			[self.navigationController pushViewController:next animated:YES];
+			[next release];
+			break;
+		}
+		case UV_FORUM_LIST_SECTION_QUESTIONS: {
+			UVSignInViewController *next = [[UVSignInViewController alloc] init];
 			[self.navigationController pushViewController:next animated:YES];
 			[next release];
 			break;

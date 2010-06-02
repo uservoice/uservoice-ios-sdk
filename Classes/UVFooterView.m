@@ -84,6 +84,8 @@
 	
 	if (indexPath.section == 0) {
 		cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
+		// cell.textLabel.text = [NSString stringWithFormat:@"Contact Support"];
+		
 	} else {
 		if ([UVSession currentSession].loggedIn) {
 			cell.textLabel.text = @"My profile";

@@ -267,7 +267,7 @@
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
 	aTextEditor.style = TTSTYLE(messageTextField);
-	aTextEditor.placeholder = @"Private message";
+	aTextEditor.placeholder = @"Message";
 	
 	[cell.contentView addSubview:aTextEditor];
 	self.textEditor = aTextEditor;
@@ -304,7 +304,7 @@
 	button.frame = CGRectMake(0, 0, 300, 42);
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 	button.titleLabel.textColor = [UIColor whiteColor];
-	[button setTitle:@"Send private message" forState:UIControlStateNormal];
+	[button setTitle:@"Send" forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
