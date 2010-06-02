@@ -1,6 +1,10 @@
 Overview
 ========
 
+IMPORTANT: The UserVoice iPhone SDK is currently in beta, if you wish to try it out please visit this url to request access:
+
+http://www.uservoice.com/iphone
+
 The UserVoice iPhone SDK is distributed as a static library, along with several
 resource files. This distribution concept is well described in this post:
 
@@ -9,10 +13,11 @@ http://www.clintharris.net/2009/iphone-app-shared-libraries/
 In order to embed the UserVoice functionality into your own
 iPhone app, you need to perform the following steps:
 
-1. Clone the SDK from GitHub (or download the zip)
-2. Add the SDK to your project (a simple drag'n'drop followed by updating a few settings)
-3. Add the UserVoice resources
-4. Register your iPhone app on the UserVoice website
+1. Have a UserVoice account!
+2. Clone the SDK from GitHub (or download the zip)
+3. Add the SDK to your project (a simple drag'n'drop followed by updating a few settings)
+4. Add the UserVoice resources
+5. Register your iPhone app on the UserVoice website
 6. Add an '#import' and a single line of code where you want to invoke the UserVoice functionality
 
 The instructions below describe this process in more detail.
