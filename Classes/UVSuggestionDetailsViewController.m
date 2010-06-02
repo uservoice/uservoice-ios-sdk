@@ -20,6 +20,7 @@
 #import "UVUserButton.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
+#import "UVSignInViewController.h"
 
 #define CHICKLET_TAG 1001
 #define VOTE_SEGMENTS_TAG 1002
@@ -186,20 +187,23 @@
 
 - (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	NSArray *items = [NSArray arrayWithObjects:@"0 votes", @"1 vote", @"2 votes", @"3 votes", nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 	segments.tag = VOTE_SEGMENTS_TAG;
 	segments.frame = CGRectMake(0, 0, 300, 44);
 	[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
-	[cell.contentView addSubview:segments];
-	[segments release];
 	UILabel *label;
 	if ([UVSession currentSession].user != nil) {
 		label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 13)];
 	} else {
+		[segments setEnabled:NO];
 		label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 17)];
 	}
+	[cell.contentView addSubview:segments];
+	[segments release];
+	
 	label.tag = VOTE_LABEL_TAG;
 	label.numberOfLines = 0;
 	label.backgroundColor = [UIColor clearColor];
@@ -211,17 +215,19 @@
 }
 
 - (void)customizeCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
-	segments.selectedSegmentIndex = self.suggestion.votesFor;
-	NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
-	for (int i = 0; i < segments.numberOfSegments; i++) {
-		NSInteger votesNeeded = i - self.suggestion.votesFor;
-		BOOL enabled = votesNeeded <= votesRemaining;
-		[segments setEnabled:enabled forSegmentAtIndex:i];
+	if ([UVSession currentSession].user != nil) {
+		UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
+		segments.selectedSegmentIndex = self.suggestion.votesFor;
+		NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
+		for (int i = 0; i < segments.numberOfSegments; i++) {
+			NSInteger votesNeeded = i - self.suggestion.votesFor;
+			BOOL enabled = votesNeeded <= votesRemaining;
+			[segments setEnabled:enabled forSegmentAtIndex:i];
+		}
+		
+		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
+		[self setVoteLabelTextAndColorForLabel:label];
 	}
-	
-	UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
-	[self setVoteLabelTextAndColorForLabel:label];
 }
 
 - (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -269,7 +275,7 @@
 	[self removeBackgroundFromCell:cell];
 	
 	// Name label
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 85, 15)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 85, 16)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor grayColor];
 	label.textAlignment = UITextAlignmentRight;
@@ -322,10 +328,11 @@
 			break;
 		case UV_SUGGESTION_DETAILS_SECTION_VOTE:
 			identifier = @"Vote";
-			selectable = NO;
+			if ([UVSession currentSession].user!=nil)
+				selectable = NO;
 			break;
 		case UV_SUGGESTION_DETAILS_SECTION_BODY:
-			identifier = @"Body";
+			identifier = @"Body";			
 			selectable = NO;
 			break;
 		case UV_SUGGESTION_DETAILS_SECTION_COMMENTS:
@@ -389,6 +396,12 @@
 	UIViewController *next = nil;
 
 	switch (indexPath.section) {
+		case UV_SUGGESTION_DETAILS_SECTION_VOTE: {
+			UVSignInViewController *next = [[UVSignInViewController alloc] init];
+			[self.navigationController pushViewController:next animated:YES];
+			[next release];
+			break;
+		}
 		case UV_SUGGESTION_DETAILS_SECTION_COMMENTS: {
 			switch (indexPath.row) {
 				case 0: // status
@@ -445,6 +458,10 @@
 	[contentView release];
 	
 	[self addGradientBackground];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
