@@ -5,7 +5,9 @@ IMPORTANT: The UserVoice iPhone SDK is currently in beta, if you wish to try it 
 
 http://www.uservoice.com/iphone
 
-The UserVoice iPhone SDK is distributed as a static library, along with several resource files. This distribution concept is well described in this post:
+The UserVoice iPhone SDK is distributed as a XCode Project which you can use to build static libraries to compile against. 
+
+This distribution concept is well described in this post:
 
 http://www.clintharris.net/2009/iphone-app-shared-libraries/
 
