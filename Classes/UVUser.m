@@ -112,9 +112,10 @@
 				 selector:@selector(didCreateUser:)];
 }
 
-+ (id)createWithGUID:(NSString *)guid andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
++ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+							aGUID, @"guid",
 							aName == nil ? @"" : aName, @"user[display_name]",
 							anEmail == nil ? @"" : anEmail, @"user[email]", 
 							[UVSession currentSession].currentToken.oauthToken.key, @"request_token",
@@ -126,17 +127,17 @@
 				selector:@selector(didCreateUser:)];
 }
 
-+ (id)createWithSsoToken:(NSString *)token andDelegate:(id)delegate {
++ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							token == nil ? @"" : token, @"sso", 
+							aToken, @"sso", 
 							[UVSession currentSession].currentToken.oauthToken.key, @"request_token",
 							nil];
 	[self useHTTPS:YES];
 	return [self postPath:path
-			  withParams:params
-				  target:delegate
-				selector:@selector(didCreateUser:)];
+			   withParams:params
+				   target:delegate
+				 selector:@selector(didCreateUser:)];	
 }
 
 + (void)processModel:(id)model {
@@ -157,6 +158,7 @@
 							newName == nil ? @"" : newName, @"user[display_name]",
 							newEmail == nil ? @"" : newEmail, @"user[email]",
 							nil];
+	
 	[[self class] useHTTPS:YES];
 	return [[self class] putPath:path
 					  withParams:params

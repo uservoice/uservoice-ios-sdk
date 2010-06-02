@@ -27,7 +27,6 @@
 											 andSite:(NSString *)site
 											  andKey:(NSString *)key
 										   andSecret:(NSString *)secret {
-	[UVSession currentSession].isModal = YES;
 	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
  	
 	UIViewController *rootViewController;
@@ -39,7 +38,35 @@
 	{
 		rootViewController = [[[UVRootViewController alloc] init] autorelease];
 	}
+	[self showUserVoice:rootViewController forController:viewController];
+}
+
++ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
+											 andSite:(NSString *)site
+											  andKey:(NSString *)key
+										   andSecret:(NSString *)secret
+										 andSsoToken:(NSString *)token {
+	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 	
+	// exchange the sso token for an access token, store it then load up the root view
+	
+	UIViewController *rootViewController = [[[UVRootViewController alloc] init] autorelease];
+	[self showUserVoice:rootViewController forController:viewController];
+}
+
++ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
+											 andSite:(NSString *)site
+											  andKey:(NSString *)key
+										   andSecret:(NSString *)secret
+											andEmail:(NSString *)email
+									  andDisplayName:(NSString *)displayName
+											 andGUID:(NSString *)guid {
+	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
+	
+}
+
++ (void)showUserVoice:(UIViewController *)rootViewController forController:(UIViewController *)viewController {
+	[UVSession currentSession].isModal = YES;
 	UINavigationController *userVoiceNav = [[[UINavigationController alloc] initWithRootViewController:rootViewController] autorelease];
 	[viewController presentModalViewController:userVoiceNav animated:YES];
 }

@@ -54,8 +54,8 @@
 
 // create
 + (id)createWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
-+ (id)createWithGUID:(NSString *)guid andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
-+ (id)createWithSsoToken:(NSString *)token andDelegate:(id)delegate;
++ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
++ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate;
 + (id)retrieveCurrentUser:(id)delegate;
 
 // use https (updates and creations only)
