@@ -18,9 +18,28 @@
 
 @implementation UVRootViewController
 
+@synthesize ssoToken;
+@synthesize email, displayName, guid;
+
 - (void)setupErrorAlertViewDelegate
 {
 	errorAlertView.delegate = self;
+}
+
+- (id)initWithSsoToken:(NSString *)aToken {
+	if (self = [super init]) {
+		self.ssoToken = aToken;
+	}
+	return self;
+}
+
+- (id)initWithEmail:(NSString *)anEmail andGUID:(NSString *)aGUID andName:(NSString *)aDisplayName {
+	if (self = [super init]) {
+		self.email = anEmail;
+		self.guid = aGUID;
+		self.displayName = aDisplayName;
+	}
+	return self;	
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -66,6 +85,25 @@
 	//	[token persist];
 	[UVSession currentSession].currentToken = token;
 	
+	// check if we have a sso token and if so exchange it for an access token and user
+	if (self.ssoToken != nil) {
+		[UVUser findOrCreateWithSsoToken:self.ssoToken delegate:self];
+		
+	} else if (self.email != nil) {
+		[UVUser findOrCreateWithGUID:self.guid andEmail:self.email andName:self.displayName andDelegate:self];
+		
+	} else {
+		[UVClientConfig getWithDelegate:self];
+	}
+}
+
+- (void)didCreateUser:(UVUser *)theUser {
+	// set the current user
+	[UVSession currentSession].user = theUser;
+	
+	// token should have been loaded by ResponseDelegate
+	[[UVSession currentSession].currentToken persist];
+	
 	[UVClientConfig getWithDelegate:self];
 }
 
@@ -110,16 +148,6 @@
 	[activity startAnimating];
 	[activity release];
 	
-	UILabel *activityLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, frame.size.height / 2, 320, 20)];
-	activityLabel.text = @"Logging In...";
-	activityLabel.textColor = [UIColor whiteColor];
-	activityLabel.backgroundColor = nil;
-	activityLabel.opaque = NO;
-	activityLabel.textAlignment = UITextAlignmentCenter;
-	activityLabel.font = [UIFont systemFontOfSize:18];
-	[contentView addSubview:activityLabel];
-	[activityLabel release];
-	
 	self.view = contentView;
 	[contentView release];
 }
@@ -129,7 +157,6 @@
 	[super viewWillAppear:animated];
 	
 	if (![UVNetworkUtils hasInternetAccess]) {
-		//NSLog(@"No Internet access!");
 		UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
 		self.navigationController.navigationBarHidden = NO;
 		serverErrorImage.frame = self.view.frame;

@@ -115,3 +115,12 @@ Invoke UserVoice View - SSO With New Users Only
 												   andEmail:@"USER_EMAIL"
 											 andDisplayName:@"USER_DISPLAY_NAME"
 													andGUID:@"GUID"];
+													
+
+TODO
+----
+
+* Always store the token and just use type to figure out if its request or access
+* Load all required data in parallel at launch
+* Facebook and Google auth support
+* Cache more info (client config?) to improve initial load time

@@ -49,7 +49,15 @@
 	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 	
 	// exchange the sso token for an access token, store it then load up the root view	
-	UIViewController *rootViewController = [[[UVRootViewController alloc] init] autorelease];
+	UIViewController *rootViewController;
+	if ([[UVSession currentSession] clientConfig])
+	{
+		rootViewController = [[[UVWelcomeViewController alloc] init] autorelease];
+	}
+	else
+	{
+		rootViewController = [[[UVRootViewController alloc] initWithSsoToken:token] autorelease];
+	}
 	[self showUserVoice:rootViewController forController:viewController];
 }
 
@@ -61,6 +69,19 @@
 									  andDisplayName:(NSString *)displayName
 											 andGUID:(NSString *)guid {
 	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
+	
+	UIViewController *rootViewController;
+	if ([[UVSession currentSession] clientConfig])
+	{
+		rootViewController = [[[UVWelcomeViewController alloc] init] autorelease];
+	}
+	else
+	{
+		rootViewController = [[[UVRootViewController alloc] initWithEmail:email 
+																  andGUID:guid 
+																  andName:displayName] autorelease];
+	}
+	[self showUserVoice:rootViewController forController:viewController];
 	
 }
 
