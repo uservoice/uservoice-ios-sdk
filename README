@@ -135,3 +135,8 @@ TODO
 * Load all required data in parallel at launch
 * Facebook and Google auth support
 * Cache more info (client config?) to improve initial load time
+
+BUGS
+----
+
+* Removing all votes from a created idea causes a crash
