@@ -151,6 +151,18 @@
 	}
 }
 
+- (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate {
+	NSString *path = [UVUser apiPath:[NSString stringWithFormat:@"/users/forgot_password.json"]];
+	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+							anEmail, @"user[email]",
+							nil];
+
+	return [[self class] getPath:path
+					  withParams:params
+						  target:delegate
+						selector:@selector(didSendForgotPassword)];
+}
+
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate {
 	NSString *path = [UVUser apiPath:[NSString stringWithFormat:@"/users/%d.json",
 									  [UVSession currentSession].user.userId]];

@@ -64,6 +64,9 @@
 // update
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate;
 
+// others
+- (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate;
+
 - (BOOL)hasEmail;
 - (BOOL)hasConfirmedEmail;
 - (BOOL)hasUnconfirmedEmail;

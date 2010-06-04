@@ -120,7 +120,11 @@ Invoke UserVoice View - SSO With New Users Only
 TODO
 ----
 
-* Add forgot password functionality
+* Add drop shadow to lists, etc
+* Search should gray out and the transition sucks, make like location bar on safari
+* Still some text cropping on descenders
+* Footer background doesn't extend all the way down when scrolling
+* Add resend email confirmation functionality
 * Resize and scrolling on the message textarea is not very good
 * General overview of first responders and focus
 * Remove status image when no status

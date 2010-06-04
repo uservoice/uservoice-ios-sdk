@@ -180,7 +180,20 @@
 }
 
 - (void)forgotPasswordButtonTapped {
+	[self showActivityIndicator];
+	[self.user forgotPasswordForEmail:self.email andDelegate:self];
+}
 
+- (void)didSendForgotPassword {
+	[self hideActivityIndicator];
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+													message:@"We've sent an email telling you how to login and change your password."
+												   delegate:nil
+										  cancelButtonTitle:nil
+										  otherButtonTitles:@"OK", nil];
+	[alert show];
+	[alert release];
 }
 
 #pragma mark ===== table cells =====
