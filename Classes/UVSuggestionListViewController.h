@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseSuggestionListViewController.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 
 @class UVForum;
 

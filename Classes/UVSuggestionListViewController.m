@@ -7,7 +7,6 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "Three20/TTStyledTextLabel.h"
 #import "UVSuggestionListViewController.h"
 #import "UVClientConfig.h"
 #import "UVSession.h"
@@ -19,7 +18,7 @@
 #import "UVStyleSheet.h"
 #import "UVUser.h"
 #import "UVFooterView.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 
