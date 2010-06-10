@@ -20,7 +20,7 @@
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVToken.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 #import "NSError+UVExtras.h";
 
 #define UV_NEW_MESSAGE_SECTION_PROFILE 0

@@ -15,7 +15,7 @@
 #import "UVNewSuggestionViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX 100
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY 101

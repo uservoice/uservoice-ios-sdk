@@ -15,7 +15,7 @@
 #import "UVUserChickletView.h"
 #import "UVButtonWithIndex.h"
 #import "UVUserButton.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 
 #define UV_COMMENT_LIST_TAG_CELL_NAME 1
 #define UV_COMMENT_LIST_TAG_CELL_DATE 2

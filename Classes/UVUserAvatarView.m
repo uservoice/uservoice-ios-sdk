@@ -9,7 +9,7 @@
 #import "UVUserAvatarView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UVStyleSheet.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 
 #define UV_USER_AVATAR_TAG_ICON 200
 #define UV_USER_AVATAR_TAG_BUTTON 201
@@ -52,7 +52,7 @@
 	TTImageView *avatarView = [[TTImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];
 	avatarView.tag = UV_USER_AVATAR_TAG_ICON;
-	avatarView.URL = self.avatarUrl;
+	avatarView.urlPath = self.avatarUrl;
 	avatarView.userInteractionEnabled = NO;
 	[button addSubview:avatarView];
 	[avatarView release];

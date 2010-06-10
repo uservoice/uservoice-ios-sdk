@@ -20,7 +20,7 @@
 #import "UVCategorySelectViewController.h"
 #import "UVNewMessageViewController.h"
 #import "UVSignInViewController.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 #import "NSError+UVExtras.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
@@ -156,7 +156,7 @@
 	// update the remaining votes
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
 	
-	[self dismissModalViewController];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {

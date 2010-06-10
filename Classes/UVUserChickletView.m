@@ -10,7 +10,7 @@
 #import "UVUserChickletView.h"
 #import "UVStyleSheet.h"
 #import "UVProfileViewController.h"
-#import "Three20.h"
+#import "Three20/Three20.h"
 
 #define UV_USER_CHICKLET_TAG_BG_IMAGE 201
 #define UV_USER_CHICKLET_TAG_AVATAR_IMAGE 202
@@ -125,7 +125,7 @@
 	self.karmaScore = theKarmaScore;
 	
 	TTImageView *imageView = (TTImageView *)[self viewWithTag:UV_USER_CHICKLET_TAG_AVATAR_IMAGE];
-	imageView.URL = theAvatarUrl;
+	imageView.urlPath = theAvatarUrl;
 	
 	[self updateLabel];
 }
@@ -163,7 +163,7 @@
 	TTImageView *avatarView = [[TTImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	avatarView.tag = UV_USER_CHICKLET_TAG_AVATAR_IMAGE;
 	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];
-	avatarView.URL = self.avatarUrl;
+	avatarView.urlPath  = self.avatarUrl;
 	avatarView.userInteractionEnabled = NO;
 	[button addSubview:avatarView];
 	[avatarView release];	

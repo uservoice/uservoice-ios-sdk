@@ -22,12 +22,8 @@
 	errorAlertView;
 @synthesize needsReload;
 
-- (void)dismissModalViewController {
-	[self dismissModalViewControllerAnimated:YES];
-}
-
 - (void)dismissUserVoice {
-	[self dismissModalViewController];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (CGRect)contentFrameWithNavBar:(BOOL)navBarEnabled {

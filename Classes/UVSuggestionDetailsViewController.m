@@ -7,7 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "Three20.h"
+#import "Three20/Three20.h"
 #import "UVSuggestionDetailsViewController.h"
 #import "UVCommentListViewController.h"
 #import "UVProfileViewController.h"
