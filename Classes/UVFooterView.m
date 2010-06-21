@@ -82,7 +82,7 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
-	if (indexPath.section == 0) {
+	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled && indexPath.section == 0) {
 		cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
 		// cell.textLabel.text = [NSString stringWithFormat:@"Contact Support"];
 		
@@ -118,7 +118,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return 2;
+	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
+		return 2;
+	} else {
+		return 1;
+	}
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -131,7 +135,7 @@
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	UIViewController *next = nil;
-	if (indexPath.section == 0) {
+	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled && indexPath.section == 0) {
 		next = [[UVNewMessageViewController alloc] init];
 	} else {
 		if ([UVSession currentSession].loggedIn) {

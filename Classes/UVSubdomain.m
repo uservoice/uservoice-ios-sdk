@@ -19,6 +19,7 @@
 @synthesize host;
 @synthesize key;
 @synthesize statuses;
+@synthesize messagesEnabled;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -52,6 +53,9 @@
 		self.subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
 		self.name = [self objectOrNilForDict:dict key:@"name"];
 		self.host = [self objectOrNilForDict:dict key:@"host"]; 
+		
+		NSString *contactMethod = [self objectOrNilForDict:dict key:@"contact_method"];
+		self.messagesEnabled = [contactMethod isEqualToString:@"email"];
 	}
 	return self;
 }

@@ -16,9 +16,11 @@
 	NSArray *messageSubjects;
 	NSArray *statuses;
 	NSInteger subdomainId;
+	BOOL messagesEnabled;
 }
 
 @property (assign) NSInteger subdomainId;
+@property (assign) BOOL messagesEnabled;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *key;
