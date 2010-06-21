@@ -130,7 +130,6 @@ TODO
 * Add resend email confirmation functionality
 * Resize and scrolling on the message textarea is not very good
 * General overview of first responders and focus
-* Remove status image when no status
 * Info button image is being cropped
 * Always store the token and just use type to figure out if its request or access
 * Load all required data in parallel at launch

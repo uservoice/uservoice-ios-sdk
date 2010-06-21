@@ -182,7 +182,11 @@
 - (void)customizeCellForHeader:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	// Customize chicklet
 	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[cell.contentView viewWithTag:CHICKLET_TAG];
-	[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
+	if (self.suggestion.status) {
+		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
+	} else {
+		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
+	}
 }
 
 - (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

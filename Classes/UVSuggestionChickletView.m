@@ -105,7 +105,9 @@
 	NSString *imageName = [self imageNameForStyle:style];
 	//NSLog(@"imageName: %@\n", imageName);
 	imageView.image = [UIImage imageNamed:imageName];
-	
+	if (!suggestion.status)
+		imageView.frame = CGRectMake(0, 0, 60, 44);
+		
 	UIView *statusColorView = [self viewWithTag:UV_CHICKLET_TAG_STATUS_COLOR];
 	statusColorView.backgroundColor = suggestion.statusColor;
 	
