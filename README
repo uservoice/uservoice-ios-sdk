@@ -131,9 +131,7 @@ TODO
 * Resize and scrolling on the message textarea is not very good
 * General overview of first responders and focus
 * Remove status image when no status
-* No subject dropdown when only one subject
 * Info button image is being cropped
-* For completed ideas in your profile, removing the votes causes issues (even though they have effectively been returned already)
 * Always store the token and just use type to figure out if its request or access
 * Load all required data in parallel at launch
 * Facebook and Google auth support

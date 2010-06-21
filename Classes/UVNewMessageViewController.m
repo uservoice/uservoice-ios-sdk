@@ -323,7 +323,7 @@
 			identifier = @"Subject";
 			style = UITableViewCellStyleValue1;
 			NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
-			selectable = subjects && [subjects count] > 0;
+			selectable = subjects && [subjects count] > 1;
 			break;
 		case UV_NEW_MESSAGE_SECTION_TEXT:
 			identifier = @"Text";
@@ -353,7 +353,17 @@
 			return 0;
 		} else {
 			return 2;
-		}		
+		}
+	} else if (section == UV_NEW_MESSAGE_SECTION_SUBJECT) {
+		NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+		if (subjects && [subjects count] > 1) {
+			return 1;
+		} else {
+			if (subjects && [subjects count] > 0)
+				self.subject = [subjects objectAtIndex:0];
+			
+			return 0;
+		}
 	} else {
 		return 1;
 	}
@@ -392,7 +402,7 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
-	if (indexPath.section == UV_NEW_MESSAGE_SECTION_SUBJECT && subjects && [subjects count] > 0) {
+	if (indexPath.section == UV_NEW_MESSAGE_SECTION_SUBJECT && subjects && [subjects count] > 1) {
 		[self dismissTextView];
 		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];
 		[self.navigationController pushViewController:next animated:YES];
