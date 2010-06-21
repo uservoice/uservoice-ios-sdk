@@ -125,7 +125,7 @@
 	self.karmaScore = theKarmaScore;
 	
 	TTImageView *imageView = (TTImageView *)[self viewWithTag:UV_USER_CHICKLET_TAG_AVATAR_IMAGE];
-	imageView.urlPath = theAvatarUrl;
+	imageView.URL = theAvatarUrl;
 	
 	[self updateLabel];
 }
@@ -163,7 +163,7 @@
 	TTImageView *avatarView = [[TTImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	avatarView.tag = UV_USER_CHICKLET_TAG_AVATAR_IMAGE;
 	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];
-	avatarView.urlPath  = self.avatarUrl;
+	avatarView.URL  = self.avatarUrl;
 	avatarView.userInteractionEnabled = NO;
 	[button addSubview:avatarView];
 	[avatarView release];	

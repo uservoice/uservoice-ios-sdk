@@ -52,7 +52,7 @@
 	TTImageView *avatarView = [[TTImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];
 	avatarView.tag = UV_USER_AVATAR_TAG_ICON;
-	avatarView.urlPath = self.avatarUrl;
+	avatarView.URL = self.avatarUrl;
 	avatarView.userInteractionEnabled = NO;
 	[button addSubview:avatarView];
 	[avatarView release];
