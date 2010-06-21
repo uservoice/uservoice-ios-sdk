@@ -280,9 +280,11 @@
 			break;
 		}
 		case UV_FORUM_LIST_SECTION_QUESTIONS: {
-			UVSignInViewController *next = [[UVSignInViewController alloc] init];
-			[self.navigationController pushViewController:next animated:YES];
-			[next release];
+			if ([UVSession currentSession].user==nil) {
+				UVSignInViewController *next = [[UVSignInViewController alloc] init];
+				[self.navigationController pushViewController:next animated:YES];
+				[next release];
+			}
 			break;
 		}
 		default:

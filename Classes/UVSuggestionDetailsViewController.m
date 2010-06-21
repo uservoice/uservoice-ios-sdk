@@ -392,9 +392,11 @@
 
 	switch (indexPath.section) {
 		case UV_SUGGESTION_DETAILS_SECTION_VOTE: {
-			UVSignInViewController *next = [[UVSignInViewController alloc] init];
-			[self.navigationController pushViewController:next animated:YES];
-			[next release];
+			if ([UVSession currentSession].user==nil) {
+				UVSignInViewController *next = [[UVSignInViewController alloc] init];
+				[self.navigationController pushViewController:next animated:YES];
+				[next release];
+			}
 			break;
 		}
 		case UV_SUGGESTION_DETAILS_SECTION_COMMENTS: {
