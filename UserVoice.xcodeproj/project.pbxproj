@@ -2092,7 +2092,7 @@
 				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.1.3;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
 		};

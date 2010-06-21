@@ -139,7 +139,6 @@ TODO
 * Facebook and Google auth support
 * Cache more info (client config?) to improve initial load time
 * 'You will need to login' link needs to be disabled after login
-* Can't create a comment if none present
 
 BUGS
 ----

@@ -258,13 +258,8 @@
 
 - (void)customizeCellForComments:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	cell.textLabel.text = [NSString stringWithFormat:(self.suggestion.commentsCount == 1 ? @"%d Comment" : @"%d Comments"), self.suggestion.commentsCount];
-	if (self.suggestion.commentsCount == 0) {
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	} else {
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	}
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 }
 
 - (void)customizeCellForFlag:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -410,9 +405,7 @@
 					}
 					break;
 				case 1: // comments
-					if (self.suggestion.commentsCount > 0) {
-						next = [[UVCommentListViewController alloc] initWithSuggestion:self.suggestion];
-					}
+					next = [[UVCommentListViewController alloc] initWithSuggestion:self.suggestion];
 					break;
 				case 2: // flag
 					[self promptForFlag];
