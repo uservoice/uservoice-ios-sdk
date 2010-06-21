@@ -3,6 +3,9 @@ Overview
 
 IMPORTANT: The UserVoice iPhone SDK is currently in beta, if you wish to try it out please visit this url to request access:
 
+REALLY IMPORTANT: This version of the library does not play well with others apps using the Three20 library, 
+                  one that does is on the way!
+
 http://www.uservoice.com/iphone
 
 The UserVoice iPhone SDK is distributed as a XCode Project which you can use to build static libraries to compile against. 
@@ -135,6 +138,8 @@ TODO
 * Load all required data in parallel at launch
 * Facebook and Google auth support
 * Cache more info (client config?) to improve initial load time
+* 'You will need to login' link needs to be disabled after login
+* Can't create a comment if none present
 
 BUGS
 ----
