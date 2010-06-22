@@ -25,6 +25,7 @@
 #define CHICKLET_TAG 1001
 #define VOTE_SEGMENTS_TAG 1002
 #define VOTE_LABEL_TAG 1003
+#define NO_VOTE_LABEL_TAG 1004
 
 #define UV_SUGGESTION_DETAILS_SECTION_HEADER 0
 #define UV_SUGGESTION_DETAILS_SECTION_VOTE 1
@@ -50,7 +51,7 @@
 
 - (void)voteSegmentChanged:(id)sender {
 	UISegmentedControl *segments = (UISegmentedControl *)sender;
-	if (segments.selectedSegmentIndex != self.suggestion.votesFor) {
+	if (segments.selectedSegmentIndex != self.suggestion.votesFor) {		
 		[self showActivityIndicator];
 		// no longer supported so remove from supportedSuggestions
 		// also should decrement counters
@@ -193,29 +194,45 @@
 	[self removeBackgroundFromCell:cell];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	NSArray *items = [NSArray arrayWithObjects:@"0 votes", @"1 vote", @"2 votes", @"3 votes", nil];
-	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
-	segments.tag = VOTE_SEGMENTS_TAG;
-	segments.frame = CGRectMake(0, 0, 300, 44);
-	[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
-	UILabel *label;
-	if ([UVSession currentSession].user != nil) {
-		label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 13)];
+	if ([suggestion.status isEqualToString:@"completed"]) {
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 300, 44)];
+		label.tag = NO_VOTE_LABEL_TAG;
+		label.numberOfLines = 2;
+		label.backgroundColor = [UIColor clearColor];
+		label.textAlignment = UITextAlignmentCenter;
+		label.font = [UIFont systemFontOfSize:14];
+		label.text = [NSString stringWithFormat:
+					  @"Voting for this suggestion is now closed and your %d %@ been returned to you",
+					  self.suggestion.votesFor,
+					  self.suggestion.votesFor == 1 ? @"vote has" : @"votes have"];
+		label.textColor = [UVStyleSheet dimBlueColor];
+		[cell.contentView addSubview:label];
+		[label release];
+		
 	} else {
-		[segments setEnabled:NO];
-		label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 17)];
+		NSArray *items = [NSArray arrayWithObjects:@"0 votes", @"1 vote", @"2 votes", @"3 votes", nil];
+		UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
+		segments.tag = VOTE_SEGMENTS_TAG;
+		segments.frame = CGRectMake(0, 0, 300, 44);
+		[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
+		UILabel *label;
+		if ([UVSession currentSession].user != nil) {
+			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 13)];
+		} else {
+			[segments setEnabled:NO];
+			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 17)];
+		}
+		[cell.contentView addSubview:segments];
+		[segments release];
+		
+		label.tag = VOTE_LABEL_TAG;
+		label.numberOfLines = 0;
+		label.backgroundColor = [UIColor clearColor];
+		label.textAlignment = UITextAlignmentCenter;
+		label.font = [UIFont systemFontOfSize:12];
+		[cell.contentView addSubview:label];
+		[label release];
 	}
-	[cell.contentView addSubview:segments];
-	[segments release];
-	
-	label.tag = VOTE_LABEL_TAG;
-	label.numberOfLines = 0;
-	label.backgroundColor = [UIColor clearColor];
-	label.textAlignment = UITextAlignmentCenter;
-	label.font = [UIFont systemFontOfSize:12];
-	[self setVoteLabelTextAndColorForLabel:label];
-	[cell.contentView addSubview:label];
-	[label release];
 }
 
 - (void)customizeCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -230,7 +247,8 @@
 		}
 		
 		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
-		[self setVoteLabelTextAndColorForLabel:label];
+		if (label) 
+			[self setVoteLabelTextAndColorForLabel:label];
 	}
 }
 
@@ -368,6 +386,7 @@
 	switch (section) {
 		case UV_SUGGESTION_DETAILS_SECTION_COMMENTS:
 			return 3;
+			break;
 		default:
 			return 1;
 	}
@@ -379,13 +398,17 @@
 	switch (indexPath.section) {
 		case UV_SUGGESTION_DETAILS_SECTION_HEADER: {
 			return MAX([self titleSize].height + 21 + 20, 71); // title, category, padding
+			break;
 		}
 		case UV_SUGGESTION_DETAILS_SECTION_VOTE:
 			return 61;
+			break;
 		case UV_SUGGESTION_DETAILS_SECTION_BODY:
 			return [self textSize].height;
+			break;
 		case UV_SUGGESTION_DETAILS_SECTION_CREATOR:
 			return 71;
+			break;
 		default:
 			return 44;
 	}
