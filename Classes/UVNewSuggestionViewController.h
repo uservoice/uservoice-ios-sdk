@@ -28,6 +28,7 @@
 	NSInteger numVotes;
 	UVCategory *category;
 	BOOL shouldResizeForKeyboard;
+	BOOL shouldShowCategories;
 }
 
 @property (nonatomic, retain) UVForum *forum;
@@ -43,6 +44,7 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (assign) NSInteger numVotes;
 @property (nonatomic, retain) UVCategory *category;
+@property (assign) BOOL shouldShowCategories;
 
 - (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle;
 

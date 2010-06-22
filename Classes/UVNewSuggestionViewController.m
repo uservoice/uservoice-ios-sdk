@@ -45,11 +45,13 @@
 @synthesize tableView;
 @synthesize numVotes;
 @synthesize category;
+@synthesize shouldShowCategories;
 
 - (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle {
 	if (self = [super init]) {
 		self.forum = theForum;
 		self.title = theTitle;
+		self.shouldShowCategories = self.forum.availableCategories && [self.forum.availableCategories count] > 0;
 	}
 	return self;
 }
@@ -339,13 +341,13 @@
 
 - (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	cell.textLabel.text = @"Category";
-	cell.detailTextLabel.text = self.category ? self.category.name : @"Uncategorized";
-	if (self.forum.availableCategories && [self.forum.availableCategories count] > 0) {
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	} else {
-		cell.accessoryType = UITableViewCellAccessoryNone;
-	}
-
+	cell.detailTextLabel.text = self.category.name;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//	if (self.forum.availableCategories && [self.forum.availableCategories count] > 0) {
+//
+//	} else {
+//		cell.accessoryType = UITableViewCellAccessoryNone;
+//	}
 }
 
 - (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -415,12 +417,20 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
+- (NSInteger)section:(NSIndexPath *)indexPath {
+	if (self.shouldShowCategories) {
+		return indexPath.section;
+	} else {		
+		return indexPath.section >= UV_NEW_SUGGESTION_SECTION_CATEGORY ? indexPath.section + 1 : indexPath.section;
+	}	
+}
+
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	BOOL selectable = NO;
 	
-	switch (indexPath.section) {
+	switch ([self section:indexPath]) {
 		case UV_NEW_SUGGESTION_SECTION_TITLE:
 			identifier = @"Title";
 			break;
@@ -451,7 +461,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return 6;
+	return self.shouldShowCategories ? 6 : 5;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -465,7 +475,7 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	switch (indexPath.section) {
+	switch ([self section:indexPath]) {
 		case UV_NEW_SUGGESTION_SECTION_TITLE:
 			return 31;
 		case UV_NEW_SUGGESTION_SECTION_TEXT:
@@ -498,7 +508,7 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-	if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.forum.availableCategories && [self.forum.availableCategories count] > 0) {
+	if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
 		[self dismissTextView];
 		UIViewController *next = [[UVCategorySelectViewController alloc] initWithForum:self.forum andSelectedCategory:self.category];
 		[self.navigationController pushViewController:next animated:YES];
