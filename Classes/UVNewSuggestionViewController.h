@@ -24,7 +24,6 @@
 	UITextField *nameField;
 	UITextField *emailField;
 	UIBarButtonItem *prevBarButton;
-	UITableView *tableView;
 	NSInteger numVotes;
 	UVCategory *category;
 	BOOL shouldResizeForKeyboard;
@@ -41,7 +40,6 @@
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;
-@property (nonatomic, retain) UITableView *tableView;
 @property (assign) NSInteger numVotes;
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;

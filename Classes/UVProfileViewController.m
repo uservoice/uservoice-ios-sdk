@@ -34,7 +34,6 @@
 @synthesize userName;
 @synthesize user;
 @synthesize avatarUrl;
-@synthesize tableView;
 @synthesize message;
 
 - (id)initWithUserId:(NSInteger)theUserId name:(NSString *)theUserName {

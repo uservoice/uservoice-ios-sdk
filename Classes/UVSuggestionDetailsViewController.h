@@ -12,11 +12,9 @@
 
 @interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
 	UVSuggestion *suggestion;
-	UITableView *tableView;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
-@property (nonatomic, retain) UITableView *tableView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 

@@ -17,7 +17,6 @@
 	NSString *email;
 	UITextField *nameField;
 	UITextField *emailField;
-	UITableView *tableView;
 	UVUser *user;
 }
 
@@ -25,7 +24,6 @@
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UVUser *user;
 
 @end

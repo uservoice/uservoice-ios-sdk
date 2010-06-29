@@ -42,7 +42,6 @@
 @synthesize nameField;
 @synthesize emailField;
 @synthesize prevBarButton;
-@synthesize tableView;
 @synthesize numVotes;
 @synthesize category;
 @synthesize shouldShowCategories;

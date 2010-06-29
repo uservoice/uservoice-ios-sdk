@@ -37,7 +37,6 @@
 @synthesize nameField;
 @synthesize emailField;
 @synthesize prevBarButton;
-@synthesize tableView;
 @synthesize subject;
 
 - (void)createMessage {

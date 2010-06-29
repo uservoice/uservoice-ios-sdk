@@ -20,7 +20,6 @@
 	UITextField *nameField;
 	UITextField *emailField;
 	UIBarButtonItem *prevBarButton;
-	UITableView *tableView;
 	UVSubject *subject;
 	BOOL shouldResizeForKeyboard;
 }
@@ -32,7 +31,6 @@
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UVSubject *subject;
 
 @end

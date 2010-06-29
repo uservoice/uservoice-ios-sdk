@@ -26,7 +26,6 @@
 @synthesize forum;
 @synthesize query;
 @synthesize textField;
-@synthesize tableView;
 
 - (id)initWithForum:(UVForum *)theForum {
 	if (self = [super init]) {

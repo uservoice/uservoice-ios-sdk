@@ -18,9 +18,6 @@
 	NSString *avatarUrl;
 	
 	UVUser *user;
-	
-	UITableView *tableView;
-	
 	NSString *message;
 }
 
@@ -28,7 +25,6 @@
 @property (nonatomic, retain) NSString *userName;
 @property (nonatomic, retain) UVUser *user;
 @property (nonatomic, retain) NSString *avatarUrl;
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSString *message;
 
 - (id)initWithUserId:(NSInteger)theUserId name:(NSString *)theUserName;

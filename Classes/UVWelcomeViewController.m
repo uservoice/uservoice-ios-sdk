@@ -30,7 +30,6 @@
 @synthesize forum;
 @synthesize questions;
 @synthesize question;
-@synthesize tableView;
 
 - (NSString *)backButtonTitle {
 	return @"Welcome";

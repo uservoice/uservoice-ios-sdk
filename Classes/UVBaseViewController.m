@@ -21,6 +21,7 @@
 @synthesize activityIndicator,
 	errorAlertView;
 @synthesize needsReload;
+@synthesize tableView;
 
 - (void)dismissUserVoice {
 	[self dismissModalViewControllerAnimated:YES];
@@ -155,11 +156,11 @@
 }
 
 - (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
-								   tableView:(UITableView *)tableView
+								   tableView:(UITableView *)theTableView
 								   indexPath:(NSIndexPath *)indexPath
 									   style:(UITableViewCellStyle)style
 								  selectable:(BOOL)selectable {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier] autorelease];
 		cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
@@ -187,9 +188,9 @@
 	[highlight release];
 }
 
-- (void)addShadowSeparatorToTableView:(UITableView *)tableView {
-	tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-	tableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
+- (void)addShadowSeparatorToTableView:(UITableView *)theTableView {
+	theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+	theTableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
 }
 
 #pragma mark ===== Basic View Methods =====

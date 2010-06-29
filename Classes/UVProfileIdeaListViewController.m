@@ -66,8 +66,7 @@
 	} else {
 		self.suggestions = self.user.supportedSuggestions;
 	}
-	UITableView *tableView = (UITableView *) self.view;
-	[tableView reloadData];
+	[self.tableView reloadData];
 	
 	// TODO make sure that this gets unset after voting or creating
 	self.user.suggestionsNeedReload = NO;

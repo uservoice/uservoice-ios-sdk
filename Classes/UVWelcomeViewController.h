@@ -16,10 +16,8 @@
 	UVForum *forum;
 	UVQuestion *question;
 	NSArray *questions;
-	UITableView *tableView;
 }
 
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVQuestion *question;
 @property (nonatomic, retain) NSArray *questions;

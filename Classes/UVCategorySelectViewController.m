@@ -40,9 +40,9 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return [self createCellForIdentifier:@"Category"
-							   tableView:tableView
+							   tableView:theTableView
 							   indexPath:indexPath
 								   style:UITableViewCellStyleDefault
 							  selectable:YES];
@@ -54,8 +54,8 @@
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 
 	UVCategory *category = [self.categories objectAtIndex:indexPath.row];
 
@@ -77,12 +77,12 @@
 	self.navigationItem.title = @"Category";
 	
 	CGRect frame = [self contentFrame];
-	UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-	tableView.dataSource = self;
-	tableView.delegate = self;
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+	theTableView.dataSource = self;
+	theTableView.delegate = self;
 	
-	self.view = tableView;
-	[tableView release];
+	self.view = theTableView;
+	[theTableView release];
 	
 	//[self addGradientBackground];
 }

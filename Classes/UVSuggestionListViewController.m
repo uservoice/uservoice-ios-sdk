@@ -80,7 +80,7 @@
 	}
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = self.suggestions;
 	
-	[(UITableView *)self.view reloadData];
+	[self.tableView reloadData];
 }
 
 - (BOOL)supportsSearch {
@@ -93,7 +93,7 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
@@ -105,7 +105,7 @@
 	}
 	
 	return [self createCellForIdentifier:identifier
-							   tableView:tableView
+							   tableView:theTableView
 							   indexPath:indexPath
 								   style:style
 							  selectable:selectable];
@@ -127,8 +127,8 @@
 	return 71;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 
 	if (indexPath.row < [self.suggestions count]) {
 		UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
@@ -164,13 +164,16 @@
 	// Workaround: Since we're pushing two view controllers at once, the secone one
 	// doesn't seem to be able to pick up the first controller's back button title.
 	//self.navigationController.navigationBar.backItem.title = @"Forums";
-	
+
 	CGRect frame = [self contentFrame];
-	UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-	tableView.dataSource = self;
-	tableView.delegate = self;
-	tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-	[self addShadowSeparatorToTableView:tableView];
+	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	theTableView.dataSource = self;
+	theTableView.delegate = self;
+	theTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	
+	[self addShadowSeparatorToTableView:theTableView];
 
 	if ([self supportsSearch]) {
 		// Add text editor to table header
@@ -189,21 +192,27 @@
 		theTextEditor.placeholder = [self.forum example];
 		[textBar addSubview:theTextEditor];
 		[theTextEditor release];
-		tableView.tableHeaderView = textBar;
+		theTableView.tableHeaderView = textBar;
 		[textBar release];
 	}
 	
 	if ([self supportsFooter]) {
-		tableView.tableFooterView = [UVFooterView footerViewForController:self];
+		theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 	} else {
 		// Add empty footer, to suppress blank cells (with separators) after actual content
 		UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0)];
-		tableView.tableFooterView = footer;
+		theTableView.tableFooterView = footer;
 		[footer release];
 	}
 	
-	self.view = tableView;
-	[tableView release];
+	self.tableView = theTableView;
+	[contentView addSubview:theTableView];
+	[theTableView release];
+	
+	self.view = contentView;
+	[contentView release];
+	
+	[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -215,7 +224,7 @@
 	
 	if ([self supportsFooter]) {
 		// Reload footer view, in case the user has changed (logged in or unlinked)
-		UVFooterView *footer = (UVFooterView *)((UITableView *)self.view).tableFooterView;
+		UVFooterView *footer = (UVFooterView *)self.tableView.tableFooterView;
 		[footer reloadFooter];
 	}
 }

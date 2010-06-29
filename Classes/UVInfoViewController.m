@@ -17,8 +17,6 @@
 
 @implementation UVInfoViewController
 
-@synthesize tableView;
-
 - (void)didRetrieveInfo:(UVInfo *)someInfo {
 	[self hideActivityIndicator];
 	[UVSession currentSession].info = someInfo;

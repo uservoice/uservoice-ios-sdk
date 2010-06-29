@@ -11,9 +11,6 @@
 
 
 @interface UVInfoViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
-	UITableView *tableView;
 }
-
-@property (nonatomic, retain) UITableView *tableView;
 
 @end

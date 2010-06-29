@@ -56,7 +56,7 @@
 	[self hideActivityIndicator];
 	// Insert new comment at the beginning
 	[self.comments insertObject:comment atIndex:0];
-	[(UITableView *)self.view reloadData];
+	[self.tableView reloadData];
 	
 	// Clear text editor
 	self.textEditor.text = @"";
@@ -75,7 +75,7 @@
 	} else {
 		allCommentsRetrieved = YES;
 	}
-	[(UITableView *)self.view reloadData];
+	[self.tableView reloadData];
 }
 
 - (CGSize)sizeForComment:(UVComment *)comment {
@@ -152,7 +152,7 @@
 	[UIView beginAnimations:@"growHeader" context:nil];
 	NSInteger height = self.view.bounds.size.height - 216;
 	CGRect frame = CGRectMake(0, 0, 320, height);
-	TTView *textBar = (TTView *)((UITableView *)self.view).tableHeaderView;
+	TTView *textBar = (TTView *)self.tableView.tableHeaderView;
 	textBar.frame = frame;
 	textBar.style = TTSTYLE(commentTextBarActive);
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
@@ -166,7 +166,7 @@
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
 	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
-	TTView *textBar = (TTView *)((UITableView *)self.view).tableHeaderView;
+	TTView *textBar = (TTView *)self.tableView.tableHeaderView;
 	textBar.frame = CGRectMake(0, 0, 320, 40);
 	textBar.style = TTSTYLE(commentTextBar);
 	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
@@ -288,7 +288,7 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	BOOL selectable = YES;
@@ -301,7 +301,7 @@
 	}
 	
 	return [self createCellForIdentifier:identifier
-							   tableView:tableView
+							   tableView:theTableView
 							   indexPath:indexPath
 								   style:style
 							  selectable:selectable];
@@ -325,8 +325,8 @@
 	}
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 
 	if (indexPath.row == [self.comments count]) {
 		// Load More
@@ -347,11 +347,14 @@
 	}
 
 	CGRect frame = [self contentFrame];
-	UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-	tableView.dataSource = self;
-	tableView.delegate = self;
-	tableView.backgroundColor = [UVStyleSheet zebraBgColor:YES];
-	[self addShadowSeparatorToTableView:tableView];
+	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	theTableView.dataSource = self;
+	theTableView.delegate = self;	
+	theTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	
+	[self addShadowSeparatorToTableView:theTableView];
 
 	// Add text editor to table header
 	TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
@@ -368,16 +371,22 @@
 	[textBar addSubview:theTextEditor];
 	self.textEditor = theTextEditor;
 	[theTextEditor release];
-	tableView.tableHeaderView = textBar;
+	theTableView.tableHeaderView = textBar;
 	[textBar release];
 
 	// Add empty footer, to suppress blank cells (with separators) after actual content
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0)];
-	tableView.tableFooterView = footer;
+	theTableView.tableFooterView = footer;
 	[footer release];
 	
-	self.view = tableView;
-	[tableView release];
+	self.tableView = theTableView;
+	[contentView addSubview:theTableView];
+	[theTableView release];
+	
+	self.view = contentView;
+	[contentView release];
+	
+	[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -36,7 +36,6 @@
 @implementation UVSuggestionDetailsViewController
 
 @synthesize suggestion;
-@synthesize tableView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
 	if (self = [super init]) {

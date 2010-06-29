@@ -16,11 +16,13 @@
 	UVActivityIndicator *activityIndicator;
 	UIAlertView *errorAlertView;
 	BOOL needsReload;
+	UITableView *tableView;
 }
 
 @property (nonatomic, retain) UVActivityIndicator *activityIndicator;
 @property (nonatomic, retain) UIAlertView *errorAlertView;
 @property (assign) BOOL needsReload;
+@property (nonatomic, retain) UITableView *tableView;
 
 - (void)dismissUserVoice;
 

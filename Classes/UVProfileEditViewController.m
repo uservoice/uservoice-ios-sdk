@@ -28,7 +28,6 @@
 @synthesize email;
 @synthesize nameField;
 @synthesize emailField;
-@synthesize tableView;
 @synthesize user;
 
 - (void)updateProfile {

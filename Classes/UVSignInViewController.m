@@ -30,7 +30,6 @@
 @synthesize nameField;
 @synthesize emailField;
 @synthesize passwordField;
-@synthesize tableView;
 @synthesize user;
 @synthesize userType;
 

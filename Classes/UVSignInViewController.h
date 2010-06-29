@@ -18,7 +18,6 @@
 	UITextField *nameField;
 	UITextField *emailField;
 	UITextField *passwordField;
-	UITableView *tableView;
 	UVUser *user;
 	int userType;
 	BOOL shouldResizeForKeyboard;
@@ -29,7 +28,6 @@
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UITextField *passwordField;
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UVUser *user;
 @property (assign) int userType;
 

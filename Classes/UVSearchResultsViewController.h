@@ -15,14 +15,12 @@
 	UVForum *forum;
 	NSString *query;
 	UITextField *textField;
-	UITableView *tableView;
 	BOOL showAllSuggestions;
 }
 
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) NSString *query;
 @property (nonatomic, retain) UITextField *textField;
-@property (nonatomic, retain) UITableView *tableView;
 
 - (id)initWithForum:(UVForum *)theForum;
 
