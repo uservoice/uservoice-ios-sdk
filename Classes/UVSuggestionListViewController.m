@@ -177,6 +177,24 @@
 
 	if ([self supportsSearch]) {
 		// Add text editor to table header
+//		TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//		textBar.style = TTSTYLE(commentTextBar);
+//		TTTextEditor *theTextEditor = [[TTTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+//		theTextEditor.delegate = self;
+//		theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
+//		theTextEditor.minNumberOfLines = 1;
+//		theTextEditor.maxNumberOfLines = 8;
+//		theTextEditor.autoresizesToText = YES;
+//		theTextEditor.backgroundColor = [UIColor clearColor];
+//		theTextEditor.style = TTSTYLE(commentTextBarTextField);
+//		theTextEditor.placeholder = @"Add a comment...";
+//		[textBar addSubview:theTextEditor];
+//		self.textEditor = theTextEditor;
+//		[theTextEditor release];
+//		theTableView.tableHeaderView = textBar;
+//		[textBar release];
+		
+		// Add text editor to table header
 		// Note: We're actually not using this for text entry. Instead, tapping the
 		//       editor brings up a modal search view.
 		TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];

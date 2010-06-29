@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
-#import "Three20/Three20.h"
 
 @class UVUser;
 
