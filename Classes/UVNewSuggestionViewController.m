@@ -202,7 +202,7 @@
 - (void)keyboardWillShow:(NSNotification *)aNotification {
 	if (shouldResizeForKeyboard) {
 		// Resize the table to account for the keyboard
-		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardBoundsUserInfoKey] CGRectValue];
+		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 		NSTimeInterval animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 		CGRect frame = self.tableView.frame;
 		frame.size.height -= keyboardRect.size.height;
@@ -216,7 +216,7 @@
 - (void)keyboardWillHide:(NSNotification *)aNotification {
 	if (shouldResizeForKeyboard) {
 		// Resize the table back to the original height
-		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardBoundsUserInfoKey] CGRectValue];
+		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 		NSTimeInterval animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 		CGRect frame = self.tableView.frame;
 		frame.size.height += keyboardRect.size.height;

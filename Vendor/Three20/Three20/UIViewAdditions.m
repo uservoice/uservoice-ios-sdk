@@ -384,9 +384,9 @@
                                   screenFrame.size.height - floor(self.height/2));
 
   NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-    [NSValue valueWithCGRect:bounds], UIKeyboardBoundsUserInfoKey,
-    [NSValue valueWithCGPoint:centerBegin], UIKeyboardCenterBeginUserInfoKey,
-    [NSValue valueWithCGPoint:centerEnd], UIKeyboardCenterEndUserInfoKey,
+    [NSValue valueWithCGRect:bounds], UIKeyboardFrameEndUserInfoKey,
+    [NSValue valueWithCGPoint:centerBegin], UIKeyboardFrameBeginUserInfoKey,
+    [NSValue valueWithCGPoint:centerEnd], UIKeyboardFrameEndUserInfoKey,
     nil];
     
   [[NSNotificationCenter defaultCenter] postNotificationName:@"UIKeyboardWillShowNotification"
@@ -418,9 +418,9 @@
                                   screenFrame.size.height + floor(self.height/2));
 
   NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-    [NSValue valueWithCGRect:bounds], UIKeyboardBoundsUserInfoKey,
-    [NSValue valueWithCGPoint:centerBegin], UIKeyboardCenterBeginUserInfoKey,
-    [NSValue valueWithCGPoint:centerEnd], UIKeyboardCenterEndUserInfoKey,
+    [NSValue valueWithCGRect:bounds], UIKeyboardFrameEndUserInfoKey,
+    [NSValue valueWithCGPoint:centerBegin], UIKeyboardFrameBeginUserInfoKey,
+    [NSValue valueWithCGPoint:centerEnd], UIKeyboardFrameEndUserInfoKey,
     nil];
     
   [[NSNotificationCenter defaultCenter] postNotificationName:@"UIKeyboardWillHideNotification"

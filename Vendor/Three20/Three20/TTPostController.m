@@ -56,7 +56,7 @@ static const CGFloat kMarginY = 6;
   _originalStatusBarStyle = app.statusBarStyle;
   _originalStatusBarHidden = app.statusBarHidden;
   if (!_originalStatusBarHidden) {
-    [app setStatusBarHidden:NO animated:YES];
+    [app setStatusBarHidden:NO withAnimation:YES];
     [app setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
   }
   [_textView becomeFirstResponder];
@@ -64,7 +64,7 @@ static const CGFloat kMarginY = 6;
 
 - (void)hideKeyboard {
   UIApplication* app = [UIApplication sharedApplication];
-  [app setStatusBarHidden:_originalStatusBarHidden animated:YES];
+  [app setStatusBarHidden:_originalStatusBarHidden withAnimation:YES];
   [app setStatusBarStyle:_originalStatusBarStyle animated:NO];
   [_textView resignFirstResponder];
 }

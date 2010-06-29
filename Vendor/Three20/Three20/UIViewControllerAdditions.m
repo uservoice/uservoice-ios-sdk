@@ -255,7 +255,7 @@ static NSMutableDictionary* gPopupViewControllers = nil;
 }
 
 - (void)showBars:(BOOL)show animated:(BOOL)animated {
-  [[UIApplication sharedApplication] setStatusBarHidden:!show animated:animated];
+  [[UIApplication sharedApplication] setStatusBarHidden:!show withAnimation:animated];
 
   if (animated) {
     [UIView beginAnimations:nil context:NULL];

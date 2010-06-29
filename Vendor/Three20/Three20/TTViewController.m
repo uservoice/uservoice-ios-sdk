@@ -39,15 +39,15 @@
 // private
 
 - (void)resizeForKeyboard:(NSNotification*)notification appearing:(BOOL)appearing {
-  NSValue* v1 = [notification.userInfo objectForKey:UIKeyboardBoundsUserInfoKey];
+  NSValue* v1 = [notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
   CGRect keyboardBounds;
   [v1 getValue:&keyboardBounds];
 
-  NSValue* v2 = [notification.userInfo objectForKey:UIKeyboardCenterBeginUserInfoKey];
+  NSValue* v2 = [notification.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey];
   CGPoint keyboardStart;
   [v2 getValue:&keyboardStart];
 
-  NSValue* v3 = [notification.userInfo objectForKey:UIKeyboardCenterEndUserInfoKey];
+  NSValue* v3 = [notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
   CGPoint keyboardEnd;
   [v3 getValue:&keyboardEnd];
 
