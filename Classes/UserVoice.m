@@ -15,14 +15,6 @@
 
 @implementation UserVoice
 
-// need to add:
-//
-// existing sso, current web profile
-// presentUserVoiceModalViewControllerForParent: viewController, ssoToken
-//
-// new sso users, no current web profile
-// presentUserVoiceModalViewControllerForParent: viewController, email, name, guid
-
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
 											 andSite:(NSString *)site
 											  andKey:(NSString *)key

@@ -30,9 +30,10 @@
 @synthesize forum;
 @synthesize questions;
 @synthesize question;
+@synthesize tableView;
 
 - (NSString *)backButtonTitle {
-	return @"Forums";
+	return @"Welcome";
 }
 
 - (void)questionSegmentChanged:(id)sender {
@@ -209,7 +210,7 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier = @"";
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
@@ -224,13 +225,15 @@
 	}
 	
 	return [self createCellForIdentifier:identifier
-							   tableView:tableView
+							   tableView:theTableView
 							   indexPath:indexPath
 								   style:style
 							  selectable:selectable];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	// [tableView setBackgroundColor:[UIColor blackColor]];
+	
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		return 2;
 	} else {
@@ -270,8 +273,8 @@
 	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 18)] autorelease];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	switch (indexPath.section) {
 		case UV_FORUM_LIST_SECTION_FORUMS: {			
@@ -304,9 +307,12 @@
 	[self.navigationItem setHidesBackButton:YES animated:NO];
 
 	CGRect frame = [self contentFrame];
-	UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	tableView.dataSource = self;
-	tableView.delegate = self;
+	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	theTableView.dataSource = self;
+	theTableView.delegate = self;
+	theTableView.backgroundColor = [UIColor clearColor];
 	
 	NSString *welcomeText = [UVSession currentSession].clientConfig.welcome;
 	CGSize welcomeSize = [welcomeText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(280, 9999) lineBreakMode:UILineBreakModeWordWrap];
@@ -319,14 +325,20 @@
 	welcomeLabel.text = welcomeText;
 	UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, welcomeSize.height + 40)];
 	[tableHeaderView addSubview:welcomeLabel];
-	tableView.tableHeaderView = tableHeaderView;
+	theTableView.tableHeaderView = tableHeaderView;
 	[tableHeaderView release];
 	[welcomeLabel release];
 	
-	tableView.tableFooterView = [UVFooterView footerViewForController:self];
+	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 	
-	self.view = tableView;
-	[tableView release];
+	self.tableView = theTableView;
+	[contentView addSubview:theTableView];
+	[theTableView release];
+	
+	self.view = contentView;
+	[contentView release];
+	
+	[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -346,12 +358,11 @@
 		[[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
 		UISegmentedControl *segments = (UISegmentedControl *)[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 		[segments setEnabled:YES]; 
-		UITableView *tableView = (UITableView *) self.view;
-		[tableView reloadData];
 	}
+	[self.tableView reloadData];
 	
 	// Reload footer view, in case the user has changed (logged in or unlinked)
-	UVFooterView *footer = (UVFooterView *)((UITableView *)self.view).tableFooterView;
+	UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
 	[footer reloadFooter];
 }
 

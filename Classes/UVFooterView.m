@@ -17,6 +17,7 @@
 #import "UVNewMessageViewController.h"
 #import "UVSuggestion.h"
 #import "UVSubdomain.h"
+#import "UVStyleSheet.h"
 
 #define UV_FOOTER_TAG_NAME_VIEW 1
 #define UV_FOOTER_TAG_NAME_LABEL 2
@@ -119,6 +120,8 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
+	[tableView setBackgroundColor:[UVStyleSheet lightBgColor]];
+	
 	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
 		return 2;
 	} else {
