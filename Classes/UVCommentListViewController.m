@@ -349,10 +349,10 @@
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;	
-	theTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	theTableView.backgroundColor = [UIColor clearColor];
 	
 	[self addShadowSeparatorToTableView:theTableView];
 

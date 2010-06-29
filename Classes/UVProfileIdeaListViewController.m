@@ -100,6 +100,8 @@
 	
 	self.navigationItem.title = self.title;
 	allSuggestionsRetrieved = YES;
+	
+	[self addGradientBackground];
 }
 
 - (void)viewDidUnload {

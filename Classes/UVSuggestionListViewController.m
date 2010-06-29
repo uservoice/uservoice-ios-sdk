@@ -168,10 +168,10 @@
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	theTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	theTableView.backgroundColor = [UIColor clearColor];
 	
 	[self addShadowSeparatorToTableView:theTableView];
 
@@ -198,6 +198,7 @@
 	
 	if ([self supportsFooter]) {
 		theTableView.tableFooterView = [UVFooterView footerViewForController:self];
+		
 	} else {
 		// Add empty footer, to suppress blank cells (with separators) after actual content
 		UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0)];
@@ -212,6 +213,9 @@
 	self.view = contentView;
 	[contentView release];
 	
+	NSLog(@"%@", [theTableView description]);
+	NSLog(@"%@", [contentView description]);
+	
 	[self addGradientBackground];
 }
 
@@ -224,7 +228,7 @@
 	
 	if ([self supportsFooter]) {
 		// Reload footer view, in case the user has changed (logged in or unlinked)
-		UVFooterView *footer = (UVFooterView *)self.tableView.tableFooterView;
+		UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
 		[footer reloadFooter];
 	}
 }
