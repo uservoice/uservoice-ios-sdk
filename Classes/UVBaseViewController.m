@@ -184,6 +184,7 @@
 	highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
 	highlight.opaque = YES;
 	[cell.contentView addSubview:highlight];
+	[highlight release];
 }
 
 - (void)addShadowSeparatorToTableView:(UITableView *)tableView {

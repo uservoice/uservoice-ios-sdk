@@ -61,7 +61,8 @@
 	[yReq prepareRequest];
 	NSString *authHeader = [yReq buildAuthorizationHeaderValue];
 	[headers setObject:authHeader forKey:@"Authorization"];
-
+	[yReq release];
+	
 	return headers;
 }
 

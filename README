@@ -125,8 +125,6 @@ TODO
 
 ## performance
 
-* Always store the token and just use type to figure out if its request or access
-* Load all required data in parallel at launch
 * Cache more info (client config?) to improve initial load time
 
 ## functionality
@@ -143,3 +141,7 @@ TODO
 * Add drop shadow to lists, etc
 * Search should gray out and the transition sucks, make like location bar on safari
 * Footer background doesn't extend all the way down when scrolling
+
+## architecture
+
+* Always store the token and just use type to figure out if its request or access

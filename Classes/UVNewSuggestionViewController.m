@@ -168,6 +168,7 @@
 	theUser.email = self.emailField.text;
 	UVSignInViewController *signinView = [[UVSignInViewController alloc] initWithUVUser:theUser];
 	[self.navigationController pushViewController:signinView animated:YES];
+	[signinView release];
 }
 
 - (void)checkEmail {		
@@ -299,6 +300,7 @@
 	textField.borderStyle = UITextBorderStyleNone;
 	textField.delegate = self;
 	[cell.contentView addSubview:textField];
+	[textField release];
 	return textField;
 }
 
@@ -426,7 +428,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier;
+	NSString *identifier = @"";
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	BOOL selectable = NO;
 	

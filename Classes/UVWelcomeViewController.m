@@ -142,6 +142,7 @@
 	imageView.tag = UV_FORUM_LIST_TAG_CELL_IMAGE;
 	imageView.image = [UIImage imageNamed:@"uv_lock.png"];
 	[cell.contentView addSubview:imageView];
+	[imageView release];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -209,7 +210,7 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier;
+	NSString *identifier = @"";
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	
@@ -266,7 +267,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-	return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 18)];
+	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 18)] autorelease];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -57,7 +57,7 @@
 		// also should decrement counters
 		if (segments.selectedSegmentIndex == 0) {
 			NSInteger index = 0;
-			NSInteger suggestionIndex;
+			NSInteger suggestionIndex = 0;
 			for (UVSuggestion *aSuggestion in [UVSession currentSession].user.supportedSuggestions) {
 				if (aSuggestion.suggestionId == self.suggestion.suggestionId)
 					suggestionIndex = index;					
@@ -335,7 +335,7 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier;
+	NSString *identifier = @"";
 	BOOL selectable = YES;
 	
 	switch (indexPath.section) {

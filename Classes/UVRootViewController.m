@@ -76,6 +76,7 @@
 	//[self.navigationController setViewControllers:viewControllers animated:YES];
 	
 	[self.navigationController pushViewController:forumsView animated:YES];
+	[forumsView release];
 }
 
 
@@ -107,13 +108,10 @@
 	[UVClientConfig getWithDelegate:self];
 }
 
-- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {	
-	// no reason for this and user to be sent sequentially
-	if ([UVToken exists] && ![UVSession currentSession].user) {
-		// have config and access token		
-		[UVUser retrieveCurrentUser:self];
-		
-	} else {
+- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
+	// if no token aren't waiting on user so push main view
+	// if we have a token, then we are waiting on the user model
+	if (![UVToken exists] || [UVSession currentSession].user) {
 		[self hideActivityIndicator];
 		[self pushWelcomeView];
 	}
@@ -121,9 +119,10 @@
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
 	[UVSession currentSession].user = theUser;
-	
-	[self hideActivityIndicator];
-	[self pushWelcomeView];
+	if ([UVSession currentSession].clientConfig) {
+		[self hideActivityIndicator];
+		[self pushWelcomeView];
+	}
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -161,6 +160,7 @@
 		self.navigationController.navigationBarHidden = NO;
 		serverErrorImage.frame = self.view.frame;
 		[self.view addSubview:serverErrorImage];
+		[serverErrorImage release];
 		
 	} else if (![UVToken exists]) {
 		// no access token
@@ -171,10 +171,13 @@
 		// no client config
 		NSLog(@"No client");
 		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
+		// get config and current user
 		[UVClientConfig getWithDelegate:self];
+		[UVUser retrieveCurrentUser:self];
 
 	} else if (![UVSession currentSession].user) {
 		NSLog(@"No user");
+		// just get user
 		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
 		[UVUser retrieveCurrentUser:self];
 		

@@ -40,7 +40,7 @@
 		NSMutableArray *categoryDicts = [self objectOrNilForDict:dict key:@"categories"];
 		if (categoryDicts) {
 			for (NSDictionary *categoryDict in categoryDicts) {
-				[categories addObject:[[UVCategory alloc] initWithDictionary:categoryDict]];
+				[categories addObject:[[[UVCategory alloc] initWithDictionary:categoryDict] autorelease]];
 			}
 		}
 	}

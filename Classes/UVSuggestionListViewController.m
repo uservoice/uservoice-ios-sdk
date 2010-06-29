@@ -147,6 +147,8 @@
 	UVSearchResultsViewController *next = [[UVSearchResultsViewController alloc] initWithForum:self.forum];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:next];
 	[self presentModalViewController:nav animated:NO];
+	[next release];
+	
 	return NO;
 }
 

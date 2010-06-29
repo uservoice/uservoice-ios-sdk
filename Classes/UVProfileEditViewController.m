@@ -89,7 +89,7 @@
 	textField.borderStyle = UITextBorderStyleNone;
 	textField.delegate = self;
 	[cell.contentView addSubview:textField];
-	return textField;
+	return [textField autorelease];
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -143,7 +143,7 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier;
+	NSString *identifier = @"";
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	BOOL selectable = NO;
 	

@@ -177,7 +177,7 @@
 - (void)customizeCellForProfile:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	NSString *text;
+	NSString *text = @"";
 	switch (indexPath.row) {
 		case UV_PROFILE_ROW_SUPPORTING_IDEAS: {
 			NSInteger count = self.user.supportedSuggestionsCount;

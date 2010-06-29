@@ -101,6 +101,7 @@
 				UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
 				icon.frame = CGRectMake(156, 0, 18, 18);
 				[nameView addSubview:icon];
+				[icon release];
 				
 				// Shrink label to make space for the image
 				CGRect labelFrame = nameLabel.frame;

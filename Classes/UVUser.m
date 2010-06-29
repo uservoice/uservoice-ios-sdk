@@ -61,6 +61,7 @@
 		[callback retainArguments];
 		
 		[UVUser didReturnModel:cachedUser callback:callback];
+		[callback release];
 		return cachedUser;
 		
 	} else {

@@ -59,6 +59,7 @@
 	highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
 	highlight.opaque = YES;
 	[cell.contentView addSubview:highlight];
+	[highlight release];
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
@@ -103,6 +104,7 @@
 	textLabel.font = [UIFont boldSystemFontOfSize:18];
 	textLabel.textAlignment = UITextAlignmentCenter;
 	[cell.contentView addSubview:textLabel];
+	[textLabel release];
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

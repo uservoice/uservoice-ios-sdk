@@ -28,7 +28,7 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier;
+	NSString *identifier = @"";
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	
 	if (indexPath.section == UV_INFO_SECTION_ABOUT) {

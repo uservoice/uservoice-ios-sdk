@@ -278,6 +278,7 @@
 	textLabel.font = [UIFont systemFontOfSize:16];
 	textLabel.textAlignment = UITextAlignmentCenter;
 	[cell.contentView addSubview:textLabel];
+	[textLabel release];
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

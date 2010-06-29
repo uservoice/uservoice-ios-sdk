@@ -43,7 +43,7 @@
 		NSMutableArray *topicDicts = [self objectOrNilForDict:dict key:@"topics"];
 		if (topicDicts) {
 			for (NSDictionary *topicDict in topicDicts) {
-				[topics addObject:[[UVTopic alloc] initWithDictionary:topicDict]];
+				[topics addObject:[[[UVTopic alloc] initWithDictionary:topicDict] autorelease]];
 			}
 		}
 		
