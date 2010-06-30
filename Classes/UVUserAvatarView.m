@@ -9,6 +9,7 @@
 #import "UVUserAvatarView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UVStyleSheet.h"
+#import "UVImageView.h"
 
 #define UV_USER_AVATAR_TAG_ICON 200
 #define UV_USER_AVATAR_TAG_BUTTON 201
@@ -48,17 +49,13 @@
 	[button addTarget:self action:@selector(iconButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	
 	// Avatar image
-	NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:self.avatarUrl]];
-	UIImage *myImage = [[UIImage alloc] initWithData:imageData];
-	UIImageView *avatarView = [[UIImageView alloc] initWithImage:myImage];
+	UVImageView *avatarView = [[UVImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+	avatarView.URL  = self.avatarUrl;
 	avatarView.tag = UV_USER_AVATAR_TAG_ICON;
+	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];	
 	avatarView.userInteractionEnabled = NO;
-	
 	[button addSubview:avatarView];
-	[avatarView release];
-	[myImage release];
-	[imageData release];
-	
+	[avatarView release];	
 	[self addSubview:button];
 }
 
