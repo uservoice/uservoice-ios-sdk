@@ -159,11 +159,9 @@ TODO
 
 ## appearance
 
-* Resize and scrolling on the message textarea is not very good
 * General overview of first responders and focus
 * Info button image is being cropped
 * Still some text cropping on descenders
-* Search should gray out and the transition sucks, make like location bar on safari
 
 ## architecture
 
