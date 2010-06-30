@@ -6,32 +6,29 @@
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 
-#import "Three20/TTURLRequest.h"
-#import "Three20/TTURLResponse.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface UVImageView : UIView <TTURLRequestDelegate> {
-	TTURLRequest* _request;
+@interface UVImageView : UIView {
 	NSString* _URL;
 	UIImage* _image;
 	UIImage* _defaultImage;
+	
+	NSURLConnection *_connection;
+	NSURLRequest *_request;
+	NSMutableData *_payload;
 }
 
 @property(nonatomic,copy) NSString* URL;
 @property(nonatomic,retain) UIImage* image;
 @property(nonatomic,retain) UIImage* defaultImage;
-@property(nonatomic,readonly) BOOL isLoading;
-@property(nonatomic,readonly) BOOL isLoaded;
 
 - (void)reload;
 - (void)stopLoading;
 
-@end
-
-
-@interface UVURLImageResponse : NSObject <TTURLResponse> {
-	UIImage* _image;
-}
-
-@property(nonatomic,readonly) UIImage* image;
+- (void)connection:(NSURLConnection *)conn didReceiveResponse:(NSURLResponse *)response;
+- (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data;
+- (void)connectionDidFinishLoading:(NSURLConnection *)conn;
+- (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error;
 
 @end

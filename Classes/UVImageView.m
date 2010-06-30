@@ -9,47 +9,6 @@
 #import "UVImageView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@implementation UVURLImageResponse
-
-@synthesize image = _image;
-
-- (id)init {
-	if (self = [super init]) {
-		_image = nil;
-	}
-	return self;
-}
-
-- (void)dealloc {
-	[_image release];
-	[super dealloc];
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// TTURLResponse
-
-- (NSError*)request:(TTURLRequest*)request 
-	processResponse:(NSHTTPURLResponse*)response
-			   data:(id)data {
-	if ([data isKindOfClass:[UIImage class]]) {
-		_image = [data retain];
-		
-	} else if ([data isKindOfClass:[NSData class]]) {
-		UIImage *image = [UIImage imageWithData:data];
-
-		if (image) {
-			_image = [image retain];
-		} else {
-			return [NSError errorWithDomain:@"uservoice.com" 
-									   code:101
-								   userInfo:nil];
-		}
-	}
-	return nil;
-}
-
-@end
-
 @implementation UVImageView
 
 @synthesize URL = _URL, image = _image, defaultImage = _defaultImage;
@@ -65,11 +24,10 @@
 }
 
 - (void)dealloc {
-	[_request cancel];
-	[_request release];
 	[_URL release];
 	[_image release];
 	[_defaultImage release];
+	[_payload release];
 	[super dealloc];
 }
 
@@ -81,28 +39,34 @@
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// TTURLRequestDelegate
-
-- (void)requestDidStartLoad:(TTURLRequest*)request {
-	[_request release];
-	_request = [request retain];
+- (void)connection:(NSURLConnection *)conn didReceiveResponse:(NSURLResponse *)response {
+	NSLog(@"Recieved response");	
+	[_payload setLength:0];
 }
 
-- (void)requestDidFinishLoad:(TTURLRequest*)request {
-	UVURLImageResponse* response = request.response;
-	self.image = response.image;
+- (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data {
+	NSLog(@"Recieving data. Incoming Size: %i  Total Size: %i", [data length], [_payload length]);	
+	[_payload appendData:data];
 }
 
-- (void)request:(TTURLRequest*)request didFailLoadWithError:(NSError*)error {
+- (void)connectionDidFinishLoading:(NSURLConnection *)conn {
+	NSLog(@"Connection returned: %i", [_payload length]);
+	UIImage *anImage = [UIImage imageWithData:_payload];
+	NSLog(@"Image: %@", anImage);
+	
+	if (anImage) {
+		NSLog(@"Calling image setter");
+		self.image = anImage;
+		[self setNeedsDisplay];
+	}
 
+	[conn release];	
+	NSLog(@"Connection finished: %@", conn);
 }
 
-- (void)requestDidCancelLoad:(TTURLRequest*)request {
-
+- (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error {	
+	[_payload setLength:0];
 }
-
-///////
 
 - (void)setURL:(NSString*)URL {
 	if (self.image && _URL && [URL isEqualToString:_URL])
@@ -123,35 +87,34 @@
 
 - (void)setImage:(UIImage*)image {
 	if (image != _image) {
+		NSLog(@"Setting image");
 		[_image release];
 		_image = [image retain];
 	}
 }
 
-- (BOOL)isLoading {
-	return !!_request;
-}
-
-- (BOOL)isLoaded {
-	return self.image && self.image != _defaultImage;
-}
-
 - (void)reload {
 	if (!_request && _URL) {
-		TTURLRequest* request = [TTURLRequest requestWithURL:_URL delegate:self];
-		request.response = [[[UVURLImageResponse alloc] init] autorelease];
+		NSURL *url = [NSURL URLWithString:_URL];		
+		_request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
+		_connection = [[NSURLConnection alloc] initWithRequest:_request delegate:self];
 		
-		if (_URL && ![request send]) {
-			// Put the default image in place while waiting for the request to load
+		if (_connection) {
+			_payload = [[NSMutableData data] retain];
+			NSLog(@"Connection starting: %@", _connection);
+			
 			if (_defaultImage && self.image != _defaultImage) {
 				self.image = _defaultImage;
 			}
+		} else {
+			NSLog(@"Unable to start download.");
 		}
 	}
 }
 
 - (void)stopLoading {
-	[_request cancel];
+	if (_connection) 
+		[_connection cancel];
 }
 
 @end
