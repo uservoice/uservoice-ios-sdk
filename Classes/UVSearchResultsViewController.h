@@ -11,7 +11,9 @@
 
 @class UVForum;
 
-@interface UVSearchResultsViewController : UVBaseSuggestionListViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
+@interface UVSearchResultsViewController : 
+	UVBaseSuggestionListViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
+		
 	UVForum *forum;
 	NSString *query;
 	UITextField *textField;

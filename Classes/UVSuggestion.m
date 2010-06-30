@@ -75,7 +75,7 @@
 	return [self getPath:path
 			  withParams:params
 				  target:delegate
-				selector:@selector(didRetrieveSuggestions:)];
+				selector:@selector(didSearchSuggestions:)];
 }
 
 + (id)createWithForum:(UVForum *)forum

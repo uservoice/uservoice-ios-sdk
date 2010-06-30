@@ -24,7 +24,8 @@
 
 @implementation UVSuggestionListViewController
 
-@synthesize forum;
+@synthesize forum, prevRightBarButton;
+@synthesize textEditor = _textEditor;
 
 - (id)initWithForum:(UVForum *)theForum {
 	if (self = [super init]) {
@@ -33,7 +34,8 @@
 			
 		} else {
 			self.forum = theForum;
-		}		
+		}	
+		_searching = NO;
 	}
 	return self;
 }
@@ -42,6 +44,7 @@
 	if (self = [super init]) {
 		self.suggestions = [NSMutableArray arrayWithArray:theSuggestions];
 		self.forum = theForum;
+		_searching = NO;
 	}
 	return self;
 }
@@ -51,7 +54,7 @@
 }
 
 - (BOOL)isLoading {
-	return self.suggestions == nil || ([self.suggestions count] == 0 && !allSuggestionsRetrieved);
+	return self.suggestions == nil || ([self.suggestions count] == 0 && !_allSuggestionsRetrieved);
 }
 
 - (void)retrieveMoreSuggestions {
@@ -63,7 +66,7 @@
 // Populates the suggestions. The default implementation retrieves the 10 most recent
 // suggestions, but this can be overridden in subclasses (e.g. for profile idea view).
 - (void)populateSuggestions {
-	allSuggestionsRetrieved = NO;
+	_allSuggestionsRetrieved = NO;
 	self.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[self retrieveMoreSuggestions];
@@ -76,10 +79,22 @@
 	}
 	
 	if ([theSuggestions count] < 10) {
-		allSuggestionsRetrieved = YES;
+		_allSuggestionsRetrieved = YES;
 	}
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = self.suggestions;
 	
+	[self.tableView reloadData];
+}
+
+- (void)didSearchSuggestions:(NSArray *)theSuggestions {
+	[self hideActivityIndicator];
+	if ([theSuggestions count] > 0) {
+		[self.suggestions addObjectsFromArray:theSuggestions];
+	}
+	
+	if ([theSuggestions count] < 10) {
+		_allSuggestionsRetrieved = YES;
+	}	
 	[self.tableView reloadData];
 }
 
@@ -116,7 +131,7 @@
 		return 0;
 	} else {
 		// One cell per suggestion + "Load More"
-		return [self.suggestions count] + (allSuggestionsRetrieved ? 0 : 1);
+		return [self.suggestions count] + (_allSuggestionsRetrieved ? 0 : 1);
 	}
 }
 
@@ -141,16 +156,71 @@
 	}
 }
 
+- (void)dismissTextEditor {
+	[self.textEditor resignFirstResponder];
+	self.textEditor.text = nil;
+	self.textEditor.placeholder = [self.forum example];
+}
+
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
-	UVSearchResultsViewController *next = [[UVSearchResultsViewController alloc] initWithForum:self.forum];
-	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:next];
-	[self presentModalViewController:nav animated:NO];
-	[next release];
+	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																			    target:self
+																			    action:@selector(dismissTextEditor)];
+	self.prevRightBarButton = self.navigationItem.rightBarButtonItem;
+	
+	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
+	[UIView beginAnimations:@"growHeader" context:nil];
+	NSInteger height = self.view.bounds.size.height - 216;
+	CGRect frame = CGRectMake(0, 0, 320, height);
+	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
+	textBar.frame = frame;
+	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+	[self.navigationItem setRightBarButtonItem:cancelItem animated:YES];
+	
+	frame = CGRectMake(0, 0, 320, 40);
+	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
+	theTextEditor.backgroundColor = [UIColor whiteColor];	
+	[UIView commitAnimations];
+	
+	[cancelItem release];
+	return YES;
+}
+
+- (BOOL)textEditorShouldReturn:(UVTextEditor *)theTextEditor {
+	NSLog(@"Check for: %@", self.textEditor.text);
+	[self showActivityIndicator];
+	[self.textEditor resignFirstResponder];
+	_searching = YES;
+	
+	if (self.textEditor.text) {
+		self.suggestions = nil;
+		self.suggestions = [NSMutableArray arrayWithCapacity:10];
+		[UVSuggestion searchWithForum:self.forum query:self.textEditor.text delegate:self];
+	}
 	
 	return NO;
 }
+
+- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {	
+	// reset nav
+	[self.navigationItem setRightBarButtonItem:self.prevRightBarButton animated:YES];
+	
+	// Minimize text editor and header
+	[UIView beginAnimations:@"shrinkHeader" context:nil];
+	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
+	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
+	textBar.frame = CGRectMake(0, 0, 320, 40);
+	textBar.backgroundColor = [UIColor whiteColor];
+	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
+	[UIView commitAnimations];
+}
+
+- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
+	return YES;
+}
+
 
 #pragma mark ===== Basic View Methods =====
 
@@ -175,42 +245,22 @@
 	
 	[self addShadowSeparatorToTableView:theTableView];
 
-	if ([self supportsSearch]) {
+	if ([self supportsSearch]) {		
 		// Add text editor to table header
-//		TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-//		textBar.style = TTSTYLE(commentTextBar);
-//		UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
-//		theTextEditor.delegate = self;
-//		theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-//		theTextEditor.minNumberOfLines = 1;
-//		theTextEditor.maxNumberOfLines = 8;
-//		theTextEditor.autoresizesToText = YES;
-//		theTextEditor.backgroundColor = [UIColor clearColor];
-//		theTextEditor.style = TTSTYLE(commentTextBarTextField);
-//		theTextEditor.placeholder = @"Add a comment...";
-//		[textBar addSubview:theTextEditor];
-//		self.textEditor = theTextEditor;
-//		[theTextEditor release];
-//		theTableView.tableHeaderView = textBar;
-//		[textBar release];
-		
-		// Add text editor to table header
-		// Note: We're actually not using this for text entry. Instead, tapping the
-		//       editor brings up a modal search view.
 		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-		//textBar.style = TTSTYLE(commentTextBar);
 		textBar.backgroundColor = [UIColor whiteColor];
-		UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
-		theTextEditor.delegate = self;
-		theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-		theTextEditor.minNumberOfLines = 1;
-		theTextEditor.maxNumberOfLines = 1;
-		theTextEditor.autoresizesToText = NO;
-		theTextEditor.backgroundColor = [UIColor clearColor];
-		//theTextEditor.style = TTSTYLE(commentTextBarTextField);
-		theTextEditor.placeholder = [self.forum example];
-		[textBar addSubview:theTextEditor];
-		[theTextEditor release];
+		_textEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+		_textEditor.delegate = self;
+		_textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
+		_textEditor.minNumberOfLines = 1;
+		_textEditor.maxNumberOfLines = 1;
+		_textEditor.autoresizesToText = NO;
+		_textEditor.backgroundColor = [UIColor whiteColor];
+		[_textEditor setReturnKeyType:UIReturnKeyGo];
+		_textEditor.enablesReturnKeyAutomatically = NO;		
+		_textEditor.placeholder = [self.forum example];
+		[textBar addSubview:_textEditor];
+		
 		theTableView.tableHeaderView = textBar;
 		[textBar release];
 	}
@@ -231,9 +281,6 @@
 	
 	self.view = contentView;
 	[contentView release];
-	
-	NSLog(@"%@", [theTableView description]);
-	NSLog(@"%@", [contentView description]);
 	
 	[self addGradientBackground];
 }
@@ -267,6 +314,8 @@
 
 - (void)dealloc {
     [super dealloc];
+	if (_textEditor)
+		[_textEditor release];
 }
 
 

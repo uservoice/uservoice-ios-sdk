@@ -99,7 +99,7 @@
 	[super loadView];
 	
 	self.navigationItem.title = self.title;
-	allSuggestionsRetrieved = YES;
+	_allSuggestionsRetrieved = YES;
 	
 	[self addGradientBackground];
 }

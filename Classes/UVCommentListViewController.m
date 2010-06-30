@@ -167,9 +167,7 @@
 	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
 	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
 	textBar.frame = CGRectMake(0, 0, 320, 40);
-	//textBar.style = TTSTYLE(commentTextBar);
 	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
-	//theTextEditor.style = TTSTYLE(commentTextBarTextField);
 	[UIView commitAnimations];
 }
 
