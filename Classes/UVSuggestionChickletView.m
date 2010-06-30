@@ -2,7 +2,7 @@
 //  UVSuggestionChickletView.m
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 1/15/10.
+//  Created by UserVoice on 1/15/10.
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 

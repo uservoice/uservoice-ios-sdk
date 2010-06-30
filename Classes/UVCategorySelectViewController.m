@@ -2,7 +2,7 @@
 //  UVCategorySelectViewController.m
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 2/6/10.
+//  Created by UserVoice on 2/6/10.
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 

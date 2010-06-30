@@ -2,7 +2,7 @@
 //  UVNewSuggestionViewController.h
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 11/17/09.
+//  Created by UserVoice on 11/17/09.
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
@@ -23,7 +23,7 @@
 	UITextField *titleField;
 	UITextField *nameField;
 	UITextField *emailField;
-	UIBarButtonItem *prevBarButton;
+	UIBarButtonItem *prevLeftBarButton;
 	NSInteger numVotes;
 	UVCategory *category;
 	BOOL shouldResizeForKeyboard;
@@ -39,7 +39,7 @@
 @property (nonatomic, retain) UITextField *titleField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UIBarButtonItem *prevBarButton;
+@property (nonatomic, retain) UIBarButtonItem *prevLeftBarButton;
 @property (assign) NSInteger numVotes;
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;

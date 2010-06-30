@@ -2,7 +2,7 @@
 //  UVNewSuggestionViewController.m
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 11/17/09.
+//  Created by UserVoice on 11/17/09.
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
@@ -41,7 +41,7 @@
 @synthesize titleField;
 @synthesize nameField;
 @synthesize emailField;
-@synthesize prevBarButton;
+@synthesize prevLeftBarButton;
 @synthesize numVotes;
 @synthesize category;
 @synthesize shouldShowCategories;
@@ -271,7 +271,7 @@
 	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																			  target:self
 																			  action:@selector(dismissTextView)];
-	self.prevBarButton = self.navigationItem.leftBarButtonItem;
+	self.prevLeftBarButton = self.navigationItem.leftBarButtonItem;
 	[self.navigationItem setLeftBarButtonItem:saveItem animated:YES];
 	[saveItem release];
 
@@ -282,7 +282,7 @@
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	self.text = theTextEditor.text;
-	[self.navigationItem setLeftBarButtonItem:self.prevBarButton animated:YES];
+	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -321,8 +321,6 @@
 }
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
-	
 	CGRect frame = CGRectMake(0, 0, 300, 102);
 	UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
 	aTextEditor.delegate = self;
@@ -332,7 +330,6 @@
 	aTextEditor.maxNumberOfLines = 4;
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
-	// aTextEditor.style = TTSTYLE(suggestionTextField);
 	aTextEditor.placeholder = @"Description (optional)";
 	
 	[cell.contentView addSubview:aTextEditor];
@@ -344,11 +341,6 @@
 	cell.textLabel.text = @"Category";
 	cell.detailTextLabel.text = self.category.name;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//	if (self.forum.availableCategories && [self.forum.availableCategories count] > 0) {
-//
-//	} else {
-//		cell.accessoryType = UITableViewCellAccessoryNone;
-//	}
 }
 
 - (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -519,13 +511,16 @@
 
 #pragma mark ===== Basic View Methods =====
 
+- (void)dismissController {
+	// reset nav
+	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationItem.title = @"New Idea";
-	self.navigationItem.rightBarButtonItem.title = @"Cancel";
-	self.navigationItem.hidesBackButton = YES;
-
+	self.navigationItem.title = @"New Suggestion";		
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
@@ -605,7 +600,7 @@
 	self.titleField = nil;
 	self.nameField = nil;
 	self.emailField = nil;
-	self.prevBarButton = nil;
+	self.prevLeftBarButton = nil;
 }
 
 

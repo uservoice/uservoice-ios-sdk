@@ -2,7 +2,7 @@
 //  UserVoice.m
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 10/19/09.
+//  Created by UserVoice on 10/19/09.
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 

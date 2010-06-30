@@ -412,6 +412,7 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 		
 		_textField = [[UITextField alloc] init];
 		_textField.delegate = _internal;
+		//_textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 		[self addSubview:_textField];
 	}
 	return self;

@@ -2,7 +2,7 @@
 //  UVUIColorAdditions.h
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 12/14/09.
+//  Created by UserVoice on 12/14/09.
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 

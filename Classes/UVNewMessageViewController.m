@@ -2,7 +2,7 @@
 //  UVNewMessageViewController.m
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 2/19/10.
+//  Created by UserVoice on 2/19/10.
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 
@@ -256,9 +256,7 @@
 	return [textField autorelease];
 }
 
-- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	//[self removeBackgroundFromCell:cell];
-	
+- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {	
 	CGRect frame = CGRectMake(0, 0, 300, 144);
 	UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
 	aTextEditor.delegate = self;
@@ -268,7 +266,6 @@
 	aTextEditor.maxNumberOfLines = 6;
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
-	//aTextEditor.style = TTSTYLE(messageTextField);
 	aTextEditor.placeholder = @"Message";
 	
 	[cell.contentView addSubview:aTextEditor];

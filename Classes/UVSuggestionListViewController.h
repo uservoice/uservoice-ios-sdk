@@ -2,7 +2,7 @@
 //  UVSuggestionListViewController.h
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 10/22/09.
+//  Created by UserVoice on 10/22/09.
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
@@ -16,13 +16,13 @@
 	BOOL _allSuggestionsRetrieved;
 	BOOL _searching;
 	UVForum *forum;
-	UIBarButtonItem *prevRightBarButton;
+	UIBarButtonItem *prevLeftBarButton;
 	UVTextEditor *_textEditor;
 }
 
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVTextEditor *textEditor;
-@property (nonatomic, retain) UIBarButtonItem *prevRightBarButton;
+@property (nonatomic, retain) UIBarButtonItem *prevLeftBarButton;
 
 - (id)initWithForum:(UVForum *)theForum;
 - (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions;

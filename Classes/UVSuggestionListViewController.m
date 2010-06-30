@@ -2,7 +2,7 @@
 //  UVSuggestionListViewController.m
 //  UserVoice
 //
-//  Created by Mirko Froehlich on 10/22/09.
+//  Created by UserVoice on 10/22/09.
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
@@ -12,7 +12,7 @@
 #import "UVSession.h"
 #import "UVSuggestion.h"
 #import "UVSuggestionDetailsViewController.h"
-#import "UVSearchResultsViewController.h"
+#import "UVNewSuggestionViewController.h"
 #import "UVProfileViewController.h"
 #import "UVInfoViewController.h"
 #import "UVStyleSheet.h"
@@ -21,10 +21,13 @@
 #import "UVTextEditor.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
+#define UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX 100
+#define UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY 101
+#define UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX 102
 
 @implementation UVSuggestionListViewController
 
-@synthesize forum, prevRightBarButton;
+@synthesize forum, prevLeftBarButton;
 @synthesize textEditor = _textEditor;
 
 - (id)initWithForum:(UVForum *)theForum {
@@ -81,13 +84,13 @@
 	if ([theSuggestions count] < 10) {
 		_allSuggestionsRetrieved = YES;
 	}
-	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = self.suggestions;
-	
+	[[UVSession currentSession].clientConfig.forum.currentTopic.suggestions  addObjectsFromArray:theSuggestions];
 	[self.tableView reloadData];
 }
 
 - (void)didSearchSuggestions:(NSArray *)theSuggestions {
-	[self hideActivityIndicator];
+	[self.suggestions removeAllObjects];
+	[self hideActivityIndicator];	
 	if ([theSuggestions count] > 0) {
 		[self.suggestions addObjectsFromArray:theSuggestions];
 	}
@@ -108,6 +111,75 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
+// Overridden from superclass. In this case the Extra cell is responsible for
+// creating a new suggestion.
+- (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
+	[self addHighlightToCell:cell];
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	UIFont *font = [UIFont boldSystemFontOfSize:18];
+	UILabel *label = [[UILabel alloc] init];
+	label.tag = UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX;
+	label.text = @"Add \"";
+	label.font = font;
+	label.textAlignment = UITextAlignmentLeft;
+	label.textColor = [UIColor blackColor];
+	label.backgroundColor = [UIColor clearColor];
+	[cell.contentView addSubview:label];
+	[label release];
+	
+	label = [[UILabel alloc] init];
+	label.tag = UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY;
+	label.text = _textEditor.text;
+	label.font = font;
+	label.textAlignment = UITextAlignmentLeft;
+	label.textColor = [UVStyleSheet dimBlueColor];
+	label.backgroundColor = [UIColor clearColor];
+	[cell.contentView addSubview:label];
+	[label release];
+	
+	label = [[UILabel alloc] init];
+	label.tag = UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX;
+	label.text = @"\"";
+	label.font = font;
+	label.textAlignment = UITextAlignmentLeft;
+	label.textColor = [UIColor blackColor];
+	label.backgroundColor = [UIColor clearColor];
+	[cell.contentView addSubview:label];
+	[label release];
+}
+
+- (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	UIColor *bgColor = indexPath.row % 2 == 0 ? [UVStyleSheet darkZebraBgColor] : [UVStyleSheet lightZebraBgColor];
+	cell.backgroundView.backgroundColor = bgColor;
+	
+	UIFont *font = [UIFont boldSystemFontOfSize:18];
+	
+	NSString *text = [NSString stringWithFormat:@"Add \"%@\"", _textEditor.text];
+	CGSize size = [text sizeWithFont:font forWidth:260 lineBreakMode:UILineBreakModeTailTruncation];
+	CGFloat startX = 30.0 + ((260.0 - size.width) / 2.0);
+	
+	// Prefix: Add "
+	UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX];
+	size = [label.text sizeWithFont:font forWidth:260 lineBreakMode:UILineBreakModeTailTruncation];
+	label.frame = CGRectMake(startX, 26, size.width, 20);
+	
+	// Query
+	NSInteger prevEndX = label.frame.origin.x + label.frame.size.width;
+	CGFloat maxWidth = 260 - (size.width + 10);
+	label = (UILabel *)[cell.contentView viewWithTag:UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY];
+	label.text = _textEditor.text;
+	size = [label.text sizeWithFont:font forWidth:maxWidth lineBreakMode:UILineBreakModeTailTruncation];
+	label.frame = CGRectMake(prevEndX, 26, size.width, 20);
+	
+	// Suffix: "
+	prevEndX = label.frame.origin.x + label.frame.size.width;
+	label = (UILabel *)[cell.contentView viewWithTag:UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX];
+	label.frame = CGRectMake(prevEndX + 3, 26, 10, 20);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
 	BOOL selectable = YES;
@@ -115,10 +187,14 @@
 	
 	if (indexPath.row < [self.suggestions count]) {
 		identifier = @"Suggestion";
-	} else {
+		
+	} else if (indexPath.row == [self.suggestions count] && !_allSuggestionsRetrieved) {
 		identifier = @"Load";
+		
+	} else {
+		identifier = @"Add";
 	}
-	
+		
 	return [self createCellForIdentifier:identifier
 							   tableView:theTableView
 							   indexPath:indexPath
@@ -129,6 +205,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if ([self isLoading]) {
 		return 0;
+		
+	} else if (_searching) {
+		// One cell per suggestion + "Load More" + one for "add"
+		return [self.suggestions count] + (_allSuggestionsRetrieved ? 1 : 2);
+		
 	} else {
 		// One cell per suggestion + "Load More"
 		return [self.suggestions count] + (_allSuggestionsRetrieved ? 0 : 1);
@@ -151,25 +232,54 @@
 		next.suggestion = suggestion;
 		[self.navigationController pushViewController:next animated:YES];
 		[next release];
-	} else {
+		
+	} else if (indexPath.row == [self.suggestions count] && !_allSuggestionsRetrieved) {
 		[self retrieveMoreSuggestions];
-	}
+		
+	} else {
+		UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
+																							 title:_textEditor.text];
+		[self.navigationController pushViewController:next animated:YES];
+		[next release];
+	}		
+}
+
+- (void)setLeftBarButtonCancel {
+	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																			    target:self
+																			    action:@selector(dismissTextEditor)];
+	self.prevLeftBarButton = self.navigationItem.leftBarButtonItem;
+	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
+}
+
+- (void)setLeftBarButtonClear {
+	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																			    target:self
+																			    action:@selector(resetList)];
+	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
+}
+
+- (void)setLeftBarButtonPrevious {
+	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
+}
+
+- (void)resetList {
+	_textEditor.text = nil;
+	_textEditor.placeholder = [self.forum example];
+	[self.suggestions removeAllObjects];
+	[self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.currentTopic.suggestions];
+	[self.tableView reloadData];
+	[self setLeftBarButtonPrevious];
 }
 
 - (void)dismissTextEditor {
-	[self.textEditor resignFirstResponder];
-	self.textEditor.text = nil;
-	self.textEditor.placeholder = [self.forum example];
+	[self.textEditor resignFirstResponder];	
+	[self resetList];
 }
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
-	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																			    target:self
-																			    action:@selector(dismissTextEditor)];
-	self.prevRightBarButton = self.navigationItem.rightBarButtonItem;
-	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
 	[UIView beginAnimations:@"growHeader" context:nil];
 	NSInteger height = self.view.bounds.size.height - 216;
@@ -177,14 +287,13 @@
 	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
 	textBar.frame = frame;
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-	[self.navigationItem setRightBarButtonItem:cancelItem animated:YES];
+	
+	[self setLeftBarButtonCancel];
 	
 	frame = CGRectMake(0, 0, 320, 40);
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
 	theTextEditor.backgroundColor = [UIColor whiteColor];	
 	[UIView commitAnimations];
-	
-	[cancelItem release];
 	return YES;
 }
 
@@ -195,8 +304,6 @@
 	_searching = YES;
 	
 	if (self.textEditor.text) {
-		self.suggestions = nil;
-		self.suggestions = [NSMutableArray arrayWithCapacity:10];
 		[UVSuggestion searchWithForum:self.forum query:self.textEditor.text delegate:self];
 	}
 	
@@ -205,7 +312,11 @@
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {	
 	// reset nav
-	[self.navigationItem setRightBarButtonItem:self.prevRightBarButton animated:YES];
+	if (_textEditor.text) {
+		[self setLeftBarButtonClear];		
+	} else {
+		[self setLeftBarButtonPrevious];
+	}
 	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
@@ -229,11 +340,6 @@
 	[super loadView];
 
 	self.navigationItem.title = self.forum.currentTopic.prompt;
-	
-	// Note: Uncomment this if we end up going back to jumping straight into idea list.
-	// Workaround: Since we're pushing two view controllers at once, the secone one
-	// doesn't seem to be able to pick up the first controller's back button title.
-	//self.navigationController.navigationBar.backItem.title = @"Forums";
 
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
