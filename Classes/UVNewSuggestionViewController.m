@@ -20,7 +20,7 @@
 #import "UVCategorySelectViewController.h"
 #import "UVNewMessageViewController.h"
 #import "UVSignInViewController.h"
-#import "Three20/Three20.h"
+#import "UVTextEditor.h"
 #import "NSError+UVExtras.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
@@ -261,9 +261,9 @@
 	return YES;
 }
 
-#pragma mark ===== TTTextEditorDelegate Methods =====
+#pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (void)textEditorDidBeginEditing:(TTTextEditor *)theTextEditor {
+- (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
 	shouldResizeForKeyboard = NO;
 
 	// Change right bar button to Done, as there's no built-in way to dismiss the
@@ -280,12 +280,12 @@
 	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
-- (void)textEditorDidEndEditing:(TTTextEditor *)theTextEditor {
+- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	self.text = theTextEditor.text;
 	[self.navigationItem setLeftBarButtonItem:self.prevBarButton animated:YES];
 }
 
-- (BOOL)textEditorShouldEndEditing:(TTTextEditor *)theTextEditor {
+- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
 	return YES;
 }
 
@@ -324,7 +324,7 @@
 	[self removeBackgroundFromCell:cell];
 	
 	CGRect frame = CGRectMake(0, 0, 300, 102);
-	TTTextEditor *aTextEditor = [[TTTextEditor alloc] initWithFrame:frame];
+	UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
 	aTextEditor.delegate = self;
 	aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 	aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
@@ -332,7 +332,7 @@
 	aTextEditor.maxNumberOfLines = 4;
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
-	aTextEditor.style = TTSTYLE(suggestionTextField);
+	// aTextEditor.style = TTSTYLE(suggestionTextField);
 	aTextEditor.placeholder = @"Description (optional)";
 	
 	[cell.contentView addSubview:aTextEditor];

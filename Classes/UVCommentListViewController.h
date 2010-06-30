@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
-#import "Three20/Three20.h"
+#import "UVTextEditor.h"
 
 @class UVSuggestion;
 @class UVComment;
 
-@interface UVCommentListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, TTTextEditorDelegate, UIActionSheetDelegate> {
+@interface UVCommentListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate, UIActionSheetDelegate> {
 	BOOL allCommentsRetrieved;
 	BOOL editing;
 	
@@ -21,7 +21,7 @@
 	NSMutableArray *comments;
 	UVComment *commentToFlag;
 	NSString *text;
-	TTTextEditor *textEditor;
+	UVTextEditor *textEditor;
 	UIBarButtonItem *prevLeftBarButton;
 	UIBarButtonItem *prevRightBarButton;
 }
@@ -30,7 +30,7 @@
 @property (nonatomic, retain) NSMutableArray *comments;
 @property (nonatomic, retain) UVComment *commentToFlag;
 @property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) TTTextEditor *textEditor;
+@property (nonatomic, retain) UVTextEditor *textEditor;
 @property (nonatomic, retain) UIBarButtonItem *prevLeftBarButton;
 @property (nonatomic, retain) UIBarButtonItem *prevRightBarButton;
 

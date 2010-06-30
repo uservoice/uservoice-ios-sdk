@@ -15,7 +15,7 @@
 #import "UVUserChickletView.h"
 #import "UVButtonWithIndex.h"
 #import "UVUserButton.h"
-#import "Three20/Three20.h"
+#import "UVTextEditor.h"
 
 #define UV_COMMENT_LIST_TAG_CELL_NAME 1
 #define UV_COMMENT_LIST_TAG_CELL_DATE 2
@@ -130,9 +130,9 @@
 	}
 }
 
-#pragma mark ===== TTTextEditorDelegate Methods =====
+#pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (void) textEditorDidBeginEditing:(TTTextEditor *)theTextEditor {
+- (void) textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
 	// Change right bar button to Done and left to Cancel, as there's no built-in
 	// way to dismiss the text editor's keyboard.
 	UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
@@ -152,29 +152,28 @@
 	[UIView beginAnimations:@"growHeader" context:nil];
 	NSInteger height = self.view.bounds.size.height - 216;
 	CGRect frame = CGRectMake(0, 0, 320, height);
-	TTView *textBar = (TTView *)self.tableView.tableHeaderView;
+	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
 	textBar.frame = frame;
-	textBar.style = TTSTYLE(commentTextBarActive);
+	textBar.backgroundColor = [UIColor whiteColor];
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
-	theTextEditor.style = TTSTYLE(commentTextBarTextFieldActive);
 	[UIView commitAnimations];
 }
 
-- (void)textEditorDidEndEditing:(TTTextEditor *)theTextEditor {
+- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	self.text = theTextEditor.text;
 	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
 	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
-	TTView *textBar = (TTView *)self.tableView.tableHeaderView;
+	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
 	textBar.frame = CGRectMake(0, 0, 320, 40);
-	textBar.style = TTSTYLE(commentTextBar);
+	//textBar.style = TTSTYLE(commentTextBar);
 	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
-	theTextEditor.style = TTSTYLE(commentTextBarTextField);
+	//theTextEditor.style = TTSTYLE(commentTextBarTextField);
 	[UIView commitAnimations];
 }
 
-- (BOOL)textEditorShouldEndEditing:(TTTextEditor *)theTextEditor {
+- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
 	return YES;
 }
 
@@ -357,16 +356,17 @@
 	[self addShadowSeparatorToTableView:theTableView];
 
 	// Add text editor to table header
-	TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-	textBar.style = TTSTYLE(commentTextBar);
-	TTTextEditor *theTextEditor = [[TTTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+	UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+	textBar.backgroundColor = [UIColor whiteColor];
+	// TTSTYLE(commentTextBar)
+	UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
 	theTextEditor.delegate = self;
 	theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 	theTextEditor.minNumberOfLines = 1;
 	theTextEditor.maxNumberOfLines = 8;
 	theTextEditor.autoresizesToText = YES;
 	theTextEditor.backgroundColor = [UIColor clearColor];
-	theTextEditor.style = TTSTYLE(commentTextBarTextField);
+	//theTextEditor.style = TTSTYLE(commentTextBarTextField);
 	theTextEditor.placeholder = @"Add a comment...";
 	[textBar addSubview:theTextEditor];
 	self.textEditor = theTextEditor;

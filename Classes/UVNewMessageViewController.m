@@ -20,7 +20,7 @@
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVToken.h"
-#import "Three20/Three20.h"
+#import "UVTextEditor.h"
 #import "NSError+UVExtras.h";
 
 #define UV_NEW_MESSAGE_SECTION_PROFILE 0
@@ -213,14 +213,14 @@
 	return YES;
 }
 
-#pragma mark ===== TTTextEditorDelegate Methods =====
+#pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (BOOL)textEditorShouldBeginEditing:(TTTextEditor *)theTextEditor {
+- (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
 	shouldResizeForKeyboard = YES;
 	return YES;
 }
 
-- (void)textEditorDidBeginEditing:(TTTextEditor *)theTextEditor {
+- (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
 	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -234,11 +234,11 @@
 	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
-- (void)textEditorDidEndEditing:(TTTextEditor *)theTextEditor {
+- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	[self.navigationItem setLeftBarButtonItem:self.prevBarButton animated:YES];
 }
 
-- (BOOL)textEditorShouldEndEditing:(TTTextEditor *)theTextEditor {
+- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
 	return YES;
 }
 
@@ -250,16 +250,17 @@
 	textField.placeholder = placeholder;
 	textField.returnKeyType = UIReturnKeyDone;
 	textField.borderStyle = UITextBorderStyleNone;
+	textField.backgroundColor = [UIColor clearColor];
 	textField.delegate = self;
 	[cell.contentView addSubview:textField];
 	return [textField autorelease];
 }
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
+	//[self removeBackgroundFromCell:cell];
 	
 	CGRect frame = CGRectMake(0, 0, 300, 144);
-	TTTextEditor *aTextEditor = [[TTTextEditor alloc] initWithFrame:frame];
+	UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
 	aTextEditor.delegate = self;
 	aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 	aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
@@ -267,7 +268,7 @@
 	aTextEditor.maxNumberOfLines = 6;
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
-	aTextEditor.style = TTSTYLE(messageTextField);
+	//aTextEditor.style = TTSTYLE(messageTextField);
 	aTextEditor.placeholder = @"Message";
 	
 	[cell.contentView addSubview:aTextEditor];

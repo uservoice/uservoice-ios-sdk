@@ -40,8 +40,6 @@
 - (id)init {
 	if (self = [super init]) {
 		self.userCache = [NSMutableDictionary dictionary];
-		// This seems like a convenient place for random UserVoice initialization
-		[TTStyleSheet setGlobalStyleSheet:[[[UVStyleSheet alloc] init] autorelease]];
 	}
 	return self;
 }

@@ -14,25 +14,25 @@
 // limitations under the License.
 //
 
-#import "Three20/TTView.h"
+#import <UIKit/UIKit.h>
 
-@protocol TTTextEditorDelegate;
-@class TTTextView, TTTextEditorInternal;
+@protocol UVTextEditorDelegate;
+@class UVTextView, UVTextEditorInternal;
 
-@interface TTTextEditor : TTView <UITextInputTraits> {
-  id<TTTextEditorDelegate> _delegate;
-  TTTextEditorInternal* _internal;
-  UITextField* _textField;
-  TTTextView* _textView;
-  NSInteger _minNumberOfLines;
-  NSInteger _maxNumberOfLines;
-  BOOL _editing;
-  BOOL _overflowed;
-  BOOL _autoresizesToText;
-  BOOL _showsExtraLine;
+@interface UVTextEditor : UIView <UITextInputTraits> {
+	id<UVTextEditorDelegate> _delegate;
+	UVTextEditorInternal* _internal;
+	UITextField* _textField;
+	UVTextView* _textView;
+	NSInteger _minNumberOfLines;
+	NSInteger _maxNumberOfLines;
+	BOOL _editing;
+	BOOL _overflowed;
+	BOOL _autoresizesToText;
+	BOOL _showsExtraLine;
 }
 
-@property(nonatomic,assign) id<TTTextEditorDelegate> delegate;
+@property(nonatomic,assign) id<UVTextEditorDelegate> delegate;
 @property(nonatomic,copy) NSString* text;
 @property(nonatomic,copy) NSString* placeholder;
 @property(nonatomic,retain) UIFont* font;
@@ -49,21 +49,22 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-@protocol TTTextEditorDelegate <NSObject>
+@protocol UVTextEditorDelegate <NSObject>
 
 @optional
 
-- (BOOL)textEditorShouldBeginEditing:(TTTextEditor*)textEditor;
-- (BOOL)textEditorShouldEndEditing:(TTTextEditor*)textEditor;
+- (BOOL)textEditorShouldBeginEditing:(UVTextEditor*)textEditor;
+- (BOOL)textEditorShouldEndEditing:(UVTextEditor*)textEditor;
 
-- (void)textEditorDidBeginEditing:(TTTextEditor*)textEditor;
-- (void)textEditorDidEndEditing:(TTTextEditor*)textEditor;
+- (void)textEditorDidBeginEditing:(UVTextEditor*)textEditor;
+- (void)textEditorDidEndEditing:(UVTextEditor*)textEditor;
 
-- (BOOL)textEditor:(TTTextEditor*)textEditor shouldChangeTextInRange:(NSRange)range
-        replacementText:(NSString*)replacementText;
-- (void)textEditorDidChange:(TTTextEditor*)textEditor;
+- (BOOL)textEditor:(UVTextEditor*)textEditor shouldChangeTextInRange:(NSRange)range
+   replacementText:(NSString*)replacementText;
+- (void)textEditorDidChange:(UVTextEditor*)textEditor;
 
-- (BOOL)textEditor:(TTTextEditor*)textEditor shouldResizeBy:(CGFloat)height;
-- (BOOL)textEditorShouldReturn:(TTTextEditor*)textEditor;
+- (BOOL)textEditor:(UVTextEditor*)textEditor shouldResizeBy:(CGFloat)height;
+- (BOOL)textEditorShouldReturn:(UVTextEditor*)textEditor;
 
 @end
+

@@ -15,7 +15,6 @@
 #import "UVNewSuggestionViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
-#import "Three20/Three20.h"
 
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX 100
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY 101
@@ -220,13 +219,13 @@
 	CGRect frame = [self contentFrameWithNavBar:NO];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 84)];
-	textBar.style = [TTSolidFillStyle styleWithColor:TTSTYLEVAR(navigationBarTintColor) next:nil];
+	UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 84)];
+	textBar.backgroundColor = [UIColor whiteColor];
 
 	// Simulate the UINavigationBar look by having a solid background and adding a reflective
 	// style to the top part only.
-	TTView *textBarTop = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-	textBarTop.style = [TTReflectiveFillStyle styleWithColor:TTSTYLEVAR(navigationBarTintColor) next:nil];
+	UIView *textBarTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+	textBarTop.backgroundColor = [UIColor whiteColor];
 	[textBar addSubview:textBarTop];
 	[textBarTop release];
 
@@ -239,7 +238,8 @@
 	[textBar addSubview:title];
 	[title release];
 	
-	TTButton *cancelButton = [TTButton buttonWithStyle:@"toolbarButton:" title:@"Cancel"];
+	UIButton *cancelButton = [UIButton buttonWithType: UIButtonTypeRoundedRect];
+	[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
 	cancelButton.frame = CGRectMake(255, 5, 60, 33);
 	[cancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[textBar addSubview:cancelButton];

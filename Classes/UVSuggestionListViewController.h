@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseSuggestionListViewController.h"
-#import "Three20/Three20.h"
+#import "UVTextEditor.h"
 
 @class UVForum;
 
-@interface UVSuggestionListViewController : UVBaseSuggestionListViewController <UITableViewDataSource, UITableViewDelegate, TTTextEditorDelegate> {
+@interface UVSuggestionListViewController : UVBaseSuggestionListViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate> {
 	BOOL allSuggestionsRetrieved;
 	UVForum *forum;
 }

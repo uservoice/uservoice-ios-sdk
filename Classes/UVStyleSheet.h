@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Three20/Three20.h"
 
-@interface UVStyleSheet : TTDefaultStyleSheet {
+@class UIColor;
+
+@interface UVStyleSheet : NSObject {
 
 }
 

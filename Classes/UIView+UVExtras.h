@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface UIView (UVExtras)
+@interface UIView (UVExtras)	
+
+@property(nonatomic) CGFloat width;
+@property(nonatomic) CGFloat height;
+	
 - (NSString *)description;
+
 @end

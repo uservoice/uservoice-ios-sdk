@@ -18,7 +18,7 @@
 #import "UVStyleSheet.h"
 #import "UVUser.h"
 #import "UVFooterView.h"
-#import "Three20/Three20.h"
+#import "UVTextEditor.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 
@@ -141,9 +141,9 @@
 	}
 }
 
-#pragma mark ===== TTTextEditorDelegate Methods =====
+#pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (BOOL)textEditorShouldBeginEditing:(TTTextEditor *)theTextEditor {
+- (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
 	UVSearchResultsViewController *next = [[UVSearchResultsViewController alloc] initWithForum:self.forum];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:next];
 	[self presentModalViewController:nav animated:NO];
@@ -179,7 +179,7 @@
 		// Add text editor to table header
 //		TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 //		textBar.style = TTSTYLE(commentTextBar);
-//		TTTextEditor *theTextEditor = [[TTTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+//		UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
 //		theTextEditor.delegate = self;
 //		theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 //		theTextEditor.minNumberOfLines = 1;
@@ -197,16 +197,17 @@
 		// Add text editor to table header
 		// Note: We're actually not using this for text entry. Instead, tapping the
 		//       editor brings up a modal search view.
-		TTView *textBar = [[TTView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-		textBar.style = TTSTYLE(commentTextBar);
-		TTTextEditor *theTextEditor = [[TTTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+		//textBar.style = TTSTYLE(commentTextBar);
+		textBar.backgroundColor = [UIColor whiteColor];
+		UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
 		theTextEditor.delegate = self;
 		theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 		theTextEditor.minNumberOfLines = 1;
 		theTextEditor.maxNumberOfLines = 1;
 		theTextEditor.autoresizesToText = NO;
 		theTextEditor.backgroundColor = [UIColor clearColor];
-		theTextEditor.style = TTSTYLE(commentTextBarTextField);
+		//theTextEditor.style = TTSTYLE(commentTextBarTextField);
 		theTextEditor.placeholder = [self.forum example];
 		[textBar addSubview:theTextEditor];
 		[theTextEditor release];
