@@ -18,6 +18,8 @@
 #import "UVSuggestion.h"
 #import "UVSubdomain.h"
 #import "UVStyleSheet.h"
+#import "UVTaskBar.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define UV_FOOTER_TAG_NAME_VIEW 1
 #define UV_FOOTER_TAG_NAME_LABEL 2
@@ -35,7 +37,7 @@
 }
 
 + (CGFloat)heightForFooter {
-	return 118 + 42; // actual cells and padding + table footer
+	return 69 + 42; // actual cells and padding + table footer
 }
 
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
@@ -46,9 +48,19 @@
 	theTableView.scrollEnabled = NO;
 	theTableView.delegate = footer;
 	theTableView.dataSource = footer;
-	theTableView.sectionHeaderHeight = 0.0;
+	theTableView.sectionHeaderHeight = 20.0;
 	theTableView.sectionFooterHeight = 10.0;
-	theTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
+	// theTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
+	
+	UIView *shadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
+	shadow.backgroundColor = [UVStyleSheet lightBgColor];
+	shadow.layer.shadowColor = [UIColor blackColor].CGColor;
+	shadow.layer.shadowOpacity = 1.0;
+	shadow.layer.shadowRadius = 5.0;
+	shadow.layer.shadowOffset = CGSizeMake(0, 3);
+	shadow.clipsToBounds = NO;   
+	theTableView.tableHeaderView = shadow;
+	[shadow release];
 	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 42)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(40, 10, 240, 14)] autorelease];
@@ -82,51 +94,39 @@
 	UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
-	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled && indexPath.section == 0) {
-		cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
-		// cell.textLabel.text = [NSString stringWithFormat:@"Contact Support"];
+
+	if ([UVSession currentSession].loggedIn) {
+		cell.textLabel.text = @"My profile";
+		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, 170, 18)] autorelease];
+		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 2, 170, 14)] autorelease];
+		nameLabel.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
+		nameLabel.textAlignment = UITextAlignmentRight;
+		nameLabel.font = [UIFont systemFontOfSize:14.0];
+		nameLabel.text = [[UVSession currentSession].user nameOrAnonymous];
+		[nameView addSubview:nameLabel];
 		
-	} else {
-		if ([UVSession currentSession].loggedIn) {
-			cell.textLabel.text = @"My profile";
-			UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, 170, 18)] autorelease];
-			UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 2, 170, 14)] autorelease];
-			nameLabel.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
-			nameLabel.textAlignment = UITextAlignmentRight;
-			nameLabel.font = [UIFont systemFontOfSize:14.0];
-			nameLabel.text = [[UVSession currentSession].user nameOrAnonymous];
-			[nameView addSubview:nameLabel];
+		if ([[UVSession currentSession].user hasUnconfirmedEmail]) {
+			UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
+			icon.frame = CGRectMake(156, 0, 18, 18);
+			[nameView addSubview:icon];
+			[icon release];
 			
-			if ([[UVSession currentSession].user hasUnconfirmedEmail]) {
-				UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
-				icon.frame = CGRectMake(156, 0, 18, 18);
-				[nameView addSubview:icon];
-				[icon release];
-				
-				// Shrink label to make space for the image
-				CGRect labelFrame = nameLabel.frame;
-				nameLabel.frame = CGRectMake(labelFrame.origin.x, labelFrame.origin.y, labelFrame.size.width - 23, labelFrame.size.height);
-			}
-			[cell.contentView addSubview:nameView];
-		} else {
-			cell.textLabel.text = @"Sign in";
-			cell.textLabel.textAlignment = UITextAlignmentCenter;
-			cell.accessoryType = UITableViewCellAccessoryNone;
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}			
-	}
+			// Shrink label to make space for the image
+			CGRect labelFrame = nameLabel.frame;
+			nameLabel.frame = CGRectMake(labelFrame.origin.x, labelFrame.origin.y, labelFrame.size.width - 23, labelFrame.size.height);
+		}
+		[cell.contentView addSubview:nameView];
+	} else {
+		cell.textLabel.text = @"Sign in";
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}	
 	return cell;	
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	[tableView setBackgroundColor:[UVStyleSheet lightBgColor]];
-	
-	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
-		return 2;
-	} else {
-		return 1;
-	}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {	
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -139,15 +139,12 @@
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	UIViewController *next = nil;
-	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled && indexPath.section == 0) {
-		next = [[UVNewMessageViewController alloc] init];
+
+	if ([UVSession currentSession].loggedIn) {
+		UVUser *user = [UVSession currentSession].user;			
+		next = [[UVProfileViewController alloc] initWithUVUser:user];
 	} else {
-		if ([UVSession currentSession].loggedIn) {
-			UVUser *user = [UVSession currentSession].user;			
-			next = [[UVProfileViewController alloc] initWithUVUser:user];
-		} else {
-			next = [[UVSignInViewController alloc] init];
-		}
+		next = [[UVSignInViewController alloc] init];
 	}
 
 	if (next) {

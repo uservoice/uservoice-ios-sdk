@@ -8,6 +8,7 @@
 
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
+#import "UVNewMessageViewController.h"
 #import "UVForum.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
@@ -17,6 +18,7 @@
 #import "UVAnswer.h"
 #import "UVSignInViewController.h"
 #import "UVTaskBar.h"
+#import "UVSubdomain.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define UV_FORUM_LIST_TAG_CELL_LABEL 1000
@@ -26,6 +28,7 @@
 
 #define UV_FORUM_LIST_SECTION_FORUMS 0
 #define UV_FORUM_LIST_SECTION_QUESTIONS 1
+#define UV_FORUM_LIST_SECTION_SUPPORT 2
 
 @implementation UVWelcomeViewController
 
@@ -90,14 +93,18 @@
 
 - (NSString *)headerTextForSection:(NSInteger)section {
 	if (section == 0) {
-		return self.forum.name;
-	} else {
+		return @"Suggestions";
+		
+	} else if (section == 1) {
 		return @"Rating";
+		
+	} else {
+		return @"Support";
 	}
 }
 
 - (NSString *)subHeaderTextForSection:(NSInteger)section {
-	if (section == 0) {
+	if (section == 0 || section == 2) {
 		return nil;
 		
 	} else {
@@ -195,10 +202,18 @@
 }
 
 - (void)customizeCellForQuestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView 
+														  viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 	[self updateSegmentsValue:segments];
 }
 
+- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;	
+	cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", 
+						   [UVSession currentSession].clientConfig.subdomain.name];
+}
+	
 #pragma mark ===== UIAlertViewDelegate Methods =====
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -219,10 +234,12 @@
 	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
 		identifier = @"Forum";
 
-	} else if (indexPath.section >= UV_FORUM_LIST_SECTION_QUESTIONS) {
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
 		identifier = @"Question";
 		if ([UVSession currentSession].user != nil)
 			selectable = NO;
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {
+		identifier = @"Support";
 	}
 	
 	return [self createCellForIdentifier:identifier
@@ -233,11 +250,14 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	NSInteger sections = 1;
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
-		return 2;
-	} else {
-		return 1;
+		sections++;
+	} 
+	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
+		sections++;
 	}
+	return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -247,7 +267,7 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
+	if (indexPath.section == 0 || indexPath.section == 2) {
 		return 45;
 	} else {
 		return [UVSession currentSession].user==nil ? 80 : 60;
@@ -290,6 +310,12 @@
 			}
 			break;
 		}
+		case UV_FORUM_LIST_SECTION_SUPPORT: {
+			UVNewMessageViewController *next = [[UVNewMessageViewController alloc] init];
+			[self.navigationController pushViewController:next animated:YES];
+			[next release];
+			break;
+		}
 		default:
 			break;
 	}
@@ -300,9 +326,6 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	[super loadView];
-
-	// Remove Back button, as we want to treat the forum list as the top level
-	// view, rather than going back to the root view.
 	[self.navigationItem setHidesBackButton:YES animated:NO];
 
 	CGRect frame = [self contentFrame];
@@ -313,38 +336,10 @@
 	theTableView.delegate = self;
 	theTableView.backgroundColor = [UIColor clearColor];
 	
-	NSString *welcomeText = [UVSession currentSession].clientConfig.welcome;
-	CGSize welcomeSize = [welcomeText sizeWithFont:[UIFont systemFontOfSize:14] 
-								 constrainedToSize:CGSizeMake(280, 9999) 
-									 lineBreakMode:UILineBreakModeWordWrap];
-	UILabel *welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, welcomeSize.height)];
-	welcomeLabel.lineBreakMode = UILineBreakModeWordWrap;
-	welcomeLabel.numberOfLines = 0;
-	welcomeLabel.font = [UIFont systemFontOfSize:14];	
-	welcomeLabel.textColor = [UVStyleSheet tableViewHeaderColor];
-	welcomeLabel.text = welcomeText;
-	
-	UVTaskBar *taskbar = [[UVTaskBar alloc] initWithFrame:CGRectMake(0, 0, 320, welcomeSize.height + 20)];
-	taskbar.backgroundColor = [UIColor whiteColor];
-//	taskbar.layer.borderColor = [UIColor grayColor].CGColor;
-//	taskbar.layer.borderWidth = 3;
-//	taskbar.layer.cornerRadius = 8;
-	
-	taskbar.layer.shadowColor = [UIColor blackColor].CGColor;
-	taskbar.layer.shadowOpacity = 1.0;
-	taskbar.layer.shadowRadius = 5.0;
-	taskbar.layer.shadowOffset = CGSizeMake(0, 3);
-	taskbar.clipsToBounds = NO;
-	
-	[taskbar addSubview:welcomeLabel];	
-	
-	UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, welcomeSize.height + 40)];
-	[tableHeaderView addSubview:taskbar];
+	UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
+	tableHeaderView.backgroundColor = [UIColor clearColor];
 	theTableView.tableHeaderView = tableHeaderView;
-	
-	[taskbar release];
 	[tableHeaderView release];
-	[welcomeLabel release];
 	
 	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 	
@@ -361,15 +356,12 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-	// It's important that we initialize the forums based on the session config here.
-	// This way, if the user logs in under a different profile later, the proper list
-	// of forums is reflected in the view.
-	// (not strictly necessary any more, now that we are only showing a single forum)
 	self.forum = [UVSession currentSession].clientConfig.forum;
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		self.questions = [UVSession currentSession].clientConfig.questions;
 		self.question = [self.questions objectAtIndex:0];
 	}
+	
 	if ([UVSession currentSession].user != nil) {
 		// remove login warning and set active
 		[[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
