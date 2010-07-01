@@ -40,28 +40,27 @@
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveResponse:(NSURLResponse *)response {
-	NSLog(@"Recieved response");	
 	[_payload setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data {
-	NSLog(@"Recieving data. Incoming Size: %i  Total Size: %i", [data length], [_payload length]);	
+	//NSLog(@"Recieving data. Incoming Size: %i  Total Size: %i", [data length], [_payload length]);	
 	[_payload appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn {
-	NSLog(@"Connection returned: %i", [_payload length]);
+	//NSLog(@"Connection returned: %i", [_payload length]);
 	UIImage *anImage = [UIImage imageWithData:_payload];
-	NSLog(@"Image: %@", anImage);
+	//NSLog(@"Image: %@", anImage);
 	
 	if (anImage) {
-		NSLog(@"Calling image setter");
+		//NSLog(@"Calling image setter");
 		self.image = anImage;
 		[self setNeedsDisplay];
 	}
 
 	[conn release];	
-	NSLog(@"Connection finished: %@", conn);
+	//NSLog(@"Connection finished: %@", conn);
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error {	
@@ -87,7 +86,7 @@
 
 - (void)setImage:(UIImage*)image {
 	if (image != _image) {
-		NSLog(@"Setting image");
+		//NSLog(@"Setting image");
 		[_image release];
 		_image = [image retain];
 	}
@@ -101,7 +100,7 @@
 		
 		if (_connection) {
 			_payload = [[NSMutableData data] retain];
-			NSLog(@"Connection starting: %@", _connection);
+			//NSLog(@"Connection starting: %@", _connection);
 			
 			if (_defaultImage && self.image != _defaultImage) {
 				self.image = _defaultImage;

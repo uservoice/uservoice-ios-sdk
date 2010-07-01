@@ -16,6 +16,8 @@
 #import "UVQuestion.h"
 #import "UVAnswer.h"
 #import "UVSignInViewController.h"
+#import "UVTaskBar.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define UV_FORUM_LIST_TAG_CELL_LABEL 1000
 #define UV_FORUM_LIST_TAG_CELL_IMAGE 1001
@@ -54,7 +56,7 @@
 								   lineBreakMode:UILineBreakModeWordWrap];
 		return subSize.height + 20 + 5 + 5; // (subheader + header + padding between/bottom)
 	} else {
-		return 20 + 5; // header + padding bottom only
+		return 25 + 5; // header + padding bottom only
 	}
 }
 
@@ -97,6 +99,7 @@
 - (NSString *)subHeaderTextForSection:(NSInteger)section {
 	if (section == 0) {
 		return nil;
+		
 	} else {
 		NSArray *qs = [UVSession currentSession].clientConfig.questions;
 		UVQuestion *q = [qs objectAtIndex:0];
@@ -200,7 +203,6 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == alertView.firstOtherButtonIndex) {
-		//NSLog(@"Launching app store");
 		NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8",
 						 [UVSession currentSession].clientConfig.itunesApplicationId];
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
@@ -231,8 +233,6 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	// [tableView setBackgroundColor:[UIColor blackColor]];
-	
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		return 2;
 	} else {
@@ -248,9 +248,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
-		return 44;
+		return 45;
 	} else {
-		return [UVSession currentSession].user==nil ? 70 : 50;
+		return [UVSession currentSession].user==nil ? 80 : 60;
 	}
 }
 
@@ -314,17 +314,35 @@
 	theTableView.backgroundColor = [UIColor clearColor];
 	
 	NSString *welcomeText = [UVSession currentSession].clientConfig.welcome;
-	CGSize welcomeSize = [welcomeText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(280, 9999) lineBreakMode:UILineBreakModeWordWrap];
-	UILabel *welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, welcomeSize.width, welcomeSize.height)];
+	CGSize welcomeSize = [welcomeText sizeWithFont:[UIFont systemFontOfSize:14] 
+								 constrainedToSize:CGSizeMake(280, 9999) 
+									 lineBreakMode:UILineBreakModeWordWrap];
+	UILabel *welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, welcomeSize.height)];
 	welcomeLabel.lineBreakMode = UILineBreakModeWordWrap;
 	welcomeLabel.numberOfLines = 0;
-	welcomeLabel.font = [UIFont systemFontOfSize:14];
-	welcomeLabel.backgroundColor = [UIColor clearColor];
+	welcomeLabel.font = [UIFont systemFontOfSize:14];	
 	welcomeLabel.textColor = [UVStyleSheet tableViewHeaderColor];
 	welcomeLabel.text = welcomeText;
+	
+	UVTaskBar *taskbar = [[UVTaskBar alloc] initWithFrame:CGRectMake(0, 0, 320, welcomeSize.height + 20)];
+	taskbar.backgroundColor = [UIColor whiteColor];
+//	taskbar.layer.borderColor = [UIColor grayColor].CGColor;
+//	taskbar.layer.borderWidth = 3;
+//	taskbar.layer.cornerRadius = 8;
+	
+	taskbar.layer.shadowColor = [UIColor blackColor].CGColor;
+	taskbar.layer.shadowOpacity = 1.0;
+	taskbar.layer.shadowRadius = 5.0;
+	taskbar.layer.shadowOffset = CGSizeMake(0, 3);
+	taskbar.clipsToBounds = NO;
+	
+	[taskbar addSubview:welcomeLabel];	
+	
 	UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, welcomeSize.height + 40)];
-	[tableHeaderView addSubview:welcomeLabel];
+	[tableHeaderView addSubview:taskbar];
 	theTableView.tableHeaderView = tableHeaderView;
+	
+	[taskbar release];
 	[tableHeaderView release];
 	[welcomeLabel release];
 	
@@ -355,7 +373,8 @@
 	if ([UVSession currentSession].user != nil) {
 		// remove login warning and set active
 		[[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
-		UISegmentedControl *segments = (UISegmentedControl *)[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+		UISegmentedControl *segments = 
+			(UISegmentedControl *)[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 		[segments setEnabled:YES]; 
 	}
 	[self.tableView reloadData];
