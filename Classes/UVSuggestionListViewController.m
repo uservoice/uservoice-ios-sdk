@@ -264,10 +264,14 @@
 }
 
 - (void)resetList {
+	_searching = NO;
 	_textEditor.text = nil;
 	_textEditor.placeholder = [self.forum example];
 	[self.suggestions removeAllObjects];
 	[self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.currentTopic.suggestions];
+	if ([self.suggestions count] < 10) {
+		_allSuggestionsRetrieved = YES;
+	}	
 	[self.tableView reloadData];
 	[self setLeftBarButtonPrevious];
 }

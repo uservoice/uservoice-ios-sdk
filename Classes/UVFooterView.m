@@ -37,7 +37,7 @@
 }
 
 + (CGFloat)heightForFooter {
-	return 69 + 42; // actual cells and padding + table footer
+	return 80 + 42; // actual cells and padding + table footer
 }
 
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
@@ -50,7 +50,6 @@
 	theTableView.dataSource = footer;
 	theTableView.sectionHeaderHeight = 20.0;
 	theTableView.sectionFooterHeight = 10.0;
-	// theTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
 	
 	UIView *shadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
 	shadow.backgroundColor = [UVStyleSheet lightBgColor];
