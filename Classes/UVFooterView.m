@@ -117,9 +117,11 @@
 		[cell.contentView addSubview:nameView];
 	} else {
 		cell.textLabel.text = @"Sign in";
-		cell.textLabel.textAlignment = UITextAlignmentCenter;
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.textLabel.textAlignment = UITextAlignmentLeft;
+//		cell.accessoryType = UITableViewCellAccessoryNone;
+//		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}	
 	return cell;	
 }

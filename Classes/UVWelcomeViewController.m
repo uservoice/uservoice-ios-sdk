@@ -18,6 +18,7 @@
 #import "UVAnswer.h"
 #import "UVNewMessageViewController.h"
 #import "UVSuggestionListViewController.h"
+#import "UVSignInViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define UV_FORUM_LIST_TAG_CELL_LABEL 1000
@@ -165,8 +166,7 @@
 	[self removeBackgroundFromCell:cell];	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	NSInteger height = [UVSession currentSession].user==nil ? 100 : 80;
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, height)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 80)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
@@ -176,26 +176,31 @@
 	segments.tag = UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS;
 	segments.frame = CGRectMake(0, 0, 300, 44);
 	[self updateSegmentsValue:segments]; // necessary to avoid triggering an update when we set it in the customize method
-	[segments addTarget:self action:@selector(questionSegmentChanged:) forControlEvents:UIControlEventValueChanged];\
-	
-    // disable unless user
-	BOOL enabled = [UVSession currentSession].user != nil;
-	[segments setEnabled:enabled];
-	
+	[segments addTarget:self action:@selector(questionSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 	// add segments
 	[cell.contentView addSubview:segments];
 	[segments release];
+}
+
+- (void)customizeCellForQuestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	// disable unless user
+	BOOL enabled = [UVSession currentSession].user != nil;
+	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+	[segments setEnabled:enabled];	
 	
-	[self addQuestionCell:cell labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
-	[self addQuestionCell:cell labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
-	[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
-	
-	if (!enabled) {
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, 300, 20)];
+	if (enabled) {
+		[[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
+		[self addQuestionCell:cell labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
+		[self addQuestionCell:cell labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
+		[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
+		
+	} else {		
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, 300, 20)];
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
 		label.textAlignment = UITextAlignmentCenter;
-		label.font = [UIFont boldSystemFontOfSize:14];
-		label.text = @"You will need to sign in to answer.";		
+		label.font = [UIFont boldSystemFontOfSize:12];
+		label.text = @"You will need to sign in to answer.";	
+		label.backgroundColor = [UIColor clearColor];
 		label.textColor = [UVStyleSheet darkRedColor];
 		
 		[cell.contentView addSubview:label];
@@ -295,13 +300,30 @@
 	return 1;
 }
 
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	switch (indexPath.section) {
+		case UV_FORUM_LIST_SECTION_QUESTIONS: {
+			if ([UVSession currentSession].user==nil) {
+				UVSignInViewController *next = [[UVSignInViewController alloc] init];
+				[self.navigationController pushViewController:next animated:YES];
+				[next release];
+			}
+			break;
+		}
+		default:
+			break;
+	}
+}
+
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section <= 1) {
 		return 45;
 	} else {
-		return [UVSession currentSession].user==nil ? 90 : 70;
+		return 70;
 	}
 }
 
@@ -326,35 +348,31 @@
 	[super loadView];
 	[self.navigationItem setHidesBackButton:YES animated:NO];
 	
-	//UVShadowedTableView *theTableView = [UVShadowedTableView shadowedTableViewForController:self];
-	
 	CGRect frame = [self contentFrame];	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
-	theTableView.sectionFooterHeight = 0.0;
-	theTableView.sectionHeaderHeight = 0.0;
+	_tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
+	_tableView.dataSource = self;
+	_tableView.delegate = self;
+	_tableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+	_tableView.sectionFooterHeight = 0.0;
+	_tableView.sectionHeaderHeight = 0.0;
 	
 	UIView *topShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];  
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];
 	
 	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
 	[topShadow addSubview:shadowView];	
-	theTableView.tableHeaderView = shadowView;
+	_tableView.tableHeaderView = shadowView;
 	
 	[shadow release];
 	[shadowView release];
 	[topShadow release];
 
-	theTableView.tableFooterView = [UVFooterView footerViewForController:self];		
-	
-	self.view = theTableView;	
-	[theTableView release];
+	_tableView.tableFooterView = [UVFooterView footerViewForController:self];			
+	self.view = _tableView;	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewWillAppear:animated];		
 	
 	_forum = [UVSession currentSession].clientConfig.forum;
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
@@ -362,13 +380,14 @@
 		_question = [_questions objectAtIndex:0];
 	}
 	
-//	if ([UVSession currentSession].user != nil) {
-//		// remove login warning and set active
-//		[[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
-//		UISegmentedControl *segments = 
-//		(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
-//		[segments setEnabled:YES]; 
-//	}	
+	if (self.needsReload) {
+		UISegmentedControl *segments = 
+			(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+		[_tableView reloadData];
+
+		[(UVFooterView *)_tableView.tableFooterView reloadFooter];
+		[self updateSegmentsValue:segments];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
