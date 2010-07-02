@@ -407,6 +407,7 @@
 		UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
 		[footer reloadFooter];
 	}
+	[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

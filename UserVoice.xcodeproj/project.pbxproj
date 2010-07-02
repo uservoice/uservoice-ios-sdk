@@ -134,6 +134,8 @@
 		D24BE13F11DB23C200B26012 /* UIFont+UVExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE13D11DB23C200B26012 /* UIFont+UVExtras.m */; };
 		D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE52111DC11A600B26012 /* UVTaskBar.h */; };
 		D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE52211DC11A600B26012 /* UVTaskBar.m */; };
+		D24BE84811DD218000B26012 /* UVWelcomeView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE84611DD218000B26012 /* UVWelcomeView.h */; };
+		D24BE84911DD218000B26012 /* UVWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE84711DD218000B26012 /* UVWelcomeView.m */; };
 		D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = D25C899311B1CE98000C0B43 /* UVStatus.h */; };
 		D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D25C899411B1CE98000C0B43 /* UVStatus.m */; };
 		D2620D2C11B589F80053EA4C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2620D2B11B589F80053EA4C /* libxml2.dylib */; };
@@ -328,6 +330,14 @@
 		D24BE13D11DB23C200B26012 /* UIFont+UVExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+UVExtras.m"; sourceTree = "<group>"; };
 		D24BE52111DC11A600B26012 /* UVTaskBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTaskBar.h; sourceTree = "<group>"; };
 		D24BE52211DC11A600B26012 /* UVTaskBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTaskBar.m; sourceTree = "<group>"; };
+		D24BE84611DD218000B26012 /* UVWelcomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVWelcomeView.h; sourceTree = "<group>"; };
+		D24BE84711DD218000B26012 /* UVWelcomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVWelcomeView.m; sourceTree = "<group>"; };
+		D24BEBC411DD6C1100B26012 /* dropshadow_bottom_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_bottom_10.png; sourceTree = "<group>"; };
+		D24BEBC511DD6C1100B26012 /* dropshadow_bottom_20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_bottom_20.png; sourceTree = "<group>"; };
+		D24BEBC611DD6C1100B26012 /* dropshadow_bottom_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_bottom_30.png; sourceTree = "<group>"; };
+		D24BEBC711DD6C1100B26012 /* dropshadow_top_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_top_10.png; sourceTree = "<group>"; };
+		D24BEBC811DD6C1100B26012 /* dropshadow_top_20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_top_20.png; sourceTree = "<group>"; };
+		D24BEBC911DD6C1100B26012 /* dropshadow_top_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_top_30.png; sourceTree = "<group>"; };
 		D25C899311B1CE98000C0B43 /* UVStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStatus.h; sourceTree = "<group>"; };
 		D25C899411B1CE98000C0B43 /* UVStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStatus.m; sourceTree = "<group>"; };
 		D2620C4C11B586230053EA4C /* uv_alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_alert.png; sourceTree = "<group>"; };
@@ -676,6 +686,8 @@
 				D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */,
 				D24BE52111DC11A600B26012 /* UVTaskBar.h */,
 				D24BE52211DC11A600B26012 /* UVTaskBar.m */,
+				D24BE84611DD218000B26012 /* UVWelcomeView.h */,
+				D24BE84711DD218000B26012 /* UVWelcomeView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -683,6 +695,12 @@
 		D2620C4B11B586230053EA4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D24BEBC411DD6C1100B26012 /* dropshadow_bottom_10.png */,
+				D24BEBC511DD6C1100B26012 /* dropshadow_bottom_20.png */,
+				D24BEBC611DD6C1100B26012 /* dropshadow_bottom_30.png */,
+				D24BEBC711DD6C1100B26012 /* dropshadow_top_10.png */,
+				D24BEBC811DD6C1100B26012 /* dropshadow_top_20.png */,
+				D24BEBC911DD6C1100B26012 /* dropshadow_top_30.png */,
 				D2620C4C11B586230053EA4C /* uv_alert.png */,
 				D2620C4D11B586230053EA4C /* uv_arrow.png */,
 				D2620C4E11B586230053EA4C /* uv_comment.png */,
@@ -934,6 +952,7 @@
 				D24BE09F11DB1B7C00B26012 /* UVTextEditor.h in Headers */,
 				D24BE13E11DB23C200B26012 /* UIFont+UVExtras.h in Headers */,
 				D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */,
+				D24BE84811DD218000B26012 /* UVWelcomeView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1089,7 @@
 				D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */,
 				D24BE13F11DB23C200B26012 /* UIFont+UVExtras.m in Sources */,
 				D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */,
+				D24BE84911DD218000B26012 /* UVWelcomeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

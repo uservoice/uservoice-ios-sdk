@@ -37,7 +37,7 @@
 }
 
 + (CGFloat)heightForFooter {
-	return 80 + 42; // actual cells and padding + table footer
+	return 60 + 42; // actual cells and padding + table footer
 }
 
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
@@ -48,21 +48,21 @@
 	theTableView.scrollEnabled = NO;
 	theTableView.delegate = footer;
 	theTableView.dataSource = footer;
-	theTableView.sectionHeaderHeight = 20.0;
-	theTableView.sectionFooterHeight = 10.0;
+	theTableView.sectionHeaderHeight = 10.0;
+	theTableView.sectionFooterHeight = 8.0;
+		
+	UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
+	UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
+	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+	[bottomShadow addSubview:shadowView];	
+	theTableView.tableHeaderView = bottomShadow;
 	
-	UIView *shadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
-	shadow.backgroundColor = [UVStyleSheet lightBgColor];
-	shadow.layer.shadowColor = [UIColor blackColor].CGColor;
-	shadow.layer.shadowOpacity = 1.0;
-	shadow.layer.shadowRadius = 5.0;
-	shadow.layer.shadowOffset = CGSizeMake(0, 3);
-	shadow.clipsToBounds = NO;   
-	theTableView.tableHeaderView = shadow;
 	[shadow release];
+	[shadowView release];
+	[bottomShadow release];
 	
-	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 42)] autorelease];
-	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(40, 10, 240, 14)] autorelease];
+	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)] autorelease];
+	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 240, 14)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
@@ -70,7 +70,7 @@
 	poweredBy.textAlignment = UITextAlignmentCenter;
 	[tableFooter addSubview:poweredBy];
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	infoButton.center = CGPointMake(295, 14);
+	infoButton.center = CGPointMake(270, 14);
 	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[tableFooter addSubview:infoButton];
 	

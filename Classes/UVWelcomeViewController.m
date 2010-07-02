@@ -7,18 +7,17 @@
 //
 
 #import "UVWelcomeViewController.h"
-#import "UVSuggestionListViewController.h"
-#import "UVNewMessageViewController.h"
-#import "UVForum.h"
-#import "UVSession.h"
-#import "UVClientConfig.h"
-#import "UVFooterView.h"
 #import "UVStyleSheet.h"
+#import "UVFooterView.h"
+#import "UVWelcomeView.h"
+#import "UVSession.h"
+#import "UVForum.h"
+#import "UVClientConfig.h"
+#import "UVSubdomain.h"
 #import "UVQuestion.h"
 #import "UVAnswer.h"
-#import "UVSignInViewController.h"
-#import "UVTaskBar.h"
-#import "UVSubdomain.h"
+#import "UVNewMessageViewController.h"
+#import "UVSuggestionListViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define UV_FORUM_LIST_TAG_CELL_LABEL 1000
@@ -27,14 +26,15 @@
 #define UV_FORUM_LIST_TAG_CELL_MSG_TAG 1003
 
 #define UV_FORUM_LIST_SECTION_FORUMS 0
-#define UV_FORUM_LIST_SECTION_QUESTIONS 1
-#define UV_FORUM_LIST_SECTION_SUPPORT 2
+#define UV_FORUM_LIST_SECTION_SUPPORT 1
+#define UV_FORUM_LIST_SECTION_QUESTIONS 2
 
 @implementation UVWelcomeViewController
 
-@synthesize forum;
-@synthesize questions;
-@synthesize question;
+@synthesize forum = _forum, 
+	question = _question, 
+	questions = _questions, 
+	tableView = _tableView;
 
 - (NSString *)backButtonTitle {
 	return @"Welcome";
@@ -52,66 +52,91 @@
 	self.question.currentAnswer = theAnswer;
 }
 
+- (void)pushNewMessageView {
+	UVNewMessageViewController *next = [[UVNewMessageViewController alloc] init];
+	[self.navigationController pushViewController:next animated:YES];
+	[next release];
+}
+
+- (void)pushForumView {
+	UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
+	[self.navigationController pushViewController:next animated:YES];
+	[next release];
+}
+
+#pragma mark ===== table cells =====
+
+- (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	[self removeBackgroundFromCell:cell];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 55)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
+	
+	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    myButton.frame = CGRectMake(0, 0, 300, 44); // position in the parent view and set the size of the button
+    [myButton setTitle:@"" forState:UIControlStateNormal];
+    [myButton addTarget:self action:@selector(pushForumView) forControlEvents:UIControlEventTouchUpInside];
+	
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 7, 280, 30)];
+	label.lineBreakMode = UILineBreakModeTailTruncation;
+	label.numberOfLines = 1;
+	label.font = [UIFont boldSystemFontOfSize:16];
+	label.backgroundColor = [UIColor clearColor];
+	label.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
+	[cell.contentView addSubview:label];
+	[label release];		
+	[myButton addSubview:label];	
+    [cell.contentView addSubview:myButton];
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
+- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {	
+	UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_LABEL];
+	label.text = [self.forum prompt];
+}
+
 - (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader {
 	if (subheader) {
 		CGSize subSize = [subheader sizeWithFont:[UIFont systemFontOfSize:14]
 							   constrainedToSize:CGSizeMake(280, 9999)
 								   lineBreakMode:UILineBreakModeWordWrap];
-		return subSize.height + 20 + 5 + 5; // (subheader + header + padding between/bottom)
+		return subSize.height + 35 + 5 + 5; // (subheader + header + padding between/bottom)
+		
 	} else {
-		return 25 + 5; // header + padding bottom only
+		return 35 + 5; // header + padding bottom only
 	}
 }
 
-- (UIView *)viewWithHeader:(NSString *)header subheader:(NSString *)subheader {
-	CGFloat height = [self heightForViewWithHeader:header subheader:subheader];
-	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
-	headerView.backgroundColor = [UIColor clearColor];
+- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	[self removeBackgroundFromCell:cell];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 280, 20)];
-	title.text = header;
-	title.font = [UIFont boldSystemFontOfSize:18];
-	title.backgroundColor = [UIColor clearColor];
-	title.textColor = [UVStyleSheet tableViewHeaderColor];
-	[headerView addSubview:title];
-	[title release];
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 55)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
+		
+	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    myButton.frame = CGRectMake(0, 0, 300, 44); // position in the parent view and set the size of the button
+    [myButton setTitle:@"" forState:UIControlStateNormal];
+    [myButton addTarget:self action:@selector(pushNewMessageView) forControlEvents:UIControlEventTouchUpInside];
 	
-	if (subheader) {
-		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 23, 280, height - (23 + 5))];
-		subtitle.text = subheader;
-		subtitle.lineBreakMode = UILineBreakModeWordWrap;
-		subtitle.numberOfLines = 0;
-		subtitle.font = [UIFont systemFontOfSize:14];
-		subtitle.backgroundColor = [UIColor clearColor];
-		subtitle.textColor = [UVStyleSheet tableViewHeaderColor];
-		[headerView addSubview:subtitle];
-		[subtitle release];
-	}
-	
-	return headerView;
-}
-
-- (NSString *)headerTextForSection:(NSInteger)section {
-	if (section == 0) {
-		return @"Suggestions";
-		
-	} else if (section == 1) {
-		return @"Rating";
-		
-	} else {
-		return @"Support";
-	}
-}
-
-- (NSString *)subHeaderTextForSection:(NSInteger)section {
-	if (section == 0 || section == 2) {
-		return nil;
-		
-	} else {
-		NSArray *qs = [UVSession currentSession].clientConfig.questions;
-		UVQuestion *q = [qs objectAtIndex:0];
-		return q.text;
-	}
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 7, 280, 30)];
+	label.lineBreakMode = UILineBreakModeTailTruncation;
+	label.numberOfLines = 1;
+	label.font = [UIFont boldSystemFontOfSize:16];
+	label.backgroundColor = [UIColor clearColor];
+	label.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
+	[cell.contentView addSubview:label];
+	[label release];		
+	label.text = [NSString stringWithFormat:@"Contact %@", 
+						[UVSession currentSession].clientConfig.subdomain.name];
+	[myButton addSubview:label];	
+    [cell.contentView addSubview:myButton];
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)addQuestionCell:(UITableViewCell *)cell labelWithText:(NSString *)text alignment:(UITextAlignment)alignment {
@@ -136,37 +161,15 @@
 	}
 }
 
-#pragma mark ===== table cells =====
-
-- (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 250, 24)];
-	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.numberOfLines = 1;
-	label.font = [UIFont boldSystemFontOfSize:16];
-	label.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
-	[cell.contentView addSubview:label];
-	[label release];
-	
-	
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(260, 15, 12, 12)];
-	imageView.tag = UV_FORUM_LIST_TAG_CELL_IMAGE;
-	imageView.image = [UIImage imageNamed:@"uv_lock.png"];
-	[cell.contentView addSubview:imageView];
-	[imageView release];
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UILabel *textLabel = (UILabel *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_LABEL];
-	textLabel.text = [self.forum prompt];
-	
-	UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_IMAGE];
-	imageView.hidden = !self.forum.isPrivate;
-}
-
 - (void)initCellForQuestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
+	[self removeBackgroundFromCell:cell];	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	
+	NSInteger height = [UVSession currentSession].user==nil ? 100 : 80;
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, height)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
 	
 	NSArray *items = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
@@ -178,7 +181,7 @@
     // disable unless user
 	BOOL enabled = [UVSession currentSession].user != nil;
 	[segments setEnabled:enabled];
-		
+	
 	// add segments
 	[cell.contentView addSubview:segments];
 	[segments release];
@@ -186,11 +189,10 @@
 	[self addQuestionCell:cell labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
 	[self addQuestionCell:cell labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
 	[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
-		
+	
 	if (!enabled) {
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, 300, 20)];
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
-		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont boldSystemFontOfSize:14];
 		label.text = @"You will need to sign in to answer.";		
@@ -201,26 +203,54 @@
 	}
 }
 
-- (void)customizeCellForQuestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView 
-														  viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
-	[self updateSegmentsValue:segments];
-}
-
-- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;	
-	cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", 
-						   [UVSession currentSession].clientConfig.subdomain.name];
-}
+- (UIView *)viewWithHeader:(NSString *)header subheader:(NSString *)subheader {
+	CGFloat height = [self heightForViewWithHeader:header subheader:subheader];
+	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
+	headerView.backgroundColor = [UVStyleSheet lightBgColor];
 	
-#pragma mark ===== UIAlertViewDelegate Methods =====
+	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 280, 35)];
+	title.text = header;
+	title.font = [UIFont boldSystemFontOfSize:18];
+	title.backgroundColor = [UIColor clearColor];
+	title.textColor = [UVStyleSheet tableViewHeaderColor];
+	[headerView addSubview:title];
+	[title release];
+	
+	if (subheader) {
+		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 33, 280, height - (33 + 5))];
+		subtitle.text = subheader;
+		subtitle.lineBreakMode = UILineBreakModeWordWrap;
+		subtitle.numberOfLines = 0;
+		subtitle.font = [UIFont systemFontOfSize:14];
+		subtitle.backgroundColor = [UIColor clearColor];
+		subtitle.textColor = [UVStyleSheet tableViewHeaderColor];
+		[headerView addSubview:subtitle];
+		[subtitle release];
+	}
+	
+	return headerView;
+}
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == alertView.firstOtherButtonIndex) {
-		NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8",
-						 [UVSession currentSession].clientConfig.itunesApplicationId];
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+- (NSString *)headerTextForSection:(NSInteger)section {
+	if (section == 0) {
+		return @"Suggestions";
+		
+	} else if (section == 1) {
+		return @"Support";
+		
+	} else {
+		return @"Rating";
+	}
+}
+
+- (NSString *)subHeaderTextForSection:(NSInteger)section {
+	if (section <= 1) {
+		return nil;
+		
+	} else {
+		NSArray *qs = [UVSession currentSession].clientConfig.questions;
+		UVQuestion *q = [qs objectAtIndex:0];
+		return q.text;
 	}
 }
 
@@ -228,18 +258,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier = @"";
-	BOOL selectable = YES;
-	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	
+	BOOL selectable = NO;
+	UITableViewCellStyle style = UITableViewCellStyleDefault;	
 	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
 		identifier = @"Forum";
-
-	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
-		identifier = @"Question";
-		if ([UVSession currentSession].user != nil)
-			selectable = NO;
+		
 	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {
 		identifier = @"Support";
+		
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
+		identifier = @"Question";
+		if ([UVSession currentSession].user == nil)
+			selectable = YES;
+		
 	}
 	
 	return [self createCellForIdentifier:identifier
@@ -267,10 +298,10 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0 || indexPath.section == 2) {
+	if (indexPath.section <= 1) {
 		return 45;
 	} else {
-		return [UVSession currentSession].user==nil ? 80 : 60;
+		return [UVSession currentSession].user==nil ? 90 : 70;
 	}
 }
 
@@ -285,40 +316,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return 18.0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 18)] autorelease];
-}
-
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	switch (indexPath.section) {
-		case UV_FORUM_LIST_SECTION_FORUMS: {			
-			UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
-			[self.navigationController pushViewController:next animated:YES];
-			[next release];
-			break;
-		}
-		case UV_FORUM_LIST_SECTION_QUESTIONS: {
-			if ([UVSession currentSession].user==nil) {
-				UVSignInViewController *next = [[UVSignInViewController alloc] init];
-				[self.navigationController pushViewController:next animated:YES];
-				[next release];
-			}
-			break;
-		}
-		case UV_FORUM_LIST_SECTION_SUPPORT: {
-			UVNewMessageViewController *next = [[UVNewMessageViewController alloc] init];
-			[self.navigationController pushViewController:next animated:YES];
-			[next release];
-			break;
-		}
-		default:
-			break;
-	}
+	return 0.0; //18.0;
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -327,53 +325,50 @@
 - (void)loadView {
 	[super loadView];
 	[self.navigationItem setHidesBackButton:YES animated:NO];
-
-	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	//UVShadowedTableView *theTableView = [UVShadowedTableView shadowedTableViewForController:self];
+	
+	CGRect frame = [self contentFrame];	
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	theTableView.backgroundColor = [UIColor clearColor];
+	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+	theTableView.sectionFooterHeight = 0.0;
+	theTableView.sectionHeaderHeight = 0.0;
 	
-	UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
-	tableHeaderView.backgroundColor = [UIColor clearColor];
-	theTableView.tableHeaderView = tableHeaderView;
-	[tableHeaderView release];
+	UIView *topShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];  
+	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];
 	
-	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
+	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+	[topShadow addSubview:shadowView];	
+	theTableView.tableHeaderView = shadowView;
 	
-	self.tableView = theTableView;
-	[contentView addSubview:theTableView];
+	[shadow release];
+	[shadowView release];
+	[topShadow release];
+
+	theTableView.tableFooterView = [UVFooterView footerViewForController:self];		
+	
+	self.view = theTableView;	
 	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];
-	
-	[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-
-	self.forum = [UVSession currentSession].clientConfig.forum;
+	
+	_forum = [UVSession currentSession].clientConfig.forum;
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
-		self.questions = [UVSession currentSession].clientConfig.questions;
-		self.question = [self.questions objectAtIndex:0];
+		_questions = [UVSession currentSession].clientConfig.questions;
+		_question = [_questions objectAtIndex:0];
 	}
 	
-	if ([UVSession currentSession].user != nil) {
-		// remove login warning and set active
-		[[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
-		UISegmentedControl *segments = 
-			(UISegmentedControl *)[self.view viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
-		[segments setEnabled:YES]; 
-	}
-	[self.tableView reloadData];
-	
-	// Reload footer view, in case the user has changed (logged in or unlinked)
-	UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-	[footer reloadFooter];
+//	if ([UVSession currentSession].user != nil) {
+//		// remove login warning and set active
+//		[[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
+//		UISegmentedControl *segments = 
+//		(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+//		[segments setEnabled:YES]; 
+//	}	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -386,29 +381,11 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.forum = nil;
-	self.question = nil;
 }
 
 
 - (void)dealloc {
     [super dealloc];
-	[questions release];
 }
-
-
-// Prompt for app store review if the returned rating indicates this (driven by
-// server side logic based on rating value) and if we actually have an app id.
-//	if (theRating.flashType &&
-//		[theRating.flashType isEqualToString:@"app_store_rating"] &&
-//		[UVSession currentSession].clientConfig.itunesApplicationId) {
-//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rating"
-//														message:theRating.flashMessage
-//													   delegate:self
-//											  cancelButtonTitle:@"Cancel"
-//											  otherButtonTitles:@"OK", nil];
-//		[alert show];
-//		[alert release];
-//	}
 
 @end
