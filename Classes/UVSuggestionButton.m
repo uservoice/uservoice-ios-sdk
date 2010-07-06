@@ -82,10 +82,7 @@
 	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
 	
 	label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY];
-	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
-	
-//	UVSuggestionChickletView *chicklet = 
-//		(UVSuggestionChickletView *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET];	
+	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];	
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

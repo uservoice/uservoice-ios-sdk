@@ -77,8 +77,10 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-	[self addHighlightToCell:cell];
+	CGRect contentRect = cell.contentView.bounds;
+	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
+	[button addTarget:self action:@selector(retrieveMoreSuggestions) forControlEvents:UIControlEventTouchUpInside];	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// Can't use built-in textLabel, as this forces a white background
 	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, 320, 18)];
@@ -87,8 +89,11 @@
 	textLabel.backgroundColor = [UIColor clearColor];
 	textLabel.font = [UIFont boldSystemFontOfSize:18];
 	textLabel.textAlignment = UITextAlignmentCenter;
-	[cell.contentView addSubview:textLabel];
+	[button addSubview:textLabel];
 	[textLabel release];
+		
+	[cell.contentView addSubview:button];
+	[button release];
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

@@ -57,10 +57,21 @@
 	return [self retain];
 }
 
+- (void)updateLayoutsForHighlighted {
+	for (UIView *subview in self.subviews) {
+		UIColor *color;
+		if ([subview respondsToSelector:NSSelectorFromString(@"textColor")]) {			
+			color = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
+			[(UILabel *)subview textColor:color];	
+		}
+    }
+}
+
 - (void)setHighlighted:(BOOL)highlighted {
 	if ([self isHighlighted] != highlighted) {
 		[super setHighlighted:highlighted];	
 		
+		[self updateLayoutsForHighlighted];		
 		[self setNeedsDisplay];
 	}
 }

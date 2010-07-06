@@ -20,6 +20,7 @@
 #import "UVFooterView.h"
 #import "UVTextEditor.h"
 #import "UVBaseGroupedCell.h"
+#import "UVButtonWithIndex.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -102,14 +103,25 @@
 	return YES;
 }
 
+- (void)addSuggestion:(UVButtonWithIndex *)button {
+	UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
+																						 title:_textEditor.text];
+	[self.navigationController pushViewController:next animated:YES];
+	[next release];
+}
+
 #pragma mark ===== UITableViewDataSource Methods =====
 
 // Overridden from superclass. In this case the Extra cell is responsible for
 // creating a new suggestion.
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-	[self addHighlightToCell:cell];
+	// getting the cell size
+    CGRect contentRect = cell.contentView.bounds;
+	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
+	[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];	
 	
+	[cell.contentView addSubview:button];
+	[button release];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
@@ -175,7 +187,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
-	BOOL selectable = YES;
+	BOOL selectable = NO;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
 	
@@ -226,21 +238,6 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	return nil;
-}
-
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
-	
-	if (indexPath.row == [self.suggestions count] && (suggestionsCount > [self.suggestions count])) {
-		[self retrieveMoreSuggestions];
-		
-	} else {
-		UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
-																							 title:_textEditor.text];
-		[self.navigationController pushViewController:next animated:YES];
-		[next release];
-	}
-	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)setLeftBarButtonCancel {

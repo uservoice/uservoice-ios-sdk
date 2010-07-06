@@ -49,8 +49,8 @@
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							[[NSNumber numberWithInt:page] stringValue],
-							@"page",
+							[[NSNumber numberWithInt:page] stringValue], @"page",
+							@"5", @"per_page",
 							nil];
 	return [self getPath:path
 			  withParams:params
