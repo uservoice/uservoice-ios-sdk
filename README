@@ -3,9 +3,6 @@ Overview
 
 IMPORTANT: The UserVoice iPhone SDK is currently in beta, if you wish to try it out please visit this url to request access:
 
-REALLY IMPORTANT: This version of the library does not play well with others apps using the Three20 library, 
-                  one that does is on the way!
-
 http://www.uservoice.com/iphone
 
 The UserVoice iPhone SDK is distributed as a XCode Project which you can use to build static libraries to compile against. 
@@ -42,7 +39,7 @@ Update Build Settings
 
 * Click on the General tab.
 * In 'Direct Dependencies' click add and choose UserVoice.
-* In 'Linked Libraries' add QuartzCore.framework, SystemConfiguration.framework, and libxml2.dylib.
+* In 'Linked Libraries' add QuartzCore.framework, SystemConfiguration.framework.
 
 * Click on the Build tab.
 * Make sure that the Configuration drop-down shows "All Configurations".
