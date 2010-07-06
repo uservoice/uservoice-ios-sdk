@@ -217,14 +217,15 @@
 
 - (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
+	NSInteger height = [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, 320, [self textSize].height)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, 320, height)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 
 	// The default margins are too large for the body, so we're using our own label.
-	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, [self textSize].height)] autorelease];
+	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, 300, [self textSize].height)] autorelease];
 	body.text = self.suggestion.text;
 	body.font = [UIFont systemFontOfSize:13];
 	body.lineBreakMode = UILineBreakModeWordWrap;
@@ -370,7 +371,7 @@
 			return 73;
 			break;
 		case UV_SUGGESTION_DETAILS_SECTION_BODY:
-			return [self textSize].height;
+			return [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 			break;
 		case UV_SUGGESTION_DETAILS_SECTION_CREATOR:
 			return 71;
@@ -436,7 +437,8 @@
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
 	
-	NSInteger height = [self textSize].height + MAX([self titleSize].height + 347, 383);
+	NSInteger height = MAX([self titleSize].height + 347, 383);
+	height += [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];  
 	headerView.backgroundColor = [UIColor clearColor];
 	

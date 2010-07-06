@@ -353,7 +353,6 @@
 		D2620C6211B586230053EA4C /* uv_user_chicklet_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_user_chicklet_light.png; sourceTree = "<group>"; };
 		D2620C6311B586230053EA4C /* uv_vote_chicklet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_vote_chicklet.png; sourceTree = "<group>"; };
 		D2620C6411B586230053EA4C /* uv_vote_chicklet_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_vote_chicklet_empty.png; sourceTree = "<group>"; };
-		D2620D2B11B589F80053EA4C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D2620EAF11B597290053EA4C /* NSDictionary+ParamUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ParamUtils.h"; sourceTree = "<group>"; };
 		D2620EB011B597290053EA4C /* NSDictionary+ParamUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ParamUtils.m"; sourceTree = "<group>"; };
@@ -437,7 +436,6 @@
 				034768DFFF38A50411DB9C8B /* Products */,
 				AC61BF4B1089119500BCD3F2 /* CoreGraphics.framework */,
 				AC61BF4E1089119500BCD3F2 /* UIKit.framework */,
-				D2620D2B11B589F80053EA4C /* libxml2.dylib */,
 				D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */,
 				D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */,
 			);
