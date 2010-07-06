@@ -118,7 +118,7 @@ If you want to distribute HTTPRiot.framework with your application you'll need t
 
 #import <Foundation/Foundation.h>
 
-#import "AIXMLSerialization.h"
+//#import "AIXMLSerialization.h"
 #import "JSON.h"
 
 #import "HROperationQueue.h"

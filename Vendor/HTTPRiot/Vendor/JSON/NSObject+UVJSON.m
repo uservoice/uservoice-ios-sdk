@@ -27,13 +27,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSObject+SBJSON.h"
-#import "SBJsonWriter.h"
+#import "NSObject+UVJSON.h"
+#import "UVJsonWriter.h"
 
-@implementation NSObject (NSObject_SBJSON)
+@implementation NSObject (NSObject_UVJSON)
 
 - (NSString *)JSONFragment {
-    SBJsonWriter *jsonWriter = [SBJsonWriter new];
+    UVJsonWriter *jsonWriter = [UVJsonWriter new];
     NSString *json = [jsonWriter stringWithFragment:self];    
     if (!json)
         NSLog(@"-JSONFragment failed. Error trace is: %@", [jsonWriter errorTrace]);
@@ -42,7 +42,7 @@
 }
 
 - (NSString *)JSONRepresentation {
-    SBJsonWriter *jsonWriter = [SBJsonWriter new];    
+    UVJsonWriter *jsonWriter = [UVJsonWriter new];    
     NSString *json = [jsonWriter stringWithObject:self];
     if (!json)
         NSLog(@"-JSONRepresentation failed. Error trace is: %@", [jsonWriter errorTrace]);

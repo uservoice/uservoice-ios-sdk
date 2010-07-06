@@ -52,7 +52,7 @@ typedef enum {
     /// JSON Format
     HRDataFormatJSON,
     /// XML Format
-    HRDataFormatXML
+    //HRDataFormatXML
 } HRDataFormat;
 
 /// HTTPRiot's error domain

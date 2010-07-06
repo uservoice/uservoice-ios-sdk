@@ -150,8 +150,6 @@
 		D2620F0311B597290053EA4C /* NSString+EscapingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EB411B597290053EA4C /* NSString+EscapingUtils.m */; };
 		D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EB611B597290053EA4C /* HRFormatJSON.h */; };
 		D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EB711B597290053EA4C /* HRFormatJSON.m */; };
-		D2620F0611B597290053EA4C /* HRFormatXML.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EB811B597290053EA4C /* HRFormatXML.h */; };
-		D2620F0711B597290053EA4C /* HRFormatXML.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EB911B597290053EA4C /* HRFormatXML.m */; };
 		D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EBA11B597290053EA4C /* HRFormatterProtocol.h */; };
 		D2620F0911B597290053EA4C /* HRGlobal.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EBB11B597290053EA4C /* HRGlobal.h */; };
 		D2620F0A11B597290053EA4C /* HRGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EBC11B597290053EA4C /* HRGlobal.m */; };
@@ -166,36 +164,19 @@
 		D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */; };
 		D2620F1411B597290053EA4C /* HRBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC711B597290053EA4C /* HRBase64.h */; };
 		D2620F1511B597290053EA4C /* HRBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EC811B597290053EA4C /* HRBase64.m */; };
-		D2620F1611B597290053EA4C /* AIXMLDocumentSerialize.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ECB11B597290053EA4C /* AIXMLDocumentSerialize.h */; };
-		D2620F1711B597290053EA4C /* AIXMLDocumentSerialize.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ECC11B597290053EA4C /* AIXMLDocumentSerialize.m */; };
-		D2620F1811B597290053EA4C /* AIXMLElementSerialize.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ECD11B597290053EA4C /* AIXMLElementSerialize.h */; };
-		D2620F1911B597290053EA4C /* AIXMLElementSerialize.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ECE11B597290053EA4C /* AIXMLElementSerialize.m */; };
-		D2620F1A11B597290053EA4C /* AIXMLSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ECF11B597290053EA4C /* AIXMLSerialization.h */; };
 		D2620F1B11B597290053EA4C /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED211B597290053EA4C /* JSON.h */; };
-		D2620F1C11B597290053EA4C /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED311B597290053EA4C /* NSObject+SBJSON.h */; };
-		D2620F1D11B597290053EA4C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED411B597290053EA4C /* NSObject+SBJSON.m */; };
-		D2620F1E11B597290053EA4C /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED511B597290053EA4C /* NSString+SBJSON.h */; };
-		D2620F1F11B597290053EA4C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED611B597290053EA4C /* NSString+SBJSON.m */; };
-		D2620F2011B597290053EA4C /* SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED711B597290053EA4C /* SBJSON.h */; };
-		D2620F2111B597290053EA4C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED811B597290053EA4C /* SBJSON.m */; };
-		D2620F2211B597290053EA4C /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED911B597290053EA4C /* SBJsonBase.h */; };
-		D2620F2311B597290053EA4C /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDA11B597290053EA4C /* SBJsonBase.m */; };
-		D2620F2411B597290053EA4C /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDB11B597290053EA4C /* SBJsonParser.h */; };
-		D2620F2511B597290053EA4C /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDC11B597290053EA4C /* SBJsonParser.m */; };
-		D2620F2611B597290053EA4C /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDD11B597290053EA4C /* SBJsonWriter.h */; };
-		D2620F2711B597290053EA4C /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDE11B597290053EA4C /* SBJsonWriter.m */; };
-		D2620F2811B597290053EA4C /* DDXML.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EE011B597290053EA4C /* DDXML.h */; };
-		D2620F2911B597290053EA4C /* DDXMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EE111B597290053EA4C /* DDXMLDocument.h */; };
-		D2620F2A11B597290053EA4C /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EE211B597290053EA4C /* DDXMLDocument.m */; };
-		D2620F2B11B597290053EA4C /* DDXMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EE311B597290053EA4C /* DDXMLElement.h */; };
-		D2620F2C11B597290053EA4C /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EE411B597290053EA4C /* DDXMLElement.m */; };
-		D2620F2D11B597290053EA4C /* DDXMLElementAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EE511B597290053EA4C /* DDXMLElementAdditions.h */; };
-		D2620F2E11B597290053EA4C /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EE611B597290053EA4C /* DDXMLElementAdditions.m */; };
-		D2620F2F11B597290053EA4C /* DDXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EE711B597290053EA4C /* DDXMLNode.h */; };
-		D2620F3011B597290053EA4C /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EE811B597290053EA4C /* DDXMLNode.m */; };
-		D2620F3111B597290053EA4C /* DDXMLPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EE911B597290053EA4C /* DDXMLPrivate.h */; };
-		D2620F3211B597290053EA4C /* NSStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EEA11B597290053EA4C /* NSStringAdditions.h */; };
-		D2620F3311B597290053EA4C /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EEB11B597290053EA4C /* NSStringAdditions.m */; };
+		D2620F1C11B597290053EA4C /* NSObject+UVJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED311B597290053EA4C /* NSObject+UVJSON.h */; };
+		D2620F1D11B597290053EA4C /* NSObject+UVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED411B597290053EA4C /* NSObject+UVJSON.m */; };
+		D2620F1E11B597290053EA4C /* NSString+UVJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED511B597290053EA4C /* NSString+UVJSON.h */; };
+		D2620F1F11B597290053EA4C /* NSString+UVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED611B597290053EA4C /* NSString+UVJSON.m */; };
+		D2620F2011B597290053EA4C /* UVJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED711B597290053EA4C /* UVJSON.h */; };
+		D2620F2111B597290053EA4C /* UVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED811B597290053EA4C /* UVJSON.m */; };
+		D2620F2211B597290053EA4C /* UVJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED911B597290053EA4C /* UVJsonBase.h */; };
+		D2620F2311B597290053EA4C /* UVJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDA11B597290053EA4C /* UVJsonBase.m */; };
+		D2620F2411B597290053EA4C /* UVJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDB11B597290053EA4C /* UVJsonParser.h */; };
+		D2620F2511B597290053EA4C /* UVJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDC11B597290053EA4C /* UVJsonParser.m */; };
+		D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDD11B597290053EA4C /* UVJsonWriter.h */; };
+		D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDE11B597290053EA4C /* UVJsonWriter.m */; };
 		D26B487E11DEAA4500B096D0 /* UVBaseGroupedCell.h in Headers */ = {isa = PBXBuildFile; fileRef = D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */; };
 		D26B487F11DEAA4500B096D0 /* UVBaseGroupedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */; };
 		D270CC2F11E07C640001E524 /* UVSuggestionFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = D270CC2D11E07C640001E524 /* UVSuggestionFooterView.h */; };
@@ -383,8 +364,6 @@
 		D2620EB411B597290053EA4C /* NSString+EscapingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EscapingUtils.m"; sourceTree = "<group>"; };
 		D2620EB611B597290053EA4C /* HRFormatJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRFormatJSON.h; sourceTree = "<group>"; };
 		D2620EB711B597290053EA4C /* HRFormatJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRFormatJSON.m; sourceTree = "<group>"; };
-		D2620EB811B597290053EA4C /* HRFormatXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRFormatXML.h; sourceTree = "<group>"; };
-		D2620EB911B597290053EA4C /* HRFormatXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRFormatXML.m; sourceTree = "<group>"; };
 		D2620EBA11B597290053EA4C /* HRFormatterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRFormatterProtocol.h; sourceTree = "<group>"; };
 		D2620EBB11B597290053EA4C /* HRGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRGlobal.h; sourceTree = "<group>"; };
 		D2620EBC11B597290053EA4C /* HRGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRGlobal.m; sourceTree = "<group>"; };
@@ -399,37 +378,20 @@
 		D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPRiot_Prefix.pch; sourceTree = "<group>"; };
 		D2620EC711B597290053EA4C /* HRBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRBase64.h; sourceTree = "<group>"; };
 		D2620EC811B597290053EA4C /* HRBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRBase64.m; sourceTree = "<group>"; };
-		D2620ECB11B597290053EA4C /* AIXMLDocumentSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIXMLDocumentSerialize.h; sourceTree = "<group>"; };
-		D2620ECC11B597290053EA4C /* AIXMLDocumentSerialize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIXMLDocumentSerialize.m; sourceTree = "<group>"; };
-		D2620ECD11B597290053EA4C /* AIXMLElementSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIXMLElementSerialize.h; sourceTree = "<group>"; };
-		D2620ECE11B597290053EA4C /* AIXMLElementSerialize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIXMLElementSerialize.m; sourceTree = "<group>"; };
-		D2620ECF11B597290053EA4C /* AIXMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIXMLSerialization.h; sourceTree = "<group>"; };
 		D2620ED111B597290053EA4C /* CREDITS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS; sourceTree = "<group>"; };
 		D2620ED211B597290053EA4C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		D2620ED311B597290053EA4C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		D2620ED411B597290053EA4C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
-		D2620ED511B597290053EA4C /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		D2620ED611B597290053EA4C /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
-		D2620ED711B597290053EA4C /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
-		D2620ED811B597290053EA4C /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
-		D2620ED911B597290053EA4C /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		D2620EDA11B597290053EA4C /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
-		D2620EDB11B597290053EA4C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		D2620EDC11B597290053EA4C /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
-		D2620EDD11B597290053EA4C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		D2620EDE11B597290053EA4C /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		D2620EE011B597290053EA4C /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
-		D2620EE111B597290053EA4C /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
-		D2620EE211B597290053EA4C /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
-		D2620EE311B597290053EA4C /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
-		D2620EE411B597290053EA4C /* DDXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElement.m; sourceTree = "<group>"; };
-		D2620EE511B597290053EA4C /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
-		D2620EE611B597290053EA4C /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
-		D2620EE711B597290053EA4C /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
-		D2620EE811B597290053EA4C /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
-		D2620EE911B597290053EA4C /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
-		D2620EEA11B597290053EA4C /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
-		D2620EEB11B597290053EA4C /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
+		D2620ED311B597290053EA4C /* NSObject+UVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+UVJSON.h"; sourceTree = "<group>"; };
+		D2620ED411B597290053EA4C /* NSObject+UVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+UVJSON.m"; sourceTree = "<group>"; };
+		D2620ED511B597290053EA4C /* NSString+UVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UVJSON.h"; sourceTree = "<group>"; };
+		D2620ED611B597290053EA4C /* NSString+UVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UVJSON.m"; sourceTree = "<group>"; };
+		D2620ED711B597290053EA4C /* UVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJSON.h; sourceTree = "<group>"; };
+		D2620ED811B597290053EA4C /* UVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJSON.m; sourceTree = "<group>"; };
+		D2620ED911B597290053EA4C /* UVJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonBase.h; sourceTree = "<group>"; };
+		D2620EDA11B597290053EA4C /* UVJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonBase.m; sourceTree = "<group>"; };
+		D2620EDB11B597290053EA4C /* UVJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonParser.h; sourceTree = "<group>"; };
+		D2620EDC11B597290053EA4C /* UVJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonParser.m; sourceTree = "<group>"; };
+		D2620EDD11B597290053EA4C /* UVJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonWriter.h; sourceTree = "<group>"; };
+		D2620EDE11B597290053EA4C /* UVJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonWriter.m; sourceTree = "<group>"; };
 		D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseGroupedCell.h; sourceTree = "<group>"; };
 		D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseGroupedCell.m; sourceTree = "<group>"; };
 		D26EA79811B5D6AE00D13F85 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -788,8 +750,6 @@
 			children = (
 				D2620EB611B597290053EA4C /* HRFormatJSON.h */,
 				D2620EB711B597290053EA4C /* HRFormatJSON.m */,
-				D2620EB811B597290053EA4C /* HRFormatXML.h */,
-				D2620EB911B597290053EA4C /* HRFormatXML.m */,
 				D2620EBA11B597290053EA4C /* HRFormatterProtocol.h */,
 			);
 			path = Formatters;
@@ -807,23 +767,9 @@
 		D2620EC911B597290053EA4C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				D2620ECA11B597290053EA4C /* AIXMLSerialization */,
 				D2620ED011B597290053EA4C /* JSON */,
-				D2620EDF11B597290053EA4C /* KissXML */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		D2620ECA11B597290053EA4C /* AIXMLSerialization */ = {
-			isa = PBXGroup;
-			children = (
-				D2620ECB11B597290053EA4C /* AIXMLDocumentSerialize.h */,
-				D2620ECC11B597290053EA4C /* AIXMLDocumentSerialize.m */,
-				D2620ECD11B597290053EA4C /* AIXMLElementSerialize.h */,
-				D2620ECE11B597290053EA4C /* AIXMLElementSerialize.m */,
-				D2620ECF11B597290053EA4C /* AIXMLSerialization.h */,
-			);
-			path = AIXMLSerialization;
 			sourceTree = "<group>";
 		};
 		D2620ED011B597290053EA4C /* JSON */ = {
@@ -831,39 +777,20 @@
 			children = (
 				D2620ED111B597290053EA4C /* CREDITS */,
 				D2620ED211B597290053EA4C /* JSON.h */,
-				D2620ED311B597290053EA4C /* NSObject+SBJSON.h */,
-				D2620ED411B597290053EA4C /* NSObject+SBJSON.m */,
-				D2620ED511B597290053EA4C /* NSString+SBJSON.h */,
-				D2620ED611B597290053EA4C /* NSString+SBJSON.m */,
-				D2620ED711B597290053EA4C /* SBJSON.h */,
-				D2620ED811B597290053EA4C /* SBJSON.m */,
-				D2620ED911B597290053EA4C /* SBJsonBase.h */,
-				D2620EDA11B597290053EA4C /* SBJsonBase.m */,
-				D2620EDB11B597290053EA4C /* SBJsonParser.h */,
-				D2620EDC11B597290053EA4C /* SBJsonParser.m */,
-				D2620EDD11B597290053EA4C /* SBJsonWriter.h */,
-				D2620EDE11B597290053EA4C /* SBJsonWriter.m */,
+				D2620ED311B597290053EA4C /* NSObject+UVJSON.h */,
+				D2620ED411B597290053EA4C /* NSObject+UVJSON.m */,
+				D2620ED511B597290053EA4C /* NSString+UVJSON.h */,
+				D2620ED611B597290053EA4C /* NSString+UVJSON.m */,
+				D2620ED711B597290053EA4C /* UVJSON.h */,
+				D2620ED811B597290053EA4C /* UVJSON.m */,
+				D2620ED911B597290053EA4C /* UVJsonBase.h */,
+				D2620EDA11B597290053EA4C /* UVJsonBase.m */,
+				D2620EDB11B597290053EA4C /* UVJsonParser.h */,
+				D2620EDC11B597290053EA4C /* UVJsonParser.m */,
+				D2620EDD11B597290053EA4C /* UVJsonWriter.h */,
+				D2620EDE11B597290053EA4C /* UVJsonWriter.m */,
 			);
 			path = JSON;
-			sourceTree = "<group>";
-		};
-		D2620EDF11B597290053EA4C /* KissXML */ = {
-			isa = PBXGroup;
-			children = (
-				D2620EE011B597290053EA4C /* DDXML.h */,
-				D2620EE111B597290053EA4C /* DDXMLDocument.h */,
-				D2620EE211B597290053EA4C /* DDXMLDocument.m */,
-				D2620EE311B597290053EA4C /* DDXMLElement.h */,
-				D2620EE411B597290053EA4C /* DDXMLElement.m */,
-				D2620EE511B597290053EA4C /* DDXMLElementAdditions.h */,
-				D2620EE611B597290053EA4C /* DDXMLElementAdditions.m */,
-				D2620EE711B597290053EA4C /* DDXMLNode.h */,
-				D2620EE811B597290053EA4C /* DDXMLNode.m */,
-				D2620EE911B597290053EA4C /* DDXMLPrivate.h */,
-				D2620EEA11B597290053EA4C /* NSStringAdditions.h */,
-				D2620EEB11B597290053EA4C /* NSStringAdditions.m */,
-			);
-			path = KissXML;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -938,7 +865,6 @@
 				D2620F0011B597290053EA4C /* NSObject+InvocationUtils.h in Headers */,
 				D2620F0211B597290053EA4C /* NSString+EscapingUtils.h in Headers */,
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
-				D2620F0611B597290053EA4C /* HRFormatXML.h in Headers */,
 				D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */,
 				D2620F0911B597290053EA4C /* HRGlobal.h in Headers */,
 				D2620F0B11B597290053EA4C /* HROperationQueue.h in Headers */,
@@ -948,23 +874,13 @@
 				D2620F1211B597290053EA4C /* HTTPRiot.h in Headers */,
 				D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */,
 				D2620F1411B597290053EA4C /* HRBase64.h in Headers */,
-				D2620F1611B597290053EA4C /* AIXMLDocumentSerialize.h in Headers */,
-				D2620F1811B597290053EA4C /* AIXMLElementSerialize.h in Headers */,
-				D2620F1A11B597290053EA4C /* AIXMLSerialization.h in Headers */,
 				D2620F1B11B597290053EA4C /* JSON.h in Headers */,
-				D2620F1C11B597290053EA4C /* NSObject+SBJSON.h in Headers */,
-				D2620F1E11B597290053EA4C /* NSString+SBJSON.h in Headers */,
-				D2620F2011B597290053EA4C /* SBJSON.h in Headers */,
-				D2620F2211B597290053EA4C /* SBJsonBase.h in Headers */,
-				D2620F2411B597290053EA4C /* SBJsonParser.h in Headers */,
-				D2620F2611B597290053EA4C /* SBJsonWriter.h in Headers */,
-				D2620F2811B597290053EA4C /* DDXML.h in Headers */,
-				D2620F2911B597290053EA4C /* DDXMLDocument.h in Headers */,
-				D2620F2B11B597290053EA4C /* DDXMLElement.h in Headers */,
-				D2620F2D11B597290053EA4C /* DDXMLElementAdditions.h in Headers */,
-				D2620F2F11B597290053EA4C /* DDXMLNode.h in Headers */,
-				D2620F3111B597290053EA4C /* DDXMLPrivate.h in Headers */,
-				D2620F3211B597290053EA4C /* NSStringAdditions.h in Headers */,
+				D2620F1C11B597290053EA4C /* NSObject+UVJSON.h in Headers */,
+				D2620F1E11B597290053EA4C /* NSString+UVJSON.h in Headers */,
+				D2620F2011B597290053EA4C /* UVJSON.h in Headers */,
+				D2620F2211B597290053EA4C /* UVJsonBase.h in Headers */,
+				D2620F2411B597290053EA4C /* UVJsonParser.h in Headers */,
+				D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */,
 				D24BDC6211DAA94200B26012 /* UIView+UVExtras.h in Headers */,
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextEditor.h in Headers */,
@@ -1086,25 +1002,17 @@
 				D2620F0111B597290053EA4C /* NSObject+InvocationUtils.m in Sources */,
 				D2620F0311B597290053EA4C /* NSString+EscapingUtils.m in Sources */,
 				D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */,
-				D2620F0711B597290053EA4C /* HRFormatXML.m in Sources */,
 				D2620F0A11B597290053EA4C /* HRGlobal.m in Sources */,
 				D2620F0C11B597290053EA4C /* HROperationQueue.m in Sources */,
 				D2620F0E11B597290053EA4C /* HRRequestOperation.m in Sources */,
 				D2620F1111B597290053EA4C /* HRRestModel.m in Sources */,
 				D2620F1511B597290053EA4C /* HRBase64.m in Sources */,
-				D2620F1711B597290053EA4C /* AIXMLDocumentSerialize.m in Sources */,
-				D2620F1911B597290053EA4C /* AIXMLElementSerialize.m in Sources */,
-				D2620F1D11B597290053EA4C /* NSObject+SBJSON.m in Sources */,
-				D2620F1F11B597290053EA4C /* NSString+SBJSON.m in Sources */,
-				D2620F2111B597290053EA4C /* SBJSON.m in Sources */,
-				D2620F2311B597290053EA4C /* SBJsonBase.m in Sources */,
-				D2620F2511B597290053EA4C /* SBJsonParser.m in Sources */,
-				D2620F2711B597290053EA4C /* SBJsonWriter.m in Sources */,
-				D2620F2A11B597290053EA4C /* DDXMLDocument.m in Sources */,
-				D2620F2C11B597290053EA4C /* DDXMLElement.m in Sources */,
-				D2620F2E11B597290053EA4C /* DDXMLElementAdditions.m in Sources */,
-				D2620F3011B597290053EA4C /* DDXMLNode.m in Sources */,
-				D2620F3311B597290053EA4C /* NSStringAdditions.m in Sources */,
+				D2620F1D11B597290053EA4C /* NSObject+UVJSON.m in Sources */,
+				D2620F1F11B597290053EA4C /* NSString+UVJSON.m in Sources */,
+				D2620F2111B597290053EA4C /* UVJSON.m in Sources */,
+				D2620F2311B597290053EA4C /* UVJsonBase.m in Sources */,
+				D2620F2511B597290053EA4C /* UVJsonParser.m in Sources */,
+				D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */,
 				D24BDC6311DAA94200B26012 /* UIView+UVExtras.m in Sources */,
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */,

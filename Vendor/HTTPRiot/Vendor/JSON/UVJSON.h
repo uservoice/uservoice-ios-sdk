@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2009 Stig Brautaset. All rights reserved.
+ Copyright (C) 2007-2009 Stig Brautaset. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,52 +27,49 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SBJsonBase.h"
-NSString * SBJSONErrorDomain = @"org.brautaset.JSON.ErrorDomain";
+#import <Foundation/Foundation.h>
+#import "UVJsonParser.h"
+#import "UVJsonWriter.h"
 
+/**
+ @brief Facade for UVJsonWriter/UVJsonParser.
 
-@implementation SBJsonBase
+ Requests are forwarded to instances of UVJsonWriter and UVJsonParser.
+ */
+@interface UVJSON : UVJsonBase <UVJsonParser, UVJsonWriter> {
 
-@synthesize errorTrace;
-@synthesize maxDepth;
-
-- (id)init {
-    self = [super init];
-    if (self)
-        self.maxDepth = 512;
-    return self;
+@private    
+    UVJsonParser *jsonParser;
+    UVJsonWriter *jsonWriter;
 }
 
-- (void)dealloc {
-    [errorTrace release];
-    [super dealloc];
-}
 
-- (void)addErrorWithCode:(NSUInteger)code description:(NSString*)str {
-    NSDictionary *userInfo;
-    if (!errorTrace) {
-        errorTrace = [NSMutableArray new];
-        userInfo = [NSDictionary dictionaryWithObject:str forKey:NSLocalizedDescriptionKey];
-        
-    } else {
-        userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                    str, NSLocalizedDescriptionKey,
-                    [errorTrace lastObject], NSUnderlyingErrorKey,
-                    nil];
-    }
-    
-    NSError *error = [NSError errorWithDomain:SBJSONErrorDomain code:code userInfo:userInfo];
+/// Return the fragment represented by the given string
+- (id)fragmentWithString:(NSString*)jsonrep
+                   error:(NSError**)error;
 
-    [self willChangeValueForKey:@"errorTrace"];
-    [errorTrace addObject:error];
-    [self didChangeValueForKey:@"errorTrace"];
-}
+/// Return the object represented by the given string
+- (id)objectWithString:(NSString*)jsonrep
+                 error:(NSError**)error;
 
-- (void)clearErrorTrace {
-    [self willChangeValueForKey:@"errorTrace"];
-    [errorTrace release];
-    errorTrace = nil;
-    [self didChangeValueForKey:@"errorTrace"];
-}
+/// Parse the string and return the represented object (or scalar)
+- (id)objectWithString:(id)value
+           allowScalar:(BOOL)x
+    			 error:(NSError**)error;
+
+
+/// Return JSON representation of an array  or dictionary
+- (NSString*)stringWithObject:(id)value
+                        error:(NSError**)error;
+
+/// Return JSON representation of any legal JSON value
+- (NSString*)stringWithFragment:(id)value
+                          error:(NSError**)error;
+
+/// Return JSON representation (or fragment) for the given object
+- (NSString*)stringWithObject:(id)value
+                  allowScalar:(BOOL)x
+    					error:(NSError**)error;
+
 
 @end

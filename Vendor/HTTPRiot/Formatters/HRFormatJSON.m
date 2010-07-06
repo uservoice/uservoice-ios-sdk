@@ -26,7 +26,7 @@
     }
     
     NSError *parseError = nil;
-    SBJSON *parser = [[SBJSON alloc] init];
+    UVJSON *parser = [[UVJSON alloc] init];
     id results = [parser objectWithString:rawString error:&parseError];
     [parser release];
     [rawString release];

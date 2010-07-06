@@ -8,7 +8,6 @@
 
 #import "HRRequestOperation.h"
 #import "HRFormatJSON.h"
-#import "HRFormatXML.h"
 #import "NSObject+InvocationUtils.h"
 #import "NSString+EscapingUtils.h"
 #import "NSDictionary+ParamUtils.h"
@@ -299,9 +298,9 @@
         case HRDataFormatJSON:
             theFormatter = [HRFormatJSON class];
         break;
-        case HRDataFormatXML:
-            theFormatter = [HRFormatXML class];
-        break;
+//        case HRDataFormatXML:
+//            theFormatter = [HRFormatXML class];
+//        break;
         default:
             theFormatter = [HRFormatJSON class];
         break;   
