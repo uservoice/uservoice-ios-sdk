@@ -17,7 +17,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UVSuggestionButton.h"
 
-#define UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND 100
+#define UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND 104
 
 @implementation UVBaseSuggestionListViewController
 

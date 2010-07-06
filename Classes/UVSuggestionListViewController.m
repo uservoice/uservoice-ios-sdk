@@ -28,6 +28,7 @@
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY 101
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX 102
 #define UV_BASE_GROUPED_CELL_BG 103
+#define UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND 104
 
 @implementation UVSuggestionListViewController
 
@@ -118,10 +119,7 @@
 	// getting the cell size
     CGRect contentRect = cell.contentView.bounds;
 	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
-	[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];	
-	
-	[cell.contentView addSubview:button];
-	[button release];
+	[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];		
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
@@ -132,7 +130,7 @@
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UIColor blackColor];
 	label.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:label];
+	[button addSubview:label];
 	[label release];
 	
 	label = [[UILabel alloc] init];
@@ -142,7 +140,7 @@
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UVStyleSheet dimBlueColor];
 	label.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:label];
+	[button addSubview:label];
 	[label release];
 	
 	label = [[UILabel alloc] init];
@@ -152,8 +150,11 @@
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UIColor blackColor];
 	label.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:label];
+	[button addSubview:label];
 	[label release];
+	
+	[cell.contentView addSubview:button];
+	[button release];
 }
 
 - (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -199,8 +200,7 @@
 		
 	} else {
 		identifier = @"Add";
-	}
-		
+	}		
 	return [self createCellForIdentifier:identifier
 							   tableView:theTableView
 							   indexPath:indexPath
@@ -278,6 +278,15 @@
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
+- (void)setCellsEnabled:(BOOL)enabled {
+	// need to stop rows being selected
+	for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+		UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];	
+		UIButton *button = (UIButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
+		button.enabled = enabled;
+	}
+}
+
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	NSInteger height = self.view.bounds.size.height - 216;
@@ -286,14 +295,15 @@
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
 	[UIView beginAnimations:@"growHeader" context:nil];	
+	[self setLeftBarButtonCancel];	
+	[self setCellsEnabled:NO];
+	
 	textBar.frame = frame;
-	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-	
-	[self setLeftBarButtonCancel];
-	
+	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];		
 	frame = CGRectMake(0, 0, 320, 40);
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
 	theTextEditor.backgroundColor = [UIColor whiteColor];	
+	
 	[UIView commitAnimations];
 	return YES;
 }
@@ -326,6 +336,8 @@
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
 	textBar.frame = CGRectMake(0, 10, 320, 40);
 	textBar.backgroundColor = [UIColor whiteColor];
+	
+	[self setCellsEnabled:YES];
 	[UIView commitAnimations];	
 }
 
@@ -404,8 +416,6 @@
 	
 	self.view = contentView;
 	[contentView release];
-	
-	//[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
