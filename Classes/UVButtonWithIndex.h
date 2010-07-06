@@ -10,9 +10,16 @@
 
 
 @interface UVButtonWithIndex : UIButton {
-	NSInteger index;
+	NSInteger _index;
+	UIImage* _normalImage;
+	UIImage* _highlightedImage;
 }
 
 @property (assign) NSInteger index;
+@property (nonatomic, retain) UIImage *normalImage;
+@property (nonatomic, retain) UIImage *highlightedImage;
+
+- (NSInteger)index;
+- (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame;
 
 @end

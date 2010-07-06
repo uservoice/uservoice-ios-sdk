@@ -7,89 +7,72 @@
 //
 
 #import "UVBaseSuggestionListViewController.h"
+#import "UVSuggestionDetailsViewController.h"
 #import "UVSuggestion.h"
 #import "UVCategory.h"
 #import "UVStyleSheet.h"
+#import "UVBaseGroupedCell.h"
 #import "UVSuggestionChickletView.h"
+#import "UVSuggestionButton.h"
+#import <QuartzCore/QuartzCore.h>
+#import "UVSuggestionButton.h"
 
-#define UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE 100
-#define UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY 101
-#define UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET 102
+#define UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND 100
 
 @implementation UVBaseSuggestionListViewController
 
 @synthesize suggestions;
 
+- (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
+								   tableView:(UITableView *)theTableView
+								   indexPath:(NSIndexPath *)indexPath
+									   style:(UITableViewCellStyle)style
+								  selectable:(BOOL)selectable {
+    UVBaseGroupedCell *cell = (UVBaseGroupedCell *)[theTableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[[UVBaseGroupedCell alloc] initWithStyle:style reuseIdentifier:identifier] autorelease];
+		cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
+		
+		SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", identifier]);
+		if ([self respondsToSelector:initCellSelector]) {
+			[self performSelector:initCellSelector withObject:cell withObject:indexPath];
+		}
+	}
+	
+	SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", identifier]);
+	if ([self respondsToSelector:customizeCellSelector]) {
+		[self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
+	}
+	return cell;
+}
+
+- (void)pushSuggestionShowView:(UVButtonWithIndex *)button {
+	NSLog(@"Suggestion selected: %d", button.index);
+	UVSuggestion *suggestion = [suggestions objectAtIndex:button.index];
+	UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
+	next.suggestion = suggestion;
+	
+	[self.navigationController pushViewController:next animated:YES];
+	[next release];
+}
+
 #pragma mark ===== common table cells =====
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-	[self addHighlightToCell:cell];
+	// getting the cell size
+    CGRect contentRect = cell.contentView.bounds;
+	UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row andFrame:contentRect];	
+	[button addTarget:self action:@selector(pushSuggestionShowView:) forControlEvents:UIControlEventTouchUpInside];	
+	button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
 	
-	// Title
-	UILabel *label = [[UILabel alloc] init];
-	label.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE;
-	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.numberOfLines = 0;
-	label.font = [UIFont boldSystemFontOfSize:14];
-	label.textColor = [UIColor blackColor];
-	label.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:label];
-	[label release];
-
-	// Forum + Category
-	label = [[UILabel alloc] initWithFrame:CGRectMake(75, 50, 225, 14)];
-	label.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY;
-	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.numberOfLines = 1;
-	label.font = [UIFont boldSystemFontOfSize:11];
-	label.textColor = [UIColor darkGrayColor];
-	label.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:label];
-	[label release];
-	
-	// Chicklet
-	UVSuggestionChickletView *chicklet = [[UVSuggestionChickletView alloc] initWithOrigin:CGPointMake(10, 5)];
-	chicklet.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET;
-	[cell.contentView addSubview:chicklet];
-	[chicklet release];
-	
-	// Highlight row at the top (dark shadow is already taken care of by table separator)
-	UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-	highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
-	highlight.opaque = YES;
-	[cell.contentView addSubview:highlight];
-	[highlight release];
-	
+	[cell.contentView addSubview:button];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)customizeCellForSuggestion:(UVBaseGroupedCell *)cell indexPath:(NSIndexPath *)indexPath {
 	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
-	
-	BOOL darkZebra = indexPath.row % 2 == 0;
-	cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:darkZebra];
-
-	UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE];
-	CGSize maxSize = CGSizeMake(225, 34);
-	CGSize size = [suggestion.title sizeWithFont:label.font constrainedToSize:maxSize lineBreakMode:UILineBreakModeTailTruncation];
-	label.frame = CGRectMake(75, 10, size.width, size.height);
-	label.text = suggestion.title;
-	
-	label = (UILabel *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY];
-	label.text = suggestion.categoryString;
-
-	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET];
-	UVSuggestionChickletStyle style;
-	if (suggestion.status)
-	{
-		style = darkZebra ? UVSuggestionChickletStyleDark : UVSuggestionChickletStyleLight;
-	}
-	else
-	{
-		style = UVSuggestionChickletStyleEmpty;
-	}
-	[chicklet updateWithSuggestion:suggestion style:style];
+	UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
+	[button showSuggestion:suggestion];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

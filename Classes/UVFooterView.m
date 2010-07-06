@@ -37,7 +37,15 @@
 }
 
 + (CGFloat)heightForFooter {
-	return 60 + 42; // actual cells and padding + table footer
+	return 110; // actual cells and padding + table footer
+}
+
++ (UIView *)getHeaderView {
+	UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
+	UIImage *shadow = [[UIImage imageNamed:@"dropshadow_bottom_30.png"] autorelease];
+	UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
+	[bottomShadow addSubview:shadowView];	
+	return bottomShadow;
 }
 
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
@@ -49,18 +57,9 @@
 	theTableView.delegate = footer;
 	theTableView.dataSource = footer;
 	theTableView.sectionHeaderHeight = 10.0;
-	theTableView.sectionFooterHeight = 8.0;
+	theTableView.sectionFooterHeight = 8.0;		
+	theTableView.tableHeaderView = [self getHeaderView];
 		
-	UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
-	UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
-	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
-	[bottomShadow addSubview:shadowView];	
-	theTableView.tableHeaderView = bottomShadow;
-	
-	[shadow release];
-	[shadowView release];
-	[bottomShadow release];
-	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 240, 14)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";

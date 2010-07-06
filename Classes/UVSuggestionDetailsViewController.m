@@ -26,15 +26,15 @@
 #define VOTE_LABEL_TAG 1003
 #define NO_VOTE_LABEL_TAG 1004
 
-#define UV_SUGGESTION_DETAILS_SECTION_HEADER 0
-#define UV_SUGGESTION_DETAILS_SECTION_VOTE 1
-#define UV_SUGGESTION_DETAILS_SECTION_BODY 2
-#define UV_SUGGESTION_DETAILS_SECTION_COMMENTS 3
-#define UV_SUGGESTION_DETAILS_SECTION_CREATOR 4
+#define UV_SUGGESTION_DETAILS_SECTION_HEADER 5
+#define UV_SUGGESTION_DETAILS_SECTION_VOTE 0
+#define UV_SUGGESTION_DETAILS_SECTION_BODY 1
+#define UV_SUGGESTION_DETAILS_SECTION_COMMENTS 2
+#define UV_SUGGESTION_DETAILS_SECTION_CREATOR 3
 
 @implementation UVSuggestionDetailsViewController
 
-@synthesize suggestion;
+@synthesize suggestion, innerTableView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
 	if (self = [super init]) {
@@ -78,7 +78,7 @@
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
 	[self hideActivityIndicator];
-	[self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] 
+	[self.innerTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] 
 				  withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -146,57 +146,21 @@
 
 #pragma mark ===== table cells =====
 
-- (void)initCellForHeader:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
-
-	// Votes
-	UVSuggestionChickletView *chicklet = [UVSuggestionChickletView suggestionChickletViewWithOrigin:CGPointMake(0, 10)];
-	chicklet.tag = CHICKLET_TAG;
-	[cell.contentView addSubview:chicklet];
-
-	// Title
-	CGSize titleSize = [self titleSize];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(65, 10, titleSize.width, titleSize.height)];
-	label.text = self.suggestion.title;
-	label.font = [UIFont boldSystemFontOfSize:18.0];
-	label.textAlignment = UITextAlignmentLeft;
-	label.numberOfLines = 0;
-	label.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:label];
-	[label release];
-	
-	// Category
-	label = [[UILabel alloc] initWithFrame:CGRectMake(65, titleSize.height + 20, titleSize.width, 11)];
-	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.numberOfLines = 1;
-	label.font = [UIFont boldSystemFontOfSize:11];
-	label.textColor = [UIColor darkGrayColor];
-	label.backgroundColor = [UIColor clearColor];
-	label.text = self.suggestion.categoryString;
-	[label sizeToFit];
-	[cell.contentView addSubview:label];
-	[label release];
-}
-
-- (void)customizeCellForHeader:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	// Customize chicklet
-	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[cell.contentView viewWithTag:CHICKLET_TAG];
-	if (self.suggestion.status) {
-		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
-	} else {
-		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
-	}
-}
-
 - (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, 320, 72)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
 	
 	if ([suggestion.status isEqualToString:@"completed"]) {
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 300, 44)];
 		label.tag = NO_VOTE_LABEL_TAG;
 		label.numberOfLines = 2;
-		label.backgroundColor = [UIColor clearColor];
+		label.opaque = YES;
+		label.backgroundColor = [UVStyleSheet lightBgColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont systemFontOfSize:14];
 		label.text = [NSString stringWithFormat:
@@ -215,7 +179,7 @@
 		[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 		UILabel *label;
 		if ([UVSession currentSession].user != nil) {
-			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 13)];
+			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 14)];
 		} else {
 			[segments setEnabled:NO];
 			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 17)];
@@ -223,9 +187,10 @@
 		[cell.contentView addSubview:segments];
 		[segments release];
 		
+		label.opaque = YES;
+		label.backgroundColor = [UVStyleSheet lightBgColor];
 		label.tag = VOTE_LABEL_TAG;
 		label.numberOfLines = 0;
-		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont systemFontOfSize:12];
 		[cell.contentView addSubview:label];
@@ -253,6 +218,11 @@
 - (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, 320, [self textSize].height)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
+
 	// The default margins are too large for the body, so we're using our own label.
 	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, [self textSize].height)] autorelease];
 	body.text = self.suggestion.text;
@@ -288,6 +258,12 @@
 
 - (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
+	
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 75)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
 	
 	// Name label
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 85, 16)];
@@ -337,10 +313,6 @@
 	BOOL selectable = YES;
 	
 	switch (indexPath.section) {
-		case UV_SUGGESTION_DETAILS_SECTION_HEADER:
-			identifier = @"Header";
-			selectable = NO;
-			break;
 		case UV_SUGGESTION_DETAILS_SECTION_VOTE:
 			identifier = @"Vote";
 			if ([UVSession currentSession].user!=nil)
@@ -377,7 +349,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return 5;
+	return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -394,12 +366,8 @@
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch (indexPath.section) {
-		case UV_SUGGESTION_DETAILS_SECTION_HEADER: {
-			return MAX([self titleSize].height + 21 + 20, 71); // title, category, padding
-			break;
-		}
 		case UV_SUGGESTION_DETAILS_SECTION_VOTE:
-			return 61;
+			return 73;
 			break;
 		case UV_SUGGESTION_DETAILS_SECTION_BODY:
 			return [self textSize].height;
@@ -464,24 +432,83 @@
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-	theTableView.backgroundColor = [UIColor clearColor];
-	theTableView.sectionHeaderHeight = 0;
+	theTableView.sectionHeaderHeight = 0.0;
+	theTableView.sectionFooterHeight = 0.0;
+	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+	
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, MAX([self titleSize].height + 347, 383))];  
+	headerView.backgroundColor = [UIColor clearColor];
+	
+	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
+	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+	[headerView addSubview:shadowView];	
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, MAX([self titleSize].height + 348, 384))];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[headerView addSubview:bg];
+	[bg release];
+	
+	// Votes
+	UVSuggestionChickletView *chicklet = [UVSuggestionChickletView suggestionChickletViewWithOrigin:CGPointMake(10, 20)];
+	chicklet.tag = CHICKLET_TAG;
+	[headerView addSubview:chicklet];
+	
+	// Title
+	CGSize titleSize = [self titleSize];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(75, 20, titleSize.width, titleSize.height)];
+	label.text = self.suggestion.title;
+	label.font = [UIFont boldSystemFontOfSize:18.0];
+	label.textAlignment = UITextAlignmentLeft;
+	label.numberOfLines = 0;
+	label.backgroundColor = [UIColor clearColor];
+	[headerView addSubview:label];
+	[label release];
+	
+	// Category
+	label = [[UILabel alloc] initWithFrame:CGRectMake(75, titleSize.height + 30, titleSize.width, 11)];
+	label.lineBreakMode = UILineBreakModeTailTruncation;
+	label.numberOfLines = 1;
+	label.font = [UIFont boldSystemFontOfSize:11];
+	label.textColor = [UIColor darkGrayColor];
+	label.backgroundColor = [UIColor clearColor];
+	label.text = self.suggestion.categoryString;
+	[label sizeToFit];
+	[headerView addSubview:label];
+	[label release];
+	NSInteger yOffset = MAX([self titleSize].height + 55, 90);
+	NSInteger height = MAX([self titleSize].height + 273, 313);
+	UITableView *theInnerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yOffset, 320, height) 
+																  style:UITableViewStyleGrouped];
+	theInnerTableView.dataSource = self;
+	theInnerTableView.delegate = self;
+	theInnerTableView.sectionHeaderHeight = 0.0;
+	theInnerTableView.sectionFooterHeight = 3.0;
+	theInnerTableView.backgroundColor = [UVStyleSheet lightBgColor];
+	self.innerTableView = theInnerTableView;
+	[headerView addSubview:theInnerTableView];
+	
+	theTableView.tableHeaderView = headerView;
 	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 	
 	[contentView addSubview:theTableView];
+	
 	self.tableView = theTableView;
 	[theTableView release];
-	
+
 	self.view = contentView;
 	[contentView release];
-	
-	[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[self.tableView reloadData];
+	[self.innerTableView reloadData];
+	
+	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
+	if (self.suggestion.status) {
+		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
+	} else {
+		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
+	}
 }
 
 - (void)didReceiveMemoryWarning {

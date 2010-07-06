@@ -19,11 +19,14 @@
 #import "UVUser.h"
 #import "UVFooterView.h"
 #import "UVTextEditor.h"
+#import "UVBaseGroupedCell.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
+#define UV_SEARCH_TEXTBAR 1
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX 100
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY 101
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX 102
+#define UV_BASE_GROUPED_CELL_BG 103
 
 @implementation UVSuggestionListViewController
 
@@ -203,17 +206,21 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if ([self isLoading]) {
-		return 0;
-		
-	} else if (_searching) {
+	NSInteger rows = 0;
+	
+	if (_searching) {
 		// One cell per suggestion + "Load More" + one for "add"
-		return [self.suggestions count] + (_allSuggestionsRetrieved ? 1 : 2);
+		rows += [self.suggestions count] + (_allSuggestionsRetrieved ? 1 : 2);
 		
-	} else {
+	} else if (![self isLoading]) {
 		// One cell per suggestion + "Load More"
-		return [self.suggestions count] + (_allSuggestionsRetrieved ? 0 : 1);
+		rows += [self.suggestions count] + (_allSuggestionsRetrieved ? 0 : 1);
 	}
+	return rows;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return 1;
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
@@ -223,26 +230,33 @@
 	return 71;
 }
 
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
-
-	if (indexPath.row < [self.suggestions count]) {
-		UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
-		UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
-		next.suggestion = suggestion;
-		[self.navigationController pushViewController:next animated:YES];
-		[next release];
-		
-	} else if (indexPath.row == [self.suggestions count] && !_allSuggestionsRetrieved) {
-		[self retrieveMoreSuggestions];
-		
-	} else {
-		UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
-																							 title:_textEditor.text];
-		[self.navigationController pushViewController:next animated:YES];
-		[next release];
-	}		
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	return nil;
 }
+
+//- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//	UVBaseGroupedCell *cell = (UVBaseGroupedCell *)[theTableView cellForRowAtIndexPath:indexPath];
+//	UIView *bg = [cell.contentView viewWithTag:UV_BASE_GROUPED_CELL_BG];
+//	bg.backgroundColor = [UIColor blueColor];
+//	
+//	if (indexPath.row < [self.suggestions count]) {
+//		UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
+//		UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
+//		next.suggestion = suggestion;
+//		[self.navigationController pushViewController:next animated:YES];
+//		[next release];
+//		
+//	} else if (indexPath.row == [self.suggestions count] && !_allSuggestionsRetrieved) {
+//		[self retrieveMoreSuggestions];
+//		
+//	} else {
+//		UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
+//																							 title:_textEditor.text];
+//		[self.navigationController pushViewController:next animated:YES];
+//		[next release];
+//	}
+//	//[theTableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
 
 - (void)setLeftBarButtonCancel {
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -250,6 +264,7 @@
 																			    action:@selector(dismissTextEditor)];
 	self.prevLeftBarButton = self.navigationItem.leftBarButtonItem;
 	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
+	[cancelItem release];
 }
 
 - (void)setLeftBarButtonClear {
@@ -257,6 +272,7 @@
 																			    target:self
 																			    action:@selector(resetList)];
 	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
+	[cancelItem release];
 }
 
 - (void)setLeftBarButtonPrevious {
@@ -265,8 +281,8 @@
 
 - (void)resetList {
 	_searching = NO;
-	_textEditor.text = nil;
-	_textEditor.placeholder = [self.forum example];
+	_textEditor.text = @"";
+
 	[self.suggestions removeAllObjects];
 	[self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.currentTopic.suggestions];
 	if ([self.suggestions count] < 10) {
@@ -284,11 +300,13 @@
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
-	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
-	[UIView beginAnimations:@"growHeader" context:nil];
+	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	NSInteger height = self.view.bounds.size.height - 216;
-	CGRect frame = CGRectMake(0, 0, 320, height);
-	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
+	CGRect frame = CGRectMake(0, 10, 320, height);
+	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
+	
+	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
+	[UIView beginAnimations:@"growHeader" context:nil];	
 	textBar.frame = frame;
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
 	
@@ -322,14 +340,14 @@
 		[self setLeftBarButtonPrevious];
 	}
 	
+	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
+	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
+	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
-	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
-	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
-	textBar.frame = CGRectMake(0, 0, 320, 40);
+	textBar.frame = CGRectMake(0, 10, 320, 40);
 	textBar.backgroundColor = [UIColor whiteColor];
-	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
-	[UIView commitAnimations];
+	[UIView commitAnimations];	
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -348,41 +366,59 @@
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	theTableView.backgroundColor = [UIColor clearColor];
+	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+	theTableView.sectionFooterHeight = 0.0;
+	theTableView.sectionHeaderHeight = 0.0;
+	//theTableView.allowsSelection = NO;
 	
 	[self addShadowSeparatorToTableView:theTableView];
+	
+	NSInteger headerHeight = [self supportsSearch] ? 50 : 10;
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, headerHeight)];  
+	headerView.backgroundColor = [UIColor clearColor];
+	
+	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
+	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+	[headerView addSubview:shadowView];	
 
 	if ([self supportsSearch]) {		
 		// Add text editor to table header
-		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
 		textBar.backgroundColor = [UIColor whiteColor];
-		_textEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+		textBar.tag = UV_SEARCH_TEXTBAR;
+		
+		_textEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 		_textEditor.delegate = self;
 		_textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 		_textEditor.minNumberOfLines = 1;
 		_textEditor.maxNumberOfLines = 1;
 		_textEditor.autoresizesToText = NO;
-		_textEditor.backgroundColor = [UIColor whiteColor];
+		//_textEditor.backgroundColor = [UIColor clearColor];
 		[_textEditor setReturnKeyType:UIReturnKeyGo];
 		_textEditor.enablesReturnKeyAutomatically = NO;		
 		_textEditor.placeholder = [self.forum example];
-		[textBar addSubview:_textEditor];
 		
-		theTableView.tableHeaderView = textBar;
+		[textBar addSubview:_textEditor];		
+		[headerView addSubview:textBar];
 		[textBar release];
 	}
+	theTableView.tableHeaderView = headerView;
 	
 	if ([self supportsFooter]) {
 		theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 		
 	} else {
-		// Add empty footer, to suppress blank cells (with separators) after actual content
-		UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0)];
-		theTableView.tableFooterView = footer;
-		[footer release];
+		UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
+		UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
+		UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+		[bottomShadow addSubview:shadowView];	
+		theTableView.tableFooterView = bottomShadow;
+		[shadow release];
+		[shadowView release];
+		[bottomShadow release];
 	}
 	
 	self.tableView = theTableView;
@@ -392,7 +428,7 @@
 	self.view = contentView;
 	[contentView release];
 	
-	[self addGradientBackground];
+	//[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

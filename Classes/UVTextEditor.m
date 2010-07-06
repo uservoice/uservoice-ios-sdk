@@ -17,6 +17,7 @@
 #import "UVTextEditor.h"
 #import "UIFont+UVExtras.h"
 #import "UIView+UVExtras.h"
+#import <QuartzCore/QuartzCore.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -263,6 +264,7 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 }
 
 - (void)createTextView {
+	NSLog(@"Create textview in UVTextEditor");
 	if (!_textView) {
 		_textView = [[UVTextView alloc] init];
 		_textView.delegate = _internal;
@@ -273,8 +275,7 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 		// UITextViews have extra padding on the top and bottom that we don't want, so we force
 		// the content to take up slightly more space. This allows us to mimic the padding of the
 		// UITextLabel control.
-		_textView.contentInset = UIEdgeInsetsMake(
-												  -kUITextViewVerticalPadding, 0,
+		_textView.contentInset = UIEdgeInsetsMake(-kUITextViewVerticalPadding, 0,
 												  -kUITextViewVerticalPadding, 0);
 		_textView.font = _textField.font;
 		_textView.autoresizesToText = _autoresizesToText;
@@ -412,7 +413,6 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 		
 		_textField = [[UITextField alloc] init];
 		_textField.delegate = _internal;
-		//_textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 		[self addSubview:_textField];
 	}
 	return self;
@@ -443,6 +443,10 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 	CGRect frame = CGRectMake(0, 2, self.width-kPaddingX*2, self.height);
 	_textView.frame = CGRectOffset(UVRectContract(frame, 0, 14), 0, 7);
 	_textField.frame = CGRectOffset(UVRectContract(frame, 9, 14), 9, 7);
+	
+	//The rounded corner part, where you specify your view's corner radius:
+	_textField.layer.cornerRadius = 10;
+	_textField.clipsToBounds = YES;	
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {

@@ -77,26 +77,21 @@
 	[bg release];
 	
 	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	myButton.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
     myButton.frame = CGRectMake(0, 0, 300, 44); // position in the parent view and set the size of the button
-    [myButton setTitle:@"" forState:UIControlStateNormal];
+    [myButton setTitle:[_forum prompt] forState:UIControlStateNormal];
     [myButton addTarget:self action:@selector(pushForumView) forControlEvents:UIControlEventTouchUpInside];
+	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	[myButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];	
 	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 7, 280, 30)];
-	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.numberOfLines = 1;
-	label.font = [UIFont boldSystemFontOfSize:16];
-	label.backgroundColor = [UIColor clearColor];
-	label.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
-	[cell.contentView addSubview:label];
-	[label release];		
-	[myButton addSubview:label];	
+	UIEdgeInsets insets = UIEdgeInsetsMake (0,10,0,0);
+	myButton.titleEdgeInsets = insets;	
+	myButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
+	myButton.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+	myButton.titleLabel.numberOfLines = 1;
+		
     [cell.contentView addSubview:myButton];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {	
-	UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_LABEL];
-	label.text = [self.forum prompt];
 }
 
 - (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader {
@@ -121,21 +116,19 @@
 	[bg release];
 		
 	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    myButton.frame = CGRectMake(0, 0, 300, 44); // position in the parent view and set the size of the button
-    [myButton setTitle:@"" forState:UIControlStateNormal];
+    myButton.frame = CGRectMake(0, 0, 300, 44);
     [myButton addTarget:self action:@selector(pushNewMessageView) forControlEvents:UIControlEventTouchUpInside];
+	[myButton setTitle:[NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name]
+			  forState:UIControlStateNormal];
+	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	[myButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];	
 	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 7, 280, 30)];
-	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.numberOfLines = 1;
-	label.font = [UIFont boldSystemFontOfSize:16];
-	label.backgroundColor = [UIColor clearColor];
-	label.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
-	[cell.contentView addSubview:label];
-	[label release];		
-	label.text = [NSString stringWithFormat:@"Contact %@", 
-						[UVSession currentSession].clientConfig.subdomain.name];
-	[myButton addSubview:label];	
+	UIEdgeInsets insets = UIEdgeInsetsMake (0,10,0,0);
+	myButton.titleEdgeInsets = insets;	
+	myButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
+	myButton.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+	myButton.titleLabel.numberOfLines = 1;
+
     [cell.contentView addSubview:myButton];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
@@ -375,6 +368,7 @@
 	[super viewWillAppear:animated];		
 	
 	_forum = [UVSession currentSession].clientConfig.forum;
+	
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		_questions = [UVSession currentSession].clientConfig.questions;
 		_question = [_questions objectAtIndex:0];
@@ -383,11 +377,11 @@
 	if (self.needsReload) {
 		UISegmentedControl *segments = 
 			(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
-		[_tableView reloadData];
 
 		[(UVFooterView *)_tableView.tableFooterView reloadFooter];
 		[self updateSegmentsValue:segments];
 	}
+	[_tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
