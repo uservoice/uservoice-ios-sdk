@@ -30,7 +30,8 @@
 
 @implementation UVSuggestionListViewController
 
-@synthesize forum, prevLeftBarButton;
+@synthesize forum = _forum;
+@synthesize prevLeftBarButton = _prevLeftBarButton;
 @synthesize textEditor = _textEditor;
 
 - (id)initWithForum:(UVForum *)theForum {
@@ -59,10 +60,6 @@
 	return @"Ideas";
 }
 
-- (BOOL)isLoading {
-	return self.suggestions == nil || ([self.suggestions count] == 0 && !_allSuggestionsRetrieved);
-}
-
 - (void)retrieveMoreSuggestions {
 	NSInteger page = ([self.suggestions count] / SUGGESTIONS_PAGE_SIZE) + 1;
 	[self showActivityIndicator];
@@ -72,7 +69,6 @@
 // Populates the suggestions. The default implementation retrieves the 10 most recent
 // suggestions, but this can be overridden in subclasses (e.g. for profile idea view).
 - (void)populateSuggestions {
-	_allSuggestionsRetrieved = NO;
 	self.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[self retrieveMoreSuggestions];
@@ -83,11 +79,8 @@
 	if ([theSuggestions count] > 0) {
 		[self.suggestions addObjectsFromArray:theSuggestions];
 	}
-	
-	if ([theSuggestions count] < 10) {
-		_allSuggestionsRetrieved = YES;
-	}
-	[[UVSession currentSession].clientConfig.forum.currentTopic.suggestions  addObjectsFromArray:theSuggestions];
+
+	[[UVSession currentSession].clientConfig.forum.currentTopic.suggestions addObjectsFromArray:theSuggestions];
 	[self.tableView reloadData];
 }
 
@@ -98,9 +91,6 @@
 		[self.suggestions addObjectsFromArray:theSuggestions];
 	}
 	
-	if ([theSuggestions count] < 10) {
-		_allSuggestionsRetrieved = YES;
-	}	
 	[self.tableView reloadData];
 }
 
@@ -187,11 +177,12 @@
 	NSString *identifier;
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
+	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
 	
 	if (indexPath.row < [self.suggestions count]) {
 		identifier = @"Suggestion";
 		
-	} else if (indexPath.row == [self.suggestions count] && !_allSuggestionsRetrieved) {
+	} else if (!_searching && (indexPath.row == [self.suggestions count]) &&  (suggestionsCount > [self.suggestions count])) {
 		identifier = @"Load";
 		
 	} else {
@@ -207,14 +198,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	NSInteger rows = 0;
+	NSInteger loadedCount = [self.suggestions count];
+	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
 	
 	if (_searching) {
+		NSLog(@"Adding extra row for 'add'");
 		// One cell per suggestion + "Load More" + one for "add"
-		rows += [self.suggestions count] + (_allSuggestionsRetrieved ? 1 : 2);
+		rows = loadedCount + 1;
 		
-	} else if (![self isLoading]) {
+	} else {
 		// One cell per suggestion + "Load More"
-		rows += [self.suggestions count] + (_allSuggestionsRetrieved ? 0 : 1);
+		rows = [self.suggestions count] + (loadedCount>=suggestionsCount ? 0 : 1);
 	}
 	return rows;
 }
@@ -234,29 +228,20 @@
 	return nil;
 }
 
-//- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//	UVBaseGroupedCell *cell = (UVBaseGroupedCell *)[theTableView cellForRowAtIndexPath:indexPath];
-//	UIView *bg = [cell.contentView viewWithTag:UV_BASE_GROUPED_CELL_BG];
-//	bg.backgroundColor = [UIColor blueColor];
-//	
-//	if (indexPath.row < [self.suggestions count]) {
-//		UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
-//		UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
-//		next.suggestion = suggestion;
-//		[self.navigationController pushViewController:next animated:YES];
-//		[next release];
-//		
-//	} else if (indexPath.row == [self.suggestions count] && !_allSuggestionsRetrieved) {
-//		[self retrieveMoreSuggestions];
-//		
-//	} else {
-//		UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
-//																							 title:_textEditor.text];
-//		[self.navigationController pushViewController:next animated:YES];
-//		[next release];
-//	}
-//	//[theTableView deselectRowAtIndexPath:indexPath animated:YES];
-//}
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
+	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
+	
+	if (indexPath.row == [self.suggestions count] && (suggestionsCount > [self.suggestions count])) {
+		[self retrieveMoreSuggestions];
+		
+	} else {
+		UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
+																							 title:_textEditor.text];
+		[self.navigationController pushViewController:next animated:YES];
+		[next release];
+	}
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 - (void)setLeftBarButtonCancel {
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -285,9 +270,6 @@
 
 	[self.suggestions removeAllObjects];
 	[self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.currentTopic.suggestions];
-	if ([self.suggestions count] < 10) {
-		_allSuggestionsRetrieved = YES;
-	}	
 	[self.tableView reloadData];
 	[self setLeftBarButtonPrevious];
 }
@@ -354,7 +336,6 @@
 	return YES;
 }
 
-
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -372,7 +353,6 @@
 	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.sectionHeaderHeight = 0.0;
-	//theTableView.allowsSelection = NO;
 	
 	[self addShadowSeparatorToTableView:theTableView];
 	
@@ -383,6 +363,7 @@
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
 	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
 	[headerView addSubview:shadowView];	
+	[shadowView release];
 
 	if ([self supportsSearch]) {		
 		// Add text editor to table header
@@ -396,7 +377,7 @@
 		_textEditor.minNumberOfLines = 1;
 		_textEditor.maxNumberOfLines = 1;
 		_textEditor.autoresizesToText = NO;
-		//_textEditor.backgroundColor = [UIColor clearColor];
+		
 		[_textEditor setReturnKeyType:UIReturnKeyGo];
 		_textEditor.enablesReturnKeyAutomatically = NO;		
 		_textEditor.placeholder = [self.forum example];
@@ -416,7 +397,6 @@
 		UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
 		[bottomShadow addSubview:shadowView];	
 		theTableView.tableFooterView = bottomShadow;
-		[shadow release];
 		[shadowView release];
 		[bottomShadow release];
 	}

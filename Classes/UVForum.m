@@ -13,7 +13,6 @@
 @implementation UVForum
 
 @synthesize forumId;
-@synthesize ideaCount;
 @synthesize isPrivate;
 @synthesize name;
 @synthesize topics;
@@ -36,7 +35,6 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if (self = [super init]) {
 		self.forumId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.ideaCount = [(NSNumber *)[dict objectForKey:@"idea_count"] integerValue];
 		self.name = [self objectOrNilForDict:dict key:@"name"];
 		
 		self.topics = [NSMutableArray array];

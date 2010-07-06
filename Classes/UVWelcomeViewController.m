@@ -94,6 +94,11 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
+- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	UIButton *myButton = (UIButton *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_LABEL];
+    [myButton setTitle:[_forum prompt] forState:UIControlStateNormal];
+}
+
 - (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader {
 	if (subheader) {
 		CGSize subSize = [subheader sizeWithFont:[UIFont systemFontOfSize:14]
@@ -356,7 +361,6 @@
 	[topShadow addSubview:shadowView];	
 	_tableView.tableHeaderView = shadowView;
 	
-	[shadow release];
 	[shadowView release];
 	[topShadow release];
 
@@ -372,15 +376,14 @@
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		_questions = [UVSession currentSession].clientConfig.questions;
 		_question = [_questions objectAtIndex:0];
-	}
-	
-	if (self.needsReload) {
+		
 		UISegmentedControl *segments = 
-			(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
-
+		(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+		
 		[(UVFooterView *)_tableView.tableFooterView reloadFooter];
 		[self updateSegmentsValue:segments];
-	}
+	}	
+
 	[_tableView reloadData];
 }
 

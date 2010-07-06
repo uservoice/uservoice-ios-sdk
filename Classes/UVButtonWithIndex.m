@@ -54,7 +54,7 @@
 		[self addSubview:highlight];
 		[highlight release];	
 	}
-	return self;
+	return [self retain];
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

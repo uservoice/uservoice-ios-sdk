@@ -66,6 +66,7 @@
 	button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
 	
 	[cell.contentView addSubview:button];
+	[button release];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 

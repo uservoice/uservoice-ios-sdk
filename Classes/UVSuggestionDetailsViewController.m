@@ -436,14 +436,16 @@
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
 	
-	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, MAX([self titleSize].height + 347, 383))];  
+	NSInteger height = [self textSize].height + MAX([self titleSize].height + 347, 383);
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];  
 	headerView.backgroundColor = [UIColor clearColor];
 	
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
 	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
 	[headerView addSubview:shadowView];	
+	[shadowView release];
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, MAX([self titleSize].height + 348, 384))];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, height)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[headerView addSubview:bg];
 	[bg release];
@@ -476,8 +478,7 @@
 	[headerView addSubview:label];
 	[label release];
 	NSInteger yOffset = MAX([self titleSize].height + 55, 90);
-	NSInteger height = MAX([self titleSize].height + 273, 313);
-	UITableView *theInnerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yOffset, 320, height) 
+	UITableView *theInnerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yOffset, 320, MAX([self titleSize].height + 273, 313)) 
 																  style:UITableViewStyleGrouped];
 	theInnerTableView.dataSource = self;
 	theInnerTableView.delegate = self;

@@ -98,9 +98,7 @@
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationItem.title = self.title;
-	_allSuggestionsRetrieved = YES;
-	
+	self.navigationItem.title = self.title;		
 	[self addGradientBackground];
 }
 

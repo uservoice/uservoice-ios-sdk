@@ -12,7 +12,6 @@
 
 @interface UVForum : UVBaseModel {
 	NSInteger forumId;
-	NSInteger ideaCount;
 	BOOL isPrivate;
 	NSString *name;
 	NSMutableArray *topics;
@@ -20,14 +19,12 @@
 }
 
 @property (assign) NSInteger forumId;
-@property (assign) NSInteger ideaCount;
 @property (assign) BOOL isPrivate;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSMutableArray *topics;
 @property (nonatomic, retain) UVTopic *currentTopic;
 
 - (NSArray *)availableCategories;
-
 - (NSString *)prompt;
 - (NSString *)example;
 

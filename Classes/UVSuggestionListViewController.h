@@ -13,10 +13,9 @@
 @class UVForum;
 
 @interface UVSuggestionListViewController : UVBaseSuggestionListViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate> {
-	BOOL _allSuggestionsRetrieved;
 	BOOL _searching;
-	UVForum *forum;
-	UIBarButtonItem *prevLeftBarButton;
+	UVForum *_forum;
+	UIBarButtonItem *_prevLeftBarButton;
 	UVTextEditor *_textEditor;
 }
 

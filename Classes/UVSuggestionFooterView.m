@@ -82,7 +82,7 @@
 		[label release];
 		
 		UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
-		UIImage *shadow = [[UIImage imageNamed:@"dropshadow_bottom_30.png"] autorelease];
+		UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
 		UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
 		[bottomShadow addSubview:shadowView];
 		[wrapper addSubview:bottomShadow];
@@ -90,7 +90,7 @@
 		self.tableView.tableHeaderView = wrapper;
 		[wrapper release];
 	}
-	return self;
+	return [self retain];
 }
 
 @end
