@@ -366,23 +366,24 @@
 
 	_tableView.tableFooterView = [UVFooterView footerViewForController:self];			
 	self.view = _tableView;	
+	
+	if ([UVSession currentSession].clientConfig.questionsEnabled) {
+		_questions = [UVSession currentSession].clientConfig.questions;
+		_question = [_questions objectAtIndex:0];		
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];		
 	
-	_forum = [UVSession currentSession].clientConfig.forum;
-	
-	if ([UVSession currentSession].clientConfig.questionsEnabled) {
-		_questions = [UVSession currentSession].clientConfig.questions;
-		_question = [_questions objectAtIndex:0];
-		
+	_forum = [UVSession currentSession].clientConfig.forum;		
+	if ([self needsReload]) {
 		UISegmentedControl *segments = 
-		(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+			(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 		
 		[(UVFooterView *)_tableView.tableFooterView reloadFooter];
 		[self updateSegmentsValue:segments];
-	}	
+	}
 
 	[_tableView reloadData];
 }

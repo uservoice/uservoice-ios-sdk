@@ -14,7 +14,7 @@
  * Adds methods to parse NSData objects representing an OAuth response
  * into a dictionary of key=value pairs.
  */
-@interface NSData (OAuthResponseAdditions)
+@interface NSData (UVOAuthResponseAdditions)
 
 
 /**

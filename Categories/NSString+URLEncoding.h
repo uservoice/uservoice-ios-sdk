@@ -13,7 +13,7 @@
 /**
  * Adds methods to URL encode/decode strings.
  */
-@interface NSString (URLEncodingAdditions)
+@interface NSString (UVURLEncodingAdditions)
 
 /**
  * Encodes the string.

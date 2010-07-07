@@ -10,7 +10,7 @@
 
 #import "NSData+OAuthResponse.h"
 
-@implementation NSData(OAuthResponseAdditions)
+@implementation NSData(UVOAuthResponseAdditions)
 
 - (NSMutableDictionary *)OAuthTokenResponse
 {

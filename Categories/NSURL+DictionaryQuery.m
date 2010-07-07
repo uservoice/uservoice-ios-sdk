@@ -1,14 +1,14 @@
 //
-//  NSURLAdditions.m
+//  NSURL+DictionaryQuery.m
 //  UserVoice
 //
 //  Created by UserVoice on 1/12/10.
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 
-#import "UVNSURLAdditions.h"
+#import "NSURL+DictionaryQuery.h"
 
-@implementation NSURL (ParseCategory)
+@implementation NSURL (UVParseCategory)
 
 - (NSString *)urlDecodeString:(NSString *)string {
 	return [[string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"+" withString:@" "];

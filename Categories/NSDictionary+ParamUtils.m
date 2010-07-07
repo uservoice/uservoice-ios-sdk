@@ -9,7 +9,7 @@
 #import "NSDictionary+ParamUtils.h"
 #import "NSString+EscapingUtils.h"
 
-@implementation NSDictionary (ParamUtils)
+@implementation NSDictionary (UVParamUtils)
 
 
 

@@ -1,5 +1,5 @@
 //
-//  NSURLAdditions.h
+//  NSURL+DictionaryQuery.h
 //  UserVoice
 //
 //  Created by UserVoice on 1/12/10.
@@ -10,6 +10,6 @@
 
 
 // Mainly extends NSURL with functionality to parse query strings.
-@interface NSURL (ParseCategory)
+@interface NSURL (UVParseCategory)
 - (NSDictionary *)queryDictionary;
 @end

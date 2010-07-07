@@ -11,7 +11,7 @@
 #import "NSDictionary+QueryString.h"
 #import "NSString+URLEncoding.h"
 
-@implementation NSDictionary (QueryStringAdditions)
+@implementation NSDictionary (UVQueryStringAdditions)
 
 - (NSString *)QueryString 
 {

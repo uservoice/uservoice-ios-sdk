@@ -35,6 +35,7 @@
 			// add a fake array of suggestions to stop the UVSuggestionListView (parent) being a dick
 			// clearly this is not correct, the inheritance structure here needs some love			
 			self.suggestions = [NSMutableArray arrayWithCapacity:1];
+			
 		} else {
 			if (self.showCreated) {
 				self.suggestions = self.user.createdSuggestions;
@@ -86,6 +87,10 @@
 	return NO;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return [self.suggestions count];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,7 +104,6 @@
 	[super loadView];
 	
 	self.navigationItem.title = self.title;		
-	[self addGradientBackground];
 }
 
 - (void)viewDidUnload {

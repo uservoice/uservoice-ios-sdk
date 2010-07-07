@@ -10,7 +10,7 @@
 
 #import "NSString+URLEncoding.h"
 
-@implementation NSString (URLEncodingAdditions)
+@implementation NSString (UVURLEncodingAdditions)
 
 - (NSString *)URLEncodedString 
 {

@@ -48,7 +48,7 @@ Update Build Settings
 * Double-click, then add "PATH_TO_USERVOICE_SDK/**".
 
 * Look for Other Linker Flags.
-* Double-click, then add "`-ObjC -all_load`".
+* Double-click, then add "`-ObjC`".
 
 
 Update Binary Linked Libraries
@@ -63,6 +63,8 @@ Add Resources
 * Create a group called UVResources
 * Right-click on UVResources, then choose Add -> Existing Files.
 * Select the "UserVoice/Resources" folder. In the dialog, leave "Copy items..." unchecked and then click Add.
+* Right-click on your project and choose Add -> Existing Files.
+* Select the Categories folder from the UserVoiceSDK directory. In the dialog, leave "Copy items..." unchecked and then click Add.
 
 
 Obtain Key And Secret

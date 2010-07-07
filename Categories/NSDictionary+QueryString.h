@@ -13,7 +13,7 @@
 /**
  * Adds a query string creation method to NSDictionary.
  */
-@interface NSDictionary (QueryStringAdditions)
+@interface NSDictionary (UVQueryStringAdditions)
 
 /**
  * Returns a query string containing the key=value pairs from the dictionary.
