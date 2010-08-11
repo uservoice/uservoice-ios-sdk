@@ -235,10 +235,11 @@
 }
 
 - (NSString *)headerTextForSection:(NSInteger)section {
+	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
 	if (section == 0) {
 		return @"Suggestions";
 		
-	} else if (section == 1) {
+	} else if (section == 1 && showMessages) {
 		return @"Support";
 		
 	} else {
@@ -247,7 +248,10 @@
 }
 
 - (NSString *)subHeaderTextForSection:(NSInteger)section {
-	if (section <= 1) {
+	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
+	NSInteger maxRows = showMessages ? 1 : 0;
+	
+	if (section <= maxRows) {
 		return nil;
 		
 	} else {
@@ -262,14 +266,16 @@
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier = @"";
 	BOOL selectable = NO;
+	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;	
 	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
 		identifier = @"Forum";
 		
-	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT && showMessages) {
 		identifier = @"Support";
 		
-	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
+	} else if ((indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT && !showMessages) ||
+			    indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
 		identifier = @"Question";
 		if ([UVSession currentSession].user == nil)
 			selectable = YES;
@@ -287,10 +293,13 @@
 	NSInteger sections = 1;
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		sections++;
+		NSLog(@"Ratings section required");
 	} 
 	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
 		sections++;
+		NSLog(@"Message section required");
 	}
+	NSLog(@"Creating welcome view with %d sections", sections);
 	return sections;
 }
 
@@ -318,7 +327,10 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section <= 1) {
+	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
+	NSInteger maxRows = showMessages ? 1 : 0;
+	
+	if (indexPath.section <= maxRows) {
 		return 45;
 	} else {
 		return 70;
