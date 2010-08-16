@@ -18,8 +18,7 @@
 @synthesize topics;
 @synthesize currentTopic;
 
-- (void)dealloc
-{
+- (void)dealloc {
 	self.name = nil;
 	self.topics = nil;
 	self.currentTopic = nil;
@@ -57,18 +56,15 @@
 	return [NSString stringWithFormat:@"forumId: %d\nname: %@", self.forumId, self.name];
 }
 
-- (NSArray *)availableCategories
-{
+- (NSArray *)availableCategories {
 	return currentTopic ? [currentTopic categories] : [NSArray array];
 }
 
-- (NSString *)prompt
-{
+- (NSString *)prompt {
 	return currentTopic.prompt;
 }
 
-- (NSString *)example
-{
+- (NSString *)example {
 	return currentTopic.example;
 }
 

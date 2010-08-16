@@ -26,6 +26,7 @@
 	YOAuthConsumer *yOAuthConsumer;
 	UVToken *currentToken;
 	NSMutableDictionary *userCache;
+	NSDate *startTime;
 }
 
 @property (assign) BOOL isModal;
@@ -35,6 +36,7 @@
 @property (nonatomic, retain) UVInfo *info;
 @property (nonatomic, retain) UVToken *currentToken;
 @property (nonatomic, retain) NSMutableDictionary *userCache;
+@property (nonatomic, retain) NSDate *startTime;
 
 + (UVSession *)currentSession;
 - (YOAuthConsumer *)yOAuthConsumer;

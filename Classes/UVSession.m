@@ -20,13 +20,14 @@
 @synthesize user;
 @synthesize currentToken;
 @synthesize info;
-@synthesize userCache;
+@synthesize userCache, startTime;
 
 + (UVSession *)currentSession {
 	static UVSession *currentSession;
 	@synchronized(self) {
 		if (!currentSession) {
 			currentSession = [[UVSession alloc] init];
+			currentSession.startTime = [NSDate date];
 		}
 	}
 	

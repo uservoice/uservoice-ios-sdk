@@ -19,6 +19,7 @@
 #import "UVNewMessageViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVSignInViewController.h"
+#import "UVStreamPoller.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define UV_FORUM_LIST_TAG_CELL_LABEL 1000
@@ -62,6 +63,12 @@
 - (void)pushForumView {
 	UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
 	[self.navigationController pushViewController:next animated:YES];
+	
+	// gonna check and start the stream timer here too, also checks on current user
+	if (![UVStreamPoller instance].timerIsRunning) {
+		[UVStreamPoller instance].startTimer;
+	}
+	
 	[next release];
 }
 
@@ -84,7 +91,7 @@
 	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	[myButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];	
 	
-	UIEdgeInsets insets = UIEdgeInsetsMake (0,10,0,0);
+	UIEdgeInsets insets = UIEdgeInsetsMake(0,10,0,0);
 	myButton.titleEdgeInsets = insets;	
 	myButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
 	myButton.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
