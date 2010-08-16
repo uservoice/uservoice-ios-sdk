@@ -10,11 +10,12 @@
 #import "UVStreamEvent.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
+#import "UVSuggestion.h"
 
 @implementation UVStreamPoller
 static UVStreamPoller* _instance;
 
-@synthesize repeatingTimer, lastPollTime;
+@synthesize repeatingTimer, lastPollTime, tableViewController;
 
 + (UVStreamPoller *)instance {
 	@synchronized([UVStreamPoller class]) {
@@ -48,21 +49,38 @@ static UVStreamPoller* _instance;
 
 - (void)pollServer:(NSTimer*)theTimer {
 	NSLog(@"Polling the UserVoice server");
-	NSDate *lastEventTime;
-	if (lastPollTime!=nil) {
-		lastEventTime = lastPollTime;
-		
-	} else {
-		lastEventTime = [UVSession currentSession].startTime;
-	}
+	if (!lastPollTime) {
+		self.lastPollTime = [UVSession currentSession].startTime;
+	}		
 	
 	[UVStreamEvent publicForForum:[UVSession currentSession].clientConfig.forum 
 					  andDelegate:self
-							since:lastEventTime];
+							since:lastPollTime];	
+	self.lastPollTime = [NSDate date];
 }
 
 - (void)didRetrievePublicStream:(NSArray *)theStream {
 	NSLog(@"Got public stream");
+
+	for (int i=0; i<[theStream count]; i++) {
+		UVStreamEvent *event = (UVStreamEvent *)[theStream objectAtIndex:i];
+		
+		if ([event.type isEqualToString:@"Suggestion"]) {
+			NSLog(@"New suggestion");
+			// just invalidate the forum, can't order this anyway
+			[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
+			
+		} else if ([event.type isEqualToString:@"Vote"]) {
+			NSLog(@"New vote");
+			
+		} else if ([event.type isEqualToString:@"Comment"]) {
+			NSLog(@"New comment");
+			
+		} else if ([event.type isEqualToString:@"AuditStatus"]) {
+			NSLog(@"New status");
+			
+		}
+	}
 }
 
 - (void)didRetrievePrivateStream:(NSArray *)theStream {
@@ -79,9 +97,9 @@ static UVStreamPoller* _instance;
 
 - (void)startTimer {	
 	if (self.repeatingTimer == nil) {
-		NSLog(@"Instantiating timer to start in 120 seconds");
+		NSLog(@"Instantiating timer to start in 120 seconds");				
 		
-		NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:120.0];
+		NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:30.0];
 		self.repeatingTimer = [[NSTimer alloc] initWithFireDate:fireDate
 													   interval:60.0
 														 target:self

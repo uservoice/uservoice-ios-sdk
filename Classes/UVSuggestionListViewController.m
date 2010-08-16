@@ -73,6 +73,7 @@
 - (void)populateSuggestions {
 	self.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = [NSMutableArray arrayWithCapacity:10];
+	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = NO;
 	[self retrieveMoreSuggestions];
 }
 
@@ -420,6 +421,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	if ([UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload) {
+		self.suggestions = nil;
+	}
 	
 	if (!self.suggestions) {
 		[self populateSuggestions];

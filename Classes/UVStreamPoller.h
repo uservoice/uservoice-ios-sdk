@@ -8,14 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class UVBaseViewController;
 
 @interface UVStreamPoller : NSObject {
 	NSTimer *repeatingTimer;
 	NSDate *lastPollTime;
+	UVBaseViewController *tableViewController;
 }
 
 @property (assign) NSTimer *repeatingTimer;
 @property (nonatomic, retain) NSDate *lastPollTime;
+@property (nonatomic, retain) UVBaseViewController *tableViewController;
 
 + (UVStreamPoller *)instance;
 
