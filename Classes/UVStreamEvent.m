@@ -22,11 +22,11 @@
 
 + (void)processModels:(NSArray *)models {
 	// Override in subclasses if necessary
-	NSLog(@"Processing stream");
-	
-	for (int i=0; i<[models count]; i++) {
-		NSLog(@"New event of type: %@", [[models objectAtIndex:i] type]);
-	}
+//	NSLog(@"Processing stream");
+//	
+//	for (int i=0; i<[models count]; i++) {
+//		NSLog(@"New event of type: %@", [[models objectAtIndex:i] type]);
+//	}
 }
 
 + (id)publicForForum:(UVForum *)theForum andDelegate:(id)delegate since:(NSDate *)aDateOrNil {

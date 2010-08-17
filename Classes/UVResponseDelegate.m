@@ -37,7 +37,7 @@
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReturnResource:(id)resource object:(id)object {
-	NSLog(@"didReturnResource: %@", resource);
+	//NSLog(@"didReturnResource: %@", resource);
 
 	if (statusCode >= 400) {
 		NSDictionary *userInfo = nil;

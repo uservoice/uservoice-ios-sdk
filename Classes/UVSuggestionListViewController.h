@@ -25,6 +25,7 @@
 
 - (id)initWithForum:(UVForum *)theForum;
 - (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions;
+- (void)reloadTableData;
 
 // Override in subclasses if they should not support search.
 - (BOOL)supportsSearch;

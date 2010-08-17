@@ -119,7 +119,7 @@
 }
 
 + (void)didReturnModel:(id)model callback:(NSInvocation *)callback {
-	NSLog(@"[UVBaseModel didReturnModel:object] = %@", model);
+	//NSLog(@"[UVBaseModel didReturnModel:object] = %@", model);
 
 	[self processModel:model];
 	
@@ -131,7 +131,7 @@
 }
 
 + (void)didReturnModels:(NSArray *)models callback:(NSInvocation *)callback {
-	NSLog(@"[UVBaseModel didReturnModels:object] = %@", models);
+	//NSLog(@"[UVBaseModel didReturnModels:object] = %@", models);
 
 	[self processModels:models];
 	

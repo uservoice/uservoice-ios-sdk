@@ -64,12 +64,6 @@
 	UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
 	[self.navigationController pushViewController:next animated:YES];
 	
-	// gonna check and start the stream timer here too, also checks on current user
-	if (![UVStreamPoller instance].timerIsRunning) {
-		[UVStreamPoller instance].startTimer;
-		[UVStreamPoller instance].lastPollTime = [NSDate date];
-	}
-	
 	[next release];
 }
 

@@ -21,6 +21,7 @@
 #import "UVTextEditor.h"
 #import "UVBaseGroupedCell.h"
 #import "UVButtonWithIndex.h"
+#import "UVStreamPoller.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -75,6 +76,12 @@
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = NO;
 	[self retrieveMoreSuggestions];
+	
+	// gonna check and start the stream timer here too
+	if (![UVStreamPoller instance].timerIsRunning) {
+		[UVStreamPoller instance].startTimer;
+		[UVStreamPoller instance].lastPollTime = [NSDate date];
+	}
 }
 
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
@@ -419,6 +426,13 @@
 	[contentView release];
 }
 
+- (void)reloadTableData {
+	NSLog(@"UVSuggestionListViewController: reloadTableData");
+	self.suggestions = [UVSession currentSession].clientConfig.forum.currentTopic.suggestions;
+	
+	[self.tableView reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	if ([UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload) {
@@ -435,6 +449,20 @@
 		[footer reloadFooter];
 	}
 	[self.tableView reloadData];
+	
+	NSLog(@"Adding observer");
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(reloadTableData) 
+												 name:@"TopicSuggestionsUpdated"
+											   object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	NSLog(@"Removing observer");
+	[[NSNotificationCenter defaultCenter] removeObserver:self 
+													name:@"TopicSuggestionsUpdated" 
+												  object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -447,6 +475,7 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+
 }
 
 
