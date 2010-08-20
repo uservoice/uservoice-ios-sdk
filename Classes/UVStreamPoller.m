@@ -91,10 +91,8 @@ static UVStreamPoller* _instance;
 		
 			if (index) {
 				[[UVSession currentSession].clientConfig.forum.currentTopic.suggestions replaceObjectAtIndex:[index intValue] 
-																								  withObject:theSuggestion];
-				
-				if ([event.type isEqualToString:@"Vote"])
-					[[NSNotificationCenter defaultCenter] postNotificationName:@"TopicSuggestionsUpdated" object:self];
+																								  withObject:theSuggestion];				
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"TopicSuggestionsUpdated" object:self];
 			}
 			if ([event.type isEqualToString:@"Vote"]) {
 				NSLog(@"New vote");				
