@@ -122,7 +122,7 @@ static UVStreamPoller* _instance;
 
 - (void)startTimer {	
 	if (self.repeatingTimer == nil) {
-		NSLog(@"Instantiating timer to start in 120 seconds");				
+		NSLog(@"Instantiating timer to start in 60 seconds");				
 		
 		NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:60.0];
 		self.repeatingTimer = [[NSTimer alloc] initWithFireDate:fireDate

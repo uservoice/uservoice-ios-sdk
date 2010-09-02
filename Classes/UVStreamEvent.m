@@ -51,6 +51,11 @@
 						selector:@selector(didRetrievePrivateStream:)];
 }
 
++ (void)didReceiveError:(NSError *)error callback:(NSInvocation *)callback {
+	// do nothing
+	NSLog(@"Error polling: %@", error);
+}
+
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if (self = [super init]) {
 		self.type = [self objectOrNilForDict:dict key:@"type"];
