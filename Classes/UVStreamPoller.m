@@ -68,8 +68,6 @@ static UVStreamPoller* _instance;
 				
 		NSNumber *index = [NSNumber numberWithInt:i];		
 		NSString *key = [NSString stringWithFormat:@"%d", theSuggestion.suggestionId];
-		
-		NSLog(@"Index: %@, Key: %@, Suggestion: %@", index, key, theSuggestion);
 		[suggestionIds setObject:index forKey:key];
 	}
 
@@ -140,6 +138,14 @@ static UVStreamPoller* _instance;
 - (void)stopTimer {
 	[repeatingTimer invalidate];
     self.repeatingTimer = nil;
+}
+
+- (void)dealloc {
+	[repeatingTimer invalidate];
+	[repeatingTimer release];
+	[tableViewController release];
+	
+	[super dealloc];
 }
 
 @end

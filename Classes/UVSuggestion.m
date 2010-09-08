@@ -200,7 +200,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"suggestionId: %d\ntitle: %@", self.suggestionId, self.title];
+	return [NSString stringWithFormat:@"suggestionId: %d\ntitle: %@\nvotes: %d", self.suggestionId, self.title, self.voteCount];
 }
 
 @end

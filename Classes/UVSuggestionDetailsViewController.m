@@ -75,11 +75,23 @@
 	}
 }
 
-- (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
+- (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {		
+	NSLog(@"Voted for suggestion: %@", theSuggestion);
+	
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
-	[self hideActivityIndicator];
+	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
+	self.suggestion = theSuggestion;
+	
 	[self.innerTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] 
-				  withRowAnimation:UITableViewRowAnimationFade];
+					   withRowAnimation:UITableViewRowAnimationFade];
+	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
+	
+	if (self.suggestion.status) {
+		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
+	} else {
+		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
+	}
+	[self hideActivityIndicator];
 }
 
 - (void)promptForFlag {
