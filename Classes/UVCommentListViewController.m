@@ -52,11 +52,19 @@
 	[UVComment getWithSuggestion:self.suggestion page:page delegate:self];
 }
 
-- (void)didCreateComment:(UVSuggestion *)comment {
+- (void)didCreateComment:(UVComment *)comment {
 	[self hideActivityIndicator];
 	// Insert new comment at the beginning
 	[self.comments insertObject:comment atIndex:0];
 	[self.tableView reloadData];
+	
+	// Update comment count
+	self.suggestion.commentsCount += 1;
+	if (self.suggestion.commentsCount == 1) {
+		self.navigationItem.title = @"1 Comment";
+	} else {
+		self.navigationItem.title = [NSString stringWithFormat:@"%d Comments", self.suggestion.commentsCount];
+	}
 	
 	// Clear text editor
 	self.textEditor.text = @"";
