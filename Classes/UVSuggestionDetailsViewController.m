@@ -53,7 +53,7 @@
 		[self showActivityIndicator];
 		// no longer supported so remove from supportedSuggestions
 		// also should decrement counters
-		if (segments.selectedSegmentIndex == 0) {
+		if (segments.selectedSegmentIndex==0 && [[UVSession currentSession].user.supportedSuggestions count]!=0) {
 			NSInteger index = 0;
 			NSInteger suggestionIndex = 0;
 			for (UVSuggestion *aSuggestion in [UVSession currentSession].user.supportedSuggestions) {
@@ -61,10 +61,15 @@
 					suggestionIndex = index;					
 				index++;
 			}
+			NSLog(@"Removing sugggestion index %d from %d supported suggestions", suggestionIndex, 
+				  [[UVSession currentSession].user.supportedSuggestions count]);
+			
 			[[UVSession currentSession].user.supportedSuggestions removeObjectAtIndex:suggestionIndex];
 			[UVSession currentSession].user.supportedSuggestionsCount -= 1;
 			
 		} else if (self.suggestion.votesFor == 0) {
+			NSLog(@"Adding new supported suggestion");
+			
 			// add if not there
 			[[UVSession currentSession].user.supportedSuggestions addObject:self.suggestion];
 			[UVSession currentSession].user.supportedSuggestionsCount += 1;
