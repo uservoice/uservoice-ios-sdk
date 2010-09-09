@@ -309,20 +309,37 @@
 	return 1;
 }
 
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	switch (indexPath.section) {
-		case UV_FORUM_LIST_SECTION_QUESTIONS: {
-			if ([UVSession currentSession].user==nil) {
-				UVSignInViewController *next = [[UVSignInViewController alloc] init];
-				[self.navigationController pushViewController:next animated:YES];
-				[next release];
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
+	// massive repeatition here, needs tidying up at some point
+	// preferably with an opinion of a web configurable GUI
+	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
+		[theTableView deselectRowAtIndexPath:indexPath animated:YES];
+		
+		switch (indexPath.section) {
+			case UV_FORUM_LIST_SECTION_QUESTIONS: {
+				if ([UVSession currentSession].user==nil) {
+					UVSignInViewController *next = [[UVSignInViewController alloc] init];
+					[self.navigationController pushViewController:next animated:YES];
+					[next release];
+				}
+				break;
 			}
-			break;
+			default:
+				break;
 		}
-		default:
-			break;
+	} else if ([UVSession currentSession].clientConfig.questionsEnabled) {
+		switch (indexPath.section) {
+			case UV_FORUM_LIST_SECTION_SUPPORT: {
+				if ([UVSession currentSession].user==nil) {
+					UVSignInViewController *next = [[UVSignInViewController alloc] init];
+					[self.navigationController pushViewController:next animated:YES];
+					[next release];
+				}
+				break;
+			}
+			default:
+				break;
+		}		
 	}
 }
 
@@ -334,6 +351,7 @@
 	
 	if (indexPath.section <= maxRows) {
 		return 45;
+		
 	} else {
 		return 70;
 	}
@@ -350,7 +368,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return 0.0; //18.0;
+	return 0.0;
 }
 
 #pragma mark ===== Basic View Methods =====
