@@ -401,6 +401,8 @@
 	
 	_forum = [UVSession currentSession].clientConfig.forum;		
 	if ([self needsReload]) {
+		NSLog(@"WelcomeView needs reload");
+		
 		UISegmentedControl *segments = 
 			(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 		

@@ -159,48 +159,35 @@
 	}
 }
 
-- (void)keyboardWillShow:(NSNotification *)aNotification {
-	if (shouldResizeForKeyboard) {
-		// Resize the table to account for the keyboard
-		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-		NSTimeInterval animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-		CGRect frame = self.tableView.frame;
-		frame.size.height -= keyboardRect.size.height;
-		[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-		[UIView setAnimationDuration:animationDuration];
-		self.tableView.frame = frame;
-		[UIView commitAnimations];
+//- (void) moveTextViewForKeyboard:(NSNotification*)aNotification up: (BOOL) up {
+- (void) moveTextViewForKeyboard:(BOOL) up {
+	// Animate up or down
+	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+	
+	CGRect newFrame = self.tableView.frame;
+	newFrame.size.height -= 216 * (up? 1 : -1);
+	self.tableView.frame = newFrame;
+	if (up) {	
+		// Scroll to the active text editor	
+		NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_MESSAGE_SECTION_TEXT];
+		[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	}
-}
-
-- (void)keyboardWillHide:(NSNotification *)aNotification {
-	if (shouldResizeForKeyboard) {
-		// Resize the table back to the original height
-		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-		NSTimeInterval animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-		CGRect frame = self.tableView.frame;
-		frame.size.height += keyboardRect.size.height;
-		[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-		[UIView setAnimationDuration:animationDuration];
-		self.tableView.frame = frame;
-		[UIView commitAnimations];
-	}
+	[UIView commitAnimations];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	// Reset didReturn flag. This allows us to distinguish later between the user dismissing the
-	// keyboard (by tapping on the return key) or tapping on a different text field. In the
-	// latter case we don't want to grow and re-shrink the table view.
-	// shouldResizeForKeyboard = NO;
-	
 	// Scroll to the active text field
+	NSLog(@"textFieldDidBeginEditing");	
 	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_MESSAGE_SECTION_PROFILE];
 	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+	NSLog(@"textFieldShouldEndEditing");
+	
 	if (textField==emailField) {
 		NSLog(@"Check email");
 		[self checkEmail];
@@ -210,17 +197,18 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
+	
 	return YES;
 }
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
-	shouldResizeForKeyboard = YES;
 	return YES;
 }
 
 - (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
+	NSLog(@"textEditorDidBeginEditing");
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
 	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -229,9 +217,7 @@
 	[self.navigationItem setLeftBarButtonItem:saveItem animated:YES];
 	[saveItem release];
 	
-	// Scroll to the active text editor
-	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_MESSAGE_SECTION_TEXT];
-	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	[self moveTextViewForKeyboard:YES];
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
@@ -239,6 +225,9 @@
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
+	NSLog(@"textEditorShouldEndEditing");
+	[self moveTextViewForKeyboard:NO];
+	
 	return YES;
 }
 
@@ -412,8 +401,7 @@
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
-	[super loadView];
-	
+	[super loadView];	
 	self.navigationItem.title = @"Contact Us";
 	
 	CGRect frame = [self contentFrame];
@@ -465,15 +453,15 @@
 	if (self.needsReload) {
 		[self.tableView reloadData];
 		self.needsReload = NO;
+		
+		NSArray *viewControllers = [self.navigationController viewControllers];
+		UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+		prev.needsReload = YES;	
 	}
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

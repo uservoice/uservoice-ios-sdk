@@ -12,7 +12,10 @@
 
 @class UVSubject;
 
-@interface UVNewMessageViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UVTextEditorDelegate> {
+@interface UVNewMessageViewController : UVBaseViewController 
+<UITableViewDataSource, UITableViewDelegate, 
+	UITextFieldDelegate, UVTextEditorDelegate> {
+		
 	NSString *text;
 	NSString *name;
 	NSString *email;
@@ -21,7 +24,6 @@
 	UITextField *emailField;
 	UIBarButtonItem *prevBarButton;
 	UVSubject *subject;
-	BOOL shouldResizeForKeyboard;
 }
 
 @property (nonatomic, retain) NSString *text;
