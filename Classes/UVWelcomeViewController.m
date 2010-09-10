@@ -108,9 +108,11 @@
 								   lineBreakMode:UILineBreakModeWordWrap];
 		return subSize.height + 35 + 5 + 5; // (subheader + header + padding between/bottom)
 		
-	} else {
+	} else if (header) {
 		return 35 + 5; // header + padding bottom only
 	}
+	
+	return 10;
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -208,6 +210,16 @@
 	}
 }
 
+- (void)initCellForSpacer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	[self removeBackgroundFromCell:cell];	
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 11)];		
+	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	[cell.contentView addSubview:bg];
+	[bg release];
+}
+
 - (UIView *)viewWithHeader:(NSString *)header subheader:(NSString *)subheader {
 	CGFloat height = [self heightForViewWithHeader:header subheader:subheader];
 	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
@@ -237,29 +249,25 @@
 }
 
 - (NSString *)headerTextForSection:(NSInteger)section {
-	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
 	if (section == 0) {
 		return @"Suggestions";
 		
-	} else if (section == 1 && showMessages) {
-		return @"Support";
+	} else if (section == 1) {
+		return [UVSession currentSession].clientConfig.subdomain.messagesEnabled ? @"Support" : nil;
 		
 	} else {
-		return @"Rating";
+		return [UVSession currentSession].clientConfig.questionsEnabled ? @"Rating" : nil;
 	}
 }
 
-- (NSString *)subHeaderTextForSection:(NSInteger)section {
-	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
-	NSInteger maxRows = showMessages ? 1 : 0;
-	
-	if (section <= maxRows) {
+- (NSString *)subHeaderTextForSection:(NSInteger)section {	
+	if (section <= UV_FORUM_LIST_SECTION_SUPPORT) {
 		return nil;
 		
 	} else {
 		NSArray *qs = [UVSession currentSession].clientConfig.questions;
 		UVQuestion *q = [qs objectAtIndex:0];
-		return q.text;
+		return [UVSession currentSession].clientConfig.questionsEnabled ? q.text : nil;
 	}
 }
 
@@ -268,20 +276,29 @@
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier = @"";
 	BOOL selectable = NO;
-	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
+
 	UITableViewCellStyle style = UITableViewCellStyleDefault;	
 	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
 		identifier = @"Forum";
 		
-	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT && showMessages) {
-		identifier = @"Support";
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {		
+		if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
+			identifier = @"Support";
+			
+		} else {
+			identifier = @"Spacer";
+		}
 		
-	} else if ((indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT && !showMessages) ||
-			    indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
-		identifier = @"Question";
-		if ([UVSession currentSession].user == nil)
-			selectable = YES;
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
+		if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		
+			identifier = @"Question";
+			if ([UVSession currentSession].user == nil)
+				selectable = YES;
+			
+		} else {
+			identifier = @"Spacer";
+		}
 	}
 	
 	return [self createCellForIdentifier:identifier
@@ -292,17 +309,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	NSInteger sections = 1;
-	if ([UVSession currentSession].clientConfig.questionsEnabled) {
-		sections++;
-		NSLog(@"Ratings section required");
-	} 
-	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
-		sections++;
-		NSLog(@"Message section required");
-	}
-	NSLog(@"Creating welcome view with %d sections", sections);
-	return sections;
+	return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -310,51 +317,35 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-	// massive repeatition here, needs tidying up at some point
-	// preferably with an opinion of a web configurable GUI
-	if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
-		[theTableView deselectRowAtIndexPath:indexPath animated:YES];
-		
-		switch (indexPath.section) {
-			case UV_FORUM_LIST_SECTION_QUESTIONS: {
-				if ([UVSession currentSession].user==nil) {
-					UVSignInViewController *next = [[UVSignInViewController alloc] init];
-					[self.navigationController pushViewController:next animated:YES];
-					[next release];
-				}
-				break;
+	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	switch (indexPath.section) {
+		case UV_FORUM_LIST_SECTION_QUESTIONS: {
+			if ([UVSession currentSession].user==nil) {
+				UVSignInViewController *next = [[UVSignInViewController alloc] init];
+				[self.navigationController pushViewController:next animated:YES];
+				[next release];
 			}
-			default:
-				break;
+			break;
 		}
-	} else if ([UVSession currentSession].clientConfig.questionsEnabled) {
-		switch (indexPath.section) {
-			case UV_FORUM_LIST_SECTION_SUPPORT: {
-				if ([UVSession currentSession].user==nil) {
-					UVSignInViewController *next = [[UVSignInViewController alloc] init];
-					[self.navigationController pushViewController:next animated:YES];
-					[next release];
-				}
-				break;
-			}
-			default:
-				break;
-		}		
+		default:
+			break;
 	}
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	BOOL showMessages = [UVSession currentSession].clientConfig.subdomain.messagesEnabled;
-	NSInteger maxRows = showMessages ? 1 : 0;
-	
-	if (indexPath.section <= maxRows) {
+	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
 		return 45;
 		
-	} else {
-		return 70;
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {
+		return [UVSession currentSession].clientConfig.subdomain.messagesEnabled ? 45 : 0.0;
+		
+	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
+		return [UVSession currentSession].clientConfig.questionsEnabled ? 70 : 0.0;
 	}
+	return 0.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

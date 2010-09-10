@@ -93,9 +93,11 @@
 								   lineBreakMode:UILineBreakModeWordWrap];
 		return subSize.height + 30 + 5 + 5; // (subheader + header + padding between/bottom)
 		
-	} else {
+	} else if (header) {
 		return 40 + 5; // header + padding bottom only
+
 	}
+	return 0;
 }
 
 - (UIView *)viewWithHeader:(NSString *)header subheader:(NSString *)subheader {
