@@ -31,7 +31,7 @@
 	button.enabled = enabled;
 }
 
-- (void)buttonTapped {
+- (void)iconButtonTapped {
 	// edit image not implemented
 //	UVProfileViewController *next = [[UVProfileViewController alloc] initWithUserId:self.userId name:self.name];
 //	[self.controller.navigationController pushViewController:next animated:YES];
