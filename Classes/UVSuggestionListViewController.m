@@ -117,6 +117,7 @@
 																						 title:_textEditor.text];
 	[self.navigationController pushViewController:next animated:YES];
 	[next release];
+	[self dismissTextEditor];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -295,7 +296,7 @@
 }
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
-	NSLog(@"textEditorShouldBeginEditing");
+	//NSLog(@"textEditorShouldBeginEditing");
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	NSInteger height = self.view.bounds.size.height - 216;
 	CGRect frame = CGRectMake(0, 10, 320, height);
@@ -303,7 +304,7 @@
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
 	[UIView beginAnimations:@"growHeader" context:nil];
-	NSLog(@"setLeftBarButtonCancel");
+	//NSLog(@"setLeftBarButtonCancel");
 	[self setLeftBarButtonCancel];	
 	[self setCellsEnabled:NO];
 	
@@ -331,11 +332,11 @@
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {	
-	NSLog(@"textEditorDidEndEditing");
+	//NSLog(@"textEditorDidEndEditing");
 	
 	// reset nav
 	if (_textEditor.text) {
-		NSLog(@"setLeftBarButtonClear");		
+		//NSLog(@"setLeftBarButtonClear");		
 		[self setLeftBarButtonClear];		
 	}
 	
