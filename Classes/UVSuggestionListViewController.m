@@ -251,18 +251,17 @@
 - (void)setLeftBarButtonCancel {
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																			    target:self
-																			    action:@selector(dismissTextEditor)];
-	self.prevLeftBarButton = self.navigationItem.leftBarButtonItem;
+																			    action:@selector(dismissTextEditor)];	
 	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
 	[cancelItem release];
 }
 
 - (void)setLeftBarButtonClear {
-	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																			    target:self
 																			    action:@selector(resetList)];
-	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
-	[cancelItem release];
+	[self.navigationItem setLeftBarButtonItem:clearItem animated:YES];
+	[clearItem release];
 }
 
 - (void)setLeftBarButtonPrevious {
@@ -276,7 +275,7 @@
 	[self.suggestions removeAllObjects];
 	[self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.currentTopic.suggestions];
 	[self.tableView reloadData];
-	[self setLeftBarButtonPrevious];
+	[self.navigationItem setLeftBarButtonItem:nil animated:YES];
 }
 
 - (void)dismissTextEditor {
@@ -296,13 +295,15 @@
 }
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
+	NSLog(@"textEditorShouldBeginEditing");
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	NSInteger height = self.view.bounds.size.height - 216;
 	CGRect frame = CGRectMake(0, 10, 320, height);
 	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
-	[UIView beginAnimations:@"growHeader" context:nil];	
+	[UIView beginAnimations:@"growHeader" context:nil];
+	NSLog(@"setLeftBarButtonCancel");
 	[self setLeftBarButtonCancel];	
 	[self setCellsEnabled:NO];
 	
@@ -330,11 +331,12 @@
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {	
+	NSLog(@"textEditorDidEndEditing");
+	
 	// reset nav
 	if (_textEditor.text) {
+		NSLog(@"setLeftBarButtonClear");		
 		[self setLeftBarButtonClear];		
-	} else {
-		[self setLeftBarButtonPrevious];
 	}
 	
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
