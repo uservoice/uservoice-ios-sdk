@@ -150,14 +150,17 @@
 	// increment the created suggestions and supported suggestions counts
 	[UVSession currentSession].user.supportedSuggestionsCount += 1;
 	[UVSession currentSession].user.createdSuggestionsCount += 1;	
-	// add to this users created suggestions, unless they have never been loaded or are going to be
-	if (![UVSession currentSession].user.suggestionsNeedReload) {
-		[[UVSession currentSession].user.createdSuggestions addObject:theSuggestion];
-	}
+	// add to this users created suggestions, unless they have never been loaded or are going to be	
+	//[[UVSession currentSession].user.createdSuggestions addObject:theSuggestion];
+	
+	[UVSession currentSession].user.suggestionsNeedReload = YES;
+	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
+
 	// update the remaining votes
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
 	
-	[self dismissModalViewControllerAnimated:YES];
+	//[self dismissModalViewControllerAnimated:YES];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {
