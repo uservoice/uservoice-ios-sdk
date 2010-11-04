@@ -200,6 +200,7 @@
 	BOOL selectable = NO;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
+	NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
 	
 	if (indexPath.row < [self.suggestions count]) {
 		identifier = @"Suggestion";
@@ -224,12 +225,12 @@
 	
 	if (_searching) {
 		NSLog(@"Adding extra row for 'add'");
-		// One cell per suggestion + "Load More" + one for "add"
+		// One cell per suggestion + one for "add"
 		rows = loadedCount + 1;
 		
 	} else {
 		// One cell per suggestion + "Load More"
-		rows = [self.suggestions count] + (loadedCount>=suggestionsCount ? 0 : 1);
+		rows = [self.suggestions count] + (loadedCount>=suggestionsCount || suggestionsCount<SUGGESTIONS_PAGE_SIZE ? 0 : 1);
 	}
 	return rows;
 }

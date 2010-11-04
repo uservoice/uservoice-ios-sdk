@@ -90,12 +90,9 @@
 }
 
 - (NSString *)imageNameForStyle:(UVSuggestionChickletStyle)style {
-	if (style == UVSuggestionChickletStyleEmpty)
-	{
+	if (style == UVSuggestionChickletStyleEmpty) {
 		return @"uv_vote_chicklet_empty.png";
-	}
-	else
-	{
+	} else {
 		return @"uv_vote_chicklet.png";
 	}
 }
