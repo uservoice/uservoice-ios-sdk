@@ -45,10 +45,10 @@ Update Build Settings
 * Make sure that the Configuration drop-down shows "All Configurations".
 
 * Look for Header Search Paths.
-* Double-click, then add "PATH_TO_USERVOICE_SDK/**".
+* Double-click, then add "PATH_TO_USERVOICE_SDK/**" (replace with the path to the downloaded UserVoice SDK, the ** is very important)
 
 * Look for Other Linker Flags.
-* Double-click, then add "`-ObjC`".
+* Double-click, then add "-ObjC".
 
 
 Update Binary Linked Libraries

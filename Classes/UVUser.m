@@ -98,11 +98,11 @@
 				selector:@selector(didRetrieveCurrentUser:)];
 }
 
-// only called when instigated by the user, creates a local user
+// only called when instigated by the user, creates a global user
 + (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							aName == nil ? @"" : aName, @"user[display_name]",
+							aName == nil ? @"" : aName, @"user[name]",
 							anEmail == nil ? @"" : anEmail, @"user[email]", 
 							[UVSession currentSession].currentToken.oauthToken.key, @"request_token",
 							nil];
@@ -113,11 +113,12 @@
 				 selector:@selector(didCreateUser:)];
 }
 
+// two methods for creating with the client, create local users
 + (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
-	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
+	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/find_or_create.json"]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							aGUID, @"guid",
-							aName == nil ? @"" : aName, @"user[display_name]",
+							aName == nil ? @"" : aName, @"user[name]",
 							anEmail == nil ? @"" : anEmail, @"user[email]", 
 							[UVSession currentSession].currentToken.oauthToken.key, @"request_token",
 							nil];
@@ -129,7 +130,7 @@
 }
 
 + (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate {
-	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
+	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/find_or_create.json"]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							aToken, @"sso", 
 							[UVSession currentSession].currentToken.oauthToken.key, @"request_token",

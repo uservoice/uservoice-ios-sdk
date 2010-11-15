@@ -200,7 +200,7 @@
 	BOOL selectable = NO;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
-	NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
+	//NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
 	
 	if (indexPath.row < [self.suggestions count]) {
 		identifier = @"Suggestion";
