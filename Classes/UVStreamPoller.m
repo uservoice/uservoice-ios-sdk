@@ -74,7 +74,7 @@ static UVStreamPoller* _instance;
 	for (int i=0; i<[theStream count]; i++) {
 		UVStreamEvent *event = (UVStreamEvent *)[theStream objectAtIndex:i];				
 		
-		if ([event.type isEqualToString:@"Suggestion"]) {
+		if ([event.type isEqualToString:@"suggestion"]) {
 			NSLog(@"New suggestion");
 			// just invalidate the forum, can't order this anyway
 			[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
@@ -92,13 +92,13 @@ static UVStreamPoller* _instance;
 																								  withObject:theSuggestion];				
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"TopicSuggestionsUpdated" object:self];
 			}
-			if ([event.type isEqualToString:@"Vote"]) {
+			if ([event.type isEqualToString:@"vote"]) {
 				NSLog(@"New vote");				
 				
-			} else if ([event.type isEqualToString:@"Comment"]) {
+			} else if ([event.type isEqualToString:@"comment"]) {
 				NSLog(@"New comment");
 				
-			} else if ([event.type isEqualToString:@"Status Update"]) {
+			} else if ([event.type isEqualToString:@"suggestion_status"]) {
 				NSLog(@"New status");
 				
 			}
