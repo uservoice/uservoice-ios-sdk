@@ -98,7 +98,7 @@ static UVStreamPoller* _instance;
 			} else if ([event.type isEqualToString:@"Comment"]) {
 				NSLog(@"New comment");
 				
-			} else if ([event.type isEqualToString:@"AuditStatus"]) {
+			} else if ([event.type isEqualToString:@"Status Update"]) {
 				NSLog(@"New status");
 				
 			}
