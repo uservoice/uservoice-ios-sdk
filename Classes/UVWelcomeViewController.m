@@ -9,7 +9,6 @@
 #import "UVWelcomeViewController.h"
 #import "UVStyleSheet.h"
 #import "UVFooterView.h"
-#import "UVWelcomeView.h"
 #import "UVSession.h"
 #import "UVForum.h"
 #import "UVClientConfig.h"
@@ -52,6 +51,30 @@
 - (void)didCreateAnswer:(UVAnswer *)theAnswer {
 	[self hideActivityIndicator];
 	self.question.currentAnswer = theAnswer;
+	
+	// Prompt for app store review if the returned rating indicates this (driven by
+	// server side logic based on rating value) and if we actually have an app id.
+	if (theAnswer.value >= 4 && [UVSession currentSession].clientConfig.itunesApplicationId) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rating"
+														message:@"Would you like to add your rating to the iTunes store?"
+													   delegate:self
+											  cancelButtonTitle:@"Cancel"
+											  otherButtonTitles:@"OK", nil];
+		[alert show];
+		[alert release];
+	}
+}
+
+#pragma mark ===== UIAlertViewDelegate Methods =====
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == alertView.firstOtherButtonIndex) {
+		NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@",
+						 [UVSession currentSession].clientConfig.itunesApplicationId];
+		
+		NSLog(@"Attempting to open iTunes page: %@", url);
+		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+	}
 }
 
 - (void)pushNewMessageView {

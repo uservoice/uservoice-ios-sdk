@@ -171,6 +171,30 @@
 	} else {
 		segments.selectedSegmentIndex = UISegmentedControlNoSegment;
 	}
+	
+	// Prompt for app store review if the returned rating indicates this (driven by
+	// server side logic based on rating value) and if we actually have an app id.
+//	if (theRating.flashType && [theRating.flashType isEqualToString:@"app_store_rating"] &&
+//		[UVSession currentSession].clientConfig.itunesApplicationId) {
+//		
+//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rating"
+//														message:theRating.flashMessage
+//													   delegate:self
+//											  cancelButtonTitle:@"Cancel"
+//											  otherButtonTitles:@"OK", nil];
+//		[alert show];
+//		[alert release];
+//	}
+}
+
+#pragma mark ===== UIAlertViewDelegate Methods =====
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == alertView.firstOtherButtonIndex) {
+		NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8",
+						 [UVSession currentSession].clientConfig.itunesApplicationId];
+		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+	}
 }
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {				
@@ -390,30 +414,5 @@
 	}
 	return cell;
 }
-
-
-// Prompt for app store review if the returned rating indicates this (driven by
-// server side logic based on rating value) and if we actually have an app id.
-//	if (theRating.flashType &&
-//		[theRating.flashType isEqualToString:@"app_store_rating"] &&
-//		[UVSession currentSession].clientConfig.itunesApplicationId) {
-//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rating"
-//														message:theRating.flashMessage
-//													   delegate:self
-//											  cancelButtonTitle:@"Cancel"
-//											  otherButtonTitles:@"OK", nil];
-//		[alert show];
-//		[alert release];
-//	}
-
-//#pragma mark ===== UIAlertViewDelegate Methods =====
-//
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//	if (buttonIndex == alertView.firstOtherButtonIndex) {
-//		NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=%@&mt=8",
-//						 [UVSession currentSession].clientConfig.itunesApplicationId];
-//		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-//	}
-//}
 
 @end

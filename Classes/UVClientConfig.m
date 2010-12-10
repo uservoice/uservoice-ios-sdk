@@ -45,7 +45,7 @@
 	if (self = [super init]) {
 		self.questionsEnabled = [(NSNumber *)[dict objectForKey:@"questions_enabled"] boolValue];
 		self.welcome = [self objectOrNilForDict:dict key:@"welcome"];
-		self.itunesApplicationId = [self objectOrNilForDict:dict key:@"external_identifier"];
+		self.itunesApplicationId = [self objectOrNilForDict:dict key:@"identifier_external"];
 		
 		// get the forum
 		NSDictionary *forumDict = [self objectOrNilForDict:dict key:@"forum"];

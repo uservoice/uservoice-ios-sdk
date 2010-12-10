@@ -122,8 +122,6 @@
 		D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */; };
 		D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE52111DC11A600B26012 /* UVTaskBar.h */; };
 		D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE52211DC11A600B26012 /* UVTaskBar.m */; };
-		D24BE84811DD218000B26012 /* UVWelcomeView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE84611DD218000B26012 /* UVWelcomeView.h */; };
-		D24BE84911DD218000B26012 /* UVWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE84711DD218000B26012 /* UVWelcomeView.m */; };
 		D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = D25C899311B1CE98000C0B43 /* UVStatus.h */; };
 		D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D25C899411B1CE98000C0B43 /* UVStatus.m */; };
 		D261E056121456430024F2EA /* UVStreamPoller.h in Headers */ = {isa = PBXBuildFile; fileRef = D261E054121456430024F2EA /* UVStreamPoller.h */; };
@@ -308,8 +306,6 @@
 		D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextEditor.m; sourceTree = "<group>"; };
 		D24BE52111DC11A600B26012 /* UVTaskBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTaskBar.h; sourceTree = "<group>"; };
 		D24BE52211DC11A600B26012 /* UVTaskBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTaskBar.m; sourceTree = "<group>"; };
-		D24BE84611DD218000B26012 /* UVWelcomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVWelcomeView.h; sourceTree = "<group>"; };
-		D24BE84711DD218000B26012 /* UVWelcomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVWelcomeView.m; sourceTree = "<group>"; };
 		D24BEBC411DD6C1100B26012 /* dropshadow_bottom_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_bottom_10.png; sourceTree = "<group>"; };
 		D24BEBC511DD6C1100B26012 /* dropshadow_bottom_20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_bottom_20.png; sourceTree = "<group>"; };
 		D24BEBC611DD6C1100B26012 /* dropshadow_bottom_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropshadow_bottom_30.png; sourceTree = "<group>"; };
@@ -646,8 +642,6 @@
 				D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */,
 				D24BE52111DC11A600B26012 /* UVTaskBar.h */,
 				D24BE52211DC11A600B26012 /* UVTaskBar.m */,
-				D24BE84611DD218000B26012 /* UVWelcomeView.h */,
-				D24BE84711DD218000B26012 /* UVWelcomeView.m */,
 				D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */,
 				D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */,
 				D20402C911E03B0C00022C44 /* UVSuggestionButton.h */,
@@ -866,7 +860,6 @@
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextEditor.h in Headers */,
 				D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */,
-				D24BE84811DD218000B26012 /* UVWelcomeView.h in Headers */,
 				D26B487E11DEAA4500B096D0 /* UVBaseGroupedCell.h in Headers */,
 				D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */,
 				D270CC2F11E07C640001E524 /* UVSuggestionFooterView.h in Headers */,
@@ -918,7 +911,14 @@
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "UserVoice" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* UserVoice */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -1000,7 +1000,6 @@
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */,
 				D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */,
-				D24BE84911DD218000B26012 /* UVWelcomeView.m in Sources */,
 				D26B487F11DEAA4500B096D0 /* UVBaseGroupedCell.m in Sources */,
 				D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */,
 				D270CC3011E07C640001E524 /* UVSuggestionFooterView.m in Sources */,
@@ -1059,7 +1058,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				PRODUCT_NAME = UserVoice;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.2;
 				USER_HEADER_SEARCH_PATHS = "Vendor/JSON/** Vendor/HTTPRiot/** Vendor/YOAuth/**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = USERVOICE;
@@ -1096,7 +1095,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				PRODUCT_NAME = UserVoice;
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.2;
 				USER_HEADER_SEARCH_PATHS = "Vendor/JSON/** Vendor/HTTPRiot/** Vendor/YOAuth/**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = USERVOICE;
@@ -1115,7 +1114,7 @@
 				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos4.2;
 			};
 			name = Debug;
 		};
@@ -1130,7 +1129,7 @@
 				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos4.2;
 			};
 			name = Release;
 		};
