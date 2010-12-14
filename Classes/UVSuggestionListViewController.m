@@ -87,7 +87,9 @@
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
 	[self hideActivityIndicator];
 	if ([theSuggestions count] > 0) {
+		//NSLog(@"Retrieved Suggestions: %@", theSuggestions);
 		[self.suggestions addObjectsFromArray:theSuggestions];
+		//NSLog(@"Stored Suggestions: %@", self.suggestions);
 	}
 
 	[[UVSession currentSession].clientConfig.forum.currentTopic.suggestions addObjectsFromArray:theSuggestions];

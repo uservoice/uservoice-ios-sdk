@@ -49,9 +49,12 @@
 	return self;
 }
 
-- (void)showSuggestion:(UVSuggestion *)suggestion {
+- (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex {
 	if (_suggestion!=suggestion)
 		_suggestion = suggestion;
+	
+	// update the index
+	_index = theIndex;
 	
 	UILabel *label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE];
 	CGSize maxSize = CGSizeMake(225, 34);

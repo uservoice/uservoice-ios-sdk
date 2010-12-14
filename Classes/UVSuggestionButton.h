@@ -16,6 +16,6 @@
 
 - (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame;
 
-- (void)showSuggestion:(UVSuggestion *)suggestion;
+- (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex;
 
 @end
