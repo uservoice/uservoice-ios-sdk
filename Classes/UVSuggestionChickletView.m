@@ -100,7 +100,7 @@
 - (void)updateWithSuggestion:(UVSuggestion *)suggestion style:(UVSuggestionChickletStyle)style {
 	UIImageView *imageView = (UIImageView *)[self viewWithTag:UV_CHICKLET_TAG_IMAGE];
 	NSString *imageName = suggestion.status ? @"uv_vote_chicklet.png" : @"uv_vote_chicklet_empty.png";
-	NSLog(@"imageName: %@\n", imageName);
+	//NSLog(@"imageName: %@\n", imageName);
 	imageView.image = [UIImage imageNamed:imageName];
 	if (!suggestion.status)
 		imageView.frame = CGRectMake(0, 0, 60, 44);

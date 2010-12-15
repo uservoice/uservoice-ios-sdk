@@ -192,13 +192,16 @@
 }
 
 - (void)contactButtonTapped {
-	// This is a bit of a hack... We need to first dismiss the modal idea creation view
-	// (which brings us back to the idea list), and then push the message creation view.
-	// Therefore we need to first get a hold of the parent view's navigation view controller.
-	UINavigationController *navController = (UINavigationController *)self.parentViewController.parentViewController;
-	[self dismissModalViewControllerAnimated:NO];
+	UINavigationController *navController = self.navigationController;
+	NSArray *viewControllers = [navController viewControllers];	
+	NSMutableArray *newControllers = [NSMutableArray arrayWithCapacity:3];	
 	UIViewController *next = [[UVNewMessageViewController alloc] init];
-	[navController pushViewController:next animated:YES];
+	
+	[newControllers addObject:[viewControllers objectAtIndex:0]];
+	[newControllers addObject:[viewControllers objectAtIndex:1]];	
+	[newControllers	addObject:next];
+	
+	[navController setViewControllers:newControllers animated:YES];
 	[next release];
 }
 
