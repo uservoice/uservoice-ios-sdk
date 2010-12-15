@@ -17,8 +17,16 @@
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret {
 	if (self = [super init]) {
+		NSURL* url = [NSURL URLWithString:theSite];
+		NSString* saneURL;
+		if (url.host == nil) {
+			saneURL	= [NSString stringWithFormat:@"%@", url];
+		} else {
+			saneURL = [NSString stringWithFormat:@"%@", url.host];
+		}		
+		
 		self.key = theKey;
-		self.site = theSite;
+		self.site = saneURL;
 		self.secret = theSecret;
 	}
 	return self;
