@@ -173,7 +173,6 @@
 	cell.backgroundView.backgroundColor = bgColor;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
-	
 	NSString *text = [NSString stringWithFormat:@"Add \"%@\"", _textEditor.text];
 	CGSize size = [text sizeWithFont:font forWidth:260 lineBreakMode:UILineBreakModeTailTruncation];
 	CGFloat startX = 30.0 + ((260.0 - size.width) / 2.0);
@@ -188,13 +187,14 @@
 	CGFloat maxWidth = 260 - (size.width + 10);
 	label = (UILabel *)[cell.contentView viewWithTag:UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY];
 	label.text = _textEditor.text;
+	label.textColor = [UVStyleSheet dimBlueColor];
 	size = [label.text sizeWithFont:font forWidth:maxWidth lineBreakMode:UILineBreakModeTailTruncation];
 	label.frame = CGRectMake(prevEndX, 26, size.width, 20);
 	
 	// Suffix: "
 	prevEndX = label.frame.origin.x + label.frame.size.width;
 	label = (UILabel *)[cell.contentView viewWithTag:UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX];
-	label.frame = CGRectMake(prevEndX + 3, 26, 10, 20);
+	label.frame = CGRectMake(prevEndX-1, 26, 10, 20);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
