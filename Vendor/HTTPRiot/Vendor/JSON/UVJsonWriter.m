@@ -68,7 +68,7 @@
     }
 
     [self clearErrorTrace];
-    [self addErrorWithCode:EFRAGMENT description:@"Not valid type for JSON"];
+    [self addErrorWithCode:UVEFRAGMENT description:@"Not valid type for JSON"];
     return nil;
 }
 
@@ -102,7 +102,7 @@
         [self appendValue:[fragment proxyForJson] into:json];
         
     } else {
-        [self addErrorWithCode:EUNSUPPORTED description:[NSString stringWithFormat:@"JSON serialisation not supported for %@", [fragment class]]];
+        [self addErrorWithCode:UVEUNSUPPORTED description:[NSString stringWithFormat:@"JSON serialisation not supported for %@", [fragment class]]];
         return NO;
     }
     return YES;
@@ -110,7 +110,7 @@
 
 - (BOOL)appendArray:(NSArray*)fragment into:(NSMutableString*)json {
     if (maxDepth && ++depth > maxDepth) {
-        [self addErrorWithCode:EDEPTH description: @"Nested too deep"];
+        [self addErrorWithCode:UVEDEPTH description: @"Nested too deep"];
         return NO;
     }
     [json appendString:@"["];
@@ -139,7 +139,7 @@
 
 - (BOOL)appendDictionary:(NSDictionary*)fragment into:(NSMutableString*)json {
     if (maxDepth && ++depth > maxDepth) {
-        [self addErrorWithCode:EDEPTH description: @"Nested too deep"];
+        [self addErrorWithCode:UVEDEPTH description: @"Nested too deep"];
         return NO;
     }
     [json appendString:@"{"];
@@ -160,7 +160,7 @@
             [json appendString:[self indent]];
         
         if (![value isKindOfClass:[NSString class]]) {
-            [self addErrorWithCode:EUNSUPPORTED description: @"JSON object key must be string"];
+            [self addErrorWithCode:UVEUNSUPPORTED description: @"JSON object key must be string"];
             return NO;
         }
         
@@ -169,7 +169,7 @@
         
         [json appendString:colon];
         if (![self appendValue:[fragment objectForKey:value] into:json]) {
-            [self addErrorWithCode:EUNSUPPORTED description:[NSString stringWithFormat:@"Unsupported value for key %@ in object", value]];
+            [self addErrorWithCode:UVEUNSUPPORTED description:[NSString stringWithFormat:@"Unsupported value for key %@ in object", value]];
             return NO;
         }
     }
