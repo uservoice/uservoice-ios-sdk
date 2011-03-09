@@ -17,10 +17,12 @@ static UVStreamPoller* _instance;
 
 @synthesize repeatingTimer, lastPollTime, tableViewController;
 
-+ (UVStreamPoller *)instance {
-	@synchronized([UVStreamPoller class]) {
++ (UVStreamPoller *)instance 
+{
+	@synchronized([UVStreamPoller class]) 
+    {
 		if (!_instance)
-			[[self alloc] init];
+			_instance = [[self alloc] init];
 		
 		return _instance;
 	}
@@ -62,7 +64,7 @@ static UVStreamPoller* _instance;
 - (void)didRetrievePublicStream:(NSArray *)theStream {
 	NSLog(@"Got public stream");
 	
-	NSMutableDictionary *suggestionIds = [[NSMutableDictionary alloc] initWithCapacity:10];
+	NSMutableDictionary *suggestionIds = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
 	for (int i=0; i<[[UVSession currentSession].clientConfig.forum.currentTopic.suggestions count]; i++) {
 		UVSuggestion *theSuggestion = [[UVSession currentSession].clientConfig.forum.currentTopic.suggestions objectAtIndex:i];
 				
@@ -81,7 +83,7 @@ static UVStreamPoller* _instance;
 			
 		} else {
 			NSDictionary *suggestionDict = [event.object valueForKey:@"suggestion"]; 
-			UVSuggestion *theSuggestion = [[UVSuggestion alloc] initWithDictionary:suggestionDict];
+			UVSuggestion *theSuggestion = [[[UVSuggestion alloc] initWithDictionary:suggestionDict] autorelease];
 			NSString *key = [NSString stringWithFormat:@"%d", theSuggestion.suggestionId];
 			NSLog(@"Looking for suggestionId: %@", key);
 			NSNumber *index = (NSNumber *)[suggestionIds objectForKey:key];			
