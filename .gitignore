@@ -5,3 +5,4 @@ build
 .DS_Store
 
 *.perspectivev3
+xcuserdata
