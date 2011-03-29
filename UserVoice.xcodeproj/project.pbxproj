@@ -33,7 +33,6 @@
 		AC312021108CE4B100000D5F /* UserVoice.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31201F108CE4B100000D5F /* UserVoice.m */; };
 		AC312083108CFD9F00000D5F /* UVConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312081108CFD9F00000D5F /* UVConfig.h */; };
 		AC312084108CFD9F00000D5F /* UVConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312082108CFD9F00000D5F /* UVConfig.m */; };
-		AC312142108D366100000D5F /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312141108D366100000D5F /* UserVoice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC3121F9108FC46500000D5F /* UVBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = AC3121F6108FC46500000D5F /* UVBaseModel.h */; };
 		AC3121FA108FC46500000D5F /* UVBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AC3121F7108FC46500000D5F /* UVBaseModel.m */; };
 		AC31220F108FC57700000D5F /* UVClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31220C108FC57700000D5F /* UVClientConfig.h */; };
@@ -789,7 +788,6 @@
 			files = (
 				AA747D9F0F9514B9006C5449 /* UserVoice_Prefix.pch in Headers */,
 				AC312083108CFD9F00000D5F /* UVConfig.h in Headers */,
-				AC312142108D366100000D5F /* UserVoice.h in Headers */,
 				AC3121F9108FC46500000D5F /* UVBaseModel.h in Headers */,
 				AC31220F108FC57700000D5F /* UVClientConfig.h in Headers */,
 				AC3123A01090EB3700000D5F /* UVSuggestionListViewController.h in Headers */,
@@ -1057,7 +1055,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				PRODUCT_NAME = UserVoice;
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "Vendor/JSON/** Vendor/HTTPRiot/** Vendor/YOAuth/**";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1094,7 +1091,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				PRODUCT_NAME = UserVoice;
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "Vendor/JSON/** Vendor/HTTPRiot/** Vendor/YOAuth/**";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1109,12 +1105,15 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1124,12 +1123,15 @@
 				ADDITIONAL_SDKS = "";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
