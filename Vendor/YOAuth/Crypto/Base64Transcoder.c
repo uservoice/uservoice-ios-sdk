@@ -145,7 +145,7 @@ bool UVBase64EncodeData(const void *inInputData, size_t inInputDataSize, char *o
 		if (theOutIndex % 74 == 72)
 		{
 			outOutputData[theOutIndex++] = '\r';
-			outOutputData[theOutIndex++] = '\n';
+			outOutputData[theOutIndex] = '\n';
 		}
 	}
 	else if (theRemainingBytes == 2)
@@ -157,7 +157,7 @@ bool UVBase64EncodeData(const void *inInputData, size_t inInputDataSize, char *o
 		if (theOutIndex % 74 == 72)
 		{
 			outOutputData[theOutIndex++] = '\r';
-			outOutputData[theOutIndex++] = '\n';
+			outOutputData[theOutIndex] = '\n';
 		}
 	}
 	return(true);

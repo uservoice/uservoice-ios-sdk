@@ -1047,7 +1047,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",
@@ -1056,6 +1056,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				PRODUCT_NAME = UserVoice;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "Vendor/JSON/** Vendor/HTTPRiot/** Vendor/YOAuth/**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = USERVOICE;
@@ -1083,7 +1084,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",
@@ -1092,6 +1093,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/UserVoice;
 				PRODUCT_NAME = UserVoice;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "Vendor/JSON/** Vendor/HTTPRiot/** Vendor/YOAuth/**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = USERVOICE;
