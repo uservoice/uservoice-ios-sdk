@@ -181,6 +181,8 @@
 		D29734EE11E50B8F001B8D6E /* UIView+UVExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734D611E50B8F001B8D6E /* UIView+UVExtras.m */; };
 		D297353211E50C83001B8D6E /* UVUIColorAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D297353011E50C83001B8D6E /* UVUIColorAdditions.h */; };
 		D297353311E50C83001B8D6E /* UVUIColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D297353111E50C83001B8D6E /* UVUIColorAdditions.m */; };
+		D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
+		D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BEEBB81367436D00EBC307 /* UVTicket.m */; };
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
 		D2D7B23A119D04E1003EDD3A /* UVProfileEditViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */; };
 		D2D7B23B119D04E1003EDD3A /* UVProfileEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */; };
@@ -399,6 +401,8 @@
 		D297353011E50C83001B8D6E /* UVUIColorAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUIColorAdditions.h; sourceTree = "<group>"; };
 		D297353111E50C83001B8D6E /* UVUIColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUIColorAdditions.m; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libUserVoice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUserVoice.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2BEEBB71367436D00EBC307 /* UVTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTicket.h; sourceTree = "<group>"; };
+		D2BEEBB81367436D00EBC307 /* UVTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTicket.m; sourceTree = "<group>"; };
 		D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVProfileEditViewController.h; sourceTree = "<group>"; };
 		D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVProfileEditViewController.m; sourceTree = "<group>"; };
@@ -530,6 +534,8 @@
 				D209DF0911B33EC1001E1BC9 /* UVAnswer.m */,
 				D238B62312135C160008A469 /* UVStreamEvent.h */,
 				D238B62412135C160008A469 /* UVStreamEvent.m */,
+				D2BEEBB71367436D00EBC307 /* UVTicket.h */,
+				D2BEEBB81367436D00EBC307 /* UVTicket.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -876,6 +882,7 @@
 				D297353211E50C83001B8D6E /* UVUIColorAdditions.h in Headers */,
 				D238B62512135C160008A469 /* UVStreamEvent.h in Headers */,
 				D261E056121456430024F2EA /* UVStreamPoller.h in Headers */,
+				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1016,6 +1023,7 @@
 				D297353311E50C83001B8D6E /* UVUIColorAdditions.m in Sources */,
 				D238B62612135C160008A469 /* UVStreamEvent.m in Sources */,
 				D261E057121456430024F2EA /* UVStreamPoller.m in Sources */,
+				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
