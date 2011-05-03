@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
 
+@class UVSubject;
 
 @interface UVTicket : UVBaseModel {    
 }
