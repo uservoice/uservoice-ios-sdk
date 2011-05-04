@@ -28,20 +28,19 @@
 	[self setBaseURL:[self siteURL]];
 }
 
-+ (id)createWithSubject:(UVSubject *)subject
-                   text:(NSString *)text
++ (id)createWithSubject:(NSString *)subject
+                message:(NSString *)message
                delegate:(id)delegate {
 	NSString *path = [self apiPath:@"/tickets.json"];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							text == nil ? @"" : text, @"ticket[text]",
-							subject == nil ? @"" : 
-                            [[NSNumber numberWithInteger:subject.subjectId] stringValue], @"ticket[message_subject_id]",
+							message == nil ? @"" : message, @"ticket[message]",
+							subject == nil ? @"" : subject, @"ticket[subject]",
 							nil];
     
 	return [[self class] postPath:path
 					   withParams:params
 						   target:delegate
-						 selector:@selector(didCreateMessage:)];
+						 selector:@selector(didCreateTicket:)];
 }
 
 

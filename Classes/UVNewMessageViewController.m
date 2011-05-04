@@ -21,7 +21,7 @@
 #import "UVSubdomain.h"
 #import "UVToken.h"
 #import "UVTextEditor.h"
-#import "NSError+UVExtras.h";
+#import "NSError+UVExtras.h"
 
 #define UV_NEW_MESSAGE_SECTION_PROFILE 0
 #define UV_NEW_MESSAGE_SECTION_SUBJECT 1
