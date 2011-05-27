@@ -42,8 +42,10 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
-		self.questionsEnabled = [(NSNumber *)[dict objectForKey:@"questions_enabled"] boolValue];
+	if ((self = [super init])) {
+        if ([dict objectForKey:@"questions_enabled"] != [NSNull null]) {
+            self.questionsEnabled = [(NSNumber *)[dict objectForKey:@"questions_enabled"] boolValue];
+        }
 		self.welcome = [self objectOrNilForDict:dict key:@"welcome"];
 		self.itunesApplicationId = [self objectOrNilForDict:dict key:@"identifier_external"];
 		
