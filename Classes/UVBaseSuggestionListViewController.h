@@ -17,4 +17,6 @@
 
 @property (nonatomic, retain) NSMutableArray *suggestions;
 
+- (void)pushSuggestionShowView:(NSInteger)index;
+
 @end

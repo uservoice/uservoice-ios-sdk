@@ -130,7 +130,7 @@
 	// getting the cell size
     CGRect contentRect = cell.contentView.bounds;
 	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
-	[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];		
+	//[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];		
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
@@ -199,7 +199,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
-	BOOL selectable = NO;
+	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
 	//NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
@@ -248,9 +248,22 @@
 	return 71;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	return nil;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
+	if (!_searching && (indexPath.row == [self.suggestions count]) && (suggestionsCount > [self.suggestions count]))
+	{
+		// This is the last row in the table, so it's the "Load more ideas" cell
+		[self retrieveMoreSuggestions];
+	}
+	else 
+	{
+		// For all other rows, populate with suggestions
+		NSInteger index = [indexPath row];
+		[self pushSuggestionShowView:index];
+	}
 }
+
 
 - (void)setLeftBarButtonCancel {
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -370,10 +383,10 @@
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+	theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.sectionHeaderHeight = 0.0;
 	

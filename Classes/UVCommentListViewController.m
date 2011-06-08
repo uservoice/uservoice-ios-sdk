@@ -227,11 +227,12 @@
 	[cell.contentView addSubview:chicklet];
 	
 	// Button
-	UVButtonWithIndex *button = [UVButtonWithIndex buttonWithType:UIButtonTypeCustom];
+	//UVButtonWithIndex *button = [UVButtonWithIndex buttonWithType:UIButtonTypeCustom];
+	UVButtonWithIndex *button = [[[UVButtonWithIndex alloc] init] autorelease];
 	button.tag = UV_COMMENT_LIST_TAG_CELL_BUTTON;
 	button.index = indexPath.row;
 	button.frame = CGRectMake(290, 10, 20, 21);
-	[button addTarget:self action:@selector(promptForFlag:) forControlEvents:UIControlEventTouchUpInside];
+	//[button addTarget:self action:@selector(promptForFlag:) forControlEvents:UIControlEventTouchUpInside];
 	[cell.contentView addSubview:button];
 }
 

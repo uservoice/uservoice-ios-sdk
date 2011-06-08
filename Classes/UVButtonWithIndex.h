@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface UVButtonWithIndex : UIButton {
+@interface UVButtonWithIndex : UIView {
 	NSInteger _index;
 	UIImage* _normalImage;
 	UIImage* _highlightedImage;
@@ -21,5 +21,6 @@
 
 - (NSInteger)index;
 - (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame;
+- (void)setZebraColorFromIndex:(NSInteger)index;
 
 @end

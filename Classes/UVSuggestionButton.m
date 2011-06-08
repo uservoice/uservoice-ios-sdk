@@ -63,11 +63,11 @@
 								   lineBreakMode:UILineBreakModeTailTruncation];
 	label.frame = CGRectMake(75, 10, size.width, size.height);
 	label.text = suggestion.title;
-	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
+	//label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
 	
 	label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY];
 	label.text = suggestion.categoryString;
-	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
+	//label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
 	
 	UVSuggestionChickletView *chicklet = 
 		(UVSuggestionChickletView *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET];
@@ -81,20 +81,24 @@
 }
 
 - (void)updateLayoutsForHighlighted {
+	/*
 	UILabel *label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE];
 	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
 	
 	label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY];
-	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];	
+	label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
+	 */
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
+	/*
 	if ([self isHighlighted] != highlighted) {
 		[super setHighlighted:highlighted];	
 		
 		[self updateLayoutsForHighlighted];		
 		[self setNeedsDisplay];
 	}
+	 */
 }
 	
 @end

@@ -46,9 +46,10 @@
 	return cell;
 }
 
-- (void)pushSuggestionShowView:(UVButtonWithIndex *)button {
+//- (void)pushSuggestionShowView:(UVButtonWithIndex *)button {
+- (void)pushSuggestionShowView:(NSInteger)index {
 	//NSLog(@"Suggestion selected: %d", button.index);
-	UVSuggestion *suggestion = [suggestions objectAtIndex:button.index];
+	UVSuggestion *suggestion = [suggestions objectAtIndex:index];
 	//NSLog(@"Suggestion content: %@", suggestion);
 	UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
 	next.suggestion = suggestion;
@@ -61,15 +62,17 @@
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	// getting the cell size
-    CGRect contentRect = cell.contentView.bounds;
+    //CGRect contentRect = cell.contentView.bounds;
+	CGRect contentRect = CGRectMake(0, 0, 320, 71);
 	UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row andFrame:contentRect];	
-	//NSLog(@"Init suggestion with index: %d", indexPath.row);
+	NSLog(@"Init suggestion with index: %d", indexPath.row);
 	
-	[button addTarget:self action:@selector(pushSuggestionShowView:) forControlEvents:UIControlEventTouchUpInside];	
+	//[button addTarget:self action:@selector(pushSuggestionShowView:) forControlEvents:UIControlEventTouchUpInside];	
 	button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
 	
 	[cell.contentView addSubview:button];
 	[button release];
+		
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -78,15 +81,19 @@
 	
 	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
 	UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
+	[button setZebraColorFromIndex:indexPath.row];
 	[button showSuggestion:suggestion withIndex:indexPath.row];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	//NSLog(@"Load more index: %d", indexPath.row);
 	
-	CGRect contentRect = cell.contentView.bounds;
-	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
-	[button addTarget:self action:@selector(retrieveMoreSuggestions) forControlEvents:UIControlEventTouchUpInside];	
+	//CGRect contentRect = cell.contentView.bounds;
+	CGRect contentRect = CGRectMake(0, 0, 320, 71);
+	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
+	[button setZebraColorFromIndex:indexPath.row];
+		
+	//[button addTarget:self action:@selector(retrieveMoreSuggestions) forControlEvents:UIControlEventTouchUpInside];	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// Can't use built-in textLabel, as this forces a white background
@@ -96,7 +103,7 @@
 	textLabel.backgroundColor = [UIColor clearColor];
 	textLabel.font = [UIFont boldSystemFontOfSize:18];
 	textLabel.textAlignment = UITextAlignmentCenter;
-	[button addSubview:textLabel];
+	[cell addSubview:textLabel];
 	[textLabel release];
 		
 	[cell.contentView addSubview:button];
