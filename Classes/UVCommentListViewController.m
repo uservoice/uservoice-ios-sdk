@@ -13,7 +13,7 @@
 #import "UVStyleSheet.h"
 #import "UVProfileViewController.h"
 #import "UVUserChickletView.h"
-#import "UVButtonWithIndex.h"
+#import "UVCellViewWithIndex.h"
 #import "UVUserButton.h"
 #import "UVTextEditor.h"
 
@@ -106,9 +106,8 @@
 	[UVComment createWithSuggestion:self.suggestion text:self.text delegate:self];
 }
 
-- (void)promptForFlag:(id)sender {
-	UVButtonWithIndex *button = (UVButtonWithIndex *)sender;
-	self.commentToFlag = [self.comments objectAtIndex:button.index];
+- (void)promptForFlagWithIndex:(NSInteger)index {
+	self.commentToFlag = [self.comments objectAtIndex:index];
 	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Flag Comment?"
 														delegate:self
 											   cancelButtonTitle:@"Cancel"
@@ -117,6 +116,9 @@
 	[action showInView:self.view];
 	[action release];
 }
+
+
+
 
 - (void)didFlagComment:(UVComment *)theComment {
 	[self hideActivityIndicator];
@@ -226,14 +228,13 @@
 	chicklet.tag = UV_COMMENT_LIST_TAG_CELL_CHICKLET;
 	[cell.contentView addSubview:chicklet];
 	
-	// Button
-	//UVButtonWithIndex *button = [UVButtonWithIndex buttonWithType:UIButtonTypeCustom];
-	UVButtonWithIndex *button = [[[UVButtonWithIndex alloc] init] autorelease];
-	button.tag = UV_COMMENT_LIST_TAG_CELL_BUTTON;
-	button.index = indexPath.row;
-	button.frame = CGRectMake(290, 10, 20, 21);
+	// TODO: despite the class name, this is now actually a UIView subclass, not a UIButton (let's change the class name later)
+	UVCellViewWithIndex *cellView = [[[UVCellViewWithIndex alloc] init] autorelease];
+	cellView.tag = UV_COMMENT_LIST_TAG_CELL_BUTTON;
+	cellView.index = indexPath.row;
+	cellView.frame = CGRectMake(290, 10, 20, 21);
 	//[button addTarget:self action:@selector(promptForFlag:) forControlEvents:UIControlEventTouchUpInside];
-	[cell.contentView addSubview:button];
+	[cell.contentView addSubview:cellView];
 }
 
 - (void)customizeCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -264,13 +265,7 @@
 	// Chicklet
 	UVUserChickletView *chicklet = (UVUserChickletView *)[cell.contentView viewWithTag:UV_COMMENT_LIST_TAG_CELL_CHICKLET];
 	UVUserChickletStyle style = darkZebra ? UVUserChickletStyleDark : UVUserChickletStyleLight;
-	[chicklet updateWithStyle:style userId:comment.userId name:comment.userName avatarUrl:comment.avatarUrl karmaScore:comment.karmaScore];
-	
-	// TODO: get rid of buttons in this table also (copy from other one)
-	// Button
-	UIButton *button = (UIButton *)[cell.contentView viewWithTag:UV_COMMENT_LIST_TAG_CELL_BUTTON];
-	[button setImage:[UIImage imageNamed:@"uv_comment_actions.png"] forState:UIControlStateNormal];
-	[button setImage:[UIImage imageNamed:@"uv_comment_actions_active.png"] forState:UIControlStateHighlighted];
+	[chicklet updateWithStyle:style userId:comment.userId name:comment.userName avatarUrl:comment.avatarUrl karmaScore:comment.karmaScore];	
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -335,10 +330,16 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 
-	if (indexPath.row == [self.comments count]) {
-		// Load More
+	if (indexPath.row == [self.comments count])
+	{
+		// This is the last row in the table, so it's the "Load more comments" cell
 		[self retrieveMoreComments];
 	}
+	else 
+	{
+		// For all other rows, prompt for flag
+		[self promptForFlagWithIndex:indexPath.row];
+	}	
 }
 
 #pragma mark ===== Basic View Methods =====

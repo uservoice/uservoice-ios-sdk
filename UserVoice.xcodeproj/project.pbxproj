@@ -79,8 +79,8 @@
 		AC91B2CC112F320700D84566 /* UVSubjectSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */; };
 		AC91B41B113461C900D84566 /* UVQuestion.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B418113461C900D84566 /* UVQuestion.h */; };
 		AC91B41C113461C900D84566 /* UVQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B419113461C900D84566 /* UVQuestion.m */; };
-		AC91B4C5113492DD00D84566 /* UVButtonWithIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4C2113492DD00D84566 /* UVButtonWithIndex.h */; };
-		AC91B4C6113492DD00D84566 /* UVButtonWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B4C3113492DD00D84566 /* UVButtonWithIndex.m */; };
+		AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */; };
+		AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */; };
 		AC91B50211349B6600D84566 /* UVUserButton.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4FF11349B6600D84566 /* UVUserButton.h */; };
 		AC91B50311349B6600D84566 /* UVUserButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B50011349B6600D84566 /* UVUserButton.m */; };
 		ACBA71211182B6CB000D0A0B /* UVNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = ACBA711E1182B6CB000D0A0B /* UVNetworkUtils.h */; };
@@ -265,8 +265,8 @@
 		AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubjectSelectViewController.m; sourceTree = "<group>"; };
 		AC91B418113461C900D84566 /* UVQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVQuestion.h; sourceTree = "<group>"; };
 		AC91B419113461C900D84566 /* UVQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVQuestion.m; sourceTree = "<group>"; };
-		AC91B4C2113492DD00D84566 /* UVButtonWithIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVButtonWithIndex.h; sourceTree = "<group>"; };
-		AC91B4C3113492DD00D84566 /* UVButtonWithIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVButtonWithIndex.m; sourceTree = "<group>"; };
+		AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCellViewWithIndex.h; sourceTree = "<group>"; };
+		AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCellViewWithIndex.m; sourceTree = "<group>"; };
 		AC91B4FF11349B6600D84566 /* UVUserButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUserButton.h; sourceTree = "<group>"; };
 		AC91B50011349B6600D84566 /* UVUserButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUserButton.m; sourceTree = "<group>"; };
 		ACBA711E1182B6CB000D0A0B /* UVNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNetworkUtils.h; sourceTree = "<group>"; };
@@ -629,8 +629,8 @@
 			children = (
 				ACBA824711399A2B006D5219 /* UVActivityIndicator.h */,
 				ACBA824811399A2B006D5219 /* UVActivityIndicator.m */,
-				AC91B4C2113492DD00D84566 /* UVButtonWithIndex.h */,
-				AC91B4C3113492DD00D84566 /* UVButtonWithIndex.m */,
+				AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */,
+				AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */,
 				AC107F3110FD3CBE00CB6273 /* UVFooterView.h */,
 				AC107F3210FD3CBE00CB6273 /* UVFooterView.m */,
 				AC35307F11014D20006FD1C1 /* UVSuggestionChickletView.h */,
@@ -834,7 +834,7 @@
 				AC91B289112F28EE00D84566 /* UVNewMessageViewController.h in Headers */,
 				AC91B2CB112F320700D84566 /* UVSubjectSelectViewController.h in Headers */,
 				AC91B41B113461C900D84566 /* UVQuestion.h in Headers */,
-				AC91B4C5113492DD00D84566 /* UVButtonWithIndex.h in Headers */,
+				AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */,
 				AC91B50211349B6600D84566 /* UVUserButton.h in Headers */,
 				ACBA824A11399A2B006D5219 /* UVActivityIndicator.h in Headers */,
 				ACBA71211182B6CB000D0A0B /* UVNetworkUtils.h in Headers */,
@@ -979,7 +979,7 @@
 				AC91B28A112F28EE00D84566 /* UVNewMessageViewController.m in Sources */,
 				AC91B2CC112F320700D84566 /* UVSubjectSelectViewController.m in Sources */,
 				AC91B41C113461C900D84566 /* UVQuestion.m in Sources */,
-				AC91B4C6113492DD00D84566 /* UVButtonWithIndex.m in Sources */,
+				AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */,
 				AC91B50311349B6600D84566 /* UVUserButton.m in Sources */,
 				ACBA824B11399A2B006D5219 /* UVActivityIndicator.m in Sources */,
 				ACBA71221182B6CB000D0A0B /* UVNetworkUtils.m in Sources */,

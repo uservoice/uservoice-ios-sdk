@@ -7,7 +7,7 @@
 //
 
 #import "UVSuggestionButton.h"
-#import "UVButtonWithIndex.h"
+#import "UVCellViewWithIndex.h"
 #import "UVSuggestionChickletView.h"
 
 #define UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE 9000

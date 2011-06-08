@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVButtonWithIndex.h"
+#import "UVCellViewWithIndex.h"
 #import "UVSuggestion.h"
 
-@interface UVSuggestionButton : UVButtonWithIndex {
+@interface UVSuggestionButton : UVCellViewWithIndex {
 	UVSuggestion *_suggestion;
 }
 

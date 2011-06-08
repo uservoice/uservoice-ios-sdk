@@ -23,37 +23,8 @@
 
 @synthesize suggestions;
 
-// Remove this because we don't want to use UVBaseGroupedCell anymore (it's messing up selection highlighting)
-/*
-- (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
-								   tableView:(UITableView *)theTableView
-								   indexPath:(NSIndexPath *)indexPath
-									   style:(UITableViewCellStyle)style
-								  selectable:(BOOL)selectable {
-    UVBaseGroupedCell *cell = (UVBaseGroupedCell *)[theTableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[[UVBaseGroupedCell alloc] initWithStyle:style reuseIdentifier:identifier] autorelease];
-		cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
-		
-		SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", identifier]);
-		if ([self respondsToSelector:initCellSelector]) {
-			[self performSelector:initCellSelector withObject:cell withObject:indexPath];
-		}
-	}
-	
-	SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", identifier]);
-	if ([self respondsToSelector:customizeCellSelector]) {
-		[self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
-	}
-	return cell;
-}
-*/
-
-//- (void)pushSuggestionShowView:(UVButtonWithIndex *)button {
 - (void)pushSuggestionShowView:(NSInteger)index {
-	//NSLog(@"Suggestion selected: %d", button.index);
 	UVSuggestion *suggestion = [suggestions objectAtIndex:index];
-	//NSLog(@"Suggestion content: %@", suggestion);
 	UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
 	next.suggestion = suggestion;
 	
@@ -100,8 +71,8 @@
 	
 	//CGRect contentRect = cell.contentView.bounds;
 	CGRect contentRect = CGRectMake(0, 0, 320, 71);
-	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
-	[button setZebraColorFromIndex:indexPath.row];
+	UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
+	[cellView setZebraColorFromIndex:indexPath.row];
 		
 	//[button addTarget:self action:@selector(retrieveMoreSuggestions) forControlEvents:UIControlEventTouchUpInside];	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -116,8 +87,8 @@
 	[cell addSubview:textLabel];
 	[textLabel release];
 		
-	[cell.contentView addSubview:button];
-	[button release];
+	[cell.contentView addSubview:cellView];
+	[cellView release];
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

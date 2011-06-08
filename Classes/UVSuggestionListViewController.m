@@ -20,7 +20,7 @@
 #import "UVFooterView.h"
 #import "UVTextEditor.h"
 #import "UVBaseGroupedCell.h"
-#import "UVButtonWithIndex.h"
+#import "UVCellViewWithIndex.h"
 #import "UVStreamPoller.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
@@ -114,7 +114,7 @@
 	return YES;
 }
 
-- (void)addSuggestion:(UVButtonWithIndex *)button {
+- (void)addSuggestion:(UVCellViewWithIndex *)cellView {
 	UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
 																						 title:_textEditor.text];
 	[self.navigationController pushViewController:next animated:YES];
@@ -129,7 +129,7 @@
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	// getting the cell size
     CGRect contentRect = cell.contentView.bounds;
-	UVButtonWithIndex *button = [[UVButtonWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
+	UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
 	//[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];		
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
@@ -141,7 +141,7 @@
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UIColor blackColor];
 	label.backgroundColor = [UIColor clearColor];
-	[button addSubview:label];
+	[cellView addSubview:label];
 	[label release];
 	
 	label = [[UILabel alloc] init];
@@ -151,7 +151,7 @@
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UVStyleSheet dimBlueColor];
 	label.backgroundColor = [UIColor clearColor];
-	[button addSubview:label];
+	[cellView addSubview:label];
 	[label release];
 	
 	label = [[UILabel alloc] init];
@@ -161,11 +161,11 @@
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UIColor blackColor];
 	label.backgroundColor = [UIColor clearColor];
-	[button addSubview:label];
+	[cellView addSubview:label];
 	[label release];
 	
-	[cell.contentView addSubview:button];
-	[button release];
+	[cell.contentView addSubview:cellView];
+	[cellView release];
 }
 
 - (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -259,16 +259,6 @@
 	else 
 	{
 		// For all other rows, push appropriate suggestion details
-		//UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-		
-		for (int i = 0; i < self.suggestions.count; i++)
-		{
-			UVSuggestion *sug = (UVSuggestion *)[self.suggestions objectAtIndex:i];
-			NSLog(@"SUGGESTION %d *** TITLE: %@", i, sug.title);
-		}
-		
-		NSLog(@"select row: %d", indexPath.row);
-		
 		[self pushSuggestionShowView:indexPath.row];
 	}
 }
