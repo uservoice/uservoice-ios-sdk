@@ -23,6 +23,8 @@
 
 @synthesize suggestions;
 
+// Remove this because we don't want to use UVBaseGroupedCell anymore (it's messing up selection highlighting)
+/*
 - (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
 								   tableView:(UITableView *)theTableView
 								   indexPath:(NSIndexPath *)indexPath
@@ -45,6 +47,7 @@
 	}
 	return cell;
 }
+*/
 
 //- (void)pushSuggestionShowView:(UVButtonWithIndex *)button {
 - (void)pushSuggestionShowView:(NSInteger)index {
@@ -73,8 +76,9 @@
 	
 	
 	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
-	[button showSuggestion:suggestion withIndex:indexPath.row];
+	//[button showSuggestion:suggestion withIndex:indexPath.row];
 	
+	NSLog(@"INIT SUGG: %d TITLE: %@", indexPath.row, suggestion.title);
 	
 	[cell.contentView addSubview:button];
 	[button release];
@@ -85,10 +89,10 @@
 - (void)customizeCellForSuggestion:(UVBaseGroupedCell *)cell indexPath:(NSIndexPath *)indexPath {
 	NSLog(@"Customize suggestion with index: %d", indexPath.row);
 	
-	//UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
+	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
 	UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
 	[button setZebraColorFromIndex:indexPath.row];
-	//[button showSuggestion:suggestion withIndex:indexPath.row];
+	[button showSuggestion:suggestion withIndex:indexPath.row];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

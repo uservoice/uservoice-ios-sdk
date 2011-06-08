@@ -359,6 +359,8 @@
 			break;
 	}
 
+	NSLog(@"IDENTIFIER: %@", identifier);
+	
 	return [self createCellForIdentifier:identifier
 							   tableView:theTableView
 							   indexPath:indexPath

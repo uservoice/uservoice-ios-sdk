@@ -18,6 +18,8 @@
 
 @implementation UVSuggestionChickletView
 
+@synthesize statusColorView, backgroundImageView, voteNumLabel, voteLabel, statusLabel;
+
 + (CGFloat)heightForView {
 	return 61.0;
 }
@@ -36,49 +38,44 @@
 	
 	// Status Color
 	// (Don't actually need exact height of 30, just want to exclude transparent top corners)
-	UIView *statusColorView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 30, width, 29)];
+	statusColorView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 30, width, 29)];
 	statusColorView.tag = UV_CHICKLET_TAG_STATUS_COLOR;
 	statusColorView.layer.cornerRadius = 5.0;
 	[self addSubview:statusColorView];
-	[statusColorView release];
 
 	// Background image
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-	imageView.tag = UV_CHICKLET_TAG_IMAGE;
-	imageView.opaque = NO;
-	[self addSubview:imageView];
-	[imageView release];
+	backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+	backgroundImageView.tag = UV_CHICKLET_TAG_IMAGE;
+	backgroundImageView.opaque = NO;
+	[self addSubview:backgroundImageView];
 	
 	// Number of votes
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(2, 7, width - 4, 18)];
-	label.tag = UV_CHICKLET_TAG_VOTES_COUNT;
-	label.font = [UIFont boldSystemFontOfSize:18];
-	label.adjustsFontSizeToFitWidth = YES;
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UIColor blackColor];
-	label.backgroundColor = [UIColor clearColor];
-	[self addSubview:label];
-	[label release];
+	voteNumLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 7, width - 4, 18)];
+	voteNumLabel.tag = UV_CHICKLET_TAG_VOTES_COUNT;
+	voteNumLabel.font = [UIFont boldSystemFontOfSize:18];
+	voteNumLabel.adjustsFontSizeToFitWidth = YES;
+	voteNumLabel.textAlignment = UITextAlignmentCenter;
+	voteNumLabel.textColor = [UIColor blackColor];
+	voteNumLabel.backgroundColor = [UIColor clearColor];
+	[self addSubview:voteNumLabel];
 	
 	// The word "votes"
-	label = [[UILabel alloc] initWithFrame:CGRectMake(2, 27, width - 4, 10)];
-	label.tag = UV_CHICKLET_TAG_VOTES_LABEL;
-	label.font = [UIFont boldSystemFontOfSize:10];
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UIColor darkGrayColor];
-	label.backgroundColor = [UIColor clearColor];
-	[self addSubview:label];
-	[label release];	
+	voteLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 27, width - 4, 10)];
+	voteLabel.tag = UV_CHICKLET_TAG_VOTES_LABEL;
+	voteLabel.font = [UIFont boldSystemFontOfSize:10];
+	voteLabel.textAlignment = UITextAlignmentCenter;
+	voteLabel.textColor = [UIColor darkGrayColor];
+	voteLabel.backgroundColor = [UIColor clearColor];
+	[self addSubview:voteLabel];
 	
 	// Status
-	label = [[UILabel alloc] initWithFrame:CGRectMake(2, height - 14, width - 4, 10)];
-	label.tag = UV_CHICKLET_TAG_STATUS;
-	label.font = [UIFont systemFontOfSize:9];
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UIColor whiteColor];
-	label.backgroundColor = [UIColor clearColor];
-	[self addSubview:label];
-	[label release];
+	statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, height - 14, width - 4, 10)];
+	statusLabel.tag = UV_CHICKLET_TAG_STATUS;
+	statusLabel.font = [UIFont systemFontOfSize:9];
+	statusLabel.textAlignment = UITextAlignmentCenter;
+	statusLabel.textColor = [UIColor whiteColor];
+	statusLabel.backgroundColor = [UIColor clearColor];
+	[self addSubview:statusLabel];
 }
 
 - (id)initWithOrigin:(CGPoint)origin {
@@ -98,27 +95,32 @@
 }
 
 - (void)updateWithSuggestion:(UVSuggestion *)suggestion style:(UVSuggestionChickletStyle)style {
-	UIImageView *imageView = (UIImageView *)[self viewWithTag:UV_CHICKLET_TAG_IMAGE];
+	//UIImageView *imageView = (UIImageView *)[self viewWithTag:UV_CHICKLET_TAG_IMAGE];
 	NSString *imageName = suggestion.status ? @"uv_vote_chicklet.png" : @"uv_vote_chicklet_empty.png";
 	//NSLog(@"imageName: %@\n", imageName);
-	imageView.image = [UIImage imageNamed:imageName];
-	if (!suggestion.status)
-		imageView.frame = CGRectMake(0, 0, 60, 44);
-		
-	UIView *statusColorView = [self viewWithTag:UV_CHICKLET_TAG_STATUS_COLOR];
+	backgroundImageView.image = [UIImage imageNamed:imageName];
+	if (!suggestion.status) 
+	{
+		backgroundImageView.frame = CGRectMake(0, 0, 60, 44);
+	}
+	else {
+		backgroundImageView.frame = CGRectMake(0, 0, 60, 60);
+	}
+
+	//UIView *statusColorView = [self viewWithTag:UV_CHICKLET_TAG_STATUS_COLOR];
 	statusColorView.backgroundColor = suggestion.statusColor;
 	
 	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	UILabel *label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_COUNT];
-	label.text = [formatter stringFromNumber:[NSNumber numberWithInteger:suggestion.voteCount]];
+	//UILabel *label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_COUNT];
+	voteNumLabel.text = [formatter stringFromNumber:[NSNumber numberWithInteger:suggestion.voteCount]];
 	[formatter release];
 
-	label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_LABEL];
-	label.text = suggestion.voteCount == 1 ? @"vote" : @"votes";
+	//label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_LABEL];
+	voteLabel.text = suggestion.voteCount == 1 ? @"vote" : @"votes";
 
-	label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_STATUS];
-	label.text = suggestion.status == nil ? @"" : suggestion.status;
+	//label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_STATUS];
+	statusLabel.text = suggestion.status == nil ? @"" : suggestion.status;
 }
 
 @end

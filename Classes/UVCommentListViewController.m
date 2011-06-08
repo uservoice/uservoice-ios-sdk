@@ -266,6 +266,7 @@
 	UVUserChickletStyle style = darkZebra ? UVUserChickletStyleDark : UVUserChickletStyleLight;
 	[chicklet updateWithStyle:style userId:comment.userId name:comment.userName avatarUrl:comment.avatarUrl karmaScore:comment.karmaScore];
 	
+	// TODO: get rid of buttons in this table also (copy from other one)
 	// Button
 	UIButton *button = (UIButton *)[cell.contentView viewWithTag:UV_COMMENT_LIST_TAG_CELL_BUTTON];
 	[button setImage:[UIImage imageNamed:@"uv_comment_actions.png"] forState:UIControlStateNormal];

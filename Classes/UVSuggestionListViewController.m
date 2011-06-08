@@ -258,9 +258,18 @@
 	}
 	else 
 	{
-		// For all other rows, populate with suggestions
-		NSInteger index = [indexPath row];
-		[self pushSuggestionShowView:index];
+		// For all other rows, push appropriate suggestion details
+		//UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+		
+		for (int i = 0; i < self.suggestions.count; i++)
+		{
+			UVSuggestion *sug = (UVSuggestion *)[self.suggestions objectAtIndex:i];
+			NSLog(@"SUGGESTION %d *** TITLE: %@", i, sug.title);
+		}
+		
+		NSLog(@"select row: %d", indexPath.row);
+		
+		[self pushSuggestionShowView:indexPath.row];
 	}
 }
 

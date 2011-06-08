@@ -18,8 +18,18 @@ typedef enum {
 @class UVSuggestion;
 
 @interface UVSuggestionChickletView : UIView {
-
+	UIView *statusColorView;
+	UIImageView *backgroundImageView;	
+	UILabel *voteNumLabel;
+	UILabel *voteLabel;
+	UILabel *statusLabel;
 }
+
+@property (nonatomic, retain) UIView *statusColorView;
+@property (nonatomic, retain) UIImageView *backgroundImageView;
+@property (nonatomic, retain) UILabel *voteNumLabel;
+@property (nonatomic, retain) UILabel *voteLabel;
+@property (nonatomic, retain) UILabel *statusLabel;
 
 + (CGFloat)heightForView;
 + (CGFloat)widthForView;
