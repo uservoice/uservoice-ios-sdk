@@ -70,6 +70,12 @@
 	//[button addTarget:self action:@selector(pushSuggestionShowView:) forControlEvents:UIControlEventTouchUpInside];	
 	button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
 	
+	
+	
+	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
+	[button showSuggestion:suggestion withIndex:indexPath.row];
+	
+	
 	[cell.contentView addSubview:button];
 	[button release];
 		
@@ -77,12 +83,12 @@
 }
 
 - (void)customizeCellForSuggestion:(UVBaseGroupedCell *)cell indexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"Customize suggestion with index: %d", indexPath.row);
+	NSLog(@"Customize suggestion with index: %d", indexPath.row);
 	
-	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
+	//UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
 	UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
 	[button setZebraColorFromIndex:indexPath.row];
-	[button showSuggestion:suggestion withIndex:indexPath.row];
+	//[button showSuggestion:suggestion withIndex:indexPath.row];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
