@@ -11,6 +11,7 @@
 #import "UVToken.h"
 #import "UVSession.h"
 #import "UVUser.h"
+#import "UVCustomField.h";
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNetworkUtils.h"
@@ -125,10 +126,12 @@
 	}
 }
 
-- (void)didRetrieveSubjects:(NSArray *)theSubjects
+- (void)didRetrieveSubjects:(id)theSubjects
 {
-	// Obviously need code here
-	NSLog(@"theSubjects: %@", theSubjects);
+	NSArray *ticketSubjects = [[NSArray alloc] initWithArray:theSubjects];
+	if ([UVSession currentSession].clientConfig) {
+		[UVSession currentSession].clientConfig.ticketSubjects = ticketSubjects;
+	}
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -180,7 +183,7 @@
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
 		
-		[UVClientConfig getSubjectsWithDelegate:self];
+		[UVCustomField getSubjectsWithDelegate:self];
 		
 		[UVUser retrieveCurrentUser:self];
 		

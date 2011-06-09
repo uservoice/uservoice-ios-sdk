@@ -44,12 +44,8 @@
 	//[button addTarget:self action:@selector(pushSuggestionShowView:) forControlEvents:UIControlEventTouchUpInside];	
 	button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
 	
-	
-	
 	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
 	//[button showSuggestion:suggestion withIndex:indexPath.row];
-	
-	NSLog(@"INIT SUGG: %d TITLE: %@", indexPath.row, suggestion.title);
 	
 	[cell.contentView addSubview:button];
 	[button release];

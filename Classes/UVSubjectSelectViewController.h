@@ -2,23 +2,23 @@
 //  UVSubjectSelectViewController.h
 //  UserVoice
 //
-//  Created by UserVoice on 2/19/10.
-//  Copyright 2010 UserVoice Inc. All rights reserved.
+//  Created by UserVoice on 6/9/11.
+//  Copyright 2011 UserVoice Inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
 
-@class UVSubject;
+@class UVCustomField;
 
 @interface UVSubjectSelectViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource>  {
 	NSArray *subjects;
-	UVSubject *selectedSubject;
+	UVCustomField *selectedSubject;
 }
 
 @property (nonatomic, retain) NSArray *subjects;
-@property (nonatomic, retain) UVSubject *selectedSubject;
+@property (nonatomic, retain) UVCustomField *selectedSubject;
 
-- (id)initWithSelectedSubject:(UVSubject *)subject;
+- (id)initWithSelectedSubject:(UVCustomField *)subject;
 
 @end

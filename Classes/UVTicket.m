@@ -17,7 +17,7 @@
 // ticket[user_agent] 	 String 				
 
 #import "UVTicket.h"
-#import "UVSubject.h"
+#import "UVCustomField.h"
 #import "UVResponseDelegate.h"
 
 
@@ -37,7 +37,7 @@
 }
 */
 
-+ (id)createWithSubject:(UVSubject *)subject
++ (id)createWithSubject:(UVCustomField *)subject
                 message:(NSString *)message
                delegate:(id)delegate {
 	NSString *path = [self apiPath:@"/tickets.json"];

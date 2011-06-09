@@ -2,14 +2,14 @@
 //  UVSubjectSelectViewController.m
 //  UserVoice
 //
-//  Created by UserVoice on 2/19/10.
-//  Copyright 2010 UserVoice Inc. All rights reserved.
+//  Created by UserVoice on 6/9/11.
+//  Copyright 2011 UserVoice Inc. All rights reserved.
 //
 
 #import "UVSubjectSelectViewController.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
-#import "UVSubject.h"
+#import "UVCustomField.h"
 #import "UVSubdomain.h"
 #import "UVNewMessageViewController.h"
 
@@ -18,10 +18,11 @@
 @synthesize subjects;
 @synthesize selectedSubject;
 
-- (id)initWithSelectedSubject:(UVSubject *)subject {
+- (id)initWithSelectedSubject:(UVCustomField *)subject {
 	if (self = [super init]) {
-		self.subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+		self.subjects = [UVSession currentSession].clientConfig.ticketSubjects;
 		self.selectedSubject = subject;
+		NSLog(@"subjects: %@", self.subjects);
 	}
 	return self;
 }
@@ -29,8 +30,9 @@
 #pragma mark ===== table cells =====
 
 - (void)customizeCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UVSubject *subject = (UVSubject *)[self.subjects objectAtIndex:indexPath.row];
-	cell.textLabel.text = subject.text;
+	UVCustomField *subject = (UVCustomField *)[self.subjects objectAtIndex:indexPath.row];
+	cell.textLabel.text = subject.name;
+	NSLog(@"name: %@", subject.name);
 	if (self.selectedSubject && self.selectedSubject.subjectId == subject.subjectId) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	} else {
@@ -57,7 +59,7 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	UVSubject *subject = [self.subjects objectAtIndex:indexPath.row];
+	UVCustomField *subject = [self.subjects objectAtIndex:indexPath.row];
 	
 	// Update the previous view controller (the new message view)
 	NSArray *viewControllers = [self.navigationController viewControllers];

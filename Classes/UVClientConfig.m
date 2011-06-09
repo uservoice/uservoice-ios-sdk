@@ -42,13 +42,6 @@
 	[UVSession currentSession].clientConfig = model;
 }
 
-+ (id)getSubjectsWithDelegate:(id)delegate {
-	return [self getPath:[self apiPath:@"/custom_fields/public.json"]
-			  withParams:nil
-				  target:delegate
-				selector:@selector(didRetrieveSubjects:)];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
         if ([dict objectForKey:@"questions_enabled"] != [NSNull null]) {

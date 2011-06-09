@@ -8,7 +8,7 @@
 
 #import "UVNewMessageViewController.h"
 #import "UVStyleSheet.h"
-#import "UVSubject.h"
+#import "UVCustomField.h"
 #import "UVSession.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
@@ -41,13 +41,6 @@
 @synthesize subject;
 @synthesize ticketSubjects;
 
-// TODO: This is now deprecated, should remove it
-- (void)createMessage {
-	//NSLog(@"Create message. Subject: %@, Text: %@", self.subject.text, self.text);
-	[self showActivityIndicator];
-	[UVMessage createWithSubject:self.subject text:self.text delegate:self];
-}
-
 - (void)createTicket 
 {
 	[self showActivityIndicator];
@@ -74,17 +67,21 @@
 - (void)createButtonTapped {
 	[self updateFromControls];
 	
-	if ([UVSession currentSession].user) {
-		// Message is deprecated
-		//[self createMessage];
+	if ([UVSession currentSession].user) 
+	{
 		[self createTicket];
 		
-	} else {
-		if (self.email && [self.email length] > 1) {
+	} 
+	else 
+	{
+		if (self.email && [self.email length] > 1) 
+		{
 			[self showActivityIndicator];
 			[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
 			
-		} else {
+		} 
+		else 
+		{
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
 															message:@"Please enter your email address before submitting your ticket." 
 														   delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -110,7 +107,7 @@
 	// token should have been loaded by ResponseDelegate
 	[[UVSession currentSession].currentToken persist];
 	
-	[self createMessage];
+	[self createTicket];
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -289,7 +286,7 @@
 
 - (void)customizeCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	cell.textLabel.text = @"Subject";
-	cell.detailTextLabel.text = self.subject ? self.subject.text : @"No Subject";
+	cell.detailTextLabel.text = self.subject ? self.subject.name : @"No Subject";
 	NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
 	if (subjects && [subjects count] > 0) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

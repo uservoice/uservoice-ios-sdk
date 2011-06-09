@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B5291C13A16A2F008709D2 /* UVCustomField.h */; };
+		80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B5291D13A16A2F008709D2 /* UVCustomField.m */; };
 		9FB0D9A31189EA2D001B2362 /* UVTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F22C9C61189132A0091745E /* UVTopic.m */; };
 		AA747D9F0F9514B9006C5449 /* UserVoice_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* UserVoice_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
@@ -189,6 +191,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		80B5291C13A16A2F008709D2 /* UVCustomField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomField.h; sourceTree = "<group>"; };
+		80B5291D13A16A2F008709D2 /* UVCustomField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomField.m; sourceTree = "<group>"; };
 		9F22C9C51189132A0091745E /* UVTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTopic.h; sourceTree = "<group>"; };
 		9F22C9C61189132A0091745E /* UVTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTopic.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* UserVoice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -508,6 +512,8 @@
 				AC31220D108FC57700000D5F /* UVClientConfig.m */,
 				ACEE442C10AB370F003D8751 /* UVComment.h */,
 				ACEE442D10AB370F003D8751 /* UVComment.m */,
+				80B5291C13A16A2F008709D2 /* UVCustomField.h */,
+				80B5291D13A16A2F008709D2 /* UVCustomField.m */,
 				AC1BA2ED10BB4931002C8712 /* UVForum.h */,
 				AC1BA2EE10BB4931002C8712 /* UVForum.m */,
 				AC91B263112F20F200D84566 /* UVMessage.h */,
@@ -883,6 +889,7 @@
 				D238B62512135C160008A469 /* UVStreamEvent.h in Headers */,
 				D261E056121456430024F2EA /* UVStreamPoller.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
+				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,6 +1031,7 @@
 				D238B62612135C160008A469 /* UVStreamEvent.m in Sources */,
 				D261E057121456430024F2EA /* UVStreamPoller.m in Sources */,
 				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
+				80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

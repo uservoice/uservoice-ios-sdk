@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
 
-@class UVSubject;
+@class UVCustomField;
 
 @interface UVTicket : UVBaseModel {    
 }
 
-+ (id)createWithSubject:(UVSubject *)subject
++ (id)createWithSubject:(UVCustomField *)subject
                 message:(NSString *)message
                delegate:(id)delegate;
 

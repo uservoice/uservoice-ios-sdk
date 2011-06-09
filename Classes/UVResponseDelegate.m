@@ -10,6 +10,7 @@
 #import "UVBaseModel.h"
 #import "UVToken.h"
 #import "UVSession.h"
+#import "UVCustomField.h"
 
 @implementation UVResponseDelegate
 
@@ -31,13 +32,13 @@
 #pragma mark - HRResponseDelegate Methods
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response object:(id)object {
-	NSLog(@"DidReceiveResponse: %@", response);
+	//NSLog(@"DidReceiveResponse: %@", response);
 	//HttpRiot ignores the status code if a JSON body is present and sends didReturnResource"
 	statusCode = [response statusCode];
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReturnResource:(id)resource object:(id)object {
-	NSLog(@">>>> didReturnResource: %@", resource);
+	//NSLog(@"didReturnResource: %@", resource);
 
 	if (statusCode >= 400) {
 		NSDictionary *userInfo = nil;

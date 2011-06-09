@@ -31,6 +31,5 @@
 @property (nonatomic, retain) NSArray *ticketSubjects;
 
 + (id)getWithDelegate:(id)delegate;
-+ (id)getSubjectsWithDelegate:(id)delegate;
 
 @end

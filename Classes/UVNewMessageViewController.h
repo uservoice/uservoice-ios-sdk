@@ -10,7 +10,7 @@
 #import "UVBaseViewController.h"
 #import "UVTextEditor.h"
 
-@class UVSubject;
+@class UVCustomField;
 
 @interface UVNewMessageViewController : UVBaseViewController 
 <UITableViewDataSource, UITableViewDelegate, 
@@ -23,9 +23,8 @@
 	UITextField *nameField;
 	UITextField *emailField;
 	UIBarButtonItem *prevBarButton;
-	UVSubject *subject;
-	
-		NSArray *ticketSubjects;
+	UVCustomField *subject;
+	NSArray *ticketSubjects;
 }
 
 @property (nonatomic, retain) NSString *text;
@@ -35,8 +34,7 @@
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;
-@property (nonatomic, retain) UVSubject *subject;
-
+@property (nonatomic, retain) UVCustomField *subject;
 @property (nonatomic, retain) NSArray *ticketSubjects;
 
 @end
