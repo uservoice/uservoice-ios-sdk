@@ -125,6 +125,12 @@
 	}
 }
 
+- (void)didRetrieveSubjects:(NSArray *)theSubjects
+{
+	// Obviously need code here
+	NSLog(@"theSubjects: %@", theSubjects);
+}
+
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -173,8 +179,11 @@
 		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
+		
+		[UVClientConfig getSubjectsWithDelegate:self];
+		
 		[UVUser retrieveCurrentUser:self];
-
+		
 	} else if (![UVSession currentSession].user) {
 		NSLog(@"No user");
 		// just get user

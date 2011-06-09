@@ -17,6 +17,7 @@
 #import "UVSignInViewController.h"
 #import "UVClientConfig.h"
 #import "UVMessage.h"
+#import "UVTicket.h"
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVToken.h"
@@ -38,11 +39,19 @@
 @synthesize emailField;
 @synthesize prevBarButton;
 @synthesize subject;
+@synthesize ticketSubjects;
 
+// TODO: This is now deprecated, should remove it
 - (void)createMessage {
 	//NSLog(@"Create message. Subject: %@, Text: %@", self.subject.text, self.text);
 	[self showActivityIndicator];
 	[UVMessage createWithSubject:self.subject text:self.text delegate:self];
+}
+
+- (void)createTicket 
+{
+	[self showActivityIndicator];
+	[UVTicket createWithSubject:self.subject message:self.text delegate:self];
 }
 
 - (void)dismissKeyboard {
@@ -66,7 +75,9 @@
 	[self updateFromControls];
 	
 	if ([UVSession currentSession].user) {
-		[self createMessage];
+		// Message is deprecated
+		//[self createMessage];
+		[self createTicket];
 		
 	} else {
 		if (self.email && [self.email length] > 1) {
@@ -75,7 +86,7 @@
 			
 		} else {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-															message:@"Please enter your email address before submitting your message." 
+															message:@"Please enter your email address before submitting your ticket." 
 														   delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
 			[alert show];
 			[alert release];
@@ -116,11 +127,25 @@
 	}
 }
 
+// This function is deprecated
 - (void)didCreateMessage:(UVMessage *)theMessage {
 	[self hideActivityIndicator];
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
 													message:@"Your message was successfully sent."
+												   delegate:nil
+										  cancelButtonTitle:nil
+										  otherButtonTitles:@"OK", nil];
+	[alert show];
+	[alert release];
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)didCreateTicket:(UVTicket *)theTicket {
+	[self hideActivityIndicator];
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
+													message:@"Your ticket was successfully submitted."
 												   delegate:nil
 										  cancelButtonTitle:nil
 										  otherButtonTitles:@"OK", nil];
@@ -390,6 +415,10 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+	
+	
+	/////
+	
 	if (indexPath.section == UV_NEW_MESSAGE_SECTION_SUBJECT && subjects && [subjects count] > 1) {
 		[self dismissTextView];
 		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];

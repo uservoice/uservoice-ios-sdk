@@ -19,6 +19,7 @@
 	NSString *welcome;
 	NSString *itunesApplicationId;
 	NSArray *questions;
+	NSArray *ticketSubjects;
 }
 
 @property (assign) BOOL questionsEnabled;
@@ -27,7 +28,9 @@
 @property (nonatomic, retain) NSString *welcome;
 @property (nonatomic, retain) NSString *itunesApplicationId;
 @property (nonatomic, retain) NSArray *questions;
+@property (nonatomic, retain) NSArray *ticketSubjects;
 
 + (id)getWithDelegate:(id)delegate;
++ (id)getSubjectsWithDelegate:(id)delegate;
 
 @end

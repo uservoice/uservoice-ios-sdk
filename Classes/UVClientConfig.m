@@ -24,6 +24,7 @@
 @synthesize itunesApplicationId;
 @synthesize questions;
 @synthesize subdomain;
+@synthesize ticketSubjects;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -39,6 +40,13 @@
 
 + (void)processModel:(id)model {
 	[UVSession currentSession].clientConfig = model;
+}
+
++ (id)getSubjectsWithDelegate:(id)delegate {
+	return [self getPath:[self apiPath:@"/custom_fields/public.json"]
+			  withParams:nil
+				  target:delegate
+				selector:@selector(didRetrieveSubjects:)];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {

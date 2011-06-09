@@ -28,13 +28,22 @@
 	[self setBaseURL:[self siteURL]];
 }
 
-+ (id)createWithSubject:(NSString *)subject
+/*
++ (id)getSubjectsWithDelegate:(id)delegate {
+	return [self getPath:[self apiPath:@"/custom_fields/public.json"]
+			  withParams:nil
+				  target:delegate
+				selector:@selector(didRetrieveSubjects:)];
+}
+*/
+
++ (id)createWithSubject:(UVSubject *)subject
                 message:(NSString *)message
                delegate:(id)delegate {
 	NSString *path = [self apiPath:@"/tickets.json"];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							message == nil ? @"" : message, @"ticket[message]",
-							subject == nil ? @"" : subject, @"ticket[subject]",
+							subject == nil ? @"" : [[NSNumber numberWithInteger:subject.subjectId] stringValue], @"ticket[subject]",
 							nil];
     
 	return [[self class] postPath:path
@@ -42,6 +51,5 @@
 						   target:delegate
 						 selector:@selector(didCreateTicket:)];
 }
-
 
 @end

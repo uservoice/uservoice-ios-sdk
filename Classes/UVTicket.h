@@ -14,7 +14,7 @@
 @interface UVTicket : UVBaseModel {    
 }
 
-+ (id)createWithSubject:(NSString *)subject
++ (id)createWithSubject:(UVSubject *)subject
                 message:(NSString *)message
                delegate:(id)delegate;
 

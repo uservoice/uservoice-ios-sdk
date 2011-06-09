@@ -37,7 +37,7 @@
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReturnResource:(id)resource object:(id)object {
-	//NSLog(@"didReturnResource: %@", resource);
+	NSLog(@">>>> didReturnResource: %@", resource);
 
 	if (statusCode >= 400) {
 		NSDictionary *userInfo = nil;
@@ -80,6 +80,7 @@
 				
 			} else {
 				NSDictionary *dict = [mutableResource objectForKey:[nodes objectAtIndex:0]];
+				
 				[modelClass didReturnModel:[self modelForDictionary:dict] callback:object];
 			}
 		}
