@@ -82,6 +82,42 @@
 	return footer;
 }
 
++ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller {
+	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, 320, [UVFooterView heightForFooter])] autorelease];
+	footer.controller = controller;
+	
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:footer.bounds style:UITableViewStyleGrouped];
+	theTableView.scrollEnabled = NO;
+	theTableView.delegate = footer;
+	theTableView.dataSource = footer;
+	theTableView.sectionHeaderHeight = 14.0;
+	theTableView.sectionFooterHeight = 8.0;		
+	//theTableView.tableHeaderView = [self getHeaderView];
+	theTableView.backgroundColor = [UVStyleSheet lightZebraBgColor];
+	
+	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)] autorelease];
+	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 240, 14)] autorelease];
+	poweredBy.text = @"Feedback powered by UserVoice";
+	poweredBy.font = [UIFont systemFontOfSize:14.0];
+	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
+	poweredBy.backgroundColor = [UIColor clearColor];
+	poweredBy.textAlignment = UITextAlignmentCenter;
+	[tableFooter addSubview:poweredBy];
+	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+	infoButton.center = CGPointMake(270, 14);
+	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+	[tableFooter addSubview:infoButton];
+	
+	theTableView.tableFooterView = tableFooter;
+	
+	footer.tableView = theTableView;
+	[footer addSubview:theTableView];
+	[theTableView release];
+	
+	return footer;
+}
+
+
 - (void)reloadFooter {
 	[self.tableView reloadData];
 }

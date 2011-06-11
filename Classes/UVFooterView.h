@@ -21,6 +21,7 @@
 + (UIView *)getHeaderView;
 + (CGFloat)heightForFooter;
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller;
++ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller;
 
 - (void)reloadFooter;
 

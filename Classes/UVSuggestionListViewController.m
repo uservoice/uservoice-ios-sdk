@@ -130,7 +130,7 @@
 	// getting the cell size
     CGRect contentRect = cell.contentView.bounds;
 	UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];	
-	//[button addTarget:self action:@selector(addSuggestion:) forControlEvents:UIControlEventTouchUpInside];		
+
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
@@ -424,7 +424,7 @@
 	theTableView.tableHeaderView = headerView;
 	
 	if ([self supportsFooter]) {
-		theTableView.tableFooterView = [UVFooterView footerViewForController:self];
+		theTableView.tableFooterView = [UVFooterView altFooterViewForController:self];
 		
 	} else {
 		UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
