@@ -7,6 +7,7 @@
 //
 
 #import "UVBaseGroupedCell.h"
+#import "UVClientConfig.h"
 
 #define UV_BASE_GROUPED_CELL_BG 50;
 
@@ -20,11 +21,13 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated 
+{
     [super setSelected:selected animated:animated];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
     // Configure the view for the selected state
-	UIView *selectedBackView = [[[UIView alloc] initWithFrame:CGRectMake(-10, 0, 320, 71)] autorelease];
+	UIView *selectedBackView = [[[UIView alloc] initWithFrame:CGRectMake(-10, 0, screenWidth, 71)] autorelease];
 	selectedBackView.backgroundColor = [UIColor clearColor];
 	self.selectedBackgroundView = selectedBackView;
 }

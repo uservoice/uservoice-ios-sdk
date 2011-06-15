@@ -11,6 +11,7 @@
 #import "UVSession.h"
 #import "UVInfo.h"
 #import "UVStyleSheet.h"
+#import "UVClientConfig.h"
 
 #define UV_INFO_SECTION_ABOUT 0
 #define UV_INFO_SECTION_MOTIVATION 1
@@ -43,8 +44,10 @@
 							  selectable:NO];
 }
 
-- (void)initCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, 180)];
+- (void)initCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (screenWidth-40), 180)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textAlignment = UITextAlignmentLeft;
 	label.lineBreakMode = UILineBreakModeWordWrap;	
@@ -57,8 +60,10 @@
 	[label release];
 }
 
-- (void)initCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, 150)];
+- (void)initCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (screenWidth-40), 150)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textAlignment = UITextAlignmentLeft;
 	label.lineBreakMode = UILineBreakModeWordWrap;

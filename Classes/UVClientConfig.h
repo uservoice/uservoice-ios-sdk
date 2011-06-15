@@ -6,7 +6,9 @@
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "UVBaseModel.h"
 
 @class UVForum;
@@ -31,5 +33,7 @@
 @property (nonatomic, retain) NSArray *ticketSubjects;
 
 + (id)getWithDelegate:(id)delegate;
++ (CGFloat)getScreenWidth;
++ (CGFloat)getScreenHeight;
 
 @end

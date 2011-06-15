@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UVBaseViewController.h"
 #import "UVSession.h"
+#import "UVClientConfig.h"
 #import "UVSuggestion.h"
 #import "UVUser.h"
 #import "UVStyleSheet.h"
@@ -33,8 +34,14 @@
 		barFrame = self.navigationController.navigationBar.frame;
 	}
 	CGRect appFrame = [UIScreen mainScreen].applicationFrame;
+	NSLog(@"appFrame: %@", NSStringFromCGRect(appFrame));
 	CGFloat yStart = barFrame.origin.y + barFrame.size.height;
-	return CGRectMake(0, yStart, appFrame.size.width, appFrame.size.height - barFrame.size.height);
+	
+	
+	NSLog(@"%@", [UVSession currentSession].clientConfig);
+	
+	//return CGRectMake(0, yStart, appFrame.size.width, appFrame.size.height - barFrame.size.height);
+	return CGRectMake(0, yStart, 460, appFrame.size.height - barFrame.size.height);
 }
 
 
@@ -134,9 +141,14 @@
 	}
 }
 
-- (void)addGradientBackground {
+- (void)addGradientBackground 
+{
 	CAGradientLayer *gradient = [CAGradientLayer layer];
-	gradient.frame = self.view.bounds;
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
+	//gradient.frame = self.view.bounds;
+	gradient.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+	
 	gradient.colors = [NSArray arrayWithObjects:
 					   (id)[[UVStyleSheet darkBgColor] CGColor],
 					   (id)[[UVStyleSheet lightBgColor] CGColor],
@@ -181,7 +193,11 @@
 // Add a highlight row at the top. You need to separately add a dark shadow via
 // the table separator.
 - (void)addHighlightToCell:(UITableViewCell *)cell {
-	UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+	
+	//CGRect screenRect = [[UIScreen mainScreen] bounds];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
 	highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
 	highlight.opaque = YES;
 	[cell.contentView addSubview:highlight];

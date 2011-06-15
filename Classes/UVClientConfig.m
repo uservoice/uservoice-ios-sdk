@@ -42,6 +42,38 @@
 	[UVSession currentSession].clientConfig = model;
 }
 
++ (CGFloat)getScreenWidth
+{
+	CGRect appFrame = [[UIScreen mainScreen] bounds];
+	CGFloat screenWidth;
+	if (([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) || ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeRight))
+	{
+		screenWidth = appFrame.size.height;
+	}
+	else 
+	{
+		screenWidth = appFrame.size.width;
+	}
+	
+	return screenWidth;
+}
+
++ (CGFloat)getScreenHeight
+{
+	CGRect appFrame = [[UIScreen mainScreen] bounds];
+	CGFloat screenHeight;
+	if (([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) || ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeRight))
+	{
+		screenHeight = appFrame.size.width;
+	}
+	else 
+	{
+		screenHeight = appFrame.size.height;		
+	}
+	
+	return screenHeight;	
+}
+
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
         if ([dict objectForKey:@"questions_enabled"] != [NSNull null]) {

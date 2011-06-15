@@ -10,6 +10,7 @@
 #import "UVSuggestionDetailsViewController.h"
 #import "UVSuggestion.h"
 #import "UVCategory.h"
+#import "UVClientConfig.h"
 #import "UVStyleSheet.h"
 #import "UVBaseGroupedCell.h"
 #import "UVSuggestionChickletView.h"
@@ -37,7 +38,8 @@
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	// getting the cell size
     //CGRect contentRect = cell.contentView.bounds;
-	CGRect contentRect = CGRectMake(0, 0, 320, 71);
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
 	UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row andFrame:contentRect];	
 	NSLog(@"Init suggestion with index: %d", indexPath.row);
 	
@@ -66,7 +68,8 @@
 	//NSLog(@"Load more index: %d", indexPath.row);
 	
 	//CGRect contentRect = cell.contentView.bounds;
-	CGRect contentRect = CGRectMake(0, 0, 320, 71);
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
 	UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
 	[cellView setZebraColorFromIndex:indexPath.row];
 		
@@ -74,7 +77,7 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// Can't use built-in textLabel, as this forces a white background
-	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, 320, 18)];
+	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 18)];
 	textLabel.text = @"Load more ideas...";
 	textLabel.textColor = [UIColor blackColor];
 	textLabel.backgroundColor = [UIColor clearColor];

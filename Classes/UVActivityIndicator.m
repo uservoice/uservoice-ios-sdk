@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UVActivityIndicator.h"
-
+#import "UVClientConfig.h"
 
 @implementation UVActivityIndicator
 
@@ -25,7 +25,8 @@
 		[self addSubview:backgroundView];
 		[backgroundView release];
 		
-		UIView *activityFrame = [[UIView alloc] initWithFrame:CGRectMake((frame.size.width - 120) / 2, 100, 120, 120)];
+		UIView *activityFrame = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
+		activityFrame.center = backgroundView.center;
 		activityFrame.backgroundColor = [UIColor blackColor];
 		activityFrame.alpha = 0.9;
 		activityFrame.layer.cornerRadius = 10;
@@ -36,6 +37,7 @@
 		[activityFrame addSubview:activity];
 		[activity release];
 		
+		/*
 		UILabel *activityLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 120, 20)];
 		activityLabel.text = text;
 		activityLabel.textColor = [UIColor whiteColor];
@@ -44,6 +46,7 @@
 		activityLabel.textAlignment = UITextAlignmentCenter;
 		[activityFrame addSubview:activityLabel];
 		[activityLabel release];
+		*/
 		
 		[self addSubview:activityFrame];
 		[activityFrame release];

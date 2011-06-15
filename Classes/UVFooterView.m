@@ -40,16 +40,23 @@
 	return 110; // actual cells and padding + table footer
 }
 
-+ (UIView *)getHeaderView {
-	UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
++ (UIView *)getHeaderView 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)] autorelease];
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
+	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
 	UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
+	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 	[bottomShadow addSubview:shadowView];	
 	return bottomShadow;
 }
 
-+ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
-	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, 320, [UVFooterView heightForFooter])] autorelease];
++ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, [UVFooterView heightForFooter])] autorelease];
 	footer.controller = controller;
 	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:footer.bounds style:UITableViewStyleGrouped];
@@ -60,8 +67,8 @@
 	theTableView.sectionFooterHeight = 8.0;		
 	theTableView.tableHeaderView = [self getHeaderView];
 		
-	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)] autorelease];
-	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 240, 14)] autorelease];
+	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
+	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth - 80), 14)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
@@ -69,7 +76,7 @@
 	poweredBy.textAlignment = UITextAlignmentCenter;
 	[tableFooter addSubview:poweredBy];
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	infoButton.center = CGPointMake(270, 14);
+	infoButton.center = CGPointMake((screenWidth - 50), 14);
 	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[tableFooter addSubview:infoButton];
 	
@@ -82,8 +89,10 @@
 	return footer;
 }
 
-+ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller {
-	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, 320, [UVFooterView heightForFooter])] autorelease];
++ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, [UVFooterView heightForFooter])] autorelease];
 	footer.controller = controller;
 	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:footer.bounds style:UITableViewStyleGrouped];
@@ -95,8 +104,8 @@
 	//theTableView.tableHeaderView = [self getHeaderView];
 	theTableView.backgroundColor = [UVStyleSheet lightZebraBgColor];
 	
-	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)] autorelease];
-	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, 240, 14)] autorelease];
+	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
+	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth-80), 14)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
@@ -104,7 +113,7 @@
 	poweredBy.textAlignment = UITextAlignmentCenter;
 	[tableFooter addSubview:poweredBy];
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	infoButton.center = CGPointMake(270, 14);
+	infoButton.center = CGPointMake((screenWidth-50), 14);
 	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[tableFooter addSubview:infoButton];
 	
@@ -128,11 +137,13 @@
 	UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
 	if ([UVSession currentSession].loggedIn) {
 		cell.textLabel.text = @"My profile";
-		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, 170, 18)] autorelease];
-		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 2, 170, 14)] autorelease];
+		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth-150), 18)] autorelease];
+		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 2, (screenWidth-150), 14)] autorelease];
 		nameLabel.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
 		nameLabel.textAlignment = UITextAlignmentRight;
 		nameLabel.font = [UIFont systemFontOfSize:14.0];

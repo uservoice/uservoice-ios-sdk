@@ -62,7 +62,8 @@
 	[self dismissUserVoice];
 }
 
-- (void)pushWelcomeView {
+- (void)pushWelcomeView 
+{
 	// Note: We used to bring the user straight to the suggestions list view, while
 	//       allowing them to pop back up to the forum list. Commenting this code
 	//       out but leaving it around in case we decide to revert back to this approach.
@@ -134,6 +135,12 @@
 	}
 }
 
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	return (interfaceOrientation == UIDeviceOrientationLandscapeLeft);
+	//return YES;	
+}
+
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -146,12 +153,37 @@
 	CGRect frame = [self contentFrameWithNavBar:NO];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_splash.png"]];
-	[contentView addSubview:image];
-	[image release];
+	//CGRect screenRect = [[UIScreen mainScreen] bounds];
+	//CGFloat screenWidth = screenRect.size.width;
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
+	
+	contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+		
+	UILabel *splashLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+20, screenWidth, 32)];
+	splashLabel1.backgroundColor = [UIColor clearColor];
+	splashLabel1.font = [UIFont systemFontOfSize:20];
+	splashLabel1.textColor = [UIColor darkGrayColor];
+	splashLabel1.textAlignment = UITextAlignmentCenter;
+	splashLabel1.text = @"Loading feedback...";
+	[contentView addSubview:splashLabel1];
+	[splashLabel1 release];
+	
+	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+50, screenWidth, 20)];
+	splashLabel2.backgroundColor = [UIColor clearColor];
+	splashLabel2.font = [UIFont systemFontOfSize:15];
+	splashLabel2.textColor = [UIColor darkGrayColor];
+	splashLabel2.textAlignment = UITextAlignmentCenter;
+	splashLabel2.text = @"Connecting to the UserVoice feedback system";
+	[contentView addSubview:splashLabel2];
+	[splashLabel2 release];
+	
+	//UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_splash.png"]];
+	//[contentView addSubview:image];
+	//[image release];
 	
 	UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-	activity.center = CGPointMake(frame.size.width / 2, (frame.size.height / 2) - 20);
+	activity.center = CGPointMake(screenWidth/2, (screenHeight/ 2) - 20);
 	[contentView addSubview:activity];
 	[activity startAnimating];
 	[activity release];
@@ -163,7 +195,7 @@
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"View will appear (RootView)");
 	[super viewWillAppear:animated];
-	
+				
 	if (![UVNetworkUtils hasInternetAccess]) {
 		UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
 		self.navigationController.navigationBarHidden = NO;
@@ -180,11 +212,10 @@
 		// no client config
 		NSLog(@"No client");
 		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
+
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
-		
 		[UVCustomField getSubjectsWithDelegate:self];
-		
 		[UVUser retrieveCurrentUser:self];
 		
 	} else if (![UVSession currentSession].user) {
@@ -195,6 +226,7 @@
 		
 	} else {
 		NSLog(@"Pushing welcome");
+				
 		// Re-enable the navigation bar
 		self.navigationController.navigationBarHidden = NO;
 

@@ -76,8 +76,10 @@
 	return [dateFormatter stringFromDate:self.user.createdAt];
 }
 
-- (UIView *)createHeaderView {
-	UIView *header = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 84)] autorelease];
+- (UIView *)createHeaderView 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	UIView *header = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 84)] autorelease];
 	header.backgroundColor = [UIColor clearColor];
 	
 	// Name
@@ -267,8 +269,10 @@
 
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.backgroundColor = [UIColor clearColor];

@@ -8,6 +8,7 @@
 
 #import "UVCellViewWithIndex.h"
 #import "UVStyleSheet.h"
+#import "UVClientConfig.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation UVCellViewWithIndex
@@ -23,13 +24,14 @@
 
 - (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame 
 {
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	self.opaque = YES;
-		
-	if (self = [super initWithFrame:CGRectMake(0, 0, 320, 71)]) 
+	
+	if (self = [super initWithFrame:CGRectMake(0, 0, screenWidth, 71)]) 
 	{
 		[self setZebraColorFromIndex:index];
 		
-		UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+		UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
 		highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
 		highlight.opaque = YES;
 		[self addSubview:highlight];

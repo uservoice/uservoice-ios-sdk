@@ -16,6 +16,7 @@
 #import "UVCellViewWithIndex.h"
 #import "UVUserButton.h"
 #import "UVTextEditor.h"
+#import "UVClientConfig.h"
 
 #define UV_COMMENT_LIST_TAG_CELL_NAME 1
 #define UV_COMMENT_LIST_TAG_CELL_DATE 2
@@ -142,7 +143,10 @@
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (void) textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
+- (void) textEditorDidBeginEditing:(UVTextEditor *)theTextEditor 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+
 	// Change right bar button to Done and left to Cancel, as there's no built-in
 	// way to dismiss the text editor's keyboard.
 	UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
@@ -161,7 +165,7 @@
 	// Maximize header view to allow text editor to grow (leaving room for keyboard)
 	[UIView beginAnimations:@"growHeader" context:nil];
 	NSInteger height = self.view.bounds.size.height - 216;
-	CGRect frame = CGRectMake(0, 0, 320, height);
+	CGRect frame = CGRectMake(0, 0, screenWidth, height);
 	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
 	textBar.frame = frame;
 	textBar.backgroundColor = [UIColor whiteColor];
@@ -169,15 +173,17 @@
 	[UIView commitAnimations];
 }
 
-- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
+- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	self.text = theTextEditor.text;
 	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
-	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
+	theTextEditor.frame = CGRectMake(5, 0, (screenWidth-5), 40);
 	UIView *textBar = (UIView *)self.tableView.tableHeaderView;
-	textBar.frame = CGRectMake(0, 0, 320, 40);
-	theTextEditor.frame = CGRectMake(5, 0, 315, 40);
+	textBar.frame = CGRectMake(0, 0, screenWidth, 40);
+	theTextEditor.frame = CGRectMake(5, 0, (screenWidth-5), 40);
 	[UIView commitAnimations];
 }
 
@@ -268,12 +274,14 @@
 	[chicklet updateWithStyle:style userId:comment.userId name:comment.userName avatarUrl:comment.avatarUrl karmaScore:comment.karmaScore];	
 }
 
-- (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
 	[self addHighlightToCell:cell];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
 	// Can't use built-in textLabel, as this forces a white background
-	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 27, 320, 16)];
+	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 27, screenWidth, 16)];
 	textLabel.text = @"Load more comments...";
 	textLabel.textColor = [UIColor darkGrayColor];
 	textLabel.backgroundColor = [UIColor clearColor];
@@ -345,8 +353,12 @@
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
+- (void)loadView 
+{
 	[super loadView];
+
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
 	if (self.suggestion.commentsCount == 1) {
 		self.navigationItem.title = @"1 Comment";
@@ -357,7 +369,7 @@
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44)];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;	
 	theTableView.backgroundColor = [UIColor clearColor];
@@ -365,10 +377,10 @@
 	[self addShadowSeparatorToTableView:theTableView];
 
 	// Add text editor to table header
-	UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+	UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
 	textBar.backgroundColor = [UIColor whiteColor];
 	// TTSTYLE(commentTextBar)
-	UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, 315, 40)];
+	UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, (screenWidth-5), 40)];
 	theTextEditor.delegate = self;
 	theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 	theTextEditor.minNumberOfLines = 1;
@@ -384,7 +396,7 @@
 	[textBar release];
 
 	// Add empty footer, to suppress blank cells (with separators) after actual content
-	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 0)];
+	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)];
 	theTableView.tableFooterView = footer;
 	[footer release];
 	

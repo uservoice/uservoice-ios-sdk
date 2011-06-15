@@ -121,20 +121,24 @@
 }
 
 // Calculates the height of the text.
-- (CGSize)textSize {
+- (CGSize)textSize 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	// Probably doesn't matter, but we might want to cache this since we call it twice.
 	return [self.suggestion.text
 			sizeWithFont:[UIFont systemFontOfSize:13]
-			constrainedToSize:CGSizeMake(300, 10000)
+			constrainedToSize:CGSizeMake((screenWidth-20), 10000)
 			lineBreakMode:UILineBreakModeWordWrap];
 }
 
 // Calculates the height of the title.
-- (CGSize)titleSize {
+- (CGSize)titleSize 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	// Probably doesn't matter, but we might want to cache this since we call it twice.
 	return [self.suggestion.title
 			sizeWithFont:[UIFont boldSystemFontOfSize:18]
-			constrainedToSize:CGSizeMake(235, 10000)
+			constrainedToSize:CGSizeMake((screenWidth-85), 10000)
 			lineBreakMode:UILineBreakModeWordWrap];
 }
 
@@ -163,17 +167,20 @@
 
 #pragma mark ===== table cells =====
 
-- (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	[self removeBackgroundFromCell:cell];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, 320, 72)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, screenWidth, 72)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
 	if ([suggestion.status isEqualToString:@"completed"]) {
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 300, 44)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, (screenWidth-20), 44)];
 		label.tag = NO_VOTE_LABEL_TAG;
 		label.numberOfLines = 2;
 		label.opaque = YES;
@@ -192,14 +199,14 @@
 		NSArray *items = [NSArray arrayWithObjects:@"0 votes", @"1 vote", @"2 votes", @"3 votes", nil];
 		UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 		segments.tag = VOTE_SEGMENTS_TAG;
-		segments.frame = CGRectMake(0, 0, 300, 44);
+		segments.frame = CGRectMake(0, 0, (screenWidth-20), 44);
 		[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 		UILabel *label;
 		if ([UVSession currentSession].user != nil) {
-			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 14)];
+			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, (screenWidth-20), 14)];
 		} else {
 			[segments setEnabled:NO];
-			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, 300, 17)];
+			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, (screenWidth-20), 17)];
 		}
 		[cell.contentView addSubview:segments];
 		[segments release];
@@ -232,17 +239,20 @@
 	}
 }
 
-- (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	[self removeBackgroundFromCell:cell];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
 	NSInteger height = [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, 320, height)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, screenWidth, height)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 
 	// The default margins are too large for the body, so we're using our own label.
-	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, 300, [self textSize].height)] autorelease];
+	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, (screenWidth-20), [self textSize].height)] autorelease];
 	body.text = self.suggestion.text;
 	body.font = [UIFont systemFontOfSize:13];
 	body.lineBreakMode = UILineBreakModeWordWrap;
@@ -274,11 +284,12 @@
 	cell.textLabel.text = @"Flag as inappropriate";
 }
 
-- (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	[self removeBackgroundFromCell:cell];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
-	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 75)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (screenWidth-20), 75)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
@@ -450,23 +461,28 @@
 	
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) style:UITableViewStyleGrouped];
 	theTableView.sectionHeaderHeight = 0.0;
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
 	
 	NSInteger height = MAX([self titleSize].height + 347, 383);
 	height += [self textSize].height > 0 ? [self textSize].height + 10 : 0;
-	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];  
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)];  
 	headerView.backgroundColor = [UIColor clearColor];
 	
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
+	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
 	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 	[headerView addSubview:shadowView];	
 	[shadowView release];
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, height)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, height)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[headerView addSubview:bg];
 	[bg release];
@@ -499,7 +515,7 @@
 	[headerView addSubview:label];
 	[label release];
 	NSInteger yOffset = MAX([self titleSize].height + 55, 90);
-	UITableView *theInnerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yOffset, 320, MAX([self titleSize].height + 273, 313)) 
+	UITableView *theInnerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yOffset, screenWidth, MAX([self titleSize].height + 273, 313)) 
 																  style:UITableViewStyleGrouped];
 	theInnerTableView.dataSource = self;
 	theInnerTableView.delegate = self;

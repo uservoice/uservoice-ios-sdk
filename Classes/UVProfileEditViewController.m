@@ -104,8 +104,10 @@
 	self.emailField.text = self.user.email;
 }
 
-- (void)initCellForUpdate:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForUpdate:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	[self removeBackgroundFromCell:cell];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 300, 42);
@@ -115,12 +117,15 @@
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(updateButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+	button.center = CGPointMake(screenWidth/2 - 10, button.center.y);
 	[cell.contentView addSubview:button];
 }
 
-- (void)initCellForLogout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForLogout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	[self removeBackgroundFromCell:cell];
-	
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 300, 42);
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -129,6 +134,7 @@
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(logoutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+	button.center = CGPointMake(screenWidth/2 - 10, button.center.y);
 	[cell.contentView addSubview:button];
 }
 
@@ -225,9 +231,12 @@
 	}
 }
 
-- (UIView *)tableView:(UITableView *)theTableView viewForFooterInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)theTableView viewForFooterInSection:(NSInteger)section 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
 	if (section == UV_PROFILE_SECTION_DETAILS) {
-		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 7, 284, 30)];
 		
 		label.text = @"Changing your email address will require it to be confirmed again.";
@@ -236,6 +245,7 @@
 		label.font = [UIFont boldSystemFontOfSize:13];
 		label.textAlignment = UITextAlignmentCenter;
 		label.numberOfLines = 2;
+		label.center = CGPointMake(screenWidth/2, label.center.y);
 		[view addSubview:label];
 		[label release];
 		
@@ -243,7 +253,7 @@
 
 	} else if (section == UV_PROFILE_SECTION_LOGOUT) {
 		if ([self.user hasUnconfirmedEmail]) {
-			UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+			UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 30)];
 			UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(38, 0, 300, 40)];
 			
 			UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
@@ -280,8 +290,10 @@
 	
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.backgroundColor = [UIColor clearColor];

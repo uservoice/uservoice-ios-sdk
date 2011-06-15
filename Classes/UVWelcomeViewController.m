@@ -65,6 +65,12 @@
 	}
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+	return (interfaceOrientation == UIDeviceOrientationLandscapeLeft);
+	//return YES;
+}
+
 #pragma mark ===== UIAlertViewDelegate Methods =====
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -95,15 +101,19 @@
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	
+	//CGRect screenRect = [[UIScreen mainScreen] bounds];
+	//CGFloat screenWidth = screenRect.size.width;
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 		
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 55)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 55)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
 	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 	myButton.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
-    myButton.frame = CGRectMake(0, 0, 300, 44); // position in the parent view and set the size of the button
+    myButton.frame = CGRectMake(0, 0, (screenWidth - 20), 44); // position in the parent view and set the size of the button
     [myButton setTitle:[_forum prompt] forState:UIControlStateNormal];
     [myButton addTarget:self action:@selector(pushForumView) forControlEvents:UIControlEventTouchUpInside];
 	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -124,10 +134,13 @@
     [myButton setTitle:[_forum prompt] forState:UIControlStateNormal];
 }
 
-- (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader {
+- (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
 	if (subheader) {
 		CGSize subSize = [subheader sizeWithFont:[UIFont systemFontOfSize:14]
-							   constrainedToSize:CGSizeMake(280, 9999)
+							   constrainedToSize:CGSizeMake((screenWidth - 40), 9999)
 								   lineBreakMode:UILineBreakModeWordWrap];
 		return subSize.height + 35 + 5 + 5; // (subheader + header + padding between/bottom)
 		
@@ -142,13 +155,15 @@
 	[self removeBackgroundFromCell:cell];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 55)];		
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 55)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 		
 	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    myButton.frame = CGRectMake(0, 0, 300, 44);
+    myButton.frame = CGRectMake(0, 0, (screenWidth - 20), 44);
     [myButton addTarget:self action:@selector(pushNewMessageView) forControlEvents:UIControlEventTouchUpInside];
 	[myButton setTitle:[NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name]
 			  forState:UIControlStateNormal];
@@ -167,7 +182,10 @@
 
 - (void)addQuestionCell:(UITableViewCell *)cell labelWithText:(NSString *)text alignment:(UITextAlignment)alignment {
 	// Simply stack up all labels with the same frame. The alignment will take care of things.
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 49, 280, 15)];
+	
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 49, (screenWidth-40), 15)];
 	
 	label.backgroundColor = [UIColor clearColor];
 	label.font = [UIFont systemFontOfSize:12];
@@ -191,7 +209,9 @@
 	[self removeBackgroundFromCell:cell];	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 80)];		
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 80)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
@@ -199,7 +219,7 @@
 	NSArray *items = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 	segments.tag = UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS;
-	segments.frame = CGRectMake(0, 0, 300, 44);
+	segments.frame = CGRectMake(0, 0, (screenWidth - 20), 44);
 	[self updateSegmentsValue:segments]; // necessary to avoid triggering an update when we set it in the customize method
 	[segments addTarget:self action:@selector(questionSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 	// add segments
@@ -220,7 +240,8 @@
 		[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
 		
 	} else {		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, 300, 20)];
+		CGFloat screenWidth = [UVClientConfig getScreenWidth];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont boldSystemFontOfSize:12];
@@ -237,7 +258,9 @@
 	[self removeBackgroundFromCell:cell];	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, 320, 11)];		
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 11)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
@@ -245,10 +268,13 @@
 
 - (UIView *)viewWithHeader:(NSString *)header subheader:(NSString *)subheader {
 	CGFloat height = [self heightForViewWithHeader:header subheader:subheader];
-	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
+	
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
 	headerView.backgroundColor = [UVStyleSheet lightBgColor];
 	
-	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 280, 35)];
+	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, (screenWidth - 40), 35)];
 	title.text = header;
 	title.font = [UIFont boldSystemFontOfSize:18];
 	title.backgroundColor = [UIColor clearColor];
@@ -257,7 +283,7 @@
 	[title release];
 	
 	if (subheader) {
-		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 33, 280, height - (33 + 5))];
+		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 33, (screenWidth - 40), height - (33 + 5))];
 		subtitle.text = subheader;
 		subtitle.lineBreakMode = UILineBreakModeWordWrap;
 		subtitle.numberOfLines = 0;
@@ -400,7 +426,9 @@
 	_tableView.sectionFooterHeight = 0.0;
 	_tableView.sectionHeaderHeight = 0.0;
 	
-	UIView *topShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];  
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
+	UIView *topShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)];  
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];
 	
 	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];

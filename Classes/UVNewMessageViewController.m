@@ -267,8 +267,10 @@
 	return [textField autorelease];
 }
 
-- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {	
-	CGRect frame = CGRectMake(0, 0, 300, 144);
+- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
 	UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
 	aTextEditor.delegate = self;
 	aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -307,8 +309,10 @@
 	self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 }
 
-- (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	[self removeBackgroundFromCell:cell];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 300, 42);
@@ -319,6 +323,7 @@
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[cell.contentView addSubview:button];
+	button.center = CGPointMake(screenWidth/2 - 10, button.center.y);
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -403,9 +408,11 @@
 	}
 }
 
-- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section 
+{
 	CGFloat height = [self tableView:theTableView heightForHeaderInSection:section];
-	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -432,15 +439,17 @@
 	
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.backgroundColor = [UIColor clearColor];
 	
-	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 15)];
+	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
 	label.text = @"Want to suggest an idea instead?";
 	label.textAlignment = UITextAlignmentCenter;
 	label.textColor = [UVStyleSheet dimBlueColor];
@@ -458,6 +467,7 @@
 	button.showsTouchWhenHighlighted = YES;
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
 	[button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+	button.center = CGPointMake(footer.center.x, button.center.y);
 	[footer addSubview:button];
 	
 	theTableView.tableFooterView = footer;

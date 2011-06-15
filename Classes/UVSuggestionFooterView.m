@@ -10,6 +10,7 @@
 #import "UVFooterView.h"
 #import "UVStyleSheet.h"
 #import "UVUserButton.h"
+#import "UVClientConfig.h"
 
 @implementation UVSuggestionFooterView
 
@@ -32,11 +33,13 @@
 	return [dateFormatter stringFromDate:self.suggestion.createdAt];
 }
 
-- (id)initWithSuggestion:(UVSuggestion *)theSuggestion andController:(UVBaseViewController *)theController {
+- (id)initWithSuggestion:(UVSuggestion *)theSuggestion andController:(UVBaseViewController *)theController 
+{
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	if (self = (UVSuggestionFooterView *)[UVSuggestionFooterView footerViewForController:controller]) {
-		UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+		UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 100)];
 		
-		UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 82)];		
+		UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 82)];		
 		bg.backgroundColor = [UVStyleSheet lightBgColor];
 		[wrapper addSubview:bg];
 		[bg release];
@@ -81,10 +84,13 @@
 		[wrapper addSubview:label];
 		[label release];
 		
-		UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)] autorelease];
+		UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)] autorelease];
 		UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
+		CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
 		UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
-		[bottomShadow addSubview:shadowView];
+		shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+		shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
+		[bottomShadow addSubview:shadowView];	
 		[wrapper addSubview:bottomShadow];
 		
 		self.tableView.tableHeaderView = wrapper;

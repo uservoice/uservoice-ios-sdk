@@ -168,7 +168,8 @@
 	[cellView release];
 }
 
-- (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
+{
 	UIColor *bgColor = indexPath.row % 2 == 0 ? [UVStyleSheet darkZebraBgColor] : [UVStyleSheet lightZebraBgColor];
 	cell.backgroundView.backgroundColor = bgColor;
 	
@@ -312,9 +313,12 @@
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
 	//NSLog(@"textEditorShouldBeginEditing");
+	
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	NSInteger height = self.view.bounds.size.height - 216;
-	CGRect frame = CGRectMake(0, 10, 320, height);
+	CGRect frame = CGRectMake(0, 10, screenWidth, height);
 	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
@@ -325,7 +329,7 @@
 	
 	textBar.frame = frame;
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];		
-	frame = CGRectMake(0, 0, 320, 40);
+	frame = CGRectMake(0, 0, screenWidth, 40);
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
 	theTextEditor.backgroundColor = [UIColor whiteColor];	
 	
@@ -358,9 +362,11 @@
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
 	
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
-	textBar.frame = CGRectMake(0, 10, 320, 40);
+	textBar.frame = CGRectMake(0, 10, screenWidth, 40);
 	textBar.backgroundColor = [UIColor whiteColor];
 	
 	[self setCellsEnabled:YES];
@@ -379,10 +385,14 @@
 
 	self.navigationItem.title = self.forum.currentTopic.prompt;
 
-	CGRect frame = [self contentFrame];
+	CGRect frame = [self contentFrame]; // ??
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStylePlain];
+	// TODO: fix table initWithFrame here
+	
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) style:UITableViewStylePlain];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -392,21 +402,24 @@
 	[self addShadowSeparatorToTableView:theTableView];
 	
 	NSInteger headerHeight = [self supportsSearch] ? 50 : 10;
-	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, headerHeight)];  
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];  
 	headerView.backgroundColor = [UIColor clearColor];
 	
 	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
+	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
 	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 	[headerView addSubview:shadowView];	
 	[shadowView release];
 
 	if ([self supportsSearch]) {		
 		// Add text editor to table header
-		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 320, 40)];
+		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 40)];
 		textBar.backgroundColor = [UIColor whiteColor];
 		textBar.tag = UV_SEARCH_TEXTBAR;
 		
-		_textEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+		_textEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
 		_textEditor.delegate = self;
 		_textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 		_textEditor.minNumberOfLines = 1;
@@ -427,9 +440,12 @@
 		theTableView.tableFooterView = [UVFooterView altFooterViewForController:self];
 		
 	} else {
-		UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 10)];
+		UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)];
 		UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
-		UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+		CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
+		UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
+		shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+		shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 		[bottomShadow addSubview:shadowView];	
 		theTableView.tableFooterView = bottomShadow;
 		[shadowView release];
