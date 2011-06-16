@@ -54,6 +54,10 @@
 	{
 		rootViewController = [[[UVRootViewController alloc] initWithSsoToken:token] autorelease];
 	}
+	
+	// Capture the launch orientation, then store it in NSDefaults for reference in all other UV view controller classes
+	[UVClientConfig setOrientation];
+	
 	[self showUserVoice:rootViewController forController:viewController];
 }
 
@@ -77,6 +81,10 @@
 																  andGUID:guid 
 																  andName:displayName] autorelease];
 	}
+	
+	// Capture the launch orientation, then store it in NSDefaults for reference in all other UV view controller classes
+	[UVClientConfig setOrientation];
+	
 	[self showUserVoice:rootViewController forController:viewController];
 	
 }
