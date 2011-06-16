@@ -158,6 +158,12 @@
 	[self.view.layer insertSublayer:gradient atIndex:0];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+	UIDeviceOrientation deviceOrientation = [UVClientConfig getOrientation];
+	return (interfaceOrientation == deviceOrientation);
+}
+
 #pragma mark ===== helper methods for table views =====
 
 - (void)removeBackgroundFromCell:(UITableViewCell *)cell {

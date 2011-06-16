@@ -65,12 +65,6 @@
 	}
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-	return (interfaceOrientation == UIDeviceOrientationLandscapeLeft);
-	//return YES;
-}
-
 #pragma mark ===== UIAlertViewDelegate Methods =====
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

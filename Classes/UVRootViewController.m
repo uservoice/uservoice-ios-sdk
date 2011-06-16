@@ -135,16 +135,11 @@
 	}
 }
 
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return (interfaceOrientation == UIDeviceOrientationLandscapeLeft);
-	//return YES;	
-}
-
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
+- (void)loadView 
+{
 	// Hide the nav bar
 	self.navigationController.navigationBarHidden = YES;
 
@@ -160,7 +155,7 @@
 	
 	contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 		
-	UILabel *splashLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+20, screenWidth, 32)];
+	UILabel *splashLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)-20, screenWidth, 32)];
 	splashLabel1.backgroundColor = [UIColor clearColor];
 	splashLabel1.font = [UIFont systemFontOfSize:20];
 	splashLabel1.textColor = [UIColor darkGrayColor];
@@ -169,7 +164,7 @@
 	[contentView addSubview:splashLabel1];
 	[splashLabel1 release];
 	
-	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+50, screenWidth, 20)];
+	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+10, screenWidth, 20)];
 	splashLabel2.backgroundColor = [UIColor clearColor];
 	splashLabel2.font = [UIFont systemFontOfSize:15];
 	splashLabel2.textColor = [UIColor darkGrayColor];
@@ -177,13 +172,9 @@
 	splashLabel2.text = @"Connecting to the UserVoice feedback system";
 	[contentView addSubview:splashLabel2];
 	[splashLabel2 release];
-	
-	//UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_splash.png"]];
-	//[contentView addSubview:image];
-	//[image release];
-	
+		
 	UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-	activity.center = CGPointMake(screenWidth/2, (screenHeight/ 2) - 20);
+	activity.center = CGPointMake(screenWidth/2, (screenHeight/ 2) - 60);
 	[contentView addSubview:activity];
 	[activity startAnimating];
 	[activity release];
@@ -217,7 +208,7 @@
 		[UVClientConfig getWithDelegate:self];
 		[UVCustomField getSubjectsWithDelegate:self];
 		[UVUser retrieveCurrentUser:self];
-		
+				
 	} else if (![UVSession currentSession].user) {
 		NSLog(@"No user");
 		// just get user

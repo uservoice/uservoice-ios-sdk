@@ -74,6 +74,31 @@
 	return screenHeight;	
 }
 
+// Methods to store initial launch orientation of UserVoice (and then use that orientation until UserVoice is dismissed again)
+// The UVBaseViewController class uses getOrientation: to determine the allowed orientation, and therefore all the controllers inherit this
++ (UIDeviceOrientation)getOrientation
+{
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	int orientation = [userDefaults integerForKey:@"UVOrientation"];
+	
+	if (orientation)
+	{
+		return (UIDeviceOrientation)orientation;
+	}
+	else 
+	{
+		return UIDeviceOrientationPortrait;
+	}
+}
+
++ (void)setOrientation
+{
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	int orientation = (int)[UIApplication sharedApplication].statusBarOrientation; 
+	
+	[userDefaults setInteger:orientation forKey:@"UVOrientation"];	
+}
+
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
         if ([dict objectForKey:@"questions_enabled"] != [NSNull null]) {
