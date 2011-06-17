@@ -26,35 +26,29 @@ The instructions below describe this process in more detail.
 Instructions
 ============
 
-Add the SDK to your project
+Thanks to Johan Williams for this blog post (made my life a lot easier):
+
+http://blog.carbonfive.com/2011/04/04/using-open-source-static-libraries-in-xcode-4/
+
+NB. THESE INSTRUCTIONS ONLY APPLY TO XCODE-4, FOR XCODE-3 PLEASE CHECK OUT THE XCODE3 BRANCH AND README
+
+Adding the SDK to your project 
 ------------------------------
-* Go to the directory where you cloned the SDK (or where you unzipped it) and click on UserVoice.xcodeproj
-* Drag the UserVoice group to the root of your app project
+
+* Either create a new workspace and add your existing project, or just go to the file menu and save your existing project as a workspace.
+* Right click on the workspace's navigator and select "Add files to myworkspace" then navigate to the UserVoiceSDK project and select the UserVoice.xcodeproj file, this should create a secondary project in the workspace.
 
 
 Update Build Settings
 ---------------------
 
-* Double-click on the app target.
-
-* Click on the General tab.
-* In 'Direct Dependencies' click add and choose UserVoice.
-* In 'Linked Libraries' add QuartzCore.framework, SystemConfiguration.framework.
-
-* Click on the Build tab.
-* Make sure that the Configuration drop-down shows "All Configurations".
-
-* Look for Header Search Paths.
-* Double-click, then add "PATH_TO_USERVOICE_SDK/**" (replace with the path to the downloaded UserVoice SDK, the ** is very important)
+* Select your app’s build target and go to the “Link Binary With Libraries” build phase.
+* Click add and select the UserVoice.a library from the Workspace dropdown
+* Locate the “User Header Search Paths” setting. Set this to “$(BUILT_PRODUCTS_DIR)”
 
 * Look for Other Linker Flags.
 * Double-click, then add "-ObjC".
-
-
-Update Binary Linked Libraries
-------------------------------
-
-* Drag libUserVoice.a from within the UserVoice group to 'Link Binary With Libraries' in your app's target.
+* Double-click, then add "-all_load".
 
 
 Add Resources
@@ -68,7 +62,7 @@ Add Resources
 
 
 Obtain Key And Secret
------------------------
+---------------------
 
 * Go to the admin section of your UserVoice account and click 'Apps & Plugins'.
 * Click on the iPhone tab and click create.
