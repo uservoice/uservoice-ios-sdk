@@ -188,6 +188,7 @@
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
 		D2D7B23A119D04E1003EDD3A /* UVProfileEditViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */; };
 		D2D7B23B119D04E1003EDD3A /* UVProfileEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */; };
+		D2D8812E13AAF86000C2BBEE /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312141108D366100000D5F /* UserVoice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -890,6 +891,7 @@
 				D261E056121456430024F2EA /* UVStreamPoller.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
+				D2D8812E13AAF86000C2BBEE /* UserVoice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1044,8 +1046,8 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)$(IPHONEOS_DEPLOYMENT_TARGET)";
-				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)$(IPHONEOS_DEPLOYMENT_TARGET)";
+				CONFIGURATION_BUILD_DIR = "$(BUILT_PRODUCTS_DIR)";
+				CONFIGURATION_TEMP_DIR = "$(BUILT_PRODUCTS_DIR)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 0.1;
 				DSTROOT = /tmp/UserVoice.dst;
@@ -1063,7 +1065,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",
@@ -1085,8 +1087,8 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)$(IPHONEOS_DEPLOYMENT_TARGET)";
-				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)$(IPHONEOS_DEPLOYMENT_TARGET)";
+				CONFIGURATION_BUILD_DIR = "$(BUILT_PRODUCTS_DIR)";
+				CONFIGURATION_TEMP_DIR = "$(BUILT_PRODUCTS_DIR)";
 				CURRENT_PROJECT_VERSION = 0.1;
 				DSTROOT = /tmp/UserVoice.dst;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1100,7 +1102,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",
