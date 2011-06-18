@@ -17,7 +17,7 @@
 @property (assign) NSInteger subjectId;
 @property (nonatomic, retain) NSString *name;
 
-+ (id)getSubjectsWithDelegate:(id)delegate;
++ (id)getCustomFieldsWithDelegate:(id)delegate;
 - (id)initWithDictionary:(NSDictionary *)dict;
 
 @end

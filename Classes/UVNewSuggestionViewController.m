@@ -18,7 +18,7 @@
 #import "UVSubdomain.h"
 #import "UVToken.h"
 #import "UVCategorySelectViewController.h"
-#import "UVNewMessageViewController.h"
+#import "UVNewTicketViewController.h"
 #import "UVSignInViewController.h"
 #import "UVTextEditor.h"
 #import "NSError+UVExtras.h"
@@ -195,7 +195,7 @@
 	UINavigationController *navController = self.navigationController;
 	NSArray *viewControllers = [navController viewControllers];	
 	NSMutableArray *newControllers = [NSMutableArray arrayWithCapacity:3];	
-	UIViewController *next = [[UVNewMessageViewController alloc] init];
+	UIViewController *next = [[UVNewTicketViewController alloc] init];
 	
 	[newControllers addObject:[viewControllers objectAtIndex:0]];
 	[newControllers addObject:[viewControllers objectAtIndex:1]];	

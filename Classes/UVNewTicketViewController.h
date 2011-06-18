@@ -1,5 +1,5 @@
 //
-//  UVNewMessageViewController.h
+//  UVNewTicketViewController.h
 //  UserVoice
 //
 //  Created by UserVoice on 2/19/10.
@@ -12,7 +12,7 @@
 
 @class UVCustomField;
 
-@interface UVNewMessageViewController : UVBaseViewController 
+@interface UVNewTicketViewController : UVBaseViewController 
 <UITableViewDataSource, UITableViewDelegate, 
 	UITextFieldDelegate, UVTextEditorDelegate> {
 		

@@ -11,7 +11,7 @@
 #import "UVClientConfig.h"
 #import "UVCustomField.h"
 #import "UVSubdomain.h"
-#import "UVNewMessageViewController.h"
+#import "UVNewTicketViewController.h"
 
 @implementation UVSubjectSelectViewController
 
@@ -63,7 +63,7 @@
 	
 	// Update the previous view controller (the new message view)
 	NSArray *viewControllers = [self.navigationController viewControllers];
-	UVNewMessageViewController *prev = (UVNewMessageViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+	UVNewTicketViewController *prev = (UVNewTicketViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
 	prev.subject = subject;
 	prev.needsReload = YES;
 	

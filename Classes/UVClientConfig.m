@@ -19,6 +19,7 @@
 @implementation UVClientConfig
 
 @synthesize questionsEnabled;
+@synthesize ticketsEnabled;
 @synthesize forum;
 @synthesize welcome;
 @synthesize itunesApplicationId;
@@ -104,6 +105,11 @@
         if ([dict objectForKey:@"questions_enabled"] != [NSNull null]) {
             self.questionsEnabled = [(NSNumber *)[dict objectForKey:@"questions_enabled"] boolValue];
         }
+        
+        if ([dict objectForKey:@"tickets_enabled"] != [NSNull null]) {
+            self.ticketsEnabled = [(NSNumber *)[dict objectForKey:@"tickets_enabled"] boolValue];
+        }
+        
 		self.welcome = [self objectOrNilForDict:dict key:@"welcome"];
 		self.itunesApplicationId = [self objectOrNilForDict:dict key:@"identifier_external"];
 		

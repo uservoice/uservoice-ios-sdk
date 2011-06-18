@@ -15,11 +15,9 @@
 
 @synthesize subdomainId;
 @synthesize name;
-@synthesize messageSubjects;
 @synthesize host;
 @synthesize key;
 @synthesize statuses;
-@synthesize messagesEnabled;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -28,17 +26,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if (self = [super init]) {
-		// get subjects
-		NSArray *subjectDicts = [self objectOrNilForDict:dict key:@"message_subjects"];
-		if (subjectDicts && [subjectDicts count] > 0) {
-			NSMutableArray *theSubjects = [NSMutableArray arrayWithCapacity:[subjectDicts count]];
-			for (NSDictionary *subjectDict in subjectDicts) {
-				UVSubject *subject = [[UVSubject alloc] initWithDictionary:subjectDict];
-				[theSubjects addObject:subject];
-				[subject release];
-			}
-			self.messageSubjects = theSubjects;
-		}
 		// get statuses
 		NSArray *statusDicts = [self objectOrNilForDict:dict key:@"statuses"];
 		if (statusDicts && [statusDicts count] > 0) {
@@ -53,9 +40,6 @@
 		self.subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
 		self.name = [self objectOrNilForDict:dict key:@"name"];
 		self.host = [self objectOrNilForDict:dict key:@"host"]; 
-		
-		NSString *contactMethod = [self objectOrNilForDict:dict key:@"contact_method"];
-		self.messagesEnabled = [contactMethod isEqualToString:@"email"];
 	}
 	return self;
 }
@@ -64,7 +48,6 @@
 	self.name = nil;
 	self.key = nil;
 	self.host = nil;
-	self.messageSubjects = nil;
 	self.statuses = nil;
 	
 	[super dealloc];

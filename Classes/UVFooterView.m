@@ -14,7 +14,7 @@
 #import "UVProfileViewController.h"
 #import "UVSignInViewController.h"
 #import "UVInfoViewController.h"
-#import "UVNewMessageViewController.h"
+#import "UVNewTicketViewController.h"
 #import "UVSuggestion.h"
 #import "UVSubdomain.h"
 #import "UVStyleSheet.h"

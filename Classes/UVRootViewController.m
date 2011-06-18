@@ -127,9 +127,9 @@
 	}
 }
 
-- (void)didRetrieveSubjects:(id)theSubjects
+- (void)didRetrieveCustomFields:(id)theFields
 {
-	NSArray *ticketSubjects = [[NSArray alloc] initWithArray:theSubjects];
+	NSArray *ticketSubjects = [[NSArray alloc] initWithArray:theFields];
 	if ([UVSession currentSession].clientConfig) {
 		[UVSession currentSession].clientConfig.ticketSubjects = ticketSubjects;
 	}
@@ -206,7 +206,7 @@
 
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
-		[UVCustomField getSubjectsWithDelegate:self];
+		[UVCustomField getCustomFieldsWithDelegate:self];
 		[UVUser retrieveCurrentUser:self];
 				
 	} else if (![UVSession currentSession].user) {

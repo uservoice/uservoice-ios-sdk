@@ -15,7 +15,7 @@
 #import "UVSubdomain.h"
 #import "UVQuestion.h"
 #import "UVAnswer.h"
-#import "UVNewMessageViewController.h"
+#import "UVNewTicketViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVSignInViewController.h"
 #import "UVStreamPoller.h"
@@ -77,8 +77,8 @@
 	}
 }
 
-- (void)pushNewMessageView {
-	UVNewMessageViewController *next = [[UVNewMessageViewController alloc] init];
+- (void)pushNewTicketView {
+	UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
 	[self.navigationController pushViewController:next animated:YES];
 	[next release];
 }
@@ -158,7 +158,7 @@
 		
 	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     myButton.frame = CGRectMake(0, 0, (screenWidth - 20), 44);
-    [myButton addTarget:self action:@selector(pushNewMessageView) forControlEvents:UIControlEventTouchUpInside];
+    [myButton addTarget:self action:@selector(pushNewTicketView) forControlEvents:UIControlEventTouchUpInside];
 	[myButton setTitle:[NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name]
 			  forState:UIControlStateNormal];
 	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -296,7 +296,7 @@
 		return @"Suggestions";
 		
 	} else if (section == 1) {
-		return [UVSession currentSession].clientConfig.subdomain.messagesEnabled ? @"Support" : nil;
+		return [UVSession currentSession].clientConfig.ticketsEnabled ? @"Support" : nil;
 		
 	} else {
 		return [UVSession currentSession].clientConfig.questionsEnabled ? @"Rating" : nil;
@@ -325,7 +325,7 @@
 		identifier = @"Forum";
 		
 	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {		
-		if ([UVSession currentSession].clientConfig.subdomain.messagesEnabled) {
+		if ([UVSession currentSession].clientConfig.ticketsEnabled) {
 			identifier = @"Support";
 			
 		} else {
@@ -383,7 +383,7 @@
 		return 45;
 		
 	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {
-		return [UVSession currentSession].clientConfig.subdomain.messagesEnabled ? 45 : 0.0;
+		return [UVSession currentSession].clientConfig.ticketsEnabled ? 45 : 0.0;
 		
 	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
 		return [UVSession currentSession].clientConfig.questionsEnabled ? 70 : 0.0;

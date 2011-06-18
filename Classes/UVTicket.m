@@ -28,15 +28,6 @@
 	[self setBaseURL:[self siteURL]];
 }
 
-/*
-+ (id)getSubjectsWithDelegate:(id)delegate {
-	return [self getPath:[self apiPath:@"/custom_fields/public.json"]
-			  withParams:nil
-				  target:delegate
-				selector:@selector(didRetrieveSubjects:)];
-}
-*/
-
 + (id)createWithSubject:(UVCustomField *)subject
                 message:(NSString *)message
                delegate:(id)delegate {

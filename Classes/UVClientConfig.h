@@ -15,7 +15,7 @@
 @class UVSubdomain;
 
 @interface UVClientConfig : UVBaseModel {
-	BOOL questionsEnabled;
+	BOOL questionsEnabled, ticketsEnabled;
 	UVForum *forum;
 	UVSubdomain *subdomain;
 	NSString *welcome;
@@ -24,7 +24,7 @@
 	NSArray *ticketSubjects;
 }
 
-@property (assign) BOOL questionsEnabled;
+@property (assign) BOOL questionsEnabled, ticketsEnabled;
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVSubdomain *subdomain;
 @property (nonatomic, retain) NSString *welcome;

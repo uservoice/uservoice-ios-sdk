@@ -1,12 +1,12 @@
 //
-//  UVNewMessageViewController.m
+//  UVNewTicketViewController.m
 //  UserVoice
 //
 //  Created by UserVoice on 2/19/10.
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 
-#import "UVNewMessageViewController.h"
+#import "UVNewTicketViewController.h"
 #import "UVStyleSheet.h"
 #import "UVCustomField.h"
 #import "UVSession.h"
@@ -16,7 +16,6 @@
 #import "UVSuggestionListViewController.h"
 #import "UVSignInViewController.h"
 #import "UVClientConfig.h"
-#import "UVMessage.h"
 #import "UVTicket.h"
 #import "UVForum.h"
 #import "UVSubdomain.h"
@@ -24,12 +23,12 @@
 #import "UVTextEditor.h"
 #import "NSError+UVExtras.h"
 
-#define UV_NEW_MESSAGE_SECTION_PROFILE 0
-#define UV_NEW_MESSAGE_SECTION_SUBJECT 1
-#define UV_NEW_MESSAGE_SECTION_TEXT 2
-#define UV_NEW_MESSAGE_SECTION_SUBMIT 3
+#define UV_NEW_TICKET_SECTION_PROFILE 0
+#define UV_NEW_TICKET_SECTION_SUBJECT 1
+#define UV_NEW_TICKET_SECTION_TEXT 2
+#define UV_NEW_TICKET_SECTION_SUBMIT 3
 
-@implementation UVNewMessageViewController
+@implementation UVNewTicketViewController
 
 @synthesize text;
 @synthesize name;
@@ -124,20 +123,6 @@
 	}
 }
 
-// This function is deprecated
-- (void)didCreateMessage:(UVMessage *)theMessage {
-	[self hideActivityIndicator];
-	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-													message:@"Your message was successfully sent."
-												   delegate:nil
-										  cancelButtonTitle:nil
-										  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)didCreateTicket:(UVTicket *)theTicket {
 	[self hideActivityIndicator];
 	
@@ -192,7 +177,7 @@
 	self.tableView.frame = newFrame;
 	if (up) {	
 		// Scroll to the active text editor	
-		NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_MESSAGE_SECTION_TEXT];
+		NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
 		[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	}
 	[UIView commitAnimations];
@@ -203,7 +188,7 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	// Scroll to the active text field
 	NSLog(@"textFieldDidBeginEditing");	
-	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_MESSAGE_SECTION_PROFILE];
+	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
 	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
@@ -289,7 +274,7 @@
 - (void)customizeCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	cell.textLabel.text = @"Subject";
 	cell.detailTextLabel.text = self.subject ? self.subject.name : @"No Subject";
-	NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+	NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
 	if (subjects && [subjects count] > 0) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	} else {
@@ -334,19 +319,19 @@
 	BOOL selectable = NO;
 	
 	switch (indexPath.section) {
-		case UV_NEW_MESSAGE_SECTION_SUBJECT:
+		case UV_NEW_TICKET_SECTION_SUBJECT:
 			identifier = @"Subject";
 			style = UITableViewCellStyleValue1;
-			NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+			NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
 			selectable = subjects && [subjects count] > 1;
 			break;
-		case UV_NEW_MESSAGE_SECTION_TEXT:
+		case UV_NEW_TICKET_SECTION_TEXT:
 			identifier = @"Text";
 			break;
-		case UV_NEW_MESSAGE_SECTION_PROFILE:
+		case UV_NEW_TICKET_SECTION_PROFILE:
 			identifier = indexPath.row == 0 ? @"Email" : @"Name";
 			break;
-		case UV_NEW_MESSAGE_SECTION_SUBMIT:
+		case UV_NEW_TICKET_SECTION_SUBMIT:
 			identifier = @"Submit";
 			break;
 	}
@@ -363,14 +348,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-	if (section == UV_NEW_MESSAGE_SECTION_PROFILE) {
+	if (section == UV_NEW_TICKET_SECTION_PROFILE) {
 		if ([UVSession currentSession].user!=nil) {
 			return 0;
 		} else {
 			return 2;
 		}
-	} else if (section == UV_NEW_MESSAGE_SECTION_SUBJECT) {
-		NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+	} else if (section == UV_NEW_TICKET_SECTION_SUBJECT) {
+		NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
 		if (subjects && [subjects count] > 1) {
 			return 1;
 		} else {
@@ -388,9 +373,9 @@
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch (indexPath.section) {
-		case UV_NEW_MESSAGE_SECTION_TEXT:
+		case UV_NEW_TICKET_SECTION_TEXT:
 			return 144;
-		case UV_NEW_MESSAGE_SECTION_SUBMIT:
+		case UV_NEW_TICKET_SECTION_SUBMIT:
 			return 42;
 		default:
 			return 44;
@@ -399,9 +384,9 @@
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
 	switch (section) {
-		case UV_NEW_MESSAGE_SECTION_SUBJECT:
+		case UV_NEW_TICKET_SECTION_SUBJECT:
 			return 10.0;
-		case UV_NEW_MESSAGE_SECTION_PROFILE:
+		case UV_NEW_TICKET_SECTION_PROFILE:
 			return 0.0;
 		default:
 			return 0.0;
@@ -418,12 +403,12 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	NSArray *subjects = [UVSession currentSession].clientConfig.subdomain.messageSubjects;
+	NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
 	
 	
 	/////
 	
-	if (indexPath.section == UV_NEW_MESSAGE_SECTION_SUBJECT && subjects && [subjects count] > 1) {
+	if (indexPath.section == UV_NEW_TICKET_SECTION_SUBJECT && subjects && [subjects count] > 1) {
 		[self dismissTextView];
 		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];
 		[self.navigationController pushViewController:next animated:YES];
