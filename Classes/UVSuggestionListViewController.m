@@ -87,7 +87,7 @@
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
 	[self hideActivityIndicator];
 	if ([theSuggestions count] > 0) {
-		//NSLog(@"Retrieved Suggestions: %@", theSuggestions);
+		//NSLog(@"Retrieved Suggestions: %@", theSuggetions);
 		[self.suggestions addObjectsFromArray:theSuggestions];
 		//NSLog(@"Stored Suggestions: %@", self.suggestions);
 	}
