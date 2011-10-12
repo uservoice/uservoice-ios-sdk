@@ -55,9 +55,9 @@ static UVStreamPoller* _instance;
 		self.lastPollTime = [UVSession currentSession].startTime;
 	}		
 	
-	[UVStreamEvent publicForForum:[UVSession currentSession].clientConfig.forum 
-					  andDelegate:self
-							since:lastPollTime];	
+//	[UVStreamEvent publicForForum:[UVSession currentSession].clientConfig.forum 
+//					  andDelegate:self
+//							since:lastPollTime];	
 	self.lastPollTime = [NSDate date];
 }
 

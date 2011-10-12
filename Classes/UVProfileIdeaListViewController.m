@@ -19,7 +19,7 @@
 @synthesize showCreated;
 
 - (id)initWithSuggestions:(NSArray *)theSuggestions title:(NSString *)theTitle {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.suggestions = [NSMutableArray arrayWithArray:theSuggestions];
 		self.title = theTitle;
 	}
@@ -27,7 +27,7 @@
 }
 
 - (id)initWithUVUser:(UVUser *)theUser andTitle:(NSString *)theTitle showingCreated:(BOOL)shouldShowCreated {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.user = theUser;
 		self.title = theTitle;
 		self.showCreated = shouldShowCreated;

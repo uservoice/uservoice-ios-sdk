@@ -233,7 +233,7 @@
 		
 	} else {
 		// One cell per suggestion + "Load More"
-		rows = [self.suggestions count] + (loadedCount>=suggestionsCount || suggestionsCount<=SUGGESTIONS_PAGE_SIZE ? 0 : 1);
+		rows = [self.suggestions count] + (loadedCount>=suggestionsCount || suggestionsCount<SUGGESTIONS_PAGE_SIZE ? 0 : 1);
 	}
 	return rows;
 }
