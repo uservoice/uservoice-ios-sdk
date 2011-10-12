@@ -40,7 +40,7 @@
 }
 
 - (id)initWithUserId:(NSInteger)theUserId name:(NSString *)theUserName avatarUrl:(NSString *)theAvatarUrl {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.userId = theUserId;
 		self.userName = theUserName;
 		self.avatarUrl = theAvatarUrl;
@@ -49,7 +49,7 @@
 }
 
 - (id)initWithUVUser:(UVUser *)theUser {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.user = theUser;
 		self.userId = theUser.userId;
 		self.userName = theUser.displayName;

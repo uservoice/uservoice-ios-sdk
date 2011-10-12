@@ -66,6 +66,7 @@
 - (void)retrieveMoreSuggestions {
 	NSInteger page = ([self.suggestions count] / SUGGESTIONS_PAGE_SIZE) + 1;
 	[self showActivityIndicator];
+    //NSLog(@"retrieveMoreSuggestions: %@", self.forum);
 	[UVSuggestion getWithForum:self.forum page:page delegate:self];
 }
 
@@ -469,26 +470,31 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+    
+    NSLog(@"UVSuggestionListViewController: reloadSuggestions");
 	if ([UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload) {
 		self.suggestions = nil;
 	}
 	
-	if (!self.suggestions) {
-		[self populateSuggestions];
-	}
-	
-	if ([self supportsFooter]) {
-		// Reload footer view, in case the user has changed (logged in or unlinked)
-		UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-		[footer reloadFooter];
-	}
-	[self.tableView reloadData];
-	
-	NSLog(@"Adding observer");
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(reloadTableData) 
-												 name:@"TopicSuggestionsUpdated"
-											   object:nil];
+    // don't do anything here unless we have a forum set, i.e not profile views
+    if (self.forum) {
+        if (!self.suggestions) {
+            [self populateSuggestions];
+        }
+        
+        if ([self supportsFooter]) {
+            // Reload footer view, in case the user has changed (logged in or unlinked)
+            UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
+            [footer reloadFooter];
+        }
+        [self.tableView reloadData];
+        
+        NSLog(@"Adding observer");
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(reloadTableData) 
+                                                     name:@"TopicSuggestionsUpdated"
+                                                   object:nil];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
