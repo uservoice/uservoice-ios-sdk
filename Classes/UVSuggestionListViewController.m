@@ -38,7 +38,7 @@
 @synthesize textEditor = _textEditor;
 
 - (id)initWithForum:(UVForum *)theForum {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		if (theForum.currentTopic.suggestions) {
 			self = [self initWithForum:theForum andSuggestions:theForum.currentTopic.suggestions];
 			
@@ -51,7 +51,7 @@
 }
 
 - (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.suggestions = [NSMutableArray arrayWithArray:theSuggestions];
 		self.forum = theForum;
 		_searching = NO;
@@ -203,7 +203,7 @@
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
-	//NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
+	NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
 	
 	if (indexPath.row < [self.suggestions count]) {
 		identifier = @"Suggestion";
@@ -233,7 +233,7 @@
 		
 	} else {
 		// One cell per suggestion + "Load More"
-		rows = [self.suggestions count] + (loadedCount>=suggestionsCount || suggestionsCount<SUGGESTIONS_PAGE_SIZE ? 0 : 1);
+		rows = [self.suggestions count] + (loadedCount>=suggestionsCount || suggestionsCount<=SUGGESTIONS_PAGE_SIZE ? 0 : 1);
 	}
 	return rows;
 }
@@ -448,8 +448,8 @@
 		shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 		[bottomShadow addSubview:shadowView];	
 		theTableView.tableFooterView = bottomShadow;
-		[shadowView release];
 		[bottomShadow release];
+		[shadowView release];
 	}
 	
 	self.tableView = theTableView;

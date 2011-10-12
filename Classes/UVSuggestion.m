@@ -149,7 +149,7 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
 		self.commentsCount = [(NSNumber *)[dict objectForKey:@"comments_count"] integerValue];
 		self.voteCount = [(NSNumber *)[dict objectForKey:@"vote_count"] integerValue];

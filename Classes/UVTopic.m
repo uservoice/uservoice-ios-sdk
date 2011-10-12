@@ -29,14 +29,15 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.suggestionsNeedReload = YES;
 		
+        NSLog(@"TOPIC: %@", dict);
 		self.example = [dict objectForKey:@"example"];
 		self.prompt = [dict objectForKey:@"prompt"];
 		self.votesRemaining = [(NSNumber *)[dict objectForKey:@"votes_remaining"] integerValue];
 		self.votesAllowed = [(NSNumber *)[dict objectForKey:@"votes_allowed"] integerValue];
-		self.suggestionsCount = [(NSNumber *)[dict objectForKey:@"suggestions_count"] integerValue];
+		self.suggestionsCount = [(NSNumber *)[dict objectForKey:@"open_suggestions_count"] integerValue];
 
 		self.categories = [NSMutableArray array];
 		NSMutableArray *categoryDicts = [self objectOrNilForDict:dict key:@"categories"];

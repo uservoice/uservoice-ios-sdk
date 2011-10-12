@@ -11,7 +11,7 @@
 #import "UVToken.h"
 #import "UVSession.h"
 #import "UVUser.h"
-#import "UVCustomField.h";
+#import "UVCustomField.h"
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNetworkUtils.h"
@@ -28,14 +28,14 @@
 }
 
 - (id)initWithSsoToken:(NSString *)aToken {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.ssoToken = aToken;
 	}
 	return self;
 }
 
 - (id)initWithEmail:(NSString *)anEmail andGUID:(NSString *)aGUID andName:(NSString *)aDisplayName {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.email = anEmail;
 		self.guid = aGUID;
 		self.displayName = aDisplayName;
