@@ -471,29 +471,29 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
     
-    NSLog(@"UVSuggestionListViewController: reloadSuggestions");
-	if ([UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload) {
-		self.suggestions = nil;
-	}
-	
-    // don't do anything here unless we have a forum set, i.e not profile views
     if (self.forum) {
+        NSLog(@"UVSuggestionListViewController: reloadSuggestions");
+        if ([UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload) {
+            self.suggestions = nil;
+        }
+        
         if (!self.suggestions) {
+            NSLog(@"UVSuggestionListViewController: populateSuggestions");
             [self populateSuggestions];
         }
-                
-        NSLog(@"Adding observer");
-        [[NSNotificationCenter defaultCenter] addObserver:self 
-                                                 selector:@selector(reloadTableData) 
-                                                     name:@"TopicSuggestionsUpdated"
-                                                   object:nil];
-    }
-    if ([self supportsFooter]) {
-        // Reload footer view, in case the user has changed (logged in or unlinked)
-        UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-        [footer reloadFooter];
+        if ([self supportsFooter]) {
+            // Reload footer view, in case the user has changed (logged in or unlinked)
+            UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
+            [footer reloadFooter];
+        }
     }
     [self.tableView reloadData];
+    
+    NSLog(@"Adding observer");
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(reloadTableData) 
+                                                 name:@"TopicSuggestionsUpdated"
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
