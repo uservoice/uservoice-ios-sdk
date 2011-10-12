@@ -129,9 +129,8 @@
 
 - (void)didRetrieveCustomFields:(id)theFields
 {
-	NSArray *ticketSubjects = [[NSArray alloc] initWithArray:theFields];
 	if ([UVSession currentSession].clientConfig) {
-		[UVSession currentSession].clientConfig.ticketSubjects = ticketSubjects;
+		[UVSession currentSession].clientConfig.ticketSubjects = [[NSArray alloc] initWithArray:theFields];
 	}
 }
 

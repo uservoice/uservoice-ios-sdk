@@ -37,7 +37,7 @@
 @synthesize suggestion, innerTableView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.suggestion = theSuggestion;
 	}
 	return self;

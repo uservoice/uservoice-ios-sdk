@@ -449,8 +449,8 @@
 		shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 		[bottomShadow addSubview:shadowView];	
 		theTableView.tableFooterView = bottomShadow;
-		[bottomShadow release];
-		[shadowView release];
+		//[bottomShadow release];
+		//[shadowView release];
 	}
 	
 	self.tableView = theTableView;
@@ -481,20 +481,19 @@
         if (!self.suggestions) {
             [self populateSuggestions];
         }
-        
-        if ([self supportsFooter]) {
-            // Reload footer view, in case the user has changed (logged in or unlinked)
-            UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-            [footer reloadFooter];
-        }
-        [self.tableView reloadData];
-        
+                
         NSLog(@"Adding observer");
         [[NSNotificationCenter defaultCenter] addObserver:self 
                                                  selector:@selector(reloadTableData) 
                                                      name:@"TopicSuggestionsUpdated"
                                                    object:nil];
     }
+    if ([self supportsFooter]) {
+        // Reload footer view, in case the user has changed (logged in or unlinked)
+        UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
+        [footer reloadFooter];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
