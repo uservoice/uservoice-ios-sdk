@@ -66,13 +66,14 @@
 	theTableView.sectionHeaderHeight = 10.0;
 	theTableView.sectionFooterHeight = 8.0;		
 	theTableView.tableHeaderView = [self getHeaderView];
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 		
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth - 80), 14)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
-	poweredBy.backgroundColor = [UIColor clearColor];
+	poweredBy.backgroundColor = [UVStyleSheet lightBgColor];
 	poweredBy.textAlignment = UITextAlignmentCenter;
 	[tableFooter addSubview:poweredBy];
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
@@ -102,7 +103,8 @@
 	theTableView.sectionHeaderHeight = 14.0;
 	theTableView.sectionFooterHeight = 8.0;		
 	//theTableView.tableHeaderView = [self getHeaderView];
-	theTableView.backgroundColor = [UVStyleSheet lightZebraBgColor];
+	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    //[UVStyleSheet lightZebraBgColor];
 	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth-80), 14)] autorelease];
