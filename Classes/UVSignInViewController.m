@@ -34,14 +34,14 @@
 @synthesize userType;
 
 - (id)init {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.userType = UV_USER_UNKNOWN;
 	}
 	return self;
 }
 
 - (id)initWithUVUser:(UVUser *)aUser {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.user = aUser;
 		self.email = aUser.email;
 		self.name = aUser.displayName;
@@ -200,7 +200,7 @@
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell 
 								  label:(NSString *)label 
 							placeholder:(NSString *)placeholder 
-								 offset:(NSInteger)offset{
+								 offset:(NSInteger)offset{    
 	cell.textLabel.text = label;
 	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(offset, 12, 230, 20)];
 	textField.placeholder = placeholder;
