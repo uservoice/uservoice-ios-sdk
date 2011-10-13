@@ -20,7 +20,7 @@
 
 - (id)initWithSelectedSubject:(UVCustomField *)subject {
 	if (self = [super init]) {
-		self.subjects = [UVSession currentSession].clientConfig.ticketSubjects;
+		self.subjects = [UVSession currentSession].clientConfig.customFields;
 		self.selectedSubject = subject;
 		NSLog(@"subjects: %@", self.subjects);
 	}

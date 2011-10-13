@@ -77,55 +77,11 @@
 	}
 }
 
-- (void)pushNewTicketView {
-	UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
-	[self.navigationController pushViewController:next animated:YES];
-	[next release];
-}
-
-- (void)pushForumView {
-	UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
-	[self.navigationController pushViewController:next animated:YES];
-	
-	[next release];
-}
-
 #pragma mark ===== table cells =====
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	//CGRect screenRect = [[UIScreen mainScreen] bounds];
-	//CGFloat screenWidth = screenRect.size.width;
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-		
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 55)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
-	[cell.contentView addSubview:bg];
-	[bg release];
-	
-	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	myButton.tag = UV_FORUM_LIST_TAG_CELL_LABEL;
-    myButton.frame = CGRectMake(0, 0, (screenWidth - 20), 44); // position in the parent view and set the size of the button
-    [myButton setTitle:[_forum prompt] forState:UIControlStateNormal];
-    [myButton addTarget:self action:@selector(pushForumView) forControlEvents:UIControlEventTouchUpInside];
-	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[myButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];	
-	
-	UIEdgeInsets insets = UIEdgeInsetsMake(0,10,0,0);
-	myButton.titleEdgeInsets = insets;	
-	myButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
-	myButton.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
-	myButton.titleLabel.numberOfLines = 1;
-		
-    [cell.contentView addSubview:myButton];
+    cell.textLabel.text = [_forum prompt];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UIButton *myButton = (UIButton *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_LABEL];
-    [myButton setTitle:[_forum prompt] forState:UIControlStateNormal];
 }
 
 - (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader 
@@ -145,38 +101,13 @@
 	return 10;
 }
 
-- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 55)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
-	[cell.contentView addSubview:bg];
-	[bg release];
-		
-	UIButton *myButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    myButton.frame = CGRectMake(0, 0, (screenWidth - 20), 44);
-    [myButton addTarget:self action:@selector(pushNewTicketView) forControlEvents:UIControlEventTouchUpInside];
-	[myButton setTitle:[NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name]
-			  forState:UIControlStateNormal];
-	[myButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[myButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];	
-	
-	UIEdgeInsets insets = UIEdgeInsetsMake (0,10,0,0);
-	myButton.titleEdgeInsets = insets;	
-	myButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
-	myButton.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
-	myButton.titleLabel.numberOfLines = 1;
-
-    [cell.contentView addSubview:myButton];
+- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
+    cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)addQuestionCell:(UITableViewCell *)cell labelWithText:(NSString *)text alignment:(UITextAlignment)alignment {
 	// Simply stack up all labels with the same frame. The alignment will take care of things.
-	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 49, (screenWidth-40), 15)];
@@ -318,7 +249,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier = @"";
-	BOOL selectable = NO;
+	BOOL selectable = YES;
 
 	UITableViewCellStyle style = UITableViewCellStyleDefault;	
 	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
@@ -330,6 +261,7 @@
 			
 		} else {
 			identifier = @"Spacer";
+            selectable = NO;
 		}
 		
 	} else if (indexPath.section == UV_FORUM_LIST_SECTION_QUESTIONS) {
@@ -341,6 +273,7 @@
 			
 		} else {
 			identifier = @"Spacer";
+            selectable = NO;
 		}
 	}
 	
@@ -363,6 +296,18 @@
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	switch (indexPath.section) {
+        case UV_FORUM_LIST_SECTION_FORUMS: {
+            UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
+            [self.navigationController pushViewController:next animated:YES];            
+            [next release];
+			break;
+		}
+        case UV_FORUM_LIST_SECTION_SUPPORT: {
+            UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
+            [self.navigationController pushViewController:next animated:YES];
+            [next release];
+			break;
+		}
 		case UV_FORUM_LIST_SECTION_QUESTIONS: {
 			if ([UVSession currentSession].user==nil) {
 				UVSignInViewController *next = [[UVSignInViewController alloc] init];
@@ -416,22 +361,9 @@
 	_tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
-	_tableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
 	_tableView.sectionFooterHeight = 0.0;
 	_tableView.sectionHeaderHeight = 0.0;
-	
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
-	UIView *topShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)];  
-	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];
-	
-	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
-	[topShadow addSubview:shadowView];	
-	_tableView.tableHeaderView = shadowView;
-	
-	[shadowView release];
-	[topShadow release];
-
+    _tableView.backgroundColor = [UVStyleSheet lightBgColor];
 	_tableView.tableFooterView = [UVFooterView footerViewForController:self];			
 	self.view = _tableView;	
 	

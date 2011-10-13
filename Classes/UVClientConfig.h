@@ -21,7 +21,7 @@
 	NSString *welcome;
 	NSString *itunesApplicationId;
 	NSArray *questions;
-	NSArray *ticketSubjects;
+	NSArray *customFields;
 }
 
 @property (assign) BOOL questionsEnabled, ticketsEnabled;
@@ -30,7 +30,7 @@
 @property (nonatomic, retain) NSString *welcome;
 @property (nonatomic, retain) NSString *itunesApplicationId;
 @property (nonatomic, retain) NSArray *questions;
-@property (nonatomic, retain) NSArray *ticketSubjects;
+@property (nonatomic, retain) NSArray *customFields;
 
 + (id)getWithDelegate:(id)delegate;
 + (CGFloat)getScreenWidth;

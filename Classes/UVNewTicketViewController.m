@@ -38,7 +38,7 @@
 @synthesize emailField;
 @synthesize prevBarButton;
 @synthesize subject;
-@synthesize ticketSubjects;
+@synthesize customFields;
 
 - (void)createTicket 
 {
@@ -274,7 +274,7 @@
 - (void)customizeCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	cell.textLabel.text = @"Subject";
 	cell.detailTextLabel.text = self.subject ? self.subject.name : @"No Subject";
-	NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
+	NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
 	if (subjects && [subjects count] > 0) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	} else {
@@ -322,7 +322,7 @@
 		case UV_NEW_TICKET_SECTION_SUBJECT:
 			identifier = @"Subject";
 			style = UITableViewCellStyleValue1;
-			NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
+			NSArray *subjects = [UVSession currentSession].clientConfig.customFields;                        
 			selectable = subjects && [subjects count] > 1;
 			break;
 		case UV_NEW_TICKET_SECTION_TEXT:
@@ -354,8 +354,10 @@
 		} else {
 			return 2;
 		}
-	} else if (section == UV_NEW_TICKET_SECTION_SUBJECT) {
-		NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
+	} else if (section == UV_NEW_TICKET_SECTION_SUBJECT) {        
+		NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
+        
+        NSLog(@"Custom Fields: %@", subjects);
 		if (subjects && [subjects count] > 1) {
 			return 1;
 		} else {
@@ -403,11 +405,7 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	NSArray *subjects = [UVSession currentSession].clientConfig.ticketSubjects;
-	
-	
-	/////
-	
+	NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
 	if (indexPath.section == UV_NEW_TICKET_SECTION_SUBJECT && subjects && [subjects count] > 1) {
 		[self dismissTextView];
 		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];

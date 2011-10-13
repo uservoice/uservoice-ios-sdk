@@ -32,7 +32,7 @@
 	if ((self = [super init])) {
 		self.suggestionsNeedReload = YES;
 		
-        NSLog(@"TOPIC: %@", dict);
+//        NSLog(@"TOPIC: %@", dict);
 		self.example = [dict objectForKey:@"example"];
 		self.prompt = [dict objectForKey:@"prompt"];
 		self.votesRemaining = [(NSNumber *)[dict objectForKey:@"votes_remaining"] integerValue];

@@ -114,24 +114,24 @@
 	// if no token aren't waiting on user so push main view
 	// if we have a token, then we are waiting on the user model
 	if (![UVToken exists] || [UVSession currentSession].user) {
-		[self hideActivityIndicator];
-		[self pushWelcomeView];
+
+        [UVCustomField getCustomFieldsWithDelegate:self];
 	}
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
 	[UVSession currentSession].user = theUser;
 	if ([UVSession currentSession].clientConfig) {
-		[self hideActivityIndicator];
-		[self pushWelcomeView];
+        [UVCustomField getCustomFieldsWithDelegate:self];
 	}
 }
 
 - (void)didRetrieveCustomFields:(id)theFields
 {
-	if ([UVSession currentSession].clientConfig) {
-		[UVSession currentSession].clientConfig.ticketSubjects = [[NSArray alloc] initWithArray:theFields];
-	}
+    [UVSession currentSession].clientConfig.customFields = [[NSArray alloc] initWithArray:theFields];
+    NSLog(@"Custom fields: %@", [UVSession currentSession].clientConfig.customFields);
+    [self hideActivityIndicator];
+    [self pushWelcomeView];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -205,14 +205,13 @@
 
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
-		[UVCustomField getCustomFieldsWithDelegate:self];
 		[UVUser retrieveCurrentUser:self];
 				
 	} else if (![UVSession currentSession].user) {
 		NSLog(@"No user");
 		// just get user
 		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
-		[UVUser retrieveCurrentUser:self];
+		[UVUser retrieveCurrentUser:self];        
 		
 	} else {
 		NSLog(@"Pushing welcome");

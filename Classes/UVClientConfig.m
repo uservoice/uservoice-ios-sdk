@@ -25,7 +25,7 @@
 @synthesize itunesApplicationId;
 @synthesize questions;
 @synthesize subdomain;
-@synthesize ticketSubjects;
+@synthesize customFields;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -46,6 +46,7 @@
 + (CGFloat)getScreenWidth
 {
 	CGRect appFrame = [[UIScreen mainScreen] bounds];
+    
 	CGFloat screenWidth;
 	if (([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) || ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeRight))
 	{

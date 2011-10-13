@@ -24,7 +24,7 @@
 	UITextField *emailField;
 	UIBarButtonItem *prevBarButton;
 	UVCustomField *subject;
-	NSArray *ticketSubjects;
+	NSArray *customFields;
 }
 
 @property (nonatomic, retain) NSString *text;
@@ -35,6 +35,6 @@
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;
 @property (nonatomic, retain) UVCustomField *subject;
-@property (nonatomic, retain) NSArray *ticketSubjects;
+@property (nonatomic, retain) NSArray *customFields;
 
 @end

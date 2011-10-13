@@ -78,8 +78,8 @@
 	// (see headersForPath above) and pass the params in the "body" param.
 	NSString *paramsKey = [@"GET" isEqualToString:method] ? @"params" : @"body";
 	NSDictionary *opts = [NSDictionary dictionaryWithObjectsAndKeys:params, paramsKey, headers, @"headers", nil];
-	NSLog(@"HTTP Path: %@", path);
-	NSLog(@"HTTP Options: %@", opts);
+//	NSLog(@"HTTP Path: %@", path);
+//	NSLog(@"HTTP Options: %@", opts);
 	return opts;
 }
 
