@@ -36,7 +36,7 @@
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion andController:(UVBaseViewController *)theController 
 {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	if (self = (UVSuggestionFooterView *)[UVSuggestionFooterView footerViewForController:controller]) {
+	if ((self = (UVSuggestionFooterView *)[UVSuggestionFooterView footerViewForController:controller])) {
 		UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 100)];
 		
 		UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 82)];		

@@ -44,16 +44,9 @@
 										 andSsoToken:(NSString *)token {
 	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 	
-	// exchange the sso token for an access token, store it then load up the root view	
+	// always use the sso token to ensure details are updated	
 	UIViewController *rootViewController;
-	if ([[UVSession currentSession] clientConfig])
-	{
-		rootViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-	}
-	else
-	{
-		rootViewController = [[[UVRootViewController alloc] initWithSsoToken:token] autorelease];
-	}
+    rootViewController = [[[UVRootViewController alloc] initWithSsoToken:token] autorelease];
 	
 	// Capture the launch orientation, then store it in NSDefaults for reference in all other UV view controller classes
 	[UVClientConfig setOrientation];

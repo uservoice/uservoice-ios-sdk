@@ -80,7 +80,7 @@
 	
 	// gonna check and start the stream timer here too
 	if (![UVStreamPoller instance].timerIsRunning) {
-		[UVStreamPoller instance].startTimer;
+		[[UVStreamPoller instance] startTimer];
 		[UVStreamPoller instance].lastPollTime = [NSDate date];
 	}
 }

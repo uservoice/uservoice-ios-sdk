@@ -75,7 +75,7 @@
     [self didChangeValueForKey:@"isExecuting"];
     
     NSURLRequest *request = [self configuredRequest];
-    HRLOG(@"FETCHING:%@ \nHEADERS:%@", [[request URL] absoluteString], [request allHTTPHeaderFields]);
+    //HRLOG(@"FETCHING:%@ \nHEADERS:%@", [[request URL] absoluteString], [request allHTTPHeaderFields]);
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     
     if(_connection) {
@@ -86,7 +86,7 @@
 }
 
 - (void)finish {
-    HRLOG(@"Operation Finished. Releasing...");
+    //HRLOG(@"Operation Finished. Releasing...");
     [_connection release];
     _connection = nil;
     
@@ -104,7 +104,7 @@
 }
 
 - (void)cancel {
-    HRLOG(@"SHOULD CANCEL");
+    //HRLOG(@"SHOULD CANCEL");
     [self willChangeValueForKey:@"isCancelled"];
     
     [_connection cancel];    
@@ -134,7 +134,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - NSURLConnection delegates
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {    
-    HRLOG(@"Server responded with:%i, %@", [response statusCode], [NSHTTPURLResponse localizedStringForStatusCode:[response statusCode]]);
+    //HRLOG(@"Server responded with:%i, %@", [response statusCode], [NSHTTPURLResponse localizedStringForStatusCode:[response statusCode]]);
     
     if ([_delegate respondsToSelector:@selector(restConnection:didReceiveResponse:object:)]) {
         [_delegate performSelectorOnMainThread:@selector(restConnection:didReceiveResponse:object:) withObjects:connection, response, _object, nil];
@@ -159,7 +159,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {  
-    HRLOG(@"Connection failed: %@", [error localizedDescription]);
+    //HRLOG(@"Connection failed: %@", [error localizedDescription]);
     if([_delegate respondsToSelector:@selector(restConnection:didFailWithError:object:)]) {        
         [_delegate performSelectorOnMainThread:@selector(restConnection:didFailWithError:object:) withObjects:connection, error, _object, nil];
     }
