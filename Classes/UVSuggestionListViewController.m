@@ -250,19 +250,27 @@
 	return 71;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
 	if (!_searching && (indexPath.row == [self.suggestions count]) && (suggestionsCount > [self.suggestions count]))
 	{
 		// This is the last row in the table, so it's the "Load more ideas" cell
 		[self retrieveMoreSuggestions];
-	}
-	else 
-	{
+        
+	} else if (indexPath.row < [self.suggestions count]) {
 		// For all other rows, push appropriate suggestion details
 		[self pushSuggestionShowView:indexPath.row];
-	}
+        
+	} else {
+        UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
+																							 title:_textEditor.text];
+		[self.navigationController pushViewController:next animated:YES];
+		[next release];
+    }
 }
 
 
