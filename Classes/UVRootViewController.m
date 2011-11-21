@@ -113,17 +113,24 @@
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
 	// if no token aren't waiting on user so push main view
 	// if we have a token, then we are waiting on the user model
-	if (![UVToken exists] || [UVSession currentSession].user) {
+	if ([UVSession currentSession].clientConfig.ticketsEnabled && (![UVToken exists] || [UVSession currentSession].user)) {
 
         [UVCustomField getCustomFieldsWithDelegate:self];
-	}
+	} else {
+        [self hideActivityIndicator];
+        [self pushWelcomeView];
+    }
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
 	[UVSession currentSession].user = theUser;
-	if ([UVSession currentSession].clientConfig) {
+	if ([UVSession currentSession].clientConfig && [UVSession currentSession].clientConfig.ticketsEnabled) {
         [UVCustomField getCustomFieldsWithDelegate:self];
-	}
+        
+	} else {
+        [self hideActivityIndicator];
+        [self pushWelcomeView];
+    }
 }
 
 - (void)didRetrieveCustomFields:(id)theFields
