@@ -407,24 +407,25 @@
 	theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.sectionHeaderHeight = 0.0;
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	[self addShadowSeparatorToTableView:theTableView];
 	
-	NSInteger headerHeight = [self supportsSearch] ? 50 : 10;
+	NSInteger headerHeight = [self supportsSearch] ? 40 : 10;
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];  
 	headerView.backgroundColor = [UIColor clearColor];
 	
-	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
-	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
-	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
-	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
-	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
-	[headerView addSubview:shadowView];	
-	[shadowView release];
+    //	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
+    //	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
+    //	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
+    //	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+    //	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
+    //	[headerView addSubview:shadowView];	
+    //	[shadowView release];
 
 	if ([self supportsSearch]) {		
 		// Add text editor to table header
-		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 40)];
+		UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
 		textBar.backgroundColor = [UIColor whiteColor];
 		textBar.tag = UV_SEARCH_TEXTBAR;
 		
@@ -446,6 +447,7 @@
 	theTableView.tableHeaderView = headerView;
 	
 	if ([self supportsFooter]) {
+        NSLog(@"altFooterViewForController");
 		theTableView.tableFooterView = [UVFooterView altFooterViewForController:self];
 		
 	} else {
@@ -459,6 +461,8 @@
 		theTableView.tableFooterView = bottomShadow;
 		//[bottomShadow release];
 		//[shadowView release];
+        
+        NSLog(@"Not altFooterViewForController, footer not supported");
 	}
 	
 	self.tableView = theTableView;

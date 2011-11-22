@@ -102,7 +102,7 @@
 	theTableView.dataSource = footer;
 	theTableView.sectionHeaderHeight = 14.0;
 	theTableView.sectionFooterHeight = 8.0;		
-	//theTableView.tableHeaderView = [self getHeaderView];
+	theTableView.tableHeaderView = [self getHeaderView];
 	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
     //[UVStyleSheet lightZebraBgColor];
 	
