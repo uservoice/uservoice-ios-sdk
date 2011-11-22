@@ -408,25 +408,15 @@
 	[super loadView];
 	
 	self.navigationItem.title = @"Sign In";
+    CGRect frame = [self contentFrame];	
 	
-	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
-	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-	theTableView.sectionFooterHeight = 0.0;
-	theTableView.backgroundColor = [UIColor clearColor];
-		
-	self.tableView = theTableView;
-
-	[contentView addSubview:theTableView];
-	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];
-
-	[self addGradientBackground];
+	self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.sectionFooterHeight = 0.0;
+	self.tableView.sectionHeaderHeight = 10.0;
+    self.tableView.backgroundColor = [UVStyleSheet lightBgColor];
+    self.view = self.tableView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
