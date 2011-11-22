@@ -327,7 +327,7 @@
 	
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
 	NSInteger height = self.view.bounds.size.height - 216;
-	CGRect frame = CGRectMake(0, 10, screenWidth, height);
+	CGRect frame = CGRectMake(0, 0, screenWidth, height);
 	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
@@ -375,7 +375,7 @@
 	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
-	textBar.frame = CGRectMake(0, 10, screenWidth, 40);
+	textBar.frame = CGRectMake(0, 0, screenWidth, 40);
 	textBar.backgroundColor = [UIColor whiteColor];
 	
 	[self setCellsEnabled:YES];
