@@ -33,11 +33,11 @@
 	UVCustomField *subject = (UVCustomField *)[self.subjects objectAtIndex:indexPath.row];
 	cell.textLabel.text = subject.name;
 	NSLog(@"name: %@", subject.name);
-	if (self.selectedSubject && self.selectedSubject.subjectId == subject.subjectId) {
-		cell.accessoryType = UITableViewCellAccessoryCheckmark;
-	} else {
-		cell.accessoryType = UITableViewCellAccessoryNone;
-	}
+//	if (self.selectedSubject && self.selectedSubject.subjectId == subject.subjectId) {
+//		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+//	} else {
+//		cell.accessoryType = UITableViewCellAccessoryNone;
+//	}
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -59,15 +59,15 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	UVCustomField *subject = [self.subjects objectAtIndex:indexPath.row];
-	
-	// Update the previous view controller (the new message view)
-	NSArray *viewControllers = [self.navigationController viewControllers];
-	UVNewTicketViewController *prev = (UVNewTicketViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
-	prev.subject = subject;
-	prev.needsReload = YES;
-	
-	[self.navigationController popViewControllerAnimated:YES];
+//	UVCustomField *subject = [self.subjects objectAtIndex:indexPath.row];
+//	
+//	// Update the previous view controller (the new message view)
+//	NSArray *viewControllers = [self.navigationController viewControllers];
+//	UVNewTicketViewController *prev = (UVNewTicketViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+//	prev.subject = subject;
+//	prev.needsReload = YES;
+//	
+//	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark ===== Basic View Methods =====

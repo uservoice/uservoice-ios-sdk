@@ -14,8 +14,8 @@
 @interface UVTicket : UVBaseModel {    
 }
 
-+ (id)createWithSubject:(UVCustomField *)subject
-                message:(NSString *)message
-               delegate:(id)delegate;
++ (id)createWithSubject:(NSString *)subject
+             andMessage:(NSString *)message
+            andDelegate:(id)delegate;
 
 @end

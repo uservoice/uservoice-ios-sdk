@@ -121,7 +121,8 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	theTableView.backgroundColor = [UIColor clearColor];
+	//theTableView.backgroundColor = [UIColor clearColor];
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	[contentView addSubview:theTableView];
 	self.tableView = theTableView;
@@ -130,7 +131,7 @@
 	self.view = contentView;
 	[contentView release];
 	
-	[self addGradientBackground];	
+	//[self addGradientBackground];	
 }
 
 - (void)didReceiveMemoryWarning {

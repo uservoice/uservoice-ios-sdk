@@ -28,13 +28,13 @@
 	[self setBaseURL:[self siteURL]];
 }
 
-+ (id)createWithSubject:(UVCustomField *)subject
-                message:(NSString *)message
-               delegate:(id)delegate {
++ (id)createWithSubject:(NSString *)subject
+             andMessage:(NSString *)message
+            andDelegate:(id)delegate {
 	NSString *path = [self apiPath:@"/tickets.json"];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							message == nil ? @"" : message, @"ticket[message]",
-							subject == nil ? @"" : [[NSNumber numberWithInteger:subject.subjectId] stringValue], @"ticket[subject]",
+							subject == nil ? @"" : subject, @"ticket[subject]",
 							nil];
     
 	return [[self class] postPath:path

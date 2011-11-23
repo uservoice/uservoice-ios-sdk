@@ -10,6 +10,7 @@
 #import "UVForum.h"
 #import "UVCategory.h"
 #import "UVNewSuggestionViewController.h"
+#import "UVStyleSheet.h"
 
 @implementation UVCategorySelectViewController
 
@@ -80,6 +81,7 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	self.view = theTableView;
 	[theTableView release];

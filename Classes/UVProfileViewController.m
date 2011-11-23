@@ -275,7 +275,8 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	theTableView.backgroundColor = [UIColor clearColor];
+	//theTableView.backgroundColor = [UIColor clearColor];
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	theTableView.tableHeaderView = [self createHeaderView];
 	
@@ -286,7 +287,7 @@
 	self.view = contentView;
 	[contentView release];
 	
-	[self addGradientBackground];
+	//[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

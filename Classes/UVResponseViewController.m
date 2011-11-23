@@ -81,6 +81,7 @@
 	body.lineBreakMode = UILineBreakModeWordWrap;
 	body.numberOfLines = 0;
 	body.backgroundColor = [UIColor clearColor];
+    body.backgroundColor = [UVStyleSheet lightBgColor];
 	[scrollView addSubview:body];
 	[body release];
 	
@@ -91,7 +92,7 @@
 	self.view = contentView;
 	[contentView release];
 	
-	[self addGradientBackground];
+	//[self addGradientBackground];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,12 +10,14 @@
 #import "UVBaseModel.h"
 
 @interface UVCustomField : UVBaseModel {
-	NSInteger subjectId;
 	NSString *name;
+    NSArray *values;
+    NSInteger fieldId;
 }
 
-@property (assign) NSInteger subjectId;
+@property (assign) NSInteger fieldId;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSArray *values;
 
 + (id)getCustomFieldsWithDelegate:(id)delegate;
 - (id)initWithDictionary:(NSDictionary *)dict;

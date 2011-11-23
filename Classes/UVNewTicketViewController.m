@@ -24,26 +24,27 @@
 #import "NSError+UVExtras.h"
 
 #define UV_NEW_TICKET_SECTION_PROFILE 0
-#define UV_NEW_TICKET_SECTION_SUBJECT 1
-#define UV_NEW_TICKET_SECTION_TEXT 2
-#define UV_NEW_TICKET_SECTION_SUBMIT 3
+#define UV_NEW_TICKET_SECTION_SUBJECT 2
+#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 1
+#define UV_NEW_TICKET_SECTION_TEXT 3
+#define UV_NEW_TICKET_SECTION_SUBMIT 4
 
 @implementation UVNewTicketViewController
 
 @synthesize text;
 @synthesize name;
 @synthesize email;
+@synthesize subject;
 @synthesize textEditor;
 @synthesize nameField;
 @synthesize emailField;
+@synthesize subjectField;
 @synthesize prevBarButton;
-@synthesize subject;
-@synthesize customFields;
 
 - (void)createTicket 
 {
 	[self showActivityIndicator];
-	[UVTicket createWithSubject:self.subject message:self.text delegate:self];
+	[UVTicket createWithSubject:self.subject andMessage:self.text andDelegate:self];
 }
 
 - (void)dismissKeyboard {
@@ -51,6 +52,7 @@
 	
 	[nameField resignFirstResponder];
 	[emailField resignFirstResponder];
+    [subjectField resignFirstResponder];
 	[textEditor resignFirstResponder];
 	// shouldResizeForKeyboard = NO;
 }
@@ -59,6 +61,7 @@
 	self.name = nameField.text;
 	self.email = emailField.text;
 	self.text = textEditor.text;
+    self.subject = subjectField.text;
 	
 	[self dismissKeyboard];
 }
@@ -66,21 +69,15 @@
 - (void)createButtonTapped {
 	[self updateFromControls];
 	
-	if ([UVSession currentSession].user) 
-	{
+	if ([UVSession currentSession].user) {
 		[self createTicket];
 		
-	} 
-	else 
-	{
-		if (self.email && [self.email length] > 1) 
-		{
+	} else {
+		if (self.email && [self.email length] > 1) {
 			[self showActivityIndicator];
 			[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
 			
-		} 
-		else 
-		{
+		} else {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
 															message:@"Please enter your email address before submitting your ticket." 
 														   delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
@@ -188,7 +185,14 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	// Scroll to the active text field
 	NSLog(@"textFieldDidBeginEditing");	
-	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
+    
+    NSIndexPath *path = nil;
+    
+    if (textField==subjectField) {
+        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_SUBJECT];
+    } else {
+        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
+    }
 	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
@@ -271,16 +275,27 @@
 	[aTextEditor release];
 }
 
-- (void)customizeCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.textLabel.text = @"Subject";
-	cell.detailTextLabel.text = self.subject ? self.subject.name : @"No Subject";
-	NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
-	if (subjects && [subjects count] > 0) {
+- (void)customizeCellForFields:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
+	NSArray *fields = [UVSession currentSession].clientConfig.customFields;
+	if (fields && [fields count] > 0) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = @"Type";
+        
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
-	}
-	
+	}	
+}
+
+- (void)initCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.textLabel.text = @"";
+	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 12, 230, 20)];
+	textField.placeholder = @"Subject";
+	textField.returnKeyType = UIReturnKeyDone;
+	textField.borderStyle = UITextBorderStyleNone;
+	textField.backgroundColor = [UIColor clearColor];
+	textField.delegate = self;
+	[cell.contentView addSubview:textField];
+	self.subjectField = [textField autorelease];
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -294,8 +309,7 @@
 	self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 }
 
-- (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
+- (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
@@ -321,10 +335,13 @@
 	switch (indexPath.section) {
 		case UV_NEW_TICKET_SECTION_SUBJECT:
 			identifier = @"Subject";
-			style = UITableViewCellStyleValue1;
-			NSArray *subjects = [UVSession currentSession].clientConfig.customFields;                        
-			selectable = subjects && [subjects count] > 1;
 			break;
+//        case UV_NEW_TICKET_SECTION_CUSTOM_FIELDS
+//            identifier = 
+//            style = UITableViewCellStyleValue1;
+//			NSArray *subjects = [UVSession currentSession].clientConfig.customFields;                        
+//			selectable = subjects && [subjects count] > 1;
+//            break;
 		case UV_NEW_TICKET_SECTION_TEXT:
 			identifier = @"Text";
 			break;
@@ -344,7 +361,14 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return 4;
+//    NSArray *customFields = [UVSession currentSession].clientConfig.customFields;
+//    
+//    if (customFields && [customFields count] >= 1) {
+//        return 5;
+//    } else {
+//        return 4;
+//    }
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -354,18 +378,20 @@
 		} else {
 			return 2;
 		}
-	} else if (section == UV_NEW_TICKET_SECTION_SUBJECT) {        
-		NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
-        
-        NSLog(@"Custom Fields: %@", subjects);
-		if (subjects && [subjects count] > 1) {
-			return 1;
-		} else {
-			if (subjects && [subjects count] > 0)
-				self.subject = [subjects objectAtIndex:0];
-			
-			return 0;
-		}
+	} else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {        
+        return 0;
+//		NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
+//        
+//        NSLog(@"Custom Fields: %@", subjects);
+//		if (subjects && [subjects count] > 1) {
+//			return 1;
+//            
+//		} else {
+//			if (subjects && [subjects count] > 0)
+//				self.subject = [subjects objectAtIndex:0];
+//			
+//			return [subjects count];
+//		}
 	} else {
 		return 1;
 	}
@@ -405,13 +431,13 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
-	if (indexPath.section == UV_NEW_TICKET_SECTION_SUBJECT && subjects && [subjects count] > 1) {
-		[self dismissTextView];
-		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];
-		[self.navigationController pushViewController:next animated:YES];
-		[next release];
-	}
+//	NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
+//	if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS && subjects && [subjects count] > 1) {
+//		[self dismissTextView];
+//		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];
+//		[self.navigationController pushViewController:next animated:YES];
+//		[next release];
+//	}
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -429,7 +455,7 @@
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
-	theTableView.backgroundColor = [UIColor clearColor];
+	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
@@ -463,7 +489,7 @@
 	self.view = contentView;
 	[contentView release];
 	
-	[self addGradientBackground];
+	//[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

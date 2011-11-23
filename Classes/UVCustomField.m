@@ -13,8 +13,9 @@
 
 @implementation UVCustomField
 
-@synthesize subjectId;
+@synthesize values;
 @synthesize name;
+@synthesize fieldId;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -29,9 +30,13 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
+    NSLog(@"Custom Fields: %@", dict);
 	if (self = [super init]) {
-		self.subjectId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [self objectOrNilForDict:dict key:@"name"];
+        self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];        
+		self.name = [self objectOrNilForDict:dict key:@"name"];        
+        self.values = [self objectOrNilForDict:dict key:@"possible_values"];
+        
+        NSLog(@"Values: %@", self.values);
 	}
 	return self;
 }

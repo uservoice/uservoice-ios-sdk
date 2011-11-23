@@ -534,7 +534,8 @@
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
-	theTableView.backgroundColor = [UIColor clearColor];
+	//theTableView.backgroundColor = [UIColor clearColor];
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 15)];
@@ -567,7 +568,7 @@
 	self.view = contentView;
 	[contentView release];
 	
-	[self addGradientBackground];
+	//[self addGradientBackground];
 }
 
 - (void)viewDidAppear:(BOOL)animated {	

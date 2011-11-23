@@ -141,22 +141,22 @@
 	}
 }
 
-- (void)addGradientBackground 
-{
-	CAGradientLayer *gradient = [CAGradientLayer layer];
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat screenHeight = [UVClientConfig getScreenHeight];
-	//gradient.frame = self.view.bounds;
-	gradient.frame = CGRectMake(0, 0, screenWidth, screenHeight);
-	
-	gradient.colors = [NSArray arrayWithObjects:
-					   (id)[[UVStyleSheet darkBgColor] CGColor],
-					   (id)[[UVStyleSheet lightBgColor] CGColor],
-					   nil];
-	gradient.startPoint = CGPointMake(0.5, 0.0);
-	gradient.endPoint = CGPointMake(0.5, 0.2); // limit gradient to top fifth of the view
-	[self.view.layer insertSublayer:gradient atIndex:0];
-}
+//- (void)addGradientBackground 
+//{
+//	CAGradientLayer *gradient = [CAGradientLayer layer];
+//	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+//	CGFloat screenHeight = [UVClientConfig getScreenHeight];
+//	//gradient.frame = self.view.bounds;
+//	gradient.frame = CGRectMake(0, 0, screenWidth, screenHeight);
+//	
+//	gradient.colors = [NSArray arrayWithObjects:
+//					   (id)[[UVStyleSheet darkBgColor] CGColor],
+//					   (id)[[UVStyleSheet lightBgColor] CGColor],
+//					   nil];
+//	gradient.startPoint = CGPointMake(0.5, 0.0);
+//	gradient.endPoint = CGPointMake(0.5, 0.2); // limit gradient to top fifth of the view
+//	[self.view.layer insertSublayer:gradient atIndex:0];
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {

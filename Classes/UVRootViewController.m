@@ -114,8 +114,8 @@
 	// if no token aren't waiting on user so push main view
 	// if we have a token, then we are waiting on the user model
 	if ([UVSession currentSession].clientConfig.ticketsEnabled && (![UVToken exists] || [UVSession currentSession].user)) {
-
         [UVCustomField getCustomFieldsWithDelegate:self];
+        
 	} else {
         [self hideActivityIndicator];
         [self pushWelcomeView];
@@ -133,8 +133,7 @@
     }
 }
 
-- (void)didRetrieveCustomFields:(id)theFields
-{
+- (void)didRetrieveCustomFields:(id)theFields {
     [UVSession currentSession].clientConfig.customFields = [[NSArray alloc] initWithArray:theFields];
     NSLog(@"Custom fields: %@", [UVSession currentSession].clientConfig.customFields);
     [self hideActivityIndicator];
@@ -161,21 +160,21 @@
 	
 	contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 		
-	UILabel *splashLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)-20, screenWidth, 32)];
-	splashLabel1.backgroundColor = [UIColor clearColor];
-	splashLabel1.font = [UIFont systemFontOfSize:20];
-	splashLabel1.textColor = [UIColor darkGrayColor];
-	splashLabel1.textAlignment = UITextAlignmentCenter;
-	splashLabel1.text = @"Loading feedback...";
-	[contentView addSubview:splashLabel1];
-	[splashLabel1 release];
+//	UILabel *splashLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)-20, screenWidth, 32)];
+//	splashLabel1.backgroundColor = [UIColor clearColor];
+//	splashLabel1.font = [UIFont systemFontOfSize:20];
+//	splashLabel1.textColor = [UIColor darkGrayColor];
+//	splashLabel1.textAlignment = UITextAlignmentCenter;
+//	splashLabel1.text = @"Loading Feedback...";
+//	[contentView addSubview:splashLabel1];
+//	[splashLabel1 release];
 	
 	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+10, screenWidth, 20)];
 	splashLabel2.backgroundColor = [UIColor clearColor];
 	splashLabel2.font = [UIFont systemFontOfSize:15];
 	splashLabel2.textColor = [UIColor darkGrayColor];
 	splashLabel2.textAlignment = UITextAlignmentCenter;
-	splashLabel2.text = @"Connecting to the UserVoice feedback system";
+	splashLabel2.text = @"Connecting to UserVoice";
 	[contentView addSubview:splashLabel2];
 	[splashLabel2 release];
 		

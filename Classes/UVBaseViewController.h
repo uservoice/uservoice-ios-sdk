@@ -51,7 +51,7 @@
 - (NSString *)backButtonTitle;
 
 // Adds a background gradient from dark to light gray
-- (void)addGradientBackground;
+//- (void)addGradientBackground;
 
 // Magic incantation to remove the white cell background, border, and rounded corners.
 - (void)removeBackgroundFromCell:(UITableViewCell *)cell;
