@@ -224,13 +224,13 @@
 
 - (NSString *)headerTextForSection:(NSInteger)section {
 	if (section == 0) {
-		return @"Suggestions";
+		return @"Give Feedback";
 		
 	} else if (section == 1) {
-		return [UVSession currentSession].clientConfig.ticketsEnabled ? @"Support" : nil;
+		return [UVSession currentSession].clientConfig.ticketsEnabled ? @"Contact Support" : nil;
 		
 	} else {
-		return [UVSession currentSession].clientConfig.questionsEnabled ? @"Rating" : nil;
+		return [UVSession currentSession].clientConfig.questionsEnabled ? @"Leave A Rating" : nil;
 	}
 }
 

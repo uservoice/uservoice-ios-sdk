@@ -115,11 +115,7 @@
 	// if we have a token, then we are waiting on the user model
 	if ([UVSession currentSession].clientConfig.ticketsEnabled && (![UVToken exists] || [UVSession currentSession].user)) {
         [UVCustomField getCustomFieldsWithDelegate:self];
-        
-	} else {
-        [self hideActivityIndicator];
-        [self pushWelcomeView];
-    }
+    } 
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
@@ -129,7 +125,7 @@
         
 	} else {
         [self hideActivityIndicator];
-        [self pushWelcomeView];
+        [self pushWelcomeView];        
     }
 }
 
