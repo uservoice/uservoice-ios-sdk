@@ -30,7 +30,7 @@ Thanks to Johan Williams for this blog post (made my life a lot easier):
 
 http://blog.carbonfive.com/2011/04/04/using-open-source-static-libraries-in-xcode-4/
 
-NB. THESE INSTRUCTIONS ONLY APPLY TO XCODE-4, FOR XCODE-3 PLEASE CHECK OUT THE XCODE3 BRANCH AND README
+NB. THESE INSTRUCTIONS ONLY APPLY TO XCODE-4 (Last checked on 4.2), FOR XCODE-3 PLEASE CHECK OUT THE XCODE3 BRANCH AND README
 
 Adding the SDK to your project 
 ------------------------------
