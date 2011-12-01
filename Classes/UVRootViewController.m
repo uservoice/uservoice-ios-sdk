@@ -115,11 +115,16 @@
 	// if we have a token, then we are waiting on the user model
 	if ([UVSession currentSession].clientConfig.ticketsEnabled && (![UVToken exists] || [UVSession currentSession].user)) {
         [UVCustomField getCustomFieldsWithDelegate:self];
-    } 
+        
+    } else {
+        [self hideActivityIndicator];
+        [self pushWelcomeView];    
+    }
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
 	[UVSession currentSession].user = theUser;
+    
 	if ([UVSession currentSession].clientConfig && [UVSession currentSession].clientConfig.ticketsEnabled) {
         [UVCustomField getCustomFieldsWithDelegate:self];
         
@@ -148,23 +153,10 @@
 	
 	CGRect frame = [self contentFrameWithNavBar:NO];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
-	
-	//CGRect screenRect = [[UIScreen mainScreen] bounds];
-	//CGFloat screenWidth = screenRect.size.width;
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
 	contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-		
-//	UILabel *splashLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)-20, screenWidth, 32)];
-//	splashLabel1.backgroundColor = [UIColor clearColor];
-//	splashLabel1.font = [UIFont systemFontOfSize:20];
-//	splashLabel1.textColor = [UIColor darkGrayColor];
-//	splashLabel1.textAlignment = UITextAlignmentCenter;
-//	splashLabel1.text = @"Loading Feedback...";
-//	[contentView addSubview:splashLabel1];
-//	[splashLabel1 release];
-	
 	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+10, screenWidth, 20)];
 	splashLabel2.backgroundColor = [UIColor clearColor];
 	splashLabel2.font = [UIFont systemFontOfSize:15];
