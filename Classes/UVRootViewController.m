@@ -110,13 +110,17 @@
 	[UVClientConfig getWithDelegate:self];
 }
 
+
+// TODO check all paths, retrieving fields might not have user loaded?
+// BUG When relaunching forum title disappears from table row
+
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
 	// if no token aren't waiting on user so push main view
 	// if we have a token, then we are waiting on the user model
 	if ([UVSession currentSession].clientConfig.ticketsEnabled && (![UVToken exists] || [UVSession currentSession].user)) {
         [UVCustomField getCustomFieldsWithDelegate:self];
         
-    } else {
+    } else if (![UVToken exists] || [UVSession currentSession].user) {
         [self hideActivityIndicator];
         [self pushWelcomeView];    
     }
