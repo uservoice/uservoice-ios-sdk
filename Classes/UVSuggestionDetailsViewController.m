@@ -526,6 +526,7 @@
 	[headerView addSubview:theInnerTableView];
 	
 	theTableView.tableHeaderView = headerView;
+    [headerView release];
 	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 	
 	[contentView addSubview:theTableView];

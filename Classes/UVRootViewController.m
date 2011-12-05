@@ -137,8 +137,8 @@
 }
 
 - (void)didRetrieveCustomFields:(id)theFields {
-    [UVSession currentSession].clientConfig.customFields = [[NSArray alloc] initWithArray:theFields];
-    NSLog(@"Custom fields: %@", [UVSession currentSession].clientConfig.customFields);
+    [UVSession currentSession].clientConfig.customFields = [[[NSArray alloc] initWithArray:theFields] autorelease];
+    //NSLog(@"Custom fields: %@", [UVSession currentSession].clientConfig.customFields);
     [self hideActivityIndicator];
     [self pushWelcomeView];
 }
@@ -197,7 +197,7 @@
 	} else if (![[UVSession currentSession] clientConfig]) {
 		// no client config
 		NSLog(@"No client");
-		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
+		[UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
 
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
@@ -206,7 +206,7 @@
 	} else if (![UVSession currentSession].user) {
 		NSLog(@"No user");
 		// just get user
-		[UVSession currentSession].currentToken = [[UVToken alloc]initWithExisting];
+		[UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
 		[UVUser retrieveCurrentUser:self];        
 		
 	} else {

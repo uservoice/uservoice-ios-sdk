@@ -61,7 +61,7 @@
 											andEmail:(NSString *)email
 									  andDisplayName:(NSString *)displayName
 											 andGUID:(NSString *)guid {
-	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
+	[UVSession currentSession].config = [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
 	
 	UIViewController *rootViewController;
 	if ([[UVSession currentSession] clientConfig])
