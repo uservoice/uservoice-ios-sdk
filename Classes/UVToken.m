@@ -18,7 +18,7 @@
 @synthesize type;
 
 + (void)initialize {
-	[self setDelegate:[[[UVResponseDelegate alloc] initWithModelClass:[self class]] autorelease]];
+	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
 	
 	NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
 	BOOL useHttps = range.location == NSNotFound; // not pointing to a us.com (aka dev) url => use https

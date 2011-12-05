@@ -22,8 +22,7 @@
 @synthesize ssoToken;
 @synthesize email, displayName, guid;
 
-- (void)setupErrorAlertViewDelegate
-{
+- (void)setupErrorAlertViewDelegate {
 	errorAlertView.delegate = self;
 }
 
@@ -57,13 +56,11 @@
 	}
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	[self dismissUserVoice];
 }
 
-- (void)pushWelcomeView 
-{
+- (void)pushWelcomeView {
 	// Note: We used to bring the user straight to the suggestions list view, while
 	//       allowing them to pop back up to the forum list. Commenting this code
 	//       out but leaving it around in case we decide to revert back to this approach.
@@ -71,12 +68,8 @@
 	// A forum list and a suggestion list for the default forum. This way,
 	// the user will first see the suggestion list, but will be able to use
 	// the Back button to go up to the forum list.
-	UVWelcomeViewController *forumsView = [[UVWelcomeViewController alloc] init];
-	//UVSuggestionListViewController *suggestionsView = [[UVSuggestionListViewController alloc]
-	//												   initWithForum:[UVSession currentSession].clientConfig.defaultForum];
-	//NSArray *viewControllers = [NSArray arrayWithObjects:forumsView, suggestionsView, nil];
-	//[self.navigationController setViewControllers:viewControllers animated:YES];
-	
+    
+	UVWelcomeViewController *forumsView = [[UVWelcomeViewController alloc] init];	
 	[self.navigationController pushViewController:forumsView animated:YES];
 	[forumsView release];
 }
@@ -84,8 +77,6 @@
 
 - (void)didRetrieveRequestToken:(UVToken *)token {
 	// should be storing all tokens and checking on type
-	//	token.type = @"request";
-	//	[token persist];
 	[UVSession currentSession].currentToken = token;
 	
 	// check if we have a sso token and if so exchange it for an access token and user
@@ -146,8 +137,7 @@
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView 
-{
+- (void)loadView {
 	// Hide the nav bar
 	self.navigationController.navigationBarHidden = YES;
 
@@ -229,15 +219,12 @@
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
-
 
 - (void)dealloc {
     [super dealloc];

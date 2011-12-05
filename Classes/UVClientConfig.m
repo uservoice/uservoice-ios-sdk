@@ -28,7 +28,7 @@
 @synthesize customFields;
 
 + (void)initialize {
-	[self setDelegate:[[[UVResponseDelegate alloc] initWithModelClass:[self class]] autorelease]];
+	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
 	[self setBaseURL:[self siteURL]];
 }
 
