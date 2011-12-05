@@ -110,8 +110,6 @@
 	[UVClientConfig getWithDelegate:self];
 }
 
-
-// TODO check all paths, retrieving fields might not have user loaded?
 // BUG When relaunching forum title disappears from table row
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {

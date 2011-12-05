@@ -30,7 +30,7 @@
 		NSDictionary *answer = [self objectOrNilForDict:dict key:@"answer"];
 		self.questionId = [[self objectOrNilForDict:dict key:@"id"] intValue];
 		self.text = [self objectOrNilForDict:dict key:@"text"];		
-		self.currentAnswer = [[UVAnswer alloc] initWithDictionary:answer];		
+		self.currentAnswer = [[[UVAnswer alloc] initWithDictionary:answer] autorelease];		
 	}
 	return self;
 }

@@ -410,7 +410,7 @@
 	self.navigationItem.title = @"Sign In";
     CGRect frame = [self contentFrame];	
 	
-	self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
+	self.tableView = [[[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped] autorelease];
 	self.tableView.dataSource = self;
 	self.tableView.delegate = self;
 	self.tableView.sectionFooterHeight = 0.0;

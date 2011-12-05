@@ -414,14 +414,6 @@
 	NSInteger headerHeight = [self supportsSearch] ? 40 : 10;
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];  
 	headerView.backgroundColor = [UIColor clearColor];
-	
-    //	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
-    //	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
-    //	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
-    //	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
-    //	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
-    //	[headerView addSubview:shadowView];	
-    //	[shadowView release];
 
 	if ([self supportsSearch]) {		
 		// Add text editor to table header
@@ -445,13 +437,14 @@
 		[textBar release];
 	}
 	theTableView.tableHeaderView = headerView;
+    [headerView release];
 	
 	if ([self supportsFooter]) {
-        NSLog(@"altFooterViewForController");
+        //NSLog(@"altFooterViewForController");
 		theTableView.tableFooterView = [UVFooterView altFooterViewForController:self];
 		
 	} else {
-		UIView *bottomShadow = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)];
+		UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)] autorelease];
 		UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
 		CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
 		UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
@@ -459,10 +452,6 @@
 		shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
 		[bottomShadow addSubview:shadowView];	
 		theTableView.tableFooterView = bottomShadow;
-		//[bottomShadow release];
-		//[shadowView release];
-        
-        NSLog(@"Not altFooterViewForController, footer not supported");
 	}
 	
 	self.tableView = theTableView;

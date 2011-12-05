@@ -78,8 +78,6 @@
 	// (see headersForPath above) and pass the params in the "body" param.
 	NSString *paramsKey = [@"GET" isEqualToString:method] ? @"params" : @"body";
 	NSDictionary *opts = [NSDictionary dictionaryWithObjectsAndKeys:params, paramsKey, headers, @"headers", nil];
-//	NSLog(@"HTTP Path: %@", path);
-//	NSLog(@"HTTP Options: %@", opts);
 	return opts;
 }
 
@@ -93,19 +91,19 @@
 }
 
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
+	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
 	return [self getPath:path withOptions:opts object:callback];
 }
 
 + (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
+	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"POST"];
 	return [self postPath:path withOptions:opts object:callback];
 }
 
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
+	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"PUT"];
 	return [self putPath:path withOptions:opts object:callback];
 }
@@ -119,8 +117,6 @@
 }
 
 + (void)didReturnModel:(id)model callback:(NSInvocation *)callback {
-	//NSLog(@"[UVBaseModel didReturnModel:object] = %@", model);
-
 	[self processModel:model];
 	
 	if (callback.methodSignature.numberOfArguments > 2) {
@@ -131,8 +127,6 @@
 }
 
 + (void)didReturnModels:(NSArray *)models callback:(NSInvocation *)callback {
-	//NSLog(@"[UVBaseModel didReturnModels:object] = %@", models);
-
 	[self processModels:models];
 	
 	if (callback.methodSignature.numberOfArguments > 2) {
