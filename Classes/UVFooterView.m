@@ -166,6 +166,8 @@
 	} else {
 		cell.textLabel.text = @"Sign in";
 		cell.textLabel.textAlignment = UITextAlignmentLeft;
+//		cell.accessoryType = UITableViewCellAccessoryNone;
+//		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}	
