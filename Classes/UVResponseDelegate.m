@@ -66,7 +66,7 @@
 				// only really useful for user creation and this SUCKS, refactor
 				NSDictionary *token = [mutableResource objectForKey:@"token"];
 				[mutableResource removeObjectForKey:@"token"];
-				[UVSession currentSession].currentToken = [[UVToken alloc] initWithDictionary:token];				
+				[UVSession currentSession].currentToken = [[[UVToken alloc] initWithDictionary:token] autorelease];				
 			}
 			// reload keys
 			nodes = [mutableResource allKeys];
