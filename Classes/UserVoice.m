@@ -19,7 +19,7 @@
 											 andSite:(NSString *)site
 											  andKey:(NSString *)key
 										   andSecret:(NSString *)secret {
-	[UVSession currentSession].config = [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
+	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
  	
 	UIViewController *rootViewController;
 	if ([[UVSession currentSession] clientConfig])
@@ -42,7 +42,7 @@
 											  andKey:(NSString *)key
 										   andSecret:(NSString *)secret
 										 andSsoToken:(NSString *)token {
-	[UVSession currentSession].config = [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
+	[UVSession currentSession].config = [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 	
 	// always use the sso token to ensure details are updated	
 	UIViewController *rootViewController;
