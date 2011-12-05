@@ -24,7 +24,7 @@
 }
 
 + (void)initialize {
-	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
+	[self setDelegate:[[[UVResponseDelegate alloc] initWithModelClass:[self class]] autorelease]];
 	[self setBaseURL:[self siteURL]];
 }
 

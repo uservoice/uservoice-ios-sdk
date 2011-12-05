@@ -36,6 +36,9 @@
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion andController:(UVBaseViewController *)theController 
 {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    _suggestion = theSuggestion;
+    controller = theController;
+    
 	if ((self = (UVSuggestionFooterView *)[UVSuggestionFooterView footerViewForController:controller])) {
 		UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 100)];
 		
@@ -55,9 +58,9 @@
 		[label release];
 		
 		// Name
-		UVUserButton *nameButton = [UVUserButton buttonWithUserId:_suggestion.creatorId
-															 name:_suggestion.creatorName
-													   controller:controller
+		UVUserButton *nameButton = [UVUserButton buttonWithUserId:theSuggestion.creatorId
+															 name:theSuggestion.creatorName
+													   controller:theController
 														   origin:CGPointMake(95, 13)
 														 maxWidth:205
 															 font:[UIFont boldSystemFontOfSize:13]
@@ -80,7 +83,7 @@
 		label.textColor = [UIColor blackColor];
 		label.textAlignment = UITextAlignmentLeft;
 		label.font = [UIFont systemFontOfSize:13];
-		label.text = [controller postDateString];
+		label.text = [theController postDateString];
 		[wrapper addSubview:label];
 		[label release];
 		
