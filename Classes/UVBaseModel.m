@@ -92,7 +92,7 @@
 
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
     NSLog(@"getPath: %@", path);
-	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
     NSLog(@"setup callback");
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
     NSLog(@"setup opts");
@@ -100,13 +100,13 @@
 }
 
 + (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"POST"];
 	return [self postPath:path withOptions:opts object:callback];
 }
 
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"PUT"];
 	return [self putPath:path withOptions:opts object:callback];
 }
