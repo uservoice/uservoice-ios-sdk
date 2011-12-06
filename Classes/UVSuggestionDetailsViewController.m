@@ -26,15 +26,15 @@
 #define VOTE_LABEL_TAG 1003
 #define NO_VOTE_LABEL_TAG 1004
 
-#define UV_SUGGESTION_DETAILS_SECTION_HEADER 5
 #define UV_SUGGESTION_DETAILS_SECTION_VOTE 0
 #define UV_SUGGESTION_DETAILS_SECTION_BODY 1
 #define UV_SUGGESTION_DETAILS_SECTION_COMMENTS 2
 #define UV_SUGGESTION_DETAILS_SECTION_CREATOR 3
+#define UV_SUGGESTION_DETAILS_SECTION_HEADER 5
 
 @implementation UVSuggestionDetailsViewController
 
-@synthesize suggestion, innerTableView;
+@synthesize suggestion;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
 	if ((self = [super init])) {
@@ -87,8 +87,9 @@
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
 	self.suggestion = theSuggestion;
 	
-	[self.innerTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] 
-					   withRowAnimation:UITableViewRowAnimationFade];
+//	[self.innerTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] 
+//					   withRowAnimation:UITableViewRowAnimationFade];
+    
 	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
 	
 	if (self.suggestion.status) {
@@ -121,8 +122,7 @@
 }
 
 // Calculates the height of the text.
-- (CGSize)textSize 
-{
+- (CGSize)textSize {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	// Probably doesn't matter, but we might want to cache this since we call it twice.
 	return [self.suggestion.text
@@ -132,8 +132,7 @@
 }
 
 // Calculates the height of the title.
-- (CGSize)titleSize 
-{
+- (CGSize)titleSize {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	// Probably doesn't matter, but we might want to cache this since we call it twice.
 	return [self.suggestion.title
@@ -464,25 +463,20 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) 
+                                                             style:UITableViewStyleGrouped];
 	theTableView.sectionHeaderHeight = 0.0;
 	theTableView.sectionFooterHeight = 0.0;
-	theTableView.contentInset = UIEdgeInsetsMake(-10, 0, 0, 0);
+    theTableView.dataSource = self;
+    theTableView.delegate = self;
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
-	NSInteger height = MAX([self titleSize].height + 347, 383);
-	height += [self textSize].height > 0 ? [self textSize].height + 10 : 0;
+	NSInteger height = MAX([self titleSize].height + 50, 90);
+    //	height += [self textSize].height > 0 ? [self textSize].height : 0;
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)];  
 	headerView.backgroundColor = [UIColor clearColor];
 	
-	UIImage *shadow = [UIImage imageNamed:@"dropshadow_top_20.png"];	
-	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
-	UIImageView *shadowView = [[UIImageView alloc] initWithImage:shadow];
-	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
-	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
-	[headerView addSubview:shadowView];	
-	[shadowView release];
-	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, height)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[headerView addSubview:bg];
 	[bg release];
@@ -514,17 +508,7 @@
 	[label sizeToFit];
 	[headerView addSubview:label];
 	[label release];
-	NSInteger yOffset = MAX([self titleSize].height + 55, 90);
-	UITableView *theInnerTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, yOffset, screenWidth, MAX([self titleSize].height + 273, 313)) 
-																  style:UITableViewStyleGrouped];
-	theInnerTableView.dataSource = self;
-	theInnerTableView.delegate = self;
-	theInnerTableView.sectionHeaderHeight = 0.0;
-	theInnerTableView.sectionFooterHeight = 3.0;
-	theInnerTableView.backgroundColor = [UVStyleSheet lightBgColor];
-	self.innerTableView = theInnerTableView;
-	[headerView addSubview:theInnerTableView];
-	
+    	
 	theTableView.tableHeaderView = headerView;
     [headerView release];
 	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
@@ -540,7 +524,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[self.tableView reloadData];
-	[self.innerTableView reloadData];
 	
 	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
 	if (self.suggestion.status) {
