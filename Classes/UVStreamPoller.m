@@ -125,12 +125,12 @@ static UVStreamPoller* _instance;
 		NSLog(@"Instantiating timer to start in 60 seconds");				
 		
 		NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:60.0];
-		self.repeatingTimer = [[NSTimer alloc] initWithFireDate:fireDate
+		self.repeatingTimer = [[[NSTimer alloc] initWithFireDate:fireDate
 													   interval:60.0
 														 target:self
 													   selector:@selector(pollServer:)
 													   userInfo:[self userInfo]
-														repeats:YES];
+														repeats:YES] autorelease];
 		
 		NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 		[runLoop addTimer:self.repeatingTimer forMode:NSDefaultRunLoopMode];

@@ -91,11 +91,8 @@
 }
 
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    NSLog(@"getPath: %@", path);
 	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
-    NSLog(@"setup callback");
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
-    NSLog(@"setup opts");
 	return [self getPath:path withOptions:opts object:callback];
 }
 
