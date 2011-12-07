@@ -226,7 +226,7 @@
 }
 
 - (NSString *)nameOrAnonymous {
-	return self.displayName ? self.displayName : @"Anonymous";
+	return self.displayName ? self.displayName : NSLocalizedStringFromTable(@"Anonymous",@"UserVoice",nil);
 }
 
 @end

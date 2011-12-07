@@ -72,17 +72,17 @@
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label {
 	if ([UVSession currentSession].user) {
 		if (votesRemaining == 0) {
-			label.text = @"Sorry, you have no more votes remaining in this forum.";
+			label.text = NSLocalizedStringFromTable(@"Sorry, you have no more votes remaining in this forum.",@"UserVoice",nil);
 			label.textColor = [UVStyleSheet darkRedColor];
 		} else {
-			label.text = [NSString stringWithFormat:@"You have %d %@ remaining in this forum",
+			label.text = [NSString stringWithFormat:NSLocalizedString(@"You have %d %@ remaining in this forum",@"%d for nb of votes %@ for pluralization of votes"),
 						  votesRemaining,
-						  votesRemaining == 1 ? @"vote" : @"votes"];
+						  votesRemaining == 1 ? NSLocalizedStringFromTable(@"vote",@"UserVoice",nil) : NSLocalizedString(@"votes", nil)];
 			label.textColor = [UVStyleSheet dimBlueColor];
 		}
 	} else {
 		label.font = [UIFont boldSystemFontOfSize:14];
-		label.text = @"You will need to sign in to vote.";
+		label.text = NSLocalizedString(@"You will need to sign in to vote.", nil);
 		label.textColor = [UVStyleSheet darkRedColor];
 	}
 }
@@ -96,7 +96,7 @@
 
 - (UIAlertView *)setupErrorAlertViewWithMessage:(NSString *)message
 {
-	self.errorAlertView = [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
+	self.errorAlertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil] autorelease];
 	return errorAlertView;
 }
 
@@ -108,19 +108,19 @@
 	[self hideActivityIndicator];
 	NSString *msg = nil;
 	if ([UVNetworkUtils hasInternetAccess] && ![error isConnectionError]) {
-		msg = @"Sorry, there was an error in the application.";
+		msg = NSLocalizedString(@"Sorry, there was an error in the application.", nil);
 	} else {
-		msg = @"There appears to be a problem with your network connection, please check your connectivity and try again.";
+		msg = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.",@"UserVoice",nil);
 	}
 	[self showErrorAlertViewWithMessage:msg];
 }
 
 - (NSString *)backButtonTitle {
-	return @"Back";
+	return NSLocalizedString(@"Back", nil);
 }
 
 - (void)initNavigationItem {
-	self.navigationItem.title = @"Feedback";
+	self.navigationItem.title = NSLocalizedString(@"Feedback",@"Feedback");
 	
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
 								   initWithTitle:[self backButtonTitle]
@@ -132,7 +132,7 @@
 	
 	if ([UVSession currentSession].isModal) {
 		UIBarButtonItem *exitButton = [[UIBarButtonItem alloc]
-									   initWithTitle:@"Close"
+									   initWithTitle:NSLocalizedStringFromTable(@"Close",@"UserVoice",nil)
 									   style:UIBarButtonItemStylePlain
 									   target:self
 									   action:@selector(dismissUserVoice)];

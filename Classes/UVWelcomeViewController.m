@@ -38,7 +38,7 @@
 	tableView = _tableView;
 
 - (NSString *)backButtonTitle {
-	return @"Welcome";
+	return NSLocalizedStringFromTable(@"Welcome",@"UserVoice",nil);
 }
 
 - (void)questionSegmentChanged:(id)sender {
@@ -55,11 +55,11 @@
 	// Prompt for app store review if the returned rating indicates this (driven by
 	// server side logic based on rating value) and if we actually have an app id.
 	if (theAnswer.value >= 4 && [UVSession currentSession].clientConfig.itunesApplicationId) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rating"
-														message:@"Would you like to add your rating to the iTunes store?"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Leave A Rating",@"UserVoice",nil)
+														message:NSLocalizedStringFromTable(@"Would you like to add your rating to the iTunes store?",@"UserVoice",nil)
 													   delegate:self
-											  cancelButtonTitle:@"Cancel"
-											  otherButtonTitles:@"OK", nil];
+											  cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel",@"UserVoice",nil)
+											  otherButtonTitles:NSLocalizedStringFromTable(@"OK",@"UserVoice",nil), nil];
 		[alert show];
 		[alert release];
 	}
@@ -102,7 +102,7 @@
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
-    cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
+    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Contact %@", nil), [UVSession currentSession].clientConfig.subdomain.name];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -160,9 +160,9 @@
 	
 	if (enabled) {
 		[[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
-		[self addQuestionCell:cell labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
-		[self addQuestionCell:cell labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
-		[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
+		[self addQuestionCell:cell labelWithText:NSLocalizedStringFromTable(@"Unlikely",@"UserVoice",nil) alignment:UITextAlignmentLeft];
+		[self addQuestionCell:cell labelWithText:NSLocalizedStringFromTable(@"Maybe",@"UserVoice",nil) alignment:UITextAlignmentCenter];
+		[self addQuestionCell:cell labelWithText:NSLocalizedStringFromTable(@"Absolutely",@"UserVoice",nil) alignment:UITextAlignmentRight];
 		
 	} else {		
 		CGFloat screenWidth = [UVClientConfig getScreenWidth];
@@ -170,7 +170,7 @@
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont boldSystemFontOfSize:12];
-		label.text = @"You will need to sign in to answer.";	
+		label.text = NSLocalizedStringFromTable(@"You will need to sign in to answer.",@"UserVoice",nil);	
 		label.backgroundColor = [UIColor clearColor];
 		label.textColor = [UVStyleSheet darkRedColor];
 		
@@ -224,13 +224,13 @@
 
 - (NSString *)headerTextForSection:(NSInteger)section {
 	if (section == 0) {
-		return @"Give Feedback";
+		return NSLocalizedStringFromTable(@"Give Feedback",@"UserVoice",nil);
 		
 	} else if (section == 1) {
-		return [UVSession currentSession].clientConfig.ticketsEnabled ? @"Contact Support" : nil;
+		return [UVSession currentSession].clientConfig.ticketsEnabled ? NSLocalizedStringFromTable(@"Contact Support",@"UserVoice",nil) : nil;
 		
 	} else {
-		return [UVSession currentSession].clientConfig.questionsEnabled ? @"Leave A Rating" : nil;
+		return [UVSession currentSession].clientConfig.questionsEnabled ? NSLocalizedStringFromTable(@"Leave A Rating",@"UserVoice",nil) : nil;
 	}
 }
 

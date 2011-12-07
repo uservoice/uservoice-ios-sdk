@@ -92,12 +92,12 @@
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.nameField = [self customizeTextFieldCell:cell label:@"Name" placeholder:@"Anonymous"];
+	self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name",@"UserVoice",nil) placeholder:NSLocalizedStringFromTable(@"Anonymous",@"UserVoice",nil)];
 	self.nameField.text = self.user.displayName;
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.emailField = [self customizeTextFieldCell:cell label:@"Email" placeholder:@"Required"];
+	self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email",@"UserVoice",nil) placeholder:NSLocalizedStringFromTable(@"Required",@"UserVoice",nil)];
 	self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
 	self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -113,7 +113,7 @@
 	button.frame = CGRectMake(0, 0, 300, 42);
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 	button.titleLabel.textColor = [UIColor whiteColor];
-	[button setTitle:@"Update" forState:UIControlStateNormal];
+	[button setTitle:NSLocalizedStringFromTable(@"Update",@"UserVoice",nil) forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(updateButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -130,7 +130,7 @@
 	button.frame = CGRectMake(0, 0, 300, 42);
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 	button.titleLabel.textColor = [UIColor whiteColor];
-	[button setTitle:@"Logout from UserVoice" forState:UIControlStateNormal];
+	[button setTitle:NSLocalizedStringFromTable(@"Logout from UserVoice",@"UserVoice",nil) forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(logoutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -239,7 +239,7 @@
 		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 7, 284, 30)];
 		
-		label.text = @"Changing your email address will require it to be confirmed again.";
+		label.text = NSLocalizedString(@"Changing your email address will require it to be confirmed again.", nil);
 		label.textColor = [UVStyleSheet dimBlueColor];
 		label.backgroundColor = [UIColor clearColor];
 		label.font = [UIFont boldSystemFontOfSize:13];
@@ -261,7 +261,7 @@
 			[view addSubview:icon];
 			[icon release];
 			
-			label.text = @"Your email has not yet been confirmed";
+			label.text = NSLocalizedString(@"Your email has not yet been confirmed", nil);
 			label.textColor = [UVStyleSheet darkRedColor];
 			label.backgroundColor = [UIColor clearColor];
 			label.font = [UIFont boldSystemFontOfSize:14];
@@ -286,7 +286,7 @@
 	
 	self.user = [UVSession currentSession].user;
 	
-	self.navigationItem.title = @"Edit Profile";
+	self.navigationItem.title = NSLocalizedString(@"Edit Profile", nil);
 	
 	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];

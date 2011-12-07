@@ -76,7 +76,7 @@
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationItem.title = @"Subject";
+	self.navigationItem.title = NSLocalizedStringFromTable(@"Subject",@"UserVoice",nil);
 	
 	CGRect frame = [self contentFrame];
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];

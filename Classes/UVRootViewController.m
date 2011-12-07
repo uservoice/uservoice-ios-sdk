@@ -49,7 +49,7 @@
 			[UVToken getRequestTokenWithDelegate:self];
 			
 		} else {
-			[self showErrorAlertViewWithMessage:@"This application didn't configure UserVoice properly"];
+			[self showErrorAlertViewWithMessage:NSLocalizedString(@"This application didn't configure UserVoice properly", nil)];
 		}
 	} else {
 		[super didReceiveError:error];
@@ -154,7 +154,7 @@
 	splashLabel2.font = [UIFont systemFontOfSize:15];
 	splashLabel2.textColor = [UIColor darkGrayColor];
 	splashLabel2.textAlignment = UITextAlignmentCenter;
-	splashLabel2.text = @"Connecting to UserVoice";
+	splashLabel2.text = NSLocalizedStringFromTable(@"Connecting to UserVoice",@"UserVoice",nil);
 	[contentView addSubview:splashLabel2];
 	[splashLabel2 release];
 		

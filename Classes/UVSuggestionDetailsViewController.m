@@ -101,22 +101,22 @@
 }
 
 - (void)promptForFlag {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flag Idea?"
-													message:@"Are you sure you want to flag this idea as inappropriate?"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Flag Idea?",@"UserVoice",nil)
+													message:NSLocalizedStringFromTable(@"Are you sure you want to flag this idea as inappropriate?",@"UserVoice",nil)
 												   delegate:self
-										  cancelButtonTitle:@"Cancel"
-										  otherButtonTitles:@"Flag", nil];
+										  cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel",@"UserVoice",nil)
+										  otherButtonTitles:NSLocalizedStringFromTable(@"Flag",@"UserVoice",nil), nil];
 	[alert show];
 	[alert release];
 }
 
 - (void)didFlagSuggestion:(UVSuggestion *)theSuggestion {
 	[self hideActivityIndicator];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-													message:@"You have successfully flagged this idea as inappropriate."
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Success",@"UserVoice",nil)
+													message:NSLocalizedStringFromTable(@"You have successfully flagged this idea as inappropriate.",@"UserVoice",nil)
 												   delegate:nil
 										  cancelButtonTitle:nil
-										  otherButtonTitles:@"OK", nil];
+										  otherButtonTitles:NSLocalizedStringFromTable(@"OK",@"UserVoice",nil), nil];
 	[alert show];
 	[alert release];
 }
@@ -187,15 +187,15 @@
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont systemFontOfSize:14];
 		label.text = [NSString stringWithFormat:
-					  @"Voting for this suggestion is now closed and your %d %@ been returned to you",
+					  NSLocalizedStringFromTable(@"Voting for this suggestion is now closed and your %d %@ been returned to you",@"UserVoice",nil),
 					  self.suggestion.votesFor,
-					  self.suggestion.votesFor == 1 ? @"vote has" : @"votes have"];
+					  self.suggestion.votesFor == 1 ? NSLocalizedStringFromTable(@"vote has",@"UserVoice",nil) : NSLocalizedStringFromTable(@"votes have",@"UserVoice",nil)];
 		label.textColor = [UVStyleSheet dimBlueColor];
 		[cell.contentView addSubview:label];
 		[label release];
 		
 	} else {
-		NSArray *items = [NSArray arrayWithObjects:@"0 votes", @"1 vote", @"2 votes", @"3 votes", nil];
+		NSArray *items = [NSArray arrayWithObjects:NSLocalizedStringFromTable(@"0 votes",@"UserVoice",nil), NSLocalizedStringFromTable(@"1 vote",@"UserVoice",nil), NSLocalizedStringFromTable(@"2 votes",@"UserVoice",nil), NSLocalizedStringFromTable(@"3 votes",@"UserVoice",nil), nil];
 		UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 		segments.tag = VOTE_SEGMENTS_TAG;
 		segments.frame = CGRectMake(0, 0, (screenWidth-20), 44);
@@ -274,13 +274,13 @@
 }
 
 - (void)customizeCellForComments:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.textLabel.text = [NSString stringWithFormat:(self.suggestion.commentsCount == 1 ? @"%d Comment" : @"%d Comments"), self.suggestion.commentsCount];
+	cell.textLabel.text = [NSString stringWithFormat:(self.suggestion.commentsCount == 1 ? NSLocalizedStringFromTable(@"%d Comment",@"UserVoice",nil) : NSLocalizedStringFromTable(@"%d Comments",@"UserVoice",nil)), self.suggestion.commentsCount];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 }
 
 - (void)customizeCellForFlag:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.textLabel.text = @"Flag as inappropriate";
+	cell.textLabel.text = NSLocalizedStringFromTable(@"Flag as inappropriate",@"UserVoice",nil);
 }
 
 - (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
@@ -299,7 +299,7 @@
 	label.textColor = [UIColor grayColor];
 	label.textAlignment = UITextAlignmentRight;
 	label.font = [UIFont boldSystemFontOfSize:13];
-	label.text = @"Created by";
+	label.text = NSLocalizedString(@"Created by", nil);
 	[cell.contentView addSubview:label];
 	[label release];
 
@@ -319,7 +319,7 @@
 	label.textColor = [UIColor grayColor];
 	label.textAlignment = UITextAlignmentRight;
 	label.font = [UIFont boldSystemFontOfSize:13];
-	label.text = @"Post date";
+	label.text = NSLocalizedStringFromTable(@"Post date",@"UserVoice",nil);
 	[cell.contentView addSubview:label];
 	[label release];
 

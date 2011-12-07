@@ -70,7 +70,7 @@
 		
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth - 80), 14)] autorelease];
-	poweredBy.text = @"Feedback powered by UserVoice";
+	poweredBy.text = NSLocalizedString(@"Feedback powered by UserVoice", @"Feedback powered by UserVoice");
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
 	poweredBy.backgroundColor = [UVStyleSheet lightBgColor];
@@ -108,7 +108,7 @@
 	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth-80), 14)] autorelease];
-	poweredBy.text = @"Feedback powered by UserVoice";
+	poweredBy.text = NSLocalizedString(@"Feedback powered by UserVoice", @"Feedback powered by UserVoice");
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
 	poweredBy.backgroundColor = [UIColor clearColor];
@@ -164,7 +164,7 @@
 		}
 		[cell.contentView addSubview:nameView];
 	} else {
-		cell.textLabel.text = @"Sign in";
+		cell.textLabel.text = NSLocalizedString(@"Sign in", @"Sign in");
 		cell.textLabel.textAlignment = UITextAlignmentLeft;
 //		cell.accessoryType = UITableViewCellAccessoryNone;
 //		cell.selectionStyle = UITableViewCellSelectionStyleNone;

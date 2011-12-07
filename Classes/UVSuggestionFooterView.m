@@ -50,7 +50,7 @@
 		label.textColor = [UIColor grayColor];
 		label.textAlignment = UITextAlignmentRight;
 		label.font = [UIFont boldSystemFontOfSize:13];
-		label.text = @"Created by";
+		label.text = NSLocalizedStringFromTable(@"Created by",@"UserVoice",nil);
 		[wrapper addSubview:label];
 		[label release];
 		
@@ -70,7 +70,7 @@
 		label.textColor = [UIColor grayColor];
 		label.textAlignment = UITextAlignmentRight;
 		label.font = [UIFont boldSystemFontOfSize:13];
-		label.text = @"Post date";
+		label.text = NSLocalizedStringFromTable(@"Post date",@"UserVoice",nil);
 		[wrapper addSubview:label];
 		[label release];
 		

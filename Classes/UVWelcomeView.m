@@ -130,13 +130,14 @@
 
 - (NSString *)headerTextForSection:(NSInteger)section {
 	if (section == 0) {
-		return @"Suggestions";
+		return NSLocalizedStringFromTable(@"Suggestions",@"UserVoice",nil);
 		
 	} else if (section == 1) {
-		return @"Support";
+		return NSLocalizedStringFromTable(@"Support",@"UserVoice",nil);
 		
 	} else {
-		return @"Rating";
+		return NSLocalizedString(@"Rating", nil);
+        
 	}
 }
 
@@ -253,7 +254,7 @@
 		// label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont boldSystemFontOfSize:14];
-		label.text = @"You will need to sign in to answer.";		
+		label.text = NSLocalizedStringFromTable(@"You will need to sign in to answer.",@"UserVoice",nil);		
 		label.textColor = [UVStyleSheet darkRedColor];
 		
 		[cell.contentView addSubview:label];
@@ -268,7 +269,7 @@
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {	
-	cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", 
+	cell.textLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Contact %@",@"UserVoice",nil)s, 
 						   [UVSession currentSession].clientConfig.subdomain.name];
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

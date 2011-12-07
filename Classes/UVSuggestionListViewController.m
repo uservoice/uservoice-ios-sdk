@@ -137,7 +137,7 @@
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
 	UILabel *label = [[UILabel alloc] init];
 	label.tag = UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX;
-	label.text = @"Add \"";
+	label.text = NSLocalizedStringFromTable(@"Add \"",@"UserVoice",nil);
 	label.font = font;
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UIColor blackColor];
@@ -175,7 +175,7 @@
 	cell.backgroundView.backgroundColor = bgColor;
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
-	NSString *text = [NSString stringWithFormat:@"Add \"%@\"", _textEditor.text];
+	NSString *text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Add \"%@\"",@"UserVoice",nil), _textEditor.text];
 	CGSize size = [text sizeWithFont:font forWidth:260 lineBreakMode:UILineBreakModeTailTruncation];
 	CGFloat startX = 30.0 + ((260.0 - size.width) / 2.0);
 	
