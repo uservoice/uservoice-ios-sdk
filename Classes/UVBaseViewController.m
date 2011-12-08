@@ -34,11 +34,11 @@
 		barFrame = self.navigationController.navigationBar.frame;
 	}
 	CGRect appFrame = [UIScreen mainScreen].applicationFrame;
-	NSLog(@"appFrame: %@", NSStringFromCGRect(appFrame));
+//	NSLog(@"appFrame: %@", NSStringFromCGRect(appFrame));
 	CGFloat yStart = barFrame.origin.y + barFrame.size.height;
 	
 	
-	NSLog(@"%@", [UVSession currentSession].clientConfig);
+//	NSLog(@"%@", [UVSession currentSession].clientConfig);
 	
 	//return CGRectMake(0, yStart, appFrame.size.width, appFrame.size.height - barFrame.size.height);
 	return CGRectMake(0, yStart, 460, appFrame.size.height - barFrame.size.height);

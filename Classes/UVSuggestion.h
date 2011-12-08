@@ -69,8 +69,11 @@
 // Retrieves a page (10 items) of suggestions.
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate;
 
-// Retrieves all suggestions for a user
+// Retrieves all suggestions for a user in a forum
 + (id)getWithForumAndUser:(UVForum *)forum user:(UVUser *)user delegate:(id)delegate;
+
+// Retrieves all suggestions for a user
++ (id)getWithUser:(UVUser *)user delegate:(id)delegate;
 
 // Retrieves the suggestions for the specified query.
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate;

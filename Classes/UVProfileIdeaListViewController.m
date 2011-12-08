@@ -31,6 +31,7 @@
 		self.user = theUser;
 		self.title = theTitle;
 		self.showCreated = shouldShowCreated;
+        
 		if (self.user.suggestionsNeedReload) {
 			// add a fake array of suggestions to stop the UVSuggestionListView (parent) being a dick
 			// clearly this is not correct, the inheritance structure here needs some love			
@@ -39,6 +40,7 @@
 		} else {
 			if (self.showCreated) {
 				self.suggestions = self.user.createdSuggestions;
+                
 			} else {
 				self.suggestions = self.user.supportedSuggestions;
 			}
@@ -51,6 +53,7 @@
 	[self hideActivityIndicator];
 	[self.user.supportedSuggestions removeAllObjects];
 	[self.user.createdSuggestions removeAllObjects];
+    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
 	
 	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
 		for (UVSuggestion *suggestion in theSuggestions) {
@@ -64,6 +67,7 @@
 	}		
 	if (self.showCreated) {
 		self.suggestions = self.user.createdSuggestions;
+        
 	} else {
 		self.suggestions = self.user.supportedSuggestions;
 	}
@@ -75,8 +79,7 @@
 
 - (void)reloadUserSuggestions {
 	[self showActivityIndicator];
-	[UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum 
-								 user:self.user delegate:self];	
+	[UVSuggestion getWithUser:self.user delegate:self];	
 }
 
 - (BOOL)supportsSearch {
@@ -96,8 +99,10 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	
-	if (self.user.suggestionsNeedReload)
+	if (self.user.suggestionsNeedReload) {
+        NSLog(@"Reloading User Suggestions");
 		[self reloadUserSuggestions];
+    }
 }
 
 - (void)loadView {

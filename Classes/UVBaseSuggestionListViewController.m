@@ -56,7 +56,7 @@
 }
 
 - (void)customizeCellForSuggestion:(UVBaseGroupedCell *)cell indexPath:(NSIndexPath *)indexPath {
-	NSLog(@"Customize suggestion with index: %d", indexPath.row);
+//	NSLog(@"Customize suggestion with index: %d", indexPath.row);
 	
 	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];
 	UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];

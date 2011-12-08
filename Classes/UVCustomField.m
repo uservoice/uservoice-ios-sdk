@@ -30,13 +30,13 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-    NSLog(@"Custom Fields: %@", dict);
+    // NSLog(@"Custom Fields: %@", dict);
 	if (self = [super init]) {
         self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];        
 		self.name = [self objectOrNilForDict:dict key:@"name"];        
         self.values = [self objectOrNilForDict:dict key:@"possible_values"];
         
-        NSLog(@"Values: %@", self.values);
+        // NSLog(@"Values: %@", self.values);
 	}
 	return self;
 }

@@ -53,6 +53,7 @@
 	[statusLine release];
 	
 	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 8, 320, contentView.bounds.size.height - 8)];
+    scrollView.backgroundColor = [UVStyleSheet lightBgColor];
 
 	// User Chicklet
 	UVUserChickletView *chicklet = [UVUserChickletView userChickletViewWithOrigin:CGPointMake(10, 10)
@@ -81,7 +82,6 @@
 	body.lineBreakMode = UILineBreakModeWordWrap;
 	body.numberOfLines = 0;
 	body.backgroundColor = [UIColor clearColor];
-    body.backgroundColor = [UVStyleSheet lightBgColor];
 	[scrollView addSubview:body];
 	[body release];
 	

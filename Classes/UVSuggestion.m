@@ -62,8 +62,26 @@
 
 + (id)getWithForumAndUser:(UVForum *)forum user:(UVUser *)user delegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/users/%d/suggestions.json", forum.forumId, user.userId]];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+							@"1000", @"per_page",
+							nil];
+    
 	return [self getPath:path
-			  withParams:nil
+			  withParams:params
+				  target:delegate
+				selector:@selector(didRetrieveUserSuggestions:)];
+}
+
++ (id)getWithUser:(UVUser *)user delegate:(id)delegate {
+	NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/%d/suggestions.json", user.userId]];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+							@"1000", @"per_page",
+							nil];
+    
+	return [self getPath:path
+			  withParams:params
 				  target:delegate
 				selector:@selector(didRetrieveUserSuggestions:)];
 }
@@ -71,8 +89,7 @@
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate {
 	NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", forum.forumId]];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							query,
-							@"query",
+							query, @"query",
 							nil];
 	return [self getPath:path
 			  withParams:params

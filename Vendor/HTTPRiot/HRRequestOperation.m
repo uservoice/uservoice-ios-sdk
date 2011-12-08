@@ -53,7 +53,7 @@
         _path           = [urlPath copy];
         _options        = [opts retain];
         _object         = [obj retain];
-        _timeout        = 30.0;
+        _timeout        = 120.0;
         _delegate       = [[opts valueForKey:kHRClassAttributesDelegateKey] nonretainedObjectValue];
         _formatter      = [[self formatterFromFormat] retain];
     }

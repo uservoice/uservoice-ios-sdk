@@ -30,7 +30,7 @@
 	YOAuthToken *token = [YOAuthToken tokenWithKey:[aDictionary valueForKey:@"oauth_token"] 
 										 andSecret:[aDictionary valueForKey:@"oauth_token_secret"]];
 
-	NSLog(@"Created token key: %@ secret: %@", token.key, token.secret);
+	//NSLog(@"Created token key: %@ secret: %@", token.key, token.secret);
 	return token;
 }
 

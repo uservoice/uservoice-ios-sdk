@@ -204,7 +204,7 @@
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
-	NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
+//	NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
 	
 	if (indexPath.row < [self.suggestions count]) {
 		identifier = @"Suggestion";
@@ -411,7 +411,7 @@
 	
 	[self addShadowSeparatorToTableView:theTableView];
 	
-	NSInteger headerHeight = [self supportsSearch] ? 40 : 10;
+	NSInteger headerHeight = [self supportsSearch] ? 40 : 0;
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];  
 	headerView.backgroundColor = [UIColor clearColor];
 
@@ -463,7 +463,7 @@
 }
 
 - (void)reloadTableData {
-	NSLog(@"UVSuggestionListViewController: reloadTableData");
+//	NSLog(@"UVSuggestionListViewController: reloadTableData");
 	self.suggestions = [UVSession currentSession].clientConfig.forum.currentTopic.suggestions;
 	
 	[self.tableView reloadData];
@@ -473,13 +473,13 @@
 	[super viewWillAppear:animated];
     
     if (self.forum) {
-        NSLog(@"UVSuggestionListViewController: reloadSuggestions");
+//        NSLog(@"UVSuggestionListViewController: reloadSuggestions");
         if ([UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload) {
             self.suggestions = nil;
         }
         
         if (!self.suggestions) {
-            NSLog(@"UVSuggestionListViewController: populateSuggestions");
+//            NSLog(@"UVSuggestionListViewController: populateSuggestions");
             [self populateSuggestions];
         }
         if ([self supportsFooter]) {
@@ -490,7 +490,7 @@
     }
     [self.tableView reloadData];
     
-    NSLog(@"Adding observer");
+//    NSLog(@"Adding observer");
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(reloadTableData) 
                                                  name:@"TopicSuggestionsUpdated"
@@ -499,7 +499,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	NSLog(@"Removing observer");
+//	NSLog(@"Removing observer");
 	[[NSNotificationCenter defaultCenter] removeObserver:self 
 													name:@"TopicSuggestionsUpdated" 
 												  object:nil];
