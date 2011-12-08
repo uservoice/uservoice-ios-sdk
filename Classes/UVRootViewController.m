@@ -15,6 +15,7 @@
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNetworkUtils.h"
+#import "UVSuggestion.h"
 #import "NSError+UVExtras.h"
 
 @implementation UVRootViewController
@@ -116,15 +117,9 @@
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
-	[UVSession currentSession].user = theUser;
-    
-	if ([UVSession currentSession].clientConfig && [UVSession currentSession].clientConfig.ticketsEnabled) {
-        [UVCustomField getCustomFieldsWithDelegate:self];
-        
-	} else {
-        [self hideActivityIndicator];
-        [self pushWelcomeView];        
-    }
+	[UVSession currentSession].user = theUser;    
+    [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum 
+								 user:theUser delegate:self];	
 }
 
 - (void)didRetrieveCustomFields:(id)theFields {
@@ -132,6 +127,38 @@
     //NSLog(@"Custom fields: %@", [UVSession currentSession].clientConfig.customFields);
     [self hideActivityIndicator];
     [self pushWelcomeView];
+}
+
+- (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
+    UVUser *user = [UVSession currentSession].user;
+	[self hideActivityIndicator];
+    
+	[user.supportedSuggestions removeAllObjects];
+	[user.createdSuggestions removeAllObjects];
+    //    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
+	
+	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
+		for (UVSuggestion *suggestion in theSuggestions) {
+			[user.supportedSuggestions addObject:suggestion];
+		}
+	}	
+	for (UVSuggestion *suggestion in user.supportedSuggestions) {
+		if (suggestion.creatorId == user.userId) {
+			[user.createdSuggestions addObject:suggestion];
+		}
+	}		
+	
+	// TODO make sure that this gets unset after voting or creating
+	user.suggestionsNeedReload = NO;
+    
+    // get custom fields
+    if ([UVSession currentSession].clientConfig && [UVSession currentSession].clientConfig.ticketsEnabled) {
+        [UVCustomField getCustomFieldsWithDelegate:self];
+        
+	} else {
+        [self hideActivityIndicator];
+        [self pushWelcomeView];        
+    }
 }
 
 #pragma mark ===== Basic View Methods =====

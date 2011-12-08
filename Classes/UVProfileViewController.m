@@ -180,7 +180,7 @@
 	NSString *text = @"";
 	switch (indexPath.row) {
 		case UV_PROFILE_ROW_SUPPORTING_IDEAS: {
-			NSInteger count = self.user.supportedSuggestionsCount;
+			NSInteger count = [self.user.supportedSuggestions count];
 			text = [NSString stringWithFormat:@"Supporting %d %@", count, count == 1 ? @"idea" : @"ideas"];
 			if (count == 0) {
 				cell.accessoryType = UITableViewCellAccessoryNone;
@@ -189,7 +189,7 @@
 			break;
 		}
 		case UV_PROFILE_ROW_CREATED_IDEAS: {
-			NSInteger count = self.user.createdSuggestionsCount;
+			NSInteger count = [self.user.createdSuggestions count];
 			text = [NSString stringWithFormat:@"Created %d %@", count, count == 1 ? @"idea" : @"ideas"];
 			if (count == 0) {
 				cell.accessoryType = UITableViewCellAccessoryNone;
@@ -272,12 +272,11 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) 
+                                                             style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	//theTableView.backgroundColor = [UIColor clearColor];
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
-	
+    theTableView.backgroundColor = [UVStyleSheet lightBgColor];	
 	theTableView.tableHeaderView = [self createHeaderView];
 	
 	[contentView addSubview:theTableView];
@@ -285,9 +284,7 @@
 	[theTableView release];
 	
 	self.view = contentView;
-	[contentView release];
-	
-	//[self addGradientBackground];
+	[contentView release];	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -312,8 +309,7 @@
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
+    [super didReceiveMemoryWarning];	
 	// Release any cached data, images, etc that aren't in use.
 }
 

@@ -53,7 +53,7 @@
 	[self hideActivityIndicator];
 	[self.user.supportedSuggestions removeAllObjects];
 	[self.user.createdSuggestions removeAllObjects];
-    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
+//    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
 	
 	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
 		for (UVSuggestion *suggestion in theSuggestions) {
@@ -79,7 +79,9 @@
 
 - (void)reloadUserSuggestions {
 	[self showActivityIndicator];
-	[UVSuggestion getWithUser:self.user delegate:self];	
+//	[UVSuggestion getWithUser:self.user delegate:self];	
+    [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum 
+								 user:self.user delegate:self];	
 }
 
 - (BOOL)supportsSearch {

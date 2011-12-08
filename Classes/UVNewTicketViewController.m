@@ -197,7 +197,7 @@
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-	NSLog(@"textFieldShouldEndEditing");
+//	NSLog(@"textFieldShouldEndEditing");
 	
 	if (textField==emailField) {
 		NSLog(@"Check email");

@@ -201,6 +201,7 @@
 		if (self.createdSuggestionsCount+self.supportedSuggestionsCount==0) {
 			// no point checking if nothing to get
 			self.suggestionsNeedReload = NO;
+            
 		} else {			
 			// otherwise load suggestions if profile is visited
 			self.suggestionsNeedReload = YES;

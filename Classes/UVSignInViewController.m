@@ -14,6 +14,7 @@
 #import "UVClientConfig.h"
 #import "UVProfileViewController.h"
 #import "UVClientConfig.h"
+#import "UVSuggestion.h"
 #import "NSError+UVExtras.h"
 
 #define UV_SIGNIN_SECTION_DETAILS 0
@@ -142,9 +143,46 @@
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
 	// head back to whichever view launched the login section
-	[self hideActivityIndicator];
 	[UVSession currentSession].user = theUser;
+    self.user = theUser;
+	NSLog(@"Found user");
+    
+    if (theUser.suggestionsNeedReload) {
+        [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum 
+                                     user:theUser delegate:self];	
+        NSLog(@"Get suggestions");
+        
+    } else {  
+        [self hideActivityIndicator];
+        
+        NSArray *viewControllers = [self.navigationController viewControllers];
+        UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+        prev.needsReload = YES;
+        [self.navigationController popViewControllerAnimated:YES];	
+    }
+}
+
+- (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
+	[self hideActivityIndicator];
+    
+	[user.supportedSuggestions removeAllObjects];
+	[user.createdSuggestions removeAllObjects];
+    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
 	
+	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
+		for (UVSuggestion *suggestion in theSuggestions) {
+			[user.supportedSuggestions addObject:suggestion];
+		}
+	}	
+	for (UVSuggestion *suggestion in user.supportedSuggestions) {
+		if (suggestion.creatorId == user.userId) {
+			[user.createdSuggestions addObject:suggestion];
+		}
+	}		
+	
+	// TODO make sure that this gets unset after voting or creating
+	user.suggestionsNeedReload = NO;
+    
 	NSArray *viewControllers = [self.navigationController viewControllers];
 	UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
 	prev.needsReload = YES;
@@ -310,7 +348,7 @@
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-	NSLog(@"textFieldShouldEndEditing %@", textField.text);
+//	NSLog(@"textFieldShouldEndEditing %@", textField.text);
 	if (textField==emailField) {
 		NSLog(@"Check email");
 		[self checkEmail];
@@ -323,7 +361,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	NSLog(@"textFieldShouldReturn %@", textField.text);		
+//	NSLog(@"textFieldShouldReturn %@", textField.text);		
 
 	[textField resignFirstResponder];
 	return YES;
