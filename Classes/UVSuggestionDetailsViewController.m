@@ -235,7 +235,18 @@
 		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
 		if (label) 
 			[self setVoteLabelTextAndColorForLabel:label];
-	}
+	} else {
+        CGFloat screenWidth = [UVClientConfig getScreenWidth];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
+		label.textAlignment = UITextAlignmentCenter;
+		label.font = [UIFont boldSystemFontOfSize:12];
+		label.text = @"Please sign in to vote.";	
+		label.backgroundColor = [UIColor clearColor];
+		label.textColor = [UVStyleSheet darkRedColor];
+		
+		[cell.contentView addSubview:label];
+		[label release];
+    }
 }
 
 - (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
@@ -369,7 +380,7 @@
 			break;
 	}
 
-	NSLog(@"IDENTIFIER: %@", identifier);
+//	NSLog(@"IDENTIFIER: %@", identifier);
 	
 	return [self createCellForIdentifier:identifier
 							   tableView:theTableView

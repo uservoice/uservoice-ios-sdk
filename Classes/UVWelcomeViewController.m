@@ -170,7 +170,7 @@
 		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont boldSystemFontOfSize:12];
-		label.text = @"You will need to sign in to answer.";	
+		label.text = @"Please sign in to answer.";	
 		label.backgroundColor = [UIColor clearColor];
 		label.textColor = [UVStyleSheet darkRedColor];
 		

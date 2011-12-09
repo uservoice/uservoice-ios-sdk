@@ -219,7 +219,7 @@
 }
 
 - (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
-	NSLog(@"textEditorDidBeginEditing");
+//	NSLog(@"textEditorDidBeginEditing");
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
 	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -236,7 +236,7 @@
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
-	NSLog(@"textEditorShouldEndEditing");
+//	NSLog(@"textEditorShouldEndEditing");
 	[self moveTextViewForKeyboard:NO];
 	
 	return YES;

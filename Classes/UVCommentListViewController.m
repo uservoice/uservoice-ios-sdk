@@ -17,6 +17,8 @@
 #import "UVUserButton.h"
 #import "UVTextEditor.h"
 #import "UVClientConfig.h"
+#import "UVSession.h"
+#import "UVSignInViewController.h"
 
 #define UV_COMMENT_LIST_TAG_CELL_NAME 1
 #define UV_COMMENT_LIST_TAG_CELL_DATE 2
@@ -119,7 +121,11 @@
 }
 
 
-
+- (void)signinButtonTapped {
+    UVSignInViewController *next = [[UVSignInViewController alloc] init];
+    [self.navigationController pushViewController:next animated:YES];
+    [next release];	
+}
 
 - (void)didFlagComment:(UVComment *)theComment {
 	[self hideActivityIndicator];
@@ -350,6 +356,50 @@
 	}	
 }
 
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        CGFloat screenWidth = [UVClientConfig getScreenWidth];
+        if ([UVSession currentSession].user==nil) {        
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.frame = CGRectMake(0, 0, screenWidth, 40);
+            NSString *buttonTitle = @"Please sign in here to comment.";
+            [button setTitle:buttonTitle forState:UIControlStateNormal];
+            [button setTitleColor:[UVStyleSheet darkRedColor] forState:UIControlStateNormal];
+            button.backgroundColor = [UIColor clearColor];
+            button.showsTouchWhenHighlighted = YES;
+            button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+            [button addTarget:self action:@selector(signinButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            return button;
+            
+        } else {
+            // Add text editor to table header
+            UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
+            textBar.backgroundColor = [UIColor whiteColor];
+            UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, (screenWidth-5), 40)];
+            theTextEditor.delegate = self;
+            theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
+            theTextEditor.minNumberOfLines = 1;
+            theTextEditor.maxNumberOfLines = 8;
+            theTextEditor.autoresizesToText = YES;
+            theTextEditor.backgroundColor = [UIColor clearColor];
+            theTextEditor.placeholder = @"Add a comment...";
+            [textBar addSubview:theTextEditor];
+            self.textEditor = theTextEditor;
+            [theTextEditor release];
+            return textBar;
+        }
+    }
+    else return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 40;
+    } else {
+        return 0;
+    }
+}
+
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -364,37 +414,13 @@
 		self.navigationItem.title = @"1 Comment";
 	} else {
 		self.navigationItem.title = [NSString stringWithFormat:@"%d Comments", self.suggestion.commentsCount];
-	}
-
-	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
-	
+	}	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44)];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;	
-    //theTableView.backgroundColor = [UIColor clearColor];
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	[self addShadowSeparatorToTableView:theTableView];
-
-	// Add text editor to table header
-	UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
-	textBar.backgroundColor = [UIColor whiteColor];
-	// TTSTYLE(commentTextBar)
-	UVTextEditor *theTextEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, (screenWidth-5), 40)];
-	theTextEditor.delegate = self;
-	theTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-	theTextEditor.minNumberOfLines = 1;
-	theTextEditor.maxNumberOfLines = 8;
-	theTextEditor.autoresizesToText = YES;
-	theTextEditor.backgroundColor = [UIColor clearColor];
-	//theTextEditor.style = TTSTYLE(commentTextBarTextField);
-	theTextEditor.placeholder = @"Add a comment...";
-	[textBar addSubview:theTextEditor];
-	self.textEditor = theTextEditor;
-	[theTextEditor release];
-	theTableView.tableHeaderView = textBar;
-	[textBar release];
 
 	// Add empty footer, to suppress blank cells (with separators) after actual content
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)];
@@ -402,18 +428,15 @@
 	[footer release];
 	
 	self.tableView = theTableView;
-	[contentView addSubview:theTableView];
+    self.view = theTableView;
 	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];
-	
-	//[self addGradientBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
+    
+    [self.tableView reloadData];
+    	
 	if (!self.comments) {
 		allCommentsRetrieved = NO;
 		self.comments = [NSMutableArray arrayWithCapacity:10];
