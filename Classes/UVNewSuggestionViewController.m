@@ -480,7 +480,7 @@
 		case UV_NEW_SUGGESTION_SECTION_TEXT:
 			return 102;
 		case UV_NEW_SUGGESTION_SECTION_VOTE:
-			return 61;
+			return 44;
 		case UV_NEW_SUGGESTION_SECTION_SUBMIT:
 			return 42;
 		default:
@@ -493,7 +493,7 @@
 		case UV_NEW_SUGGESTION_SECTION_TITLE:
 			return 10.0;
 		case UV_NEW_SUGGESTION_SECTION_PROFILE:
-			return 20.0;
+			return 10.0;
 		default:
 			return 0.0;
 	}
@@ -528,13 +528,11 @@
 	
 	self.navigationItem.title = @"New Suggestion";		
 	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:contentView.bounds style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
-	//theTableView.backgroundColor = [UIColor clearColor];
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
@@ -562,13 +560,8 @@
 	[footer release];
 
 	self.tableView = theTableView;
-	[contentView addSubview:theTableView];
+    self.view = theTableView;
 	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];
-	
-	//[self addGradientBackground];
 }
 
 - (void)viewDidAppear:(BOOL)animated {	
@@ -582,8 +575,10 @@
 		[self.tableView reloadData];
 		self.needsReload = NO;
 	}
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) 
+                                                 name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) 
+                                                 name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
