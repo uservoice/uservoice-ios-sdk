@@ -25,6 +25,7 @@
 #define VOTE_SEGMENTS_TAG 1002
 #define VOTE_LABEL_TAG 1003
 #define NO_VOTE_LABEL_TAG 1004
+#define LOGIN_TAG 1005
 
 #define UV_SUGGESTION_DETAILS_SECTION_VOTE 0
 #define UV_SUGGESTION_DETAILS_SECTION_BODY 1
@@ -223,6 +224,8 @@
 
 - (void)customizeCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	if ([UVSession currentSession].user != nil) {
+        [[cell.contentView viewWithTag:LOGIN_TAG] removeFromSuperview];
+        
 		UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
 		segments.selectedSegmentIndex = self.suggestion.votesFor;
 		NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
@@ -235,11 +238,13 @@
 		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
 		if (label) 
 			[self setVoteLabelTextAndColorForLabel:label];
+        
 	} else {
         CGFloat screenWidth = [UVClientConfig getScreenWidth];
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont boldSystemFontOfSize:12];
+        label.tag = LOGIN_TAG;
 		label.text = @"Please sign in to vote.";	
 		label.backgroundColor = [UIColor clearColor];
 		label.textColor = [UVStyleSheet darkRedColor];
@@ -249,11 +254,10 @@
     }
 }
 
-- (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
+- (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
+    
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
 	NSInteger height = [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, screenWidth, height)];		
@@ -274,7 +278,6 @@
 - (void)customizeCellForStatus:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	NSString *status = suggestion.status ? suggestion.status : @"N/A";
 	cell.textLabel.text = [NSString stringWithFormat:@"Status: %@", [status capitalizedString]];
-	//cell.textLabel.textColor = self.suggestion.statusColor;
 	
 	if (self.suggestion.responseText) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -379,9 +382,6 @@
 			selectable = NO;
 			break;
 	}
-
-//	NSLog(@"IDENTIFIER: %@", identifier);
-	
 	return [self createCellForIdentifier:identifier
 							   tableView:theTableView
 							   indexPath:indexPath
@@ -467,10 +467,7 @@
 - (void)loadView {
 	[super loadView];
 
-	self.navigationItem.title = self.suggestion.title;
-	
-	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	self.navigationItem.title = self.suggestion.title;	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
@@ -523,14 +520,10 @@
 	theTableView.tableHeaderView = headerView;
     [headerView release];
 	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
-	
-	[contentView addSubview:theTableView];
-	
+		
 	self.tableView = theTableView;
-	[theTableView release];
-
-	self.view = contentView;
-	[contentView release];
+	self.view = theTableView;
+    [theTableView release];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
