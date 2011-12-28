@@ -60,8 +60,8 @@
 		[callback setSelector:@selector(didRetrieveUser:)];
 		[callback retainArguments];
 		
+        // didReturnModel:callback: releases callback
 		[UVUser didReturnModel:cachedUser callback:callback];
-		[callback release];
 		return cachedUser;
 		
 	} else {
