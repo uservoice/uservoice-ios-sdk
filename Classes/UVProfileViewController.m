@@ -83,7 +83,7 @@
 	header.backgroundColor = [UIColor clearColor];
 	
 	// Name
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70, 10, 240, 16)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70, 8, 240, 20)];
 	label.tag = UV_PROFILE_TAG_NAME;
 	label.text = self.userName ? self.userName : @"Anonymous";
 	label.font = [UIFont boldSystemFontOfSize:16];
