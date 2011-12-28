@@ -443,10 +443,6 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 	CGRect frame = CGRectMake(0, 2, self.width-kPaddingX*2, self.height);
 	_textView.frame = CGRectOffset(UVRectContract(frame, 0, 14), 0, 7);
 	_textField.frame = CGRectOffset(UVRectContract(frame, 9, 14), 9, 7);
-	
-	//The rounded corner part, where you specify your view's corner radius:
-	_textField.layer.cornerRadius = 10;
-	_textField.clipsToBounds = YES;	
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
