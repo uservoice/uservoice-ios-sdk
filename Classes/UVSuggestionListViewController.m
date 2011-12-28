@@ -278,7 +278,7 @@
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																			    target:self
 																			    action:@selector(dismissTextEditor)];	
-	[self.navigationItem setLeftBarButtonItem:cancelItem animated:YES];
+	[self.navigationItem setLeftBarButtonItem:cancelItem animated:NO];
 	[cancelItem release];
 }
 
@@ -286,12 +286,12 @@
 	UIBarButtonItem *clearItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																			    target:self
 																			    action:@selector(resetList)];
-	[self.navigationItem setLeftBarButtonItem:clearItem animated:YES];
+	[self.navigationItem setLeftBarButtonItem:clearItem animated:NO];
 	[clearItem release];
 }
 
 - (void)setLeftBarButtonPrevious {
-	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
+	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:NO];
 }
 
 - (void)resetList {
@@ -301,7 +301,7 @@
 	[self.suggestions removeAllObjects];
 	[self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.currentTopic.suggestions];
 	[self.tableView reloadData];
-	[self.navigationItem setLeftBarButtonItem:nil animated:YES];
+	[self.navigationItem setLeftBarButtonItem:nil animated:NO];
 }
 
 - (void)dismissTextEditor {
@@ -326,21 +326,22 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
-	NSInteger height = self.view.bounds.size.height - 216;
+	NSInteger height = self.view.bounds.size.height;
 	CGRect frame = CGRectMake(0, 0, screenWidth, height);
 	UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
+	[self setLeftBarButtonCancel];	
+	textBar.frame = frame;
+	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];		
+	theTextEditor.backgroundColor = [UIColor whiteColor];	
 	[UIView beginAnimations:@"growHeader" context:nil];
 	//NSLog(@"setLeftBarButtonCancel");
-	[self setLeftBarButtonCancel];	
 	[self setCellsEnabled:NO];
 	
-	textBar.frame = frame;
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];		
 	frame = CGRectMake(0, 0, screenWidth, 40);
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
-	theTextEditor.backgroundColor = [UIColor whiteColor];	
 	
 	[UIView commitAnimations];
 	return YES;
@@ -375,11 +376,11 @@
 	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
-	textBar.frame = CGRectMake(0, 0, screenWidth, 40);
-	textBar.backgroundColor = [UIColor whiteColor];
+	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];		
 	
 	[self setCellsEnabled:YES];
 	[UIView commitAnimations];	
+	textBar.frame = CGRectMake(0, 0, screenWidth, 40);
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
