@@ -520,9 +520,8 @@
 
 
 - (void)dealloc {
+    self.textEditor = nil;
     [super dealloc];
-	if (_textEditor)
-		[_textEditor release];
 }
 
 
