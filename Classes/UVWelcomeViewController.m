@@ -164,18 +164,23 @@
 		[self addQuestionCell:cell labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
 		[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
 		
-	} else {		
-		CGFloat screenWidth = [UVClientConfig getScreenWidth];
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
-		label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
-		label.textAlignment = UITextAlignmentCenter;
-		label.font = [UIFont boldSystemFontOfSize:12];
-		label.text = @"Please sign in to answer.";	
-		label.backgroundColor = [UIColor clearColor];
-		label.textColor = [UVStyleSheet darkRedColor];
-		
-		[cell.contentView addSubview:label];
-		[label release];				
+	} else {
+        UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG];
+        if (label == NULL) {
+            CGFloat screenWidth = [UVClientConfig getScreenWidth];
+            label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
+            label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
+            label.textAlignment = UITextAlignmentCenter;
+            label.font = [UIFont boldSystemFontOfSize:12];
+            label.text = @"Please sign in to answer.";	
+            label.backgroundColor = [UIColor clearColor];
+            label.textColor = [UVStyleSheet darkRedColor];
+
+            [cell.contentView addSubview:label];
+            [label release];
+        } else {
+            [label setHidden:NO];
+        }
 	}
 }
 
