@@ -240,17 +240,19 @@
 			[self setVoteLabelTextAndColorForLabel:label];
         
 	} else {
-        CGFloat screenWidth = [UVClientConfig getScreenWidth];
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
-		label.textAlignment = UITextAlignmentCenter;
-		label.font = [UIFont boldSystemFontOfSize:12];
-        label.tag = LOGIN_TAG;
-		label.text = @"Please sign in to vote.";	
-		label.backgroundColor = [UIColor clearColor];
-		label.textColor = [UVStyleSheet darkRedColor];
-		
-		[cell.contentView addSubview:label];
-		[label release];
+        if ([cell.contentView viewWithTag:LOGIN_TAG] == NULL) {
+            CGFloat screenWidth = [UVClientConfig getScreenWidth];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
+            label.textAlignment = UITextAlignmentCenter;
+            label.font = [UIFont boldSystemFontOfSize:12];
+            label.tag = LOGIN_TAG;
+            label.text = @"Please sign in to vote.";	
+            label.backgroundColor = [UIColor clearColor];
+            label.textColor = [UVStyleSheet darkRedColor];
+            
+            [cell.contentView addSubview:label];
+            [label release];
+        }
     }
 }
 
