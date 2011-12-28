@@ -365,7 +365,7 @@
             NSString *buttonTitle = @"Please sign in here to comment.";
             [button setTitle:buttonTitle forState:UIControlStateNormal];
             [button setTitleColor:[UVStyleSheet darkRedColor] forState:UIControlStateNormal];
-            button.backgroundColor = [UIColor clearColor];
+            button.backgroundColor = [UIColor whiteColor];
             button.showsTouchWhenHighlighted = YES;
             button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
             [button addTarget:self action:@selector(signinButtonTapped) forControlEvents:UIControlEventTouchUpInside];
