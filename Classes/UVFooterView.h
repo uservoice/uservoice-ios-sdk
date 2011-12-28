@@ -22,6 +22,7 @@
 + (CGFloat)heightForFooter;
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller;
 + (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller;
++ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller sectionHeaderHeight:(CGFloat)sectionHeaderHeight;
 
 - (void)reloadFooter;
 

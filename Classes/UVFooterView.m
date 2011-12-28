@@ -55,42 +55,15 @@
 
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller 
 {
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, [UVFooterView heightForFooter])] autorelease];
-	footer.controller = controller;
-	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:footer.bounds style:UITableViewStyleGrouped];
-	theTableView.scrollEnabled = NO;
-	theTableView.delegate = footer;
-	theTableView.dataSource = footer;
-	theTableView.sectionHeaderHeight = 10.0;
-	theTableView.sectionFooterHeight = 8.0;		
-	theTableView.tableHeaderView = [self getHeaderView];
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
-		
-	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
-	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth - 80), 14)] autorelease];
-	poweredBy.text = @"Feedback powered by UserVoice";
-	poweredBy.font = [UIFont systemFontOfSize:14.0];
-	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
-	poweredBy.backgroundColor = [UVStyleSheet lightBgColor];
-	poweredBy.textAlignment = UITextAlignmentCenter;
-	[tableFooter addSubview:poweredBy];
-	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	infoButton.center = CGPointMake((screenWidth - 50), 14);
-	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-	[tableFooter addSubview:infoButton];
-	
-	theTableView.tableFooterView = tableFooter;
-	
-	footer.tableView = theTableView;
-	[footer addSubview:theTableView];
-	[theTableView release];
-	
-	return footer;
+    return [self footerViewForController:controller sectionHeaderHeight:10.0];
 }
 
-+ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller 
++ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller
+{
+    return [self footerViewForController:controller sectionHeaderHeight:14.0];
+}
+
++ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller sectionHeaderHeight:(CGFloat)sectionHeaderHeight
 {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, [UVFooterView heightForFooter])] autorelease];
@@ -100,14 +73,13 @@
 	theTableView.scrollEnabled = NO;
 	theTableView.delegate = footer;
 	theTableView.dataSource = footer;
-	theTableView.sectionHeaderHeight = 14.0;
+	theTableView.sectionHeaderHeight = sectionHeaderHeight;
 	theTableView.sectionFooterHeight = 8.0;		
 	theTableView.tableHeaderView = [self getHeaderView];
 	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
-    //[UVStyleSheet lightZebraBgColor];
 	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
-	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 10, (screenWidth-80), 14)] autorelease];
+	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 8, (screenWidth-80), 16)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
@@ -145,11 +117,12 @@
 	if ([UVSession currentSession].loggedIn) {
 		cell.textLabel.text = @"My profile";
 		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth-150), 18)] autorelease];
-		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 2, (screenWidth-150), 14)] autorelease];
+		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, (screenWidth-150), 16)] autorelease];
 		nameLabel.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
 		nameLabel.textAlignment = UITextAlignmentRight;
 		nameLabel.font = [UIFont systemFontOfSize:14.0];
 		nameLabel.text = [[UVSession currentSession].user nameOrAnonymous];
+        nameLabel.backgroundColor = [UIColor clearColor];
 		[nameView addSubview:nameLabel];
 		
 		if ([[UVSession currentSession].user hasUnconfirmedEmail]) {
