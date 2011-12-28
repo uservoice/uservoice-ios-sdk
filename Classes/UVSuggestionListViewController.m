@@ -398,11 +398,10 @@
 	CGRect frame = [self contentFrame]; // ??
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
 	// TODO: fix table initWithFrame here
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) style:UITableViewStylePlain];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, frame.size.height) style:UITableViewStylePlain];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
