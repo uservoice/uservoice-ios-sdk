@@ -74,6 +74,7 @@ Import UserVoiceSDK
 
 * Add the following import statement to the class that is responsible for launching the UserVoice view (probably a view controller):
 
+
     #import "UserVoice.h"
 	
 
@@ -82,21 +83,24 @@ Invoke UserVoice View - Standard Login
 
 * In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
-	[UserVoice presentUserVoiceModalViewControllerForParent:self
-													andSite:@"YOUR_USERVOICE_URL"
-													 andKey:@"YOUR_KEY"
-												  andSecret:@"YOUR_SECRET"];
+
+    [UserVoice presentUserVoiceModalViewControllerForParent:self
+                                                    andSite:@"YOUR_USERVOICE_URL"
+                                                     andKey:@"YOUR_KEY"
+                                                  andSecret:@"YOUR_SECRET"];
+
 												  
 Invoke UserVoice View - SSO With Existing Users
 -----------------------------------------------
 
 * In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
-	[UserVoice presentUserVoiceModalViewControllerForParent:self
-													andSite:@"YOUR_USERVOICE_URL"
-													 andKey:@"YOUR_KEY"
-												  andSecret:@"YOUR_SECRET",
-												andSSOToken:@"SOME_BIG_LONG_SSO_TOKEN"];
+
+    [UserVoice presentUserVoiceModalViewControllerForParent:self
+                                                    andSite:@"YOUR_USERVOICE_URL"
+                                                     andKey:@"YOUR_KEY"
+                                                  andSecret:@"YOUR_SECRET",
+                                                andSSOToken:@"SOME_BIG_LONG_SSO_TOKEN"];
 
 
 Invoke UserVoice View - SSO With New Users Only
@@ -104,14 +108,15 @@ Invoke UserVoice View - SSO With New Users Only
 												  
 * In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
-	[UserVoice presentUserVoiceModalViewControllerForParent:self
-													andSite:@"YOUR_USERVOICE_URL"
-													 andKey:@"YOUR_KEY"
-												  andSecret:@"YOUR_SECRET"
-												   andEmail:@"USER_EMAIL"
-											 andDisplayName:@"USER_DISPLAY_NAME"
-													andGUID:@"GUID"];
-													
+
+    [UserVoice presentUserVoiceModalViewControllerForParent:self
+                                                    andSite:@"YOUR_USERVOICE_URL"
+                                                     andKey:@"YOUR_KEY"
+                                                  andSecret:@"YOUR_SECRET"
+                                                   andEmail:@"USER_EMAIL"
+                                             andDisplayName:@"USER_DISPLAY_NAME"
+                                                    andGUID:@"GUID"];
+
 
 Feedback
 --------
