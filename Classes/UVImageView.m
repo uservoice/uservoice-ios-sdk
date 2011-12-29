@@ -7,6 +7,7 @@
 //
 
 #import "UVImageView.h"
+#import "UVImageCache.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation UVImageView
@@ -59,6 +60,7 @@
 		//NSLog(@"Calling image setter");
 		self.image = anImage;
 		[self setNeedsDisplay];
+        [[UVImageCache sharedInstance] setImage:self.image forURL:_URL];
 	}
     
 	[conn release];	
@@ -80,12 +82,11 @@
 	[_URL release];
 	_URL = [URL retain];
 	
-	if (!_URL || !_URL.length) {
-		if (self.image != _defaultImage) {
-			self.image = _defaultImage;
-		}
-	} else {
-		[self reload];
+	if (_URL && _URL.length) {
+        self.image = [[UVImageCache sharedInstance] imageForURL:_URL];
+        [self setNeedsDisplay];
+        if (!self.image)
+            [self reload];
 	}
 }
 
@@ -98,7 +99,7 @@
 }
 
 - (void)reload {
-	if (!_request && _URL) {
+	if (_URL) {
 		NSURL *url = [NSURL URLWithString:_URL];		
 		_request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
         
@@ -108,10 +109,7 @@
 		if (_connection) {
 			_payload = [[NSMutableData data] retain];
 			//NSLog(@"Connection starting: %@", _connection);
-			
-			if (_defaultImage && self.image != _defaultImage) {
-				self.image = _defaultImage;
-			}
+			self.image = nil;
 		} else {
 			NSLog(@"Unable to start download.");
 		}

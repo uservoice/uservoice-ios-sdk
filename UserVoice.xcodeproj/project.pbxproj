@@ -187,6 +187,8 @@
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
 		D2D7B23A119D04E1003EDD3A /* UVProfileEditViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */; };
 		D2D7B23B119D04E1003EDD3A /* UVProfileEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */; };
+		D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */; };
+		D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -438,6 +440,8 @@
 		D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVProfileEditViewController.h; sourceTree = "<group>"; };
 		D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVProfileEditViewController.m; sourceTree = "<group>"; };
 		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
+		D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageCache.h; sourceTree = "<group>"; };
+		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +509,8 @@
 				AC31259C109263F600000D5F /* UVResponseDelegate.m */,
 				AC31242310911C8600000D5F /* UVSession.h */,
 				AC31242410911C8600000D5F /* UVSession.m */,
+				D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */,
+				D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */,
 				AC312B1E109914C100000D5F /* UVStyleSheet.h */,
 				AC312B1F109914C100000D5F /* UVStyleSheet.m */,
 				D261E054121456430024F2EA /* UVStreamPoller.h */,
@@ -947,6 +953,7 @@
 				D261E056121456430024F2EA /* UVStreamPoller.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
+				D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1089,6 +1096,7 @@
 				D261E057121456430024F2EA /* UVStreamPoller.m in Sources */,
 				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
 				80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */,
+				D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
