@@ -38,10 +38,11 @@
 	
 	// Status Color
 	// (Don't actually need exact height of 30, just want to exclude transparent top corners)
-	statusColorView = [[UIView alloc] initWithFrame:CGRectMake(0, height - 30, width, 29)];
-	statusColorView.tag = UV_CHICKLET_TAG_STATUS_COLOR;
-	statusColorView.layer.cornerRadius = 5.0;
-	[self addSubview:statusColorView];
+    // We use a CALayer rather than a UIView so that it won't get hidden on selection of the table cell.
+    statusColorLayer = [CALayer layer];
+    statusColorLayer.frame = CGRectMake(0, height - 30, width, 29);
+    statusColorLayer.cornerRadius = 6.0;
+    [self.layer addSublayer:statusColorLayer];
 
 	// Background image
 	backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
@@ -107,8 +108,7 @@
 		backgroundImageView.frame = CGRectMake(0, 0, 60, 60);
 	}
 
-	//UIView *statusColorView = [self viewWithTag:UV_CHICKLET_TAG_STATUS_COLOR];
-	statusColorView.backgroundColor = suggestion.statusColor;
+    statusColorLayer.backgroundColor = [suggestion.statusColor CGColor];
 	
 	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];

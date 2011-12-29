@@ -18,7 +18,7 @@ typedef enum {
 @class UVSuggestion;
 
 @interface UVSuggestionChickletView : UIView {
-	UIView *statusColorView;
+	CALayer *statusColorLayer;
 	UIImageView *backgroundImageView;	
 	UILabel *voteNumLabel;
 	UILabel *voteLabel;
