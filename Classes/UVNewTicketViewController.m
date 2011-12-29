@@ -246,7 +246,7 @@
 
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
 	cell.textLabel.text = label;
-	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 12, 230, 20)];
+	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 11, 230, 22)];
 	textField.placeholder = placeholder;
 	textField.returnKeyType = UIReturnKeyDone;
 	textField.borderStyle = UITextBorderStyleNone;
@@ -288,7 +288,7 @@
 
 - (void)initCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = @"";
-	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 12, 230, 20)];
+	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 11, 230, 22)];
 	textField.placeholder = @"Subject";
 	textField.returnKeyType = UIReturnKeyDone;
 	textField.borderStyle = UITextBorderStyleNone;
