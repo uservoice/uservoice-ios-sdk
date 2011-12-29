@@ -190,11 +190,11 @@
 		NSDictionary *response = [self objectOrNilForDict:dict key:@"response"];
 		if (response) {
 			self.responseText = [self objectOrNilForDict:response key:@"text"];
-			NSDictionary *responseUser = [self objectOrNilForDict:response key:@"user"];
-			if (responseUser) {
-				self.responseUserName = [self objectOrNilForDict:responseUser key:@"name"];
-				self.responseUserAvatarUrl = [self objectOrNilForDict:responseUser key:@"avatar_url"];
-				self.responseUserId = [(NSNumber *)[self objectOrNilForDict:responseUser key:@"id"] integerValue];
+			NSDictionary *responseCreator = [self objectOrNilForDict:response key:@"creator"];
+			if (responseCreator) {
+				self.responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
+				self.responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
+				self.responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
 			}
 		}
 		
