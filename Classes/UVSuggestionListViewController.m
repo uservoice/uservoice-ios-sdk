@@ -395,13 +395,12 @@
 
 	self.navigationItem.title = self.forum.currentTopic.prompt;
 
-	CGRect frame = [self contentFrame]; // ??
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
+	CGRect frame = [self contentFrame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	// TODO: fix table initWithFrame here
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, frame.size.height) style:UITableViewStylePlain];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -455,11 +454,8 @@
 	}
 	
 	self.tableView = theTableView;
-	[contentView addSubview:theTableView];
 	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];
+	self.view = tableView;
 }
 
 - (void)reloadTableData {

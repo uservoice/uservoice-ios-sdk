@@ -116,20 +116,17 @@
 	self.navigationItem.title = @"UserVoice";
 	
 	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UVClientConfig getScreenWidth], frame.size.height) style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	//theTableView.backgroundColor = [UIColor clearColor];
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
-	[contentView addSubview:theTableView];
 	self.tableView = theTableView;
 	[theTableView release];
 	
-	self.view = contentView;
-	[contentView release];
+	self.view = tableView;
 	
 	//[self addGradientBackground];	
 }
