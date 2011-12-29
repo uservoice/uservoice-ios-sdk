@@ -45,7 +45,6 @@ Update Build Settings
 * Select your app’s build target and go to the “Link Binary With Libraries” build phase.
 * Click add and select the UserVoice.a library from the Workspace dropdown
 * Locate the “User Header Search Paths” setting. Set this to “$(BUILT_PRODUCTS_DIR)”
-
 * Look for Other Linker Flags.
 * Double-click, then add "-ObjC".
 * Double-click, then add "-all_load".
@@ -72,7 +71,7 @@ Obtain Key And Secret
 Import UserVoiceSDK
 -------------------
 
-* Add the following import statement to the class that is responsible for launching the UserVoice view (probably a view controller):
+Add the following import statement to the class that is responsible for launching the UserVoice view (probably a view controller):
 
 
     #import "UserVoice.h"
@@ -81,7 +80,7 @@ Import UserVoiceSDK
 Invoke UserVoice View - Standard Login
 --------------------------------------
 
-* In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
+In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
 
     [UserVoice presentUserVoiceModalViewControllerForParent:self
@@ -93,7 +92,7 @@ Invoke UserVoice View - Standard Login
 Invoke UserVoice View - SSO With Existing Users
 -----------------------------------------------
 
-* In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
+In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
 
     [UserVoice presentUserVoiceModalViewControllerForParent:self
@@ -106,8 +105,7 @@ Invoke UserVoice View - SSO With Existing Users
 Invoke UserVoice View - SSO With New Users Only
 -----------------------------------------------
 												  
-* In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
-
+In your view controller, where you want to invoke the UserVoice view (probably from a button action), use the following code:
 
     [UserVoice presentUserVoiceModalViewControllerForParent:self
                                                     andSite:@"YOUR_USERVOICE_URL"
@@ -116,7 +114,6 @@ Invoke UserVoice View - SSO With New Users Only
                                                    andEmail:@"USER_EMAIL"
                                              andDisplayName:@"USER_DISPLAY_NAME"
                                                     andGUID:@"GUID"];
-
 
 Feedback
 --------
