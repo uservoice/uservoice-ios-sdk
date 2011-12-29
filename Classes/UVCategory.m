@@ -7,6 +7,7 @@
 //
 
 #import "UVCategory.h"
+#import "NSString+HTMLEntities.h"
 
 
 @implementation UVCategory
@@ -17,7 +18,7 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if (self = [super init]) {
 		self.categoryId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [self objectOrNilForDict:dict key:@"name"];
+		self.name = [[self objectOrNilForDict:dict key:@"name"] stringByDecodingHTMLEntities];
 	}
 	return self;
 }
