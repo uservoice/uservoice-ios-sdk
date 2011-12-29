@@ -162,8 +162,9 @@
 	// Avatar image	
 	UVImageView *avatarView = [[UVImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	avatarView.tag = UV_USER_CHICKLET_TAG_AVATAR_IMAGE;
-	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];
+	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
 	avatarView.URL  = self.avatarUrl;
+    avatarView.backgroundColor = [UIColor whiteColor];
 	avatarView.userInteractionEnabled = NO;
 	[button addSubview:avatarView];
 	[avatarView release];	

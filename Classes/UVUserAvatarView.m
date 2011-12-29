@@ -52,10 +52,11 @@
 	UVImageView *avatarView = [[UVImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	avatarView.URL  = self.avatarUrl;
 	avatarView.tag = UV_USER_AVATAR_TAG_ICON;
-	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.jpg"];	
+	avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
+    avatarView.backgroundColor = [UIColor whiteColor];
 	avatarView.userInteractionEnabled = NO;
 	[button addSubview:avatarView];
-	[avatarView release];	
+	[avatarView release];
 	[self addSubview:button];
 }
 

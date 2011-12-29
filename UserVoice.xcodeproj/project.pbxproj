@@ -358,7 +358,6 @@
 		D2620C5211B586230053EA4C /* uv_comment_flagged_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_comment_flagged_active.png; sourceTree = "<group>"; };
 		D2620C5311B586230053EA4C /* uv_comment_like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_comment_like.png; sourceTree = "<group>"; };
 		D2620C5411B586230053EA4C /* uv_comment_like_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_comment_like_active.png; sourceTree = "<group>"; };
-		D2620C5511B586230053EA4C /* uv_default_avatar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = uv_default_avatar.jpg; sourceTree = "<group>"; };
 		D2620C5611B586230053EA4C /* uv_error_connection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_error_connection.png; sourceTree = "<group>"; };
 		D2620C5711B586230053EA4C /* uv_flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_flag.png; sourceTree = "<group>"; };
 		D2620C5811B586230053EA4C /* uv_karma_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_karma_star.png; sourceTree = "<group>"; };
@@ -403,7 +402,7 @@
 		D2620EDE11B597290053EA4C /* UVJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonWriter.m; sourceTree = "<group>"; };
 		D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseGroupedCell.h; sourceTree = "<group>"; };
 		D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseGroupedCell.m; sourceTree = "<group>"; };
-		D26EA79811B5D6AE00D13F85 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D26EA79811B5D6AE00D13F85 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		D270CC2D11E07C640001E524 /* UVSuggestionFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionFooterView.h; sourceTree = "<group>"; };
 		D270CC2E11E07C640001E524 /* UVSuggestionFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionFooterView.m; sourceTree = "<group>"; };
 		D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+OAuthResponse.h"; sourceTree = "<group>"; };
@@ -438,6 +437,7 @@
 		D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVProfileEditViewController.h; sourceTree = "<group>"; };
 		D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVProfileEditViewController.m; sourceTree = "<group>"; };
+		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,7 +466,7 @@
 			isa = PBXGroup;
 			children = (
 				D29734BE11E50B8F001B8D6E /* Categories */,
-				D26EA79811B5D6AE00D13F85 /* README */,
+				D26EA79811B5D6AE00D13F85 /* README.md */,
 				D2620C4B11B586230053EA4C /* Resources */,
 				AC312140108D363D00000D5F /* Include */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
@@ -738,7 +738,7 @@
 				D2620C5211B586230053EA4C /* uv_comment_flagged_active.png */,
 				D2620C5311B586230053EA4C /* uv_comment_like.png */,
 				D2620C5411B586230053EA4C /* uv_comment_like_active.png */,
-				D2620C5511B586230053EA4C /* uv_default_avatar.jpg */,
+				D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */,
 				D2620C5611B586230053EA4C /* uv_error_connection.png */,
 				D2620C5711B586230053EA4C /* uv_flag.png */,
 				D2620C5811B586230053EA4C /* uv_karma_star.png */,
