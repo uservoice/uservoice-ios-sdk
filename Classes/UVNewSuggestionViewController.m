@@ -202,32 +202,34 @@
 	[next release];
 }
 
-- (void)keyboardWillShow:(NSNotification *)aNotification {
-	if (shouldResizeForKeyboard) {
-		// Resize the table to account for the keyboard
-		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-		NSTimeInterval animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-		CGRect frame = self.tableView.frame;
-		frame.size.height -= keyboardRect.size.height;
-		[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-		[UIView setAnimationDuration:animationDuration];
-		self.tableView.frame = frame;
-		[UIView commitAnimations];
-	}
+# pragma mark Keyboard Handling
+
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification object:nil];
+    
 }
 
-- (void)keyboardWillHide:(NSNotification *)aNotification {
-	if (shouldResizeForKeyboard) {
-		// Resize the table back to the original height
-		CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-		NSTimeInterval animationDuration = [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-		CGRect frame = self.tableView.frame;
-		frame.size.height += keyboardRect.size.height;
-		[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-		[UIView setAnimationDuration:animationDuration];
-		self.tableView.frame = frame;
-		[UIView commitAnimations];
-	}
+- (void)keyboardDidShow:(NSNotification*)notification {
+    NSDictionary* info = [notification userInfo];
+    CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    // Convert from window space to view space to account for orientation
+    CGSize kbSize = [self.view convertRect:rect fromView:nil].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    tableView.contentInset = contentInsets;
+    tableView.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    tableView.contentInset = contentInsets;
+    tableView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -572,16 +574,12 @@
 		[self.tableView reloadData];
 		self.needsReload = NO;
 	}
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) 
-                                                 name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) 
-                                                 name:UIKeyboardWillHideNotification object:nil];
+    [self registerForKeyboardNotifications];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
