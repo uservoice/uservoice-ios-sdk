@@ -40,7 +40,7 @@
 		self.guid = aGUID;
 		self.displayName = aDisplayName;
 	}
-	return self;	
+	return self;
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -48,7 +48,6 @@
 		if ([UVToken exists]) {
 			[[UVSession currentSession].currentToken remove];
 			[UVToken getRequestTokenWithDelegate:self];
-			
 		} else {
 			[self showErrorAlertViewWithMessage:@"This application didn't configure UserVoice properly"];
 		}
@@ -62,19 +61,14 @@
 }
 
 - (void)pushWelcomeView {
-	// Note: We used to bring the user straight to the suggestions list view, while
-	//       allowing them to pop back up to the forum list. Commenting this code
-	//       out but leaving it around in case we decide to revert back to this approach.
-	// We're swapping the current view controller out for two new ones:
-	// A forum list and a suggestion list for the default forum. This way,
-	// the user will first see the suggestion list, but will be able to use
-	// the Back button to go up to the forum list.
-    
-	UVWelcomeViewController *forumsView = [[UVWelcomeViewController alloc] init];	
-	[self.navigationController pushViewController:forumsView animated:YES];
-	[forumsView release];
+    UVSession *session = [UVSession currentSession];
+    if ((![UVToken exists] || session.user) && session.clientConfig && [self.navigationController.viewControllers count] == 1) {
+        self.navigationController.navigationBarHidden = NO;
+        UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
+        [self.navigationController pushViewController:welcomeView animated:YES];
+        [welcomeView release];
+    }
 }
-
 
 - (void)didRetrieveRequestToken:(UVToken *)token {
 	// should be storing all tokens and checking on type
@@ -83,10 +77,8 @@
 	// check if we have a sso token and if so exchange it for an access token and user
 	if (self.ssoToken != nil) {
 		[UVUser findOrCreateWithSsoToken:self.ssoToken delegate:self];
-		
 	} else if (self.email != nil) {
 		[UVUser findOrCreateWithGUID:self.guid andEmail:self.email andName:self.displayName andDelegate:self];
-		
 	} else {
 		[UVClientConfig getWithDelegate:self];
 	}
@@ -102,63 +94,43 @@
 	[UVClientConfig getWithDelegate:self];
 }
 
-// BUG When relaunching forum title disappears from table row
-
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
-	// if no token aren't waiting on user so push main view
-	// if we have a token, then we are waiting on the user model
-	if ([UVSession currentSession].clientConfig.ticketsEnabled && (![UVToken exists] || [UVSession currentSession].user)) {
+	if ([UVSession currentSession].clientConfig.ticketsEnabled) {
         [UVCustomField getCustomFieldsWithDelegate:self];
-        
-    } else if (![UVToken exists] || [UVSession currentSession].user) {
-        [self hideActivityIndicator];
-        [self pushWelcomeView];    
+    } else {
+        [self pushWelcomeView];
     }
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
-	[UVSession currentSession].user = theUser;    
-    [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum 
-								 user:theUser delegate:self];	
+	[UVSession currentSession].user = theUser;
+    [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum
+								 user:theUser delegate:self];
 }
 
 - (void)didRetrieveCustomFields:(id)theFields {
     [UVSession currentSession].clientConfig.customFields = [[[NSArray alloc] initWithArray:theFields] autorelease];
-    //NSLog(@"Custom fields: %@", [UVSession currentSession].clientConfig.customFields);
-    [self hideActivityIndicator];
     [self pushWelcomeView];
 }
 
 - (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
     UVUser *user = [UVSession currentSession].user;
-	[self hideActivityIndicator];
     
 	[user.supportedSuggestions removeAllObjects];
 	[user.createdSuggestions removeAllObjects];
-    //    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
-	
 	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
 		for (UVSuggestion *suggestion in theSuggestions) {
 			[user.supportedSuggestions addObject:suggestion];
 		}
-	}	
+	}
 	for (UVSuggestion *suggestion in user.supportedSuggestions) {
 		if (suggestion.creatorId == user.userId) {
 			[user.createdSuggestions addObject:suggestion];
 		}
-	}		
-	
-	// TODO make sure that this gets unset after voting or creating
-	user.suggestionsNeedReload = NO;
+	}
+    user.suggestionsNeedReload = NO;
     
-    // get custom fields
-    if ([UVSession currentSession].clientConfig && [UVSession currentSession].clientConfig.ticketsEnabled) {
-        [UVCustomField getCustomFieldsWithDelegate:self];
-        
-	} else {
-        [self hideActivityIndicator];
-        [self pushWelcomeView];        
-    }
+    [self pushWelcomeView];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -197,41 +169,30 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"View will appear (RootView)");
-	[super viewWillAppear:animated];
-				
+
 	if (![UVNetworkUtils hasInternetAccess]) {
 		UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
 		self.navigationController.navigationBarHidden = NO;
 		serverErrorImage.frame = self.view.frame;
 		[self.view addSubview:serverErrorImage];
 		[serverErrorImage release];
-		
 	} else if (![UVToken exists]) {
-		// no access token
 		NSLog(@"No access token");
 		[UVToken getRequestTokenWithDelegate:self];
-		
 	} else if (![[UVSession currentSession] clientConfig]) {
-		// no client config
-		NSLog(@"No client");
+		NSLog(@"No client config");
 		[UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
 
 		// get config and current user
 		[UVClientConfig getWithDelegate:self];
 		[UVUser retrieveCurrentUser:self];
-				
 	} else if (![UVSession currentSession].user) {
 		NSLog(@"No user");
 		// just get user
 		[UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
-		[UVUser retrieveCurrentUser:self];        
-		
+		[UVUser retrieveCurrentUser:self];
 	} else {
-		NSLog(@"Pushing welcome");
-				
-		// Re-enable the navigation bar
-		self.navigationController.navigationBarHidden = NO;
-
+		NSLog(@"Already loaded");
 		// We already have a client config, because the user already logged in before during
 		// this session. Skip straight to the welcome view.
 		[self pushWelcomeView];
@@ -251,6 +212,7 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+    [super viewDidUnload];
 }
 
 - (void)dealloc {
