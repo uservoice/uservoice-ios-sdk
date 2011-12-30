@@ -25,6 +25,7 @@
 	UITextField *emailField;
     UITextField *subjectField;
 	UIBarButtonItem *prevBarButton;
+    UIView *activeField;
 	//NSArray *customFields;
 }
 

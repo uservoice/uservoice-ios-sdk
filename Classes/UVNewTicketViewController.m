@@ -183,22 +183,10 @@
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	// Scroll to the active text field
-	NSLog(@"textFieldDidBeginEditing");	
-    
-    NSIndexPath *path = nil;
-    
-    if (textField==subjectField) {
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_SUBJECT];
-    } else {
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
-    }
-	[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    activeField = textField;
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-//	NSLog(@"textFieldShouldEndEditing");
-	
 	if (textField==emailField) {
 		NSLog(@"Check email");
 		[self checkEmail];
@@ -212,6 +200,10 @@
 	return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    activeField = nil;
+}
+
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
@@ -219,7 +211,6 @@
 }
 
 - (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
-//	NSLog(@"textEditorDidBeginEditing");
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
 	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -227,18 +218,15 @@
 	self.prevBarButton = self.navigationItem.leftBarButtonItem;
 	[self.navigationItem setLeftBarButtonItem:saveItem animated:YES];
 	[saveItem release];
-	
-	[self moveTextViewForKeyboard:YES];
+    activeField = theTextEditor;
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	[self.navigationItem setLeftBarButtonItem:self.prevBarButton animated:YES];
+    activeField = nil;
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
-//	NSLog(@"textEditorShouldEndEditing");
-	[self moveTextViewForKeyboard:NO];
-	
 	return YES;
 }
 
@@ -421,8 +409,7 @@
 	}
 }
 
-- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section 
-{
+- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
 	CGFloat height = [self tableView:theTableView heightForHeaderInSection:section];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
@@ -440,6 +427,46 @@
 //	}
 }
 
+
+# pragma mark Keyboard handling
+
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification object:nil];
+    
+}
+
+- (void)keyboardDidShow:(NSNotification*)notification {
+    NSDictionary* info = [notification userInfo];
+    CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    // Convert from window space to view space to account for orientation
+    CGSize kbSize = [self.view convertRect:rect fromView:nil].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    tableView.contentInset = contentInsets;
+    tableView.scrollIndicatorInsets = contentInsets;
+    
+    NSIndexPath *path;
+    if (activeField == emailField || activeField == nameField)
+        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
+    else if (activeField == subjectField)
+        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_SUBJECT];
+    else
+        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
+    [tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    tableView.contentInset = contentInsets;
+    tableView.scrollIndicatorInsets = contentInsets;
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
@@ -447,11 +474,9 @@
 	self.navigationItem.title = @"Contact Us";
 	
 	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
@@ -483,17 +508,14 @@
 	[footer release];
 	
 	self.tableView = theTableView;
-	[contentView addSubview:theTableView];
 	[theTableView release];
 	
-	self.view = contentView;
-	[contentView release];
-	
-	//[self addGradientBackground];
+	self.view = tableView;
+    
+    [self registerForKeyboardNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	// Listen for keyboard hide/show notifications
 	[super viewWillAppear:animated];
 	if (self.needsReload) {
 		[self.tableView reloadData];
@@ -503,10 +525,6 @@
 		UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
 		prev.needsReload = YES;	
 	}
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -519,6 +537,7 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	self.tableView = nil;
 	self.textEditor = nil;
 	self.nameField = nil;
