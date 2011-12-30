@@ -268,23 +268,16 @@
 	self.navigationItem.title = [self isSelf] ? @"My Profile" : @"User Profile";
 
 	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) 
-                                                             style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];	
 	theTableView.tableHeaderView = [self createHeaderView];
 	
-	[contentView addSubview:theTableView];
 	self.tableView = theTableView;
 	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];	
+	self.view = tableView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
