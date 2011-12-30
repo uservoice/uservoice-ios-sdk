@@ -52,30 +52,14 @@
 	UISegmentedControl *segments = (UISegmentedControl *)sender;
 	if (segments.selectedSegmentIndex != self.suggestion.votesFor) {		
 		[self showActivityIndicator];
-		// no longer supported so remove from supportedSuggestions
-		// also should decrement counters
-		if (segments.selectedSegmentIndex==0 && [[UVSession currentSession].user.supportedSuggestions count]!=0) {
-			NSInteger index = 0;
-			NSInteger suggestionIndex = 0;
-			for (UVSuggestion *aSuggestion in [UVSession currentSession].user.supportedSuggestions) {
-				if (aSuggestion.suggestionId == self.suggestion.suggestionId)
-					suggestionIndex = index;					
-				index++;
-			}
-			NSLog(@"Removing sugggestion index %d from %d supported suggestions", suggestionIndex, 
-				  [[UVSession currentSession].user.supportedSuggestions count]);
-			
-			[[UVSession currentSession].user.supportedSuggestions removeObjectAtIndex:suggestionIndex];
-			[UVSession currentSession].user.supportedSuggestionsCount -= 1;
-			
+
+        // Inform the user model
+		if (segments.selectedSegmentIndex == 0 && self.suggestion.votesFor > 0) {
+            [[UVSession currentSession].user didWithdrawSupportForSuggestion:self.suggestion];			
 		} else if (self.suggestion.votesFor == 0) {
-			NSLog(@"Adding new supported suggestion");
-			
-			// add if not there
-			[[UVSession currentSession].user.supportedSuggestions addObject:self.suggestion];
-			[UVSession currentSession].user.supportedSuggestionsCount += 1;
+            [[UVSession currentSession].user didSupportSuggestion:self.suggestion];			
 		}
-		
+
 		self.suggestion.votesFor = segments.selectedSegmentIndex;
 		[self.suggestion vote:segments.selectedSegmentIndex delegate:self];
 	}
@@ -98,6 +82,9 @@
 	} else {
 		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
 	}
+    
+    UILabel *votesLabel = (UILabel *)[self.view viewWithTag:VOTE_LABEL_TAG];
+    [self setVoteLabelTextAndColorForLabel:votesLabel];
 	[self hideActivityIndicator];
 }
 

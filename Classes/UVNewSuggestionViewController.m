@@ -147,13 +147,10 @@
 										  otherButtonTitles:@"OK", nil];
 	[alert show];
 	[alert release];
+    
 	// increment the created suggestions and supported suggestions counts
-	[UVSession currentSession].user.supportedSuggestionsCount += 1;
-	[UVSession currentSession].user.createdSuggestionsCount += 1;	
-	// add to this users created suggestions, unless they have never been loaded or are going to be	
-	//[[UVSession currentSession].user.createdSuggestions addObject:theSuggestion];
-	
-	[UVSession currentSession].user.suggestionsNeedReload = YES;
+	[[UVSession currentSession].user didCreateSuggestion:theSuggestion];
+
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
 
 	// update the remaining votes

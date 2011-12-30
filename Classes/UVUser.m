@@ -28,8 +28,6 @@
 @synthesize avatarUrl;
 @synthesize supportedSuggestions;
 @synthesize createdSuggestions;
-@synthesize supportedSuggestionsCount;
-@synthesize createdSuggestionsCount;
 @synthesize createdAt;
 @synthesize suggestionsNeedReload;
 
@@ -195,13 +193,12 @@
 		self.url = [self objectOrNilForDict:dict key:@"url"];
 		self.avatarUrl = [self objectOrNilForDict:dict key:@"avatar_url"];
 		self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
-		self.createdSuggestionsCount = [(NSNumber *)[dict objectForKey:@"created_suggestions_count"] integerValue];
-		self.supportedSuggestionsCount = [(NSNumber *)[dict objectForKey:@"supported_suggestions_count"] integerValue];
+		createdSuggestionsCount = [(NSNumber *)[dict objectForKey:@"created_suggestions_count"] integerValue];
+		supportedSuggestionsCount = [(NSNumber *)[dict objectForKey:@"supported_suggestions_count"] integerValue];
 		
-		if (self.createdSuggestionsCount+self.supportedSuggestionsCount==0) {
+		if (createdSuggestionsCount+supportedSuggestionsCount==0) {
 			// no point checking if nothing to get
 			self.suggestionsNeedReload = NO;
-            
 		} else {			
 			// otherwise load suggestions if profile is visited
 			self.suggestionsNeedReload = YES;
@@ -210,6 +207,47 @@
 		self.supportedSuggestions = [NSMutableArray array];
 	}
 	return self;
+}
+
+- (NSInteger)supportedSuggestionsCount {
+    return suggestionsNeedReload ? supportedSuggestionsCount : [supportedSuggestions count];
+}
+
+- (NSInteger)createdSuggestionsCount {
+    return suggestionsNeedReload ? createdSuggestionsCount : [createdSuggestions count];
+}
+
+- (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion {
+    if (suggestionsNeedReload == NO) {
+        int i=0;
+        int indexToRemove;
+        for (UVSuggestion *it in supportedSuggestions) {
+            if (it.suggestionId == suggestion.suggestionId)
+                indexToRemove = i;
+            i++;
+        }
+        [supportedSuggestions removeObjectAtIndex:indexToRemove];
+    } else {
+        supportedSuggestionsCount -= 1;
+    }
+}
+
+- (void)didSupportSuggestion:(UVSuggestion *)suggestion {
+    if (suggestionsNeedReload == NO) {
+        [supportedSuggestions addObject:suggestion];
+    } else {
+        supportedSuggestionsCount += 1;
+    }
+}
+
+- (void)didCreateSuggestion:(UVSuggestion *)suggestion {
+    if (suggestionsNeedReload == NO) {
+        [supportedSuggestions addObject:suggestion];
+        [createdSuggestions addObject:suggestion];
+    } else {
+        createdSuggestionsCount += 1;
+        supportedSuggestionsCount += 1;
+    }
 }
 
 - (NSString *)description {

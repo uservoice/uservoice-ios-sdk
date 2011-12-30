@@ -19,5 +19,6 @@
 //@property (nonatomic, retain) UITableView *innerTableView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
+- (void)setVoteLabelTextAndColorForLabel:(UILabel *)label;
 
 @end

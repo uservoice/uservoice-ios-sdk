@@ -180,7 +180,7 @@
 	NSString *text = @"";
 	switch (indexPath.row) {
 		case UV_PROFILE_ROW_SUPPORTING_IDEAS: {
-			NSInteger count = [self.user.supportedSuggestions count];
+			NSInteger count = [self.user supportedSuggestionsCount];
 			text = [NSString stringWithFormat:@"Supporting %d %@", count, count == 1 ? @"idea" : @"ideas"];
 			if (count == 0) {
 				cell.accessoryType = UITableViewCellAccessoryNone;
@@ -189,7 +189,7 @@
 			break;
 		}
 		case UV_PROFILE_ROW_CREATED_IDEAS: {
-			NSInteger count = [self.user.createdSuggestions count];
+			NSInteger count = [self.user createdSuggestionsCount];
 			text = [NSString stringWithFormat:@"Created %d %@", count, count == 1 ? @"idea" : @"ideas"];
 			if (count == 0) {
 				cell.accessoryType = UITableViewCellAccessoryNone;

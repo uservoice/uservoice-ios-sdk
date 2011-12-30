@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
 
+@class UVSuggestion;
+
 @interface UVUser : UVBaseModel {
 	NSInteger userId;
 	NSString *name;
@@ -37,13 +39,15 @@
 @property (assign) NSInteger ideaScore;
 @property (assign) NSInteger activityScore;
 @property (assign) NSInteger karmaScore;
-@property (assign) NSInteger createdSuggestionsCount;
-@property (assign) NSInteger supportedSuggestionsCount;
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *avatarUrl;
 @property (nonatomic, retain) NSMutableArray *supportedSuggestions;
 @property (nonatomic, retain) NSMutableArray *createdSuggestions;
 @property (nonatomic, retain) NSDate *createdAt;
+
+- (NSInteger)createdSuggestionsCount;
+- (NSInteger)supportedSuggestionsCount;
+
 
 // fetch
 + (id)getWithUserId:(NSInteger)userId delegate:(id)delegate;
@@ -63,6 +67,9 @@
 
 // update
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate;
+- (void)didSupportSuggestion:(UVSuggestion *)suggestion;
+- (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion;
+- (void)didCreateSuggestion:(UVSuggestion *)suggestion;
 
 // others
 - (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate;
