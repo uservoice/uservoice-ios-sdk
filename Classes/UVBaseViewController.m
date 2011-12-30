@@ -16,6 +16,7 @@
 #import "UVActivityIndicator.h"
 #import "UVNetworkUtils.h"
 #import "NSError+UVExtras.h"
+#import "UVStreamPoller.h"
 
 @implementation UVBaseViewController
 
@@ -25,6 +26,9 @@
 @synthesize tableView;
 
 - (void)dismissUserVoice {
+    if ([UVStreamPoller instance].timerIsRunning)
+		[[UVStreamPoller instance] stopTimer];
+
 	[self dismissModalViewControllerAnimated:YES];
 }
 

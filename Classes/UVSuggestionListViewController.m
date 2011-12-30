@@ -77,12 +77,6 @@
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestions = [NSMutableArray arrayWithCapacity:10];
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = NO;
 	[self retrieveMoreSuggestions];
-	
-	// gonna check and start the stream timer here too
-	if (![UVStreamPoller instance].timerIsRunning) {
-		[[UVStreamPoller instance] startTimer];
-		[UVStreamPoller instance].lastPollTime = [NSDate date];
-	}
 }
 
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
@@ -478,6 +472,12 @@
 //            NSLog(@"UVSuggestionListViewController: populateSuggestions");
             [self populateSuggestions];
         }
+        
+        if (![UVStreamPoller instance].timerIsRunning) {
+            [[UVStreamPoller instance] startTimer];
+            [UVStreamPoller instance].lastPollTime = [NSDate date];
+        }
+
         if ([self supportsFooter]) {
             // Reload footer view, in case the user has changed (logged in or unlinked)
             UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
