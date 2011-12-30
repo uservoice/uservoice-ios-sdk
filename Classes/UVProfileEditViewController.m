@@ -78,6 +78,36 @@
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+# pragma mark Keyboard handling
+
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification object:nil];
+    
+}
+
+- (void)keyboardDidShow:(NSNotification*)notification {
+    NSDictionary* info = [notification userInfo];
+    CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    // Convert from window space to view space to account for orientation
+    CGSize kbSize = [self.view convertRect:rect fromView:nil].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    tableView.contentInset = contentInsets;
+    tableView.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    tableView.contentInset = contentInsets;
+    tableView.scrollIndicatorInsets = contentInsets;
+}
+
 #pragma mark ===== table cells =====
 
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
@@ -289,32 +319,24 @@
 	self.navigationItem.title = @"Edit Profile";
 	
 	CGRect frame = [self contentFrame];
-	UIView *contentView = [[UIView alloc] initWithFrame:frame];
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-64) style:UITableViewStyleGrouped];
+	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	//theTableView.backgroundColor = [UIColor clearColor];
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	self.tableView = theTableView;
-	[contentView addSubview:theTableView];
 	[theTableView release];
-	
-	self.view = contentView;
-	[contentView release];
-	
-	//[self addGradientBackground];
+	self.view = tableView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	// Listen for keyboard hide/show notifications
 	[super viewWillAppear:animated];
+	[self registerForKeyboardNotifications];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super viewDidDisappear:animated];
 }
 
