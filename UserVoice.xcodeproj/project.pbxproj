@@ -123,7 +123,7 @@
 		D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE52211DC11A600B26012 /* UVTaskBar.m */; };
 		D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = D25C899311B1CE98000C0B43 /* UVStatus.h */; };
 		D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D25C899411B1CE98000C0B43 /* UVStatus.m */; };
-		D2605CB214465F2C0029F16B /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = D2605CB414465F2C0029F16B /* UserVoice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2605CB214465F2C0029F16B /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = D2605CB414465F2C0029F16B /* UserVoice.h */; };
 		D261E056121456430024F2EA /* UVStreamPoller.h in Headers */ = {isa = PBXBuildFile; fileRef = D261E054121456430024F2EA /* UVStreamPoller.h */; };
 		D261E057121456430024F2EA /* UVStreamPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = D261E055121456430024F2EA /* UVStreamPoller.m */; };
 		D2620D2E11B589FE0053EA4C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */; };
@@ -867,7 +867,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2605CB214465F2C0029F16B /* UserVoice.h in Headers */,
 				AA747D9F0F9514B9006C5449 /* UserVoice_Prefix.pch in Headers */,
 				AC312083108CFD9F00000D5F /* UVConfig.h in Headers */,
 				AC3121F9108FC46500000D5F /* UVBaseModel.h in Headers */,
@@ -961,6 +960,7 @@
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
 				D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */,
 				D9B1D1E914ACFCE700D9189F /* NSString+HTMLEntities.h in Headers */,
+				D2605CB214465F2C0029F16B /* UserVoice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
