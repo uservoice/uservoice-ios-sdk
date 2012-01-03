@@ -79,11 +79,12 @@
 - (UIView *)createHeaderView 
 {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
 	UIView *header = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 84)] autorelease];
 	header.backgroundColor = [UIColor clearColor];
 	
 	// Name
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70, 8, 240, 20)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(margin + 60, 8, 240, 20)];
 	label.tag = UV_PROFILE_TAG_NAME;
 	label.text = self.userName ? self.userName : @"Anonymous";
 	label.font = [UIFont boldSystemFontOfSize:16];
@@ -93,10 +94,10 @@
 	[label release];
 	
 	CGFloat prevY = 26.0;
-	
+    
 	if ([self isSelf]) {
 		// Email
-		label = [[UILabel alloc] initWithFrame:CGRectMake(70, 30, 240, 14)];
+		label = [[UILabel alloc] initWithFrame:CGRectMake(margin + 60, 30, 240, 14)];
 		label.tag = UV_PROFILE_TAG_EMAIL;
 		label.text = self.user.email;
 		label.font = [UIFont systemFontOfSize:14];
@@ -109,7 +110,7 @@
 	}
 
 	// Date
-	label = [[UILabel alloc] initWithFrame:CGRectMake(70, prevY + 4, 240, 11)];
+	label = [[UILabel alloc] initWithFrame:CGRectMake(margin + 60, prevY + 4, 240, 11)];
 	label.tag = UV_PROFILE_TAG_MEMBER_SINCE;
 	label.text = self.user ? [self memberSince] : @"";
 	label.font = [UIFont boldSystemFontOfSize:11];
@@ -120,7 +121,7 @@
 
 	// Avatar
 	NSInteger karma = self.user ? self.user.karmaScore : 0;
-	UVUserChickletView *chicklet = [UVUserChickletView userChickletViewWithOrigin:CGPointMake(10, 10)
+	UVUserChickletView *chicklet = [UVUserChickletView userChickletViewWithOrigin:CGPointMake(margin, 10)
 																	   controller:self
 																			style:UVUserChickletStyleDetail
 																		   userId:self.userId
@@ -300,16 +301,9 @@
 	}
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];	
-	// Release any cached data, images, etc that aren't in use.
-}
-
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 	self.tableView = nil;
+    [super viewDidUnload];
 }
 
 
