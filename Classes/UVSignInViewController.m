@@ -84,9 +84,10 @@
 }
 
 - (void)addForgotPasswordFooter {
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-	button.frame = CGRectMake(0, 10, 320, 15);
+	button.frame = CGRectMake(0, 10, screenWidth, 15);
 	NSString *buttonTitle = @"Forgot your password?";
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
 	[button setTitleColor:[UVStyleSheet dimBlueColor] forState:UIControlStateNormal];
@@ -165,24 +166,8 @@
 - (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
 	[self hideActivityIndicator];
     
-	[user.supportedSuggestions removeAllObjects];
-	[user.createdSuggestions removeAllObjects];
-    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
-	
-	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
-		for (UVSuggestion *suggestion in theSuggestions) {
-			[user.supportedSuggestions addObject:suggestion];
-		}
-	}	
-	for (UVSuggestion *suggestion in user.supportedSuggestions) {
-		if (suggestion.creatorId == user.userId) {
-			[user.createdSuggestions addObject:suggestion];
-		}
-	}		
-	
-	// TODO make sure that this gets unset after voting or creating
-	user.suggestionsNeedReload = NO;
-    
+    [user didLoadSuggestions:theSuggestions];
+
 	NSArray *viewControllers = [self.navigationController viewControllers];
 	UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
 	prev.needsReload = YES;
@@ -270,7 +255,8 @@
 	[self removeBackgroundFromCell:cell];
 	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-	button.frame = CGRectMake(0, 0, 300, 42);
+	button.frame = CGRectMake(10, 0, 300, 42);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 	button.titleLabel.textColor = [UIColor whiteColor];
 	[button setTitle:@"Create Account" forState:UIControlStateNormal];
@@ -370,19 +356,25 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)heightForViewWithText:(NSString *)text{
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = (screenWidth > 480 ? 45 : 10) + 10;
 	CGSize cgsize = [text sizeWithFont:[UIFont systemFontOfSize:14]
-						   constrainedToSize:CGSizeMake(280, 9999)
+						   constrainedToSize:CGSizeMake(screenWidth - 2 * margin, 9999)
 							   lineBreakMode:UILineBreakModeWordWrap];
 	return cgsize.height + 40; // (header + padding between/bottom)
 }
 
 - (UIView *)viewWithText:(NSString *)text {
 	CGFloat height = [self heightForViewWithText:text];
-	UIView *textView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = (screenWidth > 480 ? 45 : 10) + 10;
+	UIView *textView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
 	textView.backgroundColor = [UIColor clearColor];
 	
-	UILabel *msg = [[UILabel alloc] initWithFrame:CGRectMake(20, 23, 280, height - 40)];
+	UILabel *msg = [[UILabel alloc] initWithFrame:CGRectMake(margin, 23, screenWidth - 2 * margin, height - 40)];
 	msg.text = text;
+    if (screenWidth > 480)
+        msg.textAlignment = UITextAlignmentCenter;
 	msg.lineBreakMode = UILineBreakModeWordWrap;
 	msg.numberOfLines = 0;
 	msg.font = [UIFont systemFontOfSize:14];
