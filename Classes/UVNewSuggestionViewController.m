@@ -270,7 +270,7 @@
 - (void)initCellForTitle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	
-	CGRect frame = CGRectMake(0, 0, 300, 31);
+	CGRect frame = CGRectMake(0, 0, cell.contentView.bounds.size.width, 31);
 	UITextField *theTitleField = [[UITextField alloc] initWithFrame:frame];
 	theTitleField.delegate = self;
 	theTitleField.returnKeyType = UIReturnKeyDone;
@@ -278,6 +278,7 @@
 	theTitleField.text = self.title;
 	theTitleField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	theTitleField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    theTitleField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	theTitleField.borderStyle = UITextBorderStyleRoundedRect;
 	[cell.contentView addSubview:theTitleField];
 	self.titleField = theTitleField;
