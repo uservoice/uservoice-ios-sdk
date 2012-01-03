@@ -300,6 +300,7 @@
 - (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
 	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 300, 42);
@@ -310,7 +311,7 @@
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[cell.contentView addSubview:button];
-	button.center = CGPointMake(screenWidth/2 - 10, button.center.y);
+	button.center = CGPointMake(screenWidth/2 - margin, button.center.y);
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
