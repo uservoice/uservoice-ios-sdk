@@ -44,36 +44,31 @@
 							  selectable:NO];
 }
 
-- (void)initCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (screenWidth-40), 180)];
-	label.backgroundColor = [UIColor clearColor];
-	label.textAlignment = UITextAlignmentLeft;
-	label.lineBreakMode = UILineBreakModeWordWrap;	
-	label.numberOfLines = 30;
-	label.font = [UIFont systemFontOfSize:14];
-	label.text = [UVSession currentSession].info.about_body;		
-	label.textColor = [UVStyleSheet tableViewHeaderColor];
-	
-	[cell.contentView addSubview:label];
-	[label release];
+- (NSInteger)labelHeightWithText:(NSString *)text {
+    return [text sizeWithFont:[UIFont systemFontOfSize:14]
+            constrainedToSize:CGSizeMake([UVClientConfig getScreenWidth] - 40, 100000)
+                lineBreakMode:UILineBreakModeWordWrap].height;
 }
 
-- (void)initCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
+- (UILabel *)labelWithText:(NSString *)text {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (screenWidth-40), 150)];
-	label.backgroundColor = [UIColor clearColor];
-	label.textAlignment = UITextAlignmentLeft;
-	label.lineBreakMode = UILineBreakModeWordWrap;
-	label.numberOfLines = 30;
+	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, (screenWidth-40), [self labelHeightWithText:text])] autorelease];
+	label.lineBreakMode = UILineBreakModeWordWrap;	
+	label.numberOfLines = 0;
 	label.font = [UIFont systemFontOfSize:14];
-	label.text = [UVSession currentSession].info.motivation_body;		
+	label.text = text;
 	label.textColor = [UVStyleSheet tableViewHeaderColor];
-	
+    return label;
+}
+
+- (void)initCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	UILabel *label = [self labelWithText:[UVSession currentSession].info.about_body];
 	[cell.contentView addSubview:label];
-	[label release];
+}
+
+- (void)initCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	UILabel *label = [self labelWithText:[UVSession currentSession].info.motivation_body];
+	[cell.contentView addSubview:label];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
@@ -90,11 +85,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == UV_INFO_SECTION_ABOUT) {
-		return 200;
-	} else {
-		return 170;
-	}
+    NSString *text = (indexPath.section == UV_INFO_SECTION_ABOUT) ? [UVSession currentSession].info.about_body : [UVSession currentSession].info.motivation_body;
+    return 20 + [self labelHeightWithText:text];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -127,26 +119,11 @@
 	[theTableView release];
 	
 	self.view = tableView;
-	
-	//[self addGradientBackground];	
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 	self.tableView = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
+    [super viewDidUnload];
 }
 
 @end
