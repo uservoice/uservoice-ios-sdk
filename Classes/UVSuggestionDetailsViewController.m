@@ -188,16 +188,10 @@
 		segments.tag = VOTE_SEGMENTS_TAG;
 		segments.frame = CGRectMake(0, 0, (screenWidth-20), 44);
 		[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
-		UILabel *label;
-		if ([UVSession currentSession].user != nil) {
-			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, (screenWidth-20), 14)];
-		} else {
-			[segments setEnabled:NO];
-			label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, (screenWidth-20), 17)];
-		}
 		[cell.contentView addSubview:segments];
 		[segments release];
 		
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, (screenWidth-20), 17)];
 		label.opaque = YES;
 		label.backgroundColor = [UVStyleSheet lightBgColor];
 		label.tag = VOTE_LABEL_TAG;
@@ -210,10 +204,10 @@
 }
 
 - (void)customizeCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
 	if ([UVSession currentSession].user != nil) {
         [[cell.contentView viewWithTag:LOGIN_TAG] removeFromSuperview];
         
-		UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
 		segments.selectedSegmentIndex = self.suggestion.votesFor;
 		NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
 		for (int i = 0; i < segments.numberOfSegments; i++) {
@@ -225,8 +219,9 @@
 		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
 		if (label) 
 			[self setVoteLabelTextAndColorForLabel:label];
-        
+        [segments setEnabled:YES];
 	} else {
+        [segments setEnabled:NO];
         if ([cell.contentView viewWithTag:LOGIN_TAG] == NULL) {
             CGFloat screenWidth = [UVClientConfig getScreenWidth];
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
@@ -524,24 +519,9 @@
 	} else {
 		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
 	}
+    
+    UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
+    [footer reloadFooter];
 }
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 @end
