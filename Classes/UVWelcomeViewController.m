@@ -25,6 +25,7 @@
 #define UV_FORUM_LIST_TAG_CELL_IMAGE 1001
 #define UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS 1002
 #define UV_FORUM_LIST_TAG_CELL_MSG_TAG 1003
+#define UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS 1004
 
 #define UV_FORUM_LIST_SECTION_FORUMS 0
 #define UV_FORUM_LIST_SECTION_SUPPORT 1
@@ -106,18 +107,15 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)addQuestionCell:(UITableViewCell *)cell labelWithText:(NSString *)text alignment:(UITextAlignment)alignment {
+- (void)addQuestionCell:(UIView *)view labelWithText:(NSString *)text alignment:(UITextAlignment)alignment {
 	// Simply stack up all labels with the same frame. The alignment will take care of things.
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 49, (screenWidth-40), 15)];
-	
+	UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
 	label.backgroundColor = [UIColor clearColor];
 	label.font = [UIFont systemFontOfSize:12];
 	label.textColor = [UVStyleSheet tableViewHeaderColor];
 	label.text = text;
 	label.textAlignment = alignment;
-	[cell.contentView addSubview:label];
+	[view addSubview:label];
 	[label release];
 }
 
@@ -156,15 +154,23 @@
 	// disable unless user
 	BOOL enabled = [UVSession currentSession].user != nil;
 	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
-	[segments setEnabled:enabled];	
+	[segments setEnabled:enabled];
 	
 	if (enabled) {
 		[[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
-		[self addQuestionCell:cell labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
-		[self addQuestionCell:cell labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
-		[self addQuestionCell:cell labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
-		
+        UIView *questionLabels = [cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS];
+        if (questionLabels == NULL) {
+            CGFloat screenWidth = [UVClientConfig getScreenWidth];
+            questionLabels = [[[UIView alloc] initWithFrame:CGRectMake(10, 49, (screenWidth-40), 15)] autorelease];
+            [self addQuestionCell:questionLabels labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
+            [self addQuestionCell:questionLabels labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
+            [self addQuestionCell:questionLabels labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
+            [cell.contentView addSubview:questionLabels];
+        } else {
+            questionLabels.hidden = NO;
+        }
 	} else {
+		[[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS] setHidden:YES];
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG];
         if (label == NULL) {
             CGFloat screenWidth = [UVClientConfig getScreenWidth];
@@ -172,7 +178,7 @@
             label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
             label.textAlignment = UITextAlignmentCenter;
             label.font = [UIFont boldSystemFontOfSize:12];
-            label.text = @"Please sign in to answer.";	
+            label.text = @"Please sign in to answer.";
             label.backgroundColor = [UIColor clearColor];
             label.textColor = [UVStyleSheet darkRedColor];
 
@@ -185,7 +191,7 @@
 }
 
 - (void)initCellForSpacer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];	
+	[self removeBackgroundFromCell:cell];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
