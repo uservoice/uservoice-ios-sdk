@@ -172,7 +172,9 @@
     [textEditor performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
 
 	// Maximize header view to allow text editor to grow (leaving room for keyboard)
-	NSInteger height = self.view.bounds.size.height - 216;
+    // TODO: Technically, kbHeight is 0 the first time we do this, so it would probably make sense
+    // to move the whole animation part to keyboardDidShow: or something. Doesn't look bad, though.
+	NSInteger height = self.view.bounds.size.height - kbHeight;
     [UIView animateWithDuration:0.2
                      animations:^{ textBar.frame = CGRectMake(0, 0, screenWidth, height); }];
 }
@@ -419,7 +421,10 @@
     textEditor.delegate = self;
     textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
     textEditor.minNumberOfLines = 1;
-    textEditor.maxNumberOfLines = 8;
+    if (UIDeviceOrientationIsLandscape([UVClientConfig getOrientation]))
+        textEditor.maxNumberOfLines = 4;
+    else
+        textEditor.maxNumberOfLines = 8;
     textEditor.autoresizesToText = YES;
     textEditor.backgroundColor = [UIColor clearColor];
     textEditor.placeholder = @"Add a comment...";
