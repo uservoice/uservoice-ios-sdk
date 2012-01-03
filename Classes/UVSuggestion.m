@@ -15,6 +15,7 @@
 #import "UVCategory.h"
 #import "UVUIColorAdditions.h"
 #import "UVSuggestionDetailsViewController.h"
+#import "NSString+HTMLEntities.h"
 
 @implementation UVSuggestion
 
@@ -173,7 +174,7 @@
 		self.votesFor = [(NSNumber *)[dict objectForKey:@"votes_for"] integerValue];
 		self.title = [self objectOrNilForDict:dict key:@"title"];
 		self.abstract = [self objectOrNilForDict:dict key:@"abstract"];
-		self.text = [self objectOrNilForDict:dict key:@"text"];
+		self.text = [[self objectOrNilForDict:dict key:@"text"] stringByDecodingHTMLEntities];
 		self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
 		NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
 		if (statusDict)
@@ -189,7 +190,7 @@
 		}
 		NSDictionary *response = [self objectOrNilForDict:dict key:@"response"];
 		if (response) {
-			self.responseText = [self objectOrNilForDict:response key:@"text"];
+			self.responseText = [[self objectOrNilForDict:response key:@"text"] stringByDecodingHTMLEntities];
 			NSDictionary *responseCreator = [self objectOrNilForDict:response key:@"creator"];
 			if (responseCreator) {
 				self.responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
