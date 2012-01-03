@@ -154,20 +154,20 @@
 
 #pragma mark ===== table cells =====
 
-- (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
+- (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
 
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, screenWidth, 72)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, 0, screenWidth, 72)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
 	if ([suggestion.status isEqualToString:@"completed"]) {
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, (screenWidth-20), 44)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth - 2 * margin, 44)];
 		label.tag = NO_VOTE_LABEL_TAG;
 		label.numberOfLines = 2;
 		label.opaque = YES;
@@ -186,12 +186,12 @@
 		NSArray *items = [NSArray arrayWithObjects:@"0 votes", @"1 vote", @"2 votes", @"3 votes", nil];
 		UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 		segments.tag = VOTE_SEGMENTS_TAG;
-		segments.frame = CGRectMake(0, 0, (screenWidth-20), 44);
+		segments.frame = CGRectMake(0, 0, screenWidth - 2 * margin, 44);
 		[segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 		[cell.contentView addSubview:segments];
 		[segments release];
 		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, (screenWidth-20), 17)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, screenWidth - 2 * margin, 17)];
 		label.opaque = YES;
 		label.backgroundColor = [UVStyleSheet lightBgColor];
 		label.tag = VOTE_LABEL_TAG;
@@ -224,7 +224,8 @@
         [segments setEnabled:NO];
         if ([cell.contentView viewWithTag:LOGIN_TAG] == NULL) {
             CGFloat screenWidth = [UVClientConfig getScreenWidth];
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
+            CGFloat margin = screenWidth > 480 ? 45 : 10;
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, screenWidth - 2 * margin, 20)];
             label.textAlignment = UITextAlignmentCenter;
             label.font = [UIFont boldSystemFontOfSize:12];
             label.tag = LOGIN_TAG;
@@ -242,15 +243,16 @@
 	[self removeBackgroundFromCell:cell];
     
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
 	NSInteger height = [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, 0, screenWidth, height)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, 0, screenWidth, height)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 
 	// The default margins are too large for the body, so we're using our own label.
-	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, (screenWidth-20), [self textSize].height)] autorelease];
+	UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, screenWidth - 2 * margin, [self textSize].height)] autorelease];
 	body.text = self.suggestion.text;
 	body.font = [UIFont systemFontOfSize:13];
 	body.lineBreakMode = UILineBreakModeWordWrap;
@@ -281,8 +283,7 @@
 	cell.textLabel.text = @"Flag as inappropriate";
 }
 
-- (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
+- (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	[self removeBackgroundFromCell:cell];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
@@ -473,14 +474,17 @@
 	[headerView addSubview:bg];
 	[bg release];
 	
+    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+    CGFloat marginLeft = iPad ? 45 : 10;
+    CGFloat marginTop = 20;
 	// Votes
-	UVSuggestionChickletView *chicklet = [UVSuggestionChickletView suggestionChickletViewWithOrigin:CGPointMake(10, 20)];
+	UVSuggestionChickletView *chicklet = [UVSuggestionChickletView suggestionChickletViewWithOrigin:CGPointMake(marginLeft, marginTop)];
 	chicklet.tag = CHICKLET_TAG;
 	[headerView addSubview:chicklet];
 	
 	// Title
 	CGSize titleSize = [self titleSize];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(75, 20, titleSize.width, titleSize.height)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(marginLeft + (iPad ? 75 : 65), marginTop, titleSize.width, titleSize.height)];
 	label.text = self.suggestion.title;
 	label.font = [UIFont boldSystemFontOfSize:18.0];
 	label.textAlignment = UITextAlignmentLeft;
@@ -490,7 +494,7 @@
 	[label release];
 	
 	// Category
-	label = [[UILabel alloc] initWithFrame:CGRectMake(75, titleSize.height + 30, titleSize.width, 11)];
+	label = [[UILabel alloc] initWithFrame:CGRectMake(marginLeft + (iPad ? 75 : 65), titleSize.height + marginTop + 10, titleSize.width, 11)];
 	label.lineBreakMode = UILineBreakModeTailTruncation;
 	label.numberOfLines = 1;
 	label.font = [UIFont boldSystemFontOfSize:11];
