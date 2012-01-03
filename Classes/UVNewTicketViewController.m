@@ -428,28 +428,10 @@
 }
 
 
-# pragma mark Keyboard handling
-
-- (void)registerForKeyboardNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidHide:)
-                                                 name:UIKeyboardDidHideNotification object:nil];
-    
-}
+# pragma mark ===== Keyboard handling =====
 
 - (void)keyboardDidShow:(NSNotification*)notification {
-    NSDictionary* info = [notification userInfo];
-    CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    // Convert from window space to view space to account for orientation
-    CGSize kbSize = [self.view convertRect:rect fromView:nil].size;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
+    [super keyboardDidShow:notification];
     
     NSIndexPath *path;
     if (activeField == emailField || activeField == nameField)
@@ -459,12 +441,6 @@
     else
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
     [tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-}
-
-- (void)keyboardDidHide:(NSNotification*)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -511,12 +487,10 @@
 	[theTableView release];
 	
 	self.view = tableView;
-    
-    [self registerForKeyboardNotifications];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 	if (self.needsReload) {
 		[self.tableView reloadData];
 		self.needsReload = NO;
@@ -527,26 +501,13 @@
 	}
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	self.tableView = nil;
 	self.textEditor = nil;
 	self.nameField = nil;
 	self.emailField = nil;
 	self.prevBarButton = nil;
-}
-
-- (void)dealloc {
-    [super dealloc];
+    [super viewDidUnload];
 }
 
 @end

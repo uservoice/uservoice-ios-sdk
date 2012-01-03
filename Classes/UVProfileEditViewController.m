@@ -78,36 +78,6 @@
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-# pragma mark Keyboard handling
-
-- (void)registerForKeyboardNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidHide:)
-                                                 name:UIKeyboardDidHideNotification object:nil];
-    
-}
-
-- (void)keyboardDidShow:(NSNotification*)notification {
-    NSDictionary* info = [notification userInfo];
-    CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    // Convert from window space to view space to account for orientation
-    CGSize kbSize = [self.view convertRect:rect fromView:nil].size;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
-}
-
-- (void)keyboardDidHide:(NSNotification*)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
-}
-
 #pragma mark ===== table cells =====
 
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
@@ -330,34 +300,11 @@
 	self.view = tableView;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	[self registerForKeyboardNotifications];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super viewDidDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 	self.tableView = nil;
 	self.nameField = nil;
 	self.emailField = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
+    [super viewDidUnload];
 }
 
 @end

@@ -89,8 +89,6 @@
 }
 
 - (void)dismissKeyboard {
-	shouldResizeForKeyboard = YES;
-	
 	[nameField resignFirstResponder];
 	[emailField resignFirstResponder];
 	[textEditor resignFirstResponder];
@@ -178,7 +176,6 @@
 }
 
 - (void)dismissTextView {
-	shouldResizeForKeyboard = YES;
 	[self.textEditor resignFirstResponder];
 }
 
@@ -202,44 +199,9 @@
 	[next release];
 }
 
-# pragma mark Keyboard Handling
-
-- (void)registerForKeyboardNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidHide:)
-                                                 name:UIKeyboardDidHideNotification object:nil];
-    
-}
-
-- (void)keyboardDidShow:(NSNotification*)notification {
-    NSDictionary* info = [notification userInfo];
-    CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    // Convert from window space to view space to account for orientation
-    CGSize kbSize = [self.view convertRect:rect fromView:nil].size;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
-}
-
-- (void)keyboardDidHide:(NSNotification*)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
-}
-
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	// Reset didReturn flag. This allows us to distinguish later between the user dismissing the
-	// keyboard (by tapping on the return key) or tapping on a different text field. In the
-	// latter case we don't want to grow and re-shrink the table view.
-	shouldResizeForKeyboard = NO;
-	
 	// Scroll to the active text field
 	NSIndexPath *path;
 	if (textField == self.titleField) {
@@ -261,7 +223,6 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	shouldResizeForKeyboard = YES;
 	[textField resignFirstResponder];
 	return YES;
 }
@@ -269,8 +230,6 @@
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
 - (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
-	shouldResizeForKeyboard = NO;
-
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
 	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -564,46 +523,21 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {	
-	shouldResizeForKeyboard = YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	// Listen for keyboard hide/show notifications
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 	if (self.needsReload) {
 		[self.tableView reloadData];
 		self.needsReload = NO;
 	}
-    [self registerForKeyboardNotifications];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 	self.tableView = nil;
 	self.textEditor = nil;
 	self.titleField = nil;
 	self.nameField = nil;
 	self.emailField = nil;
 	self.prevLeftBarButton = nil;
+    [super viewDidUnload];
 }
-
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 @end

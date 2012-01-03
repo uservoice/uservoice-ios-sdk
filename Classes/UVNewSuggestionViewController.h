@@ -26,7 +26,6 @@
 	UIBarButtonItem *prevLeftBarButton;
 	NSInteger numVotes;
 	UVCategory *category;
-	BOOL shouldResizeForKeyboard;
 	BOOL shouldShowCategories;
 }
 

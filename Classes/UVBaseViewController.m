@@ -255,6 +255,16 @@
 	[self initNavigationItem];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self registerForKeyboardNotifications];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidDisappear:animated];
+}
+
 - (void)viewDidUnload {
 	self.errorAlertView = nil;
 	self.activityIndicator = nil;

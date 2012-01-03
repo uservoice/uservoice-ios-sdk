@@ -63,6 +63,11 @@
 
 - (void)addShadowSeparatorToTableView:(UITableView *)tableView;
 
+// Keyboard handling
+- (void)registerForKeyboardNotifications;
+- (void)keyboardDidShow:(NSNotification*)notification;
+- (void)keyboardDidHide:(NSNotification*)notification;
+
 // Returns a cell for the specified identifier. Either reuses an existing cell,
 // or creates a new cell if necessary. Uses reflection to delegate cell initialization
 // and customization to identifier specific methods. This allows us to remove the
