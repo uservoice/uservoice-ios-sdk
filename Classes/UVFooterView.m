@@ -77,6 +77,10 @@
 	theTableView.sectionFooterHeight = 8.0;		
 	theTableView.tableHeaderView = [self getHeaderView];
 	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    
+    // Fix background color on iPad
+    if ([theTableView respondsToSelector:@selector(setBackgroundView:)])
+        [theTableView setBackgroundView:nil];
 	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 8, (screenWidth-80), 16)] autorelease];

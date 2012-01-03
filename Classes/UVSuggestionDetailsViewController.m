@@ -522,6 +522,7 @@
     
     UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
     [footer reloadFooter];
+    [super viewWillAppear:animated];
 }
 
 @end

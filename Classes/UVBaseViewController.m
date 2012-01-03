@@ -260,6 +260,12 @@
     [self registerForKeyboardNotifications];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    // Fix background color on iPad
+    if ([self.view respondsToSelector:@selector(setBackgroundView:)])
+        [self.view performSelector:@selector(setBackgroundView:) withObject:nil];
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidDisappear:animated];
