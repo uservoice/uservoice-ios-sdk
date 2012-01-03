@@ -305,18 +305,10 @@
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (void)setCellsEnabled:(BOOL)enabled {
-	// need to stop rows being selected
-	for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
-		UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];	
-		UIButton *button = (UIButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
-		button.enabled = enabled;
-	}
-}
-
 - (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
-	//NSLog(@"textEditorShouldBeginEditing");
-	
+    tableView.allowsSelection = NO;
+    tableView.scrollEnabled = NO;
+
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UIView *headerView = (UIView *)self.tableView.tableHeaderView;	
@@ -330,9 +322,7 @@
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];		
 	theTextEditor.backgroundColor = [UIColor whiteColor];	
 	[UIView beginAnimations:@"growHeader" context:nil];
-	//NSLog(@"setLeftBarButtonCancel");
-	[self setCellsEnabled:NO];
-	
+
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];		
 	frame = CGRectMake(0, 0, screenWidth, 40);
 	theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
@@ -371,10 +361,11 @@
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];		
-	
-	[self setCellsEnabled:YES];
 	[UIView commitAnimations];	
 	textBar.frame = CGRectMake(0, 0, screenWidth, 40);
+    
+    tableView.allowsSelection = YES;
+    tableView.scrollEnabled = YES;
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -391,8 +382,6 @@
 
 	CGRect frame = [self contentFrame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
-	// TODO: fix table initWithFrame here
 	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
 	theTableView.dataSource = self;
