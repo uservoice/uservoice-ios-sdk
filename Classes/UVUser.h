@@ -70,6 +70,7 @@
 - (void)didSupportSuggestion:(UVSuggestion *)suggestion;
 - (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion;
 - (void)didCreateSuggestion:(UVSuggestion *)suggestion;
+- (void)didLoadSuggestions:(NSArray *)suggestions;
 
 // others
 - (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate;

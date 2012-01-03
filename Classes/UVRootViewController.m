@@ -115,21 +115,7 @@
 
 - (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
     UVUser *user = [UVSession currentSession].user;
-    
-	[user.supportedSuggestions removeAllObjects];
-	[user.createdSuggestions removeAllObjects];
-	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
-		for (UVSuggestion *suggestion in theSuggestions) {
-			[user.supportedSuggestions addObject:suggestion];
-		}
-	}
-	for (UVSuggestion *suggestion in user.supportedSuggestions) {
-		if (suggestion.creatorId == user.userId) {
-			[user.createdSuggestions addObject:suggestion];
-		}
-	}
-    user.suggestionsNeedReload = NO;
-    
+    [user didLoadSuggestions:theSuggestions];
     [self pushWelcomeView];
 }
 

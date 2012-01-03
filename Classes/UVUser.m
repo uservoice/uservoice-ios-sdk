@@ -250,6 +250,20 @@
     }
 }
 
+- (void)didLoadSuggestions:(NSArray *)suggestions {
+	[supportedSuggestions removeAllObjects];
+	[createdSuggestions removeAllObjects];
+	if (suggestions && ![[NSNull null] isEqual:suggestions]) {
+		for (UVSuggestion *suggestion in suggestions) {
+			[supportedSuggestions addObject:suggestion];
+            if (suggestion.creatorId == userId) {
+                [createdSuggestions addObject:suggestion];
+            }
+		}
+	}
+    suggestionsNeedReload = NO;
+}
+
 - (NSString *)description {
 	return [NSString stringWithFormat:@"userId: %d\nname: %@\nemail: %@", self.userId, self.displayName, self.email];
 }

@@ -36,52 +36,26 @@
 			// add a fake array of suggestions to stop the UVSuggestionListView (parent) being a dick
 			// clearly this is not correct, the inheritance structure here needs some love			
 			self.suggestions = [NSMutableArray arrayWithCapacity:1];
-			
 		} else {
-			if (self.showCreated) {
-				self.suggestions = self.user.createdSuggestions;
-                
-			} else {
-				self.suggestions = self.user.supportedSuggestions;
-			}
+            self.suggestions = showCreated ? user.createdSuggestions : user.supportedSuggestions;
 		}
 	}
-	return self;	
+	return self;
 }
 
 - (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
 	[self hideActivityIndicator];
-	[self.user.supportedSuggestions removeAllObjects];
-	[self.user.createdSuggestions removeAllObjects];
-//    NSLog(@"Found %d suggestions for user", [theSuggestions count]);
-	
-	if (theSuggestions && ![[NSNull null] isEqual:theSuggestions]) {
-		for (UVSuggestion *suggestion in theSuggestions) {
-			[self.user.supportedSuggestions addObject:suggestion];
-		}
-	}	
-	for (UVSuggestion *suggestion in self.user.supportedSuggestions) {
-		if (suggestion.creatorId == self.user.userId) {
-			[self.user.createdSuggestions addObject:suggestion];
-		}
-	}		
-	if (self.showCreated) {
-		self.suggestions = self.user.createdSuggestions;
-        
-	} else {
-		self.suggestions = self.user.supportedSuggestions;
-	}
+    [self.user didLoadSuggestions:theSuggestions];
+	self.suggestions = showCreated ? self.user.createdSuggestions : self.user.supportedSuggestions;
 	[self.tableView reloadData];
-	
-	// TODO make sure that this gets unset after voting or creating
-	self.user.suggestionsNeedReload = NO;
 }
 
 - (void)reloadUserSuggestions {
 	[self showActivityIndicator];
 //	[UVSuggestion getWithUser:self.user delegate:self];	
     [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum 
-								 user:self.user delegate:self];	
+								 user:self.user
+                             delegate:self];	
 }
 
 - (BOOL)supportsSearch {
@@ -109,20 +83,12 @@
 
 - (void)loadView {
 	[super loadView];
-	
 	self.navigationItem.title = self.title;		
 }
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 
 - (void)dealloc {
 	self.title = nil;
 	self.user = nil;
-	
     [super dealloc];
 }
 
