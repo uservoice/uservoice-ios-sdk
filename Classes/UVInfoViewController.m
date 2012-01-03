@@ -57,6 +57,7 @@
 	label.numberOfLines = 0;
 	label.font = [UIFont systemFontOfSize:14];
 	label.text = text;
+    label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UVStyleSheet tableViewHeaderColor];
     return label;
 }
