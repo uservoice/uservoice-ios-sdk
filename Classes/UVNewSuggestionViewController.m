@@ -314,7 +314,8 @@
 	self.numVotes = 1;
 	NSArray *items = [NSArray arrayWithObjects:@"1 vote", @"2 votes", @"3 votes", nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
-	segments.frame = CGRectMake(0, 0, 300, 44);
+	segments.frame = CGRectMake(10, 0, 300, 44);
+    segments.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 	segments.selectedSegmentIndex = 0;
 	NSInteger votesRemaining = 10;
 	if ([UVSession currentSession].user)
@@ -362,7 +363,8 @@
 	
 	if (votesRemaining!=0) {
 		UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-		button.frame = CGRectMake(0, 0, 300, 42);
+		button.frame = CGRectMake(10, 0, 300, 42);
+        button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 		button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 		button.titleLabel.textColor = [UIColor whiteColor];
 		[button setTitle:@"Create idea" forState:UIControlStateNormal];
@@ -494,8 +496,9 @@
 	theTableView.sectionFooterHeight = 0.0;
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
-	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 15)];
+	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
+    footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
 	label.text = @"Want to send a private message instead?";
 	label.textAlignment = UITextAlignmentCenter;
 	label.textColor = [UVStyleSheet dimBlueColor];
@@ -505,7 +508,7 @@
 	[label release];
 
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-	button.frame = CGRectMake(0, 25, 320, 15);
+	button.frame = CGRectMake(0, 25, frame.size.width, 15);
 	NSString *buttonTitle = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
 	[button setTitleColor:[UVStyleSheet dimBlueColor] forState:UIControlStateNormal];
