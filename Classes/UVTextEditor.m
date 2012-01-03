@@ -239,7 +239,7 @@ replacementString:(NSString*)string {
 	if ([_delegate respondsToSelector:@selector(textEditorDidChange:)]) {
 		[_delegate textEditorDidChange:_textEditor];
 	}
-	return YES;
+	return NO;
 }
 
 @end
@@ -441,7 +441,7 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 
 - (void)layoutSubviews {
 	CGRect frame = CGRectMake(0, 2, self.width-kPaddingX*2, self.height);
-	_textView.frame = CGRectOffset(UVRectContract(frame, 0, 14), 0, 7);
+	_textView.frame = CGRectOffset(UVRectContract(frame, 0, 14), 1, 5);
 	_textField.frame = CGRectOffset(UVRectContract(frame, 9, 14), 9, 7);
 }
 

@@ -17,6 +17,7 @@
 	UIAlertView *errorAlertView;
 	BOOL needsReload;
 	UITableView *tableView;
+    NSInteger kbHeight;
 }
 
 @property (nonatomic, retain) UVActivityIndicator *activityIndicator;
