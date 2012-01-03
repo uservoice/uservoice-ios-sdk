@@ -91,7 +91,7 @@
 	poweredBy.textAlignment = UITextAlignmentCenter;
 	[tableFooter addSubview:poweredBy];
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	infoButton.center = CGPointMake((screenWidth-50), 14);
+	infoButton.center = CGPointMake(screenWidth / 2 + 110, 14);
 	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[tableFooter addSubview:infoButton];
 	
@@ -117,11 +117,12 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = (screenWidth > 480) ? 45 : 10;
 
 	if ([UVSession currentSession].loggedIn) {
 		cell.textLabel.text = @"My profile";
-		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth-150), 18)] autorelease];
-		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, (screenWidth-150), 16)] autorelease];
+		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth - 130 - 2 * margin), 18)] autorelease];
+		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:nameView.bounds] autorelease];
 		nameLabel.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
 		nameLabel.textAlignment = UITextAlignmentRight;
 		nameLabel.font = [UIFont systemFontOfSize:14.0];

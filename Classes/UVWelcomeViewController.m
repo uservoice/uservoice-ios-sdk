@@ -133,8 +133,9 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = (screenWidth > 480) ? 45 : 10;
 	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 80)];		
+	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, -margin, screenWidth, 80)];		
 	bg.backgroundColor = [UVStyleSheet lightBgColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
@@ -142,7 +143,7 @@
 	NSArray *items = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 	segments.tag = UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS;
-	segments.frame = CGRectMake(0, 0, (screenWidth - 20), 44);
+	segments.frame = CGRectMake(0, 0, (screenWidth - 2 * margin), 44);
 	[self updateSegmentsValue:segments]; // necessary to avoid triggering an update when we set it in the customize method
 	[segments addTarget:self action:@selector(questionSegmentChanged:) forControlEvents:UIControlEventValueChanged];
 	// add segments
@@ -155,13 +156,14 @@
 	BOOL enabled = [UVSession currentSession].user != nil;
 	UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 	[segments setEnabled:enabled];
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = (screenWidth > 480) ? 45 : 10;
 	
 	if (enabled) {
 		[[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG] setHidden:YES];
         UIView *questionLabels = [cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS];
         if (questionLabels == NULL) {
-            CGFloat screenWidth = [UVClientConfig getScreenWidth];
-            questionLabels = [[[UIView alloc] initWithFrame:CGRectMake(10, 49, (screenWidth-40), 15)] autorelease];
+            questionLabels = [[[UIView alloc] initWithFrame:CGRectMake(10, 49, screenWidth - 2 * (margin + 10), 15)] autorelease];
             [self addQuestionCell:questionLabels labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
             [self addQuestionCell:questionLabels labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
             [self addQuestionCell:questionLabels labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
@@ -173,8 +175,7 @@
 		[[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS] setHidden:YES];
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_MSG_TAG];
         if (label == NULL) {
-            CGFloat screenWidth = [UVClientConfig getScreenWidth];
-            label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, (screenWidth - 20), 20)];
+            label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, screenWidth - 2 * margin, 20)];
             label.tag = UV_FORUM_LIST_TAG_CELL_MSG_TAG;
             label.textAlignment = UITextAlignmentCenter;
             label.font = [UIFont boldSystemFontOfSize:12];
@@ -206,11 +207,12 @@
 	CGFloat height = [self heightForViewWithHeader:header subheader:subheader];
 	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
 	
 	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
 	headerView.backgroundColor = [UVStyleSheet lightBgColor];
 	
-	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, (screenWidth - 40), 35)];
+	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(margin, 5, (screenWidth - 2 * margin), 35)];
 	title.text = header;
 	title.font = [UIFont boldSystemFontOfSize:18];
 	title.backgroundColor = [UIColor clearColor];
@@ -219,7 +221,7 @@
 	[title release];
 	
 	if (subheader) {
-		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 33, (screenWidth - 40), height - (33 + 5))];
+		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(margin, 33, (screenWidth - 2 * margin), height - (33 + 5))];
 		subtitle.text = subheader;
 		subtitle.lineBreakMode = UILineBreakModeWordWrap;
 		subtitle.numberOfLines = 0;
