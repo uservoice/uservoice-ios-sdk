@@ -21,7 +21,7 @@
 - (void)didRetrieveInfo:(UVInfo *)someInfo {
 	[self hideActivityIndicator];
 	[UVSession currentSession].info = someInfo;
-	[self loadView];
+	[tableView reloadData];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -45,14 +45,17 @@
 }
 
 - (NSInteger)labelHeightWithText:(NSString *)text {
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
     return [text sizeWithFont:[UIFont systemFontOfSize:14]
-            constrainedToSize:CGSizeMake([UVClientConfig getScreenWidth] - 40, 100000)
+            constrainedToSize:CGSizeMake(screenWidth - 2 * margin, 100000)
                 lineBreakMode:UILineBreakModeWordWrap].height;
 }
 
 - (UILabel *)labelWithText:(NSString *)text {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, (screenWidth-40), [self labelHeightWithText:text])] autorelease];
+	CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
+	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, screenWidth - 2 * margin, [self labelHeightWithText:text])] autorelease];
 	label.lineBreakMode = UILineBreakModeWordWrap;	
 	label.numberOfLines = 0;
 	label.font = [UIFont systemFontOfSize:14];
@@ -62,12 +65,12 @@
     return label;
 }
 
-- (void)initCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)customizeCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	UILabel *label = [self labelWithText:[UVSession currentSession].info.about_body];
 	[cell.contentView addSubview:label];
 }
 
-- (void)initCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)customizeCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	UILabel *label = [self labelWithText:[UVSession currentSession].info.motivation_body];
 	[cell.contentView addSubview:label];
 }
@@ -113,7 +116,6 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-	//theTableView.backgroundColor = [UIColor clearColor];
     theTableView.backgroundColor = [UVStyleSheet lightBgColor];
 	
 	self.tableView = theTableView;
