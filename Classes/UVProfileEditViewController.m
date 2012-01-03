@@ -108,7 +108,8 @@
 {
 	[self removeBackgroundFromCell:cell];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
+
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 300, 42);
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -117,7 +118,7 @@
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(updateButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-	button.center = CGPointMake(screenWidth/2 - 10, button.center.y);
+	button.center = CGPointMake(screenWidth/2 - margin, button.center.y);
 	[cell.contentView addSubview:button];
 }
 
@@ -125,6 +126,7 @@
 {
 	[self removeBackgroundFromCell:cell];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
 
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 0, 300, 42);
@@ -134,7 +136,7 @@
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(logoutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-	button.center = CGPointMake(screenWidth/2 - 10, button.center.y);
+	button.center = CGPointMake(screenWidth/2 - margin, button.center.y);
 	[cell.contentView addSubview:button];
 }
 
