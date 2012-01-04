@@ -85,7 +85,7 @@
 
 - (void)addForgotPasswordFooter {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];	
+	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)];	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 10, screenWidth, 15);
 	NSString *buttonTitle = @"Forgot your password?";

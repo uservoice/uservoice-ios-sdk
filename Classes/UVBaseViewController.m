@@ -45,7 +45,7 @@
 //	NSLog(@"%@", [UVSession currentSession].clientConfig);
 	
 	//return CGRectMake(0, yStart, appFrame.size.width, appFrame.size.height - barFrame.size.height);
-	return CGRectMake(0, yStart, 460, appFrame.size.height - barFrame.size.height);
+	return CGRectMake(0, yStart, appFrame.size.width, appFrame.size.height - barFrame.size.height);
 }
 
 
