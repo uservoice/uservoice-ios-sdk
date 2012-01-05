@@ -18,7 +18,7 @@
 
 @implementation UVSuggestionChickletView
 
-@synthesize statusColorView, backgroundImageView, voteNumLabel, voteLabel, statusLabel;
+@synthesize statusColorLayer, backgroundImageView, voteNumLabel, voteLabel, statusLabel;
 
 + (CGFloat)heightForView {
 	return 61.0;
@@ -39,7 +39,7 @@
 	// Status Color
 	// (Don't actually need exact height of 30, just want to exclude transparent top corners)
     // We use a CALayer rather than a UIView so that it won't get hidden on selection of the table cell.
-    statusColorLayer = [CALayer layer];
+    self.statusColorLayer = [CALayer layer];
     statusColorLayer.frame = CGRectMake(0, height - 30, width, 29);
     statusColorLayer.cornerRadius = 6.0;
     [self.layer addSublayer:statusColorLayer];
@@ -100,13 +100,10 @@
 	NSString *imageName = suggestion.status ? @"uv_vote_chicklet.png" : @"uv_vote_chicklet_empty.png";
 	//NSLog(@"imageName: %@\n", imageName);
 	backgroundImageView.image = [UIImage imageNamed:imageName];
-	if (!suggestion.status) 
-	{
+	if (!suggestion.status)
 		backgroundImageView.frame = CGRectMake(0, 0, 60, 44);
-	}
-	else {
+	else
 		backgroundImageView.frame = CGRectMake(0, 0, 60, 60);
-	}
 
     statusColorLayer.backgroundColor = [suggestion.statusColor CGColor];
 	
@@ -121,6 +118,15 @@
 
 	//label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_STATUS];
 	statusLabel.text = suggestion.status == nil ? @"" : suggestion.status;
+}
+
+- (void)dealloc {
+    self.statusColorLayer = nil;
+	self.backgroundImageView = nil;	
+	self.voteNumLabel = nil;
+	self.voteLabel = nil;
+	self.statusLabel = nil;
+    [super dealloc];
 }
 
 @end

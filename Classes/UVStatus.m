@@ -22,4 +22,9 @@
 	return self;
 }
 
+- (void)dealloc {
+    self.name = nil;
+    [super dealloc];
+}
+
 @end

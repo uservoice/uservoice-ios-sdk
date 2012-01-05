@@ -47,8 +47,8 @@
 
 - (YOAuthConsumer *)yOAuthConsumer {
 	if (!yOAuthConsumer) {
-		yOAuthConsumer = [YOAuthConsumer consumerWithKey:self.config.key
-											   andSecret:self.config.secret];
+		yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
+											       andSecret:self.config.secret];
 	}
 	return yOAuthConsumer;
 }

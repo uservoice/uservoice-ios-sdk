@@ -63,4 +63,9 @@
 	self.userName = theUserName;
 }
 
+- (void)dealloc {
+    self.userName = nil;
+    [super dealloc];
+}
+
 @end

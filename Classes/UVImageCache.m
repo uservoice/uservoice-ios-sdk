@@ -60,6 +60,11 @@
     }
 }
 
+- (void)flush {
+    [cache removeAllObjects];
+    [mostRecentlyUsed removeAllObjects];
+}
+
 - (void)dealloc {
     [cache release];
     cache = nil;

@@ -15,18 +15,18 @@
 	UIImage* _defaultImage;
 	
 	NSURLConnection *_connection;
-	NSURLRequest *_request;
 	NSMutableData *_payload;
 }
 
-@property(nonatomic,copy) NSString* URL;
+@property(nonatomic,retain) NSString* URL;
 @property(nonatomic,retain) UIImage* image;
 @property(nonatomic,retain) UIImage* defaultImage;
+@property(nonatomic,retain) NSMutableData* payload;
+@property(nonatomic,retain) NSURLConnection* connection;
 
 - (void)reload;
 - (void)stopLoading;
 
-- (void)connection:(NSURLConnection *)conn didReceiveResponse:(NSURLResponse *)response;
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data;
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn;
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error;

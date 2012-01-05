@@ -180,4 +180,9 @@
 	}
 }
 
+- (void)dealloc {
+    self.tableView = nil;
+    [super dealloc];
+}
+
 @end

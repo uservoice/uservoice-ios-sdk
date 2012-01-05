@@ -124,9 +124,4 @@
 	self.view = tableView;
 }
 
-- (void)viewDidUnload {
-	self.tableView = nil;
-    [super viewDidUnload];
-}
-
 @end

@@ -91,19 +91,19 @@
 }
 
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
+	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
 	return [self getPath:path withOptions:opts object:callback];
 }
 
 + (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
+	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"POST"];
 	return [self postPath:path withOptions:opts object:callback];
 }
 
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-	NSInvocation *callback = [[self invocationWithTarget:target selector:selector] retain];
+	NSInvocation *callback = [self invocationWithTarget:target selector:selector];
 	NSDictionary *opts = [self optionsForPath:path params:params method:@"PUT"];
 	return [self putPath:path withOptions:opts object:callback];
 }
@@ -123,7 +123,6 @@
 		[callback setArgument:&model atIndex:2];
 	}
 	[callback invoke];
-	[callback release];
 }
 
 + (void)didReturnModels:(NSArray *)models callback:(NSInvocation *)callback {
@@ -133,7 +132,6 @@
 		[callback setArgument:&models atIndex:2];
 	}
 	[callback invoke];
-	[callback release];
 }
 
 + (void)didReceiveError:(NSError *)error callback:(NSInvocation *)callback {

@@ -15,7 +15,7 @@
 @implementation UVStreamPoller
 static UVStreamPoller* _instance;
 
-@synthesize repeatingTimer, lastPollTime, tableViewController;
+@synthesize repeatingTimer, lastPollTime;
 
 + (UVStreamPoller *)instance 
 {
@@ -125,12 +125,12 @@ static UVStreamPoller* _instance;
 		NSLog(@"Instantiating timer to start in 60 seconds");				
 		
 		NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:60.0];
-		self.repeatingTimer = [[[NSTimer alloc] initWithFireDate:fireDate
-													   interval:60.0
-														 target:self
-													   selector:@selector(pollServer:)
-													   userInfo:[self userInfo]
-														repeats:YES] autorelease];
+		repeatingTimer = [[NSTimer alloc] initWithFireDate:fireDate
+                                                  interval:60.0
+                                                    target:self
+                                                  selector:@selector(pollServer:)
+                                                  userInfo:[self userInfo]
+                                                   repeats:YES];
 		
 		NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 		[runLoop addTimer:self.repeatingTimer forMode:NSDefaultRunLoopMode];
@@ -139,14 +139,13 @@ static UVStreamPoller* _instance;
 
 - (void)stopTimer {
 	[repeatingTimer invalidate];
+	[repeatingTimer release];
     self.repeatingTimer = nil;
 }
 
 - (void)dealloc {
-	[repeatingTimer invalidate];
-	[repeatingTimer release];
-	[tableViewController release];
-	
+    [self stopTimer];
+    self.lastPollTime = nil;
 	[super dealloc];
 }
 

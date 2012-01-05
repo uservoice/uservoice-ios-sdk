@@ -19,6 +19,6 @@
 @property (assign) NSInteger answerId;
 @property (assign) NSInteger value;
 
-+ (id)initWithQuestion:(UVQuestion *)theQuestion andValue:(NSInteger)theValue andDelegate:(id)delegate;
++ (id)createWithQuestion:(UVQuestion *)theQuestion andValue:(NSInteger)theValue andDelegate:(id)delegate;
 
 @end

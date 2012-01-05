@@ -18,14 +18,6 @@
 @synthesize topics;
 @synthesize currentTopic;
 
-- (void)dealloc {
-	self.name = nil;
-	self.topics = nil;
-	self.currentTopic = nil;
-	
-	[super dealloc];
-}
-
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
 	[self setBaseURL:[self siteURL]];
@@ -66,6 +58,13 @@
 
 - (NSString *)example {
 	return currentTopic.example;
+}
+
+- (void)dealloc {
+	self.name = nil;
+	self.topics = nil;
+	self.currentTopic = nil;	
+	[super dealloc];
 }
 
 @end

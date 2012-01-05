@@ -82,4 +82,9 @@
 	[self removeFromSuperview];
 }
 
+- (void)dealloc {
+    self.activityIndicatorView = nil;
+    [super dealloc];
+}
+
 @end

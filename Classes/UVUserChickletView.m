@@ -216,4 +216,9 @@
 	return self;
 }
 
+- (void)dealloc {
+    self.name = nil;
+    self.avatarUrl = nil;
+}
+
 @end

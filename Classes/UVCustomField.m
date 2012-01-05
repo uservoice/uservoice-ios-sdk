@@ -41,4 +41,10 @@
 	return self;
 }
 
+- (void)dealloc {
+    self.name = nil;
+    self.values = nil;
+    [super dealloc];
+}
+
 @end

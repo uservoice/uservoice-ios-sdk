@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
 
-@interface UVTopic : UVBaseModel
-{
+@interface UVTopic : UVBaseModel {
 	NSString *example;
 	NSString *prompt;
 	NSInteger votesAllowed;

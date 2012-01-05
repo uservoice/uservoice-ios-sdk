@@ -31,7 +31,7 @@ static NSString *const kOAuthVersion= @"1.0";
 
 + (NSString *)oauth_version
 {
-	return [kOAuthVersion autorelease];
+	return kOAuthVersion;
 }
 
 @end

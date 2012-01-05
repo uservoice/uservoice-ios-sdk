@@ -26,4 +26,9 @@
 	return [NSString stringWithFormat:@"subjectId: %d\ntext: %@", self.subjectId, self.text];
 }
 
+- (void)dealloc {
+    self.text = nil;
+    [super dealloc];
+}
+
 @end

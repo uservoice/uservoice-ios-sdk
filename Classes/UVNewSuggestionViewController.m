@@ -534,14 +534,19 @@
 	}
 }
 
-- (void)viewDidUnload {
-	self.tableView = nil;
+- (void)dealloc {
+    self.forum = nil;
+	self.title = nil;
+	self.text = nil;
+	self.name = nil;
+	self.email = nil;
 	self.textEditor = nil;
 	self.titleField = nil;
 	self.nameField = nil;
 	self.emailField = nil;
 	self.prevLeftBarButton = nil;
-    [super viewDidUnload];
+	self.category = nil;
+    [super dealloc];
 }
 
 @end

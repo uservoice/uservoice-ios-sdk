@@ -68,4 +68,10 @@
 	return [NSString stringWithFormat:@"[StreamEvent] type: %@, object: %@", type, object];
 }
 
+- (void)dealloc {
+    self.type = nil;
+	self.object = nil;
+    [super dealloc];
+}
+
 @end

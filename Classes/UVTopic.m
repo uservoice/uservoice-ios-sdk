@@ -20,14 +20,6 @@
 	suggestionsNeedReload,
 	suggestionsCount;
 
-- (void)dealloc {
-	self.example = nil;
-	self.prompt = nil;
-	self.categories = nil;
-	
-	[super dealloc];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
 		self.suggestionsNeedReload = YES;
@@ -49,6 +41,14 @@
 	}
 	
 	return self;
+}
+
+- (void)dealloc {
+	self.example = nil;
+	self.prompt = nil;
+	self.categories = nil;
+    self.suggestions = nil;
+	[super dealloc];
 }
 
 @end

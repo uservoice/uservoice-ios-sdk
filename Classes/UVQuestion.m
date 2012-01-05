@@ -39,4 +39,12 @@
 	return [NSString stringWithFormat:@"questionId: %d\nvalue: %d", self.questionId, self.currentAnswer.value];
 }
 
+- (void)dealloc {
+    self.currentAnswer = nil;
+	self.text = nil;
+	self.flashMessage = nil;
+	self.flashType = nil;
+    [super dealloc];
+}
+
 @end

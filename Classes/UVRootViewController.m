@@ -190,20 +190,12 @@
 	self.navigationController.navigationBarHidden = NO;
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-    [super viewDidUnload];
-}
-
 - (void)dealloc {
+	self.ssoToken = nil;
+	self.email = nil;
+	self.guid = nil;
+	self.displayName = nil;
     [super dealloc];
 }
-
 
 @end

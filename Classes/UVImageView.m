@@ -12,27 +12,7 @@
 
 @implementation UVImageView
 
-@synthesize URL = _URL, image = _image, defaultImage = _defaultImage;
-
-- (id)initWithFrame:(CGRect)frame {
-	if ((self = [super initWithFrame:frame])) {
-		_request = nil;
-		_URL = nil;
-		_image = nil;
-		_defaultImage = nil;
-        _connection = nil;
-	}
-	return self;
-}
-
-- (void)dealloc {
-    [self stopLoading]; // cancels and releases connection, if any
-	[_URL release];
-	[_image release];
-	[_defaultImage release];
-	[_payload release];
-	[super dealloc];
-}
+@synthesize URL = _URL, image = _image, defaultImage = _defaultImage, payload = _payload, connection = _connection;
 
 - (void)drawRect:(CGRect)rect {
 	if (_image) {
@@ -40,10 +20,6 @@
 	} else {
 		[_defaultImage drawInRect:rect];
 	}
-}
-
-- (void)connection:(NSURLConnection *)conn didReceiveResponse:(NSURLResponse *)response {
-	[_payload setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data {
@@ -63,15 +39,14 @@
         [[UVImageCache sharedInstance] setImage:self.image forURL:_URL];
 	}
     
-	[conn release];	
-    _connection = nil;
+    self.connection = nil;
+    self.payload = nil;
 	//NSLog(@"Connection finished: %@", conn);
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error {	
-	[_payload setLength:0];
-	[conn release];	
-    _connection = nil;
+    self.payload = nil;
+    self.connection = nil;
 }
 
 - (void)setURL:(NSString*)URL {
@@ -101,14 +76,13 @@
 - (void)reload {
 	if (_URL) {
 		NSURL *url = [NSURL URLWithString:_URL];		
-		_request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
+		NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
         
         [self stopLoading];
-        _connection = [[NSURLConnection alloc] initWithRequest:_request delegate:self];
+        self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 		
 		if (_connection) {
-			_payload = [[NSMutableData data] retain];
-			//NSLog(@"Connection starting: %@", _connection);
+			self.payload = [NSMutableData data];
 			self.image = nil;
 		} else {
 			NSLog(@"Unable to start download.");
@@ -117,11 +91,17 @@
 }
 
 - (void)stopLoading {
-	if (_connection) {
-		[_connection cancel];
-		[_connection release];
-		_connection = nil;
-    }
+    [self.connection cancel];
+    self.connection = nil;
+    self.payload = nil;
+}
+
+- (void)dealloc {
+    [self stopLoading];
+    self.URL = nil;
+    self.image = nil;
+    self.defaultImage = nil;
+	[super dealloc];
 }
 
 @end

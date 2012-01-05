@@ -40,6 +40,7 @@
 @synthesize emailField;
 @synthesize subjectField;
 @synthesize prevBarButton;
+@synthesize activeField;
 
 - (void)createTicket 
 {
@@ -183,7 +184,7 @@
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    activeField = textField;
+    self.activeField = textField;
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
@@ -201,7 +202,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    activeField = nil;
+    self.activeField = nil;
 }
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
@@ -218,12 +219,12 @@
 	self.prevBarButton = self.navigationItem.leftBarButtonItem;
 	[self.navigationItem setLeftBarButtonItem:saveItem animated:YES];
 	[saveItem release];
-    activeField = theTextEditor;
+    self.activeField = theTextEditor;
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	[self.navigationItem setLeftBarButtonItem:self.prevBarButton animated:YES];
-    activeField = nil;
+    self.activeField = nil;
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -502,13 +503,18 @@
 	}
 }
 
-- (void)viewDidUnload {
-	self.tableView = nil;
+- (void)dealloc {
+    self.text = nil;
+    self.name = nil;
+    self.email = nil;
+    self.subject = nil;
 	self.textEditor = nil;
 	self.nameField = nil;
 	self.emailField = nil;
+	self.subjectField = nil;
 	self.prevBarButton = nil;
-    [super viewDidUnload];
+    self.activeField = nil;
+    [super dealloc];
 }
 
 @end

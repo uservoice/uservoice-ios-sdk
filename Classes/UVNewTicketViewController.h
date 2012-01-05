@@ -38,6 +38,7 @@
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UITextField *subjectField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;
+@property (nonatomic, retain) UIView *activeField;
 //@property (nonatomic, retain) NSArray *customFields;
 
 @end

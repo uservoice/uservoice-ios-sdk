@@ -145,4 +145,14 @@
 	return [NSString stringWithFormat:@"forumId: %d\nquestions_enabled: %d", self.forum.forumId, self.questionsEnabled];
 }
 
+- (void)dealloc {
+    self.forum = nil;
+    self.subdomain = nil;
+    self.welcome = nil;
+    self.itunesApplicationId = nil;
+    self.questions = nil;
+    self.customFields = nil;
+    [super dealloc];
+}
+
 @end

@@ -244,4 +244,21 @@
 	return authorizationHeaderValue;
 }
 
+- (void)dealloc {
+    self.consumer = nil;
+    self.token = nil;
+    self.realm = nil;
+    self.HTTPMethod = nil;
+    self.url = nil;
+    self.requestParams = nil;
+    self.oauthParams = nil;
+    self.oauthSignature = nil;
+    self.oauthNonce = nil;
+    self.oauthVersion = nil;
+    self.oauthTimestamp = nil;
+    [signatureMethod release];
+    signatureMethod = nil;
+    [super dealloc];
+}
+
 @end

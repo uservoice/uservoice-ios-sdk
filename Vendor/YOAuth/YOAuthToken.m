@@ -44,4 +44,10 @@
 	return self;
 }
 
+- (void)dealloc {
+    self.key = nil;
+    self.secret = nil;
+    [super dealloc];
+}
+
 @end

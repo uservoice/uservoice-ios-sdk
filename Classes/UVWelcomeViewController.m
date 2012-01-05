@@ -35,8 +35,7 @@
 
 @synthesize forum = _forum, 
 	question = _question, 
-	questions = _questions, 
-	tableView = _tableView;
+	questions = _questions;
 
 - (NSString *)backButtonTitle {
 	return @"Welcome";
@@ -46,7 +45,7 @@
 	UISegmentedControl *segments = (UISegmentedControl *)sender;
 	[self showActivityIndicator];
 	// still using single question hack of assigning a single current one
-	[UVAnswer initWithQuestion:self.question andValue:(segments.selectedSegmentIndex + 1) andDelegate:self];
+	[UVAnswer createWithQuestion:self.question andValue:(segments.selectedSegmentIndex + 1) andDelegate:self];
 }
 
 - (void)didCreateAnswer:(UVAnswer *)theAnswer {
@@ -371,39 +370,47 @@
 	[self.navigationItem setHidesBackButton:YES animated:NO];
 	
 	CGRect frame = [self contentFrame];	
-	_tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	_tableView.dataSource = self;
-	_tableView.delegate = self;
-	_tableView.sectionFooterHeight = 0.0;
-	_tableView.sectionHeaderHeight = 0.0;
-    _tableView.backgroundColor = [UVStyleSheet lightBgColor];
-	_tableView.tableFooterView = [UVFooterView footerViewForController:self];			
-	self.view = _tableView;	
+	tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
+	tableView.dataSource = self;
+	tableView.delegate = self;
+	tableView.sectionFooterHeight = 0.0;
+	tableView.sectionHeaderHeight = 0.0;
+    tableView.backgroundColor = [UVStyleSheet lightBgColor];
+	tableView.tableFooterView = [UVFooterView footerViewForController:self];			
+	self.view = tableView;	
 	
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
-		_questions = [UVSession currentSession].clientConfig.questions;
-		_question = [_questions objectAtIndex:0];		
+		self.questions = [UVSession currentSession].clientConfig.questions;
+		self.question = [_questions objectAtIndex:0];		
 	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];		
 	
-	_forum = [UVSession currentSession].clientConfig.forum;		
+	self.forum = [UVSession currentSession].clientConfig.forum;		
 	if ([self needsReload]) {
 		NSLog(@"WelcomeView needs reload");
 		
 		UISegmentedControl *segments = 
-			(UISegmentedControl *)[_tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
+			(UISegmentedControl *)[tableView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_SEGMENTS];
 		
-		[(UVFooterView *)_tableView.tableFooterView reloadFooter];
+		[(UVFooterView *)tableView.tableFooterView reloadFooter];
 		[self updateSegmentsValue:segments];
 	}
 
-	[_tableView reloadData];
+	[tableView reloadData];
     
     UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
     [footer reloadFooter];
+}
+
+- (void)dealloc {
+    self.forum = nil;
+    self.question = nil;
+    self.tableView = nil;
+    self.questions = nil;
+    [super dealloc];
 }
 
 @end

@@ -105,6 +105,7 @@
 }
 
 - (void)dealloc {
+    self.suggestions = nil;
     [super dealloc];
 }
 

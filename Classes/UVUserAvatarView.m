@@ -71,4 +71,9 @@
 	return self;
 }
 
+- (void)dealloc {
+    self.avatarUrl = nil;
+    [super dealloc];
+}
+
 @end

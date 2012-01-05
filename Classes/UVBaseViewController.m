@@ -17,6 +17,7 @@
 #import "UVNetworkUtils.h"
 #import "NSError+UVExtras.h"
 #import "UVStreamPoller.h"
+#import "UVImageCache.h"
 
 @implementation UVBaseViewController
 
@@ -28,6 +29,7 @@
 - (void)dismissUserVoice {
     if ([UVStreamPoller instance].timerIsRunning)
 		[[UVStreamPoller instance] stopTimer];
+    [[UVImageCache sharedInstance] flush];
 
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -274,6 +276,13 @@
 - (void)viewDidUnload {
 	self.errorAlertView = nil;
 	self.activityIndicator = nil;
+}
+
+- (void)dealloc {
+    self.errorAlertView = nil;
+    self.activityIndicator = nil;
+    self.tableView = nil;
+    [super dealloc];
 }
 
 @end

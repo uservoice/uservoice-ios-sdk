@@ -25,7 +25,7 @@ typedef enum {
 	UILabel *statusLabel;
 }
 
-@property (nonatomic, retain) UIView *statusColorView;
+@property (nonatomic, retain) CALayer *statusColorLayer;
 @property (nonatomic, retain) UIImageView *backgroundImageView;
 @property (nonatomic, retain) UILabel *voteNumLabel;
 @property (nonatomic, retain) UILabel *voteLabel;

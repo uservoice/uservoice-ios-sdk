@@ -53,15 +53,12 @@
 	if (cachedUser && ![[NSNull null] isEqual:cachedUser]) {
 		// gonna fake the call and pass the cached user back to the selector
 		NSMethodSignature *sig = [delegate methodSignatureForSelector:@selector(didRetrieveUser:)];
-		NSInvocation *callback = [[NSInvocation invocationWithMethodSignature:sig] retain];
+		NSInvocation *callback = [NSInvocation invocationWithMethodSignature:sig];
 		[callback setTarget:delegate];
 		[callback setSelector:@selector(didRetrieveUser:)];
 		[callback retainArguments];
-		
-        // didReturnModel:callback: releases callback
-		[UVUser didReturnModel:cachedUser callback:callback];
+        [UVUser didReturnModel:cachedUser callback:callback];
 		return cachedUser;
-		
 	} else {
 		NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/%d.json", userId]];
 		return [self getPath:path
@@ -219,14 +216,15 @@
 
 - (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion {
     if (suggestionsNeedReload == NO) {
-        int i=0;
-        int indexToRemove;
+        int i = 0;
+        int indexToRemove = -1;
         for (UVSuggestion *it in supportedSuggestions) {
             if (it.suggestionId == suggestion.suggestionId)
                 indexToRemove = i;
             i++;
         }
-        [supportedSuggestions removeObjectAtIndex:indexToRemove];
+        if (indexToRemove != -1)
+            [supportedSuggestions removeObjectAtIndex:indexToRemove];
     } else {
         supportedSuggestionsCount -= 1;
     }
@@ -282,6 +280,18 @@
 
 - (NSString *)nameOrAnonymous {
 	return self.displayName ? self.displayName : @"Anonymous";
+}
+
+- (void)dealloc {
+    self.name = nil;
+    self.displayName = nil;
+    self.email = nil;
+    self.url = nil;
+    self.avatarUrl = nil;
+    self.supportedSuggestions = nil;
+    self.createdSuggestions = nil;
+    self.createdAt = nil;
+    [super dealloc];
 }
 
 @end

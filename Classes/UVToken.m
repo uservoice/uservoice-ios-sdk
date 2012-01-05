@@ -103,7 +103,7 @@
 
 - (void)dealloc {
 	self.oauthToken = nil;
-	
+    self.type = nil;
 	[super dealloc];
 }
 

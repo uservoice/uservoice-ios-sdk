@@ -301,18 +301,11 @@
 	}
 }
 
-- (void)viewDidUnload {
-	self.tableView = nil;
-    [super viewDidUnload];
-}
-
-
 - (void)dealloc {
 	self.user = nil;
 	self.userName = nil;
 	self.avatarUrl = nil;
-	self.tableView = nil;
-	
+	self.message = nil;
     [super dealloc];
 }
 

@@ -18,5 +18,6 @@
 + (UVImageCache *)sharedInstance;
 - (void)setImage:(UIImage *)image forURL:(NSString *)url;
 - (UIImage *)imageForURL:(NSString *)url;
+- (void)flush;
 
 @end

@@ -460,12 +460,14 @@
 		[self.emailField becomeFirstResponder];
 }
 
-- (void)viewDidUnload {
-	self.tableView = nil;
+- (void)dealloc {
+	self.name = nil;
+	self.email = nil;
 	self.nameField = nil;
 	self.emailField = nil;
 	self.passwordField = nil;
-    [super viewDidUnload];
+    self.user = nil;
+    [super dealloc];
 }
 
 @end

@@ -72,9 +72,6 @@
 	[UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
 	self.suggestion = theSuggestion;
 	
-//	[self.innerTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] 
-//					   withRowAnimation:UITableViewRowAnimationFade];
-    
 	UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
 	
 	if (self.suggestion.status) {
@@ -527,6 +524,11 @@
     UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
     [footer reloadFooter];
     [super viewWillAppear:animated];
+}
+
+- (void)dealloc {
+    self.suggestion = nil;
+    [super dealloc];
 }
 
 @end

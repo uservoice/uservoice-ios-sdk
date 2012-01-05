@@ -12,11 +12,9 @@
 
 @interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
 	UVSuggestion *suggestion;
-//	UITableView *innerTableView;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
-//@property (nonatomic, retain) UITableView *innerTableView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 - (void)setVoteLabelTextAndColorForLabel:(UILabel *)label;
