@@ -53,20 +53,6 @@
 - (UIColor *)lightZebraBgColor;
 
 /**
- * The highlight color at the top of table rows (suggestions & comments).
- *
- * Default: an even lighter gray
- */
-- (UIColor *)topSeparatorColor;
-
-/**
- * The highlight color at the bottom of table rows (suggestions & comments).
- *
- * Default: an even darker gray
- */
-- (UIColor *)bottomSeparatorColor;
-
-/**
  * Text color for section headings on the welcome view, as well as a few other labels.
  *
  * Default: blue-gray
