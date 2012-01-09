@@ -159,7 +159,7 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, 0, screenWidth, 72)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	bg.backgroundColor = [UVStyleSheet backgroundColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
@@ -168,14 +168,14 @@
 		label.tag = NO_VOTE_LABEL_TAG;
 		label.numberOfLines = 2;
 		label.opaque = YES;
-		label.backgroundColor = [UVStyleSheet lightBgColor];
+		label.backgroundColor = [UVStyleSheet backgroundColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont systemFontOfSize:14];
 		label.text = [NSString stringWithFormat:
 					  @"Voting for this suggestion is now closed and your %d %@ been returned to you",
 					  self.suggestion.votesFor,
 					  self.suggestion.votesFor == 1 ? @"vote has" : @"votes have"];
-		label.textColor = [UVStyleSheet dimBlueColor];
+		label.textColor = [UVStyleSheet linkTextColor];
 		[cell.contentView addSubview:label];
 		[label release];
 		
@@ -190,7 +190,7 @@
 		
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, screenWidth - 2 * margin, 17)];
 		label.opaque = YES;
-		label.backgroundColor = [UVStyleSheet lightBgColor];
+		label.backgroundColor = [UVStyleSheet backgroundColor];
 		label.tag = VOTE_LABEL_TAG;
 		label.numberOfLines = 0;
 		label.textAlignment = UITextAlignmentCenter;
@@ -228,7 +228,7 @@
             label.tag = LOGIN_TAG;
             label.text = @"Please sign in to vote.";	
             label.backgroundColor = [UIColor clearColor];
-            label.textColor = [UVStyleSheet darkRedColor];
+            label.textColor = [UVStyleSheet alertTextColor];
             
             [cell.contentView addSubview:label];
             [label release];
@@ -244,7 +244,7 @@
 	NSInteger height = [self textSize].height > 0 ? [self textSize].height + 10 : 0;
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, 0, screenWidth, height)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	bg.backgroundColor = [UVStyleSheet backgroundColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 
@@ -254,6 +254,7 @@
 	body.font = [UIFont systemFontOfSize:13];
 	body.lineBreakMode = UILineBreakModeWordWrap;
 	body.numberOfLines = 0;
+    body.textColor = [UVStyleSheet primaryTextColor];
 	body.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:body];
 }
@@ -285,14 +286,14 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (screenWidth-20), 75)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	bg.backgroundColor = [UVStyleSheet backgroundColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
 	// Name label
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 85, 16)];
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor grayColor];
+	label.textColor = [UVStyleSheet labelTextColor];
 	label.textAlignment = UITextAlignmentRight;
 	label.font = [UIFont boldSystemFontOfSize:13];
 	label.text = @"Created by";
@@ -306,13 +307,13 @@
 													   origin:CGPointMake(95, 13)
 													 maxWidth:205
 														 font:[UIFont boldSystemFontOfSize:13]
-														color:[UVStyleSheet dimBlueColor]];
+														color:[UVStyleSheet linkTextColor]];
 	[cell.contentView addSubview:nameButton];
 	
 	// Date label
 	label = [[UILabel alloc] initWithFrame:CGRectMake(0, 43, 85, 13)];
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor grayColor];
+	label.textColor = [UVStyleSheet labelTextColor];
 	label.textAlignment = UITextAlignmentRight;
 	label.font = [UIFont boldSystemFontOfSize:13];
 	label.text = @"Post date";
@@ -322,7 +323,7 @@
 	// Date
 	label = [[UILabel alloc] initWithFrame:CGRectMake(95, 43, 205, 14)];
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor blackColor];
+	label.textColor = [UVStyleSheet primaryTextColor];
 	label.textAlignment = UITextAlignmentLeft;
 	label.font = [UIFont systemFontOfSize:13];
 	label.text = [self postDateString];
@@ -459,7 +460,7 @@
 	theTableView.sectionFooterHeight = 0.0;
     theTableView.dataSource = self;
     theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	NSInteger height = MAX([self titleSize].height + 50, 90);
     //	height += [self textSize].height > 0 ? [self textSize].height : 0;
@@ -467,7 +468,7 @@
 	headerView.backgroundColor = [UIColor clearColor];
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	bg.backgroundColor = [UVStyleSheet backgroundColor];
 	[headerView addSubview:bg];
 	[bg release];
 	
@@ -486,6 +487,7 @@
 	label.font = [UIFont boldSystemFontOfSize:18.0];
 	label.textAlignment = UITextAlignmentLeft;
 	label.numberOfLines = 0;
+    label.textColor = [UVStyleSheet primaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	[headerView addSubview:label];
 	[label release];
@@ -495,7 +497,7 @@
 	label.lineBreakMode = UILineBreakModeTailTruncation;
 	label.numberOfLines = 1;
 	label.font = [UIFont boldSystemFontOfSize:11];
-	label.textColor = [UIColor darkGrayColor];
+	label.textColor = [UVStyleSheet secondaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	label.text = self.suggestion.categoryString;
 	[label sizeToFit];

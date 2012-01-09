@@ -55,7 +55,7 @@
 	
 	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 8, frame.size.width, contentView.bounds.size.height - 8)];
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    scrollView.backgroundColor = [UVStyleSheet lightBgColor];
+    scrollView.backgroundColor = [UVStyleSheet backgroundColor];
 
 	// User Chicklet
 	UVUserChickletView *chicklet = [UVUserChickletView userChickletViewWithOrigin:CGPointMake(10, 10)
@@ -83,6 +83,7 @@
 	body.font = [UIFont systemFontOfSize:13];
 	body.lineBreakMode = UILineBreakModeWordWrap;
 	body.numberOfLines = 0;
+    body.textColor = [UVStyleSheet primaryTextColor];
 	body.backgroundColor = [UIColor clearColor];
 	[scrollView addSubview:body];
 	[body release];

@@ -333,7 +333,7 @@
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont systemFontOfSize:12];
 		label.text = @"Sorry, you have run out of votes.";		
-		label.textColor = [UVStyleSheet darkRedColor];
+		label.textColor = [UVStyleSheet alertTextColor];
 		
 		[cell.contentView addSubview:label];
 		[label release];
@@ -494,14 +494,14 @@
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
     footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
 	label.text = @"Want to send a private message instead?";
 	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UVStyleSheet dimBlueColor];
+	label.textColor = [UVStyleSheet linkTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	label.font = [UIFont systemFontOfSize:13];
 	[footer addSubview:label];
@@ -511,7 +511,7 @@
 	button.frame = CGRectMake(0, 25, frame.size.width, 15);
 	NSString *buttonTitle = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
-	[button setTitleColor:[UVStyleSheet dimBlueColor] forState:UIControlStateNormal];
+	[button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
 	button.backgroundColor = [UIColor clearColor];
 	button.showsTouchWhenHighlighted = YES;
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];

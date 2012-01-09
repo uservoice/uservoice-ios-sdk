@@ -213,7 +213,7 @@
 	UILabel *label = [[UILabel alloc] init];
 	label.tag = UV_COMMENT_LIST_TAG_CELL_DATE;
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor lightGrayColor];
+	label.textColor = [UVStyleSheet secondaryTextColor];
 	label.font = [UIFont systemFontOfSize:14];
 	[cell.contentView addSubview:label];
 	[label release];
@@ -225,6 +225,7 @@
 	label.numberOfLines = 0;
 	label.font = [UIFont systemFontOfSize:13];
 	label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UVStyleSheet primaryTextColor];
 	[cell.contentView addSubview:label];
 	[label release];
 
@@ -279,7 +280,7 @@
 	// Can't use built-in textLabel, as this forces a white background
 	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 27, screenWidth, 16)];
 	textLabel.text = @"Load more comments...";
-	textLabel.textColor = [UIColor darkGrayColor];
+	textLabel.textColor = [UVStyleSheet primaryTextColor];
 	textLabel.backgroundColor = [UIColor clearColor];
 	textLabel.font = [UIFont systemFontOfSize:16];
 	textLabel.textAlignment = UITextAlignmentCenter;
@@ -288,8 +289,7 @@
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UIColor *bgColor = indexPath.row % 2 == 0 ? [UVStyleSheet darkZebraBgColor] : [UVStyleSheet lightZebraBgColor];
-	cell.backgroundView.backgroundColor = bgColor;
+	cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -354,7 +354,7 @@
             button.frame = CGRectMake(0, 0, screenWidth, 40);
             NSString *buttonTitle = @"Please sign in here to comment.";
             [button setTitle:buttonTitle forState:UIControlStateNormal];
-            [button setTitleColor:[UVStyleSheet darkRedColor] forState:UIControlStateNormal];
+            [button setTitleColor:[UVStyleSheet alertTextColor] forState:UIControlStateNormal];
             button.backgroundColor = [UIColor whiteColor];
             button.showsTouchWhenHighlighted = YES;
             button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -403,7 +403,7 @@
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
     [theTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	[self addShadowSeparatorToTableView:theTableView];
 

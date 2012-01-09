@@ -242,7 +242,7 @@
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 7, 284, 30)];
 		
 		label.text = @"Changing your email address will require it to be confirmed again.";
-		label.textColor = [UVStyleSheet dimBlueColor];
+		label.textColor = [UVStyleSheet linkTextColor];
 		label.backgroundColor = [UIColor clearColor];
 		label.font = [UIFont boldSystemFontOfSize:13];
 		label.textAlignment = UITextAlignmentCenter;
@@ -264,7 +264,7 @@
 			[icon release];
 			
 			label.text = @"Your email has not yet been confirmed";
-			label.textColor = [UVStyleSheet darkRedColor];
+			label.textColor = [UVStyleSheet alertTextColor];
 			label.backgroundColor = [UIColor clearColor];
 			label.font = [UIFont boldSystemFontOfSize:14];
 			label.textAlignment = UITextAlignmentLeft;		
@@ -295,7 +295,7 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	self.tableView = theTableView;
 	[theTableView release];

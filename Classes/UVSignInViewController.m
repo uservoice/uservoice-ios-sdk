@@ -90,7 +90,7 @@
 	button.frame = CGRectMake(0, 10, screenWidth, 15);
 	NSString *buttonTitle = @"Forgot your password?";
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
-	[button setTitleColor:[UVStyleSheet dimBlueColor] forState:UIControlStateNormal];
+	[button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
 	button.backgroundColor = [UIColor clearColor];
 	button.showsTouchWhenHighlighted = YES;
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
@@ -445,7 +445,7 @@
 	self.tableView.delegate = self;
 	self.tableView.sectionFooterHeight = 0.0;
 	self.tableView.sectionHeaderHeight = 10.0;
-    self.tableView.backgroundColor = [UVStyleSheet lightBgColor];
+    self.tableView.backgroundColor = [UVStyleSheet backgroundColor];
     self.view = self.tableView;
 }
 

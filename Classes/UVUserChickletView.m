@@ -174,7 +174,8 @@
 	label.tag = UV_USER_CHICKLET_TAG_LABEL;
 	label.font = [UIFont boldSystemFontOfSize:10];
 	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UVStyleSheet dimBlueColor];
+    // This color isn't configurable because it is overlayed on the chicklet image.
+    label.textColor = [UIColor colorWithRed:0.298 green:0.337 blue:0.424 alpha:1.0];
 	label.backgroundColor = [UIColor clearColor];
 	[button addSubview:label];
 	[label release];

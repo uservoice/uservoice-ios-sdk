@@ -76,7 +76,7 @@
 	theTableView.sectionHeaderHeight = sectionHeaderHeight;
 	theTableView.sectionFooterHeight = 8.0;		
 	theTableView.tableHeaderView = [self getHeaderView];
-	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+	theTableView.backgroundColor = [UVStyleSheet backgroundColor];
     
     // Fix background color on iPad
     if ([theTableView respondsToSelector:@selector(setBackgroundView:)])
@@ -86,10 +86,12 @@
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 8, (screenWidth-80), 16)] autorelease];
 	poweredBy.text = @"Feedback powered by UserVoice";
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
-	poweredBy.textColor = [UIColor colorWithRed:0.278 green:0.341 blue:0.435 alpha:1.0];
+	poweredBy.textColor = [UVStyleSheet tableViewHeaderColor];
 	poweredBy.backgroundColor = [UIColor clearColor];
 	poweredBy.textAlignment = UITextAlignmentCenter;
 	[tableFooter addSubview:poweredBy];
+    
+    //TODO: make the info button light if the background color is dark
 	UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
 	infoButton.center = CGPointMake(screenWidth / 2 + 110, 14);
 	[infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -123,7 +125,7 @@
 		cell.textLabel.text = @"My profile";
 		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth - 130 - 2 * margin), 18)] autorelease];
 		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:nameView.bounds] autorelease];
-		nameLabel.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
+		nameLabel.textColor = [UVStyleSheet signedInUserTextColor];
 		nameLabel.textAlignment = UITextAlignmentRight;
 		nameLabel.font = [UIFont systemFontOfSize:14.0];
 		nameLabel.text = [[UVSession currentSession].user nameOrAnonymous];

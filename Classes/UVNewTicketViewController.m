@@ -458,13 +458,13 @@
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
 	theTableView.sectionFooterHeight = 0.0;
-	theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+	theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
 	label.text = @"Want to suggest an idea instead?";
 	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UVStyleSheet dimBlueColor];
+	label.textColor = [UVStyleSheet linkTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	label.font = [UIFont systemFontOfSize:13];
 	[footer addSubview:label];
@@ -474,7 +474,7 @@
 	button.frame = CGRectMake(0, 25, 320, 15);
 	NSString *buttonTitle = [[UVSession currentSession].clientConfig.forum prompt];
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
-	[button setTitleColor:[UVStyleSheet dimBlueColor] forState:UIControlStateNormal];
+	[button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
 	button.backgroundColor = [UIColor clearColor];
 	button.showsTouchWhenHighlighted = YES;
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];

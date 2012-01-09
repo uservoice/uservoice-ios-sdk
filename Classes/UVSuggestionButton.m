@@ -9,6 +9,7 @@
 #import "UVSuggestionButton.h"
 #import "UVCellViewWithIndex.h"
 #import "UVSuggestionChickletView.h"
+#import "UVStyleSheet.h"
 
 #define UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE 9000
 #define UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY 9001
@@ -24,7 +25,7 @@
 		label.lineBreakMode = UILineBreakModeTailTruncation;
 		label.numberOfLines = 0;
 		label.font = [UIFont boldSystemFontOfSize:14];
-		label.textColor = [UIColor blackColor];
+		label.textColor = [UVStyleSheet primaryTextColor];
 		label.backgroundColor = [UIColor clearColor];
 		[self addSubview:label];
 		[label release];
@@ -35,7 +36,7 @@
 		label.lineBreakMode = UILineBreakModeTailTruncation;
 		label.numberOfLines = 1;
 		label.font = [UIFont boldSystemFontOfSize:11];
-		label.textColor = [UIColor darkGrayColor];
+		label.textColor = [UVStyleSheet secondaryTextColor];
 		label.backgroundColor = [UIColor clearColor];
 		[self addSubview:label];
 		[label release];

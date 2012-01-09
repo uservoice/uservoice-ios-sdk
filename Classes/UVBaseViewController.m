@@ -79,17 +79,17 @@
 	if ([UVSession currentSession].user) {
 		if (votesRemaining == 0) {
 			label.text = @"Sorry, you have no more votes remaining in this forum.";
-			label.textColor = [UVStyleSheet darkRedColor];
+			label.textColor = [UVStyleSheet alertTextColor];
 		} else {
 			label.text = [NSString stringWithFormat:@"You have %d %@ remaining in this forum",
 						  votesRemaining,
 						  votesRemaining == 1 ? @"vote" : @"votes"];
-			label.textColor = [UVStyleSheet dimBlueColor];
+			label.textColor = [UVStyleSheet linkTextColor];
 		}
 	} else {
 		label.font = [UIFont boldSystemFontOfSize:14];
 		label.text = @"You will need to sign in to vote.";
-		label.textColor = [UVStyleSheet darkRedColor];
+		label.textColor = [UVStyleSheet alertTextColor];
 	}
 }
 
@@ -146,23 +146,6 @@
 		[exitButton release];
 	}
 }
-
-//- (void)addGradientBackground 
-//{
-//	CAGradientLayer *gradient = [CAGradientLayer layer];
-//	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-//	CGFloat screenHeight = [UVClientConfig getScreenHeight];
-//	//gradient.frame = self.view.bounds;
-//	gradient.frame = CGRectMake(0, 0, screenWidth, screenHeight);
-//	
-//	gradient.colors = [NSArray arrayWithObjects:
-//					   (id)[[UVStyleSheet darkBgColor] CGColor],
-//					   (id)[[UVStyleSheet lightBgColor] CGColor],
-//					   nil];
-//	gradient.startPoint = CGPointMake(0.5, 0.0);
-//	gradient.endPoint = CGPointMake(0.5, 0.2); // limit gradient to top fifth of the view
-//	[self.view.layer insertSublayer:gradient atIndex:0];
-//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -249,6 +232,12 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     tableView.contentInset = contentInsets;
     tableView.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)setErrorAlertView:(UIAlertView *)anErrorAlertView {
+    errorAlertView.delegate = nil;
+    [errorAlertView release];
+    errorAlertView = [anErrorAlertView retain];
 }
 
 #pragma mark ===== Basic View Methods =====

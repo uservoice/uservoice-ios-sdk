@@ -60,8 +60,9 @@
 	label.numberOfLines = 0;
 	label.font = [UIFont systemFontOfSize:14];
 	label.text = text;
+    // This color isn't configurable because the grouped table cell background color is not (currently) configurable.
+    label.textColor = [UIColor colorWithRed:0.298 green:0.337 blue:0.424 alpha:1.0];
     label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UVStyleSheet tableViewHeaderColor];
     return label;
 }
 
@@ -116,7 +117,7 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	self.tableView = theTableView;
 	[theTableView release];

@@ -88,7 +88,7 @@
 	label.tag = UV_PROFILE_TAG_NAME;
 	label.text = self.userName ? self.userName : @"Anonymous";
 	label.font = [UIFont boldSystemFontOfSize:16];
-	label.textColor = [UVStyleSheet veryDarkGrayColor];
+	label.textColor = [UVStyleSheet primaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	[header addSubview:label];
 	[label release];
@@ -101,7 +101,7 @@
 		label.tag = UV_PROFILE_TAG_EMAIL;
 		label.text = self.user.email;
 		label.font = [UIFont systemFontOfSize:14];
-		label.textColor = [UVStyleSheet veryDarkGrayColor];
+		label.textColor = [UVStyleSheet primaryTextColor];
 		label.backgroundColor = [UIColor clearColor];
 		[header addSubview:label];
 		[label release];
@@ -114,7 +114,7 @@
 	label.tag = UV_PROFILE_TAG_MEMBER_SINCE;
 	label.text = self.user ? [self memberSince] : @"";
 	label.font = [UIFont boldSystemFontOfSize:11];
-	label.textColor = [UIColor darkGrayColor];
+	label.textColor = [UVStyleSheet secondaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	[header addSubview:label];
 	[label release];
@@ -273,7 +273,7 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];	
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];	
 	theTableView.tableHeaderView = [self createHeaderView];
 	
 	self.tableView = theTableView;

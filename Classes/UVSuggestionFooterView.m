@@ -40,7 +40,7 @@
 		UIView *wrapper = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 100)];
 		
 		UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 82)];		
-		bg.backgroundColor = [UVStyleSheet lightBgColor];
+		bg.backgroundColor = [UVStyleSheet backgroundColor];
 		[wrapper addSubview:bg];
 		[bg release];
 		
@@ -61,7 +61,7 @@
 														   origin:CGPointMake(95, 13)
 														 maxWidth:205
 															 font:[UIFont boldSystemFontOfSize:13]
-															color:[UVStyleSheet dimBlueColor]];
+															color:[UVStyleSheet linkTextColor]];
 		[self addSubview:nameButton];
 		
 		// Date label

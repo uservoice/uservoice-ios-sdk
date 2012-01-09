@@ -134,7 +134,7 @@
 	label.text = @"Add \"";
 	label.font = font;
 	label.textAlignment = UITextAlignmentLeft;
-	label.textColor = [UIColor blackColor];
+	label.textColor = [UVStyleSheet primaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	[cellView addSubview:label];
 	[label release];
@@ -144,7 +144,7 @@
 	label.text = _textEditor.text;
 	label.font = font;
 	label.textAlignment = UITextAlignmentLeft;
-	label.textColor = [UVStyleSheet dimBlueColor];
+	label.textColor = [UVStyleSheet linkTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	[cellView addSubview:label];
 	[label release];
@@ -154,7 +154,7 @@
 	label.text = @"\"";
 	label.font = font;
 	label.textAlignment = UITextAlignmentLeft;
-	label.textColor = [UIColor blackColor];
+	label.textColor = [UVStyleSheet primaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
 	[cellView addSubview:label];
 	[label release];
@@ -163,10 +163,8 @@
 	[cellView release];
 }
 
-- (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
-	UIColor *bgColor = indexPath.row % 2 == 0 ? [UVStyleSheet darkZebraBgColor] : [UVStyleSheet lightZebraBgColor];
-	cell.backgroundView.backgroundColor = bgColor;
+- (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
 	NSString *text = [NSString stringWithFormat:@"Add \"%@\"", _textEditor.text];
@@ -183,7 +181,7 @@
 	CGFloat maxWidth = 260 - (size.width + 10);
 	label = (UILabel *)[cell.contentView viewWithTag:UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY];
 	label.text = _textEditor.text;
-	label.textColor = [UVStyleSheet dimBlueColor];
+	label.textColor = [UVStyleSheet linkTextColor];
 	size = [label.text sizeWithFont:font forWidth:maxWidth lineBreakMode:UILineBreakModeTailTruncation];
 	label.frame = CGRectMake(prevEndX, 26, size.width, 20);
 	
@@ -319,8 +317,8 @@
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
 	[self setLeftBarButtonCancel];	
 	textBar.frame = frame;
-	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];		
-	theTextEditor.backgroundColor = [UIColor whiteColor];	
+	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+	theTextEditor.backgroundColor = [UIColor whiteColor];
 	[UIView beginAnimations:@"growHeader" context:nil];
 
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];		
@@ -389,7 +387,7 @@
 	theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.sectionHeaderHeight = 0.0;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	[self addShadowSeparatorToTableView:theTableView];
 	

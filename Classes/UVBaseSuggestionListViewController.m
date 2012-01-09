@@ -74,7 +74,7 @@
 	// Can't use built-in textLabel, as this forces a white background
 	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 18)];
 	textLabel.text = @"Load more ideas...";
-	textLabel.textColor = [UIColor blackColor];
+	textLabel.textColor = [UVStyleSheet primaryTextColor];
 	textLabel.backgroundColor = [UIColor clearColor];
 	textLabel.font = [UIFont boldSystemFontOfSize:18];
 	textLabel.textAlignment = UITextAlignmentCenter;
@@ -86,8 +86,7 @@
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UIColor *bgColor = indexPath.row % 2 == 0 ? [UVStyleSheet darkZebraBgColor] : [UVStyleSheet lightZebraBgColor];
-	cell.backgroundView.backgroundColor = bgColor;
+	cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
 }
 
 #pragma mark ===== basic view methods =====

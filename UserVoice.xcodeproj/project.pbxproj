@@ -253,7 +253,7 @@
 		AC312728109667CE00000D5F /* UVUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUser.m; sourceTree = "<group>"; };
 		AC3127E810976ED800000D5F /* UVSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestion.h; sourceTree = "<group>"; };
 		AC3127E910976ED800000D5F /* UVSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestion.m; sourceTree = "<group>"; };
-		AC312B1E109914C100000D5F /* UVStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStyleSheet.h; sourceTree = "<group>"; };
+		AC312B1E109914C100000D5F /* UVStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVStyleSheet.h; path = Include/en.lproj/UVStyleSheet.h; sourceTree = SOURCE_ROOT; };
 		AC312B1F109914C100000D5F /* UVStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStyleSheet.m; sourceTree = "<group>"; };
 		AC35307F11014D20006FD1C1 /* UVSuggestionChickletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionChickletView.h; sourceTree = "<group>"; };
 		AC35308011014D20006FD1C1 /* UVSuggestionChickletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionChickletView.m; sourceTree = "<group>"; };
@@ -515,7 +515,6 @@
 				AC31242410911C8600000D5F /* UVSession.m */,
 				D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */,
 				D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */,
-				AC312B1E109914C100000D5F /* UVStyleSheet.h */,
 				AC312B1F109914C100000D5F /* UVStyleSheet.m */,
 				D261E054121456430024F2EA /* UVStreamPoller.h */,
 				D261E055121456430024F2EA /* UVStreamPoller.m */,
@@ -535,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				D2605CB414465F2C0029F16B /* UserVoice.h */,
+				AC312B1E109914C100000D5F /* UVStyleSheet.h */,
 			);
 			path = Include;
 			sourceTree = "<group>";

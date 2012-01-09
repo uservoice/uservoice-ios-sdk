@@ -135,7 +135,7 @@
     CGFloat margin = (screenWidth > 480) ? 45 : 10;
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, -margin, screenWidth, 80)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	bg.backgroundColor = [UVStyleSheet backgroundColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
@@ -163,6 +163,7 @@
         UIView *questionLabels = [cell.contentView viewWithTag:UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS];
         if (questionLabels == NULL) {
             questionLabels = [[[UIView alloc] initWithFrame:CGRectMake(10, 49, screenWidth - 2 * (margin + 10), 15)] autorelease];
+            questionLabels.tag = UV_FORUM_LIST_TAG_CELL_QUESTION_LABELS;
             [self addQuestionCell:questionLabels labelWithText:@"Unlikely" alignment:UITextAlignmentLeft];
             [self addQuestionCell:questionLabels labelWithText:@"Maybe" alignment:UITextAlignmentCenter];
             [self addQuestionCell:questionLabels labelWithText:@"Absolutely" alignment:UITextAlignmentRight];
@@ -180,7 +181,7 @@
             label.font = [UIFont boldSystemFontOfSize:12];
             label.text = @"Please sign in to answer.";
             label.backgroundColor = [UIColor clearColor];
-            label.textColor = [UVStyleSheet darkRedColor];
+            label.textColor = [UVStyleSheet alertTextColor];
 
             [cell.contentView addSubview:label];
             [label release];
@@ -197,7 +198,7 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
 	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 11)];		
-	bg.backgroundColor = [UVStyleSheet lightBgColor];
+	bg.backgroundColor = [UVStyleSheet backgroundColor];
 	[cell.contentView addSubview:bg];
 	[bg release];
 }
@@ -209,7 +210,7 @@
     CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
 	
 	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
-	headerView.backgroundColor = [UVStyleSheet lightBgColor];
+	headerView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(margin, 5, (screenWidth - 2 * margin), 35)];
 	title.text = header;
@@ -369,19 +370,19 @@
 	[super loadView];
 	[self.navigationItem setHidesBackButton:YES animated:NO];
 	
-	CGRect frame = [self contentFrame];	
+	CGRect frame = [self contentFrame];
 	tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
 	tableView.dataSource = self;
 	tableView.delegate = self;
 	tableView.sectionFooterHeight = 0.0;
 	tableView.sectionHeaderHeight = 0.0;
-    tableView.backgroundColor = [UVStyleSheet lightBgColor];
-	tableView.tableFooterView = [UVFooterView footerViewForController:self];			
+    tableView.backgroundColor = [UVStyleSheet backgroundColor];
+	tableView.tableFooterView = [UVFooterView footerViewForController:self];
 	self.view = tableView;	
 	
 	if ([UVSession currentSession].clientConfig.questionsEnabled) {
 		self.questions = [UVSession currentSession].clientConfig.questions;
-		self.question = [_questions objectAtIndex:0];		
+		self.question = [_questions objectAtIndex:0];
 	}
 }
 

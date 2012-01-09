@@ -81,7 +81,7 @@
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
 	theTableView.dataSource = self;
 	theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet lightBgColor];
+    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
 	self.view = theTableView;
 	[theTableView release];
