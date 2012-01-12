@@ -133,14 +133,14 @@
 		[nameView addSubview:nameLabel];
 		
 		if ([[UVSession currentSession].user hasUnconfirmedEmail]) {
-			UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
-			icon.frame = CGRectMake(156, 0, 18, 18);
-			[nameView addSubview:icon];
-			[icon release];
-			
 			// Shrink label to make space for the image
 			CGRect labelFrame = nameLabel.frame;
 			nameLabel.frame = CGRectMake(labelFrame.origin.x, labelFrame.origin.y, labelFrame.size.width - 23, labelFrame.size.height);
+
+			UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
+			icon.frame = CGRectMake(labelFrame.origin.x + labelFrame.size.width - 18, 0, 18, 18);
+			[nameView addSubview:icon];
+			[icon release];
 		}
 		[cell.contentView addSubview:nameView];
 	} else {
