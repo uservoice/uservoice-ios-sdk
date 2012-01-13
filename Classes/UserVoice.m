@@ -88,4 +88,14 @@
 	[viewController presentModalViewController:userVoiceNav animated:YES];
 }
 
+static id<UVDelegate> userVoiceDelegate;
++ (void)setDelegate:(id<UVDelegate>)delegate {
+    userVoiceDelegate = delegate;
+}
+
++ (id<UVDelegate>)delegate {
+    return userVoiceDelegate;
+}
+
+
 @end

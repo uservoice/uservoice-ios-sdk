@@ -18,6 +18,7 @@
 #import "NSError+UVExtras.h"
 #import "UVStreamPoller.h"
 #import "UVImageCache.h"
+#import "UserVoice.h"
 
 @implementation UVBaseViewController
 
@@ -32,6 +33,8 @@
     [[UVImageCache sharedInstance] flush];
 
 	[self dismissModalViewControllerAnimated:YES];
+    if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
+        [[UserVoice delegate] userVoiceWasDismissed];
 }
 
 - (CGRect)contentFrameWithNavBar:(BOOL)navBarEnabled {

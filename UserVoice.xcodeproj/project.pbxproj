@@ -191,6 +191,7 @@
 		D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */; };
 		D9B1D1E914ACFCE700D9189F /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */; };
 		D9B1D1EA14ACFCE700D9189F /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1E814ACFCE600D9189F /* NSString+HTMLEntities.m */; };
+		D9F2060414C08A8100F4441E /* UVDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F2060314C08A8100F4441E /* UVDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -445,6 +446,7 @@
 		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
 		D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; };
 		D9B1D1E814ACFCE600D9189F /* NSString+HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLEntities.m"; sourceTree = "<group>"; };
+		D9F2060314C08A8100F4441E /* UVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -533,6 +535,7 @@
 			children = (
 				6474C33714BB8D5D00F6A2F0 /* UserVoice.h */,
 				AC312B1E109914C100000D5F /* UVStyleSheet.h */,
+				D9F2060314C08A8100F4441E /* UVDelegate.h */,
 			);
 			path = Include;
 			sourceTree = "<group>";
@@ -959,6 +962,7 @@
 				D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */,
 				D9B1D1E914ACFCE700D9189F /* NSString+HTMLEntities.h in Headers */,
 				6474C33614BB8D5D00F6A2F0 /* UserVoice.h in Headers */,
+				D9F2060414C08A8100F4441E /* UVDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

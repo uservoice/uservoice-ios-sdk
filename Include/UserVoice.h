@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UVStyleSheet.h"
+#import "UVDelegate.h"
 
 @interface UserVoice : NSObject {
 
@@ -35,5 +36,8 @@
 											 andGUID:(NSString *)guid;
 
 + (void)showUserVoice:(UIViewController *)rootViewController forController:(UIViewController *)viewController;
+
++ (void)setDelegate:(id<UVDelegate>)delegate;
++ (id<UVDelegate>)delegate;
 
 @end
