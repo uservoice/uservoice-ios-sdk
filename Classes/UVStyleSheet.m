@@ -72,6 +72,7 @@ static UVStyleSheet *styleSheet;
     return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness - 0.2 alpha:alpha];
 }
 
+
 + (UIColor *)tableViewHeaderColor {
 	return [[self styleSheet] tableViewHeaderColor];
 }
