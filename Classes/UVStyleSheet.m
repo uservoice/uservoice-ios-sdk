@@ -60,17 +60,57 @@ static UVStyleSheet *styleSheet;
 + (UIColor *)topSeparatorColor {
     CGFloat hue, saturation, brightness, alpha;
     UIColor *reference = [[self styleSheet] lightZebraBgColor];
-    [reference getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness + 0.15 alpha:alpha];
+    if ([reference respondsToSelector:@selector(getHue:saturation:brightness:alpha:)])
+    {
+        [reference getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness + 0.15 alpha:alpha];
+    }
+    else
+    {
+        return [UIColor colorWithRed:0.953 green:0.953 blue:0.953 alpha:1.0];
+    }
 }
-
 
 + (UIColor *)bottomSeparatorColor {
     CGFloat hue, saturation, brightness, alpha;
     UIColor *reference = [[self styleSheet] darkZebraBgColor];
-    [reference getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-    return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness - 0.2 alpha:alpha];
+    if ([reference respondsToSelector:@selector(getHue:saturation:brightness:alpha:)])
+    {
+        [reference getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness - 0.2 alpha:alpha];
+    }
+    else
+    {
+        return [UIColor colorWithRed:0.729 green:0.741 blue:0.745 alpha:1.0];
+    }
+}+ (UIColor *)topSeparatorColor {
+    CGFloat hue, saturation, brightness, alpha;
+    UIColor *reference = [[self styleSheet] lightZebraBgColor];
+    if ([reference respondsToSelector:@selector(getHue:saturation:brightness:alpha:)])
+    {
+        [reference getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness + 0.15 alpha:alpha];
+    }
+    else
+    {
+        return [UIColor colorWithRed:0.953 green:0.953 blue:0.953 alpha:1.0];
+    }
 }
+
++ (UIColor *)bottomSeparatorColor {
+    CGFloat hue, saturation, brightness, alpha;
+    UIColor *reference = [[self styleSheet] darkZebraBgColor];
+    if ([reference respondsToSelector:@selector(getHue:saturation:brightness:alpha:)])
+    {
+        [reference getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        return [UIColor colorWithHue:hue saturation:saturation - 0.1 brightness:brightness - 0.2 alpha:alpha];
+    }
+    else
+    {
+        return [UIColor colorWithRed:0.729 green:0.741 blue:0.745 alpha:1.0];
+    }
+}
+
 
 + (UIColor *)tableViewHeaderColor {
 	return [[self styleSheet] tableViewHeaderColor];
