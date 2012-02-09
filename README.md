@@ -5,6 +5,8 @@ The UserVoice iPhone SDK is distributed as a XCode Project which you can use to 
 
 You will need to have a UserVoice account to use the SDK in your app.
 
+We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
+
 Build Instructions
 ------------------
 
