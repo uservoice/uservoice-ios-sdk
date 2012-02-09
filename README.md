@@ -1,12 +1,12 @@
 Overview
-========
+--------
 
 The UserVoice iPhone SDK is distributed as a XCode Project which you can use to build static libraries to compile against.
 
 You will need to have a UserVoice account to use the SDK in your app.
 
 Build Instructions
-==================
+------------------
 
 In order to embed the UserVoice functionality into your own iPhone app, you need to perform the following steps:
 
@@ -27,14 +27,14 @@ In order to embed the UserVoice functionality into your own iPhone app, you need
   * You may want to rename the group something like `UVResources`
 
 Obtain Key And Secret
-=====================
+---------------------
 
 * Go to the admin section of your UserVoice account and click `Channels` under `Settings`.
 * Add an iOS App.
 * Copy the generated `Secret` and `API key`.
 
 API
-===
+---
 
 Once you have completed these steps, you are ready to launch the UserVoice UI from your code. Import `UserVoice.h` and call one of the three methods on the UserVoice class.
 
