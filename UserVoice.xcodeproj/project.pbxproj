@@ -1119,6 +1119,7 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
+					i386,
 					armv7,
 					armv6,
 				);
@@ -1163,6 +1164,7 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
+					i386,
 					armv7,
 					armv6,
 				);
