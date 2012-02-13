@@ -38,7 +38,9 @@
 	if (![self isUVRecordInvalid])
 		return NO;
 	
-	NSString *errorStr = [[self userInfo] objectForKey:field];	
+	NSString *errorStr = [[self userInfo] objectForKey:field];
+    if (!errorStr)
+        return NO;
 	return [errorStr rangeOfString:message].location != NSNotFound;
 }
 

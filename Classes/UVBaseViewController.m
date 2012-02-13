@@ -93,31 +93,45 @@
 		label.font = [UIFont boldSystemFontOfSize:14];
 		label.text = @"You will need to sign in to vote.";
 		label.textColor = [UVStyleSheet alertTextColor];
-	}
+    }
 }
 
-- (void)showErrorAlertViewWithMessage:(NSString *)message
-{
+- (void)showErrorAlertViewWithMessage:(NSString *)message {
 	[self setupErrorAlertViewWithMessage:message];
 	[self setupErrorAlertViewDelegate];
 	[errorAlertView show];
 }
 
-- (UIAlertView *)setupErrorAlertViewWithMessage:(NSString *)message
-{
+- (UIAlertView *)setupErrorAlertViewWithMessage:(NSString *)message {
 	self.errorAlertView = [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
 	return errorAlertView;
 }
 
-- (void)setupErrorAlertViewDelegate
-{
+- (void)setupErrorAlertViewDelegate {
 }
 
 - (void)didReceiveError:(NSError *)error {
 	[self hideActivityIndicator];
 	NSString *msg = nil;
 	if ([UVNetworkUtils hasInternetAccess] && ![error isConnectionError]) {
-		msg = @"Sorry, there was an error in the application.";
+        NSDictionary *userInfo = [error userInfo];
+        for (NSString *key in [userInfo allKeys]) {
+            if ([key isEqualToString:@"message"] || [key isEqualToString:@"type"])
+                continue;
+            NSString *displayKey = nil;
+            if ([key isEqualToString:@"display_name"])
+                displayKey = @"User name";
+            else
+                displayKey = [[key stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
+
+            // Suggestion title has custom messages
+            if ([key isEqualToString:@"title"])
+                msg = [userInfo valueForKey:key];
+            else
+                msg = [NSString stringWithFormat:@"%@ %@", displayKey, [userInfo valueForKey:key], nil];
+        }
+        if (!msg)
+            msg = @"Sorry, there was an error in the application.";
 	} else {
 		msg = @"There appears to be a problem with your network connection, please check your connectivity and try again.";
 	}

@@ -42,9 +42,9 @@
 
 	if (statusCode >= 400) {
 		NSDictionary *userInfo = nil;
-		
-		if ([resource respondsToSelector:@selector(objectForKey:)])
-			userInfo =  [resource objectForKey:@"errors"];			
+
+        if ([resource respondsToSelector:@selector(objectForKey:)])
+            userInfo = [resource objectForKey:@"errors"];
 		
 		NSError *error = [NSError errorWithDomain:@"uservoice" code:statusCode userInfo:userInfo];
 		[modelClass didReceiveError:error callback:object];
