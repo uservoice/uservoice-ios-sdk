@@ -150,8 +150,6 @@
 		D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDE11B597290053EA4C /* UVJsonWriter.m */; };
 		D26B487E11DEAA4500B096D0 /* UVBaseGroupedCell.h in Headers */ = {isa = PBXBuildFile; fileRef = D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */; };
 		D26B487F11DEAA4500B096D0 /* UVBaseGroupedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */; };
-		D270CC2F11E07C640001E524 /* UVSuggestionFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = D270CC2D11E07C640001E524 /* UVSuggestionFooterView.h */; };
-		D270CC3011E07C640001E524 /* UVSuggestionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D270CC2E11E07C640001E524 /* UVSuggestionFooterView.m */; };
 		D29734D711E50B8F001B8D6E /* NSData+OAuthResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */; };
 		D29734D811E50B8F001B8D6E /* NSData+OAuthResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */; };
 		D29734D911E50B8F001B8D6E /* NSDictionary+ParamUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */; };
@@ -399,8 +397,6 @@
 		D2620EDE11B597290053EA4C /* UVJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonWriter.m; sourceTree = "<group>"; };
 		D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseGroupedCell.h; sourceTree = "<group>"; };
 		D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseGroupedCell.m; sourceTree = "<group>"; };
-		D270CC2D11E07C640001E524 /* UVSuggestionFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionFooterView.h; sourceTree = "<group>"; };
-		D270CC2E11E07C640001E524 /* UVSuggestionFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionFooterView.m; sourceTree = "<group>"; };
 		D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+OAuthResponse.h"; sourceTree = "<group>"; };
 		D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+OAuthResponse.m"; sourceTree = "<group>"; };
 		D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ParamUtils.h"; sourceTree = "<group>"; };
@@ -682,8 +678,6 @@
 				D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */,
 				D20402C911E03B0C00022C44 /* UVSuggestionButton.h */,
 				D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */,
-				D270CC2D11E07C640001E524 /* UVSuggestionFooterView.h */,
-				D270CC2E11E07C640001E524 /* UVSuggestionFooterView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -927,7 +921,6 @@
 				D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */,
 				D26B487E11DEAA4500B096D0 /* UVBaseGroupedCell.h in Headers */,
 				D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */,
-				D270CC2F11E07C640001E524 /* UVSuggestionFooterView.h in Headers */,
 				D29734D711E50B8F001B8D6E /* NSData+OAuthResponse.h in Headers */,
 				D29734D911E50B8F001B8D6E /* NSDictionary+ParamUtils.h in Headers */,
 				D29734DB11E50B8F001B8D6E /* NSDictionary+QueryString.h in Headers */,
@@ -1071,7 +1064,6 @@
 				D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */,
 				D26B487F11DEAA4500B096D0 /* UVBaseGroupedCell.m in Sources */,
 				D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */,
-				D270CC3011E07C640001E524 /* UVSuggestionFooterView.m in Sources */,
 				D29734D811E50B8F001B8D6E /* NSData+OAuthResponse.m in Sources */,
 				D29734DA11E50B8F001B8D6E /* NSDictionary+ParamUtils.m in Sources */,
 				D29734DC11E50B8F001B8D6E /* NSDictionary+QueryString.m in Sources */,

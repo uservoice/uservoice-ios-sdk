@@ -53,18 +53,7 @@
 	return bottomShadow;
 }
 
-+ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller 
-{
-    return [self footerViewForController:controller sectionHeaderHeight:10.0];
-}
-
-+ (UVFooterView *)altFooterViewForController:(UVBaseViewController *)controller
-{
-    return [self footerViewForController:controller sectionHeaderHeight:14.0];
-}
-
-+ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller sectionHeaderHeight:(CGFloat)sectionHeaderHeight
-{
++ (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, [UVFooterView heightForFooter])] autorelease];
 	footer.controller = controller;
@@ -73,7 +62,7 @@
 	theTableView.scrollEnabled = NO;
 	theTableView.delegate = footer;
 	theTableView.dataSource = footer;
-	theTableView.sectionHeaderHeight = sectionHeaderHeight;
+	theTableView.sectionHeaderHeight = 10.0;
 	theTableView.sectionFooterHeight = 8.0;		
 	theTableView.tableHeaderView = [self getHeaderView];
 	theTableView.backgroundColor = [UVStyleSheet backgroundColor];

@@ -17,7 +17,6 @@
 #import "UVInfoViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
-#import "UVFooterView.h"
 #import "UVTextEditor.h"
 #import "UVBaseGroupedCell.h"
 #import "UVCellViewWithIndex.h"
@@ -419,20 +418,14 @@
 	theTableView.tableHeaderView = headerView;
     [headerView release];
 	
-	if ([self supportsFooter]) {
-        //NSLog(@"altFooterViewForController");
-		theTableView.tableFooterView = [UVFooterView altFooterViewForController:self];
-		
-	} else {
-		UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)] autorelease];
-		UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
-		CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
-		UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
-		shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
-		shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
-		[bottomShadow addSubview:shadowView];	
-		theTableView.tableFooterView = bottomShadow;
-	}
+    UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)] autorelease];
+    UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
+    CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
+    UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
+    shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
+    shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
+    [bottomShadow addSubview:shadowView];	
+    theTableView.tableFooterView = bottomShadow;
 	
 	self.tableView = theTableView;
 	[theTableView release];
@@ -463,12 +456,6 @@
         if (![UVStreamPoller instance].timerIsRunning) {
             [[UVStreamPoller instance] startTimer];
             [UVStreamPoller instance].lastPollTime = [NSDate date];
-        }
-
-        if ([self supportsFooter]) {
-            // Reload footer view, in case the user has changed (logged in or unlinked)
-            UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-            [footer reloadFooter];
         }
     }
     [self.tableView reloadData];

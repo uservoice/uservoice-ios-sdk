@@ -15,7 +15,6 @@
 #import "UVSuggestion.h"
 #import "UVResponseViewController.h"
 #import "UVSuggestionChickletView.h"
-#import "UVFooterView.h"
 #import "UVUserButton.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
@@ -506,7 +505,6 @@
     	
 	theTableView.tableHeaderView = headerView;
     [headerView release];
-	theTableView.tableFooterView = [UVFooterView footerViewForController:self];
 		
 	self.tableView = theTableView;
 	self.view = theTableView;
@@ -522,9 +520,6 @@
 	} else {
 		[chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
 	}
-    
-    UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-    [footer reloadFooter];
     [super viewWillAppear:animated];
 }
 

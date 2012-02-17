@@ -3,6 +3,7 @@
 * Display error messages from API
 * Update installation instructions
 * Remove 'Leave a Rating' feature
+* Remove footer from all views except welcome view
 
 ## 1.0.0 ##
 
