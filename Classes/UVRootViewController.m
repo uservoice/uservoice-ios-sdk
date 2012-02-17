@@ -49,7 +49,7 @@
 			[[UVSession currentSession].currentToken remove];
 			[UVToken getRequestTokenWithDelegate:self];
 		} else {
-			[self showErrorAlertViewWithMessage:@"This application didn't configure UserVoice properly"];
+			[self alertError:@"This application didn't configure UserVoice properly"];
 		}
 	} else {
 		[super didReceiveError:error];

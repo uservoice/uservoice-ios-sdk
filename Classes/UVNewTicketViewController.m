@@ -46,12 +46,9 @@
 }
 
 - (void)dismissKeyboard {
-	// shouldResizeForKeyboard = YES;
-	
 	[emailField resignFirstResponder];
     [subjectField resignFirstResponder];
 	[textEditor resignFirstResponder];
-	// shouldResizeForKeyboard = NO;
 }
 
 - (void)updateFromControls {
@@ -68,31 +65,18 @@
 	if ([UVSession currentSession].user || (self.email && [self.email length] > 1)) {
 		[self createTicket];
 	} else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Please enter your email address before submitting your ticket."
-                                                       delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-        [alert show];
-        [alert release];
+        [self alertError:@"Please enter your email address before submitting your ticket."];
 	}
 }
 
 - (void)didCreateTicket:(UVTicket *)theTicket {
 	[self hideActivityIndicator];
-	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-													message:@"Your ticket was successfully submitted."
-												   delegate:nil
-										  cancelButtonTitle:nil
-										  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
+    [self alertSuccess:@"Your ticket was successfully submitted."];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)dismissTextView {
-	// shouldResizeForKeyboard = YES;
 	[self.textEditor resignFirstResponder];
-	// shouldResizeForKeyboard = NO;
 }
 
 - (void)suggestionButtonTapped {

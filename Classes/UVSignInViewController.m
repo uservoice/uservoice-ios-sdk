@@ -181,10 +181,9 @@
 		[self showActivityIndicator];
 		// create the user, access token and return
 		[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
-		
 	} else {
 		NSString *msg = @"Please enter your email address.";
-		[self showErrorAlertViewWithMessage:msg];
+		[self alertError:msg];
 	}
 }
 
@@ -208,14 +207,7 @@
 
 - (void)didSendForgotPassword {
 	[self hideActivityIndicator];
-	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-													message:@"We've sent an email telling you how to login and change your password."
-												   delegate:nil
-										  cancelButtonTitle:nil
-										  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
+    [self alertSuccess:@"We've sent an email telling you how to login and change your password."];
 }
 
 #pragma mark ===== table cells =====

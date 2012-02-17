@@ -98,18 +98,20 @@
     }
 }
 
-- (void)showErrorAlertViewWithMessage:(NSString *)message {
-	[self setupErrorAlertViewWithMessage:message];
-	[self setupErrorAlertViewDelegate];
-	[errorAlertView show];
+- (void)alertError:(NSString *)message {
+	[[[[UIAlertView alloc] initWithTitle:@"Error"
+                                message:message
+                               delegate:nil
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil] autorelease] show];
 }
 
-- (UIAlertView *)setupErrorAlertViewWithMessage:(NSString *)message {
-	self.errorAlertView = [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
-	return errorAlertView;
-}
-
-- (void)setupErrorAlertViewDelegate {
+- (void)alertSuccess:(NSString *)message {
+	[[[[UIAlertView alloc] initWithTitle:@"Success"
+                                 message:message
+                                delegate:nil
+                       cancelButtonTitle:@"OK"
+                       otherButtonTitles:nil] autorelease] show];
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -137,7 +139,7 @@
 	} else {
 		msg = @"There appears to be a problem with your network connection, please check your connectivity and try again.";
 	}
-	[self showErrorAlertViewWithMessage:msg];
+	[self alertError:msg];
 }
 
 - (NSString *)backButtonTitle {
@@ -251,12 +253,6 @@
     tableView.scrollIndicatorInsets = contentInsets;
 }
 
-- (void)setErrorAlertView:(UIAlertView *)anErrorAlertView {
-    errorAlertView.delegate = nil;
-    [errorAlertView release];
-    errorAlertView = [anErrorAlertView retain];
-}
-
 - (void)hideExitButton {
     self.navigationItem.rightBarButtonItem = nil;
 }
@@ -294,12 +290,10 @@
 }
 
 - (void)viewDidUnload {
-	self.errorAlertView = nil;
 	self.activityIndicator = nil;
 }
 
 - (void)dealloc {
-    self.errorAlertView = nil;
     self.activityIndicator = nil;
     self.tableView = nil;
     self.exitButton = nil;

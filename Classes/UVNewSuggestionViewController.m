@@ -60,20 +60,10 @@
 	if ([error isNotFoundError]) {
 		[self hideActivityIndicator];
 		NSLog(@"No user");
-		
 	} else if ([error isUVRecordInvalidForField:@"title" withMessage:@"is not allowed."]) {
 		[self hideActivityIndicator];
-		
-		[[[[UIAlertView alloc]
-		  initWithTitle:@"Error"
-		  message:@"A suggestion with this title already exists.  Please change the title."
-		  delegate:nil
-		  cancelButtonTitle:@"OK"
-		  otherButtonTitles:nil] autorelease]
-		 show];
-	}
-	else
-	{
+		[self alertError:@"A suggestion with this title already exists.  Please change the title."];
+	} else {
 		[super didReceiveError:error];
 	}
 }
@@ -104,23 +94,14 @@
 
 - (void)createButtonTapped {
 	[self updateFromTextFields];
-	
 	if ([UVSession currentSession].user) {
 		[self createSuggestion];
-		
 	} else {
 		if (self.email && [self.email length] > 1) {
 			[self showActivityIndicator];
 			[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
-			
 		} else {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-															message:@"Please enter your email address before submitting your suggestion." 
-														   delegate:nil 
-												  cancelButtonTitle:nil 
-												  otherButtonTitles:@"OK", nil];
-			[alert show];
-			[alert release];
+            [self alertError:@"Please enter your email address before submitting your suggestion."];
 		}
 	}
 }
@@ -136,16 +117,8 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
 	[self hideActivityIndicator];
-	
-	NSString *msg = [NSString stringWithFormat:@"Your idea \"%@\" was successfully created.", self.title];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" 
-													message:msg 
-												   delegate:nil 
-										  cancelButtonTitle:nil 
-										  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
-    
+	[self alertSuccess:[NSString stringWithFormat:@"Your idea \"%@\" was successfully created.", self.title]];
+
 	// increment the created suggestions and supported suggestions counts
 	[[UVSession currentSession].user didCreateSuggestion:theSuggestion];
 

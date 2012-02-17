@@ -90,24 +90,16 @@
 }
 
 - (void)promptForFlag {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Flag Idea?"
-													message:@"Are you sure you want to flag this idea as inappropriate?"
-												   delegate:self
-										  cancelButtonTitle:@"Cancel"
-										  otherButtonTitles:@"Flag", nil];
-	[alert show];
-	[alert release];
+	[[[[UIAlertView alloc] initWithTitle:@"Flag Idea?"
+                                 message:@"Are you sure you want to flag this idea as inappropriate?"
+                                delegate:self
+                       cancelButtonTitle:@"Cancel"
+                       otherButtonTitles:@"Flag", nil] autorelease] show];
 }
 
 - (void)didFlagSuggestion:(UVSuggestion *)theSuggestion {
 	[self hideActivityIndicator];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-													message:@"You have successfully flagged this idea as inappropriate."
-												   delegate:nil
-										  cancelButtonTitle:nil
-										  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
+    [self alertSuccess:@"You have successfully flagged this idea as inappropriate."];
 }
 
 // Calculates the height of the text.

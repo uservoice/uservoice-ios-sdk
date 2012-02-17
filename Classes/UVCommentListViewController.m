@@ -122,13 +122,7 @@
 
 - (void)didFlagComment:(UVComment *)theComment {
 	[self hideActivityIndicator];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
-													message:@"You have successfully flagged this comment as inappropriate."
-												   delegate:nil
-										  cancelButtonTitle:nil
-										  otherButtonTitles:@"OK", nil];
-	[alert show];
-	[alert release];
+    [self alertSuccess:@"You have successfully flagged this comment as inappropriate."];
 }
 
 #pragma mark ===== UIActionSheetDelegate Methods =====

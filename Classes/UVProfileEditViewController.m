@@ -53,14 +53,7 @@
 }
 
 - (void)logoutButtonTapped {
-//	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sure?" 
-//													 message:@"Are you sure?" 
-//													delegate:self 
-//										   cancelButtonTitle:@"OK" 
-//										   otherButtonTitles:nil] autorelease];
-//	alert.show;
 	[self showActivityIndicator];
-	
 	[[UVSession currentSession].currentToken revoke:self];
 }
 
