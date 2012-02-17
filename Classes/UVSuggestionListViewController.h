@@ -15,13 +15,11 @@
 @interface UVSuggestionListViewController : UVBaseSuggestionListViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate> {
 	BOOL _searching;
 	UVForum *_forum;
-	UIBarButtonItem *_prevLeftBarButton;
 	UVTextEditor *_textEditor;
 }
 
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVTextEditor *textEditor;
-@property (nonatomic, retain) UIBarButtonItem *prevLeftBarButton;
 
 - (id)initWithForum:(UVForum *)theForum;
 - (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions;

@@ -32,17 +32,15 @@
 @implementation UVSuggestionListViewController
 
 @synthesize forum = _forum;
-@synthesize prevLeftBarButton = _prevLeftBarButton;
 @synthesize textEditor = _textEditor;
 
 - (id)initWithForum:(UVForum *)theForum {
 	if ((self = [super init])) {
 		if (theForum.currentTopic.suggestions) {
 			self = [self initWithForum:theForum andSuggestions:theForum.currentTopic.suggestions];
-			
 		} else {
 			self.forum = theForum;
-		}	
+		}
 		_searching = NO;
 	}
 	return self;
@@ -276,12 +274,9 @@
 	[clearItem release];
 }
 
-- (void)setLeftBarButtonPrevious {
-	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:NO];
-}
-
 - (void)resetList {
 	_searching = NO;
+    [self showExitButton];
 	_textEditor.text = @"";
 
 	[self.suggestions removeAllObjects];
@@ -310,6 +305,7 @@
 	
 	// Maximize header view to allow text editor to grow (leaving room for keyboard) 216
 	[self setLeftBarButtonCancel];	
+    [self hideExitButton];
 	textBar.frame = frame;
 	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
 	theTextEditor.backgroundColor = [UIColor whiteColor];
@@ -352,7 +348,8 @@
 	
 	// Minimize text editor and header
 	[UIView beginAnimations:@"shrinkHeader" context:nil];
-	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];		
+	textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+    
 	[UIView commitAnimations];	
 	textBar.frame = CGRectMake(0, 0, screenWidth, 40);
     
@@ -467,7 +464,6 @@
 
 - (void)dealloc {
     self.forum = nil;
-    self.prevLeftBarButton = nil;
     self.textEditor = nil;
     [super dealloc];
 }

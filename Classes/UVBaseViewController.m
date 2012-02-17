@@ -26,6 +26,7 @@
 	errorAlertView;
 @synthesize needsReload;
 @synthesize tableView;
+@synthesize exitButton;
 
 - (void)dismissUserVoice {
     if ([UVStreamPoller instance].timerIsRunning)
@@ -154,13 +155,11 @@
 	[backButton release];
 	
 	if ([UVSession currentSession].isModal) {
-		UIBarButtonItem *exitButton = [[UIBarButtonItem alloc]
-									   initWithTitle:@"Close"
-									   style:UIBarButtonItemStylePlain
-									   target:self
-									   action:@selector(dismissUserVoice)];
+		self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(dismissUserVoice)] autorelease];
 		self.navigationItem.rightBarButtonItem = exitButton;
-		[exitButton release];
 	}
 }
 
@@ -257,6 +256,15 @@
     errorAlertView = [anErrorAlertView retain];
 }
 
+- (void)hideExitButton {
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void)showExitButton {
+    if (exitButton)
+        self.navigationItem.rightBarButtonItem = exitButton;
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
@@ -288,6 +296,7 @@
     self.errorAlertView = nil;
     self.activityIndicator = nil;
     self.tableView = nil;
+    self.exitButton = nil;
     [super dealloc];
 }
 
