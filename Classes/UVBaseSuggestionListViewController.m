@@ -67,10 +67,7 @@
 	CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
 	UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
 	[cellView setZebraColorFromIndex:indexPath.row];
-		
-	//[button addTarget:self action:@selector(retrieveMoreSuggestions) forControlEvents:UIControlEventTouchUpInside];	
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
+
 	// Can't use built-in textLabel, as this forces a white background
 	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 18)];
 	textLabel.text = @"Load more ideas...";

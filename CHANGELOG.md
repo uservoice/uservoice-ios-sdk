@@ -4,6 +4,8 @@
 * Update installation instructions
 * Remove 'Leave a Rating' feature
 * Remove footer from all views except welcome view
+* Remove footer shadow
+* Remove disclosure indicator from "Load more ideas" row
 
 ## 1.0.0 ##
 
