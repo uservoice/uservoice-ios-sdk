@@ -154,8 +154,11 @@
 	// update the remaining votes
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
 	
-	//[self dismissModalViewControllerAnimated:YES];
-	[self.navigationController popViewControllerAnimated:YES];
+    // Back out to the welcome screen
+    NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
+    [viewControllers removeLastObject];
+    [viewControllers removeLastObject];
+	[self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {
