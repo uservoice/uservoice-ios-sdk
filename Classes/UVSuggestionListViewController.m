@@ -387,6 +387,10 @@
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.sectionHeaderHeight = 0.0;
     theTableView.backgroundColor = [UVStyleSheet backgroundColor];
+    
+    // Add empty footer, to suppress blank cells (with separators) after actual content
+	UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)] autorelease];
+	theTableView.tableFooterView = footer;
 	
 	[self addShadowSeparatorToTableView:theTableView];
 	
