@@ -30,18 +30,6 @@
 	return @"Welcome";
 }
 
-#pragma mark ===== UIAlertViewDelegate Methods =====
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == alertView.firstOtherButtonIndex) {
-		NSString *url = [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@",
-						 [UVSession currentSession].clientConfig.itunesApplicationId];
-		
-		NSLog(@"Attempting to open iTunes page: %@", url);
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-	}
-}
-
 #pragma mark ===== table cells =====
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

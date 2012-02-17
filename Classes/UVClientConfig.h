@@ -18,16 +18,12 @@
 	BOOL ticketsEnabled;
 	UVForum *forum;
 	UVSubdomain *subdomain;
-	NSString *welcome;
-	NSString *itunesApplicationId;
 	NSArray *customFields;
 }
 
 @property (assign) BOOL ticketsEnabled;
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVSubdomain *subdomain;
-@property (nonatomic, retain) NSString *welcome;
-@property (nonatomic, retain) NSString *itunesApplicationId;
 @property (nonatomic, retain) NSArray *customFields;
 
 + (id)getWithDelegate:(id)delegate;

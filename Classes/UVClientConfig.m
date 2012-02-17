@@ -19,8 +19,6 @@
 
 @synthesize ticketsEnabled;
 @synthesize forum;
-@synthesize welcome;
-@synthesize itunesApplicationId;
 @synthesize subdomain;
 @synthesize customFields;
 
@@ -104,9 +102,6 @@
             self.ticketsEnabled = [(NSNumber *)[dict objectForKey:@"tickets_enabled"] boolValue];
         }
         
-		self.welcome = [self objectOrNilForDict:dict key:@"welcome"];
-		self.itunesApplicationId = [self objectOrNilForDict:dict key:@"identifier_external"];
-		
 		// get the forum
 		NSDictionary *forumDict = [self objectOrNilForDict:dict key:@"forum"];
 		UVForum *theForum = [[UVForum alloc] initWithDictionary:forumDict];
@@ -125,8 +120,6 @@
 - (void)dealloc {
     self.forum = nil;
     self.subdomain = nil;
-    self.welcome = nil;
-    self.itunesApplicationId = nil;
     self.customFields = nil;
     [super dealloc];
 }
