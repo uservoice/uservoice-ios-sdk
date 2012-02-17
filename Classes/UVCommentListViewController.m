@@ -18,7 +18,6 @@
 #import "UVTextEditor.h"
 #import "UVClientConfig.h"
 #import "UVSession.h"
-#import "UVSignInViewController.h"
 
 #define UV_COMMENT_LIST_TAG_CELL_NAME 1
 #define UV_COMMENT_LIST_TAG_CELL_DATE 2
@@ -119,13 +118,6 @@
 											   otherButtonTitles:nil];
 	[action showInView:self.view];
 	[action release];
-}
-
-
-- (void)signinButtonTapped {
-    UVSignInViewController *next = [[UVSignInViewController alloc] init];
-    [self.navigationController pushViewController:next animated:YES];
-    [next release];	
 }
 
 - (void)didFlagComment:(UVComment *)theComment {
@@ -358,7 +350,7 @@
             button.backgroundColor = [UIColor whiteColor];
             button.showsTouchWhenHighlighted = YES;
             button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
-            [button addTarget:self action:@selector(signinButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            [button addTarget:self action:@selector(promptUserToSignIn) forControlEvents:UIControlEventTouchUpInside];
             return button;
             
         } else {

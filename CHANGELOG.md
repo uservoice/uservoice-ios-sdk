@@ -1,4 +1,4 @@
-## HEAD ##
+## master ##
 
 * Display error messages from API
 * Update installation instructions
@@ -8,6 +8,7 @@
 * Remove disclosure indicator from "Load more ideas" row
 * Remove unused images
 * Hide "Done" button when searching or creating suggestions
+* Remove sign in message for voting
 
 ## 1.0.0 ##
 

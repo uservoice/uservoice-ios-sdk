@@ -49,19 +49,24 @@
 
 - (void)voteSegmentChanged:(id)sender {
 	UISegmentedControl *segments = (UISegmentedControl *)sender;
-	if (segments.selectedSegmentIndex != self.suggestion.votesFor) {		
-		[self showActivityIndicator];
+    if ([UVSession currentSession].user != nil) {
+        if (segments.selectedSegmentIndex != self.suggestion.votesFor) {		
+            [self showActivityIndicator];
 
-        // Inform the user model
-		if (segments.selectedSegmentIndex == 0 && self.suggestion.votesFor > 0) {
-            [[UVSession currentSession].user didWithdrawSupportForSuggestion:self.suggestion];			
-		} else if (self.suggestion.votesFor == 0) {
-            [[UVSession currentSession].user didSupportSuggestion:self.suggestion];			
-		}
+            // Inform the user model
+            if (segments.selectedSegmentIndex == 0 && self.suggestion.votesFor > 0) {
+                [[UVSession currentSession].user didWithdrawSupportForSuggestion:self.suggestion];			
+            } else if (self.suggestion.votesFor == 0) {
+                [[UVSession currentSession].user didSupportSuggestion:self.suggestion];			
+            }
 
-		self.suggestion.votesFor = segments.selectedSegmentIndex;
-		[self.suggestion vote:segments.selectedSegmentIndex delegate:self];
-	}
+            self.suggestion.votesFor = segments.selectedSegmentIndex;
+            [self.suggestion vote:segments.selectedSegmentIndex delegate:self];
+        }
+    } else {
+        segments.selectedSegmentIndex = -1;
+        [self promptUserToSignIn];
+    }
 }
 
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {		
@@ -202,8 +207,6 @@
 - (void)customizeCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
 	if ([UVSession currentSession].user != nil) {
-        [[cell.contentView viewWithTag:LOGIN_TAG] removeFromSuperview];
-        
 		segments.selectedSegmentIndex = self.suggestion.votesFor;
 		NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
 		for (int i = 0; i < segments.numberOfSegments; i++) {
@@ -215,23 +218,9 @@
 		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
 		if (label) 
 			[self setVoteLabelTextAndColorForLabel:label];
-        [segments setEnabled:YES];
 	} else {
-        [segments setEnabled:NO];
-        if ([cell.contentView viewWithTag:LOGIN_TAG] == NULL) {
-            CGFloat screenWidth = [UVClientConfig getScreenWidth];
-            CGFloat margin = screenWidth > 480 ? 45 : 10;
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, screenWidth - 2 * margin, 20)];
-            label.textAlignment = UITextAlignmentCenter;
-            label.font = [UIFont boldSystemFontOfSize:12];
-            label.tag = LOGIN_TAG;
-            label.text = @"Please sign in to vote.";	
-            label.backgroundColor = [UIColor clearColor];
-            label.textColor = [UVStyleSheet alertTextColor];
-            
-            [cell.contentView addSubview:label];
-            [label release];
-        }
+		UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
+        [label setHidden:YES];
     }
 }
 
@@ -407,14 +396,6 @@
 	UIViewController *next = nil;
 
 	switch (indexPath.section) {
-		case UV_SUGGESTION_DETAILS_SECTION_VOTE: {
-			if ([UVSession currentSession].user==nil) {
-				UVSignInViewController *next = [[UVSignInViewController alloc] init];
-				[self.navigationController pushViewController:next animated:YES];
-				[next release];
-			}
-			break;
-		}
 		case UV_SUGGESTION_DETAILS_SECTION_COMMENTS: {
 			switch (indexPath.row) {
 				case 0: // status

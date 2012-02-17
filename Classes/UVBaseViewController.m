@@ -19,6 +19,7 @@
 #import "UVStreamPoller.h"
 #import "UVImageCache.h"
 #import "UserVoice.h"
+#import "UVSignInViewController.h"
 
 @implementation UVBaseViewController
 
@@ -263,6 +264,11 @@
 - (void)showExitButton {
     if (exitButton)
         self.navigationItem.rightBarButtonItem = exitButton;
+}
+
+- (void)promptUserToSignIn {
+    UVSignInViewController *signInView = [[[UVSignInViewController alloc] init] autorelease];
+    [self.navigationController pushViewController:signInView animated:YES];
 }
 
 #pragma mark ===== Basic View Methods =====

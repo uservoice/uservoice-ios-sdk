@@ -85,5 +85,6 @@
 - (void)setupErrorAlertViewDelegate;
 - (void)hideExitButton;
 - (void)showExitButton;
+- (void)promptUserToSignIn;
 
 @end
