@@ -19,8 +19,8 @@
 #import "UVStreamPoller.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define UV_FORUM_LIST_SECTION_FORUMS 0
-#define UV_FORUM_LIST_SECTION_SUPPORT 1
+#define UV_WELCOME_VIEW_ROW_FEEDBACK 0
+#define UV_WELCOME_VIEW_ROW_SUPPORT 1
 
 @implementation UVWelcomeViewController
 
@@ -33,83 +33,13 @@
 #pragma mark ===== table cells =====
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = [_forum prompt];
+    cell.textLabel.text = @"Give feedback";
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (CGFloat)heightForViewWithHeader:(NSString *)header subheader:(NSString *)subheader 
-{
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
-	if (subheader) {
-		CGSize subSize = [subheader sizeWithFont:[UIFont systemFontOfSize:14]
-							   constrainedToSize:CGSizeMake((screenWidth - 40), 9999)
-								   lineBreakMode:UILineBreakModeWordWrap];
-		return subSize.height + 35 + 5 + 5; // (subheader + header + padding between/bottom)
-		
-	} else if (header) {
-		return 35 + 5; // header + padding bottom only
-	}
-	
-	return 10;
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
-    cell.textLabel.text = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
+    cell.textLabel.text = @"Contact support";
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (void)initCellForSpacer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	[self removeBackgroundFromCell:cell];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	
-	UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-10, -10, screenWidth, 11)];		
-	bg.backgroundColor = [UVStyleSheet backgroundColor];
-	[cell.contentView addSubview:bg];
-	[bg release];
-}
-
-- (UIView *)viewWithHeader:(NSString *)header subheader:(NSString *)subheader {
-	CGFloat height = [self heightForViewWithHeader:header subheader:subheader];
-	
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
-	
-	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
-	headerView.backgroundColor = [UVStyleSheet backgroundColor];
-	
-	UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(margin, 5, (screenWidth - 2 * margin), 35)];
-	title.text = header;
-	title.font = [UIFont boldSystemFontOfSize:18];
-	title.backgroundColor = [UIColor clearColor];
-	title.textColor = [UVStyleSheet tableViewHeaderColor];
-	[headerView addSubview:title];
-	[title release];
-	
-	if (subheader) {
-		UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(margin, 33, (screenWidth - 2 * margin), height - (33 + 5))];
-		subtitle.text = subheader;
-		subtitle.lineBreakMode = UILineBreakModeWordWrap;
-		subtitle.numberOfLines = 0;
-		subtitle.font = [UIFont systemFontOfSize:14];
-		subtitle.backgroundColor = [UIColor clearColor];
-		subtitle.textColor = [UVStyleSheet tableViewHeaderColor];
-		[headerView addSubview:subtitle];
-		[subtitle release];
-	}
-	
-	return headerView;
-}
-
-- (NSString *)headerTextForSection:(NSInteger)section {
-	if (section == 0) {
-		return @"Give Feedback";
-		
-	} else {
-		return [UVSession currentSession].clientConfig.ticketsEnabled ? @"Contact Support" : nil;
-	}
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -119,15 +49,10 @@
 	BOOL selectable = YES;
 
 	UITableViewCellStyle style = UITableViewCellStyleDefault;	
-	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
+	if (indexPath.row == UV_WELCOME_VIEW_ROW_FEEDBACK) {
 		identifier = @"Forum";
-	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {		
-		if ([UVSession currentSession].clientConfig.ticketsEnabled) {
-			identifier = @"Support";
-		} else {
-			identifier = @"Spacer";
-            selectable = NO;
-		}
+	} else if (indexPath.row == UV_WELCOME_VIEW_ROW_SUPPORT) {		
+		identifier = @"Support";
     }
 	
 	return [self createCellForIdentifier:identifier
@@ -138,24 +63,26 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 1;
+    if ([UVSession currentSession].clientConfig.ticketsEnabled)
+        return 2;
+    return 1;
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	switch (indexPath.section) {
-        case UV_FORUM_LIST_SECTION_FORUMS: {
+	switch (indexPath.row) {
+        case UV_WELCOME_VIEW_ROW_FEEDBACK: {
             UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
             [self.navigationController pushViewController:next animated:YES];            
             [next release];
 			break;
 		}
-        case UV_FORUM_LIST_SECTION_SUPPORT: {
+        case UV_WELCOME_VIEW_ROW_SUPPORT: {
             UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
             [self.navigationController pushViewController:next animated:YES];
             [next release];
@@ -166,30 +93,8 @@
 	}
 }
 
-#pragma mark ===== UITableViewDelegate Methods =====
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == UV_FORUM_LIST_SECTION_FORUMS) {
-		return 45;
-		
-	} else if (indexPath.section == UV_FORUM_LIST_SECTION_SUPPORT) {
-		return [UVSession currentSession].clientConfig.ticketsEnabled ? 45 : 0.0;
-    }
-	return 0.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return [self heightForViewWithHeader:[self headerTextForSection:section]
-							   subheader:nil];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	return [self viewWithHeader:[self headerTextForSection:section]
-					  subheader:nil];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return 0.0;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Feedback & Support";
 }
 
 #pragma mark ===== Basic View Methods =====
