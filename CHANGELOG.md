@@ -13,6 +13,7 @@
 * Move email/name fields below category on new suggestion view
 * Back out to the welcome screen after creating a suggestion
 * No longer require a user to log in to submit a ticket
+* Remove subject field from contact form
 
 ## 1.0.0 ##
 

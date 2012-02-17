@@ -23,47 +23,31 @@
 #import "UVTextEditor.h"
 #import "NSError+UVExtras.h"
 
-#define UV_NEW_TICKET_SECTION_SUBJECT 0
-#define UV_NEW_TICKET_SECTION_TEXT 1
-#define UV_NEW_TICKET_SECTION_PROFILE 2
-#define UV_NEW_TICKET_SECTION_SUBMIT 3
+#define UV_NEW_TICKET_SECTION_TEXT 0
+#define UV_NEW_TICKET_SECTION_PROFILE 1
+#define UV_NEW_TICKET_SECTION_SUBMIT 2
 //#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS ??
 
 @implementation UVNewTicketViewController
 
-@synthesize text;
-@synthesize email;
-@synthesize subject;
 @synthesize textEditor;
 @synthesize emailField;
-@synthesize subjectField;
 @synthesize prevBarButton;
 @synthesize activeField;
 
-- (void)createTicket  {
-	[self showActivityIndicator];
-	[UVTicket createWithSubject:self.subject andMessage:self.text andEmailIfNotLoggedIn:self.email andDelegate:self];
-}
-
 - (void)dismissKeyboard {
 	[emailField resignFirstResponder];
-    [subjectField resignFirstResponder];
 	[textEditor resignFirstResponder];
 }
 
-- (void)updateFromControls {
-	self.email = emailField.text;
-	self.text = textEditor.text;
-    self.subject = subjectField.text;
-	
-	[self dismissKeyboard];
-}
-
 - (void)createButtonTapped {
-	[self updateFromControls];
+	[self dismissKeyboard];
+	NSString *email = emailField.text;
+	NSString *text = textEditor.text;	
 	
-	if ([UVSession currentSession].user || (self.email && [self.email length] > 1)) {
-		[self createTicket];
+	if ([UVSession currentSession].user || (email && [email length] > 1)) {
+        [self showActivityIndicator];
+        [UVTicket createWithMessage:text andEmailIfNotLoggedIn:email andDelegate:self];
 	} else {
         [self alertError:@"Please enter your email address before submitting your ticket."];
 	}
@@ -181,18 +165,6 @@
 	}	
 }
 
-- (void)initCellForSubject:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = @"";
-	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 11, 230, 22)];
-	textField.placeholder = @"Subject";
-	textField.returnKeyType = UIReturnKeyDone;
-	textField.borderStyle = UITextBorderStyleNone;
-	textField.backgroundColor = [UIColor clearColor];
-	textField.delegate = self;
-	[cell.contentView addSubview:textField];
-	self.subjectField = [textField autorelease];
-}
-
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	self.emailField = [self customizeTextFieldCell:cell label:@"Email" placeholder:@"Required"];
 	self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -225,9 +197,6 @@
 	BOOL selectable = NO;
 	
 	switch (indexPath.section) {
-		case UV_NEW_TICKET_SECTION_SUBJECT:
-			identifier = @"Subject";
-			break;
 //        case UV_NEW_TICKET_SECTION_CUSTOM_FIELDS
 //            identifier = 
 //            style = UITableViewCellStyleValue1;
@@ -260,7 +229,7 @@
 //    } else {
 //        return 4;
 //    }
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -302,23 +271,6 @@
 	}
 }
 
-- (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
-	switch (section) {
-		case UV_NEW_TICKET_SECTION_SUBJECT:
-			return 10.0;
-		case UV_NEW_TICKET_SECTION_PROFILE:
-			return 0.0;
-		default:
-			return 0.0;
-	}
-}
-
-- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
-	CGFloat height = [self tableView:theTableView heightForHeaderInSection:section];
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)] autorelease];
-}
-
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
@@ -340,8 +292,6 @@
     NSIndexPath *path;
     if (activeField == emailField)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
-    else if (activeField == subjectField)
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_SUBJECT];
     else
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
     [tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -406,12 +356,8 @@
 }
 
 - (void)dealloc {
-    self.text = nil;
-    self.email = nil;
-    self.subject = nil;
 	self.textEditor = nil;
 	self.emailField = nil;
-	self.subjectField = nil;
 	self.prevBarButton = nil;
     self.activeField = nil;
     [super dealloc];

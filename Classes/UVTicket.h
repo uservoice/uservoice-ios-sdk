@@ -14,8 +14,7 @@
 @interface UVTicket : UVBaseModel {    
 }
 
-+ (id)createWithSubject:(NSString *)subject
-             andMessage:(NSString *)message
++ (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
             andDelegate:(id)delegate;
 

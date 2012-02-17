@@ -28,14 +28,12 @@
 	[self setBaseURL:[self siteURL]];
 }
 
-+ (id)createWithSubject:(NSString *)subject
-             andMessage:(NSString *)message
++ (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
             andDelegate:(id)delegate {
 	NSString *path = [self apiPath:@"/tickets.json"];
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							message == nil ? @"" : message, @"ticket[message]",
-							subject == nil ? @"" : subject, @"ticket[subject]",
 							email   == nil ? @"" : email,   @"email",
 							nil];
     
