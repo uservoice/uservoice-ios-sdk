@@ -78,8 +78,6 @@
 		AC91B28A112F28EE00D84566 /* UVNewTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B287112F28EE00D84566 /* UVNewTicketViewController.m */; };
 		AC91B2CB112F320700D84566 /* UVSubjectSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVSubjectSelectViewController.h */; };
 		AC91B2CC112F320700D84566 /* UVSubjectSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */; };
-		AC91B41B113461C900D84566 /* UVQuestion.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B418113461C900D84566 /* UVQuestion.h */; };
-		AC91B41C113461C900D84566 /* UVQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B419113461C900D84566 /* UVQuestion.m */; };
 		AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */; };
 		AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */; };
 		AC91B50211349B6600D84566 /* UVUserButton.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4FF11349B6600D84566 /* UVUserButton.h */; };
@@ -102,8 +100,6 @@
 		ACEE461810ACC158003D8751 /* UVBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE461610ACC158003D8751 /* UVBaseViewController.m */; };
 		D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D20402C911E03B0C00022C44 /* UVSuggestionButton.h */; };
 		D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */; };
-		D209DF0A11B33EC1001E1BC9 /* UVAnswer.h in Headers */ = {isa = PBXBuildFile; fileRef = D209DF0811B33EC1001E1BC9 /* UVAnswer.h */; };
-		D209DF0B11B33EC1001E1BC9 /* UVAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = D209DF0911B33EC1001E1BC9 /* UVAnswer.m */; };
 		D21726AD11A20396005487BA /* UVUserAvatarView.h in Headers */ = {isa = PBXBuildFile; fileRef = D21726AB11A20396005487BA /* UVUserAvatarView.h */; };
 		D21726AE11A20396005487BA /* UVUserAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D21726AC11A20396005487BA /* UVUserAvatarView.m */; };
 		D238B62512135C160008A469 /* UVStreamEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = D238B62312135C160008A469 /* UVStreamEvent.h */; };
@@ -269,8 +265,6 @@
 		AC91B287112F28EE00D84566 /* UVNewTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewTicketViewController.m; sourceTree = "<group>"; };
 		AC91B2C8112F320700D84566 /* UVSubjectSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSubjectSelectViewController.h; sourceTree = "<group>"; };
 		AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubjectSelectViewController.m; sourceTree = "<group>"; };
-		AC91B418113461C900D84566 /* UVQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVQuestion.h; sourceTree = "<group>"; };
-		AC91B419113461C900D84566 /* UVQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVQuestion.m; sourceTree = "<group>"; };
 		AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCellViewWithIndex.h; sourceTree = "<group>"; };
 		AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCellViewWithIndex.m; sourceTree = "<group>"; };
 		AC91B4FF11349B6600D84566 /* UVUserButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUserButton.h; sourceTree = "<group>"; };
@@ -293,8 +287,6 @@
 		ACEE461610ACC158003D8751 /* UVBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UVBaseViewController.m; path = Classes/UVBaseViewController.m; sourceTree = SOURCE_ROOT; };
 		D20402C911E03B0C00022C44 /* UVSuggestionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionButton.h; sourceTree = "<group>"; };
 		D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionButton.m; sourceTree = "<group>"; };
-		D209DF0811B33EC1001E1BC9 /* UVAnswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVAnswer.h; sourceTree = "<group>"; };
-		D209DF0911B33EC1001E1BC9 /* UVAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVAnswer.m; sourceTree = "<group>"; };
 		D21726AB11A20396005487BA /* UVUserAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUserAvatarView.h; sourceTree = "<group>"; };
 		D21726AC11A20396005487BA /* UVUserAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUserAvatarView.m; sourceTree = "<group>"; };
 		D238B62312135C160008A469 /* UVStreamEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStreamEvent.h; sourceTree = "<group>"; };
@@ -555,8 +547,6 @@
 				80B5291D13A16A2F008709D2 /* UVCustomField.m */,
 				AC1BA2ED10BB4931002C8712 /* UVForum.h */,
 				AC1BA2EE10BB4931002C8712 /* UVForum.m */,
-				AC91B418113461C900D84566 /* UVQuestion.h */,
-				AC91B419113461C900D84566 /* UVQuestion.m */,
 				AC91B26A112F213900D84566 /* UVSubject.h */,
 				AC91B26B112F213900D84566 /* UVSubject.m */,
 				AC3127E810976ED800000D5F /* UVSuggestion.h */,
@@ -573,8 +563,6 @@
 				D24540BF11B095AA00C7E4BA /* UVSubdomain.m */,
 				D25C899311B1CE98000C0B43 /* UVStatus.h */,
 				D25C899411B1CE98000C0B43 /* UVStatus.m */,
-				D209DF0811B33EC1001E1BC9 /* UVAnswer.h */,
-				D209DF0911B33EC1001E1BC9 /* UVAnswer.m */,
 				D238B62312135C160008A469 /* UVStreamEvent.h */,
 				D238B62412135C160008A469 /* UVStreamEvent.m */,
 				D2BEEBB71367436D00EBC307 /* UVTicket.h */,
@@ -908,7 +896,6 @@
 				AC91B26D112F213900D84566 /* UVSubject.h in Headers */,
 				AC91B289112F28EE00D84566 /* UVNewTicketViewController.h in Headers */,
 				AC91B2CB112F320700D84566 /* UVSubjectSelectViewController.h in Headers */,
-				AC91B41B113461C900D84566 /* UVQuestion.h in Headers */,
 				AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */,
 				AC91B50211349B6600D84566 /* UVUserButton.h in Headers */,
 				ACBA824A11399A2B006D5219 /* UVActivityIndicator.h in Headers */,
@@ -920,7 +907,6 @@
 				D2453EC611AF2AD900C7E4BA /* UVInfo.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
 				D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */,
-				D209DF0A11B33EC1001E1BC9 /* UVAnswer.h in Headers */,
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
 				D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */,
 				D2620F0911B597290053EA4C /* HRGlobal.h in Headers */,
@@ -1058,7 +1044,6 @@
 				AC91B26E112F213900D84566 /* UVSubject.m in Sources */,
 				AC91B28A112F28EE00D84566 /* UVNewTicketViewController.m in Sources */,
 				AC91B2CC112F320700D84566 /* UVSubjectSelectViewController.m in Sources */,
-				AC91B41C113461C900D84566 /* UVQuestion.m in Sources */,
 				AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */,
 				AC91B50311349B6600D84566 /* UVUserButton.m in Sources */,
 				ACBA824B11399A2B006D5219 /* UVActivityIndicator.m in Sources */,
@@ -1071,7 +1056,6 @@
 				D2453EC711AF2AD900C7E4BA /* UVInfo.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,
 				D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */,
-				D209DF0B11B33EC1001E1BC9 /* UVAnswer.m in Sources */,
 				D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */,
 				D2620F0A11B597290053EA4C /* HRGlobal.m in Sources */,
 				D2620F0C11B597290053EA4C /* HROperationQueue.m in Sources */,

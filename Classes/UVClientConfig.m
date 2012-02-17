@@ -12,18 +12,15 @@
 #import "UVResponseDelegate.h"
 #import "UVForum.h"
 #import "UVSubject.h"
-#import "UVQuestion.h"
 #import "UVUser.h"
 #import "UVSubdomain.h"
 
 @implementation UVClientConfig
 
-@synthesize questionsEnabled;
 @synthesize ticketsEnabled;
 @synthesize forum;
 @synthesize welcome;
 @synthesize itunesApplicationId;
-@synthesize questions;
 @synthesize subdomain;
 @synthesize customFields;
 
@@ -103,10 +100,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
-        if ([dict objectForKey:@"questions_enabled"] != [NSNull null]) {
-            self.questionsEnabled = [(NSNumber *)[dict objectForKey:@"questions_enabled"] boolValue];
-        }
-        
         if ([dict objectForKey:@"tickets_enabled"] != [NSNull null]) {
             self.ticketsEnabled = [(NSNumber *)[dict objectForKey:@"tickets_enabled"] boolValue];
         }
@@ -125,24 +118,8 @@
 		UVSubdomain *theSubdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];
 		self.subdomain = theSubdomain;
 		[theSubdomain release];
-		
-		// get the questions
-		NSDictionary *questionsDict = [self objectOrNilForDict:dict key:@"questions"];
-		if (questionsDict && [questionsDict count] > 0) {
-			NSMutableArray *theQuestions = [NSMutableArray arrayWithCapacity:[questionsDict count]];
-			for (NSDictionary *questionDict in questionsDict) {
-				UVQuestion *question = [[UVQuestion alloc] initWithDictionary:questionDict];
-				[theQuestions addObject:question];
-				[question release];
-			}
-			self.questions = theQuestions;
-		}
-	}
+    }
 	return self;
-}
-
-- (NSString *)description {
-	return [NSString stringWithFormat:@"forumId: %d\nquestions_enabled: %d", self.forum.forumId, self.questionsEnabled];
 }
 
 - (void)dealloc {
@@ -150,7 +127,6 @@
     self.subdomain = nil;
     self.welcome = nil;
     self.itunesApplicationId = nil;
-    self.questions = nil;
     self.customFields = nil;
     [super dealloc];
 }

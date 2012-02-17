@@ -15,21 +15,19 @@
 @class UVSubdomain;
 
 @interface UVClientConfig : UVBaseModel {
-	BOOL questionsEnabled, ticketsEnabled;
+	BOOL ticketsEnabled;
 	UVForum *forum;
 	UVSubdomain *subdomain;
 	NSString *welcome;
 	NSString *itunesApplicationId;
-	NSArray *questions;
 	NSArray *customFields;
 }
 
-@property (assign) BOOL questionsEnabled, ticketsEnabled;
+@property (assign) BOOL ticketsEnabled;
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVSubdomain *subdomain;
 @property (nonatomic, retain) NSString *welcome;
 @property (nonatomic, retain) NSString *itunesApplicationId;
-@property (nonatomic, retain) NSArray *questions;
 @property (nonatomic, retain) NSArray *customFields;
 
 + (id)getWithDelegate:(id)delegate;

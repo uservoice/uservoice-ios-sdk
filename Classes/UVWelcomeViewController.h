@@ -14,12 +14,8 @@
 
 @interface UVWelcomeViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
 	UVForum *_forum;
-	UVQuestion *_question;
-	NSArray *_questions;
 }
 
 @property (nonatomic, retain) UVForum *forum;
-@property (nonatomic, retain) UVQuestion *question;
-@property (nonatomic, retain) NSArray *questions;
 
 @end
