@@ -345,14 +345,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	if (self.needsReload) {
-		[self.tableView reloadData];
-		self.needsReload = NO;
-		
-		NSArray *viewControllers = [self.navigationController viewControllers];
-		UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
-		prev.needsReload = YES;	
-	}
+    [textEditor becomeFirstResponder];
 }
 
 - (void)dealloc {
