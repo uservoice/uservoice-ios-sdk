@@ -6,6 +6,7 @@
 * Remove footer from all views except welcome view
 * Remove footer shadow
 * Remove disclosure indicator from "Load more ideas" row
+* Remove unused images
 
 ## 1.0.0 ##
 

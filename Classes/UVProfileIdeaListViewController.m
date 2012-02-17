@@ -62,10 +62,6 @@
 	return NO;
 }
 
-- (BOOL)supportsFooter {
-	return NO;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return [self.suggestions count];
 }

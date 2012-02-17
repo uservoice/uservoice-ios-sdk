@@ -104,10 +104,6 @@
 	return YES;
 }
 
-- (BOOL)supportsFooter {
-	return YES;
-}
-
 - (void)addSuggestion:(UVCellViewWithIndex *)cellView {
 	UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
 																						 title:_textEditor.text];
