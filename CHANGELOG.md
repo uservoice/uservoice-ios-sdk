@@ -9,6 +9,8 @@
 * Remove unused images
 * Hide "Done" button when searching or creating suggestions
 * Remove sign in message for voting
+* Move add suggestion row to top of search results
+* Move email/name fields below category on new suggestion view
 
 ## 1.0.0 ##
 
