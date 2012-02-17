@@ -116,8 +116,6 @@
 		D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BDE6111DAE3FA00B26012 /* UVImageView.m */; };
 		D24BE09F11DB1B7C00B26012 /* UVTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE09D11DB1B7C00B26012 /* UVTextEditor.h */; };
 		D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */; };
-		D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE52111DC11A600B26012 /* UVTaskBar.h */; };
-		D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE52211DC11A600B26012 /* UVTaskBar.m */; };
 		D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = D25C899311B1CE98000C0B43 /* UVStatus.h */; };
 		D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D25C899411B1CE98000C0B43 /* UVStatus.m */; };
 		D261E056121456430024F2EA /* UVStreamPoller.h in Headers */ = {isa = PBXBuildFile; fileRef = D261E054121456430024F2EA /* UVStreamPoller.h */; };
@@ -148,8 +146,6 @@
 		D2620F2511B597290053EA4C /* UVJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDC11B597290053EA4C /* UVJsonParser.m */; };
 		D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDD11B597290053EA4C /* UVJsonWriter.h */; };
 		D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDE11B597290053EA4C /* UVJsonWriter.m */; };
-		D26B487E11DEAA4500B096D0 /* UVBaseGroupedCell.h in Headers */ = {isa = PBXBuildFile; fileRef = D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */; };
-		D26B487F11DEAA4500B096D0 /* UVBaseGroupedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */; };
 		D29734D711E50B8F001B8D6E /* NSData+OAuthResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */; };
 		D29734D811E50B8F001B8D6E /* NSData+OAuthResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */; };
 		D29734D911E50B8F001B8D6E /* NSDictionary+ParamUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */; };
@@ -301,8 +297,6 @@
 		D24BDE6111DAE3FA00B26012 /* UVImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageView.m; sourceTree = "<group>"; };
 		D24BE09D11DB1B7C00B26012 /* UVTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextEditor.h; sourceTree = "<group>"; };
 		D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextEditor.m; sourceTree = "<group>"; };
-		D24BE52111DC11A600B26012 /* UVTaskBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTaskBar.h; sourceTree = "<group>"; };
-		D24BE52211DC11A600B26012 /* UVTaskBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTaskBar.m; sourceTree = "<group>"; };
 		D25C899311B1CE98000C0B43 /* UVStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStatus.h; sourceTree = "<group>"; };
 		D25C899411B1CE98000C0B43 /* UVStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStatus.m; sourceTree = "<group>"; };
 		D2605CFA144662150029F16B /* uv_alert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_alert@2x.png"; sourceTree = "<group>"; };
@@ -359,8 +353,6 @@
 		D2620EDC11B597290053EA4C /* UVJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonParser.m; sourceTree = "<group>"; };
 		D2620EDD11B597290053EA4C /* UVJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonWriter.h; sourceTree = "<group>"; };
 		D2620EDE11B597290053EA4C /* UVJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonWriter.m; sourceTree = "<group>"; };
-		D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseGroupedCell.h; sourceTree = "<group>"; };
-		D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseGroupedCell.m; sourceTree = "<group>"; };
 		D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+OAuthResponse.h"; sourceTree = "<group>"; };
 		D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+OAuthResponse.m"; sourceTree = "<group>"; };
 		D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ParamUtils.h"; sourceTree = "<group>"; };
@@ -636,10 +628,6 @@
 				D24BDE6111DAE3FA00B26012 /* UVImageView.m */,
 				D24BE09D11DB1B7C00B26012 /* UVTextEditor.h */,
 				D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */,
-				D24BE52111DC11A600B26012 /* UVTaskBar.h */,
-				D24BE52211DC11A600B26012 /* UVTaskBar.m */,
-				D26B487C11DEAA4500B096D0 /* UVBaseGroupedCell.h */,
-				D26B487D11DEAA4500B096D0 /* UVBaseGroupedCell.m */,
 				D20402C911E03B0C00022C44 /* UVSuggestionButton.h */,
 				D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */,
 			);
@@ -846,8 +834,6 @@
 				D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */,
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextEditor.h in Headers */,
-				D24BE52311DC11A600B26012 /* UVTaskBar.h in Headers */,
-				D26B487E11DEAA4500B096D0 /* UVBaseGroupedCell.h in Headers */,
 				D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */,
 				D29734D711E50B8F001B8D6E /* NSData+OAuthResponse.h in Headers */,
 				D29734D911E50B8F001B8D6E /* NSDictionary+ParamUtils.h in Headers */,
@@ -989,8 +975,6 @@
 				D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */,
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */,
-				D24BE52411DC11A600B26012 /* UVTaskBar.m in Sources */,
-				D26B487F11DEAA4500B096D0 /* UVBaseGroupedCell.m in Sources */,
 				D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */,
 				D29734D811E50B8F001B8D6E /* NSData+OAuthResponse.m in Sources */,
 				D29734DA11E50B8F001B8D6E /* NSDictionary+ParamUtils.m in Sources */,

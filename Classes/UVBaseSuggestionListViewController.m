@@ -12,7 +12,6 @@
 #import "UVCategory.h"
 #import "UVClientConfig.h"
 #import "UVStyleSheet.h"
-#import "UVBaseGroupedCell.h"
 #import "UVSuggestionChickletView.h"
 #import "UVSuggestionButton.h"
 #import <QuartzCore/QuartzCore.h>
@@ -50,7 +49,7 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)customizeCellForSuggestion:(UVBaseGroupedCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     //	NSLog(@"Customize suggestion with index: %d", indexPath.row);
 	
 	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:indexPath.row];

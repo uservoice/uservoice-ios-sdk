@@ -18,7 +18,6 @@
 #import "UVSuggestion.h"
 #import "UVSubdomain.h"
 #import "UVStyleSheet.h"
-#import "UVTaskBar.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define UV_FOOTER_TAG_NAME_VIEW 1

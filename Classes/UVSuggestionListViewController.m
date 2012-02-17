@@ -18,7 +18,6 @@
 #import "UVStyleSheet.h"
 #import "UVUser.h"
 #import "UVTextEditor.h"
-#import "UVBaseGroupedCell.h"
 #import "UVCellViewWithIndex.h"
 #import "UVStreamPoller.h"
 
