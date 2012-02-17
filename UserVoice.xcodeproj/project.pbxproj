@@ -94,8 +94,6 @@
 		ACEE442F10AB370F003D8751 /* UVComment.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE442D10AB370F003D8751 /* UVComment.m */; };
 		ACEE457D10AC9D32003D8751 /* UVProfileViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE457B10AC9D32003D8751 /* UVProfileViewController.h */; };
 		ACEE457E10AC9D32003D8751 /* UVProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE457C10AC9D32003D8751 /* UVProfileViewController.m */; };
-		ACEE460310ACC08C003D8751 /* UVBaseSuggestionListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE460110ACC08C003D8751 /* UVBaseSuggestionListViewController.h */; };
-		ACEE460410ACC08C003D8751 /* UVBaseSuggestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE460210ACC08C003D8751 /* UVBaseSuggestionListViewController.m */; };
 		ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE461510ACC158003D8751 /* UVBaseViewController.h */; };
 		ACEE461810ACC158003D8751 /* UVBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE461610ACC158003D8751 /* UVBaseViewController.m */; };
 		D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D20402C911E03B0C00022C44 /* UVSuggestionButton.h */; };
@@ -275,8 +273,6 @@
 		ACEE442D10AB370F003D8751 /* UVComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVComment.m; sourceTree = "<group>"; };
 		ACEE457B10AC9D32003D8751 /* UVProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVProfileViewController.h; sourceTree = "<group>"; };
 		ACEE457C10AC9D32003D8751 /* UVProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVProfileViewController.m; sourceTree = "<group>"; };
-		ACEE460110ACC08C003D8751 /* UVBaseSuggestionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseSuggestionListViewController.h; sourceTree = "<group>"; };
-		ACEE460210ACC08C003D8751 /* UVBaseSuggestionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseSuggestionListViewController.m; sourceTree = "<group>"; };
 		ACEE461510ACC158003D8751 /* UVBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVBaseViewController.h; path = Classes/UVBaseViewController.h; sourceTree = SOURCE_ROOT; };
 		ACEE461610ACC158003D8751 /* UVBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UVBaseViewController.m; path = Classes/UVBaseViewController.m; sourceTree = SOURCE_ROOT; };
 		D20402C911E03B0C00022C44 /* UVSuggestionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionButton.h; sourceTree = "<group>"; };
@@ -526,8 +522,6 @@
 		AC3123891090E69200000D5F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				ACEE460110ACC08C003D8751 /* UVBaseSuggestionListViewController.h */,
-				ACEE460210ACC08C003D8751 /* UVBaseSuggestionListViewController.m */,
 				ACEE461510ACC158003D8751 /* UVBaseViewController.h */,
 				ACEE461610ACC158003D8751 /* UVBaseViewController.m */,
 				AC1E2F7F111E2EB200415C16 /* UVCategorySelectViewController.h */,
@@ -790,7 +784,6 @@
 				ACEE436110AA32A4003D8751 /* UVCommentListViewController.h in Headers */,
 				ACEE442E10AB370F003D8751 /* UVComment.h in Headers */,
 				ACEE457D10AC9D32003D8751 /* UVProfileViewController.h in Headers */,
-				ACEE460310ACC08C003D8751 /* UVBaseSuggestionListViewController.h in Headers */,
 				ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */,
 				AC1B9F6E10B318DC002C8712 /* UVNewSuggestionViewController.h in Headers */,
 				AC1BA2EF10BB4931002C8712 /* UVForum.h in Headers */,
@@ -935,7 +928,6 @@
 				ACEE436210AA32A4003D8751 /* UVCommentListViewController.m in Sources */,
 				ACEE442F10AB370F003D8751 /* UVComment.m in Sources */,
 				ACEE457E10AC9D32003D8751 /* UVProfileViewController.m in Sources */,
-				ACEE460410ACC08C003D8751 /* UVBaseSuggestionListViewController.m in Sources */,
 				ACEE461810ACC158003D8751 /* UVBaseViewController.m in Sources */,
 				AC1B9F6F10B318DC002C8712 /* UVNewSuggestionViewController.m in Sources */,
 				AC1BA2F010BB4931002C8712 /* UVForum.m in Sources */,

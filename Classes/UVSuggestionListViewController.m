@@ -20,6 +20,7 @@
 #import "UVTextEditor.h"
 #import "UVCellViewWithIndex.h"
 #import "UVStreamPoller.h"
+#import "UVSuggestionButton.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -33,6 +34,7 @@
 
 @synthesize forum = _forum;
 @synthesize textEditor = _textEditor;
+@synthesize suggestions;
 
 - (id)initWithForum:(UVForum *)theForum {
 	if ((self = [super init])) {
@@ -183,22 +185,68 @@
 	label.frame = CGRectMake(prevEndX-1, 26, 10, 20);
 }
 
+- (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	// getting the cell size
+    //CGRect contentRect = cell.contentView.bounds;
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
+	UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row andFrame:contentRect];	
+    //	NSLog(@"Init suggestion with index: %d", indexPath.row);
+	
+	button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
+	[cell.contentView addSubview:button];
+	[button release];
+    
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
+- (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    //	NSLog(@"Customize suggestion with index: %d", indexPath.row);
+	
+	UVSuggestion *suggestion = [[self suggestions] objectAtIndex:(_searching ? indexPath.row-1 : indexPath.row)];
+	UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
+	[button setZebraColorFromIndex:indexPath.row];
+	[button showSuggestion:suggestion withIndex:indexPath.row];
+}
+
+- (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	//NSLog(@"Load more index: %d", indexPath.row);
+	
+	//CGRect contentRect = cell.contentView.bounds;
+	CGFloat screenWidth = [UVClientConfig getScreenWidth];
+	CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
+	UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
+	[cellView setZebraColorFromIndex:indexPath.row];
+    
+	// Can't use built-in textLabel, as this forces a white background
+	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 18)];
+	textLabel.text = @"Load more ideas...";
+	textLabel.textColor = [UVStyleSheet primaryTextColor];
+	textLabel.backgroundColor = [UIColor clearColor];
+	textLabel.font = [UIFont boldSystemFontOfSize:18];
+	textLabel.textAlignment = UITextAlignmentCenter;
+	[cell addSubview:textLabel];
+	[textLabel release];
+    
+	[cell.contentView addSubview:cellView];
+	[cellView release];
+}
+
+- (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier;
 	BOOL selectable = YES;
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
-//	NSLog(@"%d, %d, %d", indexPath.row, [self.suggestions count], suggestionsCount);
 	
-	if (indexPath.row < [self.suggestions count]) {
+    if (indexPath.row == 0 && _searching)
+        identifier = @"Add";
+	else if (indexPath.row < (_searching ? [self.suggestions count] + 1 : [self.suggestions count]))
 		identifier = @"Suggestion";
-		
-	} else if (!_searching && (indexPath.row == [self.suggestions count]) &&  (suggestionsCount > [self.suggestions count])) {
+    else
 		identifier = @"Load";
-		
-	} else {
-		identifier = @"Add";
-	}		
 	return [self createCellForIdentifier:identifier
 							   tableView:theTableView
 							   indexPath:indexPath
@@ -234,29 +282,34 @@
 	return 71;
 }
 
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
-{
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-
-	NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsCount;
-	if (!_searching && (indexPath.row == [self.suggestions count]) && (suggestionsCount > [self.suggestions count]))
-	{
-		// This is the last row in the table, so it's the "Load more ideas" cell
-		[self retrieveMoreSuggestions];
-        
-	} else if (indexPath.row < [self.suggestions count]) {
-		// For all other rows, push appropriate suggestion details
-		[self pushSuggestionShowView:indexPath.row];
-        
-	} else {
+    if (indexPath.row == 0 && _searching) {
         UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum 
 																							 title:_textEditor.text];
 		[self.navigationController pushViewController:next animated:YES];
 		[next release];
+    } else if (indexPath.row < (_searching ? [self.suggestions count] + 1 : [self.suggestions count])) {
+        UVSuggestion *suggestion = [suggestions objectAtIndex:(_searching ? indexPath.row-1 : indexPath.row)];
+        UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
+        next.suggestion = suggestion;
+        
+        [self.navigationController pushViewController:next animated:YES];
+        [next release];
+    } else {
+		// This is the last row in the table, so it's the "Load more ideas" cell
+		[self retrieveMoreSuggestions];
     }
 }
 
+- (void)pushSuggestionShowView:(NSInteger)index {
+	UVSuggestion *suggestion = [suggestions objectAtIndex:index];
+	UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
+	next.suggestion = suggestion;
+	
+	[self.navigationController pushViewController:next animated:YES];
+	[next release];
+}
 
 - (void)setLeftBarButtonCancel {
 	UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -465,6 +518,7 @@
 - (void)dealloc {
     self.forum = nil;
     self.textEditor = nil;
+    self.suggestions = nil;
     [super dealloc];
 }
 
