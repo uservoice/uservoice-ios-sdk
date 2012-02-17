@@ -36,26 +36,9 @@
 	[next release];
 }
 
-+ (CGFloat)heightForFooter {
-	return 110; // actual cells and padding + table footer
-}
-
-+ (UIView *)getHeaderView 
-{
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UIView *bottomShadow = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 10)] autorelease];
-	UIImage *shadow = [UIImage imageNamed:@"dropshadow_bottom_30.png"];
-	CGFloat widthScale = screenWidth / shadow.size.width; // horizontal scaling factor to expand shadow image
-	UIImageView *shadowView = [[[UIImageView alloc] initWithImage:shadow] autorelease];
-	shadowView.transform = CGAffineTransformMakeScale(widthScale, 1.0); // rescale the shadow
-	shadowView.center = CGPointMake(screenWidth/2, shadowView.center.y); // recenter the upscaled shadow
-	[bottomShadow addSubview:shadowView];	
-	return bottomShadow;
-}
-
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, [UVFooterView heightForFooter])] autorelease];
+	UVFooterView *footer = [[[UVFooterView alloc ]initWithFrame:CGRectMake(0, 0, screenWidth, 110)] autorelease];
 	footer.controller = controller;
 	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:footer.bounds style:UITableViewStyleGrouped];
@@ -64,7 +47,6 @@
 	theTableView.dataSource = footer;
 	theTableView.sectionHeaderHeight = 10.0;
 	theTableView.sectionFooterHeight = 8.0;		
-	theTableView.tableHeaderView = [self getHeaderView];
 	theTableView.backgroundColor = [UVStyleSheet backgroundColor];
     
     // Fix background color on iPad

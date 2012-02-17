@@ -18,8 +18,6 @@
 @property (assign) UVBaseViewController *controller;
 @property (nonatomic, retain) UITableView *tableView;
 
-+ (UIView *)getHeaderView;
-+ (CGFloat)heightForFooter;
 + (UVFooterView *)footerViewForController:(UVBaseViewController *)controller;
 
 - (void)reloadFooter;
