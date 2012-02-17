@@ -23,10 +23,6 @@
 @synthesize ssoToken;
 @synthesize email, displayName, guid;
 
-- (void)setupErrorAlertViewDelegate {
-	errorAlertView.delegate = self;
-}
-
 - (id)initWithSsoToken:(NSString *)aToken {
 	if ((self = [super init])) {
 		self.ssoToken = aToken;
@@ -49,7 +45,11 @@
 			[[UVSession currentSession].currentToken remove];
 			[UVToken getRequestTokenWithDelegate:self];
 		} else {
-			[self alertError:@"This application didn't configure UserVoice properly"];
+            [[[[UIAlertView alloc] initWithTitle:@"Error"
+                                         message:@"This application didn't configure UserVoice properly"
+                                        delegate:self
+                               cancelButtonTitle:nil
+                               otherButtonTitles:@"OK", nil] autorelease] show];
 		}
 	} else {
 		[super didReceiveError:error];

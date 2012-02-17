@@ -23,8 +23,7 @@
 
 @implementation UVBaseViewController
 
-@synthesize activityIndicator,
-	errorAlertView;
+@synthesize activityIndicator;
 @synthesize needsReload;
 @synthesize tableView;
 @synthesize exitButton;

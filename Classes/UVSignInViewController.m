@@ -122,7 +122,7 @@
 	} else if ([error isAuthError]) {
 		[self hideActivityIndicator];
 		NSString *msg = @"There was a problem logging you in, please check your password and try again.";
-		[self showErrorAlertViewWithMessage:msg];
+		[self alertError:msg];
 		
 	} else {
 		[super didReceiveError:error];
