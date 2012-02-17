@@ -17,11 +17,9 @@
 	UITextFieldDelegate, UVTextEditorDelegate> {
 		
 	NSString *text;
-	NSString *name;
 	NSString *email;
     NSString *subject;
 	UVTextEditor *textEditor;
-	UITextField *nameField;
 	UITextField *emailField;
     UITextField *subjectField;
 	UIBarButtonItem *prevBarButton;
@@ -30,11 +28,9 @@
 }
 
 @property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *subject;
 @property (nonatomic, retain) UVTextEditor *textEditor;
-@property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UITextField *subjectField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;

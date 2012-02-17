@@ -16,6 +16,7 @@
 
 + (id)createWithSubject:(NSString *)subject
              andMessage:(NSString *)message
+  andEmailIfNotLoggedIn:(NSString *)email
             andDelegate:(id)delegate;
 
 @end

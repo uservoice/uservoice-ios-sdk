@@ -12,6 +12,7 @@
 * Move add suggestion row to top of search results
 * Move email/name fields below category on new suggestion view
 * Back out to the welcome screen after creating a suggestion
+* No longer require a user to log in to submit a ticket
 
 ## 1.0.0 ##
 

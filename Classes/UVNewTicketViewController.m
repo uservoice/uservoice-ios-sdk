@@ -23,35 +23,31 @@
 #import "UVTextEditor.h"
 #import "NSError+UVExtras.h"
 
-#define UV_NEW_TICKET_SECTION_PROFILE 0
-#define UV_NEW_TICKET_SECTION_SUBJECT 2
-#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 1
-#define UV_NEW_TICKET_SECTION_TEXT 3
-#define UV_NEW_TICKET_SECTION_SUBMIT 4
+#define UV_NEW_TICKET_SECTION_SUBJECT 0
+#define UV_NEW_TICKET_SECTION_TEXT 1
+#define UV_NEW_TICKET_SECTION_PROFILE 2
+#define UV_NEW_TICKET_SECTION_SUBMIT 3
+//#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS ??
 
 @implementation UVNewTicketViewController
 
 @synthesize text;
-@synthesize name;
 @synthesize email;
 @synthesize subject;
 @synthesize textEditor;
-@synthesize nameField;
 @synthesize emailField;
 @synthesize subjectField;
 @synthesize prevBarButton;
 @synthesize activeField;
 
-- (void)createTicket 
-{
+- (void)createTicket  {
 	[self showActivityIndicator];
-	[UVTicket createWithSubject:self.subject andMessage:self.text andDelegate:self];
+	[UVTicket createWithSubject:self.subject andMessage:self.text andEmailIfNotLoggedIn:self.email andDelegate:self];
 }
 
 - (void)dismissKeyboard {
 	// shouldResizeForKeyboard = YES;
 	
-	[nameField resignFirstResponder];
 	[emailField resignFirstResponder];
     [subjectField resignFirstResponder];
 	[textEditor resignFirstResponder];
@@ -59,7 +55,6 @@
 }
 
 - (void)updateFromControls {
-	self.name = nameField.text;
 	self.email = emailField.text;
 	self.text = textEditor.text;
     self.subject = subjectField.text;
@@ -70,54 +65,14 @@
 - (void)createButtonTapped {
 	[self updateFromControls];
 	
-	if ([UVSession currentSession].user) {
+	if ([UVSession currentSession].user || (self.email && [self.email length] > 1)) {
 		[self createTicket];
-		
 	} else {
-		if (self.email && [self.email length] > 1) {
-			[self showActivityIndicator];
-			[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
-			
-		} else {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-															message:@"Please enter your email address before submitting your ticket." 
-														   delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-			[alert show];
-			[alert release];
-		}
-	}
-}
-
-- (void)didDiscoverUser:(UVUser *)theUser {
-	[self hideActivityIndicator];
-	
-	// add email to user as won't of been returned
-	theUser.email = self.emailField.text;
-	UVSignInViewController *signinView = [[UVSignInViewController alloc] initWithUVUser:theUser];
-	[self.navigationController pushViewController:signinView animated:YES];
-	[signinView release];
-}
-
-- (void)didCreateUser:(UVUser *)theUser {
-	[UVSession currentSession].user = theUser;
-	
-	// token should have been loaded by ResponseDelegate
-	[[UVSession currentSession].currentToken persist];
-	
-	[self createTicket];
-}
-
-- (void)didReceiveError:(NSError *)error {
-	[self hideActivityIndicator];
-	
-	if ([error isNotFoundError]) {
-		NSLog(@"No user");
-		// shouldResizeForKeyboard = YES;
-		[self.tableView reloadData];
-		// shouldResizeForKeyboard = NO;
-		
-	} else {
-		[super didReceiveError:error];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"Please enter your email address before submitting your ticket."
+                                                       delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alert show];
+        [alert release];
 	}
 }
 
@@ -140,13 +95,6 @@
 	// shouldResizeForKeyboard = NO;
 }
 
-- (void)checkEmail {		
-	if (self.emailField.text.length > 0) {
-		[self showActivityIndicatorWithText:@"Checking..."];
-		[UVUser discoverWithEmail:emailField.text delegate:self];
-	}
-}
-
 - (void)suggestionButtonTapped {
 	NSArray *viewControllers = self.navigationController.viewControllers;
 	UIViewController *prev = [viewControllers objectAtIndex:([viewControllers count] - 2)];
@@ -164,40 +112,14 @@
 	}
 }
 
-//- (void) moveTextViewForKeyboard:(NSNotification*)aNotification up: (BOOL) up {
-- (void) moveTextViewForKeyboard:(BOOL) up {
-	// Animate up or down
-	[UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-	[UIView setAnimationBeginsFromCurrentState:YES];
-	
-	CGRect newFrame = self.tableView.frame;
-	newFrame.size.height -= 216 * (up? 1 : -1);
-	self.tableView.frame = newFrame;
-	if (up) {	
-		// Scroll to the active text editor	
-		NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
-		[self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	}
-	[UIView commitAnimations];
-}
-
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeField = textField;
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-	if (textField==emailField) {
-		NSLog(@"Check email");
-		[self checkEmail];
-	}
-	return YES;
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
-	
 	return YES;
 }
 
@@ -287,10 +209,6 @@
 	self.subjectField = [textField autorelease];
 }
 
-- (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.nameField = [self customizeTextFieldCell:cell label:@"Name" placeholder:@"Anonymous"];
-}
-
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	self.emailField = [self customizeTextFieldCell:cell label:@"Email" placeholder:@"Required"];
 	self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -336,7 +254,7 @@
 			identifier = @"Text";
 			break;
 		case UV_NEW_TICKET_SECTION_PROFILE:
-			identifier = indexPath.row == 0 ? @"Email" : @"Name";
+			identifier = @"Email";
 			break;
 		case UV_NEW_TICKET_SECTION_SUBMIT:
 			identifier = @"Submit";
@@ -358,7 +276,7 @@
 //    } else {
 //        return 4;
 //    }
-    return 5;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -366,10 +284,10 @@
 		if ([UVSession currentSession].user!=nil) {
 			return 0;
 		} else {
-			return 2;
+			return 1;
 		}
-	} else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {        
-        return 0;
+//	} else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
+//        return 0;
 //		NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
 //        
 //        NSLog(@"Custom Fields: %@", subjects);
@@ -436,7 +354,7 @@
     [super keyboardDidShow:notification];
     
     NSIndexPath *path;
-    if (activeField == emailField || activeField == nameField)
+    if (activeField == emailField)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
     else if (activeField == subjectField)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_SUBJECT];
@@ -505,11 +423,9 @@
 
 - (void)dealloc {
     self.text = nil;
-    self.name = nil;
     self.email = nil;
     self.subject = nil;
 	self.textEditor = nil;
-	self.nameField = nil;
 	self.emailField = nil;
 	self.subjectField = nil;
 	self.prevBarButton = nil;
