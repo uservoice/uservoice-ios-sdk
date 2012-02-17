@@ -7,6 +7,7 @@
 * Remove footer shadow
 * Remove disclosure indicator from "Load more ideas" row
 * Remove unused images
+* Hide "Done" button when searching or creating suggestions
 
 ## 1.0.0 ##
 

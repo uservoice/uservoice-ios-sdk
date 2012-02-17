@@ -486,6 +486,7 @@
 
 - (void)loadView {
 	[super loadView];
+    [self hideExitButton];
 	
 	self.navigationItem.title = @"New Suggestion";		
 	CGRect frame = [self contentFrame];
