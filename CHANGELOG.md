@@ -14,6 +14,8 @@
 * Back out to the welcome screen after creating a suggestion
 * No longer require a user to log in to submit a ticket
 * Remove subject field from contact form
+* Automatically focus on text area on contact form
+* Fix add a suggestion link on contact form
 
 ## 1.0.0 ##
 

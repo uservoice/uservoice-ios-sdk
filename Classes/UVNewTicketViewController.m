@@ -13,7 +13,7 @@
 #import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVSubjectSelectViewController.h"
-#import "UVSuggestionListViewController.h"
+#import "UVNewSuggestionViewController.h"
 #import "UVSignInViewController.h"
 #import "UVClientConfig.h"
 #import "UVTicket.h"
@@ -64,20 +64,13 @@
 }
 
 - (void)suggestionButtonTapped {
-	NSArray *viewControllers = self.navigationController.viewControllers;
-	UIViewController *prev = [viewControllers objectAtIndex:([viewControllers count] - 2)];
-	UINavigationController *navController = self.navigationController;
-	if ([prev class] == [UVSuggestionListViewController class]) {
-		// Previous view was already a suggestion list => simply pop view
-		[navController popViewControllerAnimated:YES];
-	} else {
-		// Previous view was something else => pop current view, then push suggestion list
-		[navController popViewControllerAnimated:NO];
-		UVForum *forum = [UVSession currentSession].clientConfig.forum;		
-		UIViewController *next = [[UVSuggestionListViewController alloc] initWithForum:forum];
-		[navController pushViewController:next animated:YES];
-		[next release];
-	}
+    NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
+    [viewControllers removeLastObject];
+    UVForum *forum = [UVSession currentSession].clientConfig.forum;		
+    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:forum title:self.textEditor.text];
+    [viewControllers addObject:next];
+	[self.navigationController setViewControllers:viewControllers animated:YES];
+    [viewControllers release];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====

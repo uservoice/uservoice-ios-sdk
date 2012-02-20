@@ -132,6 +132,7 @@
     [viewControllers removeLastObject];
     [viewControllers removeLastObject];
 	[self.navigationController setViewControllers:viewControllers animated:YES];
+    [viewControllers release];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {
