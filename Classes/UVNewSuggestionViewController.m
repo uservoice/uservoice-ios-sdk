@@ -128,11 +128,11 @@
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
 	
     // Back out to the welcome screen
-    NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
+    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
     [viewControllers removeLastObject];
-    [viewControllers removeLastObject];
-	[self.navigationController setViewControllers:viewControllers animated:YES];
-    [viewControllers release];
+    if ([viewControllers count] > 2)
+        [viewControllers removeLastObject];
+    [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {
@@ -163,17 +163,13 @@
 }
 
 - (void)contactButtonTapped {
-	UINavigationController *navController = self.navigationController;
-	NSArray *viewControllers = [navController viewControllers];	
-	NSMutableArray *newControllers = [NSMutableArray arrayWithCapacity:3];	
-	UIViewController *next = [[UVNewTicketViewController alloc] init];
-	
-	[newControllers addObject:[viewControllers objectAtIndex:0]];
-	[newControllers addObject:[viewControllers objectAtIndex:1]];	
-	[newControllers	addObject:next];
-	
-	[navController setViewControllers:newControllers animated:YES];
-	[next release];
+    UIViewController *next = [[[UVNewTicketViewController alloc] initWithText:titleField.text] autorelease];
+    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
+    [viewControllers removeLastObject];
+    if ([viewControllers count] > 2)
+        [viewControllers removeLastObject];
+    [viewControllers addObject:next];
+    [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====

@@ -34,6 +34,14 @@
 @synthesize emailField;
 @synthesize prevBarButton;
 @synthesize activeField;
+@synthesize initialText;
+
+- (id)initWithText:(NSString *)text {
+    if (self = [super init]) {
+        self.initialText = text;
+    }
+    return self;
+}
 
 - (void)dismissKeyboard {
 	[emailField resignFirstResponder];
@@ -141,6 +149,7 @@
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
 	aTextEditor.placeholder = @"Message";
+    aTextEditor.text = initialText;
 	
 	[cell.contentView addSubview:aTextEditor];
 	self.textEditor = aTextEditor;

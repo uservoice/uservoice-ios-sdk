@@ -17,6 +17,7 @@
 	UITextField *emailField;
 	UIBarButtonItem *prevBarButton;
     UIView *activeField;
+    NSString *initialText;
 	//NSArray *customFields;
 }
 
@@ -24,6 +25,9 @@
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIBarButtonItem *prevBarButton;
 @property (nonatomic, retain) UIView *activeField;
+@property (nonatomic, retain) NSString *initialText;
 //@property (nonatomic, retain) NSArray *customFields;
+
+- (id)initWithText:(NSString *)text;
 
 @end

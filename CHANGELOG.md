@@ -15,7 +15,8 @@
 * No longer require a user to log in to submit a ticket
 * Remove subject field from contact form
 * Automatically focus on text area on contact form
-* Fix add a suggestion link on contact form
+* Fix behavior of new suggestion link on contact form
+* Fix behavior of new ticket link on new suggestion form
 
 ## 1.0.0 ##
 
