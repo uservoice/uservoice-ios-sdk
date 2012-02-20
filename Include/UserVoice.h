@@ -14,30 +14,38 @@
 
 }
 
-// Modally presents the UserVoice view and provides a way to exit the feedback
-// flow and return to the app.
-+ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
+// Modally present the UserVoice interface
++ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController
 											 andSite:(NSString *)site
 											  andKey:(NSString *)key
 										   andSecret:(NSString *)secret;
 
-+ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
+// Modally present the UserVoice interface with an SSO token
++ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController
 											 andSite:(NSString *)site
 											  andKey:(NSString *)key
 										   andSecret:(NSString *)secret
-										 andSsoToken:(NSString *)token;
+                                         andSsoToken:(NSString *)token;
 
-+ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
-											 andSite:(NSString *)site
-											  andKey:(NSString *)key
-										   andSecret:(NSString *)secret
-											andEmail:(NSString *)email
-									  andDisplayName:(NSString *)displayName
-											 andGUID:(NSString *)guid;
+// Modally present the UserVoice interface with user email, name, and GUID
++ (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController
+                                             andSite:(NSString *)site
+                                              andKey:(NSString *)key
+                                           andSecret:(NSString *)secret
+                                            andEmail:(NSString *)email
+                                      andDisplayName:(NSString *)displayName
+                                             andGUID:(NSString *)guid;
 
-+ (void)showUserVoice:(UIViewController *)rootViewController forController:(UIViewController *)viewController;
+// Modally present the UserVoice contact form
++ (void)presentUserVoiceContactUsFormForParent:(UIViewController *)viewController
+                                       andSite:(NSString *)site
+                                        andKey:(NSString *)key
+                                     andSecret:(NSString *)secret;
 
+// Set a <UVDelegate> to receive callbacks
 + (void)setDelegate:(id<UVDelegate>)delegate;
+
+// Get the current <UVDelegate>
 + (id<UVDelegate>)delegate;
 
 @end

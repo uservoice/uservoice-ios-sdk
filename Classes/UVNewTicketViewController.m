@@ -43,6 +43,14 @@
     return self;
 }
 
+// Used when deep-linking to contact form.
+- (id)initWithoutNavigation {
+    if (self = [super init]) {
+        withoutNavigation = YES;
+    }
+    return self;
+}
+
 - (void)dismissKeyboard {
 	[emailField resignFirstResponder];
 	[textEditor resignFirstResponder];
@@ -64,7 +72,10 @@
 - (void)didCreateTicket:(UVTicket *)theTicket {
 	[self hideActivityIndicator];
     [self alertSuccess:@"Your ticket was successfully submitted."];
-	[self.navigationController popViewControllerAnimated:YES];
+    if (withoutNavigation)
+        [self dismissUserVoice];
+    else
+        [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)dismissTextView {
@@ -314,30 +325,32 @@
 	theTableView.sectionFooterHeight = 0.0;
 	theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
-	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
-	label.text = @"Want to suggest an idea instead?";
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UVStyleSheet linkTextColor];
-	label.backgroundColor = [UIColor clearColor];
-	label.font = [UIFont systemFontOfSize:13];
-	[footer addSubview:label];
-	[label release];
-	
-	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-	button.frame = CGRectMake(0, 25, 320, 15);
-	NSString *buttonTitle = [[UVSession currentSession].clientConfig.forum prompt];
-	[button setTitle:buttonTitle forState:UIControlStateNormal];
-	[button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-	button.backgroundColor = [UIColor clearColor];
-	button.showsTouchWhenHighlighted = YES;
-	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-	[button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-	button.center = CGPointMake(footer.center.x, button.center.y);
-	[footer addSubview:button];
-	
-	theTableView.tableFooterView = footer;
-	[footer release];
+    if (!withoutNavigation) {
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
+        label.text = @"Want to suggest an idea instead?";
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UVStyleSheet linkTextColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont systemFontOfSize:13];
+        [footer addSubview:label];
+        [label release];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(0, 25, 320, 15);
+        NSString *buttonTitle = [[UVSession currentSession].clientConfig.forum prompt];
+        [button setTitle:buttonTitle forState:UIControlStateNormal];
+        [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor clearColor];
+        button.showsTouchWhenHighlighted = YES;
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+        [button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        button.center = CGPointMake(footer.center.x, button.center.y);
+        [footer addSubview:button];
+        
+        theTableView.tableFooterView = footer;
+        [footer release];
+    }
 	
 	self.tableView = theTableView;
 	[theTableView release];

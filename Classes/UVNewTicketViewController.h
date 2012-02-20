@@ -18,6 +18,7 @@
 	UIBarButtonItem *prevBarButton;
     UIView *activeField;
     NSString *initialText;
+    BOOL withoutNavigation;
 	//NSArray *customFields;
 }
 
@@ -29,5 +30,6 @@
 //@property (nonatomic, retain) NSArray *customFields;
 
 - (id)initWithText:(NSString *)text;
+- (id)initWithoutNavigation;
 
 @end

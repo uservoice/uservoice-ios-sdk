@@ -12,8 +12,15 @@
 #import "UVWelcomeViewController.h"
 #import "UVRootViewController.h"
 #import "UVSession.h"
+#import "UVNewTicketViewController.h"
 
 @implementation UserVoice
+
++ (void)showUserVoice:(UIViewController *)rootViewController forController:(UIViewController *)viewController {
+	[UVSession currentSession].isModal = YES;
+	UINavigationController *userVoiceNav = [[[UINavigationController alloc] initWithRootViewController:rootViewController] autorelease];
+	[viewController presentModalViewController:userVoiceNav animated:YES];
+}
 
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController 
 											 andSite:(NSString *)site
@@ -82,10 +89,14 @@
 	
 }
 
-+ (void)showUserVoice:(UIViewController *)rootViewController forController:(UIViewController *)viewController {
-	[UVSession currentSession].isModal = YES;
-	UINavigationController *userVoiceNav = [[[UINavigationController alloc] initWithRootViewController:rootViewController] autorelease];
-	[viewController presentModalViewController:userVoiceNav animated:YES];
++ (void)presentUserVoiceContactUsFormForParent:(UIViewController *)viewController
+                                       andSite:(NSString *)site
+                                        andKey:(NSString *)key
+                                     andSecret:(NSString *)secret {
+	[UVSession currentSession].config = [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
+	UIViewController *rootViewController = [[[UVNewTicketViewController alloc] initWithoutNavigation] autorelease];
+	[UVClientConfig setOrientation];
+	[self showUserVoice:rootViewController forController:viewController];
 }
 
 static id<UVDelegate> userVoiceDelegate;
