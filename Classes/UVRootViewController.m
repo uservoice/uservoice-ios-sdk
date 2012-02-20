@@ -17,6 +17,7 @@
 #import "UVNetworkUtils.h"
 #import "UVSuggestion.h"
 #import "NSError+UVExtras.h"
+#include <QuartzCore/QuartzCore.h>
 
 @implementation UVRootViewController
 
@@ -142,6 +143,17 @@
 	splashLabel2.text = @"Connecting to UserVoice";
 	[contentView addSubview:splashLabel2];
 	[splashLabel2 release];
+    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth-80)/2, (screenHeight/2)+40, 80, 20)];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    cancelButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    cancelButton.titleLabel.textColor = [UIColor darkGrayColor];
+    cancelButton.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+    cancelButton.layer.cornerRadius = 6.0;
+    [cancelButton addTarget:self action:@selector(dismissUserVoice) forControlEvents:UIControlEventTouchUpInside];
+    [contentView addSubview:cancelButton];
+    [cancelButton release];
+
 		
 	UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	activity.center = CGPointMake(screenWidth/2, (screenHeight/ 2) - 60);

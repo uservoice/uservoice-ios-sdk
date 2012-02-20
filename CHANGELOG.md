@@ -17,6 +17,7 @@
 * Automatically focus on text area on contact form
 * Fix behavior of new suggestion link on contact form
 * Fix behavior of new ticket link on new suggestion form
+* Add a cancel button to loading screen for those on slow connections
 
 ## 1.0.0 ##
 
