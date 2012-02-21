@@ -377,20 +377,12 @@
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
-- (NSInteger)section:(NSIndexPath *)indexPath {
-	if (self.shouldShowCategories) {
-		return indexPath.section;
-	} else {		
-		return indexPath.section >= UV_NEW_SUGGESTION_SECTION_CATEGORY ? indexPath.section + 1 : indexPath.section;
-	}	
-}
-
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString *identifier = @"";
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
 	BOOL selectable = NO;
 	
-	switch ([self section:indexPath]) {
+	switch (indexPath.section) {
 		case UV_NEW_SUGGESTION_SECTION_TITLE:
 			identifier = @"Title";
 			break;
@@ -400,7 +392,6 @@
 		case UV_NEW_SUGGESTION_SECTION_CATEGORY:
 			identifier = @"Category";
 			style = UITableViewCellStyleValue1;
-			selectable = self.forum.availableCategories && [self.forum.availableCategories count] > 0;
 			break;
 		case UV_NEW_SUGGESTION_SECTION_VOTE:
 			identifier = @"Vote";
@@ -421,21 +412,22 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return self.shouldShowCategories ? 6 : 5;
+	return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-	if (section == UV_NEW_SUGGESTION_SECTION_PROFILE) {
+	if (section == UV_NEW_SUGGESTION_SECTION_PROFILE)
 		return [[UVSession currentSession].user hasEmail] ? 0 : 2;
-	} else {
-		return 1;
-	}
+    else if (section == UV_NEW_SUGGESTION_SECTION_CATEGORY)
+        return self.shouldShowCategories ? 1 : 0;
+    else
+        return 1;
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	switch ([self section:indexPath]) {
+	switch (indexPath.section) {
 		case UV_NEW_SUGGESTION_SECTION_TITLE:
 			return 31;
 		case UV_NEW_SUGGESTION_SECTION_TEXT:
