@@ -22,6 +22,10 @@
 * Add localization support
 * Add French translation
 
+## 1.0.1 ##
+
+* Fix a bug with the suggestion form when there aren't any categories
+
 ## 1.0.0 ##
 
 * First supported release
