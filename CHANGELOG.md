@@ -19,6 +19,8 @@
 * Fix behavior of new ticket link on new suggestion form
 * Add a cancel button to loading screen for those on slow connections
 * Add a method to display the contact form without loading the rest of the UI
+* Add localization support
+* Add French translation
 
 ## 1.0.0 ##
 

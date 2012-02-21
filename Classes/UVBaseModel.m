@@ -44,6 +44,7 @@
 	// Last not least, our production server seems to have an issue with GET requests
 	// without a content type, even though it should be irrelevant for GET.
 	[headers setObject:@"application/x-www-form-urlencoded" forKey:@"Content-Type"];
+    [headers setObject:[[NSLocale preferredLanguages] objectAtIndex:0] forKey:@"Accept-Language"];
 	YOAuthToken *token = nil;
 	
 	// only store access tokens
