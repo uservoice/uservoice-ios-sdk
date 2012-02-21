@@ -82,34 +82,34 @@
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label {
 	if ([UVSession currentSession].user) {
 		if (votesRemaining == 0) {
-			label.text = @"Sorry, you have no more votes remaining in this forum.";
+			label.text = NSLocalizedStringFromTable(@"Sorry, you have no more votes remaining in this forum.", @"UserVoice", nil);
 			label.textColor = [UVStyleSheet alertTextColor];
 		} else {
-			label.text = [NSString stringWithFormat:@"You have %d %@ remaining in this forum",
+			label.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"You have %d %@ remaining in this forum", @"UserVoice", @"%d for number of votes, %@ for pluralization of 'votes'"),
 						  votesRemaining,
-						  votesRemaining == 1 ? @"vote" : @"votes"];
+						  votesRemaining == 1 ? NSLocalizedStringFromTable(@"vote", @"UserVoice", nil) : NSLocalizedStringFromTable(@"votes", @"UserVoice", nil)];
 			label.textColor = [UVStyleSheet linkTextColor];
 		}
 	} else {
 		label.font = [UIFont boldSystemFontOfSize:14];
-		label.text = @"You will need to sign in to vote.";
+		label.text = NSLocalizedStringFromTable(@"You will need to sign in to vote.", @"UserVoice", nil);
 		label.textColor = [UVStyleSheet alertTextColor];
     }
 }
 
 - (void)alertError:(NSString *)message {
-	[[[[UIAlertView alloc] initWithTitle:@"Error"
+	[[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
                                 message:message
                                delegate:nil
-                      cancelButtonTitle:@"OK"
+                      cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
                       otherButtonTitles:nil] autorelease] show];
 }
 
 - (void)alertSuccess:(NSString *)message {
-	[[[[UIAlertView alloc] initWithTitle:@"Success"
+	[[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Success", @"UserVoice", nil)
                                  message:message
                                 delegate:nil
-                       cancelButtonTitle:@"OK"
+                       cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
                        otherButtonTitles:nil] autorelease] show];
 }
 
@@ -123,7 +123,7 @@
                 continue;
             NSString *displayKey = nil;
             if ([key isEqualToString:@"display_name"])
-                displayKey = @"User name";
+                displayKey = NSLocalizedStringFromTable(@"User name", @"UserVoice", nil);
             else
                 displayKey = [[key stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
 
@@ -134,19 +134,19 @@
                 msg = [NSString stringWithFormat:@"%@ %@", displayKey, [userInfo valueForKey:key], nil];
         }
         if (!msg)
-            msg = @"Sorry, there was an error in the application.";
+            msg = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
 	} else {
-		msg = @"There appears to be a problem with your network connection, please check your connectivity and try again.";
+		msg = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
 	}
 	[self alertError:msg];
 }
 
 - (NSString *)backButtonTitle {
-	return @"Back";
+	return NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
 }
 
 - (void)initNavigationItem {
-	self.navigationItem.title = @"Feedback";
+	self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
 	
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
 								   initWithTitle:[self backButtonTitle]
@@ -157,7 +157,7 @@
 	[backButton release];
 	
 	if ([UVSession currentSession].isModal) {
-		self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close"
+		self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(dismissUserVoice)] autorelease];

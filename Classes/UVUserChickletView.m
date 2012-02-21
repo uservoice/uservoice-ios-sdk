@@ -69,7 +69,7 @@
 
 - (NSString *)labelText {
 	if (self.admin) {
-		return @"admin";
+		return NSLocalizedStringFromTable(@"admin", @"UserVoice", nil);
 	} else {
 		return [[NSNumber numberWithInteger:self.karmaScore] stringValue];
 	}

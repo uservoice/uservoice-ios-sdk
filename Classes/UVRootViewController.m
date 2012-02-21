@@ -46,11 +46,11 @@
 			[[UVSession currentSession].currentToken remove];
 			[UVToken getRequestTokenWithDelegate:self];
 		} else {
-            [[[[UIAlertView alloc] initWithTitle:@"Error"
-                                         message:@"This application didn't configure UserVoice properly"
+            [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+                                         message:NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil)
                                         delegate:self
                                cancelButtonTitle:nil
-                               otherButtonTitles:@"OK", nil] autorelease] show];
+                               otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] autorelease] show];
 		}
 	} else {
 		[super didReceiveError:error];
@@ -140,12 +140,12 @@
 	splashLabel2.font = [UIFont systemFontOfSize:15];
 	splashLabel2.textColor = [UIColor darkGrayColor];
 	splashLabel2.textAlignment = UITextAlignmentCenter;
-	splashLabel2.text = @"Connecting to UserVoice";
+	splashLabel2.text = NSLocalizedStringFromTable(@"Connecting to UserVoice", @"UserVoice", nil);
 	[contentView addSubview:splashLabel2];
 	[splashLabel2 release];
     
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth-80)/2, (screenHeight/2)+40, 80, 20)];
-    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton setTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil) forState:UIControlStateNormal];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:12];
     cancelButton.titleLabel.textColor = [UIColor darkGrayColor];
     cancelButton.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];

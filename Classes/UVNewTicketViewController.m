@@ -65,13 +65,13 @@
         [self showActivityIndicator];
         [UVTicket createWithMessage:text andEmailIfNotLoggedIn:email andDelegate:self];
 	} else {
-        [self alertError:@"Please enter your email address before submitting your ticket."];
+        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
 	}
 }
 
 - (void)didCreateTicket:(UVTicket *)theTicket {
 	[self hideActivityIndicator];
-    [self alertSuccess:@"Your ticket was successfully submitted."];
+    [self alertSuccess:NSLocalizedStringFromTable(@"Your ticket was successfully submitted.", @"UserVoice", nil)];
     if (withoutNavigation)
         [self dismissUserVoice];
     else
@@ -159,7 +159,7 @@
 	aTextEditor.maxNumberOfLines = 6;
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
-	aTextEditor.placeholder = @"Message";
+	aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
     aTextEditor.text = initialText;
 	
 	[cell.contentView addSubview:aTextEditor];
@@ -171,7 +171,7 @@
 	NSArray *fields = [UVSession currentSession].clientConfig.customFields;
 	if (fields && [fields count] > 0) {
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.text = @"Type";
+        cell.textLabel.text = NSLocalizedStringFromTable(@"Type", @"UserVoice", nil);
         
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
@@ -179,7 +179,7 @@
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.emailField = [self customizeTextFieldCell:cell label:@"Email" placeholder:@"Required"];
+	self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
 	self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
 	self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -194,7 +194,7 @@
 	button.frame = CGRectMake(0, 0, 300, 42);
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 	button.titleLabel.textColor = [UIColor whiteColor];
-	[button setTitle:@"Send" forState:UIControlStateNormal];
+	[button setTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil) forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -314,7 +314,7 @@
 
 - (void)loadView {
 	[super loadView];	
-	self.navigationItem.title = @"Contact Us";
+	self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
 	
 	CGRect frame = [self contentFrame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
@@ -328,7 +328,7 @@
     if (!withoutNavigation) {
         UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
-        label.text = @"Want to suggest an idea instead?";
+        label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
         label.textAlignment = UITextAlignmentCenter;
         label.textColor = [UVStyleSheet linkTextColor];
         label.backgroundColor = [UIColor clearColor];

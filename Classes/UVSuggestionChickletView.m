@@ -114,7 +114,7 @@
 	[formatter release];
 
 	//label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_LABEL];
-	voteLabel.text = suggestion.voteCount == 1 ? @"vote" : @"votes";
+	voteLabel.text = suggestion.voteCount == 1 ? NSLocalizedStringFromTable(@"vote", @"UserVoice", nil) : NSLocalizedStringFromTable(@"votes", @"UserVoice", nil);
 
 	//label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_STATUS];
 	statusLabel.text = suggestion.status == nil ? @"" : suggestion.status;

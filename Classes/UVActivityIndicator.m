@@ -57,7 +57,7 @@
 
 - (id)init {
 	if (self = [super init]) {
-		[self initWithText: @"Loading..."];
+		[self initWithText: NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil)];
 	}
 	
 	return self;

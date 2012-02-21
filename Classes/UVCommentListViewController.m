@@ -46,7 +46,7 @@
 }
 
 - (NSString *)backButtonTitle {
-	return @"Comments";
+	return NSLocalizedStringFromTable(@"Comments", @"UserVoice", nil);
 }
 
 - (void)retrieveMoreComments {
@@ -56,24 +56,23 @@
 }
 
 - (void)didCreateComment:(UVComment *)comment {
-	[self hideActivityIndicator];
-	// Insert new comment at the beginning
-	[self.comments insertObject:comment atIndex:0];
-	[self.tableView reloadData];
-	
-	// Update comment count
-	self.suggestion.commentsCount += 1;
-	if (self.suggestion.commentsCount == 1) {
-		self.navigationItem.title = @"1 Comment";
-	} else {
-		self.navigationItem.title = [NSString stringWithFormat:@"%d Comments", self.suggestion.commentsCount];
-	}
+    [self hideActivityIndicator];
+    // Insert new comment at the beginning
+    [self.comments insertObject:comment atIndex:0];
+    [self.tableView reloadData];
     
+    // Update comment count
+    self.suggestion.commentsCount += 1;
+    if (self.suggestion.commentsCount == 1) {
+    	self.navigationItem.title = NSLocalizedStringFromTable(@"1 Comment", @"UserVoice", nil);
+    } else {
+    	self.navigationItem.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d Comments", @"UserVoice", nil), self.suggestion.commentsCount];
+    }
     [self.textEditor setText:@""];
-	
-	// For some reason setting the text activates the editor and brings up the
-	// keyboard, so we need to manually deactivate it.
-	[self.textEditor resignFirstResponder];
+    
+    // For some reason setting the text activates the editor and brings up the
+    // keyboard, so we need to manually deactivate it.
+    [self.textEditor resignFirstResponder];
 }
 
 - (void)didRetrieveComments:(NSArray *)theComments {
@@ -90,48 +89,48 @@
 }
 
 - (CGSize)sizeForComment:(UVComment *)comment {
-	CGFloat labelWidth = 210;
-	return [comment.text sizeWithFont:[UIFont systemFontOfSize:13]
-					constrainedToSize:CGSizeMake(labelWidth, 10000)
-						lineBreakMode:UILineBreakModeWordWrap];
+    CGFloat labelWidth = 210;
+    return [comment.text sizeWithFont:[UIFont systemFontOfSize:13]
+                    constrainedToSize:CGSizeMake(labelWidth, 10000)
+                        lineBreakMode:UILineBreakModeWordWrap];
 }
 
 - (void)dismissTextEditor:(id)sender {
     [textEditor setText:@""];
-	[textEditor performSelector:@selector(resignFirstResponder) withObject:nil afterDelay:0];
+    [textEditor performSelector:@selector(resignFirstResponder) withObject:nil afterDelay:0];
 }
 
 - (void)saveTextEditor:(id)sender {
     NSString *text = self.textEditor.text;
 
-	[self dismissTextEditor:sender];
-	[self showActivityIndicator];
-	[UVComment createWithSuggestion:self.suggestion text:text delegate:self];
+    [self dismissTextEditor:sender];
+    [self showActivityIndicator];
+    [UVComment createWithSuggestion:self.suggestion text:text delegate:self];
 }
 
 - (void)promptForFlagWithIndex:(NSInteger)index {
-	self.commentToFlag = [self.comments objectAtIndex:index];
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Flag Comment?"
-														delegate:self
-											   cancelButtonTitle:@"Cancel"
-										  destructiveButtonTitle:@"Flag as inappropriate"
-											   otherButtonTitles:nil];
-	[action showInView:self.view];
-	[action release];
+    self.commentToFlag = [self.comments objectAtIndex:index];
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"Flag Comment?", @"UserVoice", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                          destructiveButtonTitle:NSLocalizedStringFromTable(@"Flag as inappropriate", @"UserVoice", nil)
+                                               otherButtonTitles:nil];
+    [action showInView:self.view];
+    [action release];
 }
 
 - (void)didFlagComment:(UVComment *)theComment {
-	[self hideActivityIndicator];
-    [self alertSuccess:@"You have successfully flagged this comment as inappropriate."];
+    [self hideActivityIndicator];
+    [self alertSuccess:NSLocalizedStringFromTable(@"You have successfully flagged this comment as inappropriate.", @"UserVoice", nil)];
 }
 
 #pragma mark ===== UIActionSheetDelegate Methods =====
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex != actionSheet.cancelButtonIndex) {
-		[self showActivityIndicator];
-		[self.commentToFlag flag:@"inappropriate" suggestion:self.suggestion delegate:self];
-	}
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        [self showActivityIndicator];
+        [self.commentToFlag flag:@"inappropriate" suggestion:self.suggestion delegate:self];
+    }
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -235,7 +234,7 @@
 
 	// Username + Date
 	NSInteger days = ABS([comment.createdAt timeIntervalSinceNow]) / (60 * 60 * 24);
-	NSString *daysAgo = [NSString stringWithFormat:@"%d days ago", days];
+	NSString *daysAgo = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d days ago", @"UserVoice", nil), days];
 	UVUserButton *userButton = (UVUserButton *)[cell.contentView viewWithTag:UV_COMMENT_LIST_TAG_CELL_NAME];
 	UILabel *dateLabel = (UILabel *)[cell.contentView viewWithTag:UV_COMMENT_LIST_TAG_CELL_DATE];
 	CGSize dateSize = [daysAgo sizeWithFont:dateLabel.font forWidth:210 lineBreakMode:UILineBreakModeTailTruncation];
@@ -265,7 +264,7 @@
 
 	// Can't use built-in textLabel, as this forces a white background
 	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 27, screenWidth, 16)];
-	textLabel.text = @"Load more comments...";
+	textLabel.text = NSLocalizedStringFromTable(@"Load more comments...", @"UserVoice", nil);
 	textLabel.textColor = [UVStyleSheet primaryTextColor];
 	textLabel.backgroundColor = [UIColor clearColor];
 	textLabel.font = [UIFont systemFontOfSize:16];
@@ -338,7 +337,7 @@
         if ([UVSession currentSession].user==nil) {        
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(0, 0, screenWidth, 40);
-            NSString *buttonTitle = @"Please sign in here to comment.";
+            NSString *buttonTitle = NSLocalizedStringFromTable(@"Please sign in here to comment.", @"UserVoice", nil);
             [button setTitle:buttonTitle forState:UIControlStateNormal];
             [button setTitleColor:[UVStyleSheet alertTextColor] forState:UIControlStateNormal];
             button.backgroundColor = [UIColor whiteColor];
@@ -353,7 +352,7 @@
                 self.headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)] autorelease];
                 headerView.backgroundColor = [UIColor whiteColor];
                 UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(14, 9, (screenWidth-14), 26)] autorelease];
-                textField.placeholder = @"Add a comment...";
+                textField.placeholder = NSLocalizedStringFromTable(@"Add a comment...", @"UserVoice", nil);
                 textField.delegate = self;
                 [headerView addSubview:textField];
             }
@@ -380,9 +379,9 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGRect frame = [self contentFrame];
 	if (self.suggestion.commentsCount == 1) {
-		self.navigationItem.title = @"1 Comment";
+		self.navigationItem.title = NSLocalizedStringFromTable(@"1 Comment", @"UserVoice", nil);
 	} else {
-		self.navigationItem.title = [NSString stringWithFormat:@"%d Comments", self.suggestion.commentsCount];
+		self.navigationItem.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d Comments", @"UserVoice", nil), self.suggestion.commentsCount];
 	}
     UIView *contentView = [[[UIView alloc] initWithFrame:frame] autorelease];
 	UITableView *theTableView = [[[UITableView alloc] initWithFrame:contentView.bounds] autorelease];
@@ -413,7 +412,7 @@
         textEditor.maxNumberOfLines = 8;
     textEditor.autoresizesToText = YES;
     textEditor.backgroundColor = [UIColor clearColor];
-    textEditor.placeholder = @"Add a comment...";
+    textEditor.placeholder = NSLocalizedStringFromTable(@"Add a comment...", @"UserVoice", nil);
     [textBar addSubview:textEditor];
 
     [contentView addSubview:textBar];
@@ -440,9 +439,9 @@
     self.suggestion = nil;
     self.comments = nil;
     self.commentToFlag = nil;
-	self.textEditor = nil;
-	self.prevLeftBarButton = nil;
-	self.prevRightBarButton = nil;
+    self.textEditor = nil;
+    self.prevLeftBarButton = nil;
+    self.prevRightBarButton = nil;
     self.textBar = nil;
     self.headerView = nil;
     [super dealloc];

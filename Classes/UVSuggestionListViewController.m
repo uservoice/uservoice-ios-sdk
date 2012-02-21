@@ -58,7 +58,7 @@
 }
 
 - (NSString *)backButtonTitle {
-	return @"Ideas";
+	return NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil);
 }
 
 - (void)retrieveMoreSuggestions {
@@ -125,7 +125,7 @@
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
 	UILabel *label = [[UILabel alloc] init];
 	label.tag = UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX;
-	label.text = @"Add \"";
+  label.text = [NSString stringWithFormat:@"%@ \"", NSLocalizedStringFromTable(@"Add", @"UserVoice", nil)];
 	label.font = font;
 	label.textAlignment = UITextAlignmentLeft;
 	label.textColor = [UVStyleSheet primaryTextColor];
@@ -161,7 +161,7 @@
 	cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
 	
 	UIFont *font = [UIFont boldSystemFontOfSize:18];
-	NSString *text = [NSString stringWithFormat:@"Add \"%@\"", _textEditor.text];
+	NSString *text = [NSString stringWithFormat:@"%@ \"%@\"", NSLocalizedStringFromTable(@"Add", @"UserVoice", nil), _textEditor.text];
 	CGSize size = [text sizeWithFont:font forWidth:260 lineBreakMode:UILineBreakModeTailTruncation];
 	CGFloat startX = 30.0 + ((260.0 - size.width) / 2.0);
 	
@@ -220,7 +220,7 @@
     
 	// Can't use built-in textLabel, as this forces a white background
 	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 18)];
-	textLabel.text = @"Load more ideas...";
+	textLabel.text = NSLocalizedStringFromTable(@"Load more ideas...", @"UserVoice", nil);
 	textLabel.textColor = [UVStyleSheet primaryTextColor];
 	textLabel.backgroundColor = [UIColor clearColor];
 	textLabel.font = [UIFont boldSystemFontOfSize:18];

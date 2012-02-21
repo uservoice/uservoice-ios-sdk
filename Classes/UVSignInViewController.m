@@ -71,14 +71,14 @@
 - (void)checkEmail {		
 	if (self.emailField.text && self.emailField.text.length > 0 && ![self.email isEqualToString:self.emailField.text]) {
 		self.email = self.emailField.text;
-		[self showActivityIndicatorWithText:@"Checking..."];
+		[self showActivityIndicatorWithText:NSLocalizedStringFromTable(@"Checking...", @"UserVoice", nil)];
 		[UVUser discoverWithEmail:emailField.text delegate:self];
 	}
 }
 
 - (void)checkPassword {
 	if (self.passwordField.text && self.passwordField.text.length > 0) {
-		[self showActivityIndicatorWithText:@"Checking..."];
+		[self showActivityIndicatorWithText:NSLocalizedStringFromTable(@"Checking...", @"UserVoice", nil)];
 		[UVToken getAccessTokenWithDelegate:self andEmail:emailField.text andPassword:passwordField.text];
 	}
 }
@@ -88,7 +88,7 @@
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)];	
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 10, screenWidth, 15);
-	NSString *buttonTitle = @"Forgot your password?";
+	NSString *buttonTitle = NSLocalizedStringFromTable(@"Forgot your password?", @"UserVoice", nil);
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
 	[button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
 	button.backgroundColor = [UIColor clearColor];
@@ -121,7 +121,7 @@
 		
 	} else if ([error isAuthError]) {
 		[self hideActivityIndicator];
-		NSString *msg = @"There was a problem logging you in, please check your password and try again.";
+		NSString *msg = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", nil);
 		[self alertError:msg];
 		
 	} else {
@@ -182,7 +182,7 @@
 		// create the user, access token and return
 		[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
 	} else {
-		NSString *msg = @"Please enter your email address.";
+		NSString *msg = NSLocalizedStringFromTable(@"Please enter your email address.", @"UserVoice", nil);
 		[self alertError:msg];
 	}
 }
@@ -207,7 +207,7 @@
 
 - (void)didSendForgotPassword {
 	[self hideActivityIndicator];
-    [self alertSuccess:@"We've sent an email telling you how to login and change your password."];
+    [self alertSuccess:NSLocalizedStringFromTable(@"We've sent an email telling you how to login and change your password.", @"UserVoice", nil)];
 }
 
 #pragma mark ===== table cells =====
@@ -227,14 +227,14 @@
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.nameField = [self customizeTextFieldCell:cell label:@"Name" placeholder:@"Anonymous" offset:63];
+	self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil) offset:63];
 	if (self.user) {
 		self.nameField.text = self.user.displayName;
 	}
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.emailField = [self customizeTextFieldCell:cell label:@"Email" placeholder:@"Required" offset:63];
+	self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil) offset:63];
 	self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
 	self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -251,7 +251,7 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 	button.titleLabel.textColor = [UIColor whiteColor];
-	[button setTitle:@"Create Account" forState:UIControlStateNormal];
+	[button setTitle:NSLocalizedStringFromTable(@"Create Account", @"UserVoice", nil) forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 	[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -259,13 +259,9 @@
 }
 
 - (void)initCellForPassword:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.passwordField = [self customizeTextFieldCell:cell label:@"Password" placeholder:@"" offset: 95];
+	self.passwordField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Password", @"UserVoice", nil) placeholder:@"" offset: 95];
 	[self.passwordField setSecureTextEntry:YES];
 	[self.passwordField becomeFirstResponder];
-}
-
-- (void)initCellForActions:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	//self.nameField = [self customizeTextFieldCell:cell label:@"Password"];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -382,10 +378,10 @@
 	if (section == UV_SIGNIN_SECTION_ACTIONS) {
 		switch (self.userType) {
 			case UV_USER_NEW:
-				return @"Looks like it's your first time here, welcome to UserVoice!";
+				return NSLocalizedStringFromTable(@"Looks like it's your first time here, welcome to UserVoice!", @"UserVoice", nil);
 				break;
 			case UV_USER_PASSWORD:
-				return @"Welcome back! We found your profile, but we need you to sign in to verify you are... you.";
+				return NSLocalizedStringFromTable(@"Welcome back! We found your profile, but we need you to sign in to verify you are... you.", @"UserVoice", nil);
 				break;
 			default:
 				break;
@@ -429,7 +425,7 @@
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationItem.title = @"Sign In";
+	self.navigationItem.title = NSLocalizedStringFromTable(@"Sign In", @"UserVoice", nil);
     CGRect frame = [self contentFrame];	
 	
 	self.tableView = [[[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped] autorelease];

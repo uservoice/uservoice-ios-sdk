@@ -64,14 +64,14 @@
 }
 
 - (NSString *)backButtonTitle {
-	return [self isSelf] ? @"My Profile" : self.userName;
+	return [self isSelf] ? NSLocalizedStringFromTable(@"My Profile", @"UserVoice", nil) : self.userName;
 }
 
 - (NSString *)memberSince {
 	static NSDateFormatter* dateFormatter = nil;
 	if (!dateFormatter) {
 		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateFormat:@"'Member since 'MMM yyyy"];
+    [dateFormatter setDateFormat:NSLocalizedStringFromTable(@"'Member since 'MMM yyyy", @"UserVoice", @"Date format: only change the \"Member since\" part")];
 	}
 	return [dateFormatter stringFromDate:self.user.createdAt];
 }
@@ -86,7 +86,7 @@
 	// Name
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(margin + 60, 8, 240, 20)];
 	label.tag = UV_PROFILE_TAG_NAME;
-	label.text = self.userName ? self.userName : @"Anonymous";
+	label.text = self.userName ? self.userName : NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil);
 	label.font = [UIFont boldSystemFontOfSize:16];
 	label.textColor = [UVStyleSheet primaryTextColor];
 	label.backgroundColor = [UIColor clearColor];
@@ -141,7 +141,7 @@
 
 	// Name
 	UILabel *label = (UILabel *)[header viewWithTag:UV_PROFILE_TAG_NAME];
-	label.text = self.userName ? self.userName : @"Anonymous";
+	label.text = self.userName ? self.userName : NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil);
 
 	// Email
 	label = (UILabel *)[header viewWithTag:UV_PROFILE_TAG_EMAIL];
@@ -182,7 +182,7 @@
 	switch (indexPath.row) {
 		case UV_PROFILE_ROW_SUPPORTING_IDEAS: {
 			NSInteger count = [self.user supportedSuggestionsCount];
-			text = [NSString stringWithFormat:@"Supporting %d %@", count, count == 1 ? @"idea" : @"ideas"];
+			text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Supporting %d %@", @"UserVoice", nil), count, count == 1 ? NSLocalizedStringFromTable(@"idea", @"UserVoice", nil) : NSLocalizedStringFromTable(@"ideas", @"UserVoice", nil)];
 			if (count == 0) {
 				cell.accessoryType = UITableViewCellAccessoryNone;
 				cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -191,7 +191,7 @@
 		}
 		case UV_PROFILE_ROW_CREATED_IDEAS: {
 			NSInteger count = [self.user createdSuggestionsCount];
-			text = [NSString stringWithFormat:@"Created %d %@", count, count == 1 ? @"idea" : @"ideas"];
+			text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Created %d %@", @"UserVoice", nil), count, count == 1 ? NSLocalizedStringFromTable(@"idea", @"UserVoice", nil) : NSLocalizedStringFromTable(@"ideas", @"UserVoice", nil)];
 			if (count == 0) {
 				cell.accessoryType = UITableViewCellAccessoryNone;
 				cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -199,7 +199,7 @@
 			break;
 		}
 		case UV_PROFILE_ROW_EDIT:
-			text = @"Edit my profile";
+			text = NSLocalizedStringFromTable(@"Edit my profile", @"UserVoice", nil);
 			break;
 		default:
 			break;
@@ -236,14 +236,14 @@
 		case UV_PROFILE_ROW_SUPPORTING_IDEAS:
 			if (self.user.supportedSuggestionsCount > 0) {
 				next = [[UVProfileIdeaListViewController alloc] initWithUVUser:self.user 
-																	  andTitle:@"Ideas Supported"
+																	  andTitle:NSLocalizedStringFromTable(@"Ideas Supported", @"UserVoice", nil)
 																showingCreated:NO];
 			}
 			break;
 		case UV_PROFILE_ROW_CREATED_IDEAS:
 			if (self.user.createdSuggestionsCount > 0) {
 				next = [[UVProfileIdeaListViewController alloc] initWithUVUser:self.user 
-																	  andTitle:@"Ideas Created"
+																	  andTitle:NSLocalizedStringFromTable(@"Ideas Created", @"UserVoice", nil)
 																showingCreated:YES];
 			}
 			break;
@@ -266,7 +266,7 @@
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationItem.title = [self isSelf] ? @"My Profile" : @"User Profile";
+	self.navigationItem.title = [self isSelf] ? NSLocalizedStringFromTable(@"My Profile", @"UserVoice", nil) : NSLocalizedStringFromTable(@"User Profile", @"UserVoice", nil);
 
 	CGRect frame = [self contentFrame];
 

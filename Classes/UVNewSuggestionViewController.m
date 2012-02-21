@@ -62,7 +62,7 @@
 		NSLog(@"No user");
 	} else if ([error isUVRecordInvalidForField:@"title" withMessage:@"is not allowed."]) {
 		[self hideActivityIndicator];
-		[self alertError:@"A suggestion with this title already exists.  Please change the title."];
+		[self alertError:NSLocalizedStringFromTable(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", nil)];
 	} else {
 		[super didReceiveError:error];
 	}
@@ -101,7 +101,7 @@
 			[self showActivityIndicator];
 			[UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
 		} else {
-            [self alertError:@"Please enter your email address before submitting your suggestion."];
+            [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
 		}
 	}
 }
@@ -117,7 +117,7 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
 	[self hideActivityIndicator];
-	[self alertSuccess:[NSString stringWithFormat:@"Your idea \"%@\" was successfully created.", self.title]];
+	[self alertSuccess:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Your idea \"%@\" was successfully created.", @"UserVoice", nil), self.title]];
 
 	// increment the created suggestions and supported suggestions counts
 	[[UVSession currentSession].user didCreateSuggestion:theSuggestion];
@@ -147,7 +147,7 @@
 
 - (void)checkEmail {		
 	if (self.emailField.text.length > 0) {
-		[self showActivityIndicatorWithText:@"Checking..."];
+		[self showActivityIndicatorWithText:NSLocalizedStringFromTable(@"Checking...", @"UserVoice", nil)];
 		[UVUser discoverWithEmail:emailField.text delegate:self];
 	}
 }
@@ -268,7 +268,7 @@
 	aTextEditor.maxNumberOfLines = 4;
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
-	aTextEditor.placeholder = @"Description (optional)";
+	aTextEditor.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
 	
 	[cell.contentView addSubview:aTextEditor];
 	self.textEditor = aTextEditor;
@@ -276,7 +276,7 @@
 }
 
 - (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	cell.textLabel.text = @"Category";
+	cell.textLabel.text = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
 	cell.detailTextLabel.text = self.category.name;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
@@ -285,7 +285,7 @@
 	[self removeBackgroundFromCell:cell];
 	
 	self.numVotes = 1;
-	NSArray *items = [NSArray arrayWithObjects:@"1 vote", @"2 votes", @"3 votes", nil];
+	NSArray *items = [NSArray arrayWithObjects:NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil), NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil), NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil), nil];
 	UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
 	segments.frame = CGRectMake(10, 0, 300, 44);
     segments.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
@@ -305,7 +305,7 @@
 		label.backgroundColor = [UIColor clearColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.font = [UIFont systemFontOfSize:12];
-		label.text = @"Sorry, you have run out of votes.";		
+		label.text = NSLocalizedStringFromTable(@"Sorry, you have run out of votes.", @"UserVoice", nil);
 		label.textColor = [UVStyleSheet alertTextColor];
 		
 		[cell.contentView addSubview:label];
@@ -318,11 +318,11 @@
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.nameField = [self customizeTextFieldCell:cell label:@"Name" placeholder:@"Required"];
+	self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.emailField = [self customizeTextFieldCell:cell label:@"Email" placeholder:@"Required"];
+	self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
 	self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
 	self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -340,7 +340,7 @@
         button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 		button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
 		button.titleLabel.textColor = [UIColor whiteColor];
-		[button setTitle:@"Create idea" forState:UIControlStateNormal];
+		[button setTitle:NSLocalizedStringFromTable(@"Create idea", @"UserVoice", nil) forState:UIControlStateNormal];
 		[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
 		[button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
 		[button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -461,7 +461,7 @@
 	[super loadView];
     [self hideExitButton];
 	
-	self.navigationItem.title = @"New Suggestion";		
+	self.navigationItem.title = NSLocalizedStringFromTable(@"New Suggestion", @"UserVoice", nil);		
 	CGRect frame = [self contentFrame];
 	
 	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
@@ -473,7 +473,7 @@
 	UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
     footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
-	label.text = @"Want to send a private message instead?";
+	label.text = NSLocalizedStringFromTable(@"Want to send a private message instead?", @"UserVoice", nil);
 	label.textAlignment = UITextAlignmentCenter;
 	label.textColor = [UVStyleSheet linkTextColor];
 	label.backgroundColor = [UIColor clearColor];
@@ -483,7 +483,7 @@
 
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = CGRectMake(0, 25, frame.size.width, 15);
-	NSString *buttonTitle = [NSString stringWithFormat:@"Contact %@", [UVSession currentSession].clientConfig.subdomain.name];
+	NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Contact %@", @"UserVoice", nil), [UVSession currentSession].clientConfig.subdomain.name];
 	[button setTitle:buttonTitle forState:UIControlStateNormal];
 	[button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
 	button.backgroundColor = [UIColor clearColor];
@@ -510,16 +510,16 @@
 
 - (void)dealloc {
     self.forum = nil;
-	self.title = nil;
-	self.text = nil;
-	self.name = nil;
-	self.email = nil;
-	self.textEditor = nil;
-	self.titleField = nil;
-	self.nameField = nil;
-	self.emailField = nil;
-	self.prevLeftBarButton = nil;
-	self.category = nil;
+    self.title = nil;
+    self.text = nil;
+    self.name = nil;
+    self.email = nil;
+    self.textEditor = nil;
+    self.titleField = nil;
+    self.nameField = nil;
+    self.emailField = nil;
+    self.prevLeftBarButton = nil;
+    self.category = nil;
     [super dealloc];
 }
 

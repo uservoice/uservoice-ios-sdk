@@ -27,18 +27,18 @@
 @synthesize forum = _forum;
 
 - (NSString *)backButtonTitle {
-	return @"Welcome";
+	return NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
 }
 
 #pragma mark ===== table cells =====
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = @"Give feedback";
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Give feedback", @"UserVoice", nil);
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
-    cell.textLabel.text = @"Contact support";
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Contact support", @"UserVoice", nil);
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -94,7 +94,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Feedback & Support";
+    return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
 }
 
 #pragma mark ===== Basic View Methods =====

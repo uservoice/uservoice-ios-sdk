@@ -54,7 +54,7 @@
 	
 	UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
 	UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 8, (screenWidth-80), 16)] autorelease];
-	poweredBy.text = @"Feedback powered by UserVoice";
+	poweredBy.text = NSLocalizedStringFromTable(@"Feedback powered by UserVoice", @"UserVoice", nil);
 	poweredBy.font = [UIFont systemFontOfSize:14.0];
 	poweredBy.textColor = [UVStyleSheet tableViewHeaderColor];
 	poweredBy.backgroundColor = [UIColor clearColor];
@@ -92,7 +92,7 @@
     CGFloat margin = (screenWidth > 480) ? 45 : 10;
 
 	if ([UVSession currentSession].loggedIn) {
-		cell.textLabel.text = @"My profile";
+		cell.textLabel.text = NSLocalizedStringFromTable(@"My profile", @"UserVoice", nil);
 		UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth - 130 - 2 * margin), 18)] autorelease];
 		UILabel *nameLabel = [[[UILabel alloc] initWithFrame:nameView.bounds] autorelease];
 		nameLabel.textColor = [UVStyleSheet signedInUserTextColor];
@@ -114,7 +114,7 @@
 		}
 		[cell.contentView addSubview:nameView];
 	} else {
-		cell.textLabel.text = @"Sign in";
+		cell.textLabel.text = NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil);
 		cell.textLabel.textAlignment = UITextAlignmentLeft;
 //		cell.accessoryType = UITableViewCellAccessoryNone;
 //		cell.selectionStyle = UITableViewCellSelectionStyleNone;
