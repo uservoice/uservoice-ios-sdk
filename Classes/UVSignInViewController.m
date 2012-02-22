@@ -217,13 +217,21 @@
 							placeholder:(NSString *)placeholder 
 								 offset:(NSInteger)offset{    
 	cell.textLabel.text = label;
-	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(offset, 12, 230, 20)];
+	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(offset, 12, cell.bounds.size.width - 20 - offset, 20)];
 	textField.placeholder = placeholder;
 	textField.returnKeyType = UIReturnKeyDone;
 	textField.borderStyle = UITextBorderStyleNone;
 	textField.delegate = self;
 	[cell.contentView addSubview:textField];
 	return [textField autorelease];
+}
+
+
+- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell
+                                  label:(NSString *)label
+                            placeholder:(NSString *)placeholder {
+    NSInteger offset = [label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width + 10;
+    return [self customizeTextFieldCell:cell label:label placeholder:placeholder offset:offset];
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -259,7 +267,7 @@
 }
 
 - (void)initCellForPassword:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	self.passwordField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Password", @"UserVoice", nil) placeholder:@"" offset: 95];
+	self.passwordField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Password", @"UserVoice", nil) placeholder:@""];
 	[self.passwordField setSecureTextEntry:YES];
 	[self.passwordField becomeFirstResponder];
 }

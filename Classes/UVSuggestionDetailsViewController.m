@@ -271,7 +271,7 @@
 	[bg release];
 	
 	// Name label
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 85, 16)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 100, 16)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UVStyleSheet labelTextColor];
 	label.textAlignment = UITextAlignmentRight;
@@ -284,14 +284,14 @@
 	UVUserButton *nameButton = [UVUserButton buttonWithUserId:self.suggestion.creatorId
 														 name:self.suggestion.creatorName
 												   controller:self
-													   origin:CGPointMake(95, 13)
+													   origin:CGPointMake(110, 13)
 													 maxWidth:205
 														 font:[UIFont boldSystemFontOfSize:13]
 														color:[UVStyleSheet linkTextColor]];
 	[cell.contentView addSubview:nameButton];
 	
 	// Date label
-	label = [[UILabel alloc] initWithFrame:CGRectMake(0, 43, 85, 13)];
+	label = [[UILabel alloc] initWithFrame:CGRectMake(0, 43, 100, 13)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UVStyleSheet labelTextColor];
 	label.textAlignment = UITextAlignmentRight;
@@ -301,7 +301,7 @@
 	[label release];
 
 	// Date
-	label = [[UILabel alloc] initWithFrame:CGRectMake(95, 43, 205, 14)];
+	label = [[UILabel alloc] initWithFrame:CGRectMake(110, 43, 205, 14)];
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UVStyleSheet primaryTextColor];
 	label.textAlignment = UITextAlignmentLeft;

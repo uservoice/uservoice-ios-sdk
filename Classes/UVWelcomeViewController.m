@@ -35,11 +35,15 @@
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTable(@"Give feedback", @"UserVoice", nil);
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.minimumFontSize = 8.0;
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
     cell.textLabel.text = NSLocalizedStringFromTable(@"Contact support", @"UserVoice", nil);
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.minimumFontSize = 8.0;
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====

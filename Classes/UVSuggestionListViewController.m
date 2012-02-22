@@ -219,7 +219,7 @@
 	[cellView setZebraColorFromIndex:indexPath.row];
     
 	// Can't use built-in textLabel, as this forces a white background
-	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 18)];
+	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, screenWidth, 20)];
 	textLabel.text = NSLocalizedStringFromTable(@"Load more ideas...", @"UserVoice", nil);
 	textLabel.textColor = [UVStyleSheet primaryTextColor];
 	textLabel.backgroundColor = [UIColor clearColor];

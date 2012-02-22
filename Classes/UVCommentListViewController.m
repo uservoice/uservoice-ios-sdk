@@ -263,7 +263,7 @@
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
 	// Can't use built-in textLabel, as this forces a white background
-	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 27, screenWidth, 16)];
+	UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 27, screenWidth, 20)];
 	textLabel.text = NSLocalizedStringFromTable(@"Load more comments...", @"UserVoice", nil);
 	textLabel.textColor = [UVStyleSheet primaryTextColor];
 	textLabel.backgroundColor = [UIColor clearColor];
