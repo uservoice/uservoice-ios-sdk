@@ -71,6 +71,36 @@ Feedback
 
 You can share feedback on the [UserVoice iOS SDK forum](http://feedback.uservoice.com/forums/64519-iphone-sdk-feedback).
 
+
+Translations
+------------
+
+Currently the UI is available in English and French. We are using
+[Twine](https://github.com/mobiata/twine) to manage the translations.
+
+To contribute to the translations, follow these steps:
+
+* Fork the project on Github
+* Edit the `strings.txt` file
+* Commit your changes and open a pull request
+
+If you want to go the extra mile and test your translations, do the following:
+
+* If you are adding a language:
+  * `mkdir Resources/YOURLOCALE.lproj`
+  * `touch Resources/YOURLOCALE.lproj/UserVoice.strings`
+* Install the `twine` gem
+* Run `./strings.sh` to generate the strings files
+* Run the example app (or your own app) to see how things look in the UI
+* Make note of any layout issues in your pull request so that we can look at it
+  and figure out what to do.
+
+Some strings that show up in the SDK come directly from the UserVoice API. If a
+translation is missing for a string that does not appear in the SDK codebase,
+you will need to contribute to the main [UserVoice translation
+site](http://translate.uservoice.com/).
+
+
 License
 -------
 
