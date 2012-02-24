@@ -21,6 +21,7 @@
 * Add a method to display the contact form without loading the rest of the UI
 * Add localization support
 * Add French translation
+* Move keyboard done button to the right side on Contact Us and Suggestion forms
 
 ## 1.0.2 ##
 

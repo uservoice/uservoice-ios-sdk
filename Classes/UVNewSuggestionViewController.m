@@ -41,7 +41,6 @@
 @synthesize titleField;
 @synthesize nameField;
 @synthesize emailField;
-@synthesize prevLeftBarButton;
 @synthesize numVotes;
 @synthesize category;
 @synthesize shouldShowCategories;
@@ -205,12 +204,10 @@
 - (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
-	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	UIBarButtonItem* saveItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 																			  target:self
-																			  action:@selector(dismissTextView)];
-	self.prevLeftBarButton = self.navigationItem.leftBarButtonItem;
-	[self.navigationItem setLeftBarButtonItem:saveItem animated:YES];
-	[saveItem release];
+																			  action:@selector(dismissTextView)] autorelease];
+	[self.navigationItem setRightBarButtonItem:saveItem animated:NO];
 
 	// Scroll to the active text editor
 	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_SUGGESTION_SECTION_TEXT];
@@ -219,7 +216,7 @@
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	self.text = theTextEditor.text;
-	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
+	[self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -443,12 +440,6 @@
 
 #pragma mark ===== Basic View Methods =====
 
-- (void)dismissController {
-	// reset nav
-	[self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)loadView {
 	[super loadView];
     [self hideExitButton];
@@ -510,7 +501,6 @@
     self.titleField = nil;
     self.nameField = nil;
     self.emailField = nil;
-    self.prevLeftBarButton = nil;
     self.category = nil;
     [super dealloc];
 }

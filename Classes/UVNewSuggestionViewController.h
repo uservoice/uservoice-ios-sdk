@@ -23,7 +23,6 @@
 	UITextField *titleField;
 	UITextField *nameField;
 	UITextField *emailField;
-	UIBarButtonItem *prevLeftBarButton;
 	NSInteger numVotes;
 	UVCategory *category;
 	BOOL shouldShowCategories;
@@ -38,7 +37,6 @@
 @property (nonatomic, retain) UITextField *titleField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UIBarButtonItem *prevLeftBarButton;
 @property (assign) NSInteger numVotes;
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;
