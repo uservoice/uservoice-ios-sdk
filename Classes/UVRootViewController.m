@@ -168,10 +168,13 @@
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"View will appear (RootView)");
 
-	if (![UVNetworkUtils hasInternetAccess]) {
+	if (true) {
 		UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
 		self.navigationController.navigationBarHidden = NO;
 		serverErrorImage.frame = self.view.frame;
+        serverErrorImage.contentMode = UIViewContentModeCenter;
+        serverErrorImage.backgroundColor = [UIColor colorWithRed:0.78f green:0.80f blue:0.83f alpha:1.0f];
+        serverErrorImage.clipsToBounds = YES;
 		[self.view addSubview:serverErrorImage];
 		[serverErrorImage release];
 	} else if (![UVToken exists]) {
