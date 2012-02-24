@@ -15,7 +15,6 @@
 @interface UVNewTicketViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UVTextEditorDelegate> {
 	UVTextEditor *textEditor;
 	UITextField *emailField;
-	UIBarButtonItem *prevBarButton;
     UIView *activeField;
     NSString *initialText;
     BOOL withoutNavigation;
@@ -24,7 +23,6 @@
 
 @property (nonatomic, retain) UVTextEditor *textEditor;
 @property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UIBarButtonItem *prevBarButton;
 @property (nonatomic, retain) UIView *activeField;
 @property (nonatomic, retain) NSString *initialText;
 //@property (nonatomic, retain) NSArray *customFields;

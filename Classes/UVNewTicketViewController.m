@@ -32,7 +32,6 @@
 
 @synthesize textEditor;
 @synthesize emailField;
-@synthesize prevBarButton;
 @synthesize activeField;
 @synthesize initialText;
 
@@ -116,16 +115,16 @@
 - (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
 	// Change right bar button to Done, as there's no built-in way to dismiss the
 	// text view's keyboard.
-	UIBarButtonItem* saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																			  target:self action:@selector(dismissTextView)];
-	self.prevBarButton = self.navigationItem.leftBarButtonItem;
-	[self.navigationItem setLeftBarButtonItem:saveItem animated:YES];
-	[saveItem release];
+    [self hideExitButton];
+    UIBarButtonItem* saveItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                               target:self
+                                                                               action:@selector(dismissTextView)] autorelease];
+	[self.navigationItem setRightBarButtonItem:saveItem animated:NO];
     self.activeField = theTextEditor;
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
-	[self.navigationItem setLeftBarButtonItem:self.prevBarButton animated:YES];
+    [self showExitButton];
     self.activeField = nil;
 }
 
@@ -366,7 +365,6 @@
 - (void)dealloc {
 	self.textEditor = nil;
 	self.emailField = nil;
-	self.prevBarButton = nil;
     self.activeField = nil;
     [super dealloc];
 }
