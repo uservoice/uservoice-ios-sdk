@@ -220,6 +220,7 @@
 - (void)dealloc {
     self.name = nil;
     self.avatarUrl = nil;
+    [super dealloc];
 }
 
 @end

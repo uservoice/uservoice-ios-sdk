@@ -22,6 +22,7 @@
 * Add localization support
 * Add French translation
 * Move keyboard done button to the right side on Contact Us and Suggestion forms
+* Fix a bug where the network connection image would be stretched in an unsightly way
 
 ## 1.0.2 ##
 
