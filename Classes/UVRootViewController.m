@@ -168,7 +168,7 @@
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"View will appear (RootView)");
 
-	if (true) {
+	if (![UVNetworkUtils hasInternetAccess]) {
 		UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
 		self.navigationController.navigationBarHidden = NO;
 		serverErrorImage.frame = self.view.frame;
