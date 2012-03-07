@@ -211,7 +211,7 @@
 		AC1E2F7F111E2EB200415C16 /* UVCategorySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCategorySelectViewController.h; sourceTree = "<group>"; };
 		AC1E2F80111E2EB200415C16 /* UVCategorySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCategorySelectViewController.m; sourceTree = "<group>"; };
 		AC31201F108CE4B100000D5F /* UserVoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserVoice.m; sourceTree = "<group>"; };
-		AC312081108CFD9F00000D5F /* UVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVConfig.h; sourceTree = "<group>"; };
+		AC312081108CFD9F00000D5F /* UVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVConfig.h; path = UVConfig.h; sourceTree = "<group>"; };
 		AC312082108CFD9F00000D5F /* UVConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVConfig.m; sourceTree = "<group>"; };
 		AC3121F6108FC46500000D5F /* UVBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseModel.h; sourceTree = "<group>"; };
 		AC3121F7108FC46500000D5F /* UVBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseModel.m; sourceTree = "<group>"; };
@@ -447,7 +447,6 @@
 				AC312203108FC53600000D5F /* Models */,
 				AC35306711014CB6006FD1C1 /* Views */,
 				AC31201F108CE4B100000D5F /* UserVoice.m */,
-				AC312081108CFD9F00000D5F /* UVConfig.h */,
 				AC312082108CFD9F00000D5F /* UVConfig.m */,
 				D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */,
 				D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */,
@@ -475,6 +474,7 @@
 		AC312140108D363D00000D5F /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				AC312081108CFD9F00000D5F /* UVConfig.h */,
 				6474C33714BB8D5D00F6A2F0 /* UserVoice.h */,
 				AC312B1E109914C100000D5F /* UVStyleSheet.h */,
 				D9F2060314C08A8100F4441E /* UVDelegate.h */,

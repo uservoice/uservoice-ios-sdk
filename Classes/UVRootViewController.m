@@ -13,31 +13,30 @@
 #import "UVUser.h"
 #import "UVCustomField.h"
 #import "UVWelcomeViewController.h"
+#import "UVNewSuggestionViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNetworkUtils.h"
 #import "UVSuggestion.h"
+#import "UVConfig.h"
 #import "NSError+UVExtras.h"
 #include <QuartzCore/QuartzCore.h>
 
 @implementation UVRootViewController
 
-@synthesize ssoToken;
-@synthesize email, displayName, guid;
+@synthesize viewToLoad;
 
-- (id)initWithSsoToken:(NSString *)aToken {
-	if ((self = [super init])) {
-		self.ssoToken = aToken;
-	}
-	return self;
+- (id)init {
+    if (self = [super init]) {
+        self.viewToLoad = @"welcome";
+    }
+    return self;
 }
 
-- (id)initWithEmail:(NSString *)anEmail andGUID:(NSString *)aGUID andName:(NSString *)aDisplayName {
-	if ((self = [super init])) {
-		self.email = anEmail;
-		self.guid = aGUID;
-		self.displayName = aDisplayName;
-	}
-	return self;
+- (id)initWithViewToLoad:(NSString *)theViewToLoad {
+    if (self = [super init]) {
+        self.viewToLoad = theViewToLoad;
+    }
+    return self;
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -61,13 +60,19 @@
 	[self dismissUserVoice];
 }
 
-- (void)pushWelcomeView {
+- (void)pushNextView {
     UVSession *session = [UVSession currentSession];
     if ((![UVToken exists] || session.user) && session.clientConfig && [self.navigationController.viewControllers count] == 1) {
-        self.navigationController.navigationBarHidden = NO;
-        UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
-        [self.navigationController pushViewController:welcomeView animated:YES];
-        [welcomeView release];
+        if (self.viewToLoad == @"welcome") {
+            self.navigationController.navigationBarHidden = NO;
+            UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
+            [self.navigationController pushViewController:welcomeView animated:YES];
+            [welcomeView release];
+        } else if (self.viewToLoad == @"new_suggestion") {
+            self.navigationController.navigationBarHidden = NO;
+            UIViewController *viewController = [[[UVNewSuggestionViewController alloc] initWithoutNavigationWithForum:session.clientConfig.forum] autorelease];
+            [self.navigationController pushViewController:viewController animated:YES];
+        }
     }
 }
 
@@ -76,10 +81,10 @@
 	[UVSession currentSession].currentToken = token;
 	
 	// check if we have a sso token and if so exchange it for an access token and user
-	if (self.ssoToken != nil) {
-		[UVUser findOrCreateWithSsoToken:self.ssoToken delegate:self];
-	} else if (self.email != nil) {
-		[UVUser findOrCreateWithGUID:self.guid andEmail:self.email andName:self.displayName andDelegate:self];
+	if ([UVSession currentSession].config.ssoToken != nil) {
+		[UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
+	} else if ([UVSession currentSession].config.email != nil) {
+		[UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
 	} else {
 		[UVClientConfig getWithDelegate:self];
 	}
@@ -99,7 +104,7 @@
 	if ([UVSession currentSession].clientConfig.ticketsEnabled) {
         [UVCustomField getCustomFieldsWithDelegate:self];
     } else {
-        [self pushWelcomeView];
+        [self pushNextView];
     }
 }
 
@@ -111,13 +116,13 @@
 
 - (void)didRetrieveCustomFields:(id)theFields {
     [UVSession currentSession].clientConfig.customFields = [[[NSArray alloc] initWithArray:theFields] autorelease];
-    [self pushWelcomeView];
+    [self pushNextView];
 }
 
 - (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
     UVUser *user = [UVSession currentSession].user;
     [user didLoadSuggestions:theSuggestions];
-    [self pushWelcomeView];
+    [self pushNextView];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -196,7 +201,7 @@
 		NSLog(@"Already loaded");
 		// We already have a client config, because the user already logged in before during
 		// this session. Skip straight to the welcome view.
-		[self pushWelcomeView];
+		[self pushNextView];
 	}
 }
 
@@ -206,10 +211,7 @@
 }
 
 - (void)dealloc {
-	self.ssoToken = nil;
-	self.email = nil;
-	self.guid = nil;
-	self.displayName = nil;
+    self.viewToLoad = nil;
     [super dealloc];
 }
 

@@ -13,18 +13,11 @@
 // This is an intermediate controller that is responsible for logging in and retrieving
 // the iPhone app config, and then yields control to the actual view controller.
 @interface UVRootViewController : UVBaseViewController {
-	NSString *ssoToken;
-	NSString *email;
-	NSString *guid;
-	NSString *displayName;
+    NSString *viewToLoad;
 }
 
-@property (nonatomic, retain) NSString *ssoToken;
-@property (nonatomic, retain) NSString *email;
-@property (nonatomic, retain) NSString *guid;
-@property (nonatomic, retain) NSString *displayName;
+@property (nonatomic, retain) NSString *viewToLoad;
 
-- (id)initWithSsoToken:(NSString *)aToken;
-- (id)initWithEmail:(NSString *)anEmail andGUID:(NSString *)aGUID andName:(NSString *)aDisplayName;
+- (id)initWithViewToLoad:(NSString *)theViewToLoad;
 
 @end
