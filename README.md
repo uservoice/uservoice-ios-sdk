@@ -29,17 +29,18 @@ API
 ---
 
 Once you have completed these steps, you are ready to launch the UserVoice UI
-from your code. Import `UserVoice.h` and call one of the three methods on the
-UserVoice class.
+from your code. Import `UserVoice.h` and create a `UVConfig` using one of the
+following options.
+
+#### Configuration
 
 **1. Standard Login:** This is the most basic option, which will allow users to
 either sign in, or create a UserVoice account, from inside the UserVoice UI.
 This is ideal if your app does not have any information about the user.
 
-    [UserVoice presentUserVoiceModalViewControllerForParent:self
-                                                    andSite:@"YOUR_USERVOICE_URL"
-                                                     andKey:@"YOUR_KEY"
-                                                  andSecret:@"YOUR_SECRET"];
+    UVConfig *config = [UVConfig configWithSite:@"YOUR_USERVOICE_URL"
+                                         andKey:@"YOUR_KEY"
+                                      andSecret:@"YOUR_SECRET"];
 
 **2. SSO for local users:** This will find or create a new user by passing a
 name, email, and unique id. However, it will only find users that were
@@ -47,24 +48,44 @@ previously created using this method. It will not allow you to log the user in
 as an existing UserVoice account. This is ideal if you only want to use
 UserVoice with your iOS app.
 
-    [UserVoice presentUserVoiceModalViewControllerForParent:self
-                                                    andSite:@"YOUR_USERVOICE_URL"
-                                                     andKey:@"YOUR_KEY"
-                                                  andSecret:@"YOUR_SECRET"
-                                                   andEmail:@"USER_EMAIL"
-                                             andDisplayName:@"USER_DISPLAY_NAME"
-                                                    andGUID:@"GUID"];
+    UVConfig *config = [UVConfig configWithSite:@"YOUR_USERVOICE_URL"
+                                         andKey:@"YOUR_KEY"
+                                      andSecret:@"YOUR_SECRET"
+                                       andEmail:@"USER_EMAIL"
+                                 andDisplayName:@"USER_DISPLAY_NAME"
+                                        andGUID:@"GUID"];
 
 **3. UserVoice SSO:** This is the most flexible option. It allows you to log
 the user in using a UserVoice SSO token. This is ideal if you are planning to
 use single signon with UserVoice across multiple platforms. We recommend you
 encrypt the token on your servers and pass it to the iOS app.
 
-    [UserVoice presentUserVoiceModalViewControllerForParent:self
-                                                    andSite:@"YOUR_USERVOICE_URL"
-                                                     andKey:@"YOUR_KEY"
-                                                  andSecret:@"YOUR_SECRET",
-                                                andSSOToken:@"SOME_BIG_LONG_SSO_TOKEN"];
+    UVConfig *config = [UVConfig configWithSite:@"YOUR_USERVOICE_URL"
+                                         andKey:@"YOUR_KEY"
+                                      andSecret:@"YOUR_SECRET",
+                                    andSSOToken:@"SOME_BIG_LONG_SSO_TOKEN"];
+
+### Invocation
+
+Then you will want to launch UserVoice from the appropriate place in your code.
+There are 3 options here as well:
+
+**1. Standard UserVoice Interface:** The user can browse suggestions, leave
+comments, etc. This is the full experience of everything the SDK can do
+    
+    [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
+
+**2. Stand-alone contact form:** Allow the user to submit a ticket without
+going through the other screens. The user doesn't even need to log in to submit
+a ticket.
+
+    [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
+    
+**3. Stand-alone suggestion form:** Allows the user to submit an idea without
+going through the other screens.
+
+    [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
+
 
 Feedback
 --------

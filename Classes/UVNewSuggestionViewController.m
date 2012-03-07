@@ -227,7 +227,10 @@
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	self.text = theTextEditor.text;
-	[self.navigationItem setRightBarButtonItem:nil animated:NO];
+    if (withoutNavigation)
+        [self showExitButton];
+    else
+        [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -257,6 +260,7 @@
 	theTitleField.returnKeyType = UIReturnKeyDone;
 	theTitleField.autocorrectionType = UITextAutocorrectionTypeYes;
 	theTitleField.text = self.title;
+    theTitleField.placeholder = NSLocalizedStringFromTable(@"Title", @"UserVoice", nil);
 	theTitleField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	theTitleField.clearButtonMode = UITextFieldViewModeWhileEditing;
     theTitleField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
