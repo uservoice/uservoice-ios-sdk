@@ -26,7 +26,6 @@
 	NSInteger numVotes;
 	UVCategory *category;
 	BOOL shouldShowCategories;
-    BOOL withoutNavigation;
 }
 
 @property (nonatomic, retain) UVForum *forum;
@@ -43,6 +42,5 @@
 @property (assign) BOOL shouldShowCategories;
 
 - (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle;
-- (id)initWithoutNavigationWithForum:(UVForum *)theForum;
 
 @end

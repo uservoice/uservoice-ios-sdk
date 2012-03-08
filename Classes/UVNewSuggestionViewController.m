@@ -54,13 +54,6 @@
 	return self;
 }
 
-- (id)initWithoutNavigationWithForum:(UVForum *)theForum {
-    if (self = [self initWithForum:theForum title:@""]) {
-        withoutNavigation = YES;
-    }
-    return self;
-}
-
 - (void)didReceiveError:(NSError *)error {
 	NSLog(@"Got error: %@", [error userInfo]);
 	if ([error isNotFoundError]) {
@@ -133,16 +126,12 @@
 	// update the remaining votes
 	[UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
 	
-    if (withoutNavigation) {
-        [self dismissUserVoice];
-    } else {
-        // Back out to the welcome screen
-        NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
+    // Back out to the welcome screen
+    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
+    [viewControllers removeLastObject];
+    if ([viewControllers count] > 2)
         [viewControllers removeLastObject];
-        if ([viewControllers count] > 2)
-            [viewControllers removeLastObject];
-        [self.navigationController setViewControllers:viewControllers animated:YES];
-    }
+    [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {
@@ -227,10 +216,7 @@
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
 	self.text = theTextEditor.text;
-    if (withoutNavigation)
-        [self showExitButton];
-    else
-        [self.navigationItem setRightBarButtonItem:nil animated:NO];
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
 - (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
@@ -457,12 +443,7 @@
 
 - (void)loadView {
 	[super loadView];
-    
-    if (withoutNavigation)
-        [self.navigationItem setHidesBackButton:YES animated:NO];
-    else
-        [self hideExitButton];
-    
+    [self hideExitButton];
 	
 	self.navigationItem.title = NSLocalizedStringFromTable(@"New Suggestion", @"UserVoice", nil);		
 	CGRect frame = [self contentFrame];
@@ -473,32 +454,30 @@
 	theTableView.sectionFooterHeight = 0.0;
     theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 	
-    if (!withoutNavigation) {
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
-        footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
-        label.text = NSLocalizedStringFromTable(@"Want to send a private message instead?", @"UserVoice", nil);
-        label.textAlignment = UITextAlignmentCenter;
-        label.textColor = [UVStyleSheet linkTextColor];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:13];
-        [footer addSubview:label];
-        [label release];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
+    footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
+    label.text = NSLocalizedStringFromTable(@"Want to send a private message instead?", @"UserVoice", nil);
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UVStyleSheet linkTextColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:13];
+    [footer addSubview:label];
+    [label release];
 
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 25, frame.size.width, 15);
-        NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Contact %@", @"UserVoice", nil), [UVSession currentSession].clientConfig.subdomain.name];
-        [button setTitle:buttonTitle forState:UIControlStateNormal];
-        [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor clearColor];
-        button.showsTouchWhenHighlighted = YES;
-        button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-        [button addTarget:self action:@selector(contactButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [footer addSubview:button];
-        
-        theTableView.tableFooterView = footer;
-        [footer release];
-    }
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 25, frame.size.width, 15);
+    NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Contact %@", @"UserVoice", nil), [UVSession currentSession].clientConfig.subdomain.name];
+    [button setTitle:buttonTitle forState:UIControlStateNormal];
+    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor clearColor];
+    button.showsTouchWhenHighlighted = YES;
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+    [button addTarget:self action:@selector(contactButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [footer addSubview:button];
+    
+    theTableView.tableFooterView = footer;
+    [footer release];
 
 	self.tableView = theTableView;
     self.view = theTableView;

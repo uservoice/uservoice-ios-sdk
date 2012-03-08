@@ -13,18 +13,24 @@
 #import "UVRootViewController.h"
 #import "UVSession.h"
 #import "UVNewTicketViewController.h"
-#import "UVNewSuggestionViewController.h"
+#import "UVSuggestionListViewController.h"
 
 @implementation UserVoice
 
-+ (void) presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
++ (void) presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
     [UVSession currentSession].config = config;
 	[UVSession currentSession].isModal = YES;
     // Capture the launch orientation, then store it in NSDefaults for reference in all other UV view controller classes
     [UVClientConfig setOrientation];
-	UINavigationController *userVoiceNav = [[[UINavigationController alloc] initWithRootViewController:viewController] autorelease];
-	[parentViewController presentModalViewController:userVoiceNav animated:YES];
+	UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.viewControllers = viewControllers;
+	[parentViewController presentModalViewController:navigationController animated:YES];
 }
+
++ (void) presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
+    [self presentUserVoiceControllers:[NSArray arrayWithObject:viewController] forParentViewController:parentViewController withConfig:config];
+}
+
 
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)parentViewController andSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
     UVConfig *config = [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
@@ -55,13 +61,16 @@
 	[self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
 }
 
-+ (void)presentUserVoiceSuggestionFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
-    UIViewController *viewController;
-    if ([[UVSession currentSession] clientConfig])
-        viewController = [[[UVNewSuggestionViewController alloc] initWithoutNavigationWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
-    else
-        viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_suggestion"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
++ (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
+    if ([[UVSession currentSession] clientConfig]) {
+        UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
+        UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+        NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
+        [self presentUserVoiceControllers:viewControllers forParentViewController:parentViewController withConfig:config];
+    } else {
+        UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"suggestions"] autorelease];
+        [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
+    }
 }
 
 static id<UVDelegate> userVoiceDelegate;

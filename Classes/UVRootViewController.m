@@ -68,10 +68,12 @@
             UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
             [self.navigationController pushViewController:welcomeView animated:YES];
             [welcomeView release];
-        } else if (self.viewToLoad == @"new_suggestion") {
+        } else if (self.viewToLoad == @"suggestions") {
             self.navigationController.navigationBarHidden = NO;
-            UIViewController *viewController = [[[UVNewSuggestionViewController alloc] initWithoutNavigationWithForum:session.clientConfig.forum] autorelease];
-            [self.navigationController pushViewController:viewController animated:YES];
+            UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
+            UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+            NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
+            [self.navigationController setViewControllers:viewControllers animated:YES];
         }
     }
 }

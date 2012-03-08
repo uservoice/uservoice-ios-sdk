@@ -20,8 +20,8 @@
 // Modally present the UserVoice contact form
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
 
-// Modally present the UserVoice suggestion form
-+ (void)presentUserVoiceSuggestionFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
+// Modally present the UserVoice interface, but go directly to the forum screen
++ (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
 
 // Set a <UVDelegate> to receive callbacks
 + (void)setDelegate:(id<UVDelegate>)delegate;

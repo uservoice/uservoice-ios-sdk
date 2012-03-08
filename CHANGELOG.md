@@ -23,7 +23,7 @@
 * Add French translation
 * Move keyboard done button to the right side on Contact Us and Suggestion forms
 * Fix a bug where the network connection image would be stretched in an unsightly way
-* Add a method to go directly to the new suggestion form
+* Add a method to go directly to the feedback forum
 * Refactor public interface
 
 ## 1.0.2 ##
