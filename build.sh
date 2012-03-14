@@ -18,6 +18,7 @@ lipo -create build/Release-iphoneos/libUserVoice.a build/Release-iphonesimulator
 echo "Copying other files"
 cp -R Include $DIST/UVHeaders
 cp -R Resources $DIST/UVResources
+cp README.md $DIST/README.md
 
 echo "Creating archive"
 tar -czf $DIST.tar.gz $DIST

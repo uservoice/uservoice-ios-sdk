@@ -79,12 +79,12 @@ comments, etc. This is the full experience of everything the SDK can do
 going through the other screens. The user doesn't even need to log in to submit
 a ticket.
 
-    [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceContactUsFormForParentViewController:self andConfig:config];
     
-**3. Stand-alone suggestion form:** Allows the user to submit an idea without
-going through the other screens.
+**3. Direct link to feedback forum:** Launches the regular UI, but forwards the
+user directly to the forum screen.
 
-    [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceForumForParentViewController:self andConfig:config];
 
 
 Feedback
