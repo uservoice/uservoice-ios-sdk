@@ -18,111 +18,123 @@
 
 @implementation UVInfoViewController
 
-- (void)didRetrieveInfo:(UVInfo *)someInfo {
-	[self hideActivityIndicator];
-	[UVSession currentSession].info = someInfo;
-	[tableView reloadData];
+
+- (void)openGithub {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/uservoice/uservoice-iphone-sdk"]];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier = @"";
-	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	
-	if (indexPath.section == UV_INFO_SECTION_ABOUT) {
-		identifier = @"About";
-		
-	} else if (indexPath.section >= UV_INFO_SECTION_MOTIVATION) {
-		identifier = @"Motivation";
-	}
-	
-	return [self createCellForIdentifier:identifier
+	return [self createCellForIdentifier:@"Version"
 							   tableView:tableView
 							   indexPath:indexPath
-								   style:style
+								   style:UITableViewCellStyleValue1
 							  selectable:NO];
 }
 
-- (NSInteger)labelHeightWithText:(NSString *)text {
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
-    return [text sizeWithFont:[UIFont systemFontOfSize:14]
-            constrainedToSize:CGSizeMake(screenWidth - 2 * margin, 100000)
-                lineBreakMode:UILineBreakModeWordWrap].height;
-}
-
-- (UILabel *)labelWithText:(NSString *)text {
-	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat margin = ((screenWidth > 480) ? 45 : 10) + 10;
-	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, screenWidth - 2 * margin, [self labelHeightWithText:text])] autorelease];
-	label.lineBreakMode = UILineBreakModeWordWrap;	
-	label.numberOfLines = 0;
-	label.font = [UIFont systemFontOfSize:14];
-	label.text = text;
-    // This color isn't configurable because the grouped table cell background color is not (currently) configurable.
-    label.textColor = [UIColor colorWithRed:0.298 green:0.337 blue:0.424 alpha:1.0];
-    label.backgroundColor = [UIColor clearColor];
-    return label;
-}
-
-- (void)customizeCellForAbout:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UILabel *label = [self labelWithText:[UVSession currentSession].info.about_body];
-	[cell.contentView addSubview:label];
-}
-
-- (void)customizeCellForMotivation:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-	UILabel *label = [self labelWithText:[UVSession currentSession].info.motivation_body];
-	[cell.contentView addSubview:label];
+- (void)customizeCellForVersion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Version", @"UserVoice", nil);
+    cell.detailTextLabel.text = @"1.0";
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return 2;
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return 1;
 }
 
-#pragma mark ===== UITableViewDelegate Methods =====
-
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *text = (indexPath.section == UV_INFO_SECTION_ABOUT) ? [UVSession currentSession].info.about_body : [UVSession currentSession].info.motivation_body;
-    return 20 + [self labelHeightWithText:text];
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"UserVoice iOS SDK";
 }
 
 #pragma mark ===== Basic View Methods =====
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-
-	// see if we already have the info object loaded
-	if ([UVSession currentSession].info == nil) {
-		[self showActivityIndicator];
- 		[UVInfo getWithDelegate:self];
-	}
-}
-
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	[super loadView];
-	
-	self.navigationItem.title = @"UserVoice";
+	self.navigationItem.title = @"About UserVoice";
 	
 	CGRect frame = [self contentFrame];
-	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
-	
-	self.tableView = theTableView;
-	[theTableView release];
-	
-	self.view = tableView;
+    self.view = [[[UIScrollView alloc] initWithFrame:frame] autorelease];
+    self.view.autoresizesSubviews = YES;
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    UIImageView *logo = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]] autorelease];
+    logo.center = CGPointMake(frame.size.width/2, 40);
+    logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+    [self.view addSubview:logo];
+    
+    int margin = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 53 : 18;
+    UILabel *title = [[[UILabel alloc] initWithFrame:CGRectMake(margin, 70, frame.size.width - 2 * margin, 24)] autorelease];
+    title.text = NSLocalizedStringFromTable(@"Feedback and Helpdesk Software", @"UserVoice", nil);
+    title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    title.textColor = [UVStyleSheet tableViewHeaderColor];
+    title.backgroundColor = [UIColor clearColor];
+    title.font = [UIFont boldSystemFontOfSize:17];
+    title.shadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.8];
+    title.shadowOffset = CGSizeMake(0, 1);
+    [self.view addSubview:title];
+    
+    int rows = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2 : (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight ? 3 : 4);
+    UILabel *paragraph = [[[UILabel alloc] initWithFrame:CGRectMake(margin, title.frame.origin.y + title.frame.size.height + 8, frame.size.width - 2 * margin, 16 * rows + 6)] autorelease];
+    paragraph.text = NSLocalizedStringFromTable(@"UserVoice creates simple feedback and help desk software. Our insight and support platforms enable businesses to understand and engage with customers with ease.", @"UserVoice", nil);
+    paragraph.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    paragraph.textColor = [UVStyleSheet tableViewHeaderColor];
+    paragraph.backgroundColor = [UIColor clearColor];
+    paragraph.font = [UIFont systemFontOfSize:14];
+    paragraph.numberOfLines = 5;
+    paragraph.shadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.8];
+    paragraph.shadowOffset = CGSizeMake(0, 1);
+    [self.view addSubview:paragraph];
+    
+    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, paragraph.frame.origin.y + paragraph.frame.size.height + 8, frame.size.width, 100) style:UITableViewStyleGrouped] autorelease];
+    self.tableView.dataSource = self;
+    self.tableView.scrollEnabled = NO;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:self.tableView];
+    
+    int y = self.tableView.frame.origin.y + self.tableView.frame.size.height + 5;
+    NSString *getTheLatestText = NSLocalizedStringFromTable(@"Get the latest version on ", @"UserVoice", nil);
+    int getTheLatestWidth = [getTheLatestText sizeWithFont:[UIFont systemFontOfSize:14]].width;
+    UILabel *getTheLatest = [[[UILabel alloc] initWithFrame:CGRectMake(margin, y, getTheLatestWidth, 20)] autorelease];
+    getTheLatest.text = getTheLatestText;
+    getTheLatest.backgroundColor = [UIColor clearColor];
+    getTheLatest.textColor = [UVStyleSheet tableViewHeaderColor];
+    getTheLatest.shadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.8];
+    getTheLatest.shadowOffset = CGSizeMake(0, 1);
+    getTheLatest.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:getTheLatest];
+    
+    NSString *githubText = @"GitHub";
+    int githubWidth = [githubText sizeWithFont:[UIFont boldSystemFontOfSize:14]].width;
+    UIButton *githubButton = [[[UIButton alloc] initWithFrame:CGRectMake(margin + getTheLatestWidth, y, githubWidth, 20)] autorelease];
+    [githubButton setTitle:githubText forState:UIControlStateNormal];
+    [githubButton setTitleColor:[UVStyleSheet tableViewHeaderColor] forState:UIControlStateNormal];
+    [githubButton setTitleShadowColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:.8] forState:UIControlStateNormal];
+    githubButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    githubButton.titleLabel.shadowOffset = CGSizeMake(0, 1);
+    [githubButton addTarget:self action:@selector(openGithub) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:githubButton];
+    
+    UILabel *periodLabel = [[[UILabel alloc] initWithFrame:CGRectMake(margin + getTheLatestWidth + githubWidth, y, 20, 20)] autorelease];
+    periodLabel.text = @".";
+    periodLabel.backgroundColor = [UIColor clearColor];
+    periodLabel.textColor = [UVStyleSheet tableViewHeaderColor];
+    periodLabel.shadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.8];
+    periodLabel.shadowOffset = CGSizeMake(0, 1);
+    periodLabel.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:periodLabel];
+    
+    [((UIScrollView *)self.view) setContentSize:CGSizeMake(0, periodLabel.frame.origin.y + periodLabel.frame.size.height + 10)];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.view.backgroundColor = [UVStyleSheet backgroundColor];
+        self.tableView.backgroundColor = [UVStyleSheet backgroundColor];
+        self.tableView.backgroundView = nil;
+    }
 }
 
 @end

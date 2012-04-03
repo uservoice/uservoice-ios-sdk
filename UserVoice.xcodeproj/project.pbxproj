@@ -211,7 +211,7 @@
 		AC1E2F7F111E2EB200415C16 /* UVCategorySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCategorySelectViewController.h; sourceTree = "<group>"; };
 		AC1E2F80111E2EB200415C16 /* UVCategorySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCategorySelectViewController.m; sourceTree = "<group>"; };
 		AC31201F108CE4B100000D5F /* UserVoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserVoice.m; sourceTree = "<group>"; };
-		AC312081108CFD9F00000D5F /* UVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVConfig.h; path = UVConfig.h; sourceTree = "<group>"; };
+		AC312081108CFD9F00000D5F /* UVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVConfig.h; sourceTree = "<group>"; };
 		AC312082108CFD9F00000D5F /* UVConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVConfig.m; sourceTree = "<group>"; };
 		AC3121F6108FC46500000D5F /* UVBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseModel.h; sourceTree = "<group>"; };
 		AC3121F7108FC46500000D5F /* UVBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseModel.m; sourceTree = "<group>"; };
@@ -382,6 +382,8 @@
 		D2D7B238119D04E1003EDD3A /* UVProfileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVProfileEditViewController.h; sourceTree = "<group>"; };
 		D2D7B239119D04E1003EDD3A /* UVProfileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVProfileEditViewController.m; sourceTree = "<group>"; };
 		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
+		D99902C5152B881F00AED6A7 /* uv_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_logo.png; sourceTree = "<group>"; };
+		D99902C6152B881F00AED6A7 /* uv_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_logo@2x.png"; sourceTree = "<group>"; };
 		D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageCache.h; sourceTree = "<group>"; };
 		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
 		D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				D2605D03144662150029F16B /* uv_default_avatar@2x.png */,
 				D2605D04144662150029F16B /* uv_error_connection@2x.png */,
 				D2605D06144662150029F16B /* uv_karma_star@2x.png */,
+				D99902C6152B881F00AED6A7 /* uv_logo@2x.png */,
 				D2605D08144662150029F16B /* uv_primary_button_green_active@2x.png */,
 				D2605D09144662150029F16B /* uv_primary_button_green@2x.png */,
 				D2605D0A144662150029F16B /* uv_primary_button_red_active@2x.png */,
@@ -652,6 +655,7 @@
 				D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */,
 				D2620C5611B586230053EA4C /* uv_error_connection.png */,
 				D2620C5811B586230053EA4C /* uv_karma_star.png */,
+				D99902C5152B881F00AED6A7 /* uv_logo.png */,
 				D2620C5A11B586230053EA4C /* uv_primary_button_green.png */,
 				D2620C5B11B586230053EA4C /* uv_primary_button_green_active.png */,
 				D2620C5C11B586230053EA4C /* uv_primary_button_red.png */,
