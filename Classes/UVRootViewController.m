@@ -15,6 +15,7 @@
 #import "UVWelcomeViewController.h"
 #import "UVNewSuggestionViewController.h"
 #import "UVSuggestionListViewController.h"
+#import "UVNewTicketViewController.h"
 #import "UVNetworkUtils.h"
 #import "UVSuggestion.h"
 #import "UVConfig.h"
@@ -73,6 +74,12 @@
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
             UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
+            [self.navigationController setViewControllers:viewControllers animated:YES];
+        } else if (self.viewToLoad == @"new_ticket") {
+            self.navigationController.navigationBarHidden = NO;
+            UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
+            UIViewController *newTicketViewController = [[[UVNewTicketViewController alloc] init] autorelease];
+            NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
             [self.navigationController setViewControllers:viewControllers animated:YES];
         }
     }

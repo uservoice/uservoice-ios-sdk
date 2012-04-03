@@ -26,6 +26,13 @@
 
 @synthesize forum = _forum;
 
+- (id)init {
+    if (self = [super init]) {
+        self.title = NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
+    }
+    return self;
+}
+
 - (NSString *)backButtonTitle {
 	return NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
 }

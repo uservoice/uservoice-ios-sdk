@@ -28,6 +28,5 @@
 //@property (nonatomic, retain) NSArray *customFields;
 
 - (id)initWithText:(NSString *)text;
-- (id)initWithoutNavigation;
 
 @end

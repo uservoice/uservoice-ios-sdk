@@ -97,20 +97,20 @@
     [self.view addSubview:self.tableView];
     
     int y = self.tableView.frame.origin.y + self.tableView.frame.size.height + 5;
-    NSString *getTheLatestText = NSLocalizedStringFromTable(@"Get the latest version on ", @"UserVoice", nil);
-    int getTheLatestWidth = [getTheLatestText sizeWithFont:[UIFont systemFontOfSize:14]].width;
-    UILabel *getTheLatest = [[[UILabel alloc] initWithFrame:CGRectMake(margin, y, getTheLatestWidth, 20)] autorelease];
-    getTheLatest.text = getTheLatestText;
-    getTheLatest.backgroundColor = [UIColor clearColor];
-    getTheLatest.textColor = [UVStyleSheet tableViewHeaderColor];
-    getTheLatest.shadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.8];
-    getTheLatest.shadowOffset = CGSizeMake(0, 1);
-    getTheLatest.font = [UIFont systemFontOfSize:14];
-    [self.view addSubview:getTheLatest];
+    NSString *downloadText = NSLocalizedStringFromTable(@"You can download the SDK on ", @"UserVoice", nil);
+    int downloadWidth = [downloadText sizeWithFont:[UIFont systemFontOfSize:14]].width;
+    UILabel *downloadLabel = [[[UILabel alloc] initWithFrame:CGRectMake(margin, y, downloadWidth, 20)] autorelease];
+    downloadLabel.text = downloadText;
+    downloadLabel.backgroundColor = [UIColor clearColor];
+    downloadLabel.textColor = [UVStyleSheet tableViewHeaderColor];
+    downloadLabel.shadowColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:.8];
+    downloadLabel.shadowOffset = CGSizeMake(0, 1);
+    downloadLabel.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:downloadLabel];
     
     NSString *githubText = @"GitHub";
     int githubWidth = [githubText sizeWithFont:[UIFont boldSystemFontOfSize:14]].width;
-    UIButton *githubButton = [[[UIButton alloc] initWithFrame:CGRectMake(margin + getTheLatestWidth, y, githubWidth, 20)] autorelease];
+    UIButton *githubButton = [[[UIButton alloc] initWithFrame:CGRectMake(margin + downloadWidth, y, githubWidth, 20)] autorelease];
     [githubButton setTitle:githubText forState:UIControlStateNormal];
     [githubButton setTitleColor:[UVStyleSheet tableViewHeaderColor] forState:UIControlStateNormal];
     [githubButton setTitleShadowColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:.8] forState:UIControlStateNormal];
@@ -119,7 +119,7 @@
     [githubButton addTarget:self action:@selector(openGithub) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:githubButton];
     
-    UILabel *periodLabel = [[[UILabel alloc] initWithFrame:CGRectMake(margin + getTheLatestWidth + githubWidth, y, 20, 20)] autorelease];
+    UILabel *periodLabel = [[[UILabel alloc] initWithFrame:CGRectMake(margin + downloadWidth + githubWidth, y, 20, 20)] autorelease];
     periodLabel.text = @".";
     periodLabel.backgroundColor = [UIColor clearColor];
     periodLabel.textColor = [UVStyleSheet tableViewHeaderColor];
