@@ -77,9 +77,8 @@ comments, etc. This is the full experience of everything the SDK can do
     
     [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
 
-**2. Stand-alone contact form:** Allow the user to submit a ticket without
-going through the other screens. The user doesn't even need to log in to submit
-a ticket.
+**2. Direct link to contact form:** Launches the regular UI, but forwards the user
+directly to the contact form.
 
     [UserVoice presentUserVoiceContactUsFormForParentViewController:self andConfig:config];
     

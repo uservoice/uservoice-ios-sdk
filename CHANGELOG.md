@@ -18,13 +18,14 @@
 * Fix behavior of new suggestion link on contact form
 * Fix behavior of new ticket link on new suggestion form
 * Add a cancel button to loading screen for those on slow connections
-* Add a method to display the contact form without loading the rest of the UI
+* Add a method to go directly to the contact form
 * Add localization support
 * Add French translation
 * Move keyboard done button to the right side on Contact Us and Suggestion forms
 * Fix a bug where the network connection image would be stretched in an unsightly way
 * Add a method to go directly to the feedback forum
 * Refactor public interface
+* Redesign about screen
 
 ## 1.0.2 ##
 
