@@ -45,12 +45,13 @@
 }
 
 - (void)setUser:(UVUser *)theUser {
-    [user release];
+    UVUser *oldUser = self.user;
     user = theUser;
     [user retain];
     // reload the topic because it owns the number of available votes for the current user
-    if (clientConfig)
+    if (oldUser != nil && clientConfig)
         [UVClientConfig getWithDelegate:self];
+    [oldUser release];
 }
 
 - (id)init {

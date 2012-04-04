@@ -76,8 +76,8 @@
 		AC91B26E112F213900D84566 /* UVSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B26B112F213900D84566 /* UVSubject.m */; };
 		AC91B289112F28EE00D84566 /* UVNewTicketViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B286112F28EE00D84566 /* UVNewTicketViewController.h */; };
 		AC91B28A112F28EE00D84566 /* UVNewTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B287112F28EE00D84566 /* UVNewTicketViewController.m */; };
-		AC91B2CB112F320700D84566 /* UVSubjectSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVSubjectSelectViewController.h */; };
-		AC91B2CC112F320700D84566 /* UVSubjectSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */; };
+		AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */; };
+		AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */; };
 		AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */; };
 		AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */; };
 		AC91B50211349B6600D84566 /* UVUserButton.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4FF11349B6600D84566 /* UVUserButton.h */; };
@@ -255,8 +255,8 @@
 		AC91B26B112F213900D84566 /* UVSubject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubject.m; sourceTree = "<group>"; };
 		AC91B286112F28EE00D84566 /* UVNewTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketViewController.h; sourceTree = "<group>"; };
 		AC91B287112F28EE00D84566 /* UVNewTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewTicketViewController.m; sourceTree = "<group>"; };
-		AC91B2C8112F320700D84566 /* UVSubjectSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSubjectSelectViewController.h; sourceTree = "<group>"; };
-		AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubjectSelectViewController.m; sourceTree = "<group>"; };
+		AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomFieldValueSelectViewController.h; sourceTree = "<group>"; };
+		AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomFieldValueSelectViewController.m; sourceTree = "<group>"; };
 		AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCellViewWithIndex.h; sourceTree = "<group>"; };
 		AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCellViewWithIndex.m; sourceTree = "<group>"; };
 		AC91B4FF11349B6600D84566 /* UVUserButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUserButton.h; sourceTree = "<group>"; };
@@ -532,6 +532,8 @@
 				AC1E2F80111E2EB200415C16 /* UVCategorySelectViewController.m */,
 				ACEE435F10AA32A4003D8751 /* UVCommentListViewController.h */,
 				ACEE436010AA32A4003D8751 /* UVCommentListViewController.m */,
+				AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */,
+				AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */,
 				AC1B13E310CF29CF002B03F7 /* UVInfoViewController.h */,
 				AC1B13E410CF29CF002B03F7 /* UVInfoViewController.m */,
 				AC1B9F6C10B318DC002C8712 /* UVNewSuggestionViewController.h */,
@@ -550,8 +552,6 @@
 				AC1B16FD10D80EAE002B03F7 /* UVRootViewController.m */,
 				D24A348F119F351A005BC3F3 /* UVSignInViewController.h */,
 				D24A3490119F351A005BC3F3 /* UVSignInViewController.m */,
-				AC91B2C8112F320700D84566 /* UVSubjectSelectViewController.h */,
-				AC91B2C9112F320700D84566 /* UVSubjectSelectViewController.m */,
 				AC04F4F2109A3D4A00551F2D /* UVSuggestionDetailsViewController.h */,
 				AC04F4F3109A3D4A00551F2D /* UVSuggestionDetailsViewController.m */,
 				AC31239D1090EB3700000D5F /* UVSuggestionListViewController.h */,
@@ -822,7 +822,7 @@
 				AC1E2F82111E2EB200415C16 /* UVCategorySelectViewController.h in Headers */,
 				AC91B26D112F213900D84566 /* UVSubject.h in Headers */,
 				AC91B289112F28EE00D84566 /* UVNewTicketViewController.h in Headers */,
-				AC91B2CB112F320700D84566 /* UVSubjectSelectViewController.h in Headers */,
+				AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */,
 				AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */,
 				AC91B50211349B6600D84566 /* UVUserButton.h in Headers */,
 				ACBA824A11399A2B006D5219 /* UVActivityIndicator.h in Headers */,
@@ -968,7 +968,7 @@
 				AC1E2F83111E2EB200415C16 /* UVCategorySelectViewController.m in Sources */,
 				AC91B26E112F213900D84566 /* UVSubject.m in Sources */,
 				AC91B28A112F28EE00D84566 /* UVNewTicketViewController.m in Sources */,
-				AC91B2CC112F320700D84566 /* UVSubjectSelectViewController.m in Sources */,
+				AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */,
 				AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */,
 				AC91B50311349B6600D84566 /* UVUserButton.m in Sources */,
 				ACBA824B11399A2B006D5219 /* UVActivityIndicator.m in Sources */,

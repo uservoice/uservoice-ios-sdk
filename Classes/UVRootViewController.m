@@ -124,7 +124,7 @@
 }
 
 - (void)didRetrieveCustomFields:(id)theFields {
-    [UVSession currentSession].clientConfig.customFields = [[[NSArray alloc] initWithArray:theFields] autorelease];
+    [UVSession currentSession].clientConfig.customFields = [NSArray arrayWithArray:theFields];
     [self pushNextView];
 }
 

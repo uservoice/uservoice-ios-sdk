@@ -34,11 +34,20 @@
 	if (self = [super init]) {
         self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];        
 		self.name = [self objectOrNilForDict:dict key:@"name"];        
-        self.values = [self objectOrNilForDict:dict key:@"possible_values"];
+        NSArray *valueDictionaries = [self objectOrNilForDict:dict key:@"possible_values"];
+        NSMutableArray *valueNames = [NSMutableArray arrayWithCapacity:[valueDictionaries count]];
+        for (NSDictionary *valueAttributes in valueDictionaries) {
+            [valueNames addObject:[valueAttributes valueForKey:@"value"]];
+        }
+        self.values = [NSArray arrayWithArray:valueNames];
         
         // NSLog(@"Values: %@", self.values);
 	}
 	return self;
+}
+
+- (BOOL)isPredefined {
+    return [self.values count] > 0;
 }
 
 - (void)dealloc {

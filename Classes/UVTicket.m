@@ -30,12 +30,16 @@
 
 + (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
+        andCustomFields:(NSDictionary *)fields
             andDelegate:(id)delegate {
 	NSString *path = [self apiPath:@"/tickets.json"];
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							message == nil ? @"" : message, @"ticket[message]",
-							email   == nil ? @"" : email,   @"email",
-							nil];
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        message == nil ? @"" : message, @"ticket[message]",
+        email   == nil ? @"" : email,   @"email",
+        nil];
+    for (NSString *name in [fields keyEnumerator]) {
+        [params setObject:[fields objectForKey:name] forKey:[NSString stringWithFormat:@"ticket[custom_field_values][%@]", name]];
+    }
     
 	return [[self class] postPath:path
 					   withParams:params

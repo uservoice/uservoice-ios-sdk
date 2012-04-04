@@ -17,16 +17,16 @@
 	UITextField *emailField;
     UIView *activeField;
     NSString *initialText;
-    BOOL withoutNavigation;
-	//NSArray *customFields;
+    NSMutableDictionary *selectedCustomFieldValues;
 }
 
 @property (nonatomic, retain) UVTextEditor *textEditor;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIView *activeField;
 @property (nonatomic, retain) NSString *initialText;
-//@property (nonatomic, retain) NSArray *customFields;
+@property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)text;
+- (void)dismissKeyboard;
 
 @end

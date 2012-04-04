@@ -21,5 +21,6 @@
 
 + (id)getCustomFieldsWithDelegate:(id)delegate;
 - (id)initWithDictionary:(NSDictionary *)dict;
+- (BOOL)isPredefined;
 
 @end

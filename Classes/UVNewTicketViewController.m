@@ -12,7 +12,7 @@
 #import "UVSession.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
-#import "UVSubjectSelectViewController.h"
+#import "UVCustomFieldValueSelectViewController.h"
 #import "UVNewSuggestionViewController.h"
 #import "UVSignInViewController.h"
 #import "UVClientConfig.h"
@@ -24,9 +24,13 @@
 #import "NSError+UVExtras.h"
 
 #define UV_NEW_TICKET_SECTION_TEXT 0
-#define UV_NEW_TICKET_SECTION_PROFILE 1
-#define UV_NEW_TICKET_SECTION_SUBMIT 2
-//#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS ??
+#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 1
+#define UV_NEW_TICKET_SECTION_PROFILE 2
+#define UV_NEW_TICKET_SECTION_SUBMIT 3
+
+#define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
+#define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
+#define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
 
 @implementation UVNewTicketViewController
 
@@ -34,10 +38,18 @@
 @synthesize emailField;
 @synthesize activeField;
 @synthesize initialText;
+@synthesize selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)text {
-    if (self = [super init]) {
+    if (self = [self init]) {
         self.initialText = text;
+    }
+    return self;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithCapacity:[[UVSession currentSession].clientConfig.customFields count]];
     }
     return self;
 }
@@ -54,7 +66,7 @@
 	
 	if ([UVSession currentSession].user || (email && [email length] > 1)) {
         [self showActivityIndicator];
-        [UVTicket createWithMessage:text andEmailIfNotLoggedIn:email andDelegate:self];
+        [UVTicket createWithMessage:text andEmailIfNotLoggedIn:email andCustomFields:selectedCustomFieldValues andDelegate:self];
 	} else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
 	}
@@ -78,6 +90,15 @@
     [viewControllers addObject:next];
 	[self.navigationController setViewControllers:viewControllers animated:YES];
     [viewControllers release];
+}
+
+- (void)nonPredefinedValueChanged:(NSNotification *)notification {
+    UITextField *textField = (UITextField *)[notification object];
+    UITableViewCell *cell = (UITableViewCell *)[textField superview];
+    UITableView *table = (UITableView *)[cell superview];
+    NSIndexPath *path = [table indexPathForCell:cell];
+    UVCustomField *field = (UVCustomField *)[[UVSession currentSession].clientConfig.customFields objectAtIndex:path.row];
+    [selectedCustomFieldValues setObject:textField.text forKey:field.name];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -135,8 +156,7 @@
 	return [textField autorelease];
 }
 
-- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath 
-{
+- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
 	UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
@@ -152,18 +172,49 @@
 	
 	[cell.contentView addSubview:aTextEditor];
 	self.textEditor = aTextEditor;
+    [textEditor becomeFirstResponder];
 	[aTextEditor release];
 }
 
-- (void)customizeCellForFields:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
-	NSArray *fields = [UVSession currentSession].clientConfig.customFields;
-	if (fields && [fields count] > 0) {
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.text = NSLocalizedStringFromTable(@"Type", @"UserVoice", nil);
-        
-	} else {
-		cell.accessoryType = UITableViewCellAccessoryNone;
-	}	
+- (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
+    label.font = [UIFont boldSystemFontOfSize:16];
+    label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
+    label.textColor = [UIColor blackColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.adjustsFontSizeToFitWidth = YES;
+    [cell addSubview:label];
+    
+    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - 20, cell.frame.size.height - 10)] autorelease];
+    textField.borderStyle = UITextBorderStyleNone;
+    textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
+    textField.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(nonPredefinedValueChanged:)
+                                                 name:UITextFieldTextDidChangeNotification 
+                                                object:textField];
+    [cell addSubview:textField];
+    
+    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 4, cell.frame.size.width / 2 - 20, cell.frame.size.height - 10)] autorelease];
+    valueLabel.font = [UIFont systemFontOfSize:16];
+    valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
+    valueLabel.textColor = [UIColor blackColor];
+    valueLabel.backgroundColor = [UIColor clearColor];
+    valueLabel.adjustsFontSizeToFitWidth = YES;
+    [cell addSubview:valueLabel];
+}
+
+- (void)customizeCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+	UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
+    UILabel *label = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_LABEL_TAG];
+    UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
+    UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG];
+    label.text = field.name;
+    cell.accessoryType = [field isPredefined] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+    textField.enabled = [field isPredefined] ? NO : YES;
+    cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
+    valueLabel.hidden = ![field isPredefined];
+    valueLabel.text = [selectedCustomFieldValues objectForKey:field.name];
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -198,12 +249,10 @@
 	BOOL selectable = NO;
 	
 	switch (indexPath.section) {
-//        case UV_NEW_TICKET_SECTION_CUSTOM_FIELDS
-//            identifier = 
-//            style = UITableViewCellStyleValue1;
-//			NSArray *subjects = [UVSession currentSession].clientConfig.customFields;                        
-//			selectable = subjects && [subjects count] > 1;
-//            break;
+        case UV_NEW_TICKET_SECTION_CUSTOM_FIELDS:
+            identifier = @"CustomField";
+            style = UITableViewCellStyleValue1;
+            break;
 		case UV_NEW_TICKET_SECTION_TEXT:
 			identifier = @"Text";
 			break;
@@ -223,14 +272,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-//    NSArray *customFields = [UVSession currentSession].clientConfig.customFields;
-//    
-//    if (customFields && [customFields count] >= 1) {
-//        return 5;
-//    } else {
-//        return 4;
-//    }
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -240,20 +282,8 @@
 		} else {
 			return 1;
 		}
-//	} else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
-//        return 0;
-//		NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
-//        
-//        NSLog(@"Custom Fields: %@", subjects);
-//		if (subjects && [subjects count] > 1) {
-//			return 1;
-//            
-//		} else {
-//			if (subjects && [subjects count] > 0)
-//				self.subject = [subjects objectAtIndex:0];
-//			
-//			return [subjects count];
-//		}
+	} else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
+		return [[UVSession currentSession].clientConfig.customFields count];
 	} else {
 		return 1;
 	}
@@ -275,13 +305,13 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-//	NSArray *subjects = [UVSession currentSession].clientConfig.customFields;
-//	if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS && subjects && [subjects count] > 1) {
-//		[self dismissTextView];
-//		UIViewController *next = [[UVSubjectSelectViewController alloc] initWithSelectedSubject:self.subject];
-//		[self.navigationController pushViewController:next animated:YES];
-//		[next release];
-//	}
+	if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
+        UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
+        if (![field isPredefined])
+            return;
+		UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
+		[self.navigationController pushViewController:next animated:YES];
+	}
 }
 
 
@@ -289,12 +319,19 @@
 
 - (void)keyboardDidShow:(NSNotification*)notification {
     [super keyboardDidShow:notification];
+    if (activeField == nil)
+        return;
     
     NSIndexPath *path;
     if (activeField == emailField)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
-    else
+    else if (activeField == textEditor)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
+    else {
+        UITableViewCell *cell = (UITableViewCell *)[activeField superview];
+        UITableView *table = (UITableView *)[cell superview];
+        path = [table indexPathForCell:cell];
+    }
     [tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
@@ -304,7 +341,7 @@
 	[super loadView];	
 	self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
     self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
-	
+    
 	CGRect frame = [self contentFrame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
@@ -341,19 +378,21 @@
 	
 	self.tableView = theTableView;
 	[theTableView release];
-	
+    
 	self.view = tableView;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+- (void)viewDidLoad {
+    [super viewDidLoad];
     [textEditor becomeFirstResponder];
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	self.textEditor = nil;
 	self.emailField = nil;
     self.activeField = nil;
+    self.selectedCustomFieldValues = nil;
     [super dealloc];
 }
 
