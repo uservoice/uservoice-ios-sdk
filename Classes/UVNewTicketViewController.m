@@ -307,10 +307,14 @@
 	
 	if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
         UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
-        if (![field isPredefined])
-            return;
-		UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
-		[self.navigationController pushViewController:next animated:YES];
+        if ([field isPredefined]) {
+            UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        } else {
+            UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
+            UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
+            [textField becomeFirstResponder];
+        }
 	}
 }
 
