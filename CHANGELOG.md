@@ -26,6 +26,8 @@
 * Add a method to go directly to the feedback forum
 * Refactor public interface
 * Redesign about screen
+* Add support for custom fields on contact form
+* Add the ability to change the navigation bar tint color using a custom stylesheet
 
 ## 1.0.2 ##
 

@@ -85,6 +85,10 @@ static UVStyleSheet *styleSheet;
     }
 }
 
++ (UIColor *)navigationBarTintColor {
+    return [[self styleSheet] navigationBarTintColor];
+}
+
 + (UIColor *)tableViewHeaderColor {
 	return [[self styleSheet] tableViewHeaderColor];
 }
@@ -135,6 +139,10 @@ static UVStyleSheet *styleSheet;
 
 - (UIColor *)alertTextColor {
 	return [UIColor colorWithRed:0.631 green:0.0 blue:0.2 alpha:1.0];
+}
+
+- (UIColor *)navigationBarTintColor {
+    return nil;
 }
 
 @end

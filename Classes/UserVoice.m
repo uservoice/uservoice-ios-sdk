@@ -23,6 +23,7 @@
     // Capture the launch orientation, then store it in NSDefaults for reference in all other UV view controller classes
     [UVClientConfig setOrientation];
 	UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = viewControllers;
 	[parentViewController presentModalViewController:navigationController animated:YES];
 }

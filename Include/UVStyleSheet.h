@@ -30,6 +30,7 @@
 + (UIColor *)labelTextColor;
 + (UIColor *)linkTextColor;
 + (UIColor *)alertTextColor;
++ (UIColor *)navigationBarTintColor;
 
 /**
  * The background color for all table views, etc.
@@ -100,5 +101,12 @@
  * Default: dark red
  */
 - (UIColor *)alertTextColor;
+
+/**
+ * Set as the tintColor for the navigation bar in the UserVoice popover.
+ *
+ * Default: nil (platform default blue).
+ */
+- (UIColor *)navigationBarTintColor;
 
 @end
