@@ -62,7 +62,7 @@
 - (void)createButtonTapped {
 	[self dismissKeyboard];
 	NSString *email = emailField.text;
-	NSString *text = textEditor.text;	
+	NSString *text = textEditor.text;
 	
 	if ([UVSession currentSession].user || (email && [email length] > 1)) {
         [self showActivityIndicator];
@@ -189,10 +189,6 @@
     textField.borderStyle = UITextBorderStyleNone;
     textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
     textField.delegate = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(nonPredefinedValueChanged:)
-                                                 name:UITextFieldTextDidChangeNotification 
-                                                object:textField];
     [cell addSubview:textField];
     
     UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 4, cell.frame.size.width / 2 - 20, cell.frame.size.height - 10)] autorelease];
@@ -215,6 +211,10 @@
     cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
     valueLabel.hidden = ![field isPredefined];
     valueLabel.text = [selectedCustomFieldValues objectForKey:field.name];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(nonPredefinedValueChanged:)
+                                                 name:UITextFieldTextDidChangeNotification 
+                                               object:textField];
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
