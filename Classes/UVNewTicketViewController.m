@@ -309,6 +309,7 @@
         UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
         if ([field isPredefined]) {
             UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
+            self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
