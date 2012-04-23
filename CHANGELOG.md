@@ -1,3 +1,7 @@
+## 1.0.3 ##
+
+* Fix a bug where the network connection image would be stretched in an unsightly way
+
 ## 1.0.2 ##
 
 * Fix a bug where the number of available votes didn't get updated on user login or signup
