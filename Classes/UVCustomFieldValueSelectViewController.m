@@ -65,6 +65,16 @@
 
 #pragma mark ===== Basic View Methods =====
 
+- (void)viewWillDisappear:(BOOL)animated {
+    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+        NSArray *viewControllers = [self.navigationController viewControllers];
+        UVNewTicketViewController *prev = (UVNewTicketViewController *)[viewControllers lastObject];
+        [prev.tableView reloadData];
+        [prev dismissKeyboard];
+    }
+    [super viewWillDisappear:animated];
+}
+
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
 	[super loadView];

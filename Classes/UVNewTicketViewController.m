@@ -343,7 +343,7 @@
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
-	[super loadView];	
+	[super loadView];
 	self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
     self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
     
