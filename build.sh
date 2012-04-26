@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DIST=dist/UserVoiceSDK-1.0.1
+DIST=dist/UserVoiceSDK-1.1.0
 
 echo "==== Building for iOS devices ===="
 echo ""
@@ -19,6 +19,7 @@ echo "Copying other files"
 cp -R Include $DIST/UVHeaders
 cp -R Resources $DIST/UVResources
 cp README.md $DIST/README.md
+cp CHANGELOG.md $DIST/CHANGELOG.md
 
 echo "Creating archive"
 tar -czf $DIST.tar.gz $DIST

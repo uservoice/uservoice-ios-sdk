@@ -1,5 +1,7 @@
 ## master ##
 
+## 1.1.0 ##
+
 * Display error messages from API
 * Update installation instructions
 * Remove 'Leave a Rating' feature
