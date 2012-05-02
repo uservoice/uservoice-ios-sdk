@@ -65,7 +65,7 @@
 }
 
 - (BOOL)wasSignedInBySDK {
-    return (self.ssoToken == nil || self.guid == nil);
+    return (self.ssoToken != nil || self.guid != nil);
 }
 
 - (NSString *)description {
