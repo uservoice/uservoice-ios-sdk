@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface UVConfig : NSObject {
-	NSString *site;
-	NSString *key;
-	NSString *secret;
+    NSString *site;
+    NSString *key;
+    NSString *secret;
     NSString *ssoToken;
     NSString *displayName;
     NSString *email;
@@ -33,5 +33,6 @@
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret;
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken;
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andEmail:(NSString *)theEmail andDisplayName:(NSString *)theDisplayName andGUID:(NSString *)theGuid;
+- (BOOL)wasSignedInBySDK;
 
 @end

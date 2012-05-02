@@ -32,20 +32,20 @@
 }
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret {
-	if (self = [super init]) {
-		NSURL* url = [NSURL URLWithString:theSite];
-		NSString* saneURL;
-		if (url.host == nil) {
-			saneURL	= [NSString stringWithFormat:@"%@", url];
-		} else {
-			saneURL = [NSString stringWithFormat:@"%@", url.host];
-		}		
-		
-		self.key = theKey;
-		self.site = saneURL;
-		self.secret = theSecret;
-	}
-	return self;
+    if (self = [super init]) {
+        NSURL* url = [NSURL URLWithString:theSite];
+        NSString* saneURL;
+        if (url.host == nil) {
+            saneURL	= [NSString stringWithFormat:@"%@", url];
+        } else {
+            saneURL = [NSString stringWithFormat:@"%@", url.host];
+        }
+
+        self.key = theKey;
+        self.site = saneURL;
+        self.secret = theSecret;
+    }
+    return self;
 }
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken {
@@ -64,19 +64,23 @@
     return self;
 }
 
+- (BOOL)wasSignedInBySDK {
+    return (self.ssoToken == nil || self.guid == nil);
+}
+
 - (NSString *)description {
-	return [NSString stringWithFormat:@"Site: %@\nKey: %@\nSecret: %@", self.site, self.key, self.secret];
+    return [NSString stringWithFormat:@"Site: %@\nKey: %@\nSecret: %@", self.site, self.key, self.secret];
 }
 
 - (void)dealloc {
-	self.site = nil;
-	self.key = nil;
-	self.site = nil;
+    self.site = nil;
+    self.key = nil;
+    self.site = nil;
     self.ssoToken = nil;
     self.email = nil;
     self.displayName = nil;
     self.guid = nil;
-	[super dealloc];
+    [super dealloc];
 }
 
 @end

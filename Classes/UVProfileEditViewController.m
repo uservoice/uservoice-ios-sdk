@@ -13,6 +13,7 @@
 #import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVUserAvatarView.h"
+#import "UVConfig.h"
 
 #define UV_PROFILE_SECTION_ICON 0
 #define UV_PROFILE_SECTION_DETAILS 1
@@ -170,7 +171,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-	return 4;
+    // No sign out button if they were signed in programmatically
+    if ([[UVSession currentSession].config wasSignedInBySDK])
+        return 3;
+    else
+        return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
