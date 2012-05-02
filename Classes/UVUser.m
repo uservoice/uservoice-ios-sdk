@@ -30,6 +30,7 @@
 @synthesize createdSuggestions;
 @synthesize createdAt;
 @synthesize suggestionsNeedReload;
+@synthesize providers;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -202,6 +203,8 @@
 		}
 		self.createdSuggestions = [NSMutableArray array];
 		self.supportedSuggestions = [NSMutableArray array];
+        NSDictionary *authentication = [self objectOrNilForDict:dict key:@"authentication"];
+        self.providers = [self objectOrNilForDict:authentication key:@"provider"];
 	}
 	return self;
 }
@@ -282,6 +285,18 @@
 	return self.displayName ? self.displayName : NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil);
 }
 
+- (BOOL)hasPasswordAuthentication {
+    return [providers containsObject:@"password"];
+}
+
+- (BOOL)hasFacebookAuthentication {
+    return [providers containsObject:@"facebook"];
+}
+
+- (BOOL)hasGoogleAuthentication {
+    return [providers containsObject:@"google"];
+}
+
 - (void)dealloc {
     self.name = nil;
     self.displayName = nil;
@@ -291,6 +306,7 @@
     self.supportedSuggestions = nil;
     self.createdSuggestions = nil;
     self.createdAt = nil;
+    self.providers = nil;
     [super dealloc];
 }
 

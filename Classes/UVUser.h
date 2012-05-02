@@ -28,6 +28,7 @@
 	NSMutableArray *supportedSuggestions;
 	NSMutableArray *createdSuggestions;
 	NSDate *createdAt;
+    NSArray *providers;
 }
 
 @property (assign) NSInteger userId;
@@ -44,6 +45,7 @@
 @property (nonatomic, retain) NSMutableArray *supportedSuggestions;
 @property (nonatomic, retain) NSMutableArray *createdSuggestions;
 @property (nonatomic, retain) NSDate *createdAt;
+@property (nonatomic, retain) NSArray *providers;
 
 - (NSInteger)createdSuggestionsCount;
 - (NSInteger)supportedSuggestionsCount;
@@ -78,6 +80,9 @@
 - (BOOL)hasEmail;
 - (BOOL)hasConfirmedEmail;
 - (BOOL)hasUnconfirmedEmail;
+- (BOOL)hasPasswordAuthentication;
+- (BOOL)hasFacebookAuthentication;
+- (BOOL)hasGoogleAuthentication;
 
 // Returns the user's name, or "Anonymous" if they don't have one.
 - (NSString *)nameOrAnonymous;
