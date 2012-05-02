@@ -162,51 +162,52 @@
 }
 
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate {
-	NSString *path = [UVUser apiPath:[NSString stringWithFormat:@"/users/%d.json",
-									  [UVSession currentSession].user.userId]];
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							newName == nil ? @"" : newName, @"user[display_name]",
-							newEmail == nil ? @"" : newEmail, @"user[email]",
-							nil];
-	
-	[[self class] useHTTPS:YES];
-	return [[self class] putPath:path
-					  withParams:params
-						  target:delegate
-						selector:@selector(didUpdateUser:)];
+    NSString *path = [UVUser apiPath:[NSString stringWithFormat:@"/users/%d.json",
+    								  [UVSession currentSession].user.userId]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            newName == nil ? @"" : newName, @"user[display_name]",
+                            newEmail == nil ? @"" : newEmail, @"user[email]",
+                            nil];
+    
+    [[self class] useHTTPS:YES];
+    return [[self class] putPath:path
+                      withParams:params
+                          target:delegate
+                        selector:@selector(didUpdateUser:)];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-//    NSLog(@"User: %@", dict);
-    
-	if (self = [super init]) {
-		self.userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [self objectOrNilForDict:dict key:@"name"];
-		self.displayName = [self objectOrNilForDict:dict key:@"name"];
-		self.email = [self objectOrNilForDict:dict key:@"email"];
-		self.emailConfirmed = [(NSNumber *)[dict objectForKey:@"email_confirmed"] boolValue];
-		self.ideaScore = [(NSNumber *)[dict objectForKey:@"idea_score"] integerValue];
-		self.activityScore = [(NSNumber *)[dict objectForKey:@"activity_score"] integerValue];
-		self.karmaScore = [(NSNumber *)[dict objectForKey:@"karma_score"] integerValue];
-		self.url = [self objectOrNilForDict:dict key:@"url"];
-		self.avatarUrl = [self objectOrNilForDict:dict key:@"avatar_url"];
-		self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
-		createdSuggestionsCount = [(NSNumber *)[dict objectForKey:@"created_suggestions_count"] integerValue];
-		supportedSuggestionsCount = [(NSNumber *)[dict objectForKey:@"supported_suggestions_count"] integerValue];
-		
-		if (createdSuggestionsCount+supportedSuggestionsCount==0) {
-			// no point checking if nothing to get
-			self.suggestionsNeedReload = NO;
-		} else {			
-			// otherwise load suggestions if profile is visited
-			self.suggestionsNeedReload = YES;
-		}
-		self.createdSuggestions = [NSMutableArray array];
-		self.supportedSuggestions = [NSMutableArray array];
+    if (self = [super init]) {
+        self.userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        self.name = [self objectOrNilForDict:dict key:@"name"];
+        self.displayName = [self objectOrNilForDict:dict key:@"name"];
+        self.email = [self objectOrNilForDict:dict key:@"email"];
+        self.emailConfirmed = [(NSNumber *)[dict objectForKey:@"email_confirmed"] boolValue];
+        self.ideaScore = [(NSNumber *)[dict objectForKey:@"idea_score"] integerValue];
+        self.activityScore = [(NSNumber *)[dict objectForKey:@"activity_score"] integerValue];
+        self.karmaScore = [(NSNumber *)[dict objectForKey:@"karma_score"] integerValue];
+        self.url = [self objectOrNilForDict:dict key:@"url"];
+        self.avatarUrl = [self objectOrNilForDict:dict key:@"avatar_url"];
+        self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+        createdSuggestionsCount = [(NSNumber *)[dict objectForKey:@"created_suggestions_count"] integerValue];
+        supportedSuggestionsCount = [(NSNumber *)[dict objectForKey:@"supported_suggestions_count"] integerValue];
+        
+        if (createdSuggestionsCount+supportedSuggestionsCount==0) {
+            // no point checking if nothing to get
+            self.suggestionsNeedReload = NO;
+        } else {			
+            // otherwise load suggestions if profile is visited
+            self.suggestionsNeedReload = YES;
+        }
+        self.createdSuggestions = [NSMutableArray array];
+        self.supportedSuggestions = [NSMutableArray array];
         NSDictionary *authentication = [self objectOrNilForDict:dict key:@"authentication"];
-        self.providers = [self objectOrNilForDict:authentication key:@"provider"];
-	}
-	return self;
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id string, NSDictionary *bindings) {
+            return [@"password" isEqualToString:string] || [@"facebook" isEqualToString:string] || [@"google" isEqualToString:string];
+        }];
+        self.providers = [[self objectOrNilForDict:authentication key:@"provider"] filteredArrayUsingPredicate:predicate];
+    }
+    return self;
 }
 
 - (NSInteger)supportedSuggestionsCount {
@@ -283,18 +284,6 @@
 
 - (NSString *)nameOrAnonymous {
 	return self.displayName ? self.displayName : NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil);
-}
-
-- (BOOL)hasPasswordAuthentication {
-    return [providers containsObject:@"password"];
-}
-
-- (BOOL)hasFacebookAuthentication {
-    return [providers containsObject:@"facebook"];
-}
-
-- (BOOL)hasGoogleAuthentication {
-    return [providers containsObject:@"google"];
 }
 
 - (void)dealloc {

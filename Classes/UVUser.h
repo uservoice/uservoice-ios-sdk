@@ -80,9 +80,6 @@
 - (BOOL)hasEmail;
 - (BOOL)hasConfirmedEmail;
 - (BOOL)hasUnconfirmedEmail;
-- (BOOL)hasPasswordAuthentication;
-- (BOOL)hasFacebookAuthentication;
-- (BOOL)hasGoogleAuthentication;
 
 // Returns the user's name, or "Anonymous" if they don't have one.
 - (NSString *)nameOrAnonymous;
