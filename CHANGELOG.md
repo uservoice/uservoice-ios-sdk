@@ -1,5 +1,7 @@
 ## master ##
 
+* Remove sign out button if the user is signed in programmatically
+
 ## 1.1.0 ##
 
 * Display error messages from API
