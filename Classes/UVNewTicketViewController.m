@@ -177,7 +177,9 @@
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
+    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(iPad ? 60 : 16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     label.font = [UIFont boldSystemFontOfSize:16];
     label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
     label.textColor = [UIColor blackColor];
@@ -185,13 +187,15 @@
     label.adjustsFontSizeToFitWidth = YES;
     [cell addSubview:label];
     
-    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - 20, cell.frame.size.height - 10)] autorelease];
+    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (iPad ? 64 : 20), cell.frame.size.height - 10)] autorelease];
+    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     textField.borderStyle = UITextBorderStyleNone;
     textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
     textField.delegate = self;
     [cell addSubview:textField];
     
-    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 4, cell.frame.size.width / 2 - 20, cell.frame.size.height - 10)] autorelease];
+    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 4, cell.frame.size.width / 2 - (iPad ? 64 : 20), cell.frame.size.height - 10)] autorelease];
+    valueLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     valueLabel.font = [UIFont systemFontOfSize:16];
     valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
     valueLabel.textColor = [UIColor blackColor];

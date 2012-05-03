@@ -1,6 +1,7 @@
 ## master ##
 
 * Remove sign out button if the user is signed in programmatically
+* Fix a cosmetic issue with custom fields on the iPad
 
 ## 1.1.0 ##
 
