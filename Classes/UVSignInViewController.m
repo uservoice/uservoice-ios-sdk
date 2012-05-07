@@ -217,7 +217,7 @@
 							placeholder:(NSString *)placeholder 
 								 offset:(NSInteger)offset{    
 	cell.textLabel.text = label;
-	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(offset, 12, cell.bounds.size.width - 20 - offset, 20)];
+	UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(offset, 11, cell.bounds.size.width - 20 - offset, 24)];
 	textField.placeholder = placeholder;
 	textField.returnKeyType = UIReturnKeyDone;
 	textField.borderStyle = UITextBorderStyleNone;
