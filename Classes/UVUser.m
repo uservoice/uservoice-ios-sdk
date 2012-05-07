@@ -30,7 +30,6 @@
 @synthesize createdSuggestions;
 @synthesize createdAt;
 @synthesize suggestionsNeedReload;
-@synthesize providers;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -201,11 +200,6 @@
         }
         self.createdSuggestions = [NSMutableArray array];
         self.supportedSuggestions = [NSMutableArray array];
-        NSDictionary *authentication = [self objectOrNilForDict:dict key:@"authentication"];
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id string, NSDictionary *bindings) {
-            return [@"password" isEqualToString:string] || [@"facebook" isEqualToString:string] || [@"google" isEqualToString:string];
-        }];
-        self.providers = [[self objectOrNilForDict:authentication key:@"provider"] filteredArrayUsingPredicate:predicate];
     }
     return self;
 }
@@ -295,7 +289,6 @@
     self.supportedSuggestions = nil;
     self.createdSuggestions = nil;
     self.createdAt = nil;
-    self.providers = nil;
     [super dealloc];
 }
 
