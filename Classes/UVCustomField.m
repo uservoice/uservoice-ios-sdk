@@ -17,31 +17,16 @@
 @synthesize name;
 @synthesize fieldId;
 
-+ (void)initialize {
-	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-	[self setBaseURL:[self siteURL]];
-}
-
-+ (id)getCustomFieldsWithDelegate:(id)delegate {
-	return [self getPath:[self apiPath:@"/custom_fields/public.json"]
-			  withParams:nil
-				  target:delegate
-				selector:@selector(didRetrieveCustomFields:)];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
-    // NSLog(@"Custom Fields: %@", dict);
 	if (self = [super init]) {
-        self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];        
-		self.name = [self objectOrNilForDict:dict key:@"name"];        
+        self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+		self.name = [self objectOrNilForDict:dict key:@"name"];
         NSArray *valueDictionaries = [self objectOrNilForDict:dict key:@"possible_values"];
         NSMutableArray *valueNames = [NSMutableArray arrayWithCapacity:[valueDictionaries count]];
         for (NSDictionary *valueAttributes in valueDictionaries) {
             [valueNames addObject:[valueAttributes valueForKey:@"value"]];
         }
         self.values = [NSArray arrayWithArray:valueNames];
-        
-        // NSLog(@"Values: %@", self.values);
 	}
 	return self;
 }

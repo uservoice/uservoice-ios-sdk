@@ -18,6 +18,7 @@
 @synthesize host;
 @synthesize key;
 @synthesize statuses;
+@synthesize defaultSort;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -39,9 +40,19 @@
 		}
 		self.subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
 		self.name = [self objectOrNilForDict:dict key:@"name"];
-		self.host = [self objectOrNilForDict:dict key:@"host"]; 
+		self.host = [self objectOrNilForDict:dict key:@"host"];
+        self.defaultSort = [self objectOrNilForDict:dict key:@"default_sort"];
 	}
 	return self;
+}
+
+- (NSString *)ideasHeading {
+    if ([defaultSort isEqualToString:@"new"])
+        return NSLocalizedStringFromTable(@"New Ideas", @"UserVoice", nil);
+    else if ([defaultSort isEqualToString:@"hot"])
+        return NSLocalizedStringFromTable(@"Hot Ideas", @"UserVoice", nil);
+    else
+        return NSLocalizedStringFromTable(@"Top Ideas", @"UserVoice", nil);
 }
 
 - (void)dealloc {
@@ -49,7 +60,7 @@
 	self.key = nil;
 	self.host = nil;
 	self.statuses = nil;
-	
+    self.defaultSort = nil;
 	[super dealloc];
 }
 

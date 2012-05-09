@@ -48,6 +48,8 @@
 // exist or is NSNull.
 - (id)objectOrNilForDict:(NSDictionary *)dict key:(id)key;
 
+- (NSArray *)arrayForJSONArray:(NSArray *)array withClass:(Class)klass;
+
 // Parses an ISO-8601 date string (as returned by our Rails apps) into an NSDate.
 - (NSDate *)parseJsonDate:(NSString *)str;
 

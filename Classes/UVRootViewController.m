@@ -11,7 +11,6 @@
 #import "UVToken.h"
 #import "UVSession.h"
 #import "UVUser.h"
-#import "UVCustomField.h"
 #import "UVWelcomeViewController.h"
 #import "UVNewSuggestionViewController.h"
 #import "UVSuggestionListViewController.h"
@@ -110,22 +109,13 @@
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
-	if ([UVSession currentSession].clientConfig.ticketsEnabled) {
-        [UVCustomField getCustomFieldsWithDelegate:self];
-    } else {
-        [self pushNextView];
-    }
+    [self pushNextView];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
 	[UVSession currentSession].user = theUser;
     [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum
 								 user:theUser delegate:self];
-}
-
-- (void)didRetrieveCustomFields:(id)theFields {
-    [UVSession currentSession].clientConfig.customFields = [NSArray arrayWithArray:theFields];
-    [self pushNextView];
 }
 
 - (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {

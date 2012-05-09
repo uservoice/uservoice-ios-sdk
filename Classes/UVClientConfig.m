@@ -14,6 +14,9 @@
 #import "UVSubject.h"
 #import "UVUser.h"
 #import "UVSubdomain.h"
+#import "UVCustomField.h"
+#import "UVSuggestion.h"
+#import "UVArticle.h"
 
 @implementation UVClientConfig
 
@@ -21,6 +24,8 @@
 @synthesize forum;
 @synthesize subdomain;
 @synthesize customFields;
+@synthesize topArticles;
+@synthesize topSuggestions;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -113,6 +118,10 @@
 		UVSubdomain *theSubdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];
 		self.subdomain = theSubdomain;
 		[theSubdomain release];
+
+        self.customFields = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"custom_fields"] withClass:[UVCustomField class]];
+        self.topArticles = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_articles"] withClass:[UVArticle class]];
+        self.topSuggestions = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_suggestions"] withClass:[UVSuggestion class]];
     }
 	return self;
 }
@@ -121,6 +130,8 @@
     self.forum = nil;
     self.subdomain = nil;
     self.customFields = nil;
+    self.topArticles = nil;
+    self.topSuggestions = nil;
     [super dealloc];
 }
 

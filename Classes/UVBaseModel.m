@@ -167,4 +167,12 @@
 	return date;
 }
 
+- (NSArray *)arrayForJSONArray:(NSArray *)array withClass:(Class)klass {
+    NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[array count]];
+    for (NSDictionary *dict in array) {
+        [outArray addObject:[[[klass alloc] initWithDictionary:dict] autorelease]];
+    }
+    return [NSArray arrayWithArray:outArray];
+}
+
 @end

@@ -19,7 +19,6 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSArray *values;
 
-+ (id)getCustomFieldsWithDelegate:(id)delegate;
 - (id)initWithDictionary:(NSDictionary *)dict;
 - (BOOL)isPredefined;
 

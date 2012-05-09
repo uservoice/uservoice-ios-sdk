@@ -17,6 +17,10 @@
 #import "UVSuggestionListViewController.h"
 #import "UVSignInViewController.h"
 #import "UVStreamPoller.h"
+#import "UVSuggestion.h"
+#import "UVArticle.h"
+#import "UVSuggestionDetailsViewController.h"
+#import "UVArticleViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define UV_WELCOME_VIEW_ROW_FEEDBACK 0
@@ -46,11 +50,29 @@
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
 }
 
-- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {    
+- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTable(@"Contact support", @"UserVoice", nil);
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.minimumFontSize = 8.0;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
+}
+
+- (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
+    cell.textLabel.text = article.question;
+    cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.numberOfLines = 2;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
+}
+
+- (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVSuggestion *suggestion = [[UVSession currentSession].clientConfig.topSuggestions objectAtIndex:indexPath.row];
+    cell.textLabel.text = suggestion.title;
+    cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.numberOfLines = 2;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -59,11 +81,19 @@
 	NSString *identifier = @"";
 	BOOL selectable = YES;
 
-	UITableViewCellStyle style = UITableViewCellStyleDefault;	
-	if (indexPath.row == UV_WELCOME_VIEW_ROW_FEEDBACK) {
-		identifier = @"Forum";
-	} else if (indexPath.row == UV_WELCOME_VIEW_ROW_SUPPORT) {		
-		identifier = @"Support";
+	UITableViewCellStyle style = UITableViewCellStyleDefault;
+    if (indexPath.section == 0) {
+        if (indexPath.row == UV_WELCOME_VIEW_ROW_FEEDBACK) {
+            identifier = @"Forum";
+        } else if (indexPath.row == UV_WELCOME_VIEW_ROW_SUPPORT) {
+            identifier = @"Support";
+        }
+    } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
+        identifier = @"Article";
+        style = UITableViewCellStyleSubtitle;
+    } else {
+        identifier = @"Suggestion";
+        style = UITableViewCellStyleSubtitle;
     }
 	
 	return [self createCellForIdentifier:identifier
@@ -74,38 +104,60 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
+    if ([UVSession currentSession].clientConfig.ticketsEnabled)
+        return 3;
+    else
+        return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([UVSession currentSession].clientConfig.ticketsEnabled)
-        return 2;
-    return 1;
+    if (section == 0) {
+        return [UVSession currentSession].clientConfig.ticketsEnabled ? 2 : 1;
+    } else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
+        return [[UVSession currentSession].clientConfig.topArticles count];
+    } else {
+        return [[UVSession currentSession].clientConfig.topSuggestions count];
+    }
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	switch (indexPath.row) {
-        case UV_WELCOME_VIEW_ROW_FEEDBACK: {
-            UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
-            [self.navigationController pushViewController:next animated:YES];            
-            [next release];
-			break;
-		}
-        case UV_WELCOME_VIEW_ROW_SUPPORT: {
-            UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
-            [self.navigationController pushViewController:next animated:YES];
-            [next release];
-			break;
-		}
-		default:
-			break;
-	}
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case UV_WELCOME_VIEW_ROW_FEEDBACK: {
+                UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
+                [self.navigationController pushViewController:next animated:YES];            
+                [next release];
+                break;
+            }
+            case UV_WELCOME_VIEW_ROW_SUPPORT: {
+                UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
+                [self.navigationController pushViewController:next animated:YES];
+                [next release];
+                break;
+            }
+            default:
+                break;
+        }
+    } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
+        UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
+        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+        [self.navigationController pushViewController:next animated:YES];
+    } else {
+        UVSuggestion *suggestion = [[UVSession currentSession].clientConfig.topSuggestions objectAtIndex:indexPath.row];
+        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        [self.navigationController pushViewController:next animated:YES];
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
+    if (section == 0)
+        return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
+    else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled)
+        return NSLocalizedStringFromTable(@"FAQs", @"UserVoice", nil);
+    else
+        return [[UVSession currentSession].clientConfig.subdomain ideasHeading];
 }
 
 #pragma mark ===== Basic View Methods =====
