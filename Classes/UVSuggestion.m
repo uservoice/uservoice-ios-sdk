@@ -9,6 +9,7 @@
 #import "UVSuggestion.h"
 #import "UVResponseDelegate.h"
 #import "UVSession.h"
+#import "UVSubdomain.h"
 #import "UVClientConfig.h"
 #import "UVUser.h"
 #import "UVForum.h"
@@ -53,6 +54,7 @@
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
 							[[NSNumber numberWithInt:page] stringValue], @"page",
 							@"public", @"filter",
+                            [[UVSession currentSession].clientConfig.subdomain suggestionSort], @"sort",
 							//@"5", @"per_page",
 							nil];
 	return [self getPath:path

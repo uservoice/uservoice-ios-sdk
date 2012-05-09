@@ -2,6 +2,8 @@
 
 * Remove sign out button if the user is signed in programmatically
 * Fix a cosmetic issue with custom fields on the iPad
+* Add top articles and suggestions to welcome screen
+* Make ordering of suggestions match feedback site default (Hot Ideas, New Ideas, or Top Ideas)
 
 ## 1.1.0 ##
 

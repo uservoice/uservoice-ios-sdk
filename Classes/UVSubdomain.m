@@ -55,6 +55,15 @@
         return NSLocalizedStringFromTable(@"Top Ideas", @"UserVoice", nil);
 }
 
+- (NSString *)suggestionSort {
+    if ([defaultSort isEqualToString:@"new"])
+        return @"newest";
+    else if ([defaultSort isEqualToString:@"hot"])
+        return @"hot";
+    else
+        return @"votes";
+}
+
 - (void)dealloc {
 	self.name = nil;
 	self.key = nil;

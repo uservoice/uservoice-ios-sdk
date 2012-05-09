@@ -26,5 +26,6 @@
 @property (nonatomic, retain) NSString *defaultSort;
 
 - (NSString *)ideasHeading;
+- (NSString *)suggestionSort;
  
 @end
