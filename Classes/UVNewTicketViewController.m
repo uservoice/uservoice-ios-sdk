@@ -42,15 +42,15 @@
 @synthesize textEditor;
 @synthesize emailField;
 @synthesize activeField;
-@synthesize initialText;
+@synthesize text;
 @synthesize selectedCustomFieldValues;
 @synthesize timer;
 @synthesize instantAnswers;
 @synthesize loadingInstantAnswers;
 
-- (id)initWithText:(NSString *)text {
+- (id)initWithText:(NSString *)initialText {
     if (self = [self init]) {
-        self.initialText = text;
+        self.text = initialText;
     }
     return self;
 }
@@ -74,11 +74,11 @@
 - (void)createButtonTapped {
 	[self dismissKeyboard];
 	NSString *email = emailField.text;
-	NSString *text = textEditor.text;
+    self.text = textEditor.text;
 	
 	if ([UVSession currentSession].user || (email && [email length] > 1)) {
         [self showActivityIndicator];
-        [UVTicket createWithMessage:text andEmailIfNotLoggedIn:email andCustomFields:selectedCustomFieldValues andDelegate:self];
+        [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:email andCustomFields:selectedCustomFieldValues andDelegate:self];
 	} else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
 	}
@@ -167,6 +167,7 @@
 }
 
 - (void)textEditorDidChange:(UVTextEditor *)theTextEditor {
+    self.text = theTextEditor.text;
     [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
 }
@@ -197,7 +198,7 @@
 	aTextEditor.autoresizesToText = YES;
 	aTextEditor.backgroundColor = [UIColor clearColor];
 	aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
-    aTextEditor.text = initialText;
+    aTextEditor.text = self.text;
     
     [cell.contentView addSubview:aTextEditor];
 	self.textEditor = aTextEditor;

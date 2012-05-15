@@ -16,7 +16,7 @@
 	UVTextEditor *textEditor;
 	UITextField *emailField;
     UIView *activeField;
-    NSString *initialText;
+    NSString *text;
     NSMutableDictionary *selectedCustomFieldValues;
     NSTimer *timer;
     NSArray *instantAnswers;
@@ -26,7 +26,7 @@
 @property (nonatomic, retain) UVTextEditor *textEditor;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIView *activeField;
-@property (nonatomic, retain) NSString *initialText;
+@property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
 @property (nonatomic, retain) NSTimer *timer;
 @property (nonatomic, retain) NSArray *instantAnswers;
