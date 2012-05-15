@@ -117,6 +117,10 @@
 	// Override in subclasses if necessary
 }
 
++ (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
+    return [[[self alloc] initWithDictionary:dict] autorelease];
+}
+
 + (void)didReturnModel:(id)model callback:(NSInvocation *)callback {
 	[self processModel:model];
 	

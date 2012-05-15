@@ -18,6 +18,8 @@
     UIView *activeField;
     NSString *initialText;
     NSMutableDictionary *selectedCustomFieldValues;
+    NSTimer *timer;
+    NSArray *instantAnswers;
 }
 
 @property (nonatomic, retain) UVTextEditor *textEditor;
@@ -25,6 +27,8 @@
 @property (nonatomic, retain) UIView *activeField;
 @property (nonatomic, retain) NSString *initialText;
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
+@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) NSArray *instantAnswers;
 
 - (id)initWithText:(NSString *)text;
 - (void)dismissKeyboard;

@@ -29,6 +29,7 @@
 // Override in subclasses if neccessary
 + (void)processModel:(id)model;
 + (void)processModels:(NSArray *)models;
++ (UVBaseModel *)modelForDictionary:(NSDictionary *)dict;
 
 // Processes the returned model(s) and invokes the specified callback. Should not
 // need to be overridden in subclasses. Override processModel(s) instead.

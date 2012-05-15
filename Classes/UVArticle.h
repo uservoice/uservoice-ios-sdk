@@ -13,6 +13,8 @@
     NSString *answerHTML;
 }
 
++ getInstantAnswers:(NSString *)query delegate:(id)delegate;
+
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answerHTML;
 

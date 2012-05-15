@@ -22,11 +22,16 @@
 #import "UVToken.h"
 #import "UVTextEditor.h"
 #import "NSError+UVExtras.h"
+#import "UVArticle.h"
+#import "UVSuggestion.h"
+#import "UVArticleViewController.h"
+#import "UVSuggestionDetailsViewController.h"
 
 #define UV_NEW_TICKET_SECTION_TEXT 0
-#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 1
-#define UV_NEW_TICKET_SECTION_PROFILE 2
-#define UV_NEW_TICKET_SECTION_SUBMIT 3
+#define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 1
+#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 2
+#define UV_NEW_TICKET_SECTION_PROFILE 3
+#define UV_NEW_TICKET_SECTION_SUBMIT 4
 
 #define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
@@ -39,6 +44,8 @@
 @synthesize activeField;
 @synthesize initialText;
 @synthesize selectedCustomFieldValues;
+@synthesize timer;
+@synthesize instantAnswers;
 
 - (id)initWithText:(NSString *)text {
     if (self = [self init]) {
@@ -52,6 +59,10 @@
         self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithCapacity:[[UVSession currentSession].clientConfig.customFields count]];
     }
     return self;
+}
+
+- (NSString *)backButtonTitle {
+    return @"Contact";
 }
 
 - (void)dismissKeyboard {
@@ -101,6 +112,15 @@
     [selectedCustomFieldValues setObject:textField.text forKey:field.name];
 }
 
+- (void)loadInstantAnswers:(NSTimer *)timer {
+    [UVArticle getInstantAnswers:self.textEditor.text delegate:self];
+}
+
+- (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
+    self.instantAnswers = theInstantAnswers;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+}
+
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -142,6 +162,11 @@
 	return YES;
 }
 
+- (void)textEditorDidChange:(UVTextEditor *)theTextEditor {
+    [self.timer invalidate];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
+}
+
 #pragma mark ===== table cells =====
 
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
@@ -169,8 +194,8 @@
 	aTextEditor.backgroundColor = [UIColor clearColor];
 	aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
     aTextEditor.text = initialText;
-	
-	[cell.contentView addSubview:aTextEditor];
+    
+    [cell.contentView addSubview:aTextEditor];
 	self.textEditor = aTextEditor;
     [textEditor becomeFirstResponder];
 	[aTextEditor release];
@@ -215,9 +240,9 @@
     cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
     valueLabel.hidden = ![field isPredefined];
     valueLabel.text = [selectedCustomFieldValues objectForKey:field.name];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(nonPredefinedValueChanged:)
-                                                 name:UITextFieldTextDidChangeNotification 
+                                                 name:UITextFieldTextDidChangeNotification
                                                object:textField];
 }
 
@@ -257,6 +282,10 @@
             identifier = @"CustomField";
             style = UITableViewCellStyleValue1;
             break;
+        case UV_NEW_TICKET_SECTION_INSTANT_ANSWERS:
+            identifier = @"InstantAnswer";
+            selectable = YES;
+            break;
 		case UV_NEW_TICKET_SECTION_TEXT:
 			identifier = @"Text";
 			break;
@@ -276,7 +305,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -286,11 +315,29 @@
 		} else {
 			return 1;
 		}
+    } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
+        return [self.instantAnswers count];
 	} else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
 		return [[UVSession currentSession].clientConfig.customFields count];
 	} else {
 		return 1;
 	}
+}
+
+- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    id model = [self.instantAnswers objectAtIndex:indexPath.row];
+    if ([model isMemberOfClass:[UVArticle class]]) {
+        UVArticle *article = (UVArticle *)model;
+        cell.textLabel.text = article.question;
+        cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
+    } else {
+        UVSuggestion *suggestion = (UVSuggestion *)model;
+        cell.textLabel.text = suggestion.title;
+        cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
+    }
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.numberOfLines = 2;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
@@ -320,7 +367,18 @@
             UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
             [textField becomeFirstResponder];
         }
-	}
+	} else if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
+        id model = [self.instantAnswers objectAtIndex:indexPath.row];
+        if ([model isMemberOfClass:[UVArticle class]]) {
+            UVArticle *article = (UVArticle *)model;
+            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        } else {
+            UVSuggestion *suggestion = (UVSuggestion *)model;
+            UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        }
+    }
 }
 
 
@@ -349,7 +407,6 @@
 - (void)loadView {
 	[super loadView];
 	self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
-    self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
     
 	CGRect frame = [self contentFrame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
@@ -402,6 +459,9 @@
 	self.emailField = nil;
     self.activeField = nil;
     self.selectedCustomFieldValues = nil;
+    [self.timer invalidate];
+    self.timer = nil;
+    self.instantAnswers = nil;
     [super dealloc];
 }
 

@@ -24,9 +24,7 @@
 }
 
 - (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
-	UVBaseModel *model = [[[self.modelClass alloc] initWithDictionary:dict] autorelease];
-	//NSLog(@"Unmarshaled model: %@", model);
-	return model;
+	return [self.modelClass modelForDictionary:dict];
 }
 
 #pragma mark - HRResponseDelegate Methods
