@@ -20,6 +20,7 @@
     NSMutableDictionary *selectedCustomFieldValues;
     NSTimer *timer;
     NSArray *instantAnswers;
+    BOOL loadingInstantAnswers;
 }
 
 @property (nonatomic, retain) UVTextEditor *textEditor;
@@ -29,6 +30,7 @@
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
 @property (nonatomic, retain) NSTimer *timer;
 @property (nonatomic, retain) NSArray *instantAnswers;
+@property (nonatomic, assign) BOOL loadingInstantAnswers;
 
 - (id)initWithText:(NSString *)text;
 - (void)dismissKeyboard;

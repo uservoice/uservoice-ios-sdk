@@ -46,6 +46,7 @@
 @synthesize selectedCustomFieldValues;
 @synthesize timer;
 @synthesize instantAnswers;
+@synthesize loadingInstantAnswers;
 
 - (id)initWithText:(NSString *)text {
     if (self = [self init]) {
@@ -113,11 +114,14 @@
 }
 
 - (void)loadInstantAnswers:(NSTimer *)timer {
+    self.loadingInstantAnswers = YES;
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
     [UVArticle getInstantAnswers:self.textEditor.text delegate:self];
 }
 
 - (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
     self.instantAnswers = theInstantAnswers;
+    self.loadingInstantAnswers = NO;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -322,6 +326,17 @@
 	} else {
 		return 1;
 	}
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
+        if (loadingInstantAnswers && [self.instantAnswers count] > 0) {
+            return NSLocalizedStringFromTable(@"Loading Instant Answers...", @"UserVoice", nil);
+        } else if (!loadingInstantAnswers && [self.instantAnswers count] > 0) {
+            return NSLocalizedStringFromTable(@"Instant Answers", @"UserVoice", nil);
+        }
+    }
+    return nil;
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
