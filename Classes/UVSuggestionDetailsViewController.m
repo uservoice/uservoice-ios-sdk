@@ -159,7 +159,7 @@
 	[cell.contentView addSubview:bg];
 	[bg release];
 	
-	if ([suggestion.status isEqualToString:@"completed"]) {
+	if ([suggestion.status isEqualToString:@"completed"] || [suggestion.status isEqualToString:@"declined"]) {
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth - 2 * margin, 44)];
 		label.tag = NO_VOTE_LABEL_TAG;
 		label.numberOfLines = 2;
