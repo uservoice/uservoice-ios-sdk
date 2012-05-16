@@ -75,7 +75,7 @@ There are 3 options here as well:
 **1. Standard UserVoice Interface:** The user can browse suggestions, leave
 comments, etc. This is the full experience of everything the SDK can do
     
-    [UserVoice presentUserVoiceInterfaceWithParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
 
 **2. Direct link to contact form:** Launches the regular UI, but forwards the user
 directly to the contact form.
