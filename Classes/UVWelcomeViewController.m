@@ -83,9 +83,9 @@
 
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
     if (indexPath.section == 0) {
-        if (indexPath.row == UV_WELCOME_VIEW_ROW_FEEDBACK) {
+        if (indexPath.row == 0 && [UVSession currentSession].clientConfig.feedbackEnabled) {
             identifier = @"Forum";
-        } else if (indexPath.row == UV_WELCOME_VIEW_ROW_SUPPORT) {
+        } else {
             identifier = @"Support";
         }
     } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
@@ -104,15 +104,22 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSInteger sections = 1;
     if ([UVSession currentSession].clientConfig.ticketsEnabled)
-        return 3;
-    else
-        return 2;
+        sections += 1;
+    if ([UVSession currentSession].clientConfig.feedbackEnabled)
+        sections += 1;
+    return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return [UVSession currentSession].clientConfig.ticketsEnabled ? 2 : 1;
+        NSInteger rows = 0;
+        if ([UVSession currentSession].clientConfig.ticketsEnabled)
+            rows += 1;
+        if ([UVSession currentSession].clientConfig.feedbackEnabled)
+            rows += 1;
+        return rows;
     } else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
         return [[UVSession currentSession].clientConfig.topArticles count];
     } else {
@@ -124,21 +131,12 @@
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
     if (indexPath.section == 0) {
-        switch (indexPath.row) {
-            case UV_WELCOME_VIEW_ROW_FEEDBACK: {
-                UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] initWithForum:self.forum];
-                [self.navigationController pushViewController:next animated:YES];            
-                [next release];
-                break;
-            }
-            case UV_WELCOME_VIEW_ROW_SUPPORT: {
-                UVNewTicketViewController *next = [[UVNewTicketViewController alloc] init];
-                [self.navigationController pushViewController:next animated:YES];
-                [next release];
-                break;
-            }
-            default:
-                break;
+        if (indexPath.row == 0 && [UVSession currentSession].clientConfig.feedbackEnabled) {
+            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:self.forum] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        } else {
+            UVNewTicketViewController *next = [[[UVNewTicketViewController alloc] init] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
         }
     } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
         UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
@@ -152,12 +150,20 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0)
+    if (section == 0) {
+        if ([UVSession currentSession].clientConfig.ticketsEnabled && [UVSession currentSession].clientConfig.feedbackEnabled) {
+            return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
+        } else if ([UVSession currentSession].clientConfig.ticketsEnabled) {
+            return NSLocalizedStringFromTable(@"Support", @"UserVoice", nil);
+        } else {
+            return NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
+        }
         return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-    else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled)
+    } else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
         return NSLocalizedStringFromTable(@"FAQs", @"UserVoice", nil);
-    else
+    } else {
         return [[UVSession currentSession].clientConfig.subdomain ideasHeading];
+    }
 }
 
 #pragma mark ===== Basic View Methods =====

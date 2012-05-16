@@ -16,6 +16,7 @@
 
 @interface UVClientConfig : UVBaseModel {
 	BOOL ticketsEnabled;
+    BOOL feedbackEnabled;
 	UVForum *forum;
 	UVSubdomain *subdomain;
 	NSArray *customFields;
@@ -24,6 +25,7 @@
 }
 
 @property (assign) BOOL ticketsEnabled;
+@property (assign) BOOL feedbackEnabled;
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVSubdomain *subdomain;
 @property (nonatomic, retain) NSArray *customFields;

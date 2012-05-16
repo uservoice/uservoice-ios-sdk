@@ -4,6 +4,7 @@
 * Make ordering of suggestions match feedback site default (Hot Ideas, New Ideas, or Top Ideas)
 * Add instant answers to contact form
 * Fix a bug where it appeared you could vote on declined ideas
+* Add support for helpdesk-only accounts
 
 ## 1.1.1 ##
 

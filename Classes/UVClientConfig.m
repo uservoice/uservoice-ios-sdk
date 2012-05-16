@@ -21,6 +21,7 @@
 @implementation UVClientConfig
 
 @synthesize ticketsEnabled;
+@synthesize feedbackEnabled;
 @synthesize forum;
 @synthesize subdomain;
 @synthesize customFields;
@@ -106,12 +107,17 @@
         if ([dict objectForKey:@"tickets_enabled"] != [NSNull null]) {
             self.ticketsEnabled = [(NSNumber *)[dict objectForKey:@"tickets_enabled"] boolValue];
         }
+        if ([dict objectForKey:@"feedback_enabled"] != [NSNull null]) {
+            self.feedbackEnabled = [(NSNumber *)[dict objectForKey:@"feedback_enabled"] boolValue];
+        }
         
-		// get the forum
-		NSDictionary *forumDict = [self objectOrNilForDict:dict key:@"forum"];
-		UVForum *theForum = [[UVForum alloc] initWithDictionary:forumDict];
-		self.forum = theForum;
-		[theForum release];
+        if (feedbackEnabled) {
+            // get the forum
+            NSDictionary *forumDict = [self objectOrNilForDict:dict key:@"forum"];
+            UVForum *theForum = [[UVForum alloc] initWithDictionary:forumDict];
+            self.forum = theForum;
+            [theForum release];
+        }
 
 		// get the subdomain
 		NSDictionary *subdomainDict = [self objectOrNilForDict:dict key:@"subdomain"];
