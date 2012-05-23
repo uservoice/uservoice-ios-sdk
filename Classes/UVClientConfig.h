@@ -22,6 +22,7 @@
 	NSArray *customFields;
     NSArray *topArticles;
     NSArray *topSuggestions;
+    NSInteger clientId;
 }
 
 @property (assign) BOOL ticketsEnabled;
@@ -31,6 +32,7 @@
 @property (nonatomic, retain) NSArray *customFields;
 @property (nonatomic, retain) NSArray *topArticles;
 @property (nonatomic, retain) NSArray *topSuggestions;
+@property (assign) NSInteger clientId;
 
 + (id)getWithDelegate:(id)delegate;
 + (CGFloat)getScreenWidth;

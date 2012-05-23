@@ -27,6 +27,7 @@
 @synthesize customFields;
 @synthesize topArticles;
 @synthesize topSuggestions;
+@synthesize clientId;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -128,6 +129,7 @@
         self.customFields = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"custom_fields"] withClass:[UVCustomField class]];
         self.topArticles = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_articles"] withClass:[UVArticle class]];
         self.topSuggestions = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_suggestions"] withClass:[UVSuggestion class]];
+        self.clientId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
     }
 	return self;
 }

@@ -57,6 +57,7 @@
             if (segments.selectedSegmentIndex == 0 && self.suggestion.votesFor > 0) {
                 [[UVSession currentSession].user didWithdrawSupportForSuggestion:self.suggestion];			
             } else if (self.suggestion.votesFor == 0) {
+                [[UVSession currentSession] trackInteraction:@"v"];
                 [[UVSession currentSession].user didSupportSuggestion:self.suggestion];			
             }
 

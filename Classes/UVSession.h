@@ -27,6 +27,10 @@
 	UVToken *currentToken;
 	NSMutableDictionary *userCache;
 	NSDate *startTime;
+    NSMutableDictionary *interactions;
+    NSMutableArray *interactionSequence;
+    NSMutableArray *interactionDetails;
+    NSUInteger interactionId;
 }
 
 @property (assign) BOOL isModal;
@@ -37,10 +41,17 @@
 @property (nonatomic, retain) UVToken *currentToken;
 @property (nonatomic, retain) NSMutableDictionary *userCache;
 @property (nonatomic, retain) NSDate *startTime;
+@property (nonatomic, retain) NSMutableDictionary *interactions;
+@property (nonatomic, retain) NSMutableArray *interactionSequence;
+@property (nonatomic, retain) NSMutableArray *interactionDetails;
+@property (assign) NSUInteger interactionId;
 
 + (UVSession *)currentSession;
 - (YOAuthConsumer *)yOAuthConsumer;
 
 - (BOOL)loggedIn;
+- (void)trackInteraction:(NSString *)interaction;
+- (void)trackInteraction:(NSString *)interaction details:(NSDictionary *)details;
+- (void)flushInteractions;
 
 @end

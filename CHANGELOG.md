@@ -5,6 +5,7 @@
 * Add instant answers to contact form
 * Fix a bug where it appeared you could vote on declined ideas
 * Add support for helpdesk-only accounts
+* Track instant answers
 
 ## 1.1.1 ##
 

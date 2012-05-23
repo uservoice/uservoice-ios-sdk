@@ -79,6 +79,7 @@
 	if ([UVSession currentSession].user || (email && [email length] > 1)) {
         [self showActivityIndicator];
         [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:email andCustomFields:selectedCustomFieldValues andDelegate:self];
+        [[UVSession currentSession] trackInteraction:@"pt"];
 	} else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
 	}
@@ -116,6 +117,9 @@
 - (void)loadInstantAnswers:(NSTimer *)timer {
     self.loadingInstantAnswers = YES;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+    // It's a combined search, remember?
+    [[UVSession currentSession] trackInteraction:@"sf"];
+    [[UVSession currentSession] trackInteraction:@"si"];
     [UVArticle getInstantAnswers:self.textEditor.text delegate:self];
 }
 
@@ -123,6 +127,23 @@
     self.instantAnswers = theInstantAnswers;
     self.loadingInstantAnswers = NO;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+
+    // This seems like the only way to do justice to tracking the number of results from the combined search
+    NSMutableArray *articleIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
+    for (id answer in theInstantAnswers) {
+        if ([answer isKindOfClass:[UVArticle class]]) {
+            [articleIds addObject:[NSNumber numberWithInt:[((UVArticle *)answer) articleId]]];
+        }
+    }
+    [[UVSession currentSession] trackInteraction:[articleIds count] > 0 ? @"rfp" : @"rfz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[articleIds count]], @"count", articleIds, @"ids", nil]];
+
+    NSMutableArray *suggestionIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
+    for (id answer in theInstantAnswers) {
+        if ([answer isKindOfClass:[UVSuggestion class]]) {
+            [suggestionIds addObject:[NSNumber numberWithInt:[((UVSuggestion *)answer) suggestionId]]];
+        }
+    }
+    [[UVSession currentSession] trackInteraction:[suggestionIds count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[suggestionIds count]], @"count", suggestionIds, @"ids", nil]];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -387,10 +408,12 @@
         id model = [self.instantAnswers objectAtIndex:indexPath.row];
         if ([model isMemberOfClass:[UVArticle class]]) {
             UVArticle *article = (UVArticle *)model;
+            [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.textEditor.text, @"t", nil]];
             UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UVSuggestion *suggestion = (UVSuggestion *)model;
+            [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", self.textEditor.text, @"t", nil]];
             UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         }

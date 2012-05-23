@@ -32,6 +32,7 @@
     if ([UVStreamPoller instance].timerIsRunning)
 		[[UVStreamPoller instance] stopTimer];
     [[UVImageCache sharedInstance] flush];
+    [[UVSession currentSession] flushInteractions];
 
 	[self dismissModalViewControllerAnimated:YES];
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])

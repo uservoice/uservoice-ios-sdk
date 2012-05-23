@@ -95,6 +95,7 @@
 	[self updateFromTextFields];
 	if ([UVSession currentSession].user) {
 		[self createSuggestion];
+        [[UVSession currentSession] trackInteraction:@"pi"];
 	} else {
 		if (self.email && [self.email length] > 1) {
 			[self showActivityIndicator];

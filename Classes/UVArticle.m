@@ -17,6 +17,7 @@
 
 @synthesize question;
 @synthesize answerHTML;
+@synthesize articleId;
 
 + (void)initialize {
 	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -47,6 +48,7 @@
     if ((self = [super init])) {
         self.question = [self objectOrNilForDict:dict key:@"question"];
         self.answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
+        self.articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
     }
     return self;
 }

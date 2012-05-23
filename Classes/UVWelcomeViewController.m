@@ -140,10 +140,12 @@
         }
     } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
         UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
+        [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", nil]];
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = [[UVSession currentSession].clientConfig.topSuggestions objectAtIndex:indexPath.row];
+        [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", nil]];
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     }

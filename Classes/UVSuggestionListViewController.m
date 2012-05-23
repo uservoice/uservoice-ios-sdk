@@ -91,10 +91,15 @@
 
 - (void)didSearchSuggestions:(NSArray *)theSuggestions {
 	[self.suggestions removeAllObjects];
-	[self hideActivityIndicator];	
+	[self hideActivityIndicator];
 	if ([theSuggestions count] > 0) {
 		[self.suggestions addObjectsFromArray:theSuggestions];
 	}
+    NSMutableArray *ids = [NSMutableArray arrayWithCapacity:[theSuggestions count]];
+    for (UVSuggestion *suggestion in theSuggestions) {
+        [ids addObject:[NSNumber numberWithInt:suggestion.suggestionId]];
+    }
+    [[UVSession currentSession] trackInteraction:[theSuggestions count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[theSuggestions count]], @"count", ids, @"ids", nil]];
 	
 	[self.tableView reloadData];
 }
@@ -380,6 +385,7 @@
 	
 	if (self.textEditor.text) {
 		[UVSuggestion searchWithForum:self.forum query:self.textEditor.text delegate:self];
+        [[UVSession currentSession] trackInteraction:@"si"];
 	}
 	
 	return NO;
