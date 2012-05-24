@@ -94,10 +94,10 @@
                             @"w2i", @"kind",
                             interactionDetails, @"details",
                             [NSNumber numberWithInt:interactionId], @"interaction_id",
-                            isFinal, @"is_final",
+                            [NSNumber numberWithBool:isFinal], @"is_final",
                             nil];
     NSString *payload = [[[values JSONRepresentation] base64EncodedString] URLEncodedString];
-    NSString *url = [NSString stringWithFormat:@"http://www.uservoice.com/track.gif?%@", payload];
+    NSString *url = [NSString stringWithFormat:@"http://%@/track.gif?%@", config.site, payload];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection connectionWithRequest:request delegate:nil];
 }
