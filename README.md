@@ -14,8 +14,9 @@ Installation
 ------------
 
 * Download the latest build.
-* Drag `UVHeadeers`, `UVResources`, and `libUserVoice.a` into your project.
+* Drag `UVHeaders`, `UVResources`, and `libUserVoice.a` into your project.
 * Note that the `.h` files in  `UVHeaders` do not need to be added to your target.
+* Add QuartzCore and SystemConfiguration frameworks to your project.
 * Add `-ObjC` to `Other Linker Flags` in the Build Settings for your target. (There is also an `Other Linker Flags` setting for your entire project, but that's not the one you want.)
 
 See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
