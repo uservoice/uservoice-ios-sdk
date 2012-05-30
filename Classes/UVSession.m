@@ -55,13 +55,18 @@
 }
 
 - (void)setUser:(UVUser *)theUser {
-    UVUser *oldUser = self.user;
-    user = theUser;
-    [user retain];
-    // reload the topic because it owns the number of available votes for the current user
-    if (oldUser != nil && clientConfig)
-        [UVClientConfig getWithDelegate:self];
-    [oldUser release];
+	if (theUser != user) {
+		UVUser *oldUser = [user retain];
+		
+		[user release];
+		user = [theUser retain];
+		
+		// reload the topic because it owns the number of available votes for the current user
+		if (oldUser != nil && clientConfig) {
+			[UVClientConfig getWithDelegate:self];
+		}
+		[oldUser release];
+	}
 }
 
 - (id)init {
