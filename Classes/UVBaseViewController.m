@@ -132,7 +132,7 @@
             if ([key isEqualToString:@"title"])
                 msg = [userInfo valueForKey:key];
             else
-                msg = [NSString stringWithFormat:@"%@ %@", displayKey, [userInfo valueForKey:key], nil];
+                msg = [NSString stringWithFormat:@"%@ %@", displayKey, [userInfo valueForKey:key]];
         }
         if (!msg)
             msg = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
