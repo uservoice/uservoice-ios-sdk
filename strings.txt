@@ -1,290 +1,391 @@
 [[UserVoice]]
-	[%d Comment]
-		en = %d Comment
-		fr = %d Commentaire
-	[%d Comments]
-		en = %d Comments
-		fr = %d Commentaires
-	[%d days ago]
-		en = %d days ago
-		fr = il y a %d jours
-	['Member since 'MMM yyyy]
-		en = 'Member since 'MMM yyyy
-		fr = 'Membre depuis 'MMM yyyy
-	[0 votes]
-		en = 0 votes
+  [%d Comment]
+    en = %d Comment
+    fr = %d Commentaire
+    it = %d Commento
+  [%d Comments]
+    en = %d Comments
+    fr = %d Commentaires
+    it = %d Commenti
+  [%d days ago]
+    en = %d days ago
+    fr = il y a %d jours
+    it = %d giorni fa
+  ['Member since 'MMM yyyy]
+    en = 'Member since 'MMM yyyy
+    fr = 'Membre depuis 'MMM yyyy
+    it = 'Membro dal 'MMM yyyy
+  [0 votes]
+    en = 0 votes
     fr = 0 votes
-	[1 Comment]
-		en = 1 Comment
-		fr = 1 Commentaire
-	[1 vote]
-		en = 1 vote
+    it = 0 voti
+  [1 Comment]
+    en = 1 Comment
+    fr = 1 Commentaire
+    it = 1 Commento
+  [1 vote]
+    en = 1 vote
     fr = 1 vote
-	[2 votes]
-		en = 2 votes
-		fr = 2 votes
-	[3 votes]
-		en = 3 votes
-		fr = 3 votes
-	[A suggestion with this title already exists. Please change the title.]
-		en = A suggestion with this title already exists. Please change the title.
-	[Add]
-		en = Add
+    it = 1 voto
+  [2 votes]
+    en = 2 votes
+    fr = 2 votes
+    it = 2 voti
+  [3 votes]
+    en = 3 votes
+    fr = 3 votes
+    it = 3 voti
+  [A suggestion with this title already exists. Please change the title.]
+    en = A suggestion with this title already exists. Please change the title.
+    it = Un suggerimento con questo titolo esiste già. Per favore cambiare il titolo.
+  [Add]
+    en = Add
     fr = Ajouter
-	[Add a comment...]
-		en = Add a comment...
-		fr = Ajouter un commentaire
-	[admin]
-		en = admin
-	[Anonymous]
-		en = Anonymous
-		fr = Anonyme
-	[Are you sure you want to flag this idea as inappropriate?]
-		en = Are you sure you want to flag this idea as inappropriate?
-		fr = Etes-vous sûr de vouloir signaler ce commentaire comme abusif?
-	[Back]
-		en = Back
-		fr = Retour
-	[Cancel]
-		en = Cancel
-		fr = Quitter
-	[Category]
-		en = Category
-	[Changing your email address will require it to be confirmed again.]
-		en = Changing your email address will require it to be confirmed again.
-		fr = Changer votre adresse mail implique une nouvelle confirmation.
-	[Checking...]
-		en = Checking...
-		fr = en cours de vérification...
-	[Close]
-		en = Close
-		fr = Fermer
-	[Comments]
-		en = Comments
-	[Connecting to UserVoice]
-		en = Connecting to UserVoice
-		fr = En cours de connexion à UserVoice
-	[Contact %@]
-		en = Contact %@
-	[Contact support]
-		en = Contact support
-		fr = Contactez l'assistance technique
-	[Contact Us]
-		en = Contact Us
-		fr = Contactez-nous
-	[Create Account]
-		en = Create Account
-		fr = Créer un compte
-	[Create idea]
-		en = Create idea
-	[Created %d %@]
-		en = Created %1$d %2$@
-		fr = Créé %d %@
-	[Created by]
-		en = Created by
-		fr = Créé par
-	[Description (optional)]
-		en = Description (optional)
-	[Edit my profile]
-		en = Edit my profile
-		fr = Editer mon profil
-	[Edit Profile]
-		en = Edit Profile
-		fr = Editer son profil
-	[Email]
-		en = Email
-    fr = Email
-	[Error]
-		en = Error
-		fr = Erreur
-	[Feedback]
-		en = Feedback
-		fr = Retours
-	[Feedback & Support]
-		en = Feedback & Support
+    it = Aggiungi
+  [Add a comment...]
+    en = Add a comment...
+    fr = Ajouter un commentaire
+    it = Aggiungi un commento
+  [admin]
+    en = admin
+    it = Amministratore
+  [Anonymous]
+    en = Anonymous
+    fr = Anonyme
+    it = Anonimo
+  [Are you sure you want to flag this idea as inappropriate?]
+    en = Are you sure you want to flag this idea as inappropriate?
+    fr = Etes-vous sûr de vouloir signaler ce commentaire comme abusif?
+    it = Sei sicuro che vuoi segnalare questa idea come inappropriata?
+  [Back]
+    en = Back
+    fr = Retour
+    it = Indietro
+  [Cancel]
+    en = Cancel
+    fr = Quitter
+    it = Annulla
+  [Category]
+    en = Category
+    it = Categoria
+  [Changing your email address will require it to be confirmed again.]
+    en = Changing your email address will require it to be confirmed again.
+    fr = Changer votre adresse mail implique une nouvelle confirmation.
+    it = Cambiando l'indirizzo email dovrai riconfermarlo ancora.
+  [Checking...]
+    en = Checking...
+    fr = en cours de vérification...
+    it = Controllo...
+  [Close]
+    en = Close
+    fr = Fermer
+    it = Chiudi
+  [Comments]
+    en = Comments
+    it = Commenti
+  [Connecting to UserVoice]
+    en = Connecting to UserVoice
+    fr = En cours de connexion à UserVoice
+    it = Connettiti a UserVoice
+  [Contact %@]
+    en = Contact %@
+    it = Contatta %@
+  [Contact support]
+    en = Contact support
+    fr = Contactez l'assistance technique
+    it = Contatta l'assistenza
+  [Contact Us]
+    en = Contact Us
+    fr = Contactez-nous
+    it = Contattaci
+  [Create Account]
+    en = Create Account
+    fr = Créer un compte
+    it = Crea un Account
+  [Create idea]
+    en = Create idea
+    it = Crea un'idea
+  [Created %d %@]
+    en = Created %1$d %2$@
+    fr = Créé %d %@
+    it = Creata %d %@
+  [Created by]
+    en = Created by
+    fr = Créé par
+    it = Creata da
+  [Description (optional)]
+    en = Description (optional)
+    it = Descrizione (opzionale)
+  [Edit my profile]
+    en = Edit my profile
+    fr = Editer mon profil
+    it = Modifica il mio profilo
+  [Edit Profile]
+    en = Edit Profile
+    fr = Editer son profil
+    it = Modifica Profilo
+  [Email]
+    en = Email
+        fr = Email
+    it = Email
+  [Error]
+    en = Error
+    fr = Erreur
+    it = Errore
+  [Feedback]
+    en = Feedback
+    fr = Retours
+    it = Feedback
+  [Feedback & Support]
+    en = Feedback & Support
+    it = Feedback & Supporto
     fr = Retours & Aide technique
-	[Feedback powered by UserVoice]
-		en = Feedback powered by UserVoice
-		fr = Retour réalisé grâce à UserVoice
-	[Flag]
-		en = Flag
-		fr = Signaler
-	[Flag as inappropriate]
-		en = Flag as inappropriate
-		fr = Signaler un abus
-	[Flag Comment?]
-		en = Flag Comment?
-		fr = Signaler ce commentaire ?
-	[Flag Idea?]
-		en = Flag Idea?
-		fr = Signaler cette idée ?
-	[Forgot your password?]
-		en = Forgot your password?
-		fr = Mot de passe oublié ?
-	[Give feedback]
-		en = Give feedback
-		fr = Donner son retour
-	[Idea]
-		en = Idea
-		fr = Idée
-	[idea]
-		en = idea
-		fr = idée
-	[ideas]
-		en = ideas
-		fr = idées
-	[Ideas]
-		en = Ideas
-		fr = Idées
-	[Ideas Created]
-		en = Ideas Created
-		fr = Idées crééés
-	[Ideas Supported]
-		en = Ideas Supported
-		fr = Idées approuvées
-	[Load more comments...]
-		en = Load more comments...
-		fr = Télécharger plus de commentaires...
-	[Load more ideas...]
-		en = Load more ideas...
-		fr = Télécharger plus de idées...
-	[Loading...]
-		en = Loading...
-		fr = Télécharger...
-	[Logout from UserVoice]
-		en = Logout from UserVoice
-		fr = Se déconnecter d'UserVoice
-	[Looks like it's your first time here, welcome to UserVoice!]
-		en = Looks like it's your first time here, welcome to UserVoice!
-		fr = Comme c'est votre première fois sur UserVoice, nous vous souhaitons la bienvenue!
-	[Message]
-		en = Message
-	[My Profile]
-		en = My Profile
-		fr = Mon Profil
-	[My profile]
-		en = My profile
-		fr = Mon profil
-	[Name]
-		en = Name
-		fr = Nom
-	[New Suggestion]
-		en = New Suggestion
-	[OK]
-		en = OK
-		fr = OK
-	[Password]
-		en = Password
-		fr = Mot de passe
-	[Please enter your email address before submitting your suggestion.]
-		en = Please enter your email address before submitting your suggestion.
-	[Please enter your email address before submitting your ticket.]
-		en = Please enter your email address before submitting your ticket.
-		fr = Merci d'enregister votre email avant de soumettre votre proposition.
-	[Please enter your email address.]
-		en = Please enter your email address.
-		fr = Merci d'entrer votre email.
-	[Please sign in here to comment.]
-		en = Please sign in here to comment.
-	[Post date]
-		en = Post date
-		fr = Date de l'envoi
-	[Required]
-		en = Required
-		fr = Obligatoire
-	[Send]
-		en = Send
-		fr = Envoyer
-	[Sign In]
-		en = Sign In
-		fr = Se connecter
-	[Sign in]
-		en = Sign in
-		fr = Se connecter
-	[Sorry, there was an error in the application.]
-		en = Sorry, there was an error in the application.
-		fr = Désolé, il y a une erreur dans l'application.
-	[Sorry, you have no more votes remaining in this forum.]
-		en = Sorry, you have no more votes remaining in this forum.
-		fr = Désolé, vous n'avez pas assez de votes dans ce forum.
-	[Sorry, you have run out of votes.]
-		en = Sorry, you have run out of votes.
-	[Status: %@]
-		en = Status: %@
-	[Subject]
-		en = Subject
-		fr = Sujet
-	[Success]
-		en = Success
-		fr = Succès
-	[Supporting %d %@]
-		en = Supporting %d %@
-		fr = Supporting %d %@
-	[There appears to be a problem with your network connection, please check your connectivity and try again.]
-		en = There appears to be a problem with your network connection, please check your connectivity and try again.
-		fr = Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.
-	[There was a problem logging you in, please check your password and try again.]
-		en = There was a problem logging you in, please check your password and try again.
-		fr = Il y a eu un problème durant votre identification, veuillez vérifier votre mot de passe et essayez de nouveau s'il-vous-plaît.
-	[This application didn't configure UserVoice properly]
-		en = This application didn't configure UserVoice properly
-		fr = Cette application n'a pas configuré UserVoice
-	[Type]
-		en = Type
-	[Update]
-		en = Update
-		fr = Mettre à jour
-	[User name]
-		en = User name
-	[User Profile]
-		en = User Profile
-		fr = Profil utilisateur
-	[vote]
-		en = vote
+  [Feedback powered by UserVoice]
+    en = Feedback powered by UserVoice
+    fr = Retour réalisé grâce à UserVoice
+    it = Feedback fornito da UserVoice
+  [Flag]
+    en = Flag
+    fr = Signaler
+    it = Segnalare
+  [Flag as inappropriate]
+    en = Flag as inappropriate
+    fr = Signaler un abus
+    it = Segnala come inappropriato
+  [Flag Comment?]
+    en = Flag Comment?
+    fr = Signaler ce commentaire ?
+    it = Vuoi segnalare questo commento?
+  [Flag Idea?]
+    en = Flag Idea?
+    fr = Signaler cette idée ?
+    it = Vuoi segnalare questa idea?
+  [Forgot your password?]
+    en = Forgot your password?
+    fr = Mot de passe oublié ?
+    it = Password dimenticata?
+  [Give feedback]
+    en = Give feedback
+    fr = Donner son retour
+    it = Lascia un feedback
+  [Idea]
+    en = Idea
+    fr = Idée
+    it = Idea
+  [idea]
+    en = idea
+    fr = idée
+    it = idea
+  [ideas]
+    en = ideas
+    fr = idées
+    it = idee
+  [Ideas]
+    en = Ideas
+    fr = Idées
+    it = idee
+  [Ideas Created]
+    en = Ideas Created
+    fr = Idées crééés
+    it = Idea Creata
+  [Ideas Supported]
+    en = Ideas Supported
+    fr = Idées approuvées
+    it = Idea Supportata
+  [Load more comments...]
+    en = Load more comments...
+    fr = Télécharger plus de commentaires...
+    it = Carica più commenti...
+  [Load more ideas...]
+    en = Load more ideas...
+    fr = Télécharger plus de idées...
+    it = Carica più idee...
+  [Loading...]
+    en = Loading...
+    fr = Télécharger...
+    it = Caricamento...
+  [Logout from UserVoice]
+    en = Logout from UserVoice
+    fr = Se déconnecter d'UserVoice
+    it = Disconneti da UserVoice
+  [Looks like it's your first time here, welcome to UserVoice!]
+    en = Looks like it's your first time here, welcome to UserVoice!
+    fr = Comme c'est votre première fois sur UserVoice, nous vous souhaitons la bienvenue!
+    it = Sembra che sia la tua prima volta qui, Benvenuto su UserVoice!
+  [Message]
+    en = Message
+    it = Messaggio
+  [My Profile]
+    en = My Profile
+    fr = Mon Profil
+    it = Mio Profilo
+  [My profile]
+    en = My profile
+    fr = Mon profil
+    it = Mio profilo
+  [Name]
+    en = Name
+    fr = Nom
+    it = Nome
+  [New Suggestion]
+    en = New Suggestion
+    it = Nuovo Suggerimento
+  [OK]
+    en = OK
+    fr = OK
+    it = OK
+  [Password]
+    en = Password
+    fr = Mot de passe
+    it = Inserire Password
+  [Please enter your email address before submitting your suggestion.]
+    en = Please enter your email address before submitting your suggestion.
+    it = Inserisci la tua email prima di inserire un suggerimento.
+  [Please enter your email address before submitting your ticket.]
+    en = Please enter your email address before submitting your ticket.
+    fr = Merci d'enregister votre email avant de soumettre votre proposition.
+    it = Per favore inserisci la tua email prima di suggerirci quello che pensi.
+  [Please enter your email address.]
+    en = Please enter your email address.
+    fr = Merci d'entrer votre email.
+    it = Prego inserire indirizzo email.
+  [Please sign in here to comment.]
+    en = Please sign in here to comment.
+    it = Prego connettiti qui per commentare.
+  [Post date]
+    en = Post date
+    fr = Date de l'envoi
+    it = Data di invio
+  [Required]
+    en = Required
+    fr = Obligatoire
+    it = Richiesto
+  [Send]
+    en = Send
+    fr = Envoyer
+    it = Invia
+  [Sign In]
+    en = Sign In
+    fr = Se connecter
+    it = Connettiti
+  [Sign in]
+    en = Sign in
+    fr = Se connecter
+    it = Connettiti
+  [Sorry, there was an error in the application.]
+    en = Sorry, there was an error in the application.
+    fr = Désolé, il y a une erreur dans l'application.
+    it = Ci dispiace, c'è stato un errore nell'applicazione.
+  [Sorry, you have no more votes remaining in this forum.]
+    en = Sorry, you have no more votes remaining in this forum.
+    fr = Désolé, vous n'avez pas assez de votes dans ce forum.
+    it = Ci dispiace ma non hai rimasto più voti in questo forum.
+  [Sorry, you have run out of votes.]
+    en = Sorry, you have run out of votes.
+    it = Ci dispiace ma hai finito i voti.
+  [Status: %@]
+    en = Status: %@
+  [Subject]
+    en = Subject
+    fr = Sujet
+    it = Oggetto
+  [Success]
+    en = Success
+    fr = Succès
+    it = Successo
+  [Supporting %d %@]
+    en = Supporting %d %@
+    fr = Supporting %d %@
+    it = Supporto %d %@
+  [There appears to be a problem with your network connection, please check your connectivity and try again.]
+    en = There appears to be a problem with your network connection, please check your connectivity and try again.
+    fr = Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.
+    it = Sembra ci sia un problema con la tua connessione Internet, controlla la tua connessione e prova ancora.
+  [There was a problem logging you in, please check your password and try again.]
+    en = There was a problem logging you in, please check your password and try again.
+    fr = Il y a eu un problème durant votre identification, veuillez vérifier votre mot de passe et essayez de nouveau s'il-vous-plaît.
+    it = C'è stato un problema nel login, controlla la tua password e riprova.
+  [This application didn't configure UserVoice properly]
+    en = This application didn't configure UserVoice properly
+    fr = Cette application n'a pas configuré UserVoice
+    it = Questa applicazione non riesce a configurare correttamente UserVoice.
+  [Type]
+    en = Type
+    it = Tipo
+  [Update]
+    en = Update
+    fr = Mettre à jour
+    it = Aggiornato
+  [User name]
+    en = User name
+    it = Nome Utente
+  [User Profile]
+    en = User Profile
+    fr = Profil utilisateur
+    it = Profilo Utente
+  [vote]
+    en = vote
     fr = vote
-	[vote has]
-		en = vote has
-		fr = vote est
-	[votes]
-		en = votes
+    it = voto
+  [vote has]
+    en = vote has
+    fr = vote est
+    it = voto ricevuto
+  [votes]
+    en = votes
     fr = votes
-	[votes have]
-		en = votes have
-		fr = votes sont
-	[Voting for this suggestion is now closed and your %d %@ been returned to you]
-		en = Voting for this suggestion is now closed and your %1$d %2$@ been returned to you
-		fr = Voter pour cette suggestion n'est plus possible et votre %d %@ vous a été retourné.
-	[Want to send a private message instead?]
-		en = Want to send a private message instead?
-	[Want to suggest an idea instead?]
-		en = Want to suggest an idea instead?
-		fr = Voulez-vous suggérer une autre idée à la place ?
-	[We've sent an email telling you how to login and change your password.]
-		en = We've sent an email telling you how to login and change your password.
-		fr = Nous vous avons envoyé un email vous expliquant comment vous identifier et changer de mot de passe.
-	[Welcome]
-		en = Welcome
-		fr = Bienvenue
-	[Welcome back! We found your profile, but we need you to sign in to verify you are... you.]
-		en = Welcome back! We found your profile, but we need you to sign in to verify you are... you.
-		fr = Bienvenue ! Nous avons trouvé votre profil, cependant nous avons besoin que vous vous identifiez afin de vérifier qui vous êtes.
-	[You have %d %@ remaining in this forum]
-		en = You have %1$d %2$@ remaining in this forum
-		fr = Vous avez %d %@ maintenu dans ce forum.
-	[You have successfully flagged this comment as inappropriate.]
-		en = You have successfully flagged this comment as inappropriate.
-		fr = Votre signalement d'un commentaire abusif a été réalisé avec succès.
-	[You have successfully flagged this idea as inappropriate.]
-		en = You have successfully flagged this idea as inappropriate.
-		fr = Votre signalement d'une idée abusive a été réalisé avec succès.
-	[You will need to sign in to vote.]
-		en = You will need to sign in to vote.
-		fr = Vous aurez besoin de vous identifier pour voter.
-	[Your email has not yet been confirmed]
-		en = Your email has not yet been confirmed
-		fr = Votre email n'a pas été encore confirmé
-	[Your idea "%@" was successfully created.]
-		en = Your idea "%@" was successfully created.
-	[Your ticket was successfully submitted.]
-		en = Your ticket was successfully submitted.
-		fr = Votre commentaire a été soumis avec succès.
+    it = voti
+  [votes have]
+    en = votes have
+    fr = votes sont
+    it = voti ricevuti
+  [Voting for this suggestion is now closed and your %d %@ been returned to you]
+    en = Voting for this suggestion is now closed and your %1$d %2$@ been returned to you
+    fr = Voter pour cette suggestion n'est plus possible et votre %d %@ vous a été retourné.
+    it = Le votazioni per questo suggerimento sono stati chiusi e il tuo voto %d %@ ti sarà ridato
+  [Want to send a private message instead?]
+    en = Want to send a private message instead?
+    it = Vuoi inviare invece un messaggio privato?
+  [Want to suggest an idea instead?]
+    en = Want to suggest an idea instead?
+    fr = Voulez-vous suggérer une autre idée à la place ?
+    it = Vuoi invece suggerire un'idea?
+  [We've sent an email telling you how to login and change your password.]
+    en = We've sent an email telling you how to login and change your password.
+    fr = Nous vous avons envoyé un email vous expliquant comment vous identifier et changer de mot de passe.
+    it = Ti abbiamo mandato una email per spiegarti come eseguire il login e cambiare la password.
+  [Welcome]
+    en = Welcome
+    fr = Bienvenue
+    it = Benvenuto 
+  [Welcome back! We found your profile, but we need you to sign in to verify you are... you.]
+    en = Welcome back! We found your profile, but we need you to sign in to verify you are... you.
+    fr = Bienvenue ! Nous avons trouvé votre profil, cependant nous avons besoin que vous vous identifiez afin de vérifier qui vous êtes.
+    it = Bentornato! Abbiamo trovato il tuo profilo, ma devo connetterti per verificare che tu sei... tu.
+  [You have %d %@ remaining in this forum]
+    en = You have %1$d %2$@ remaining in this forum
+    fr = Vous avez %d %@ maintenu dans ce forum.
+    it = Hai rimasto %d %@ in questo forum.
+  [You have successfully flagged this comment as inappropriate.]
+    en = You have successfully flagged this comment as inappropriate.
+    fr = Votre signalement d'un commentaire abusif a été réalisé avec succès.
+    it = La segnalazione di questo commento come inappropriato è avvenuta correttamente.
+  [You have successfully flagged this idea as inappropriate.]
+    en = You have successfully flagged this idea as inappropriate.
+    fr = Votre signalement d'une idée abusive a été réalisé avec succès.
+    it = La segnalazione di questa idea come inappropriata è avvenuta correttamente.
+  [You will need to sign in to vote.]
+    en = You will need to sign in to vote.
+    fr = Vous aurez besoin de vous identifier pour voter.
+    it = Ti devi connettere per votare.
+  [Your email has not yet been confirmed]
+    en = Your email has not yet been confirmed
+    fr = Votre email n'a pas été encore confirmé
+    it = La tua email non è stata ancora confermata
+  [Your idea "%@" was successfully created.]
+    en = Your idea "%@" was successfully created.
+    it = La tua idea "%@" è stata creata correttamente.
+  [Your ticket was successfully submitted.]
+    en = Your ticket was successfully submitted.
+    fr = Votre commentaire a été soumis avec succès.
+    it = Il tuo commento è stato inviato correttamente.

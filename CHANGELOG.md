@@ -1,6 +1,7 @@
 ## master ##
 
 * Track instant answers for analytics
+* Add Italian translation (thanks to @Piero87)
 
 ## 1.2.0 ##
 
@@ -37,7 +38,7 @@
 * Add a cancel button to loading screen for those on slow connections
 * Add a method to go directly to the contact form
 * Add localization support
-* Add French translation
+* Add French translation (thanks to @netbe)
 * Move keyboard done button to the right side on Contact Us and Suggestion forms
 * Add a method to go directly to the feedback forum
 * Refactor public interface
