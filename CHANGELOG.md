@@ -1,5 +1,7 @@
 ## master ##
 
+## 1.2.1 ##
+
 * Track instant answers for analytics
 * Add Italian translation (thanks to @Piero87)
 
