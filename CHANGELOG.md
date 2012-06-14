@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug with table headers on iOS 4.3
+
 ## 1.2.1 ##
 
 * Track instant answers for analytics

@@ -180,7 +180,6 @@
 	tableView.dataSource = self;
 	tableView.delegate = self;
 	tableView.sectionFooterHeight = 0.0;
-	tableView.sectionHeaderHeight = 0.0;
     tableView.backgroundColor = [UVStyleSheet backgroundColor];
 	tableView.tableFooterView = [UVFooterView footerViewForController:self];
 	self.view = tableView;
