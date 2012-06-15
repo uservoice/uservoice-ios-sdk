@@ -83,5 +83,6 @@
 - (void)hideExitButton;
 - (void)showExitButton;
 - (void)promptUserToSignIn;
+- (void)setupGroupedTableView;
 
 @end

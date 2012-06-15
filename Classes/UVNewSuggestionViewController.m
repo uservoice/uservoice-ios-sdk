@@ -446,14 +446,12 @@
 	[super loadView];
     [self hideExitButton];
 	
+    CGRect frame = [self contentFrame];
 	self.navigationItem.title = NSLocalizedStringFromTable(@"New Suggestion", @"UserVoice", nil);		
-	CGRect frame = [self contentFrame];
-	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-	theTableView.sectionFooterHeight = 0.0;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
+    [self setupGroupedTableView];
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.sectionFooterHeight = 0.0;
 	
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
     footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
@@ -477,12 +475,8 @@
     [button addTarget:self action:@selector(contactButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [footer addSubview:button];
     
-    theTableView.tableFooterView = footer;
+    self.tableView.tableFooterView = footer;
     [footer release];
-
-	self.tableView = theTableView;
-    self.view = theTableView;
-	[theTableView release];
 }
 
 - (void)viewDidAppear:(BOOL)animated {	

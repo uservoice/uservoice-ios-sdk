@@ -174,15 +174,11 @@
 - (void)loadView {
 	[super loadView];
 	[self.navigationItem setHidesBackButton:YES animated:NO];
-	
-	CGRect frame = [self contentFrame];
-	tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	tableView.dataSource = self;
-	tableView.delegate = self;
-	tableView.sectionFooterHeight = 0.0;
-    tableView.backgroundColor = [UVStyleSheet backgroundColor];
-	tableView.tableFooterView = [UVFooterView footerViewForController:self];
-	self.view = tableView;
+    [self setupGroupedTableView];
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.sectionFooterHeight = 0.0;
+	self.tableView.tableFooterView = [UVFooterView footerViewForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

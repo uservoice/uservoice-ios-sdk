@@ -434,15 +434,11 @@
 	[super loadView];
 	
 	self.navigationItem.title = NSLocalizedStringFromTable(@"Sign In", @"UserVoice", nil);
-    CGRect frame = [self contentFrame];	
-	
-	self.tableView = [[[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped] autorelease];
+    [self setupGroupedTableView];
 	self.tableView.dataSource = self;
 	self.tableView.delegate = self;
 	self.tableView.sectionFooterHeight = 0.0;
 	self.tableView.sectionHeaderHeight = 10.0;
-    self.tableView.backgroundColor = [UVStyleSheet backgroundColor];
-    self.view = self.tableView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

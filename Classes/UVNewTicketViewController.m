@@ -447,14 +447,12 @@
 	[super loadView];
 	self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
     
-	CGRect frame = [self contentFrame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-	theTableView.sectionFooterHeight = 0.0;
-	theTableView.backgroundColor = [UVStyleSheet backgroundColor];
+    [self setupGroupedTableView];
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.sectionFooterHeight = 0.0;
 	
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
@@ -478,13 +476,8 @@
     button.center = CGPointMake(footer.center.x, button.center.y);
     [footer addSubview:button];
     
-    theTableView.tableFooterView = footer;
+    self.tableView.tableFooterView = footer;
     [footer release];
-	
-	self.tableView = theTableView;
-	[theTableView release];
-    
-	self.view = tableView;
 }
 
 - (void)viewDidLoad {

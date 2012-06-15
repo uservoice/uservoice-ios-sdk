@@ -425,15 +425,11 @@
 
 	self.navigationItem.title = self.suggestion.title;	
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-44) 
-                                                             style:UITableViewStyleGrouped];
-	theTableView.sectionHeaderHeight = 0.0;
-	theTableView.sectionFooterHeight = 0.0;
-    theTableView.dataSource = self;
-    theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
+    [self setupGroupedTableView];
+	self.tableView.sectionFooterHeight = 0.0;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
 	
 	NSInteger height = MAX([self titleSize].height + 50, 90);
     //	height += [self textSize].height > 0 ? [self textSize].height : 0;
@@ -477,12 +473,8 @@
 	[headerView addSubview:label];
 	[label release];
     	
-	theTableView.tableHeaderView = headerView;
+	self.tableView.tableHeaderView = headerView;
     [headerView release];
-		
-	self.tableView = theTableView;
-	self.view = theTableView;
-    [theTableView release];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

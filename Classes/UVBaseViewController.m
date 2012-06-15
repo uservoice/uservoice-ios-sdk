@@ -267,6 +267,17 @@
     [self.navigationController pushViewController:signInView animated:YES];
 }
 
+- (void)setupGroupedTableView {
+    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view.backgroundColor = [UVStyleSheet backgroundColor];
+    self.view.autoresizesSubviews = YES;
+	self.tableView = [[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped] autorelease];
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.tableView];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {

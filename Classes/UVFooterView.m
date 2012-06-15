@@ -45,8 +45,8 @@
 	theTableView.delegate = footer;
 	theTableView.dataSource = footer;
 	theTableView.sectionHeaderHeight = 10.0;
-	theTableView.sectionFooterHeight = 8.0;		
-	theTableView.backgroundColor = [UVStyleSheet backgroundColor];
+	theTableView.sectionFooterHeight = 8.0;
+	theTableView.backgroundColor = [UIColor clearColor];
     
     // Fix background color on iPad
     if ([theTableView respondsToSelector:@selector(setBackgroundView:)])

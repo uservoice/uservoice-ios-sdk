@@ -60,7 +60,7 @@
 	CGRect frame = [self contentFrame];
     self.view = [[[UIScrollView alloc] initWithFrame:frame] autorelease];
     self.view.autoresizesSubviews = YES;
-    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.view.backgroundColor = [UVStyleSheet backgroundColor];
     
     UIImageView *logo = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]] autorelease];
     logo.center = CGPointMake(frame.size.width/2, 40);
@@ -94,6 +94,8 @@
     self.tableView.dataSource = self;
     self.tableView.scrollEnabled = NO;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
     [self.view addSubview:self.tableView];
     
     int y = self.tableView.frame.origin.y + self.tableView.frame.size.height + 5;
@@ -129,12 +131,6 @@
     [self.view addSubview:periodLabel];
     
     [((UIScrollView *)self.view) setContentSize:CGSizeMake(0, periodLabel.frame.origin.y + periodLabel.frame.size.height + 10)];
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.view.backgroundColor = [UVStyleSheet backgroundColor];
-        self.tableView.backgroundColor = [UVStyleSheet backgroundColor];
-        self.tableView.backgroundView = nil;
-    }
 }
 
 @end

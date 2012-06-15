@@ -268,17 +268,10 @@
 	
 	self.navigationItem.title = [self isSelf] ? NSLocalizedStringFromTable(@"My Profile", @"UserVoice", nil) : NSLocalizedStringFromTable(@"User Profile", @"UserVoice", nil);
 
-	CGRect frame = [self contentFrame];
-
-	UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStyleGrouped];
-	theTableView.dataSource = self;
-	theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];	
-	theTableView.tableHeaderView = [self createHeaderView];
-	
-	self.tableView = theTableView;
-	[theTableView release];
-	self.view = tableView;
+    [self setupGroupedTableView];
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.tableHeaderView = [self createHeaderView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
