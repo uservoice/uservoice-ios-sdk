@@ -168,7 +168,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
-	UIDeviceOrientation deviceOrientation = [UVClientConfig getOrientation];
+	UIInterfaceOrientation deviceOrientation = [UVClientConfig getOrientation];
 	return (interfaceOrientation == deviceOrientation);
 }
 

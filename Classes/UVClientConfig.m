@@ -80,18 +80,18 @@
 
 // Methods to store initial launch orientation of UserVoice (and then use that orientation until UserVoice is dismissed again)
 // The UVBaseViewController class uses getOrientation: to determine the allowed orientation, and therefore all the controllers inherit this
-+ (UIDeviceOrientation)getOrientation
++ (UIInterfaceOrientation)getOrientation
 {
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	int orientation = [userDefaults integerForKey:@"UVOrientation"];
 	
 	if (orientation)
 	{
-		return (UIDeviceOrientation)orientation;
+		return (UIInterfaceOrientation)orientation;
 	}
 	else 
 	{
-		return UIDeviceOrientationPortrait;
+		return UIInterfaceOrientationPortrait;
 	}
 }
 
