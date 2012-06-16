@@ -1,6 +1,7 @@
 ## master ##
 
 * Fix a bug with table headers on iOS 4.3
+* Fix a bug with table borders on iPad / iOS 4.3
 
 ## 1.2.1 ##
 
