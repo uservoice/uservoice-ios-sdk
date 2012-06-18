@@ -93,6 +93,14 @@ static UVStyleSheet *styleSheet;
 	return [[self styleSheet] tableViewHeaderColor];
 }
 
++ (UIColor *)tableViewHeaderShadowColor {
+	return [[self styleSheet] tableViewHeaderShadowColor];
+}
+
+- (UIColor *)tableViewHeaderShadowColor {
+    return [UIColor whiteColor];
+}
+
 + (UIColor *)linkTextColor {
 	return [[self styleSheet] linkTextColor];
 }

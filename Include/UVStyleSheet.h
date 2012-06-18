@@ -24,6 +24,7 @@
 + (UIColor *)topSeparatorColor;
 + (UIColor *)bottomSeparatorColor;
 + (UIColor *)tableViewHeaderColor;
++ (UIColor *)tableViewHeaderShadowColor;
 + (UIColor *)primaryTextColor;
 + (UIColor *)secondaryTextColor;
 + (UIColor *)signedInUserTextColor;
@@ -59,6 +60,13 @@
  * Default: blue-gray
  */
 - (UIColor *)tableViewHeaderColor;
+
+/**
+ * Shadow color for section headings on the welcome view. You may change this to [UIColor clearColor] if you don't want a text shadow.
+ *
+ * Default: white
+ */
+- (UIColor *)tableViewHeaderShadowColor;
 
 /**
  * Used for headings, etc.

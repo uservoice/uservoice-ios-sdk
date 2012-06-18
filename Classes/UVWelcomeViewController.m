@@ -168,6 +168,27 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
+    return (section == 0) ? 36 + 11 : 36;
+}
+
+- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
+    UIView *containerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)] autorelease];
+    containerView.backgroundColor = [UIColor clearColor];
+    CGRect labelFrame = CGRectMake(20, 2, 320, 30);
+    if (section == 0)
+        labelFrame.origin.y += 11;
+    UILabel *label = [[[UILabel alloc] initWithFrame:labelFrame] autorelease];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17];
+    label.shadowColor = [UVStyleSheet tableViewHeaderShadowColor];
+    label.shadowOffset = CGSizeMake(0, 1);
+    label.textColor = [UVStyleSheet tableViewHeaderColor];
+    label.text = [self tableView:theTableView titleForHeaderInSection:section];
+    [containerView addSubview:label];
+    return containerView;
+}
+
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.

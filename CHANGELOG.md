@@ -4,6 +4,7 @@
 * Fix a bug with table borders on iPad / iOS 4.3
 * Show correct version number on about screen
 * Simplify loading sequence
+* Fix a bug with customizing the color of table view section headers
 
 ## 1.2.1 ##
 
