@@ -12,6 +12,7 @@
 #import "UVInfo.h"
 #import "UVStyleSheet.h"
 #import "UVClientConfig.h"
+#import "UserVoice.h"
 
 #define UV_INFO_SECTION_ABOUT 0
 #define UV_INFO_SECTION_MOTIVATION 1
@@ -35,7 +36,7 @@
 
 - (void)customizeCellForVersion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTable(@"Version", @"UserVoice", nil);
-    cell.detailTextLabel.text = @"1.0";
+    cell.detailTextLabel.text = [UserVoice version];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {

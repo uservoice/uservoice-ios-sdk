@@ -29,6 +29,9 @@
 // Get the current <UVDelegate>
 + (id<UVDelegate>)delegate;
 
+// Get the current version number of the iOS SDK
++ (NSString *)version;
+
 /**
  * @deprecated Use [UserVoice presentUserVoiceModalInterfaceForParentViewController:andConfig:] instead.
  */

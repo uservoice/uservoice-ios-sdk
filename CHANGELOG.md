@@ -2,6 +2,7 @@
 
 * Fix a bug with table headers on iOS 4.3
 * Fix a bug with table borders on iPad / iOS 4.3
+* Show correct version number on about screen
 
 ## 1.2.1 ##
 
