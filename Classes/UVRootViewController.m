@@ -19,6 +19,7 @@
 #import "UVSuggestion.h"
 #import "UVConfig.h"
 #import "NSError+UVExtras.h"
+#import "UVStyleSheet.h"
 #include <QuartzCore/QuartzCore.h>
 
 @implementation UVRootViewController
@@ -63,23 +64,27 @@
 - (void)pushNextView {
     UVSession *session = [UVSession currentSession];
     if ((![UVToken exists] || session.user) && session.clientConfig && [self.navigationController.viewControllers count] == 1) {
+        CATransition* transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.type = kCATransitionFade;
+        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         if (self.viewToLoad == @"welcome") {
             self.navigationController.navigationBarHidden = NO;
             UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
-            [self.navigationController pushViewController:welcomeView animated:YES];
+            [self.navigationController pushViewController:welcomeView animated:NO];
             [welcomeView release];
         } else if (self.viewToLoad == @"suggestions") {
             self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
             UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
-            [self.navigationController setViewControllers:viewControllers animated:YES];
+            [self.navigationController setViewControllers:viewControllers animated:NO];
         } else if (self.viewToLoad == @"new_ticket") {
             self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
             UIViewController *newTicketViewController = [[[UVNewTicketViewController alloc] init] autorelease];
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
-            [self.navigationController setViewControllers:viewControllers animated:YES];
+            [self.navigationController setViewControllers:viewControllers animated:NO];
         }
     }
 }
@@ -128,18 +133,20 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
-	// Hide the nav bar
-	self.navigationController.navigationBarHidden = YES;
-
 	[super loadView];
+    [self showExitButton];
 	
-	CGRect frame = [self contentFrameWithNavBar:NO];
+	CGRect frame = [self contentFrame];
 	UIView *contentView = [[UIView alloc] initWithFrame:frame];
 	CGFloat screenWidth = [UVClientConfig getScreenWidth];
 	CGFloat screenHeight = [UVClientConfig getScreenHeight];
 	
-	contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, (screenHeight/2)+10, screenWidth, 20)];
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        contentView.backgroundColor = [UVStyleSheet backgroundColor];
+//    else
+//        contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+	UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, frame.size.height/2, screenWidth, 20)];
 	splashLabel2.backgroundColor = [UIColor clearColor];
 	splashLabel2.font = [UIFont systemFontOfSize:15];
 	splashLabel2.textColor = [UIColor darkGrayColor];
@@ -147,19 +154,14 @@
 	splashLabel2.text = NSLocalizedStringFromTable(@"Connecting to UserVoice", @"UserVoice", nil);
 	[contentView addSubview:splashLabel2];
 	[splashLabel2 release];
-    
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake((screenWidth-80)/2, (screenHeight/2)+40, 80, 20)];
-    [cancelButton setTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil) forState:UIControlStateNormal];
-    cancelButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    cancelButton.titleLabel.textColor = [UIColor darkGrayColor];
-    cancelButton.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
-    cancelButton.layer.cornerRadius = 6.0;
-    [cancelButton addTarget:self action:@selector(dismissUserVoice) forControlEvents:UIControlEventTouchUpInside];
-    [contentView addSubview:cancelButton];
-    [cancelButton release];
 
-		
 	UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	if ([activity respondsToSelector:@selector(setColor:)]) {
+        [activity setColor:[UIColor grayColor]];
+    } else {
+        [activity release];
+        activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
 	activity.center = CGPointMake(screenWidth/2, (screenHeight/ 2) - 60);
 	[contentView addSubview:activity];
 	[activity startAnimating];
