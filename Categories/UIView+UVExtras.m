@@ -52,8 +52,8 @@
 	CGFloat bx = 0.0, by = 0.0, bw = 0.0, bh = 0.0;
 	CGFloat fx = 0.0, fy = 0.0, fw = 0.0, fh = 0.0;
 	CGFloat cx = 0.0, cy = 0.0;
-	NSString *indentString1 = [[NSString stringWithString:@""] stringByPaddingToLength:level withString:@"+" startingAtIndex:0];
-	NSString *indentString2 = [[NSString stringWithString:@""] stringByPaddingToLength:level+2 withString:@" " startingAtIndex:0];
+	NSString *indentString1 = [@"" stringByPaddingToLength:level withString:@"+" startingAtIndex:0];
+	NSString *indentString2 = [@"" stringByPaddingToLength:level+2 withString:@" " startingAtIndex:0];
 	
 	if (v) {
 		CGRect bd = v.bounds;
@@ -69,9 +69,9 @@
 		cx = v.center.x;
 		cy = v.center.y;
 		
-		[str appendFormat:@"+%@ %s retain:%d - tag:%d - bgcolor:(%@)\n"
+		[str appendFormat:@"+%@ %@ retain:%d - tag:%d - bgcolor:(%@)\n"
 		 @"%@ bounds: x:%.0f y:%.0f w:%.0f h:%.0f - frame: x:%.0f y:%.0f w:%.0f h:%.0f - center: x:%.0f, y:%.0f\n", 
-		 indentString1, [v class], v.retainCount, v.tag, [self listColor:v.backgroundColor],
+		 indentString1, NSStringFromClass([v class]), v.retainCount, v.tag, [self listColor:v.backgroundColor],
 		 indentString2, bx, by, bw, bh, fx, fy, fw, fh, cx, cy];
 		
 		if ([v isKindOfClass:[UILabel class]]) {
@@ -89,7 +89,7 @@
 					 tf.text];
 			}
 	} else {
-		[str appendFormat:@"%@--null--\n"];
+		[str appendString:@"--null--\n"];
 	}
 }
 

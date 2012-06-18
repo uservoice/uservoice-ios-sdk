@@ -101,6 +101,8 @@
     UVForum *forum = [UVSession currentSession].clientConfig.forum;		
     UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:forum title:self.textEditor.text];
     [viewControllers addObject:next];
+	[next release];
+	
 	[self.navigationController setViewControllers:viewControllers animated:YES];
     [viewControllers release];
 }
