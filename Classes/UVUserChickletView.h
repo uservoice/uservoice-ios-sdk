@@ -11,19 +11,19 @@
 @class UVBaseViewController;
 
 typedef enum {
-	UVUserChickletStyleLight,
-	UVUserChickletStyleDark,
-	UVUserChickletStyleDetail,
+    UVUserChickletStyleLight,
+    UVUserChickletStyleDark,
+    UVUserChickletStyleDetail,
 } UVUserChickletStyle;
 
 @interface UVUserChickletView : UIView {
-	NSInteger userId;
-	NSString *name;
-	NSString *avatarUrl;
-	BOOL admin;
-	NSInteger karmaScore;
-	UVUserChickletStyle style;
-	UVBaseViewController *controller;
+    NSInteger userId;
+    NSString *name;
+    NSString *avatarUrl;
+    BOOL admin;
+    NSInteger karmaScore;
+    UVUserChickletStyle style;
+    UVBaseViewController *controller;
 }
 
 @property (assign) NSInteger userId;
@@ -37,19 +37,19 @@ typedef enum {
 + (CGFloat)heightForView;
 + (CGFloat)widthForView;
 + (UVUserChickletView *)userChickletViewWithOrigin:(CGPoint)origin
-										controller:(UVBaseViewController *)theController
-											 style:(UVUserChickletStyle)style
-											userId:(NSInteger)theUserId
-											  name:(NSString *)theName
-										 avatarUrl:(NSString *)theAvatarUrl
-											 admin:(BOOL)isAdmin
-										karmaScore:(NSInteger)theKarmaScore;
+                                        controller:(UVBaseViewController *)theController
+                                             style:(UVUserChickletStyle)style
+                                            userId:(NSInteger)theUserId
+                                              name:(NSString *)theName
+                                         avatarUrl:(NSString *)theAvatarUrl
+                                             admin:(BOOL)isAdmin
+                                        karmaScore:(NSInteger)theKarmaScore;
 
 // Use this factory method if the values aren't known yet (e.g. when initializing
 // a new table cell).
 + (UVUserChickletView *)userChickletViewWithOrigin:(CGPoint)origin
-										controller:(UVBaseViewController *)theController
-											 admin:(BOOL)isAdmin;
+                                        controller:(UVBaseViewController *)theController
+                                             admin:(BOOL)isAdmin;
 
 - (void)updateWithAvatarUrl:(NSString *)theAvatarUrl karmaScore:(NSInteger)theKarmaScore;
 - (void)updateWithStyle:(UVUserChickletStyle)theStyle userId:(NSInteger)theUserId name:(NSString *)theName avatarUrl:(NSString *)theAvatarUrl karmaScore:(NSInteger)theKarmaScore;
@@ -57,12 +57,12 @@ typedef enum {
 - (void)enableButton:(BOOL)enabled;
 
 - (id)initWithOrigin:(CGPoint)origin
-		  controller:(UVBaseViewController *)theController
-			   style:(UVUserChickletStyle)style
-			  userId:(NSInteger)theUserId
-				name:(NSString *)theName
-		   avatarUrl:(NSString *)theAvatarUrl
-			   admin:(BOOL)isAdmin
-		  karmaScore:(NSInteger)theKarmaScore;
+          controller:(UVBaseViewController *)theController
+               style:(UVUserChickletStyle)style
+              userId:(NSInteger)theUserId
+                name:(NSString *)theName
+           avatarUrl:(NSString *)theAvatarUrl
+               admin:(BOOL)isAdmin
+          karmaScore:(NSInteger)theKarmaScore;
 
 @end

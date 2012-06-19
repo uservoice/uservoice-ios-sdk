@@ -38,21 +38,21 @@
 }
 
 - (NSString *)backButtonTitle {
-	return NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
+    return NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
 }
 
 #pragma mark ===== table cells =====
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTable(@"Give feedback", @"UserVoice", nil);
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.minimumFontSize = 8.0;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 - (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTable(@"Contact support", @"UserVoice", nil);
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.minimumFontSize = 8.0;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
 }
@@ -61,7 +61,7 @@
     UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
     cell.textLabel.text = article.question;
     cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.numberOfLines = 2;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
 }
@@ -70,7 +70,7 @@
     UVSuggestion *suggestion = [[UVSession currentSession].clientConfig.topSuggestions objectAtIndex:indexPath.row];
     cell.textLabel.text = suggestion.title;
     cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.numberOfLines = 2;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
 }
@@ -78,10 +78,10 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *identifier = @"";
-	BOOL selectable = YES;
+    NSString *identifier = @"";
+    BOOL selectable = YES;
 
-	UITableViewCellStyle style = UITableViewCellStyleDefault;
+    UITableViewCellStyle style = UITableViewCellStyleDefault;
     if (indexPath.section == 0) {
         if (indexPath.row == 0 && [UVSession currentSession].clientConfig.feedbackEnabled) {
             identifier = @"Forum";
@@ -95,12 +95,12 @@
         identifier = @"Suggestion";
         style = UITableViewCellStyleSubtitle;
     }
-	
-	return [self createCellForIdentifier:identifier
-							   tableView:theTableView
-							   indexPath:indexPath
-								   style:style
-							  selectable:selectable];
+
+    return [self createCellForIdentifier:identifier
+                               tableView:theTableView
+                               indexPath:indexPath
+                                   style:style
+                              selectable:selectable];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -127,9 +127,9 @@
     }
 }
 
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
-	
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if (indexPath.section == 0) {
         if (indexPath.row == 0 && [UVSession currentSession].clientConfig.feedbackEnabled) {
             UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:self.forum] autorelease];
@@ -193,27 +193,27 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
-	[super loadView];
-	[self.navigationItem setHidesBackButton:YES animated:NO];
+    [super loadView];
+    [self.navigationItem setHidesBackButton:YES animated:NO];
     [self setupGroupedTableView];
-	self.tableView.dataSource = self;
-	self.tableView.delegate = self;
-	self.tableView.sectionFooterHeight = 0.0;
-	self.tableView.tableFooterView = [UVFooterView footerViewForController:self];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.sectionFooterHeight = 0.0;
+    self.tableView.tableFooterView = [UVFooterView footerViewForController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];		
-	
-	self.forum = [UVSession currentSession].clientConfig.forum;		
-	if ([self needsReload]) {
-		NSLog(@"WelcomeView needs reload");
-		
-		[(UVFooterView *)tableView.tableFooterView reloadFooter];
-	}
+    [super viewWillAppear:animated];
 
-	[tableView reloadData];
-    
+    self.forum = [UVSession currentSession].clientConfig.forum;
+    if ([self needsReload]) {
+        NSLog(@"WelcomeView needs reload");
+
+        [(UVFooterView *)tableView.tableFooterView reloadFooter];
+    }
+
+    [tableView reloadData];
+
     UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
     [footer reloadFooter];
 }

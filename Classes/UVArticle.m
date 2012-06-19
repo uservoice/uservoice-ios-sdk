@@ -20,21 +20,21 @@
 @synthesize articleId;
 
 + (void)initialize {
-	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-	[self setBaseURL:[self siteURL]];
+    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
+    [self setBaseURL:[self siteURL]];
 }
 
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             @"3", @"per_page",
                             [NSString stringWithFormat:@"%d", [UVSession currentSession].clientConfig.forum.forumId], @"forum_id",
-							query, @"query",
-							nil];
+                            query, @"query",
+                            nil];
 
     return [self getPath:[self apiPath:@"/instant_answers/search.json"]
-			  withParams:params
-				  target:delegate
-				selector:@selector(didRetrieveInstantAnswers:)];
+              withParams:params
+                  target:delegate
+                selector:@selector(didRetrieveInstantAnswers:)];
 }
 
 + (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {

@@ -11,7 +11,7 @@
 
 @class UVCustomField;
 
-@interface UVTicket : UVBaseModel {    
+@interface UVTicket : UVBaseModel {
 }
 
 + (id)createWithMessage:(NSString *)message

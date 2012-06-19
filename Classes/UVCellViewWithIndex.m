@@ -17,22 +17,22 @@
 
 - (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
-	if ((self = [super initWithFrame:CGRectMake(0, 0, screenWidth, 71)])) {
+    if ((self = [super initWithFrame:CGRectMake(0, 0, screenWidth, 71)])) {
         self.opaque = YES;
-		[self setZebraColorFromIndex:index];
-		
-		UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
-		highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
-		highlight.opaque = YES;
-		[self addSubview:highlight];
-		[highlight release];
-	}
-	return self;
+        [self setZebraColorFromIndex:index];
+
+        UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
+        highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
+        highlight.opaque = YES;
+        [self addSubview:highlight];
+        [highlight release];
+    }
+    return self;
 }
 
 - (void)setZebraColorFromIndex:(NSInteger)index {
-	BOOL darkZebra = index % 2 == 0;
-	self.backgroundColor = [UVStyleSheet zebraBgColor:darkZebra];
+    BOOL darkZebra = index % 2 == 0;
+    self.backgroundColor = [UVStyleSheet zebraBgColor:darkZebra];
 }
 
 @end

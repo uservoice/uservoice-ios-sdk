@@ -9,20 +9,20 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-	UVSuggestionChickletStyleLight,
-	UVSuggestionChickletStyleDark,
-	UVSuggestionChickletStyleDetail,
-	UVSuggestionChickletStyleEmpty
+    UVSuggestionChickletStyleLight,
+    UVSuggestionChickletStyleDark,
+    UVSuggestionChickletStyleDetail,
+    UVSuggestionChickletStyleEmpty
 } UVSuggestionChickletStyle;
 
 @class UVSuggestion;
 
 @interface UVSuggestionChickletView : UIView {
-	CALayer *statusColorLayer;
-	UIImageView *backgroundImageView;	
-	UILabel *voteNumLabel;
-	UILabel *voteLabel;
-	UILabel *statusLabel;
+    CALayer *statusColorLayer;
+    UIImageView *backgroundImageView;
+    UILabel *voteNumLabel;
+    UILabel *voteLabel;
+    UILabel *statusLabel;
 }
 
 @property (nonatomic, retain) CALayer *statusColorLayer;

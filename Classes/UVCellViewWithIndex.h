@@ -10,7 +10,7 @@
 
 
 @interface UVCellViewWithIndex : UIView {
-	NSInteger _index;
+    NSInteger _index;
 }
 
 @property (assign) NSInteger index;

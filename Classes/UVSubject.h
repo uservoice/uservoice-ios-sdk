@@ -11,8 +11,8 @@
 
 
 @interface UVSubject : UVBaseModel {
-	NSInteger subjectId;
-	NSString *text;
+    NSInteger subjectId;
+    NSString *text;
 }
 
 @property (assign) NSInteger subjectId;

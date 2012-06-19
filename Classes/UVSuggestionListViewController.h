@@ -13,9 +13,9 @@
 @class UVForum;
 
 @interface UVSuggestionListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate> {
-	BOOL _searching;
-	UVForum *_forum;
-	UVTextEditor *_textEditor;
+    BOOL _searching;
+    UVForum *_forum;
+    UVTextEditor *_textEditor;
     NSMutableArray *suggestions;
 }
 

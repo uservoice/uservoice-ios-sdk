@@ -11,9 +11,9 @@
 
 @class YOAuthToken;
 
-@interface UVToken : UVBaseModel {	
-	YOAuthToken *oauthToken;
-	NSString *type;
+@interface UVToken : UVBaseModel {
+    YOAuthToken *oauthToken;
+    NSString *type;
 }
 
 @property (nonatomic, retain) YOAuthToken *oauthToken;

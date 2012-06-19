@@ -12,7 +12,7 @@
 @implementation UIFont (UVExtras)
 
 -(CGFloat)ttLineHeight {
-	return (self.ascender - self.descender) + 1;
+    return (self.ascender - self.descender) + 1;
 }
 
 @end

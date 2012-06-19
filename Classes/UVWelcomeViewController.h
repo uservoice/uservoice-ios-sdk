@@ -13,7 +13,7 @@
 @class UVQuestion;
 
 @interface UVWelcomeViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
-	UVForum *_forum;
+    UVForum *_forum;
 }
 
 @property (nonatomic, retain) UVForum *forum;

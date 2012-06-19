@@ -10,7 +10,7 @@
 #import "UVBaseModel.h"
 
 @interface UVCustomField : UVBaseModel {
-	NSString *name;
+    NSString *name;
     NSArray *values;
     NSInteger fieldId;
 }

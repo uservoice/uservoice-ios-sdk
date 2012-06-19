@@ -12,13 +12,13 @@
 @class UVSuggestion;
 
 @interface UVComment : UVBaseModel {
-	NSInteger commentId;
-	NSString *text;
-	NSString *userName;
-	NSInteger userId;
-	NSString *avatarUrl;
-	NSInteger karmaScore;
-	NSDate *createdAt;
+    NSInteger commentId;
+    NSString *text;
+    NSString *userName;
+    NSInteger userId;
+    NSString *avatarUrl;
+    NSInteger karmaScore;
+    NSDate *createdAt;
 }
 
 @property (assign) NSInteger commentId;

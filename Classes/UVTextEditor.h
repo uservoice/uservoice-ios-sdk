@@ -20,16 +20,16 @@
 @class UVTextView, UVTextEditorInternal;
 
 @interface UVTextEditor : UIView <UITextInputTraits> {
-	id<UVTextEditorDelegate> _delegate;
-	UVTextEditorInternal* _internal;
-	UITextField* _textField;
-	UVTextView* _textView;
-	NSInteger _minNumberOfLines;
-	NSInteger _maxNumberOfLines;
-	BOOL _editing;
-	BOOL _overflowed;
-	BOOL _autoresizesToText;
-	BOOL _showsExtraLine;
+    id<UVTextEditorDelegate> _delegate;
+    UVTextEditorInternal* _internal;
+    UITextField* _textField;
+    UVTextView* _textView;
+    NSInteger _minNumberOfLines;
+    NSInteger _maxNumberOfLines;
+    BOOL _editing;
+    BOOL _overflowed;
+    BOOL _autoresizesToText;
+    BOOL _showsExtraLine;
 }
 
 @property(nonatomic,assign) id<UVTextEditorDelegate> delegate;

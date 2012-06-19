@@ -18,17 +18,17 @@
 @synthesize fieldId;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
+    if (self = [super init]) {
         self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [self objectOrNilForDict:dict key:@"name"];
+        self.name = [self objectOrNilForDict:dict key:@"name"];
         NSArray *valueDictionaries = [self objectOrNilForDict:dict key:@"possible_values"];
         NSMutableArray *valueNames = [NSMutableArray arrayWithCapacity:[valueDictionaries count]];
         for (NSDictionary *valueAttributes in valueDictionaries) {
             [valueNames addObject:[valueAttributes valueForKey:@"value"]];
         }
         self.values = [NSArray arrayWithArray:valueNames];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (BOOL)isPredefined {

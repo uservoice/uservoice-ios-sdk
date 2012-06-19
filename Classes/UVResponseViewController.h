@@ -12,7 +12,7 @@
 @class UVSuggestion;
 
 @interface UVResponseViewController : UVBaseViewController {
-	UVSuggestion *suggestion;
+    UVSuggestion *suggestion;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;

@@ -11,8 +11,8 @@
 
 
 @interface UVResponseDelegate : NSObject <HRResponseDelegate> {
-	Class modelClass;
-	NSInteger statusCode;
+    Class modelClass;
+    NSInteger statusCode;
 }
 
 @property (assign) Class modelClass;

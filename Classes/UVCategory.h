@@ -11,8 +11,8 @@
 
 
 @interface UVCategory : UVBaseModel {
-	NSInteger categoryId;
-	NSString *name;
+    NSInteger categoryId;
+    NSString *name;
 }
 
 @property (assign) NSInteger categoryId;

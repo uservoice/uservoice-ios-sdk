@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UVUserAvatarView : UIView {
-	NSString *avatarUrl;
+    NSString *avatarUrl;
 }
 
 @property (nonatomic, retain) NSString *avatarUrl;

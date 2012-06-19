@@ -11,9 +11,9 @@
 @class UVBaseViewController;
 
 @interface UVUserButton : UIButton {
-	NSInteger userId;
-	NSString *userName;
-	UVBaseViewController *controller;
+    NSInteger userId;
+    NSString *userName;
+    UVBaseViewController *controller;
 }
 
 @property (assign) NSInteger userId;
@@ -21,20 +21,20 @@
 @property (assign) UVBaseViewController *controller;
 
 + (UVUserButton *)buttonWithUserId:(NSInteger)userId
-							  name:(NSString *)userName
-						controller:(UVBaseViewController *)controller
-							origin:(CGPoint)origin
-						  maxWidth:(CGFloat)maxWidth
-							  font:(UIFont *)font
-							 color:(UIColor *)color;
+                              name:(NSString *)userName
+                        controller:(UVBaseViewController *)controller
+                            origin:(CGPoint)origin
+                          maxWidth:(CGFloat)maxWidth
+                              font:(UIFont *)font
+                             color:(UIColor *)color;
 
 + (UVUserButton *)buttonWithcontroller:(UVBaseViewController *)controller
-							  font:(UIFont *)font
-							 color:(UIColor *)color;
+                              font:(UIFont *)font
+                             color:(UIColor *)color;
 
 - (void)updateWithUserId:(NSInteger)userId
-					name:(NSString *)userName
-				  origin:(CGPoint)origin
-				maxWidth:(CGFloat)maxWidth;
+                    name:(NSString *)userName
+                  origin:(CGPoint)origin
+                maxWidth:(CGFloat)maxWidth;
 
 @end

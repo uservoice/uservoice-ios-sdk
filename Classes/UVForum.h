@@ -11,11 +11,11 @@
 #import "UVTopic.h"
 
 @interface UVForum : UVBaseModel {
-	NSInteger forumId;
-	BOOL isPrivate;
-	NSString *name;
-	NSMutableArray *topics;
-	UVTopic *currentTopic;
+    NSInteger forumId;
+    BOOL isPrivate;
+    NSString *name;
+    NSMutableArray *topics;
+    UVTopic *currentTopic;
 }
 
 @property (assign) NSInteger forumId;

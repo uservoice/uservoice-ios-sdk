@@ -12,11 +12,11 @@
 @class UVUser;
 
 @interface UVProfileEditViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
-	NSString *name;
-	NSString *email;
-	UITextField *nameField;
-	UITextField *emailField;
-	UVUser *user;
+    NSString *name;
+    NSString *email;
+    UITextField *nameField;
+    UITextField *emailField;
+    UVUser *user;
 }
 
 @property (nonatomic, retain) NSString *name;

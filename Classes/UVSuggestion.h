@@ -14,31 +14,31 @@
 @class UVUser;
 
 @interface UVSuggestion : UVBaseModel {
-	NSInteger suggestionId;
-	NSInteger forumId;
-	NSInteger commentsCount;
-	NSInteger voteCount;
-	NSInteger votesFor;
-	NSInteger votesRemaining;
-	NSString *title;
-	NSString *abstract;
-	NSString *text;
-	NSString *status;
-	NSString *statusHexColor;
-	NSString *forumName;
-	
-	NSDate *createdAt;
-	NSDate *updatedAt;
-	NSDate *closedAt;
+    NSInteger suggestionId;
+    NSInteger forumId;
+    NSInteger commentsCount;
+    NSInteger voteCount;
+    NSInteger votesFor;
+    NSInteger votesRemaining;
+    NSString *title;
+    NSString *abstract;
+    NSString *text;
+    NSString *status;
+    NSString *statusHexColor;
+    NSString *forumName;
 
-	NSString *creatorName;
-	NSInteger creatorId;
-	NSString *responseText;
-	NSString *responseUserName;
-	NSString *responseUserAvatarUrl;
-	NSInteger responseUserId;
-	
-	UVCategory *category;
+    NSDate *createdAt;
+    NSDate *updatedAt;
+    NSDate *closedAt;
+
+    NSString *creatorName;
+    NSInteger creatorId;
+    NSString *responseText;
+    NSString *responseUserName;
+    NSString *responseUserAvatarUrl;
+    NSInteger responseUserId;
+
+    UVCategory *category;
 }
 
 @property (assign) NSInteger suggestionId;
@@ -80,11 +80,11 @@
 
 // Creates a new suggestion with the specified title and text.
 + (id)createWithForum:(UVForum *)forum
-			 category:(UVCategory *)category
-				title:(NSString *)title
-				 text:(NSString *)text
-				votes:(NSInteger)votes
-			 delegate:(id)delegate;
+             category:(UVCategory *)category
+                title:(NSString *)title
+                 text:(NSString *)text
+                votes:(NSInteger)votes
+             delegate:(id)delegate;
 
 // Records the specified number of votes for a suggestion.
 - (id)vote:(NSInteger)number delegate:(id)delegate;

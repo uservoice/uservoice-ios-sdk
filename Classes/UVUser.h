@@ -12,22 +12,22 @@
 @class UVSuggestion;
 
 @interface UVUser : UVBaseModel {
-	NSInteger userId;
-	NSString *name;
-	NSString *displayName;
-	NSString *email;
-	BOOL emailConfirmed;
-	BOOL suggestionsNeedReload;
-	NSInteger ideaScore;
-	NSInteger activityScore;
-	NSInteger karmaScore;
-	NSInteger supportedSuggestionsCount;
-	NSInteger createdSuggestionsCount;
-	NSString *url;
-	NSString *avatarUrl;
-	NSMutableArray *supportedSuggestions;
-	NSMutableArray *createdSuggestions;
-	NSDate *createdAt;
+    NSInteger userId;
+    NSString *name;
+    NSString *displayName;
+    NSString *email;
+    BOOL emailConfirmed;
+    BOOL suggestionsNeedReload;
+    NSInteger ideaScore;
+    NSInteger activityScore;
+    NSInteger karmaScore;
+    NSInteger supportedSuggestionsCount;
+    NSInteger createdSuggestionsCount;
+    NSString *url;
+    NSString *avatarUrl;
+    NSMutableArray *supportedSuggestions;
+    NSMutableArray *createdSuggestions;
+    NSDate *createdAt;
 }
 
 @property (assign) NSInteger userId;

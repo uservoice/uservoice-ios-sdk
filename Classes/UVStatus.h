@@ -11,8 +11,8 @@
 
 
 @interface UVStatus : UVBaseModel {
-	NSInteger statusId;
-	NSString *name;
+    NSInteger statusId;
+    NSString *name;
 }
 
 @property (assign) NSInteger statusId;

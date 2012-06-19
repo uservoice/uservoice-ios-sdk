@@ -12,14 +12,14 @@
 @class UVUser;
 
 @interface UVSignInViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
-	NSString *name;
-	NSString *email;
-	UITextField *nameField;
-	UITextField *emailField;
-	UITextField *passwordField;
-	UVUser *user;
-	int userType;
-	BOOL shouldResizeForKeyboard;
+    NSString *name;
+    NSString *email;
+    UITextField *nameField;
+    UITextField *emailField;
+    UITextField *passwordField;
+    UVUser *user;
+    int userType;
+    BOOL shouldResizeForKeyboard;
 }
 
 @property (nonatomic, retain) NSString *name;

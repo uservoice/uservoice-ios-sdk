@@ -10,15 +10,15 @@
 #import "UVBaseModel.h"
 
 @interface UVTopic : UVBaseModel {
-	NSString *example;
-	NSString *prompt;
-	NSInteger votesAllowed;
-	NSInteger votesRemaining;
-	NSInteger suggestionsCount;
-	
-	NSMutableArray *categories;
-	NSMutableArray *suggestions;
-	BOOL suggestionsNeedReload;
+    NSString *example;
+    NSString *prompt;
+    NSInteger votesAllowed;
+    NSInteger votesRemaining;
+    NSInteger suggestionsCount;
+
+    NSMutableArray *categories;
+    NSMutableArray *suggestions;
+    BOOL suggestionsNeedReload;
 }
 
 @property (nonatomic, retain) NSString *example;

@@ -15,11 +15,11 @@
 @synthesize name;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
-		self.statusId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [self objectOrNilForDict:dict key:@"name"];
-	}
-	return self;
+    if (self = [super init]) {
+        self.statusId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        self.name = [self objectOrNilForDict:dict key:@"name"];
+    }
+    return self;
 }
 
 - (void)dealloc {

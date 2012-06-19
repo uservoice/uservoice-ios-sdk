@@ -11,24 +11,24 @@
 @implementation NSURL (UVParseCategory)
 
 - (NSString *)urlDecodeString:(NSString *)string {
-	return [[string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    return [[string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
 }
 
 - (NSDictionary *)queryDictionary {
     // Explode based on outter glue
     NSArray *firstExplode = [self.query componentsSeparatedByString:@"&"];
     NSArray *secondExplode;
-	
+
     // Explode based on inner glue
     NSInteger count = [firstExplode count];
     NSMutableDictionary *returnDictionary = [NSMutableDictionary dictionaryWithCapacity:count];
     for (NSInteger i = 0; i < count; i++) {
         secondExplode = [(NSString *)[firstExplode objectAtIndex:i] componentsSeparatedByString:@"="];
         if ([secondExplode count] == 2) {
-			[returnDictionary setObject:[self urlDecodeString:[secondExplode objectAtIndex:1]] forKey:[secondExplode objectAtIndex:0]];
+            [returnDictionary setObject:[self urlDecodeString:[secondExplode objectAtIndex:1]] forKey:[secondExplode objectAtIndex:0]];
         }
     }
-	
+
     return returnDictionary;
 }
 

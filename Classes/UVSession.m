@@ -30,24 +30,24 @@
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
 
 + (UVSession *)currentSession {
-	static UVSession *currentSession;
-	@synchronized(self) {
-		if (!currentSession) {
-			currentSession = [[UVSession alloc] init];
-			currentSession.startTime = [NSDate date];
+    static UVSession *currentSession;
+    @synchronized(self) {
+        if (!currentSession) {
+            currentSession = [[UVSession alloc] init];
+            currentSession.startTime = [NSDate date];
             currentSession.interactions = [NSMutableDictionary dictionary];
             currentSession.interactionSequence = [NSMutableArray array];
             currentSession.interactionDetails = [NSMutableArray array];
             currentSession.interactionId = arc4random();
             [currentSession trackInteraction:@"o"];
-		}
-	}
-	
-	return currentSession;
+        }
+    }
+
+    return currentSession;
 }
 
 - (BOOL)loggedIn {
-	return self.user != nil;
+    return self.user != nil;
 }
 
 - (UVUser *)user {
@@ -55,25 +55,25 @@
 }
 
 - (void)setUser:(UVUser *)theUser {
-	if (theUser != user) {
-		UVUser *oldUser = [user retain];
-		
-		[user release];
-		user = [theUser retain];
-		
-		// reload the topic because it owns the number of available votes for the current user
-		if (oldUser != nil && clientConfig) {
-			[UVClientConfig getWithDelegate:self];
-		}
-		[oldUser release];
-	}
+    if (theUser != user) {
+        UVUser *oldUser = [user retain];
+
+        [user release];
+        user = [theUser retain];
+
+        // reload the topic because it owns the number of available votes for the current user
+        if (oldUser != nil && clientConfig) {
+            [UVClientConfig getWithDelegate:self];
+        }
+        [oldUser release];
+    }
 }
 
 - (id)init {
-	if (self = [super init]) {
-		self.userCache = [NSMutableDictionary dictionary];
-	}
-	return self;
+    if (self = [super init]) {
+        self.userCache = [NSMutableDictionary dictionary];
+    }
+    return self;
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)config {
@@ -81,11 +81,11 @@
 }
 
 - (YOAuthConsumer *)yOAuthConsumer {
-	if (!yOAuthConsumer) {
-		yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
-											       andSecret:self.config.secret];
-	}
-	return yOAuthConsumer;
+    if (!yOAuthConsumer) {
+        yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
+                                                   andSecret:self.config.secret];
+    }
+    return yOAuthConsumer;
 }
 
 - (void)sendInteractions:(BOOL)isFinal {

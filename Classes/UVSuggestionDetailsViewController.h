@@ -11,7 +11,7 @@
 #import "UVSuggestion.h"
 
 @interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
-	UVSuggestion *suggestion;
+    UVSuggestion *suggestion;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;

@@ -12,9 +12,9 @@
 @class UVForum;
 
 @interface UVStreamEvent : UVBaseModel {
-	// 2 streams per forum, public and private	
-	NSString *type;
-	NSDictionary *object;
+    // 2 streams per forum, public and private
+    NSString *type;
+    NSDictionary *object;
 }
 
 @property (nonatomic, retain) NSString *type;

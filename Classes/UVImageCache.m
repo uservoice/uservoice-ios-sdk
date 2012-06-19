@@ -11,12 +11,12 @@
 @implementation UVImageCache
 
 + (UVImageCache *)sharedInstance {
-	static UVImageCache *instance;
-	@synchronized(self) {
-		if (!instance) {
-			instance = [[UVImageCache alloc] init];
-		}
-	}
+    static UVImageCache *instance;
+    @synchronized(self) {
+        if (!instance) {
+            instance = [[UVImageCache alloc] init];
+        }
+    }
     return instance;
 }
 

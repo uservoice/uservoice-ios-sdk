@@ -11,8 +11,8 @@
 @class UVBaseViewController;
 
 @interface UVFooterView : UIView <UITableViewDelegate, UITableViewDataSource> {
-	UVBaseViewController *controller;
-	UITableView *tableView;
+    UVBaseViewController *controller;
+    UITableView *tableView;
 }
 
 @property (assign) UVBaseViewController *controller;

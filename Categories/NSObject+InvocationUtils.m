@@ -15,15 +15,15 @@
     NSMutableArray *objects = [[NSMutableArray alloc] init];
     if(obj1 != nil) {
         [objects addObject:obj1];
-        va_start(args, obj1);         
-        
+        va_start(args, obj1);
+
         while ((argitem = va_arg(args, id))) {
-            [objects addObject:argitem];               
+            [objects addObject:argitem];
         }
-        
+
         va_end(args);
     }
-    
+
     [self performSelectorOnMainThread:selector withObjectArray:objects];
     [objects release];
 }
@@ -34,13 +34,13 @@
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
         [invocation setTarget:self];
         [invocation setSelector:selector];
-        
+
         for(size_t i = 0; i < objects.count; ++i) {
             id obj = [objects objectAtIndex:i];
             [invocation setArgument:&obj atIndex:(i + 2)];
         }
-        
-        [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:YES];   
+
+        [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:YES];
     }
 }
 @end

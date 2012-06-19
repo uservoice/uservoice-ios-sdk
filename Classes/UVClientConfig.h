@@ -15,11 +15,11 @@
 @class UVSubdomain;
 
 @interface UVClientConfig : UVBaseModel {
-	BOOL ticketsEnabled;
+    BOOL ticketsEnabled;
     BOOL feedbackEnabled;
-	UVForum *forum;
-	UVSubdomain *subdomain;
-	NSArray *customFields;
+    UVForum *forum;
+    UVSubdomain *subdomain;
+    NSArray *customFields;
     NSArray *topArticles;
     NSArray *topSuggestions;
     NSInteger clientId;

@@ -10,11 +10,11 @@
 #import "UVBaseModel.h"
 
 @interface UVSubdomain : UVBaseModel {
-	NSString *name;
-	NSString *host;
-	NSString *key;
-	NSArray *statuses;
-	NSInteger subdomainId;
+    NSString *name;
+    NSString *host;
+    NSString *key;
+    NSArray *statuses;
+    NSInteger subdomainId;
     NSString *defaultSort;
 }
 
@@ -27,5 +27,5 @@
 
 - (NSString *)ideasHeading;
 - (NSString *)suggestionSort;
- 
+
 @end

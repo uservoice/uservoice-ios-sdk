@@ -36,7 +36,7 @@
         NSURL* url = [NSURL URLWithString:theSite];
         NSString* saneURL;
         if (url.host == nil) {
-            saneURL	= [NSString stringWithFormat:@"%@", url];
+            saneURL = [NSString stringWithFormat:@"%@", url];
         } else {
             saneURL = [NSString stringWithFormat:@"%@", url.host];
         }

@@ -14,14 +14,13 @@
 @class UVComment;
 
 @interface UVCommentListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
-	BOOL allCommentsRetrieved;
-	
-	UVSuggestion *suggestion;
-	NSMutableArray *comments;
-	UVComment *commentToFlag;
-	UVTextEditor *textEditor;
-	UIBarButtonItem *prevLeftBarButton;
-	UIBarButtonItem *prevRightBarButton;
+    BOOL allCommentsRetrieved;
+    UVSuggestion *suggestion;
+    NSMutableArray *comments;
+    UVComment *commentToFlag;
+    UVTextEditor *textEditor;
+    UIBarButtonItem *prevLeftBarButton;
+    UIBarButtonItem *prevRightBarButton;
     UIView *textBar;
     UIView *headerView;
 }

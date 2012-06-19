@@ -18,15 +18,15 @@
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
 @interface UVSession : NSObject {
-	BOOL isModal;
-	UVConfig *config;
-	UVClientConfig *clientConfig;
-	UVUser *user;
-	UVInfo *info;
-	YOAuthConsumer *yOAuthConsumer;
-	UVToken *currentToken;
-	NSMutableDictionary *userCache;
-	NSDate *startTime;
+    BOOL isModal;
+    UVConfig *config;
+    UVClientConfig *clientConfig;
+    UVUser *user;
+    UVInfo *info;
+    YOAuthConsumer *yOAuthConsumer;
+    UVToken *currentToken;
+    NSMutableDictionary *userCache;
+    NSDate *startTime;
     NSMutableDictionary *interactions;
     NSMutableArray *interactionSequence;
     NSMutableArray *interactionDetails;

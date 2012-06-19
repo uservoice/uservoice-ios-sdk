@@ -13,9 +13,9 @@
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
 @interface UVBaseViewController : UIViewController {
-	UVActivityIndicator *activityIndicator;
-	BOOL needsReload;
-	UITableView *tableView;
+    UVActivityIndicator *activityIndicator;
+    BOOL needsReload;
+    UITableView *tableView;
     NSInteger kbHeight;
     UIBarButtonItem *exitButton;
 }
@@ -73,10 +73,10 @@
 // and customization to identifier specific methods. This allows us to remove the
 // redundant boilerplate code from the individual cell customization / initialization.
 - (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
-								   tableView:(UITableView *)tableView
-								   indexPath:(NSIndexPath *)indexPath
-									   style:(UITableViewCellStyle)style
-								  selectable:(BOOL)selectable;
+                                   tableView:(UITableView *)tableView
+                                   indexPath:(NSIndexPath *)indexPath
+                                       style:(UITableViewCellStyle)style
+                                  selectable:(BOOL)selectable;
 
 - (void)alertError:(NSString *)message;
 - (void)alertSuccess:(NSString *)message;

@@ -11,44 +11,44 @@
 
 @implementation UVTopic
 
-@synthesize example,
-	prompt,
-	votesAllowed,
-	votesRemaining,
-	categories,
-	suggestions,
-	suggestionsNeedReload,
-	suggestionsCount;
+@synthesize example;
+@synthesize prompt;
+@synthesize votesAllowed;
+@synthesize votesRemaining;
+@synthesize categories;
+@synthesize suggestions;
+@synthesize suggestionsNeedReload;
+@synthesize suggestionsCount;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if ((self = [super init])) {
-		self.suggestionsNeedReload = YES;
-		
-//        NSLog(@"TOPIC: %@", dict);
-		self.example = [dict objectForKey:@"example"];
-		self.prompt = [dict objectForKey:@"prompt"];
-		self.votesRemaining = [(NSNumber *)[dict objectForKey:@"votes_remaining"] integerValue];
-		self.votesAllowed = [(NSNumber *)[dict objectForKey:@"votes_allowed"] integerValue];
-		self.suggestionsCount = [(NSNumber *)[dict objectForKey:@"open_suggestions_count"] integerValue];
+    if ((self = [super init])) {
+        self.suggestionsNeedReload = YES;
 
-		self.categories = [NSMutableArray array];
-		NSMutableArray *categoryDicts = [self objectOrNilForDict:dict key:@"categories"];
-		if (categoryDicts) {
-			for (NSDictionary *categoryDict in categoryDicts) {
-				[categories addObject:[[[UVCategory alloc] initWithDictionary:categoryDict] autorelease]];
-			}
-		}
-	}
-	
-	return self;
+//        NSLog(@"TOPIC: %@", dict);
+        self.example = [dict objectForKey:@"example"];
+        self.prompt = [dict objectForKey:@"prompt"];
+        self.votesRemaining = [(NSNumber *)[dict objectForKey:@"votes_remaining"] integerValue];
+        self.votesAllowed = [(NSNumber *)[dict objectForKey:@"votes_allowed"] integerValue];
+        self.suggestionsCount = [(NSNumber *)[dict objectForKey:@"open_suggestions_count"] integerValue];
+
+        self.categories = [NSMutableArray array];
+        NSMutableArray *categoryDicts = [self objectOrNilForDict:dict key:@"categories"];
+        if (categoryDicts) {
+            for (NSDictionary *categoryDict in categoryDicts) {
+                [categories addObject:[[[UVCategory alloc] initWithDictionary:categoryDict] autorelease]];
+            }
+        }
+    }
+
+    return self;
 }
 
 - (void)dealloc {
-	self.example = nil;
-	self.prompt = nil;
-	self.categories = nil;
+    self.example = nil;
+    self.prompt = nil;
+    self.categories = nil;
     self.suggestions = nil;
-	[super dealloc];
+    [super dealloc];
 }
 
 @end

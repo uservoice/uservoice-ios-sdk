@@ -10,12 +10,12 @@
 #import <UIKit/UIKit.h>
 
 @interface UVImageView : UIView {
-	NSString* _URL;
-	UIImage* _image;
-	UIImage* _defaultImage;
-	
-	NSURLConnection *_connection;
-	NSMutableData *_payload;
+    NSString* _URL;
+    UIImage* _image;
+    UIImage* _defaultImage;
+
+    NSURLConnection *_connection;
+    NSMutableData *_payload;
 }
 
 @property(nonatomic,retain) NSString* URL;

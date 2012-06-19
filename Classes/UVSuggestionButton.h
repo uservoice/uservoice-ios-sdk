@@ -11,7 +11,7 @@
 #import "UVSuggestion.h"
 
 @interface UVSuggestionButton : UVCellViewWithIndex {
-	UVSuggestion *_suggestion;
+    UVSuggestion *_suggestion;
 }
 
 - (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame;

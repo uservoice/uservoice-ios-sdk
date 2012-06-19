@@ -12,13 +12,13 @@
 @class UVUser;
 
 @interface UVProfileViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate> {
-	// We need these before we have retrieved the full user object
-	NSInteger userId;
-	NSString *userName;
-	NSString *avatarUrl;
-	
-	UVUser *user;
-	NSString *message;
+    // We need these before we have retrieved the full user object
+    NSInteger userId;
+    NSString *userName;
+    NSString *avatarUrl;
+
+    UVUser *user;
+    NSString *message;
 }
 
 @property (assign) NSInteger userId;
@@ -30,7 +30,7 @@
 - (id)initWithUserId:(NSInteger)theUserId name:(NSString *)theUserName;
 - (id)initWithUserId:(NSInteger)theUserId name:(NSString *)theUserName avatarUrl:(NSString *)theAatarUrl;
 // Note: Have to call this initWithUVUser instead of initWithUser to avoid conflict
-//       with [NSUserDefaults initWithUser:] 
+//       with [NSUserDefaults initWithUser:]
 - (id)initWithUVUser:(UVUser *)theUser;
 
 @end

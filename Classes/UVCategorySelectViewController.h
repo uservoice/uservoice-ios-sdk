@@ -13,9 +13,9 @@
 @class UVCategory;
 
 @interface UVCategorySelectViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
-	UVForum *forum;
-	NSArray *categories;
-	UVCategory *selectedCategory;
+    UVForum *forum;
+    NSArray *categories;
+    UVCategory *selectedCategory;
 }
 
 @property (nonatomic, retain) UVForum *forum;

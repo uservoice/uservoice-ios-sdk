@@ -7,14 +7,14 @@
 //
 
 
-// format 	             String - xml, json 	
+// format                String - xml, json
 // ticket[custom_field_values][_field_name_] String - Replace _field_name_ with the name of your custom field
-// ticket[lang] 	     String 				
-// ticket[message] 	     String - required 			
-// ticket[referrer] 	 String 				
-// ticket[subject] 	     String - required 			
+// ticket[lang]          String
+// ticket[message]       String - required
+// ticket[referrer]      String
+// ticket[subject]       String - required
 // ticket[submitted_via] String - Your name for where this ticket came from (ex: web, email)
-// ticket[user_agent] 	 String 				
+// ticket[user_agent]    String
 
 #import "UVTicket.h"
 #import "UVCustomField.h"
@@ -24,27 +24,27 @@
 @implementation UVTicket
 
 + (void)initialize {
-	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-	[self setBaseURL:[self siteURL]];
+    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
+    [self setBaseURL:[self siteURL]];
 }
 
 + (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
         andCustomFields:(NSDictionary *)fields
             andDelegate:(id)delegate {
-	NSString *path = [self apiPath:@"/tickets.json"];
-	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSString *path = [self apiPath:@"/tickets.json"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         message == nil ? @"" : message, @"ticket[message]",
         email   == nil ? @"" : email,   @"email",
         nil];
     for (NSString *name in [fields keyEnumerator]) {
         [params setObject:[fields objectForKey:name] forKey:[NSString stringWithFormat:@"ticket[custom_field_values][%@]", name]];
     }
-    
-	return [[self class] postPath:path
-					   withParams:params
-						   target:delegate
-						 selector:@selector(didCreateTicket:)];
+
+    return [[self class] postPath:path
+                       withParams:params
+                           target:delegate
+                         selector:@selector(didCreateTicket:)];
 }
 
 @end

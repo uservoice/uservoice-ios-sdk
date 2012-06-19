@@ -12,7 +12,7 @@
 @class UVCustomField;
 
 @interface UVCustomFieldValueSelectViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource>  {
-	UVCustomField *customField;
+    UVCustomField *customField;
     NSMutableDictionary *valueDictionary;
 }
 

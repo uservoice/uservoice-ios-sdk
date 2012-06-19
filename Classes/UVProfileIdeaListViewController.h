@@ -12,9 +12,9 @@
 @class UVUser;
 
 @interface UVProfileIdeaListViewController : UVSuggestionListViewController {
-	NSString *title;
-	UVUser *user;
-	BOOL showCreated;
+    NSString *title;
+    UVUser *user;
+    BOOL showCreated;
 }
 
 @property (nonatomic, retain) NSString *title;

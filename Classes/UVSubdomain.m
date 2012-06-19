@@ -21,29 +21,29 @@
 @synthesize defaultSort;
 
 + (void)initialize {
-	[self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-	[self setBaseURL:[self siteURL]];
+    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
+    [self setBaseURL:[self siteURL]];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
-		// get statuses
-		NSArray *statusDicts = [self objectOrNilForDict:dict key:@"statuses"];
-		if (statusDicts && [statusDicts count] > 0) {
-			NSMutableArray *theStatuses = [NSMutableArray arrayWithCapacity:[statusDicts count]];
-			for (NSDictionary *statusDict in statusDicts) {
-				UVStatus *status = [[UVStatus alloc] initWithDictionary:statusDict];
-				[theStatuses addObject:status];
-				[status release];
-			}
-			self.statuses = theStatuses;
-		}
-		self.subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [self objectOrNilForDict:dict key:@"name"];
-		self.host = [self objectOrNilForDict:dict key:@"host"];
+    if (self = [super init]) {
+        // get statuses
+        NSArray *statusDicts = [self objectOrNilForDict:dict key:@"statuses"];
+        if (statusDicts && [statusDicts count] > 0) {
+            NSMutableArray *theStatuses = [NSMutableArray arrayWithCapacity:[statusDicts count]];
+            for (NSDictionary *statusDict in statusDicts) {
+                UVStatus *status = [[UVStatus alloc] initWithDictionary:statusDict];
+                [theStatuses addObject:status];
+                [status release];
+            }
+            self.statuses = theStatuses;
+        }
+        self.subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        self.name = [self objectOrNilForDict:dict key:@"name"];
+        self.host = [self objectOrNilForDict:dict key:@"host"];
         self.defaultSort = [self objectOrNilForDict:dict key:@"default_sort"];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (NSString *)ideasHeading {
@@ -65,12 +65,12 @@
 }
 
 - (void)dealloc {
-	self.name = nil;
-	self.key = nil;
-	self.host = nil;
-	self.statuses = nil;
+    self.name = nil;
+    self.key = nil;
+    self.host = nil;
+    self.statuses = nil;
     self.defaultSort = nil;
-	[super dealloc];
+    [super dealloc];
 }
 
 @end

@@ -42,19 +42,19 @@ static UVStyleSheet *styleSheet;
 }
 
 + (UIColor *)backgroundColor {
-	return [[self styleSheet] backgroundColor];
+    return [[self styleSheet] backgroundColor];
 }
 
 + (UIColor *)zebraBgColor:(BOOL)dark {
-	return dark ? [self darkZebraBgColor] : [self lightZebraBgColor];
+    return dark ? [self darkZebraBgColor] : [self lightZebraBgColor];
 }
 
 + (UIColor *)darkZebraBgColor {
-	return [[self styleSheet] darkZebraBgColor];
+    return [[self styleSheet] darkZebraBgColor];
 }
 
 + (UIColor *)lightZebraBgColor {
-	return [[self styleSheet] lightZebraBgColor];
+    return [[self styleSheet] lightZebraBgColor];
 }
 
 + (UIColor *)bottomSeparatorColor {
@@ -90,11 +90,11 @@ static UVStyleSheet *styleSheet;
 }
 
 + (UIColor *)tableViewHeaderColor {
-	return [[self styleSheet] tableViewHeaderColor];
+    return [[self styleSheet] tableViewHeaderColor];
 }
 
 + (UIColor *)tableViewHeaderShadowColor {
-	return [[self styleSheet] tableViewHeaderShadowColor];
+    return [[self styleSheet] tableViewHeaderShadowColor];
 }
 
 - (UIColor *)tableViewHeaderShadowColor {
@@ -102,51 +102,51 @@ static UVStyleSheet *styleSheet;
 }
 
 + (UIColor *)linkTextColor {
-	return [[self styleSheet] linkTextColor];
+    return [[self styleSheet] linkTextColor];
 }
 
 + (UIColor *)alertTextColor {
-	return [[self styleSheet] alertTextColor];
+    return [[self styleSheet] alertTextColor];
 }
 
 - (UIColor *)primaryTextColor {
-	return [UIColor colorWithRed:0.102 green:0.102 blue:0.102 alpha:1.0];
+    return [UIColor colorWithRed:0.102 green:0.102 blue:0.102 alpha:1.0];
 }
 
 - (UIColor *)secondaryTextColor {
-	return [UIColor lightGrayColor];
+    return [UIColor lightGrayColor];
 }
 
 - (UIColor *)signedInUserTextColor {
-	return [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
+    return [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
 }
 
 - (UIColor *)labelTextColor {
-	return [UIColor grayColor];
+    return [UIColor grayColor];
 }
 
 - (UIColor *)backgroundColor {
-	return [UIColor colorWithRed:0.902 green:0.902 blue:0.902 alpha:1.0];
+    return [UIColor colorWithRed:0.902 green:0.902 blue:0.902 alpha:1.0];
 }
 
 - (UIColor *)darkZebraBgColor {
-	return [UIColor colorWithRed:0.851 green:0.851 blue:0.851 alpha:1.0];
+    return [UIColor colorWithRed:0.851 green:0.851 blue:0.851 alpha:1.0];
 }
 
 - (UIColor *)lightZebraBgColor {
-	return [UIColor colorWithRed:0.902 green:0.902 blue:0.902 alpha:1.0];
+    return [UIColor colorWithRed:0.902 green:0.902 blue:0.902 alpha:1.0];
 }
 
 - (UIColor *)tableViewHeaderColor {
-	return [UIColor colorWithRed:0.298 green:0.337 blue:0.424 alpha:1.0];
+    return [UIColor colorWithRed:0.298 green:0.337 blue:0.424 alpha:1.0];
 }
 
 - (UIColor *)linkTextColor {
-	return [UIColor colorWithRed:0.451 green:0.529 blue:0.643 alpha:1.0];
+    return [UIColor colorWithRed:0.451 green:0.529 blue:0.643 alpha:1.0];
 }
 
 - (UIColor *)alertTextColor {
-	return [UIColor colorWithRed:0.631 green:0.0 blue:0.2 alpha:1.0];
+    return [UIColor colorWithRed:0.631 green:0.0 blue:0.2 alpha:1.0];
 }
 
 - (UIColor *)navigationBarTintColor {

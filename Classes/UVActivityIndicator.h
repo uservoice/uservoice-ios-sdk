@@ -10,8 +10,8 @@
 
 
 @interface UVActivityIndicator : UIView {
-	UIActivityIndicatorView *activityIndicatorView;
-	NSInteger heightOffset;
+    UIActivityIndicatorView *activityIndicatorView;
+    NSInteger heightOffset;
 }
 
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;

@@ -16,15 +16,15 @@
 @synthesize name;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
-		self.categoryId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.name = [[self objectOrNilForDict:dict key:@"name"] stringByDecodingHTMLEntities];
-	}
-	return self;
+    if (self = [super init]) {
+        self.categoryId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        self.name = [[self objectOrNilForDict:dict key:@"name"] stringByDecodingHTMLEntities];
+    }
+    return self;
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"categoryId: %d\nname: %@", self.categoryId, self.name];
+    return [NSString stringWithFormat:@"categoryId: %d\nname: %@", self.categoryId, self.name];
 }
 
 - (void)dealloc {

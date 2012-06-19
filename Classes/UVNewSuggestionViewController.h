@@ -14,18 +14,18 @@
 @class UVCategory;
 
 @interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UVTextEditorDelegate> {
-	UVForum *forum;
-	NSString *title;
-	NSString *text;
-	NSString *name;
-	NSString *email;
-	UVTextEditor *textEditor;
-	UITextField *titleField;
-	UITextField *nameField;
-	UITextField *emailField;
-	NSInteger numVotes;
-	UVCategory *category;
-	BOOL shouldShowCategories;
+    UVForum *forum;
+    NSString *title;
+    NSString *text;
+    NSString *name;
+    NSString *email;
+    UVTextEditor *textEditor;
+    UITextField *titleField;
+    UITextField *nameField;
+    UITextField *emailField;
+    NSInteger numVotes;
+    UVCategory *category;
+    BOOL shouldShowCategories;
 }
 
 @property (nonatomic, retain) UVForum *forum;

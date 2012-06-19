@@ -15,15 +15,15 @@
 @synthesize text;
 
 - (id)initWithDictionary:(NSDictionary *)dict {
-	if (self = [super init]) {
-		self.subjectId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-		self.text = [self objectOrNilForDict:dict key:@"text"];
-	}
-	return self;
+    if (self = [super init]) {
+        self.subjectId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        self.text = [self objectOrNilForDict:dict key:@"text"];
+    }
+    return self;
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"subjectId: %d\ntext: %@", self.subjectId, self.text];
+    return [NSString stringWithFormat:@"subjectId: %d\ntext: %@", self.subjectId, self.text];
 }
 
 - (void)dealloc {

@@ -13,8 +13,8 @@
 @class UVCustomField;
 
 @interface UVNewTicketViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UVTextEditorDelegate> {
-	UVTextEditor *textEditor;
-	UITextField *emailField;
+    UVTextEditor *textEditor;
+    UITextField *emailField;
     UIView *activeField;
     NSString *text;
     NSMutableDictionary *selectedCustomFieldValues;

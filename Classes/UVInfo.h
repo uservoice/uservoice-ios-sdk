@@ -10,12 +10,12 @@
 #import "UVBaseModel.h"
 
 @interface UVInfo : UVBaseModel {
-	NSString *about_title;
-	NSString *about_body;
-	NSString *motivation_title;
-	NSString *motivation_body;
-	NSDictionary *management;
-	NSDictionary *contacts;
+    NSString *about_title;
+    NSString *about_body;
+    NSString *motivation_title;
+    NSString *motivation_body;
+    NSDictionary *management;
+    NSDictionary *contacts;
 }
 
 @property (nonatomic, retain) NSString *about_title;
