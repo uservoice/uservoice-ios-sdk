@@ -5,6 +5,7 @@
 * Show correct version number on about screen
 * Simplify loading sequence
 * Fix a bug with customizing the color of table view section headers
+* Add Traditional Chinese translation (thanks to @zetachang)
 
 ## 1.2.1 ##
 
