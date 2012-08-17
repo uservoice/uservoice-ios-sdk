@@ -288,7 +288,7 @@
     if([tmpURI host])
         return tmpURI;
         
-    return [NSURL URLWithString:[[baseURL absoluteString] stringByAppendingPathComponent:_path]];
+    return [NSURL URLWithString:[[baseURL absoluteString] stringByAppendingString:_path]];
 }
 
 - (id)formatterFromFormat {
