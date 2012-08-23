@@ -1,11 +1,14 @@
 ## master ##
 
+## 1.2.2 ##
+
 * Fix a bug with table headers on iOS 4.3
 * Fix a bug with table borders on iPad / iOS 4.3
 * Show correct version number on about screen
 * Simplify loading sequence
 * Fix a bug with customizing the color of table view section headers
 * Add Traditional Chinese translation (thanks to @zetachang)
+* Fix a bug where API calls were being made with malformed URLs
 
 ## 1.2.1 ##
 
