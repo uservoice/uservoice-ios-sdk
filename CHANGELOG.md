@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug that would cause sign-in to fail when connected to a private forum
+
 ## 1.2.2 ##
 
 * Fix a bug with table headers on iOS 4.3

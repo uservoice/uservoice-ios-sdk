@@ -69,17 +69,19 @@
 }
 
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/discover.json?email=%@", email]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/discover.json"]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];
     return [self getPath:path
-              withParams:nil
+              withParams:params
                   target:delegate
                 selector:@selector(didDiscoverUser:)];
 }
 
 + (id)discoverWithGUID:(NSString *)guid delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/discover.json?guid=%@", guid]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/discover.json"]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: guid, @"guid", nil];
     return [self getPath:path
-              withParams:nil
+              withParams:params
                   target:delegate
                 selector:@selector(didDiscoverUser:)];
 }
