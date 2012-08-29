@@ -100,8 +100,6 @@
 		D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */; };
 		D21726AD11A20396005487BA /* UVUserAvatarView.h in Headers */ = {isa = PBXBuildFile; fileRef = D21726AB11A20396005487BA /* UVUserAvatarView.h */; };
 		D21726AE11A20396005487BA /* UVUserAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D21726AC11A20396005487BA /* UVUserAvatarView.m */; };
-		D238B62512135C160008A469 /* UVStreamEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = D238B62312135C160008A469 /* UVStreamEvent.h */; };
-		D238B62612135C160008A469 /* UVStreamEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D238B62412135C160008A469 /* UVStreamEvent.m */; };
 		D2453EC611AF2AD900C7E4BA /* UVInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D2453EC411AF2AD900C7E4BA /* UVInfo.h */; };
 		D2453EC711AF2AD900C7E4BA /* UVInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2453EC511AF2AD900C7E4BA /* UVInfo.m */; };
 		D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */ = {isa = PBXBuildFile; fileRef = D24540BE11B095AA00C7E4BA /* UVSubdomain.h */; };
@@ -116,8 +114,6 @@
 		D24BE0A011DB1B7C00B26012 /* UVTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE09E11DB1B7C00B26012 /* UVTextEditor.m */; };
 		D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = D25C899311B1CE98000C0B43 /* UVStatus.h */; };
 		D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D25C899411B1CE98000C0B43 /* UVStatus.m */; };
-		D261E056121456430024F2EA /* UVStreamPoller.h in Headers */ = {isa = PBXBuildFile; fileRef = D261E054121456430024F2EA /* UVStreamPoller.h */; };
-		D261E057121456430024F2EA /* UVStreamPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = D261E055121456430024F2EA /* UVStreamPoller.m */; };
 		D2620D2E11B589FE0053EA4C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */; };
 		D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EB611B597290053EA4C /* HRFormatJSON.h */; };
 		D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EB711B597290053EA4C /* HRFormatJSON.m */; };
@@ -285,8 +281,6 @@
 		D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionButton.m; sourceTree = "<group>"; };
 		D21726AB11A20396005487BA /* UVUserAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUserAvatarView.h; sourceTree = "<group>"; };
 		D21726AC11A20396005487BA /* UVUserAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUserAvatarView.m; sourceTree = "<group>"; };
-		D238B62312135C160008A469 /* UVStreamEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStreamEvent.h; sourceTree = "<group>"; };
-		D238B62412135C160008A469 /* UVStreamEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStreamEvent.m; sourceTree = "<group>"; };
 		D2453EC411AF2AD900C7E4BA /* UVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVInfo.h; sourceTree = "<group>"; };
 		D2453EC511AF2AD900C7E4BA /* UVInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVInfo.m; sourceTree = "<group>"; };
 		D24540BE11B095AA00C7E4BA /* UVSubdomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSubdomain.h; sourceTree = "<group>"; };
@@ -314,8 +308,6 @@
 		D2605D0F144662150029F16B /* uv_user_chicklet_light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_user_chicklet_light@2x.png"; sourceTree = "<group>"; };
 		D2605D11144662150029F16B /* uv_vote_chicklet_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_vote_chicklet_empty@2x.png"; sourceTree = "<group>"; };
 		D2605D12144662150029F16B /* uv_vote_chicklet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_vote_chicklet@2x.png"; sourceTree = "<group>"; };
-		D261E054121456430024F2EA /* UVStreamPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStreamPoller.h; sourceTree = "<group>"; };
-		D261E055121456430024F2EA /* UVStreamPoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStreamPoller.m; sourceTree = "<group>"; };
 		D2620C4C11B586230053EA4C /* uv_alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_alert.png; sourceTree = "<group>"; };
 		D2620C5611B586230053EA4C /* uv_error_connection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_error_connection.png; sourceTree = "<group>"; };
 		D2620C5811B586230053EA4C /* uv_karma_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_karma_star.png; sourceTree = "<group>"; };
@@ -475,8 +467,6 @@
 				AC31242310911C8600000D5F /* UVSession.h */,
 				AC31242410911C8600000D5F /* UVSession.m */,
 				AC312B1F109914C100000D5F /* UVStyleSheet.m */,
-				D261E054121456430024F2EA /* UVStreamPoller.h */,
-				D261E055121456430024F2EA /* UVStreamPoller.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -521,8 +511,6 @@
 				D2453EC511AF2AD900C7E4BA /* UVInfo.m */,
 				D25C899311B1CE98000C0B43 /* UVStatus.h */,
 				D25C899411B1CE98000C0B43 /* UVStatus.m */,
-				D238B62312135C160008A469 /* UVStreamEvent.h */,
-				D238B62412135C160008A469 /* UVStreamEvent.m */,
 				D24540BE11B095AA00C7E4BA /* UVSubdomain.h */,
 				D24540BF11B095AA00C7E4BA /* UVSubdomain.m */,
 				AC91B26A112F213900D84566 /* UVSubject.h */,
@@ -891,8 +879,6 @@
 				D29734EB11E50B8F001B8D6E /* UIFont+UVExtras.h in Headers */,
 				D29734ED11E50B8F001B8D6E /* UIView+UVExtras.h in Headers */,
 				D297353211E50C83001B8D6E /* UVUIColorAdditions.h in Headers */,
-				D238B62512135C160008A469 /* UVStreamEvent.h in Headers */,
-				D261E056121456430024F2EA /* UVStreamPoller.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
 				D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */,
@@ -1036,8 +1022,6 @@
 				D29734EC11E50B8F001B8D6E /* UIFont+UVExtras.m in Sources */,
 				D29734EE11E50B8F001B8D6E /* UIView+UVExtras.m in Sources */,
 				D297353311E50C83001B8D6E /* UVUIColorAdditions.m in Sources */,
-				D238B62612135C160008A469 /* UVStreamEvent.m in Sources */,
-				D261E057121456430024F2EA /* UVStreamPoller.m in Sources */,
 				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
 				80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */,
 				D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */,

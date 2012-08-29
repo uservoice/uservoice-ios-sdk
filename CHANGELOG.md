@@ -1,6 +1,7 @@
 ## master ##
 
 * Fix a bug that would cause sign-in to fail when connected to a private forum
+* Remove some dead code
 
 ## 1.2.2 ##
 

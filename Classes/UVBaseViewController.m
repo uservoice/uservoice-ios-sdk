@@ -16,7 +16,6 @@
 #import "UVActivityIndicator.h"
 #import "UVNetworkUtils.h"
 #import "NSError+UVExtras.h"
-#import "UVStreamPoller.h"
 #import "UVImageCache.h"
 #import "UserVoice.h"
 #import "UVSignInViewController.h"
@@ -29,8 +28,6 @@
 @synthesize exitButton;
 
 - (void)dismissUserVoice {
-    if ([UVStreamPoller instance].timerIsRunning)
-        [[UVStreamPoller instance] stopTimer];
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] flushInteractions];
 

@@ -16,7 +16,6 @@
 #import "UVNewTicketViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVSignInViewController.h"
-#import "UVStreamPoller.h"
 #import "UVSuggestion.h"
 #import "UVArticle.h"
 #import "UVSuggestionDetailsViewController.h"

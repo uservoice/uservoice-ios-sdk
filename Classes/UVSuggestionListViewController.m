@@ -19,7 +19,6 @@
 #import "UVUser.h"
 #import "UVTextEditor.h"
 #import "UVCellViewWithIndex.h"
-#import "UVStreamPoller.h"
 #import "UVSuggestionButton.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
@@ -502,11 +501,6 @@
         if (!self.suggestions) {
 //            NSLog(@"UVSuggestionListViewController: populateSuggestions");
             [self populateSuggestions];
-        }
-
-        if (![UVStreamPoller instance].timerIsRunning) {
-            [[UVStreamPoller instance] startTimer];
-            [UVStreamPoller instance].lastPollTime = [NSDate date];
         }
     }
     [self.tableView reloadData];

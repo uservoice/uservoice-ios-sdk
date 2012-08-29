@@ -14,6 +14,4 @@
 @property(nonatomic) CGFloat width;
 @property(nonatomic) CGFloat height;
 
-- (NSString *)description;
-
 @end

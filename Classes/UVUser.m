@@ -69,7 +69,7 @@
 }
 
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/discover.json"]];
+    NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];
     return [self getPath:path
               withParams:params
@@ -78,7 +78,7 @@
 }
 
 + (id)discoverWithGUID:(NSString *)guid delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/discover.json"]];
+    NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: guid, @"guid", nil];
     return [self getPath:path
               withParams:params
@@ -87,7 +87,7 @@
 }
 
 + (id)retrieveCurrentUser:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/current.json"]];
+    NSString *path = [self apiPath:@"/users/current.json"];
     [self useHTTPS:YES];
     return [self getPath:path
               withParams:nil
@@ -97,7 +97,7 @@
 
 // only called when instigated by the user, creates a global user
 + (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users.json"]];
+    NSString *path = [self apiPath:@"/users.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aName == nil ? @"" : aName, @"user[name]",
                             anEmail == nil ? @"" : anEmail, @"user[email]",
@@ -112,7 +112,7 @@
 
 // two methods for creating with the client, create local users
 + (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/find_or_create.json"]];
+    NSString *path = [self apiPath:@"/users/find_or_create.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aGUID, @"user[guid]",
                             aName == nil ? @"" : aName, @"user[name]",
@@ -127,7 +127,7 @@
 }
 
 + (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/find_or_create.json"]];
+    NSString *path = [self apiPath:@"/users/find_or_create.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aToken, @"sso",
                             [UVSession currentSession].currentToken.oauthToken.key, @"request_token",
@@ -151,7 +151,7 @@
 }
 
 - (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate {
-    NSString *path = [UVUser apiPath:[NSString stringWithFormat:@"/users/forgot_password.json"]];
+    NSString *path = [UVUser apiPath:@"/users/forgot_password.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             anEmail, @"user[email]",
                             nil];
