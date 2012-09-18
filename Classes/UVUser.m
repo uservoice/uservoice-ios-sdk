@@ -99,7 +99,7 @@
 + (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
     NSString *path = [self apiPath:@"/users.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            aName == nil ? @"" : aName, @"user[name]",
+                            aName == nil ? @"" : aName, @"user[display_name]",
                             anEmail == nil ? @"" : anEmail, @"user[email]",
                             [UVSession currentSession].currentToken.oauthToken.key, @"request_token",
                             nil];
@@ -115,7 +115,7 @@
     NSString *path = [self apiPath:@"/users/find_or_create.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aGUID, @"user[guid]",
-                            aName == nil ? @"" : aName, @"user[name]",
+                            aName == nil ? @"" : aName, @"user[display_name]",
                             anEmail == nil ? @"" : anEmail, @"user[email]",
                             [UVSession currentSession].currentToken.oauthToken.key, @"request_token",
                             nil];

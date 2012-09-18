@@ -66,9 +66,6 @@
 
 - (void)didRevokeToken:(UVUser *)aUser {
     [self hideActivityIndicator];
-    [[UVSession currentSession].currentToken remove];
-    [UVSession currentSession].user = nil;
-
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

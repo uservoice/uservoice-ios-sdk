@@ -41,10 +41,13 @@
 - (id)revoke:(id) delegate {
     NSString *path = [UVToken apiPath:[NSString stringWithFormat:@"/oauth/revoke.json"]];
 
-    return [[self class] getPath:path
-                      withParams:nil
-                          target:delegate
-                        selector:@selector(didRevokeToken:)];
+    id returnValue = [[self class] getPath:path
+                                withParams:nil
+                                    target:delegate
+                                  selector:@selector(didRevokeToken:)];
+    [self remove];
+    [UVSession currentSession].user = nil;
+    return returnValue;
 }
 
 // check to see if a token exists on the device and if so load it
