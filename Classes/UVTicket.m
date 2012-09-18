@@ -19,7 +19,8 @@
 #import "UVTicket.h"
 #import "UVCustomField.h"
 #import "UVResponseDelegate.h"
-
+#import "UVSession.h"
+#import "UVConfig.h"
 
 @implementation UVTicket
 
@@ -37,6 +38,12 @@
         message == nil ? @"" : message, @"ticket[message]",
         email   == nil ? @"" : email,   @"email",
         nil];
+
+    NSDictionary *defaultFields = [UVSession currentSession].config.customFields;
+    for (NSString *name in [defaultFields keyEnumerator]) {
+        [params setObject:[defaultFields objectForKey:name] forKey:[NSString stringWithFormat:@"ticket[custom_field_values][%@]", name]];
+    }
+
     for (NSString *name in [fields keyEnumerator]) {
         [params setObject:[fields objectForKey:name] forKey:[NSString stringWithFormat:@"ticket[custom_field_values][%@]", name]];
     }

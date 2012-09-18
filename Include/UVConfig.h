@@ -29,6 +29,7 @@
 @property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *guid;
+@property (nonatomic, retain) NSDictionary *customFields;
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret;
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken;
