@@ -1,6 +1,7 @@
 ## master ##
 
 * Add support for setting custom fields programmatically
+* Add support for armv7s (iPhone 5)
 
 ## 1.2.3 ##
 
