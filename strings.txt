@@ -161,7 +161,7 @@
 		fr = Créé %d %@
 		it = Creata %d %@
 		zh-Hant = 建立於 %1$d %2$@
-		nl = Gemaakt op %1$d %2$@
+		nl = %1$d %2$@ aangemaakt
 	[Created by]
 		en = Created by
 		fr = Créé par
@@ -438,7 +438,7 @@
 		en = Supporting %d %@
 		it = Supporto %d %@
 		zh-Hant = 支持了 %d %@
-		nl = Ondersteuning %d %@
+		nl = Steunt %d %@
 	[There appears to be a problem with your network connection, please check your connectivity and try again.]
 		en = There appears to be a problem with your network connection, please check your connectivity and try again.
 		fr = Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.
