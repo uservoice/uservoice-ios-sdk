@@ -23,6 +23,7 @@
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = viewControllers;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [parentViewController presentModalViewController:navigationController animated:YES];
 }
 
