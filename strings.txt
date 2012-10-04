@@ -347,7 +347,7 @@
 		en = New Suggestion
 		it = Nuovo Suggerimento
 		zh-Hant = 新增建議
-		nl = Nieuwe suggestie
+		nl = Nieuw idee
 	[OK]
 		en = OK
 		zh-Hant = 沒問題
@@ -362,7 +362,7 @@
 		en = Please enter your email address before submitting your suggestion.
 		it = Inserisci la tua email prima di inserire un suggerimento.
 		zh-Hant = 在提供你的建議前，請先填入你的 email。
-		nl = Vul eerst uw e-mailadres in voor het indienen van uw suggestie
+		nl = Vul eerst uw e-mailadres in voor het indienen van uw idee.
 	[Please enter your email address before submitting your ticket.]
 		en = Please enter your email address before submitting your ticket.
 		fr = Merci d'enregister votre email avant de soumettre votre proposition.
@@ -442,7 +442,7 @@
 		fr = Succès
 		it = Successo
 		zh-Hant = 成功
-		nl = Success
+		nl = Succes
 	[Supporting %d %@]
 		en = Supporting %d %@
 		it = Supporto %d %@
@@ -513,7 +513,7 @@
 		fr = Voter pour cette suggestion n'est plus possible et votre %d %@ vous a été retourné.
 		it = Le votazioni per questo suggerimento sono stati chiusi e il tuo voto %d %@ ti sarà ridato
 		zh-Hant = 這個建議已經關閉投票功能，你的 %d %@ 已經歸還給你。
-		nl = Stemmen voor deze suggestie is nu gesloten en uw %d %@ zijn aan u geretourneerd.
+		nl = De stemming voor dit idee is nu gesloten en uw %d %@ zijn aan u geretourneerd.
 	[Want to send a private message instead?]
 		en = Want to send a private message instead?
 		it = Vuoi inviare invece un messaggio privato?
