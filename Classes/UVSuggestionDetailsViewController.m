@@ -209,8 +209,10 @@
         }
 
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
-        if (label)
+        if (label) {
+            [label setHidden:NO];
             [self setVoteLabelTextAndColorForLabel:label];
+        }
     } else {
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
         [label setHidden:YES];
