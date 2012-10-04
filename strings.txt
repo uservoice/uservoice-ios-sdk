@@ -281,6 +281,15 @@
 		it = Idea Supportata
 		zh-Hant = 被支持的想法
 		nl = Gesteunde Ideeën 
+	[New Ideas]
+		en = New Ideas
+		nl = Nieuwe Ideeën
+	[Hot Ideas]
+		en = Hot Ideas
+		nl = Populaire Ideeën
+	[Top Ideas]
+		en = Top Ideas
+		nl = Top Ideeën
 	[Load more comments...]
 		en = Load more comments...
 		fr = Télécharger plus de commentaires...
