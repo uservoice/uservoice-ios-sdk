@@ -71,9 +71,9 @@
 }
 
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
-    NSLog(@"Voted for suggestion: %@", theSuggestion);
+    NSLog(@"Voted for suggestion: %@: %d", theSuggestion, theSuggestion.votesRemaining);
 
-    [UVSession currentSession].clientConfig.forum.votesRemaining = theSuggestion.votesRemaining;
+    [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
 
@@ -124,7 +124,7 @@
 }
 
 - (void)setVoteLabelTextAndColorForLabel:(UILabel *)label {
-    NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
+    NSInteger votesRemaining = [UVSession currentSession].user.votesRemaining;
     [self setVoteLabelTextAndColorForVotesRemaining:votesRemaining label:label];
 }
 
@@ -201,7 +201,7 @@
     UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
     if ([UVSession currentSession].user != nil) {
         segments.selectedSegmentIndex = self.suggestion.votesFor;
-        NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
+        NSInteger votesRemaining = [UVSession currentSession].user.votesRemaining;
         for (int i = 0; i < segments.numberOfSegments; i++) {
             NSInteger votesNeeded = i - self.suggestion.votesFor;
             BOOL enabled = votesNeeded <= votesRemaining;

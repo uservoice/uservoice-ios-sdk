@@ -27,6 +27,7 @@
 @synthesize info;
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
+@synthesize user;
 
 + (UVSession *)currentSession {
     static UVSession *currentSession;
@@ -47,25 +48,6 @@
 
 - (BOOL)loggedIn {
     return self.user != nil;
-}
-
-- (UVUser *)user {
-    return user;
-}
-
-- (void)setUser:(UVUser *)theUser {
-    if (theUser != user) {
-        UVUser *oldUser = [user retain];
-
-        [user release];
-        user = [theUser retain];
-
-        // reload the topic because it owns the number of available votes for the current user
-        if (oldUser != nil && clientConfig) {
-            [UVClientConfig getWithDelegate:self];
-        }
-        [oldUser release];
-    }
 }
 
 - (id)init {

@@ -89,36 +89,36 @@
     }
 }
 
+// Initialization: request token -> client config -> user -> persist the access token -> user's suggestions -> next view
+// If we don't have either a configured user, or a persisted token (which is therefore an access token) then we go straight from the client config to the next view
 - (void)didRetrieveRequestToken:(UVToken *)token {
     // should be storing all tokens and checking on type
     [UVSession currentSession].currentToken = token;
+    [UVClientConfig getWithDelegate:self];
+}
 
+- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
     // check if we have a sso token and if so exchange it for an access token and user
     if ([UVSession currentSession].config.ssoToken != nil) {
         [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
     } else if ([UVSession currentSession].config.email != nil) {
         [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
+    } else if ([UVToken exists]) {
+        [UVUser retrieveCurrentUser:self];
     } else {
-        [UVClientConfig getWithDelegate:self];
+        [self pushNextView];
     }
 }
 
 - (void)didCreateUser:(UVUser *)theUser {
-    // set the current user
     [UVSession currentSession].user = theUser;
-
-    // token should have been loaded by ResponseDelegate
     [[UVSession currentSession].currentToken persist];
-
-    [UVClientConfig getWithDelegate:self];
-}
-
-- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
     [self pushNextView];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
+    [[UVSession currentSession].currentToken persist];
     [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum
                                  user:theUser delegate:self];
 }
@@ -192,7 +192,6 @@
 
         // get config and current user
         [UVClientConfig getWithDelegate:self];
-        [UVUser retrieveCurrentUser:self];
     } else if (![UVSession currentSession].user) {
         NSLog(@"No user");
         // just get user

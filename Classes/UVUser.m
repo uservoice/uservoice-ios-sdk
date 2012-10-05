@@ -13,6 +13,8 @@
 #import "UVToken.h"
 #import "YOAuthToken.h"
 #import "UVConfig.h"
+#import "UVClientConfig.h"
+#import "UVForum.h"
 
 @implementation UVUser
 
@@ -30,6 +32,7 @@
 @synthesize createdSuggestions;
 @synthesize createdAt;
 @synthesize suggestionsNeedReload;
+@synthesize votesRemaining;
 
 + (void)initialize {
     [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -202,6 +205,15 @@
         }
         self.createdSuggestions = [NSMutableArray array];
         self.supportedSuggestions = [NSMutableArray array];
+        
+        NSArray *visibleForums = [self objectOrNilForDict:dict key:@"visible_forums"];
+        for (NSDictionary *forum in visibleForums) {
+            if ([(NSNumber *)[forum valueForKey:@"id"] integerValue] == [UVSession currentSession].clientConfig.forum.forumId) {
+                NSDictionary *activity = [self objectOrNilForDict:forum key:@"forum_activity"];
+                self.votesRemaining = [(NSNumber *)[activity valueForKey:@"votes_available"] integerValue];
+                NSLog(@"forumId: %d, votes: %d", [UVSession currentSession].clientConfig.forum.forumId, self.votesRemaining);
+            }
+        }
     }
     return self;
 }

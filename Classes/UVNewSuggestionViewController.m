@@ -125,7 +125,7 @@
     [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
 
     // update the remaining votes
-    [UVSession currentSession].clientConfig.forum.votesRemaining = theSuggestion.votesRemaining;
+    [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
 
     // Back out to the welcome screen
     NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
@@ -291,7 +291,7 @@
     segments.selectedSegmentIndex = 0;
     NSInteger votesRemaining = 10;
     if ([UVSession currentSession].user)
-        votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
+        votesRemaining = [UVSession currentSession].user.votesRemaining;
 
     for (int i = 0; i < segments.numberOfSegments; i++) {
         BOOL enabled = (i + 1) <= votesRemaining;
@@ -331,7 +331,7 @@
     [self removeBackgroundFromCell:cell];
     NSInteger votesRemaining = 10;
     if ([UVSession currentSession].user)
-        votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
+        votesRemaining = [UVSession currentSession].user.votesRemaining;
 
     if (votesRemaining!=0) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

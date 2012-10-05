@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a couple of bugs related to data not refreshing after sign-in
+
 ## 1.2.4 ##
 
 * Add support for setting custom fields programmatically

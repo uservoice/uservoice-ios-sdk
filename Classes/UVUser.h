@@ -23,6 +23,7 @@
     NSInteger karmaScore;
     NSInteger supportedSuggestionsCount;
     NSInteger createdSuggestionsCount;
+    NSInteger votesRemaining;
     NSString *url;
     NSString *avatarUrl;
     NSMutableArray *supportedSuggestions;
@@ -39,6 +40,7 @@
 @property (assign) NSInteger ideaScore;
 @property (assign) NSInteger activityScore;
 @property (assign) NSInteger karmaScore;
+@property (assign) NSInteger votesRemaining;
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *avatarUrl;
 @property (nonatomic, retain) NSMutableArray *supportedSuggestions;
