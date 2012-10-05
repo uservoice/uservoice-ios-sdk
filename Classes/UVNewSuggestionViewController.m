@@ -49,7 +49,7 @@
     if (self = [super init]) {
         self.forum = theForum;
         self.title = theTitle;
-        self.shouldShowCategories = self.forum.availableCategories && [self.forum.availableCategories count] > 0;
+        self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
     }
     return self;
 }
@@ -122,10 +122,10 @@
     // increment the created suggestions and supported suggestions counts
     [[UVSession currentSession].user didCreateSuggestion:theSuggestion];
 
-    [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
+    [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
 
     // update the remaining votes
-    [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
+    [UVSession currentSession].clientConfig.forum.votesRemaining = theSuggestion.votesRemaining;
 
     // Back out to the welcome screen
     NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
@@ -291,7 +291,7 @@
     segments.selectedSegmentIndex = 0;
     NSInteger votesRemaining = 10;
     if ([UVSession currentSession].user)
-        votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
+        votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
 
     for (int i = 0; i < segments.numberOfSegments; i++) {
         BOOL enabled = (i + 1) <= votesRemaining;
@@ -331,7 +331,7 @@
     [self removeBackgroundFromCell:cell];
     NSInteger votesRemaining = 10;
     if ([UVSession currentSession].user)
-        votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
+        votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
 
     if (votesRemaining!=0) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

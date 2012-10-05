@@ -73,8 +73,8 @@
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
     NSLog(@"Voted for suggestion: %@", theSuggestion);
 
-    [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining = theSuggestion.votesRemaining;
-    [UVSession currentSession].clientConfig.forum.currentTopic.suggestionsNeedReload = YES;
+    [UVSession currentSession].clientConfig.forum.votesRemaining = theSuggestion.votesRemaining;
+    [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
 
     UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
@@ -124,7 +124,7 @@
 }
 
 - (void)setVoteLabelTextAndColorForLabel:(UILabel *)label {
-    NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
+    NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
     [self setVoteLabelTextAndColorForVotesRemaining:votesRemaining label:label];
 }
 
@@ -201,7 +201,7 @@
     UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
     if ([UVSession currentSession].user != nil) {
         segments.selectedSegmentIndex = self.suggestion.votesFor;
-        NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.currentTopic.votesRemaining;
+        NSInteger votesRemaining = [UVSession currentSession].clientConfig.forum.votesRemaining;
         for (int i = 0; i < segments.numberOfSegments; i++) {
             NSInteger votesNeeded = i - self.suggestion.votesFor;
             BOOL enabled = votesNeeded <= votesRemaining;

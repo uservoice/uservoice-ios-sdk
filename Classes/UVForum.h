@@ -8,24 +8,31 @@
 
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
-#import "UVTopic.h"
 
 @interface UVForum : UVBaseModel {
     NSInteger forumId;
     BOOL isPrivate;
     NSString *name;
-    NSMutableArray *topics;
-    UVTopic *currentTopic;
+    NSString *example;
+    NSString *prompt;
+    NSInteger votesAllowed;
+    NSInteger votesRemaining;
+    NSInteger suggestionsCount;
+    NSMutableArray *categories;
+    NSMutableArray *suggestions;
+    BOOL suggestionsNeedReload;
 }
 
 @property (assign) NSInteger forumId;
 @property (assign) BOOL isPrivate;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSMutableArray *topics;
-@property (nonatomic, retain) UVTopic *currentTopic;
-
-- (NSArray *)availableCategories;
-- (NSString *)prompt;
-- (NSString *)example;
+@property (nonatomic, retain) NSString *example;
+@property (nonatomic, retain) NSString *prompt;
+@property (nonatomic, assign) NSInteger votesAllowed;
+@property (nonatomic, assign) NSInteger votesRemaining;
+@property (nonatomic, assign) NSInteger suggestionsCount;
+@property (assign) BOOL suggestionsNeedReload;
+@property (nonatomic, retain) NSMutableArray *categories;
+@property (nonatomic, retain) NSMutableArray *suggestions;
 
 @end

@@ -21,7 +21,7 @@
 - (id)initWithForum:(UVForum *)theForum andSelectedCategory:(UVCategory *)category {
     if (self = [super init]) {
         self.forum = theForum;
-        self.categories = theForum.availableCategories;
+        self.categories = theForum.categories;
         self.selectedCategory = category;
     }
     return self;

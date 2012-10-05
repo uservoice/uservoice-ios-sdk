@@ -10,7 +10,6 @@
 		6474C33614BB8D5D00F6A2F0 /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6474C33714BB8D5D00F6A2F0 /* UserVoice.h */; };
 		80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B5291C13A16A2F008709D2 /* UVCustomField.h */; };
 		80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B5291D13A16A2F008709D2 /* UVCustomField.m */; };
-		9FB0D9A31189EA2D001B2362 /* UVTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F22C9C61189132A0091745E /* UVTopic.m */; };
 		AA747D9F0F9514B9006C5449 /* UserVoice_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* UserVoice_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		AC04F4F4109A3D4A00551F2D /* UVSuggestionDetailsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC04F4F2109A3D4A00551F2D /* UVSuggestionDetailsViewController.h */; };
@@ -188,8 +187,6 @@
 		6474C33714BB8D5D00F6A2F0 /* UserVoice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UserVoice.h; path = Include/UserVoice.h; sourceTree = SOURCE_ROOT; };
 		80B5291C13A16A2F008709D2 /* UVCustomField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomField.h; sourceTree = "<group>"; };
 		80B5291D13A16A2F008709D2 /* UVCustomField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomField.m; sourceTree = "<group>"; };
-		9F22C9C51189132A0091745E /* UVTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTopic.h; sourceTree = "<group>"; };
-		9F22C9C61189132A0091745E /* UVTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTopic.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* UserVoice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AC04F4F2109A3D4A00551F2D /* UVSuggestionDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionDetailsViewController.h; sourceTree = "<group>"; };
@@ -521,8 +518,6 @@
 				D2BEEBB81367436D00EBC307 /* UVTicket.m */,
 				D24A381F11A09121005BC3F3 /* UVToken.h */,
 				D24A382011A09121005BC3F3 /* UVToken.m */,
-				9F22C9C51189132A0091745E /* UVTopic.h */,
-				9F22C9C61189132A0091745E /* UVTopic.m */,
 				AC312727109667CE00000D5F /* UVUser.h */,
 				AC312728109667CE00000D5F /* UVUser.m */,
 			);
@@ -988,7 +983,6 @@
 				AC91B50311349B6600D84566 /* UVUserButton.m in Sources */,
 				ACBA824B11399A2B006D5219 /* UVActivityIndicator.m in Sources */,
 				ACBA71221182B6CB000D0A0B /* UVNetworkUtils.m in Sources */,
-				9FB0D9A31189EA2D001B2362 /* UVTopic.m in Sources */,
 				D2D7B23B119D04E1003EDD3A /* UVProfileEditViewController.m in Sources */,
 				D24A3492119F351A005BC3F3 /* UVSignInViewController.m in Sources */,
 				D24A382211A09121005BC3F3 /* UVToken.m in Sources */,

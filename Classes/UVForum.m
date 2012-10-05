@@ -8,15 +8,21 @@
 
 #import "UVForum.h"
 #import "UVResponseDelegate.h"
-
+#import "UVCategory.h"
 
 @implementation UVForum
 
 @synthesize forumId;
 @synthesize isPrivate;
 @synthesize name;
-@synthesize topics;
-@synthesize currentTopic;
+@synthesize example;
+@synthesize prompt;
+@synthesize votesAllowed;
+@synthesize votesRemaining;
+@synthesize categories;
+@synthesize suggestions;
+@synthesize suggestionsNeedReload;
+@synthesize suggestionsCount;
 
 + (void)initialize {
     [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -28,17 +34,19 @@
         self.forumId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
         self.name = [self objectOrNilForDict:dict key:@"name"];
 
-        self.topics = [NSMutableArray array];
-        NSMutableArray *topicDicts = [self objectOrNilForDict:dict key:@"topics"];
-        if (topicDicts) {
-            for (NSDictionary *topicDict in topicDicts) {
-                [topics addObject:[[[UVTopic alloc] initWithDictionary:topicDict] autorelease]];
-            }
-        }
+        NSDictionary *topic = [[self objectOrNilForDict:dict key:@"topics"] objectAtIndex:0];
+        
+        self.suggestionsNeedReload = YES;
+        self.example = [topic objectForKey:@"example"];
+        self.prompt = [topic objectForKey:@"prompt"];
+        self.votesRemaining = [(NSNumber *)[topic objectForKey:@"votes_remaining"] integerValue];
+        self.votesAllowed = [(NSNumber *)[topic objectForKey:@"votes_allowed"] integerValue];
+        self.suggestionsCount = [(NSNumber *)[topic objectForKey:@"open_suggestions_count"] integerValue];
 
-        if ([topics count])
-        {
-            self.currentTopic = [topics objectAtIndex:0];
+        self.categories = [NSMutableArray array];
+        NSMutableArray *categoryDicts = [self objectOrNilForDict:topic key:@"categories"];
+        for (NSDictionary *categoryDict in categoryDicts) {
+            [self.categories addObject:[[[UVCategory alloc] initWithDictionary:categoryDict] autorelease]];
         }
     }
     return self;
@@ -48,22 +56,12 @@
     return [NSString stringWithFormat:@"forumId: %d\nname: %@", self.forumId, self.name];
 }
 
-- (NSArray *)availableCategories {
-    return currentTopic ? [currentTopic categories] : [NSArray array];
-}
-
-- (NSString *)prompt {
-    return currentTopic.prompt;
-}
-
-- (NSString *)example {
-    return currentTopic.example;
-}
-
 - (void)dealloc {
     self.name = nil;
-    self.topics = nil;
-    self.currentTopic = nil;
+    self.example = nil;
+    self.prompt = nil;
+    self.categories = nil;
+    self.suggestions = nil;
     [super dealloc];
 }
 
