@@ -104,10 +104,11 @@
 // Calculates the height of the text.
 - (CGSize)textSize {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    CGFloat margin = screenWidth > 480 ? 45 : 10;
     // Probably doesn't matter, but we might want to cache this since we call it twice.
     return [self.suggestion.text
             sizeWithFont:[UIFont systemFontOfSize:13]
-            constrainedToSize:CGSizeMake((screenWidth-20), 10000)
+       constrainedToSize:CGSizeMake(screenWidth - 2 * margin, 10000)
             lineBreakMode:UILineBreakModeWordWrap];
 }
 
