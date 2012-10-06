@@ -318,7 +318,7 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
     }
 
     if (numberOfLines) {
-        *numberOfLines = floor(newHeight / ttLineHeight);
+        *numberOfLines = ceilf(newHeight / ttLineHeight);
     }
 
     if (newHeight < minHeight) {
