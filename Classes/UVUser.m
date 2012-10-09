@@ -181,6 +181,7 @@
     NSString *path = [UVUser apiPath:@"/users/identify.json"];
     NSDictionary *payload = @{
         @"external_scope" : externalScope,
+        @"upsert" : [NSNumber numberWithBool:TRUE],
         @"identifications" : @[
             @{
                 @"id" : [NSString stringWithFormat:@"%d", self.userId],
