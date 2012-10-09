@@ -53,12 +53,7 @@
 // check to see if a token exists on the device and if so load it
 // if not get a request token from the api
 - (id)initWithExisting {
-//    NSLog(@"Loading existing token");
-    // existing token, load it
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-//    NSLog(@"Loaded access token key: %@ secret: %@",
-//          [prefs stringForKey:@"uv-iphone-k"], [prefs stringForKey:@"uv-iphone-s"]);
-
     return [self initWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                      [prefs stringForKey:@"uv-iphone-k"], @"oauth_token",
                                      [prefs stringForKey:@"uv-iphone-s"], @"oauth_token_secret", nil]];
@@ -67,7 +62,6 @@
 + (id)getRequestTokenWithDelegate:(id)delegate {
     NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/request_token.json"]];
 
-//    NSLog(@"Requesting request token");
     return [self getPath:path
               withParams:nil
                   target:delegate
@@ -87,9 +81,7 @@
                 selector:@selector(didRetrieveAccessToken:)];
 }
 
-// save token
 - (void)persist {
-//    NSLog(@"Persisting token");
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 
     [prefs setObject:self.oauthToken.key forKey:@"uv-iphone-k"];

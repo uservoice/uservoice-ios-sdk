@@ -172,8 +172,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"View will appear (RootView)");
-
     if (![UVNetworkUtils hasInternetAccess]) {
         UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
         self.navigationController.navigationBarHidden = NO;
@@ -184,21 +182,14 @@
         [self.view addSubview:serverErrorImage];
         [serverErrorImage release];
     } else if (![UVToken exists]) {
-        NSLog(@"No access token");
         [UVToken getRequestTokenWithDelegate:self];
     } else if (![[UVSession currentSession] clientConfig]) {
-        NSLog(@"No client config");
         [UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
-
-        // get config and current user
         [UVClientConfig getWithDelegate:self];
     } else if (![UVSession currentSession].user) {
-        NSLog(@"No user");
-        // just get user
         [UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
         [UVUser retrieveCurrentUser:self];
     } else {
-        NSLog(@"Already loaded");
         // We already have a client config, because the user already logged in before during
         // this session. Skip straight to the welcome view.
         [self pushNextView];

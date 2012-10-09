@@ -27,8 +27,6 @@
 {
 	NSData *secretData = [aSecret dataUsingEncoding:NSUTF8StringEncoding];
     NSData *clearTextData = [aSignableString dataUsingEncoding:NSUTF8StringEncoding];
-//	NSLog(@"Secret: %@", aSecret);
-//	NSLog(@"Signable: %@", aSignableString);
 	
     uint8_t digest[CC_SHA1_DIGEST_LENGTH] = {0};
 	

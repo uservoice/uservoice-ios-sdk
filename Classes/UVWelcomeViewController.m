@@ -206,8 +206,6 @@
 
     self.forum = [UVSession currentSession].clientConfig.forum;
     if ([self needsReload]) {
-        NSLog(@"WelcomeView needs reload");
-
         [(UVFooterView *)tableView.tableFooterView reloadFooter];
     }
 

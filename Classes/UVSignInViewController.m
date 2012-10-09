@@ -113,7 +113,6 @@
 
 - (void)didReceiveError:(NSError *)error {
     [self hideActivityIndicator];
-    NSLog(@"SignIn Error");
     if ([error isNotFoundError]) {
         self.userType = UV_USER_NEW;
         [self hideActivityIndicator];
@@ -146,13 +145,10 @@
     // head back to whichever view launched the login section
     [UVSession currentSession].user = theUser;
     self.user = theUser;
-    NSLog(@"Found user");
 
     if (theUser.suggestionsNeedReload) {
         [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum
                                      user:theUser delegate:self];
-        NSLog(@"Get suggestions");
-
     } else {
         [self hideActivityIndicator];
 
@@ -330,21 +326,15 @@
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-//    NSLog(@"textFieldShouldEndEditing %@", textField.text);
     if (textField==emailField) {
-        NSLog(@"Check email");
         [self checkEmail];
-
     } else if (textField==passwordField) {
-        NSLog(@"Check password");
         [self checkPassword];
     }
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-//    NSLog(@"textFieldShouldReturn %@", textField.text);
-
     [textField resignFirstResponder];
     return YES;
 }

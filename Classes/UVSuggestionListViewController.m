@@ -63,7 +63,6 @@
 - (void)retrieveMoreSuggestions {
     NSInteger page = ([self.suggestions count] / SUGGESTIONS_PAGE_SIZE) + 1;
     [self showActivityIndicator];
-    //NSLog(@"retrieveMoreSuggestions: %@", self.forum);
     [UVSuggestion getWithForum:self.forum page:page delegate:self];
 }
 
@@ -79,9 +78,7 @@
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
     [self hideActivityIndicator];
     if ([theSuggestions count] > 0) {
-        //NSLog(@"Retrieved Suggestions: %@", theSuggetions);
         [self.suggestions addObjectsFromArray:theSuggestions];
-        //NSLog(@"Stored Suggestions: %@", self.suggestions);
     }
 
     [[UVSession currentSession].clientConfig.forum.suggestions addObjectsFromArray:theSuggestions];
@@ -190,12 +187,9 @@
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    // getting the cell size
-    //CGRect contentRect = cell.contentView.bounds;
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
     UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row andFrame:contentRect];
-    //    NSLog(@"Init suggestion with index: %d", indexPath.row);
 
     button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
     [cell.contentView addSubview:button];
@@ -205,8 +199,6 @@
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    //    NSLog(@"Customize suggestion with index: %d", indexPath.row);
-
     UVSuggestion *suggestion = [[self suggestions] objectAtIndex:(_searching ? indexPath.row-1 : indexPath.row)];
     UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
     [button setZebraColorFromIndex:indexPath.row];
@@ -214,9 +206,6 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    //NSLog(@"Load more index: %d", indexPath.row);
-
-    //CGRect contentRect = cell.contentView.bounds;
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
     UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
@@ -264,10 +253,8 @@
     NSInteger suggestionsCount = [UVSession currentSession].clientConfig.forum.suggestionsCount;
 
     if (_searching) {
-        NSLog(@"Adding extra row for 'add'");
         // One cell per suggestion + one for "add"
         rows = loadedCount + 1;
-
     } else {
         // One cell per suggestion + "Load More"
         rows = [self.suggestions count] + (loadedCount>=suggestionsCount || suggestionsCount<SUGGESTIONS_PAGE_SIZE ? 0 : 1);
@@ -377,7 +364,6 @@
 }
 
 - (BOOL)textEditorShouldReturn:(UVTextEditor *)theTextEditor {
-    NSLog(@"Check for: %@", self.textEditor.text);
     [self showActivityIndicator];
     [self.textEditor resignFirstResponder];
     _searching = YES;
@@ -391,11 +377,8 @@
 }
 
 - (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
-    //NSLog(@"textEditorDidEndEditing");
-
     // reset nav
     if (_textEditor.text) {
-        //NSLog(@"setLeftBarButtonClear");
         [self setLeftBarButtonClear];
     }
 
@@ -483,9 +466,7 @@
 }
 
 - (void)reloadTableData {
-//    NSLog(@"UVSuggestionListViewController: reloadTableData");
     self.suggestions = [UVSession currentSession].clientConfig.forum.suggestions;
-
     [self.tableView reloadData];
 }
 
@@ -493,13 +474,11 @@
     [super viewWillAppear:animated];
 
     if (self.forum) {
-//        NSLog(@"UVSuggestionListViewController: reloadSuggestions");
         if ([UVSession currentSession].clientConfig.forum.suggestionsNeedReload) {
             self.suggestions = nil;
         }
 
         if (!self.suggestions) {
-//            NSLog(@"UVSuggestionListViewController: populateSuggestions");
             [self populateSuggestions];
         }
     }

@@ -140,7 +140,7 @@
 }
 
 + (void)didReceiveError:(NSError *)error callback:(NSInvocation *)callback {
-    NSLog(@"[UVBaseModel didReceiveError]: %@", error);
+    NSLog(@"UserVoice SDK network error: %@", error);
     [callback.target performSelector:@selector(didReceiveError:) withObject:error];
 }
 

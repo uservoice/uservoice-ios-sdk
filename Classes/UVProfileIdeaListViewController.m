@@ -72,7 +72,6 @@
     [super viewWillAppear:animated];
 
     if (self.user.suggestionsNeedReload) {
-        NSLog(@"Reloading User Suggestions");
         [self reloadUserSuggestions];
     }
 }

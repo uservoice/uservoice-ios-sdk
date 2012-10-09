@@ -264,7 +264,6 @@ autoresizesToText = _autoresizesToText, showsExtraLine= _showsExtraLine;
 }
 
 - (void)createTextView {
-    NSLog(@"Create textview in UVTextEditor");
     if (!_textView) {
         _textView = [[UVTextView alloc] init];
         _textView.delegate = _internal;

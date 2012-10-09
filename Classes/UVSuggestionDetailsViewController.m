@@ -71,8 +71,6 @@
 }
 
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
-    NSLog(@"Voted for suggestion: %@: %d", theSuggestion, theSuggestion.votesRemaining);
-
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;

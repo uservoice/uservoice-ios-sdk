@@ -96,9 +96,7 @@
 }
 
 - (void)updateWithSuggestion:(UVSuggestion *)suggestion style:(UVSuggestionChickletStyle)style {
-    //UIImageView *imageView = (UIImageView *)[self viewWithTag:UV_CHICKLET_TAG_IMAGE];
     NSString *imageName = suggestion.status ? @"uv_vote_chicklet.png" : @"uv_vote_chicklet_empty.png";
-    //NSLog(@"imageName: %@\n", imageName);
     backgroundImageView.image = [UIImage imageNamed:imageName];
     if (!suggestion.status)
         backgroundImageView.frame = CGRectMake(0, 0, 60, 44);
@@ -109,14 +107,10 @@
 
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    //UILabel *label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_COUNT];
     voteNumLabel.text = [formatter stringFromNumber:[NSNumber numberWithInteger:suggestion.voteCount]];
     [formatter release];
 
-    //label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_VOTES_LABEL];
     voteLabel.text = suggestion.voteCount == 1 ? NSLocalizedStringFromTable(@"vote", @"UserVoice", nil) : NSLocalizedStringFromTable(@"votes", @"UserVoice", nil);
-
-    //label = (UILabel *)[self viewWithTag:UV_CHICKLET_TAG_STATUS];
     statusLabel.text = suggestion.status == nil ? @"" : suggestion.status;
 }
 

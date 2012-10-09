@@ -23,17 +23,13 @@
 }
 
 - (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data {
-    //NSLog(@"Recieving data. Incoming Size: %i  Total Size: %i", [data length], [_payload length]);
     [_payload appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)conn {
-    //NSLog(@"Connection returned: %i", [_payload length]);
     UIImage *anImage = [UIImage imageWithData:_payload];
-    //NSLog(@"Image: %@", anImage);
 
     if (anImage) {
-        //NSLog(@"Calling image setter");
         self.image = anImage;
         [self setNeedsDisplay];
         [[UVImageCache sharedInstance] setImage:self.image forURL:_URL];
@@ -41,7 +37,6 @@
 
     self.connection = nil;
     self.payload = nil;
-    //NSLog(@"Connection finished: %@", conn);
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error {
@@ -67,7 +62,6 @@
 
 - (void)setImage:(UIImage*)image {
     if (image != _image) {
-        //NSLog(@"Setting image");
         [_image release];
         _image = [image retain];
     }

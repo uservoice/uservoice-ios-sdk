@@ -34,9 +34,7 @@
     if (image) {
         [mostRecentlyUsed removeObject:url];
         [mostRecentlyUsed insertObject:url atIndex:0];
-//        NSLog(@"hit %@", url);
     } else {
-//        NSLog(@"miss %@", url);
     }
     return image;
 }
@@ -46,17 +44,14 @@
         [cache setObject:image forKey:url];
         [mostRecentlyUsed removeObject:url];
         [mostRecentlyUsed insertObject:url atIndex:0];
-//        NSLog(@"overwrite %@", url);
     } else {
         if ([cache count] == maxItems) {
             id lru = [mostRecentlyUsed lastObject];
             [cache removeObjectForKey:lru];
             [mostRecentlyUsed removeObject:lru];
-//            NSLog(@"evict %@", lru);
         }
         [cache setObject:image forKey:url];
         [mostRecentlyUsed insertObject:url atIndex:0];
-//        NSLog(@"add %@", url);
     }
 }
 

@@ -49,9 +49,7 @@
 
 + (id)getWithUserId:(NSInteger)userId delegate:(id)delegate {
     NSString *key = [NSString stringWithFormat:@"%d", userId];
-//    NSLog(@"Checking cache for user with id: %@", key);
     id cachedUser = [[UVSession currentSession].userCache objectForKey:key];
-//    NSLog(@"Cache returned: %@", cachedUser);
 
     if (cachedUser && ![[NSNull null] isEqual:cachedUser]) {
         // gonna fake the call and pass the cached user back to the selector
@@ -148,7 +146,6 @@
     NSString *key = [NSString stringWithFormat:@"%d", user.userId];
 
     if ([[UVSession currentSession].userCache objectForKey:key]==nil) {
-        //NSLog(@"Adding user to cache [%@]: %@", key, model);
         [[UVSession currentSession].userCache setObject:model forKey:key];
     }
 }
@@ -211,7 +208,6 @@
             if ([(NSNumber *)[forum valueForKey:@"id"] integerValue] == [UVSession currentSession].clientConfig.forum.forumId) {
                 NSDictionary *activity = [self objectOrNilForDict:forum key:@"forum_activity"];
                 self.votesRemaining = [(NSNumber *)[activity valueForKey:@"votes_available"] integerValue];
-                NSLog(@"forumId: %d, votes: %d", [UVSession currentSession].clientConfig.forum.forumId, self.votesRemaining);
             }
         }
     }

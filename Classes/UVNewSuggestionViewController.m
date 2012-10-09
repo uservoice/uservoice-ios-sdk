@@ -55,10 +55,8 @@
 }
 
 - (void)didReceiveError:(NSError *)error {
-    NSLog(@"Got error: %@", [error userInfo]);
     if ([error isNotFoundError]) {
         [self hideActivityIndicator];
-        NSLog(@"No user");
     } else if ([error isUVRecordInvalidForField:@"title" withMessage:@"is not allowed."]) {
         [self hideActivityIndicator];
         [self alertError:NSLocalizedStringFromTable(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", nil)];
@@ -187,7 +185,6 @@
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     if (textField==emailField) {
-        NSLog(@"Check email");
         [nameField resignFirstResponder];
         [textEditor resignFirstResponder];
         [self checkEmail];

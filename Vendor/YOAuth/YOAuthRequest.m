@@ -59,8 +59,7 @@
 - (NSString *)signableString
 {
 	NSMutableArray *signableObjects = [[NSMutableArray alloc] init];	
-	//NSLog(@"signableString: %@, %@, %@", HTTPMethod, url, [self signableParameters]);
-	
+
 	[signableObjects addObject:[HTTPMethod URLEncodedString]];
 	[signableObjects addObject:[[url absoluteString] URLEncodedString]];
 	[signableObjects addObject:[[self signableParameters] URLEncodedString]];
