@@ -1,6 +1,7 @@
 ## master ##
 
 * Fix a couple of bugs related to data not refreshing after sign-in
+* Add Dutch translation (thanks to nvh)
 
 ## 1.2.4 ##
 
@@ -19,13 +20,13 @@
 * Show correct version number on about screen
 * Simplify loading sequence
 * Fix a bug with customizing the color of table view section headers
-* Add Traditional Chinese translation (thanks to @zetachang)
+* Add Traditional Chinese translation (thanks to zetachang)
 * Fix a bug where API calls were being made with malformed URLs
 
 ## 1.2.1 ##
 
 * Track instant answers for analytics
-* Add Italian translation (thanks to @Piero87)
+* Add Italian translation (thanks to Piero87)
 
 ## 1.2.0 ##
 
