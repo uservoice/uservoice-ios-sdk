@@ -177,6 +177,25 @@
                         selector:@selector(didUpdateUser:)];
 }
 
+- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate {
+    NSString *path = [UVUser apiPath:@"/users/identify.json"];
+    NSDictionary *payload = @{
+        @"external_scope" : externalScope,
+        @"identifications" : @[
+            @{
+                @"id" : [NSString stringWithFormat:@"%d", self.userId],
+                @"external_id" : externalId
+            }
+        ]
+    };
+    
+    [[self class] useHTTPS:YES];
+    return [[self class] putPath:path
+                        withJSON:payload
+                          target:delegate
+                        selector:@selector(didIdentifyUser:)];
+}
+
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];

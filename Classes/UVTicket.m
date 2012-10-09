@@ -38,6 +38,10 @@
         message == nil ? @"" : message, @"ticket[message]",
         email   == nil ? @"" : email,   @"email",
         nil];
+    
+    if ([UVSession currentSession].crittercismId) {
+        [params setValue:[UVSession currentSession].crittercismId forKey:@"external_ids[crittercism]"];
+    }
 
     NSDictionary *defaultFields = [UVSession currentSession].config.customFields;
     for (NSString *name in [defaultFields keyEnumerator]) {

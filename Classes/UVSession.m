@@ -27,7 +27,6 @@
 @synthesize info;
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
-@synthesize user;
 
 + (UVSession *)currentSession {
     static UVSession *currentSession;
@@ -59,6 +58,35 @@
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)config {
     // Do nothing. The UVClientConfig already sets the config on the current session.
+}
+
+- (UVUser *)user {
+    return user;
+}
+
+- (void)setUser:(UVUser *)newUser {
+    [newUser retain];
+    [user release];
+    user = newUser;
+    if (user && crittercismId) {
+        [user identify:crittercismId withScope:@"crittercism" delegate:self];
+    }
+}
+
+- (NSString *)crittercismId {
+    return crittercismId;
+}
+
+- (void)setCrittercismId:(NSString *)newCrittercismId {
+    [newCrittercismId retain];
+    [crittercismId release];
+    crittercismId = newCrittercismId;
+    if (user && crittercismId) {
+        [user identify:crittercismId withScope:@"crittercism" delegate:self];
+    }
+}
+
+- (void)didIdentifyUser:(UVUser *)user {
 }
 
 - (YOAuthConsumer *)yOAuthConsumer {

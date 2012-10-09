@@ -22,6 +22,7 @@
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
 + (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector;
 
 // Exposed for subclasses that need to implement their own requests
 + (NSMutableDictionary *)headersForPath:(NSString *)path params:(NSDictionary *)params method:(NSString *)method;

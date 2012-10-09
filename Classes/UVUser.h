@@ -69,6 +69,7 @@
 
 // update
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate;
+- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate;
 - (void)didSupportSuggestion:(UVSuggestion *)suggestion;
 - (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion;
 - (void)didCreateSuggestion:(UVSuggestion *)suggestion;
