@@ -107,7 +107,7 @@ You can share feedback on the [UserVoice iOS SDK forum](http://feedback.uservoic
 Translations
 ------------
 
-Currently the UI is available in English, French, Italian, and Traditional Chinese.
+Currently the UI is available in English, French, Italian, Traditional Chinese, and Dutch.
 We are using [Twine](https://github.com/mobiata/twine) to manage the translations.
 
 To contribute to the translations, follow these steps:
