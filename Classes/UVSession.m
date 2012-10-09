@@ -89,6 +89,10 @@
 - (void)didIdentifyUser:(UVUser *)user {
 }
 
+- (void)didReceiveError:(NSError *)error {
+    // identify failed
+}
+
 - (YOAuthConsumer *)yOAuthConsumer {
     if (!yOAuthConsumer) {
         yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
