@@ -4,472 +4,583 @@
 		fr = %d Commentaire
 		it = %d Commento
 		zh-Hant = %d 評論
+		nl = %d Reactie
 	[%d Comments]
 		en = %d Comments
 		fr = %d Commentaires
 		it = %d Commenti
 		zh-Hant = %d 評論
+		nl = %d Reacties
 	[%d days ago]
 		en = %d days ago
 		fr = il y a %d jours
 		it = %d giorni fa
 		zh-Hant = %d 天前
+		nl = %d dagen geleden
 	['Member since 'MMM yyyy]
 		en = 'Member since 'MMM yyyy
 		fr = 'Membre depuis 'MMM yyyy
 		it = 'Membro dal 'MMM yyyy
 		zh-Hant = '用戶註冊於 'MMM yyyy
+		nl = 'Lid sinds 'MMM yyyy
 	[0 votes]
 		en = 0 votes
 		it = 0 voti
 		zh-Hant = 0 票
+		nl = 0 stemmen
 	[1 Comment]
 		en = 1 Comment
 		fr = 1 Commentaire
 		it = 1 Commento
 		zh-Hant = 1 評論
+		nl = 1 Reactie
 	[1 vote]
 		en = 1 vote
 		it = 1 voto
 		zh-Hant = 1 票
+		nl = 1 stem
 	[2 votes]
 		en = 2 votes
 		it = 2 voti
 		zh-Hant = 2 票
+		nl = 2 stemmen
 	[3 votes]
 		en = 3 votes
 		it = 3 voti
 		zh-Hant = 3 票
+		nl = 3 stemmen
 	[A suggestion with this title already exists. Please change the title.]
 		en = A suggestion with this title already exists. Please change the title.
 		it = Un suggerimento con questo titolo esiste già. Per favore cambiare il titolo.
 		zh-Hant = 已經有一個與此標題一樣的建議存在，請更換您的標題。
+		nl = Een idee met deze titel bestaat reeds. Wijzig de titel.
 	[Add]
 		en = Add
 		fr = Ajouter
 		it = Aggiungi
 		zh-Hant = 新增
+		nl = Voeg toe
 	[Add a comment...]
 		en = Add a comment...
 		fr = Ajouter un commentaire
 		it = Aggiungi un commento
 		zh-Hant = 新增評論
+		nl = Voeg een reactie toe
 	[admin]
 		en = admin
 		it = Amministratore
 		zh-Hant = 管理員
+		nl = admin
 	[Anonymous]
 		en = Anonymous
 		fr = Anonyme
 		it = Anonimo
+		nl = Anoniem
 	[Are you sure you want to flag this idea as inappropriate?]
 		en = Are you sure you want to flag this idea as inappropriate?
 		fr = Etes-vous sûr de vouloir signaler ce commentaire comme abusif?
 		it = Sei sicuro che vuoi segnalare questa idea come inappropriata?
 		zh-Hant = 你確定你要將此想法標記為不適當嗎？
+		nl = Weet u zeker dat u dit idee als ongepast wilt markeren?
 	[Back]
 		en = Back
 		fr = Retour
 		it = Indietro
 		zh-Hant = 返回
+		nl = Terug
 	[Cancel]
 		en = Cancel
 		fr = Quitter
 		it = Annulla
 		zh-Hant = 取消
+		nl = Annuleren
 	[Category]
 		en = Category
 		it = Categoria
 		zh-Hant = 分類
+		nl = Categorie
 	[Changing your email address will require it to be confirmed again.]
 		en = Changing your email address will require it to be confirmed again.
 		fr = Changer votre adresse mail implique une nouvelle confirmation.
 		it = Cambiando l'indirizzo email dovrai riconfermarlo ancora.
 		zh-Hant = 更改你的 email 地址需要它被再次確認。
+		nl = Na wijzigen van uw e-mailadres dient u deze opnieuw te verifiëren.
 	[Checking...]
 		en = Checking...
 		fr = en cours de vérification...
 		it = Controllo...
 		zh-Hant = 檢查中...
+		nl = Controleren...
 	[Close]
 		en = Close
 		fr = Fermer
 		it = Chiudi
 		zh-Hant = 關閉
+		nl = Sluiten
 	[Comments]
 		en = Comments
 		it = Commenti
 		zh-Hant = 評論
+		nl = Reacties
 	[Connecting to UserVoice]
 		en = Connecting to UserVoice
 		fr = En cours de connexion à UserVoice
 		it = Connettiti a UserVoice
 		zh-Hant = 正在與 UserVoice 連線
+		nl = Verbinden met UserVoice
 	[Contact %@]
 		en = Contact %@
 		it = Contatta %@
 		zh-Hant = 聯絡
+		nl = Contact %@
 	[Contact support]
 		en = Contact support
 		fr = Contactez l'assistance technique
 		it = Contatta l'assistenza
 		zh-Hant = 聯絡我們
+		nl = Contact support
 	[Contact Us]
 		en = Contact Us
 		fr = Contactez-nous
 		it = Contattaci
 		zh-Hant = 聯絡我們
+		nl = Neem contact met ons op
 	[Create Account]
 		en = Create Account
 		fr = Créer un compte
 		it = Crea un Account
 		zh-Hant = 建立新帳戶
+		nl = Account aanmaken
 	[Create idea]
 		en = Create idea
 		it = Crea un'idea
 		zh-Hant = 建立新點子
+		nl = Idee aanmaken
 	[Created %d %@]
 		en = Created %1$d %2$@
 		fr = Créé %d %@
 		it = Creata %d %@
 		zh-Hant = 建立於 %1$d %2$@
+		nl = %1$d %2$@ aangemaakt
 	[Created by]
 		en = Created by
 		fr = Créé par
 		it = Creata da
 		zh-Hant = 建立者
+		nl = Gemaakt door
 	[Description (optional)]
 		en = Description (optional)
 		it = Descrizione (opzionale)
 		zh-Hant = 詳細的說明 (非必填)
+		nl = Beschrijving (optioneel)
 	[Edit my profile]
 		en = Edit my profile
 		fr = Editer mon profil
 		it = Modifica il mio profilo
 		zh-Hant = 管理我的帳戶
+		nl = Mijn profiel aanpassen
 	[Edit Profile]
 		en = Edit Profile
 		fr = Editer son profil
 		it = Modifica Profilo
 		zh-Hant = 管理我的帳戶
+		nl = Profiel aanpassen
 	[Email]
 		en = Email
+		nl = E-mail
 	[Error]
 		en = Error
 		fr = Erreur
 		it = Errore
 		zh-Hant = 錯誤
+		nl = Fout
 	[Feedback]
 		en = Feedback
 		fr = Retours
 		zh-Hant = 建議與問題回報
+		nl = Feedback
 	[Feedback & Support]
 		en = Feedback & Support
 		fr = Retours & Aide technique
 		it = Feedback & Supporto
 		zh-Hant = 意見回饋與支援
+		nl = Feedback & Support
 	[Feedback powered by UserVoice]
 		en = Feedback powered by UserVoice
 		fr = Retour réalisé grâce à UserVoice
 		it = Feedback fornito da UserVoice
 		zh-Hant = 本支援服務由 UserVoice 提供
+		nl = Feedback gerealiseerd door UserVoice
 	[Flag]
 		en = Flag
 		fr = Signaler
 		it = Segnalare
 		zh-Hant = 標記
+		nl = Markeer
 	[Flag as inappropriate]
 		en = Flag as inappropriate
 		fr = Signaler un abus
 		it = Segnala come inappropriato
 		zh-Hant = 標記為不適當
+		nl = Markeer als ongepast
 	[Flag Comment?]
 		en = Flag Comment?
 		fr = Signaler ce commentaire ?
 		it = Vuoi segnalare questo commento?
 		zh-Hant = 標記評論?
+		nl = Reactie markeren?
 	[Flag Idea?]
 		en = Flag Idea?
 		fr = Signaler cette idée ?
 		it = Vuoi segnalare questa idea?
 		zh-Hant = 標記想法?
+		nl = Idee markeren?
 	[Forgot your password?]
 		en = Forgot your password?
 		fr = Mot de passe oublié ?
 		it = Password dimenticata?
 		zh-Hant = 忘記密碼
+		nl = Wachtwoord vergeten?
 	[Give feedback]
 		en = Give feedback
 		fr = Donner son retour
 		it = Lascia un feedback
 		zh-Hant = 提供回饋
+		nl = Geef feedback
 	[Idea]
 		en = Idea
 		fr = Idée
 		zh-Hant = 想法
+		nl = Idee
 	[idea]
 		en = idea
 		fr = idée
 		zh-Hant = 想法
+		nl = idee
 	[ideas]
 		en = ideas
 		fr = idées
 		it = idee
 		zh-Hant = 想法
+		nl = ideeën
 	[Ideas]
 		en = Ideas
 		fr = Idées
 		it = idee
 		zh-Hant = 想法
+		nl = Ideeën
 	[Ideas Created]
 		en = Ideas Created
 		fr = Idées crééés
 		it = Idea Creata
 		zh-Hant = 被提出的想法
+		nl = Ideeën aangemaakt
 	[Ideas Supported]
 		en = Ideas Supported
 		fr = Idées approuvées
 		it = Idea Supportata
 		zh-Hant = 被支持的想法
+		nl = Gesteunde Ideeën 
+	[New Ideas]
+		en = New Ideas
+		nl = Nieuwe Ideeën
+	[Hot Ideas]
+		en = Hot Ideas
+		nl = Populaire Ideeën
+	[Top Ideas]
+		en = Top Ideas
+		nl = Top Ideeën
 	[Load more comments...]
 		en = Load more comments...
 		fr = Télécharger plus de commentaires...
 		it = Carica più commenti...
 		zh-Hant = 載入更多評論...
+		nl = Laad meer reacties...
 	[Load more ideas...]
 		en = Load more ideas...
 		fr = Télécharger plus de idées...
 		it = Carica più idee...
 		zh-Hant = 載入更多想法...
+		nl = Laad meer ideeën...
 	[Loading...]
 		en = Loading...
 		fr = Télécharger...
 		it = Caricamento...
 		zh-Hant = 載入中...
+		nl = Laden...
 	[Logout from UserVoice]
 		en = Logout from UserVoice
 		fr = Se déconnecter d'UserVoice
 		it = Disconneti da UserVoice
 		zh-Hant = 登出 UserVoice
+		nl = Uitloggen UserVoice
 	[Looks like it's your first time here, welcome to UserVoice!]
 		en = Looks like it's your first time here, welcome to UserVoice!
 		fr = Comme c'est votre première fois sur UserVoice, nous vous souhaitons la bienvenue!
 		it = Sembra che sia la tua prima volta qui, Benvenuto su UserVoice!
 		zh-Hant = 歡迎使用 UserVoice!
+		nl = Het lijkt erop dat u hier voor het eerst bent, welkom bij UserVoice!
 	[Message]
 		en = Message
 		it = Messaggio
 		zh-Hant = 訊息
+		nl = Bericht
 	[My Profile]
 		en = My Profile
 		fr = Mon Profil
 		it = Mio Profilo
 		zh-Hant = 我的帳戶
+		nl = Mijn Profiel
 	[My profile]
 		en = My profile
 		fr = Mon profil
 		it = Mio profilo
 		zh-Hant = 我的帳戶
+		nl = Mijn profiel
 	[Name]
 		en = Name
 		fr = Nom
 		it = Nome
 		zh-Hant = 名字
+		nl = Naam
 	[New Suggestion]
 		en = New Suggestion
 		it = Nuovo Suggerimento
 		zh-Hant = 新增建議
+		nl = Nieuw idee
 	[OK]
 		en = OK
 		zh-Hant = 沒問題
+		nl = OK
 	[Password]
 		en = Password
 		fr = Mot de passe
 		it = Inserire Password
 		zh-Hant = 密碼
+		nl = Wachtwoord
 	[Please enter your email address before submitting your suggestion.]
 		en = Please enter your email address before submitting your suggestion.
 		it = Inserisci la tua email prima di inserire un suggerimento.
 		zh-Hant = 在提供你的建議前，請先填入你的 email。
+		nl = Vul eerst uw e-mailadres in voor het indienen van uw idee.
 	[Please enter your email address before submitting your ticket.]
 		en = Please enter your email address before submitting your ticket.
 		fr = Merci d'enregister votre email avant de soumettre votre proposition.
 		it = Per favore inserisci la tua email prima di suggerirci quello che pensi.
 		zh-Hant = 在上傳你的 ticket 前，請先填入你的 email。
+		nl = Vul eerst uw e-mailadres in voor het indienen van uw ticket
 	[Please enter your email address.]
 		en = Please enter your email address.
 		fr = Merci d'entrer votre email.
 		it = Prego inserire indirizzo email.
 		zh-Hant = 請填入你的 email。
+		nl = Vul uw e-mailadres in.
 	[Please sign in here to comment.]
 		en = Please sign in here to comment.
 		it = Prego connettiti qui per commentare.
 		zh-Hant = 請先登入才能發表評論。
+		nl = Hier aanmelden om te kunnen reageren
 	[Post date]
 		en = Post date
 		fr = Date de l'envoi
 		it = Data di invio
 		zh-Hant = 發表日期
+		nl = Inzenddatum
 	[Required]
 		en = Required
 		fr = Obligatoire
 		it = Richiesto
 		zh-Hant = 必要欄位
+		nl = Verplicht
 	[Send]
 		en = Send
 		fr = Envoyer
 		it = Invia
 		zh-Hant = 送出
+		nl = Verstuur
 	[Sign In]
 		en = Sign In
 		fr = Se connecter
 		it = Connettiti
 		zh-Hant = 登入
+		nl = Aanmelden
 	[Sign in]
 		en = Sign in
 		fr = Se connecter
 		it = Connettiti
 		zh-Hant = 登入
+		nl = Aanmelden
 	[Sorry, there was an error in the application.]
 		en = Sorry, there was an error in the application.
 		fr = Désolé, il y a une erreur dans l'application.
 		it = Ci dispiace, c'è stato un errore nell'applicazione.
 		zh-Hant = 抱歉，程式出現了錯誤。
+		nl = Excuses, er is een fout opgetreden in de applicatie.
 	[Sorry, you have no more votes remaining in this forum.]
 		en = Sorry, you have no more votes remaining in this forum.
 		fr = Désolé, vous n'avez pas assez de votes dans ce forum.
 		it = Ci dispiace ma non hai rimasto più voti in questo forum.
 		zh-Hant = 抱歉，你已經沒有這個論壇的投票額度了。
+		nl = Sorry, u heeft geen stemmen meer over in dit forum.
 	[Sorry, you have run out of votes.]
 		en = Sorry, you have run out of votes.
 		it = Ci dispiace ma hai finito i voti.
 		zh-Hant = 抱歉，你已經沒有投票的額度了。
+		nl = Sorry, u heeft geen stemmen meer.
 	[Status: %@]
 		en = Status: %@
 		zh-Hant = 狀態: %@
+		nl = Status: %@
 	[Subject]
 		en = Subject
 		fr = Sujet
 		it = Oggetto
 		zh-Hant = 標題
+		nl = Onderwerp
 	[Success]
 		en = Success
 		fr = Succès
 		it = Successo
 		zh-Hant = 成功
+		nl = Succes
 	[Supporting %d %@]
 		en = Supporting %d %@
 		it = Supporto %d %@
 		zh-Hant = 支持了 %d %@
+		nl = Steunt %d %@
 	[There appears to be a problem with your network connection, please check your connectivity and try again.]
 		en = There appears to be a problem with your network connection, please check your connectivity and try again.
 		fr = Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.
 		it = Sembra ci sia un problema con la tua connessione Internet, controlla la tua connessione e prova ancora.
 		zh-Hant = 網路連線似乎出了問題，請檢查連線後再試一次。
+		nl = Er lijkt een probleem met uw netwerkverbinding, controleer uw verbinding en probeer het opnieuw.
 	[There was a problem logging you in, please check your password and try again.]
 		en = There was a problem logging you in, please check your password and try again.
 		fr = Il y a eu un problème durant votre identification, veuillez vérifier votre mot de passe et essayez de nouveau s'il-vous-plaît.
 		it = C'è stato un problema nel login, controlla la tua password e riprova.
 		zh-Hant = 登入出現問題，請檢查密碼後再試一次。
+		nl = Er is een probleem opgetreden tijdens het inloggen, controleer uw wachtwoord en probeer het opnieuw.
 	[This application didn't configure UserVoice properly]
 		en = This application didn't configure UserVoice properly
 		fr = Cette application n'a pas configuré UserVoice
 		it = Questa applicazione non riesce a configurare correttamente UserVoice.
 		zh-Hant = UserVoice 並沒有被設定好。
+		nl = Deze applicatie heeft UserVoice niet goed geconfigureerd.
 	[Type]
 		en = Type
 		it = Tipo
 		zh-Hant = 類
+		nl = Type
 	[Update]
 		en = Update
 		fr = Mettre à jour
 		it = Aggiornato
 		zh-Hant = 更新
+		nl = Update
 	[User name]
 		en = User name
 		it = Nome Utente
 		zh-Hant = 名字
+		nl = Gebruikersnaam
 	[User Profile]
 		en = User Profile
 		fr = Profil utilisateur
 		it = Profilo Utente
 		zh-Hant = 帳戶
+		nl = Gebruikersprofiel
 	[vote]
 		en = vote
 		it = voto
 		zh-Hant = 投票
+		nl = stem
 	[vote has]
 		en = vote has
 		fr = vote est
 		it = voto ricevuto
+		nl = stem heeft
 	[votes]
 		en = votes
 		it = voti
 		zh-Hant = 票
+		nl = stemmen
 	[votes have]
 		en = votes have
 		fr = votes sont
 		it = voti ricevuti
+		nl = stemmen hebben
 	[Voting for this suggestion is now closed and your %d %@ been returned to you]
 		en = Voting for this suggestion is now closed and your %1$d %2$@ been returned to you
 		fr = Voter pour cette suggestion n'est plus possible et votre %d %@ vous a été retourné.
 		it = Le votazioni per questo suggerimento sono stati chiusi e il tuo voto %d %@ ti sarà ridato
 		zh-Hant = 這個建議已經關閉投票功能，你的 %d %@ 已經歸還給你。
+		nl = De stemming voor dit idee is nu gesloten en uw %d %@ zijn aan u geretourneerd.
 	[Want to send a private message instead?]
 		en = Want to send a private message instead?
 		it = Vuoi inviare invece un messaggio privato?
 		zh-Hant = 或者你想要發送隱私訊息?
+		nl = Wilt u in plaats hiervan een privébericht sturen?
 	[Want to suggest an idea instead?]
 		en = Want to suggest an idea instead?
 		fr = Voulez-vous suggérer une autre idée à la place ?
 		it = Vuoi invece suggerire un'idea?
 		zh-Hant = 或者你想要建議任何想法?
+		nl = Wilt u in plaats hiervan een idee voorstellen?
 	[We've sent an email telling you how to login and change your password.]
 		en = We've sent an email telling you how to login and change your password.
 		fr = Nous vous avons envoyé un email vous expliquant comment vous identifier et changer de mot de passe.
 		it = Ti abbiamo mandato una email per spiegarti come eseguire il login e cambiare la password.
 		zh-Hant = 我們已經寄了一封信到你的信箱，裡面有登入與更改密碼的方式。
+		nl = We hebben u een e-mail gestuurd met instructies hoe in te loggen en uw wachtwoord te wijzigen.
 	[Welcome]
 		en = Welcome
 		fr = Bienvenue
 		it = Benvenuto
 		zh-Hant = 歡迎
+		nl = Welkom
 	[Welcome back! We found your profile, but we need you to sign in to verify you are... you.]
 		en = Welcome back! We found your profile, but we need you to sign in to verify you are... you.
 		fr = Bienvenue ! Nous avons trouvé votre profil, cependant nous avons besoin que vous vous identifiez afin de vérifier qui vous êtes.
 		it = Bentornato! Abbiamo trovato il tuo profilo, ma devo connetterti per verificare che tu sei... tu.
 		zh-Hant = 歡迎回來! 我們找到了你的帳戶，但你必須要先登入來證明你的身分。
+		nl = Welkom terug! We hebben uw profiel gevonden, maar u dient zich eerst aan te melden om te controleren dat u... uzelf bent.
 	[You have %d %@ remaining in this forum]
 		en = You have %1$d %2$@ remaining in this forum
 		fr = Vous avez %d %@ maintenu dans ce forum.
 		it = Hai rimasto %d %@ in questo forum.
 		zh-Hant = 在這個論壇，你尚有 %d %@ 可使用。
+		nl = U heeft nog %d %@ in dit forum]
 	[You have successfully flagged this comment as inappropriate.]
 		en = You have successfully flagged this comment as inappropriate.
 		fr = Votre signalement d'un commentaire abusif a été réalisé avec succès.
 		it = La segnalazione di questo commento come inappropriato è avvenuta correttamente.
 		zh-Hant = 你已將這則評論標記為不適當。
+		nl = U heeft deze reactie succesvol als ongepast gemarkeerd.
 	[You have successfully flagged this idea as inappropriate.]
 		en = You have successfully flagged this idea as inappropriate.
 		fr = Votre signalement d'une idée abusive a été réalisé avec succès.
 		it = La segnalazione di questa idea come inappropriata è avvenuta correttamente.
 		zh-Hant = 你已經將這個想法標記為不適當。
+		nl = U heeft dit idee succesvol als ongepast gemarkeerd.
 	[You will need to sign in to vote.]
 		en = You will need to sign in to vote.
 		fr = Vous aurez besoin de vous identifier pour voter.
 		it = Ti devi connettere per votare.
 		zh-Hant = 你必須要先登入才能投票。
+		nl = U dient zich eerst aan te melden voor u kunt stemmen.
 	[Your email has not yet been confirmed]
 		en = Your email has not yet been confirmed
 		fr = Votre email n'a pas été encore confirmé
 		it = La tua email non è stata ancora confermata
 		zh-Hant = 你的 email 尚未被確認。
+		nl = Uw e-mail is nog niet bevestigd.
 	[Your idea "%@" was successfully created.]
 		en = Your idea "%@" was successfully created.
 		it = La tua idea "%@" è stata creata correttamente.
 		zh-Hant = 你的想法已建立。
+		nl = Uw idee "%@" is succesvol gecreëerd.
 	[Your ticket was successfully submitted.]
 		en = Your ticket was successfully submitted.
 		fr = Votre commentaire a été soumis avec succès.
 		it = Il tuo commento è stato inviato correttamente.
 		zh-Hant = 你的意見已上傳。
+		nl = Uw ticket is succesvol ingediend.
