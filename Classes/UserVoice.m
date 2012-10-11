@@ -80,8 +80,8 @@
     }
 }
 
-+ (void)setCrittercismId:(NSString *)identifier {
-    [UVSession currentSession].crittercismId = identifier;
++ (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {
+    [[UVSession currentSession] setExternalId:identifier forScope:scope];
 }
 
 static id<UVDelegate> userVoiceDelegate;

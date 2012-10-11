@@ -39,8 +39,9 @@
         email   == nil ? @"" : email,   @"email",
         nil];
     
-    if ([UVSession currentSession].crittercismId) {
-        [params setValue:[UVSession currentSession].crittercismId forKey:@"created_by[external_ids][crittercism]"];
+    for (NSString *scope in [UVSession currentSession].externalIds) {
+        NSString *identifier = [[UVSession currentSession].externalIds valueForKey:scope];
+        [params setObject:identifier forKey:[NSString stringWithFormat:@"created_by[external_ids][%@]", scope]];
     }
 
     NSDictionary *defaultFields = [UVSession currentSession].config.customFields;

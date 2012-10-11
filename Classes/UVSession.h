@@ -31,7 +31,7 @@
     NSMutableArray *interactionSequence;
     NSMutableArray *interactionDetails;
     NSUInteger interactionId;
-    NSString *crittercismId;
+    NSMutableDictionary *externalIds;
 }
 
 @property (assign) BOOL isModal;
@@ -45,7 +45,7 @@
 @property (nonatomic, retain) NSMutableDictionary *interactions;
 @property (nonatomic, retain) NSMutableArray *interactionSequence;
 @property (nonatomic, retain) NSMutableArray *interactionDetails;
-@property (nonatomic, retain) NSString *crittercismId;
+@property (nonatomic, retain) NSMutableDictionary *externalIds;
 @property (assign) NSUInteger interactionId;
 
 + (UVSession *)currentSession;
@@ -55,5 +55,6 @@
 - (void)trackInteraction:(NSString *)interaction;
 - (void)trackInteraction:(NSString *)interaction details:(NSDictionary *)details;
 - (void)flushInteractions;
+- (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 
 @end

@@ -27,6 +27,7 @@
 @synthesize info;
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
+@synthesize externalIds;
 
 + (UVSession *)currentSession {
     static UVSession *currentSession;
@@ -68,21 +69,21 @@
     [newUser retain];
     [user release];
     user = newUser;
-    if (user && crittercismId) {
-        [user identify:crittercismId withScope:@"crittercism" delegate:self];
+    if (user && externalIds) {
+        for (NSString *scope in externalIds) {
+            NSString *identifier = [externalIds valueForKey:scope];
+            [user identify:identifier withScope:scope delegate:self];
+        }
     }
 }
 
-- (NSString *)crittercismId {
-    return crittercismId;
-}
-
-- (void)setCrittercismId:(NSString *)newCrittercismId {
-    [newCrittercismId retain];
-    [crittercismId release];
-    crittercismId = newCrittercismId;
-    if (user && crittercismId) {
-        [user identify:crittercismId withScope:@"crittercism" delegate:self];
+- (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {
+    if (externalIds == nil) {
+        self.externalIds = [NSMutableDictionary dictionary];
+    }
+    [externalIds setObject:identifier forKey:scope];
+    if (user) {
+        [user identify:identifier withScope:scope delegate:self];
     }
 }
 
