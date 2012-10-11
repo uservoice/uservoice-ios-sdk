@@ -40,7 +40,7 @@
         nil];
     
     if ([UVSession currentSession].crittercismId) {
-        [params setValue:[UVSession currentSession].crittercismId forKey:@"external_ids[crittercism]"];
+        [params setValue:[UVSession currentSession].crittercismId forKey:@"created_by[external_ids][crittercism]"];
     }
 
     NSDictionary *defaultFields = [UVSession currentSession].config.customFields;
