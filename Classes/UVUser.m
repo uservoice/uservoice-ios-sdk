@@ -22,7 +22,6 @@
 @synthesize name;
 @synthesize displayName;
 @synthesize email;
-@synthesize emailConfirmed;
 @synthesize ideaScore;
 @synthesize activityScore;
 @synthesize karmaScore;
@@ -203,7 +202,6 @@
         self.name = [self objectOrNilForDict:dict key:@"name"];
         self.displayName = [self objectOrNilForDict:dict key:@"name"];
         self.email = [self objectOrNilForDict:dict key:@"email"];
-        self.emailConfirmed = [(NSNumber *)[dict objectForKey:@"email_confirmed"] boolValue];
         self.ideaScore = [(NSNumber *)[dict objectForKey:@"idea_score"] integerValue];
         self.activityScore = [(NSNumber *)[dict objectForKey:@"activity_score"] integerValue];
         self.karmaScore = [(NSNumber *)[dict objectForKey:@"karma_score"] integerValue];
@@ -296,14 +294,6 @@
 
 - (BOOL)hasEmail {
     return self.email != nil && [self.email length] > 0;
-}
-
-- (BOOL)hasConfirmedEmail {
-    return [self hasEmail] && self.emailConfirmed;
-}
-
-- (BOOL)hasUnconfirmedEmail {
-    return [self hasEmail] && !self.emailConfirmed;
 }
 
 - (NSString *)nameOrAnonymous {

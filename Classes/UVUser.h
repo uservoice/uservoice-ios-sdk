@@ -16,7 +16,6 @@
     NSString *name;
     NSString *displayName;
     NSString *email;
-    BOOL emailConfirmed;
     BOOL suggestionsNeedReload;
     NSInteger ideaScore;
     NSInteger activityScore;
@@ -35,7 +34,6 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) NSString *email;
-@property (assign) BOOL emailConfirmed;
 @property (assign) BOOL suggestionsNeedReload;
 @property (assign) NSInteger ideaScore;
 @property (assign) NSInteger activityScore;
@@ -77,10 +75,7 @@
 
 // others
 - (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate;
-
 - (BOOL)hasEmail;
-- (BOOL)hasConfirmedEmail;
-- (BOOL)hasUnconfirmedEmail;
 
 // Returns the user's name, or "Anonymous" if they don't have one.
 - (NSString *)nameOrAnonymous;

@@ -247,27 +247,6 @@
         [label release];
 
         return [view autorelease];
-
-    } else if (section == UV_PROFILE_SECTION_LOGOUT) {
-        if ([self.user hasUnconfirmedEmail]) {
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 30)];
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(38, 0, 300, 40)];
-
-            UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_alert.png"]];
-            icon.frame = CGRectMake(18, 10, 18, 18);
-            [view addSubview:icon];
-            [icon release];
-
-            label.text = NSLocalizedStringFromTable(@"Your email has not yet been confirmed", @"UserVoice", nil);
-            label.textColor = [UVStyleSheet alertTextColor];
-            label.backgroundColor = [UIColor clearColor];
-            label.font = [UIFont boldSystemFontOfSize:14];
-            label.textAlignment = UITextAlignmentLeft;
-            [view addSubview:label];
-            [label release];
-
-            return [view autorelease];
-        }
     }
     return nil;
 }
