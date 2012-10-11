@@ -32,7 +32,6 @@
     [self presentUserVoiceControllers:[NSArray arrayWithObject:viewController] forParentViewController:parentViewController withConfig:config];
 }
 
-
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)parentViewController andSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
     UVConfig *config = [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
     [self presentUserVoiceInterfaceForParentViewController:parentViewController andConfig:config];
@@ -79,6 +78,10 @@
         UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"suggestions"] autorelease];
         [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
     }
+}
+
++ (void)setCrittercismId:(NSString *)identifier {
+    [UVSession currentSession].crittercismId = identifier;
 }
 
 static id<UVDelegate> userVoiceDelegate;

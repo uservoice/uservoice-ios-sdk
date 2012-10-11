@@ -32,6 +32,9 @@
 // Get the current version number of the iOS SDK
 + (NSString *)version;
 
+// For integration with Crittercism
++ (void)setCrittercismId:(NSString *)identifier;
+
 /**
  * @deprecated Use [UserVoice presentUserVoiceModalInterfaceForParentViewController:andConfig:] instead.
  */
