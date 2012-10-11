@@ -56,5 +56,6 @@
 - (void)trackInteraction:(NSString *)interaction details:(NSDictionary *)details;
 - (void)flushInteractions;
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
+- (void)clear;
 
 @end

@@ -30,7 +30,8 @@
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] flushInteractions];
-
+    [[UVSession currentSession] clear];
+    
     [self dismissModalViewControllerAnimated:YES];
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
         [[UserVoice delegate] userVoiceWasDismissed];

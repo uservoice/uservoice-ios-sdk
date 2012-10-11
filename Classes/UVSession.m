@@ -94,6 +94,12 @@
     // identify failed
 }
 
+// This is used when dismissing UV so that everything gets reloaded
+- (void)clear {
+    self.user = nil;
+    self.clientConfig = nil;
+}
+
 - (YOAuthConsumer *)yOAuthConsumer {
     if (!yOAuthConsumer) {
         yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
