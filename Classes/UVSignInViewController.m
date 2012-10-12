@@ -71,14 +71,14 @@
 - (void)checkEmail {
     if (self.emailField.text && self.emailField.text.length > 0 && ![self.email isEqualToString:self.emailField.text]) {
         self.email = self.emailField.text;
-        [self showActivityIndicatorWithText:NSLocalizedStringFromTable(@"Checking...", @"UserVoice", nil)];
+        [self showActivityIndicator];
         [UVUser discoverWithEmail:emailField.text delegate:self];
     }
 }
 
 - (void)checkPassword {
     if (self.passwordField.text && self.passwordField.text.length > 0) {
-        [self showActivityIndicatorWithText:NSLocalizedStringFromTable(@"Checking...", @"UserVoice", nil)];
+        [self showActivityIndicator];
         [UVToken getAccessTokenWithDelegate:self andEmail:emailField.text andPassword:passwordField.text];
     }
 }

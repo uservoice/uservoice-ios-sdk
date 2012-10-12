@@ -11,16 +11,12 @@
 
 @interface UVActivityIndicator : UIView {
     UIActivityIndicatorView *activityIndicatorView;
-    NSInteger heightOffset;
 }
 
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
-@property (assign) NSInteger heightOffset;
 
 + (UVActivityIndicator *)activityIndicator;
-+ (UVActivityIndicator *)activityIndicatorWithText:(NSString *)text;
 - (void)show;
 - (void)hide;
-- (id)initWithText:(NSString *)text;
 
 @end

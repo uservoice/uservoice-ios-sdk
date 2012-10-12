@@ -32,11 +32,8 @@
 - (CGRect)contentFrameWithNavBar:(BOOL)navBarEnabled;
 - (CGRect)contentFrame;
 
-// Shows the activity indicator.
+// activity indicator
 - (void)showActivityIndicator;
-- (void)showActivityIndicatorWithText:(NSString *)text;
-
-// Hides the activity indivator.
 - (void)hideActivityIndicator;
 
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label;

@@ -53,14 +53,6 @@
     return [self contentFrameWithNavBar:YES];
 }
 
-- (void)showActivityIndicatorWithText: (NSString *)text {
-    if (!self.activityIndicator) {
-        self.activityIndicator = [UVActivityIndicator activityIndicatorWithText:text];
-    }
-
-    [self.activityIndicator show];
-}
-
 - (void)showActivityIndicator {
     if (!self.activityIndicator) {
         self.activityIndicator = [UVActivityIndicator activityIndicator];

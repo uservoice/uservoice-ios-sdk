@@ -13,9 +13,8 @@
 @implementation UVActivityIndicator
 
 @synthesize activityIndicatorView;
-@synthesize heightOffset;
 
-- (id)initWithText: (NSString *)text {
+- (id)init {
     if (self = [super init]) {
         CGRect frame = [UIApplication sharedApplication].keyWindow.bounds;
         self.frame = frame;
@@ -37,17 +36,6 @@
         [activityFrame addSubview:activity];
         [activity release];
 
-        /*
-        UILabel *activityLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 120, 20)];
-        activityLabel.text = text;
-        activityLabel.textColor = [UIColor whiteColor];
-        activityLabel.backgroundColor = nil;
-        activityLabel.opaque = NO;
-        activityLabel.textAlignment = UITextAlignmentCenter;
-        [activityFrame addSubview:activityLabel];
-        [activityLabel release];
-        */
-
         [self addSubview:activityFrame];
         [activityFrame release];
     }
@@ -55,20 +43,8 @@
     return self;
 }
 
-- (id)init {
-    if (self = [super init]) {
-        [self initWithText: NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil)];
-    }
-
-    return self;
-}
-
 + (UVActivityIndicator *)activityIndicator {
     return [[[UVActivityIndicator alloc] init] autorelease];
-}
-
-+ (UVActivityIndicator *)activityIndicatorWithText: (NSString *)text {
-    return [[[UVActivityIndicator alloc] initWithText:text] autorelease];
 }
 
 - (void)show {

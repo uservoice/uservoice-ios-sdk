@@ -145,7 +145,7 @@
 
 - (void)checkEmail {
     if (self.emailField.text.length > 0) {
-        [self showActivityIndicatorWithText:NSLocalizedStringFromTable(@"Checking...", @"UserVoice", nil)];
+        [self showActivityIndicator];
         [UVUser discoverWithEmail:emailField.text delegate:self];
     }
 }
