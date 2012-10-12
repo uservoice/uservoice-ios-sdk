@@ -110,6 +110,7 @@
     [button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(updateButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     button.center = CGPointMake(screenWidth/2 - margin, button.center.y);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     [cell.contentView addSubview:button];
 }
 
@@ -128,6 +129,7 @@
     [button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_red_active.png"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(logoutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     button.center = CGPointMake(screenWidth/2 - margin, button.center.y);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     [cell.contentView addSubview:button];
 }
 
@@ -234,13 +236,14 @@
 
     if (section == UV_PROFILE_SECTION_DETAILS) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 7, 284, 30)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 7, 284, 32)];
 
         label.text = NSLocalizedStringFromTable(@"Changing your email address will require it to be confirmed again.", @"UserVoice", nil);
         label.textColor = [UVStyleSheet linkTextColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont boldSystemFontOfSize:13];
         label.textAlignment = UITextAlignmentCenter;
+        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
         label.numberOfLines = 2;
         label.center = CGPointMake(screenWidth/2, label.center.y);
         [view addSubview:label];
