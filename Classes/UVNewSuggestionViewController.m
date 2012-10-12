@@ -448,8 +448,8 @@
     self.tableView.sectionFooterHeight = 0.0;
 
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
-    footer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
+    label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     label.text = NSLocalizedStringFromTable(@"Want to send a private message instead?", @"UserVoice", nil);
     label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UVStyleSheet linkTextColor];
@@ -460,6 +460,7 @@
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 25, frame.size.width, 15);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Contact %@", @"UserVoice", nil), [UVSession currentSession].clientConfig.subdomain.name];
     [button setTitle:buttonTitle forState:UIControlStateNormal];
     [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
