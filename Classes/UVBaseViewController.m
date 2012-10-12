@@ -203,6 +203,7 @@
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
     UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
+    highlight.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
     highlight.opaque = YES;
     [cell.contentView addSubview:highlight];

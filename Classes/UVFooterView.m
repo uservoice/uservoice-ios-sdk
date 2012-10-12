@@ -41,6 +41,7 @@
     footer.controller = controller;
 
     UITableView *theTableView = [[UITableView alloc] initWithFrame:footer.bounds style:UITableViewStyleGrouped];
+    theTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     theTableView.scrollEnabled = NO;
     theTableView.delegate = footer;
     theTableView.dataSource = footer;
@@ -54,6 +55,7 @@
 
     UIView *tableFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 25)] autorelease];
     UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(30, 8, (screenWidth-80), 16)] autorelease];
+    poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     poweredBy.text = NSLocalizedStringFromTable(@"Feedback powered by UserVoice", @"UserVoice", nil);
     poweredBy.font = [UIFont systemFontOfSize:14.0];
     poweredBy.textColor = [UVStyleSheet tableViewHeaderColor];
@@ -62,10 +64,14 @@
     [tableFooter addSubview:poweredBy];
 
     //TODO: make the info button light if the background color is dark
+    UIView *infoContainer = [[[UIView alloc] initWithFrame:CGRectMake(screenWidth/2, 0, screenWidth/2, 30)] autorelease];
+    infoContainer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleWidth;
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    infoButton.center = CGPointMake(screenWidth / 2 + 110, 14);
+    infoButton.center = CGPointMake(110, 14);
+    infoButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [infoButton addTarget:footer action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [tableFooter addSubview:infoButton];
+    [infoContainer addSubview:infoButton];
+    [tableFooter addSubview:infoContainer];
 
     theTableView.tableFooterView = tableFooter;
 
@@ -88,20 +94,18 @@
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGFloat margin = (screenWidth > 480) ? 45 : 10;
+    CGFloat margin = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 45 : 10;
 
     if ([UVSession currentSession].loggedIn) {
         cell.textLabel.text = NSLocalizedStringFromTable(@"My profile", @"UserVoice", nil);
-        UIView *nameView = [[[UIView alloc] initWithFrame:CGRectMake(100, 13, (screenWidth - 130 - 2 * margin), 18)] autorelease];
-        UILabel *nameLabel = [[[UILabel alloc] initWithFrame:nameView.bounds] autorelease];
+        UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(100, 13, cell.bounds.size.width - 100 - margin, 18)] autorelease];
         nameLabel.textColor = [UVStyleSheet signedInUserTextColor];
         nameLabel.textAlignment = UITextAlignmentRight;
+        nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         nameLabel.font = [UIFont systemFontOfSize:14.0];
         nameLabel.text = [[UVSession currentSession].user nameOrAnonymous];
         nameLabel.backgroundColor = [UIColor clearColor];
-        [nameView addSubview:nameLabel];
-        [cell.contentView addSubview:nameView];
+        [cell.contentView addSubview:nameLabel];
     } else {
         cell.textLabel.text = NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil);
         cell.textLabel.textAlignment = UITextAlignmentLeft;

@@ -17,8 +17,8 @@
 
 @implementation UVSuggestionButton
 
-- (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame {
-    if (self = [super initWithIndex:index andFrame:theFrame]) {
+- (id)initWithIndex:(NSInteger)index {
+    if (self = [super initWithIndex:index]) {
         // Title
         UILabel *label = [[UILabel alloc] init];
         label.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE;

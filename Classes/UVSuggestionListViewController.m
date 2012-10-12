@@ -118,8 +118,7 @@
 // creating a new suggestion.
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     // getting the cell size
-    CGRect contentRect = cell.contentView.bounds;
-    UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
+    UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row];
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -187,9 +186,7 @@
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
-    UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row andFrame:contentRect];
+    UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row];
 
     button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
     [cell.contentView addSubview:button];
@@ -207,8 +204,7 @@
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGRect contentRect = CGRectMake(0, 0, screenWidth, 71);
-    UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row andFrame:contentRect];
+    UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row];
     [cellView setZebraColorFromIndex:indexPath.row];
 
     // Can't use built-in textLabel, as this forces a white background
@@ -419,12 +415,15 @@
         
         UIView *shade = [[[UIView alloc] initWithFrame:CGRectMake(0, 40, screenWidth, [UVClientConfig getScreenHeight])] autorelease];
         shade.tag = UV_SEARCH_SHADE;
+        shade.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [headerView addSubview:shade];
 
         UIView *textBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)] autorelease];
+        textBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         textBar.backgroundColor = [UIColor whiteColor];
 
         _textEditor = [[UITextField alloc] initWithFrame:CGRectMake(10, 8, screenWidth-20, 24)];
+        _textEditor.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _textEditor.delegate = self;
         _textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
 

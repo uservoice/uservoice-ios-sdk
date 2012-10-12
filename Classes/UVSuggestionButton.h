@@ -14,7 +14,7 @@
     UVSuggestion *_suggestion;
 }
 
-- (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame;
+- (id)initWithIndex:(NSInteger)index;
 
 - (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex;
 

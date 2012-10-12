@@ -15,13 +15,15 @@
 
 @synthesize index = _index;
 
-- (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame {
+- (id)initWithIndex:(NSInteger)index {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    if ((self = [super initWithFrame:CGRectMake(0, 0, screenWidth, 71)])) {
+    if ((self = [super initWithFrame:CGRectMake(0, 0, screenWidth + 20, 71)])) {
         self.opaque = YES;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self setZebraColorFromIndex:index];
 
-        UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
+        UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 1)];
+        highlight.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
         highlight.opaque = YES;
         [self addSubview:highlight];

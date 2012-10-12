@@ -408,6 +408,7 @@
     self.textBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)] autorelease];
     textBar.hidden = YES;
     textBar.backgroundColor = [UIColor whiteColor];
+    textBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.textEditor = [[[UVTextView alloc] initWithFrame:CGRectMake(6, 1, screenWidth - 12, 40)] autorelease];
     textEditor.delegate = self;
     textEditor.autocorrectionType = UITextAutocorrectionTypeYes;

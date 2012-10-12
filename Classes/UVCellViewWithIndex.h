@@ -16,7 +16,7 @@
 @property (assign) NSInteger index;
 
 - (NSInteger)index;
-- (id)initWithIndex:(NSInteger)index andFrame:(CGRect)theFrame;
+- (id)initWithIndex:(NSInteger)index;
 - (void)setZebraColorFromIndex:(NSInteger)index;
 
 @end
