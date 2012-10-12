@@ -146,7 +146,7 @@
 //    else
 //        contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 
-    UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, frame.size.height/2, screenWidth, 20)];
+    UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight/2 - 30, screenWidth, 20)];
     splashLabel2.backgroundColor = [UIColor clearColor];
     splashLabel2.font = [UIFont systemFontOfSize:15];
     splashLabel2.textColor = [UIColor darkGrayColor];
