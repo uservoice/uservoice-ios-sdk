@@ -20,7 +20,7 @@
 #import "UVCategorySelectViewController.h"
 #import "UVNewTicketViewController.h"
 #import "UVSignInViewController.h"
-#import "UVTextEditor.h"
+#import "UVTextView.h"
 #import "NSError+UVExtras.h"
 
 #define UV_NEW_SUGGESTION_SECTION_TITLE 0
@@ -199,7 +199,7 @@
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
+- (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
     // Change right bar button to Done, as there's no built-in way to dismiss the
     // text view's keyboard.
     UIBarButtonItem* saveItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -212,12 +212,12 @@
     [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
-- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
+- (void)textViewDidEndEditing:(UVTextView *)theTextEditor {
     self.text = theTextEditor.text;
     [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
-- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
+- (BOOL)textViewShouldEndEditing:(UVTextView *)theTextEditor {
     return YES;
 }
 
@@ -256,13 +256,10 @@
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     CGRect frame = CGRectMake(0, 0, 300, 102);
-    UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
+    UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
     aTextEditor.delegate = self;
     aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
     aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
-    aTextEditor.minNumberOfLines = 4;
-    aTextEditor.maxNumberOfLines = 4;
-    aTextEditor.autoresizesToText = YES;
     aTextEditor.backgroundColor = [UIColor clearColor];
     aTextEditor.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
 

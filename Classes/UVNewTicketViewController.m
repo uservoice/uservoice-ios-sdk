@@ -20,7 +20,7 @@
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVToken.h"
-#import "UVTextEditor.h"
+#import "UVTextView.h"
 #import "NSError+UVExtras.h"
 #import "UVArticle.h"
 #import "UVSuggestion.h"
@@ -166,11 +166,11 @@
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
+- (BOOL)textViewShouldBeginEditing:(UVTextView *)theTextEditor {
     return YES;
 }
 
-- (void)textEditorDidBeginEditing:(UVTextEditor *)theTextEditor {
+- (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
     // Change right bar button to Done, as there's no built-in way to dismiss the
     // text view's keyboard.
     [self hideExitButton];
@@ -181,16 +181,16 @@
     self.activeField = theTextEditor;
 }
 
-- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
+- (void)textViewDidEndEditing:(UVTextView *)theTextEditor {
     [self showExitButton];
     self.activeField = nil;
 }
 
-- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
+- (BOOL)textViewShouldEndEditing:(UVTextView *)theTextEditor {
     return YES;
 }
 
-- (void)textEditorDidChange:(UVTextEditor *)theTextEditor {
+- (void)textViewDidChange:(UVTextView *)theTextEditor {
     self.text = theTextEditor.text;
     [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
@@ -213,13 +213,10 @@
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
-    UVTextEditor *aTextEditor = [[UVTextEditor alloc] initWithFrame:frame];
+    UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
     aTextEditor.delegate = self;
     aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
     aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
-    aTextEditor.minNumberOfLines = 6;
-    aTextEditor.maxNumberOfLines = 6;
-    aTextEditor.autoresizesToText = YES;
     aTextEditor.backgroundColor = [UIColor clearColor];
     aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
     aTextEditor.text = self.text;

@@ -15,7 +15,7 @@
 #import "UVUserChickletView.h"
 #import "UVCellViewWithIndex.h"
 #import "UVUserButton.h"
-#import "UVTextEditor.h"
+#import "UVTextView.h"
 #import "UVClientConfig.h"
 #import "UVSession.h"
 
@@ -136,8 +136,6 @@
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
     // Change right bar button to Done and left to Cancel, as there's no built-in
     // way to dismiss the text editor's keyboard.
     UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
@@ -155,29 +153,36 @@
 
     textBar.hidden = NO;
     [textEditor performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+}
 
-    // Maximize header view to allow text editor to grow (leaving room for keyboard)
-    // TODO: Technically, kbHeight is 0 the first time we do this, so it would probably make sense
-    // to move the whole animation part to keyboardDidShow: or something. Doesn't look bad, though.
+- (void)keyboardWillShow:(NSNotification*)notification {
+    [super keyboardWillShow:notification];
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
     NSInteger height = self.view.bounds.size.height - kbHeight;
-    [UIView animateWithDuration:0.2
-                     animations:^{ textBar.frame = CGRectMake(0, 0, screenWidth, height); }];
+    [UIView animateWithDuration:0.2 animations:^{
+        textBar.frame = CGRectMake(0, 0, screenWidth, height);
+    } completion:^(BOOL finished) {
+        textEditor.frame = CGRectMake(6, 1, screenWidth - 12, height - 10);
+    }];
 }
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
+- (void)textViewDidEndEditing:(UVTextView *)theTextEditor {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     [self.navigationItem setLeftBarButtonItem:self.prevLeftBarButton animated:YES];
     [self.navigationItem setRightBarButtonItem:self.prevRightBarButton animated:YES];
 
     // Minimize text editor and header
-    [UIView animateWithDuration:0.2
-                     animations:^{ textBar.frame = CGRectMake(0, 0, screenWidth, 40); }
-                     completion:^(BOOL finished){ textBar.hidden = YES; }];
+    [UIView animateWithDuration:0.2 animations:^{
+        textBar.frame = CGRectMake(0, 0, screenWidth, 40);
+    } completion:^(BOOL finished){
+        textEditor.frame = CGRectMake(6, 1, screenWidth - 12, 40);
+        textBar.hidden = YES;
+    }];
 }
 
-- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
+- (BOOL)textViewShouldEndEditing:(UVTextView *)theTextEditor {
     return YES;
 }
 
@@ -354,6 +359,7 @@
                 UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(14, 9, (screenWidth-14), 26)] autorelease];
                 textField.placeholder = NSLocalizedStringFromTable(@"Add a comment...", @"UserVoice", nil);
                 textField.delegate = self;
+                textField.font = self.textEditor.font;
                 [headerView addSubview:textField];
             }
             return headerView;
@@ -402,15 +408,9 @@
     self.textBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)] autorelease];
     textBar.hidden = YES;
     textBar.backgroundColor = [UIColor whiteColor];
-    self.textEditor = [[[UVTextEditor alloc] initWithFrame:CGRectMake(5, 0, (screenWidth-5), 40)] autorelease];
+    self.textEditor = [[[UVTextView alloc] initWithFrame:CGRectMake(6, 1, screenWidth - 12, 40)] autorelease];
     textEditor.delegate = self;
     textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-    textEditor.minNumberOfLines = 1;
-    if (UIDeviceOrientationIsLandscape([UVClientConfig getOrientation]))
-        textEditor.maxNumberOfLines = 4;
-    else
-        textEditor.maxNumberOfLines = 8;
-    textEditor.autoresizesToText = YES;
     textEditor.backgroundColor = [UIColor clearColor];
     textEditor.placeholder = NSLocalizedStringFromTable(@"Add a comment...", @"UserVoice", nil);
     [textBar addSubview:textEditor];

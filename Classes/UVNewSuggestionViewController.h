@@ -8,18 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
-#import "UVTextEditor.h"
+#import "UVTextView.h"
 
 @class UVForum;
 @class UVCategory;
 
-@interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UVTextEditorDelegate> {
+@interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
     UVForum *forum;
     NSString *title;
     NSString *text;
     NSString *name;
     NSString *email;
-    UVTextEditor *textEditor;
+    UVTextView *textEditor;
     UITextField *titleField;
     UITextField *nameField;
     UITextField *emailField;
@@ -33,7 +33,7 @@
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *email;
-@property (nonatomic, retain) UVTextEditor *textEditor;
+@property (nonatomic, retain) UVTextView *textEditor;
 @property (nonatomic, retain) UITextField *titleField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;

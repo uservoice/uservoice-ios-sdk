@@ -7,20 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVTextEditor.h"
 #import "UVBaseViewController.h"
 
 @class UVForum;
 
-@interface UVSuggestionListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UVTextEditorDelegate> {
+@interface UVSuggestionListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     BOOL _searching;
     UVForum *_forum;
-    UVTextEditor *_textEditor;
+    UITextField *_textEditor;
     NSMutableArray *suggestions;
 }
 
 @property (nonatomic, retain) UVForum *forum;
-@property (nonatomic, retain) UVTextEditor *textEditor;
+@property (nonatomic, retain) UITextField *textEditor;
 @property (nonatomic, retain) NSMutableArray *suggestions;
 
 - (id)initWithForum:(UVForum *)theForum;

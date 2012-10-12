@@ -37,7 +37,5 @@
 + (id)getWithDelegate:(id)delegate;
 + (CGFloat)getScreenWidth;
 + (CGFloat)getScreenHeight;
-+ (UIInterfaceOrientation)getOrientation;
-+ (void)setOrientation;
 
 @end

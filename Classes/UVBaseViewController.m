@@ -159,10 +159,8 @@
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    UIInterfaceOrientation deviceOrientation = [UVClientConfig getOrientation];
-    return (interfaceOrientation == deviceOrientation);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
 }
 
 #pragma mark ===== helper methods for table views =====
@@ -220,6 +218,10 @@
 
 - (void)registerForKeyboardNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow:)
                                                  name:UIKeyboardDidShowNotification object:nil];
 
@@ -229,12 +231,14 @@
 
 }
 
-- (void)keyboardDidShow:(NSNotification*)notification {
+- (void)keyboardWillShow:(NSNotification*)notification {
     NSDictionary* info = [notification userInfo];
     CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     // Convert from window space to view space to account for orientation
     kbHeight = [self.view convertRect:rect fromView:nil].size.height;
+}
 
+- (void)keyboardDidShow:(NSNotification*)notification {
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbHeight, 0.0);
     tableView.contentInset = contentInsets;
     tableView.scrollIndicatorInsets = contentInsets;

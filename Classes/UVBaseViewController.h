@@ -65,6 +65,7 @@
 
 // Keyboard handling
 - (void)registerForKeyboardNotifications;
+- (void)keyboardWillShow:(NSNotification*)notification;
 - (void)keyboardDidShow:(NSNotification*)notification;
 - (void)keyboardDidHide:(NSNotification*)notification;
 

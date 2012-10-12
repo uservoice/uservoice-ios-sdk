@@ -17,12 +17,12 @@
 #import "UVInfoViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
-#import "UVTextEditor.h"
 #import "UVCellViewWithIndex.h"
 #import "UVSuggestionButton.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
+#define UV_SEARCH_SHADE 2
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX 100
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_QUERY 101
 #define UV_SEARCH_RESULTS_TAG_CELL_ADD_SUFFIX 102
@@ -126,7 +126,7 @@
     UIFont *font = [UIFont boldSystemFontOfSize:18];
     UILabel *label = [[UILabel alloc] init];
     label.tag = UV_SEARCH_RESULTS_TAG_CELL_ADD_PREFIX;
-  label.text = [NSString stringWithFormat:@"%@ \"", NSLocalizedStringFromTable(@"Add", @"UserVoice", nil)];
+    label.text = [NSString stringWithFormat:@"%@ \"", NSLocalizedStringFromTable(@"Add", @"UserVoice", nil)];
     label.font = font;
     label.textAlignment = UITextAlignmentLeft;
     label.textColor = [UVStyleSheet primaryTextColor];
@@ -336,34 +336,23 @@
 
 #pragma mark ===== UVTextEditorDelegate Methods =====
 
-- (BOOL)textEditorShouldBeginEditing:(UVTextEditor *)theTextEditor {
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)theTextEditor {
     tableView.allowsSelection = NO;
     tableView.scrollEnabled = NO;
 
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
     UIView *headerView = (UIView *)self.tableView.tableHeaderView;
-    NSInteger height = self.view.bounds.size.height;
-    CGRect frame = CGRectMake(0, 0, screenWidth, height);
-    UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
+    UIView *shade = [headerView viewWithTag:UV_SEARCH_SHADE];
 
-    // Maximize header view to allow text editor to grow (leaving room for keyboard) 216
     [self setLeftBarButtonCancel];
     [self hideExitButton];
-    textBar.frame = frame;
-    textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
-    theTextEditor.backgroundColor = [UIColor whiteColor];
-    [UIView beginAnimations:@"growHeader" context:nil];
-
-    textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-    frame = CGRectMake(0, 0, screenWidth, 40);
-    theTextEditor.frame = frame;  // (may not actually need to change this, since bg is white)
-
-    [UIView commitAnimations];
+    shade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+    [UIView animateWithDuration:0.5 animations:^{
+        shade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    }];
     return YES;
 }
 
-- (BOOL)textEditorShouldReturn:(UVTextEditor *)theTextEditor {
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextEditor {
     [self showActivityIndicator];
     [self.textEditor resignFirstResponder];
     _searching = YES;
@@ -376,29 +365,23 @@
     return NO;
 }
 
-- (void)textEditorDidEndEditing:(UVTextEditor *)theTextEditor {
-    // reset nav
+- (void)textFieldDidEndEditing:(UITextField *)theTextEditor {
     if (_textEditor.text) {
         [self setLeftBarButtonClear];
     }
 
     UIView *headerView = (UIView *)self.tableView.tableHeaderView;
-    UIView *textBar = [headerView viewWithTag:UV_SEARCH_TEXTBAR];
+    UIView *shade = [headerView viewWithTag:UV_SEARCH_SHADE];
 
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
-    // Minimize text editor and header
-    [UIView beginAnimations:@"shrinkHeader" context:nil];
-    textBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
-
-    [UIView commitAnimations];
-    textBar.frame = CGRectMake(0, 0, screenWidth, 40);
+    [UIView animateWithDuration:0.5 animations:^{
+        shade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+    }];
 
     tableView.allowsSelection = YES;
     tableView.scrollEnabled = YES;
 }
 
-- (BOOL)textEditorShouldEndEditing:(UVTextEditor *)theTextEditor {
+- (BOOL)textFieldShouldEndEditing:(UITextField *)theTextEditor {
     return YES;
 }
 
@@ -433,21 +416,17 @@
 
     if ([self supportsSearch]) {
         // Add text editor to table header
-        UIView *textBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
-        textBar.backgroundColor = [UIColor clearColor];
+        
+        UIView *shade = [[[UIView alloc] initWithFrame:CGRectMake(0, 40, screenWidth, [UVClientConfig getScreenHeight])] autorelease];
+        shade.tag = UV_SEARCH_SHADE;
+        [headerView addSubview:shade];
 
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:0.91f green:0.91f blue:0.93f alpha:1.0f] CGColor], (id)[[UIColor colorWithRed:0.77f green:0.78f blue:0.80f alpha:1.0f] CGColor], nil];
-        [textBar.layer insertSublayer:gradient atIndex:0];
+        UIView *textBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)] autorelease];
+        textBar.backgroundColor = [UIColor whiteColor];
 
-        textBar.tag = UV_SEARCH_TEXTBAR;
-
-        _textEditor = [[UVTextEditor alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 40)];
+        _textEditor = [[UITextField alloc] initWithFrame:CGRectMake(10, 8, screenWidth-20, 24)];
         _textEditor.delegate = self;
         _textEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-        _textEditor.minNumberOfLines = 1;
-        _textEditor.maxNumberOfLines = 1;
-        _textEditor.autoresizesToText = NO;
 
         [_textEditor setReturnKeyType:UIReturnKeyGo];
         _textEditor.enablesReturnKeyAutomatically = NO;
@@ -455,7 +434,6 @@
 
         [textBar addSubview:_textEditor];
         [headerView addSubview:textBar];
-        [textBar release];
     }
     theTableView.tableHeaderView = headerView;
     [headerView release];

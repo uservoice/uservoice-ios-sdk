@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
-#import "UVTextEditor.h"
+#import "UVTextView.h"
 
 @class UVCustomField;
 
-@interface UVNewTicketViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UVTextEditorDelegate> {
-    UVTextEditor *textEditor;
+@interface UVNewTicketViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
+    UVTextView *textEditor;
     UITextField *emailField;
     UIView *activeField;
     NSString *text;
@@ -23,7 +23,7 @@
     BOOL loadingInstantAnswers;
 }
 
-@property (nonatomic, retain) UVTextEditor *textEditor;
+@property (nonatomic, retain) UVTextView *textEditor;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIView *activeField;
 @property (nonatomic, retain) NSString *text;
