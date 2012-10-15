@@ -32,6 +32,10 @@
 #define UV_SUGGESTION_DETAILS_SECTION_CREATOR 3
 #define UV_SUGGESTION_DETAILS_SECTION_HEADER 5
 
+#define HEADER_VIEW_BG_TAG 101
+#define HEADER_VIEW_TITLE_TAG 102
+#define HEADER_VIEW_CATEGORY_TAG 103
+
 @implementation UVSuggestionDetailsViewController
 
 @synthesize suggestion;
@@ -149,18 +153,17 @@
 
 - (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     [self removeBackgroundFromCell:cell];
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGFloat margin = screenWidth > 480 ? 45 : 10;
-
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, 0, screenWidth, 72)];
+    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, 72)];
     bg.backgroundColor = [UVStyleSheet backgroundColor];
+    bg.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [cell.contentView addSubview:bg];
     [bg release];
 
     if ([suggestion.status isEqualToString:@"completed"] || [suggestion.status isEqualToString:@"declined"]) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth - 2 * margin, 44)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, cell.bounds.size.width, 44)];
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         label.tag = NO_VOTE_LABEL_TAG;
         label.numberOfLines = 2;
         label.opaque = YES;
@@ -179,12 +182,14 @@
         NSArray *items = [NSArray arrayWithObjects:NSLocalizedStringFromTable(@"0 votes", @"UserVoice", nil), NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil), NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil), NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil), nil];
         UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
         segments.tag = VOTE_SEGMENTS_TAG;
-        segments.frame = CGRectMake(0, 0, screenWidth - 2 * margin, 44);
+        segments.frame = CGRectMake(0, 0, cell.bounds.size.width, 44);
+        segments.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
         [cell.contentView addSubview:segments];
         [segments release];
 
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, screenWidth - 2 * margin, 17)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, cell.bounds.size.width, 17)];
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         label.opaque = YES;
         label.backgroundColor = [UVStyleSheet backgroundColor];
         label.tag = VOTE_LABEL_TAG;
@@ -221,17 +226,17 @@
 - (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     [self removeBackgroundFromCell:cell];
 
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGFloat margin = screenWidth > 480 ? 45 : 10;
-    NSInteger height = [self textSize].height > 0 ? [self textSize].height + 10 : 0;
+    NSInteger height = [self textSize].height > 0 ? [self textSize].height + 8 : 0;
 
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(-margin, 0, screenWidth, height)];
+    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, height)];
     bg.backgroundColor = [UVStyleSheet backgroundColor];
+    bg.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [cell.contentView addSubview:bg];
     [bg release];
 
     // The default margins are too large for the body, so we're using our own label.
-    UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, screenWidth - 2 * margin, [self textSize].height)] autorelease];
+    UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, cell.bounds.size.width, [self textSize].height)] autorelease];
+    body.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     body.text = self.suggestion.text;
     body.font = [UIFont systemFontOfSize:13];
     body.lineBreakMode = UILineBreakModeWordWrap;
@@ -267,8 +272,9 @@
     [self removeBackgroundFromCell:cell];
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (screenWidth-20), 75)];
+    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 75)];
     bg.backgroundColor = [UVStyleSheet backgroundColor];
+    bg.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [cell.contentView addSubview:bg];
     [bg release];
 
@@ -418,64 +424,78 @@
     }
 }
 
+-(void)positionTableHeaderView:(UIView *)headerView {
+    UIView *bg = [headerView viewWithTag:HEADER_VIEW_BG_TAG];
+    UIView *title = [headerView viewWithTag:HEADER_VIEW_TITLE_TAG];
+    UIView *category = [headerView viewWithTag:HEADER_VIEW_CATEGORY_TAG];
+    
+    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+    CGFloat marginLeft = iPad ? 45 : 10;
+    CGFloat marginTop = 20;
+    CGSize titleSize = [self titleSize];
+    NSInteger headerHeight = MAX(titleSize.height + 50, 90);
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    
+    headerView.frame = CGRectMake(0, 0, screenWidth, headerHeight);
+    bg.frame = CGRectMake(0, 0, screenWidth, headerHeight);
+    title.frame = CGRectMake(marginLeft + (iPad ? 75 : 65), marginTop, titleSize.width, titleSize.height);
+    category.frame = CGRectMake(marginLeft + (iPad ? 75 : 65), titleSize.height + marginTop + 4, titleSize.width, 11);
+}
+
 #pragma mark ===== Basic View Methods =====
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     [super loadView];
-
     self.navigationItem.title = self.suggestion.title;
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
     [self setupGroupedTableView];
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 
-    NSInteger height = MAX([self titleSize].height + 50, 90);
-    //    height += [self textSize].height > 0 ? [self textSize].height : 0;
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)];
+    UIView *headerView = [[[UIView alloc] init] autorelease];
     headerView.backgroundColor = [UIColor clearColor];
 
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, height)];
+    UIView *bg = [[[UIView alloc] init] autorelease];
+    bg.tag = HEADER_VIEW_BG_TAG;
     bg.backgroundColor = [UVStyleSheet backgroundColor];
     [headerView addSubview:bg];
-    [bg release];
-
-    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
-    CGFloat marginLeft = iPad ? 45 : 10;
-    CGFloat marginTop = 20;
+    
     // Votes
+    CGFloat marginLeft = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 45 : 10;
+    CGFloat marginTop = 20;
     UVSuggestionChickletView *chicklet = [UVSuggestionChickletView suggestionChickletViewWithOrigin:CGPointMake(marginLeft, marginTop)];
     chicklet.tag = CHICKLET_TAG;
     [headerView addSubview:chicklet];
 
-    // Title
-    CGSize titleSize = [self titleSize];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(marginLeft + (iPad ? 75 : 65), marginTop, titleSize.width, titleSize.height)];
-    label.text = self.suggestion.title;
-    label.font = [UIFont boldSystemFontOfSize:18.0];
-    label.textAlignment = UITextAlignmentLeft;
-    label.numberOfLines = 0;
-    label.textColor = [UVStyleSheet primaryTextColor];
-    label.backgroundColor = [UIColor clearColor];
-    [headerView addSubview:label];
-    [label release];
+    UILabel *titleLabel = [[[UILabel alloc] init] autorelease];
+    titleLabel.tag = HEADER_VIEW_TITLE_TAG;
+    titleLabel.text = self.suggestion.title;
+    titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
+    titleLabel.textAlignment = UITextAlignmentLeft;
+    titleLabel.numberOfLines = 0;
+    titleLabel.textColor = [UVStyleSheet primaryTextColor];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    [headerView addSubview:titleLabel];
 
-    // Category
-    label = [[UILabel alloc] initWithFrame:CGRectMake(marginLeft + (iPad ? 75 : 65), titleSize.height + marginTop + 10, titleSize.width, 11)];
-    label.lineBreakMode = UILineBreakModeTailTruncation;
-    label.numberOfLines = 1;
-    label.font = [UIFont boldSystemFontOfSize:11];
-    label.textColor = [UVStyleSheet secondaryTextColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.text = self.suggestion.categoryString;
-    [label sizeToFit];
-    [headerView addSubview:label];
-    [label release];
+    UILabel *categoryLabel = [[[UILabel alloc] init] autorelease];
+    categoryLabel.tag = HEADER_VIEW_CATEGORY_TAG;
+    categoryLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    categoryLabel.numberOfLines = 1;
+    categoryLabel.font = [UIFont boldSystemFontOfSize:11];
+    categoryLabel.textColor = [UVStyleSheet secondaryTextColor];
+    categoryLabel.backgroundColor = [UIColor clearColor];
+    categoryLabel.text = self.suggestion.categoryString;
+    [headerView addSubview:categoryLabel];
 
+    [self positionTableHeaderView:headerView];
     self.tableView.tableHeaderView = headerView;
-    [headerView release];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self positionTableHeaderView:self.tableView.tableHeaderView];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
