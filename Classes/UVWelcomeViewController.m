@@ -174,7 +174,8 @@
 - (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
     UIView *containerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)] autorelease];
     containerView.backgroundColor = [UIColor clearColor];
-    CGRect labelFrame = CGRectMake(20, 2, 320, 30);
+    CGFloat marginLeft = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 45 : 10;
+    CGRect labelFrame = CGRectMake(marginLeft, 2, 320, 30);
     if (section == 0)
         labelFrame.origin.y += 11;
     UILabel *label = [[[UILabel alloc] initWithFrame:labelFrame] autorelease];
