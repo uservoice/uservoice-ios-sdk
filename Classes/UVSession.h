@@ -11,7 +11,8 @@
 @class UVConfig;
 @class UVClientConfig;
 @class UVUser;
-@class UVToken;
+@class UVAccessToken;
+@class UVRequestToken;
 @class YOAuthConsumer;
 @class UVInfo;
 
@@ -24,7 +25,8 @@
     UVUser *user;
     UVInfo *info;
     YOAuthConsumer *yOAuthConsumer;
-    UVToken *currentToken;
+    UVAccessToken *accessToken;
+    UVRequestToken *requestToken;
     NSMutableDictionary *userCache;
     NSDate *startTime;
     NSMutableDictionary *interactions;
@@ -39,7 +41,8 @@
 @property (nonatomic, retain) UVClientConfig *clientConfig;
 @property (nonatomic, retain) UVUser *user;
 @property (nonatomic, retain) UVInfo *info;
-@property (nonatomic, retain) UVToken *currentToken;
+@property (nonatomic, retain) UVAccessToken *accessToken;
+@property (nonatomic, retain) UVRequestToken *requestToken;
 @property (nonatomic, retain) NSMutableDictionary *userCache;
 @property (nonatomic, retain) NSDate *startTime;
 @property (nonatomic, retain) NSMutableDictionary *interactions;

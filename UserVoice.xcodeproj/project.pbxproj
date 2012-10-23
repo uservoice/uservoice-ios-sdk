@@ -105,8 +105,8 @@
 		D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */ = {isa = PBXBuildFile; fileRef = D24540BF11B095AA00C7E4BA /* UVSubdomain.m */; };
 		D24A3491119F351A005BC3F3 /* UVSignInViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D24A348F119F351A005BC3F3 /* UVSignInViewController.h */; };
 		D24A3492119F351A005BC3F3 /* UVSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D24A3490119F351A005BC3F3 /* UVSignInViewController.m */; };
-		D24A382111A09121005BC3F3 /* UVToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D24A381F11A09121005BC3F3 /* UVToken.h */; };
-		D24A382211A09121005BC3F3 /* UVToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D24A382011A09121005BC3F3 /* UVToken.m */; };
+		D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D24A381F11A09121005BC3F3 /* UVAccessToken.h */; };
+		D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D24A382011A09121005BC3F3 /* UVAccessToken.m */; };
 		D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BDE6011DAE3FA00B26012 /* UVImageView.h */; };
 		D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BDE6111DAE3FA00B26012 /* UVImageView.m */; };
 		D24BE09F11DB1B7C00B26012 /* UVTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE09D11DB1B7C00B26012 /* UVTextView.h */; };
@@ -174,6 +174,8 @@
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
 		D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927680B1559CB4000E17EF1 /* UVArticleViewController.m */; };
+		D9522011163726EE00A7081D /* UVRequestToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D952200F163726EE00A7081D /* UVRequestToken.h */; };
+		D9522012163726EE00A7081D /* UVRequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D9522010163726EE00A7081D /* UVRequestToken.m */; };
 		D9819241156D302B00E6F66D /* NSString+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = D981923F156D302B00E6F66D /* NSString+Base64.h */; };
 		D9819242156D302B00E6F66D /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D9819240156D302B00E6F66D /* NSString+Base64.m */; };
 		D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */; };
@@ -284,8 +286,8 @@
 		D24540BF11B095AA00C7E4BA /* UVSubdomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubdomain.m; sourceTree = "<group>"; };
 		D24A348F119F351A005BC3F3 /* UVSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSignInViewController.h; sourceTree = "<group>"; };
 		D24A3490119F351A005BC3F3 /* UVSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSignInViewController.m; sourceTree = "<group>"; };
-		D24A381F11A09121005BC3F3 /* UVToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVToken.h; sourceTree = "<group>"; };
-		D24A382011A09121005BC3F3 /* UVToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVToken.m; sourceTree = "<group>"; };
+		D24A381F11A09121005BC3F3 /* UVAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVAccessToken.h; sourceTree = "<group>"; };
+		D24A382011A09121005BC3F3 /* UVAccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVAccessToken.m; sourceTree = "<group>"; };
 		D24BDE6011DAE3FA00B26012 /* UVImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageView.h; sourceTree = "<group>"; };
 		D24BDE6111DAE3FA00B26012 /* UVImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageView.m; sourceTree = "<group>"; };
 		D24BE09D11DB1B7C00B26012 /* UVTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextView.h; sourceTree = "<group>"; };
@@ -383,6 +385,8 @@
 		D92768011559B0E900E17EF1 /* uv_idea@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_idea@2x.png"; sourceTree = "<group>"; };
 		D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticleViewController.h; sourceTree = "<group>"; };
 		D927680B1559CB4000E17EF1 /* UVArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticleViewController.m; sourceTree = "<group>"; };
+		D952200F163726EE00A7081D /* UVRequestToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRequestToken.h; sourceTree = "<group>"; };
+		D9522010163726EE00A7081D /* UVRequestToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRequestToken.m; sourceTree = "<group>"; };
 		D981923F156D302B00E6F66D /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
 		D9819240156D302B00E6F66D /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		D986ADED1624C8E5008291AA /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = UserVoice.strings; sourceTree = "<group>"; };
@@ -517,8 +521,10 @@
 				AC3127E910976ED800000D5F /* UVSuggestion.m */,
 				D2BEEBB71367436D00EBC307 /* UVTicket.h */,
 				D2BEEBB81367436D00EBC307 /* UVTicket.m */,
-				D24A381F11A09121005BC3F3 /* UVToken.h */,
-				D24A382011A09121005BC3F3 /* UVToken.m */,
+				D24A381F11A09121005BC3F3 /* UVAccessToken.h */,
+				D24A382011A09121005BC3F3 /* UVAccessToken.m */,
+				D952200F163726EE00A7081D /* UVRequestToken.h */,
+				D9522010163726EE00A7081D /* UVRequestToken.m */,
 				AC312727109667CE00000D5F /* UVUser.h */,
 				AC312728109667CE00000D5F /* UVUser.m */,
 			);
@@ -864,7 +870,7 @@
 				ACBA71211182B6CB000D0A0B /* UVNetworkUtils.h in Headers */,
 				D2D7B23A119D04E1003EDD3A /* UVProfileEditViewController.h in Headers */,
 				D24A3491119F351A005BC3F3 /* UVSignInViewController.h in Headers */,
-				D24A382111A09121005BC3F3 /* UVToken.h in Headers */,
+				D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */,
 				D21726AD11A20396005487BA /* UVUserAvatarView.h in Headers */,
 				D2453EC611AF2AD900C7E4BA /* UVInfo.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
@@ -909,6 +915,7 @@
 				D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */,
 				D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */,
 				D9819241156D302B00E6F66D /* NSString+Base64.h in Headers */,
+				D9522011163726EE00A7081D /* UVRequestToken.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1014,7 +1021,7 @@
 				ACBA71221182B6CB000D0A0B /* UVNetworkUtils.m in Sources */,
 				D2D7B23B119D04E1003EDD3A /* UVProfileEditViewController.m in Sources */,
 				D24A3492119F351A005BC3F3 /* UVSignInViewController.m in Sources */,
-				D24A382211A09121005BC3F3 /* UVToken.m in Sources */,
+				D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */,
 				D21726AE11A20396005487BA /* UVUserAvatarView.m in Sources */,
 				D2453EC711AF2AD900C7E4BA /* UVInfo.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,
@@ -1052,6 +1059,7 @@
 				D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */,
 				D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */,
 				D9819242156D302B00E6F66D /* NSString+Base64.m in Sources */,
+				D9522012163726EE00A7081D /* UVRequestToken.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

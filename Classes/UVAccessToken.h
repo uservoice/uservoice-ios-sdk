@@ -11,16 +11,13 @@
 
 @class YOAuthToken;
 
-@interface UVToken : UVBaseModel {
+@interface UVAccessToken : UVBaseModel {
     YOAuthToken *oauthToken;
-    NSString *type;
 }
 
 @property (nonatomic, retain) YOAuthToken *oauthToken;
-@property (nonatomic, retain) NSString *type;
 
 + (BOOL)exists;
-+ (id)getRequestTokenWithDelegate:(id)delegate;
 + (id)getAccessTokenWithDelegate:(id)delegate andEmail:(NSString *)email andPassword:(NSString *)password;
 
 - (id)initWithExisting;
@@ -29,6 +26,5 @@
 
 - (void)persist;
 - (void)remove;
-
 
 @end

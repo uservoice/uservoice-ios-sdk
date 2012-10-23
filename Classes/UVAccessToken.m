@@ -1,21 +1,21 @@
 //
-//  UVToken.m
+//  UVAccessToken.m
 //  UserVoice
 //
 //  Created by Scott Rutherford on 16/05/2010.
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 
-#import "UVToken.h"
+#import "UVAccessToken.h"
+#import "UVRequestToken.h"
 #import "YOAuthToken.h"
 #import "UVSession.h"
 #import "UVResponseDelegate.h"
 #import "UVConfig.h"
 
-@implementation UVToken
+@implementation UVAccessToken
 
 @synthesize oauthToken;
-@synthesize type;
 
 + (void)initialize {
     [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -39,7 +39,7 @@
 }
 
 - (id)revoke:(id) delegate {
-    NSString *path = [UVToken apiPath:[NSString stringWithFormat:@"/oauth/revoke.json"]];
+    NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/revoke.json"]];
 
     id returnValue = [[self class] getPath:path
                                 withParams:nil
@@ -59,21 +59,12 @@
                                      [prefs stringForKey:@"uv-iphone-s"], @"oauth_token_secret", nil]];
 }
 
-+ (id)getRequestTokenWithDelegate:(id)delegate {
-    NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/request_token.json"]];
-
-    return [self getPath:path
-              withParams:nil
-                  target:delegate
-                selector:@selector(didRetrieveRequestToken:)];
-}
-
 + (id)getAccessTokenWithDelegate:(id)delegate andEmail:(NSString *)email andPassword:(NSString *)password {
     NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/authorize.json"]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             password, @"password",
                             email, @"email",
-                            [UVSession currentSession].currentToken.oauthToken.key, @"request_token", nil];
+                            [UVSession currentSession].requestToken.oauthToken.key, @"request_token", nil];
 
     return [self getPath:path
               withParams:params
@@ -98,7 +89,6 @@
 
 - (void)dealloc {
     self.oauthToken = nil;
-    self.type = nil;
     [super dealloc];
 }
 

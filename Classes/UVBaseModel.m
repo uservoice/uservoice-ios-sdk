@@ -10,7 +10,7 @@
 #import "UVBaseModel.h"
 #import "UVConfig.h"
 #import "UVSession.h"
-#import "UVToken.h"
+#import "UVAccessToken.h"
 #import "YOAuthToken.h"
 
 @implementation UVBaseModel
@@ -48,8 +48,8 @@
     YOAuthToken *token = nil;
 
     // only store access tokens
-    if ([UVToken exists]) {
-        token = [UVSession currentSession].currentToken.oauthToken;
+    if ([UVAccessToken exists]) {
+        token = [UVSession currentSession].accessToken.oauthToken;
     }
     NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
     YOAuthRequest *yReq = [[YOAuthRequest alloc] initWithConsumer:[[UVSession currentSession] yOAuthConsumer]

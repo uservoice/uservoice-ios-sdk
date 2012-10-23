@@ -9,7 +9,7 @@
 #import "UVProfileEditViewController.h"
 #import "UVStyleSheet.h"
 #import "UVSession.h"
-#import "UVToken.h"
+#import "UVAccessToken.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVUserAvatarView.h"
@@ -55,7 +55,7 @@
 
 - (void)logoutButtonTapped {
     [self showActivityIndicator];
-    [[UVSession currentSession].currentToken revoke:self];
+    [[UVSession currentSession].accessToken revoke:self];
 }
 
 - (void)updateButtonTapped {

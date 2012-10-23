@@ -10,7 +10,7 @@
 #import "UVResponseDelegate.h"
 #import "UVSuggestion.h"
 #import "UVSession.h"
-#import "UVToken.h"
+#import "UVRequestToken.h"
 #import "YOAuthToken.h"
 #import "UVConfig.h"
 #import "UVClientConfig.h"
@@ -101,7 +101,7 @@
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aName == nil ? @"" : aName, @"user[display_name]",
                             anEmail == nil ? @"" : anEmail, @"user[email]",
-                            [UVSession currentSession].currentToken.oauthToken.key, @"request_token",
+                            [UVSession currentSession].requestToken.oauthToken.key, @"request_token",
                             nil];
     [self useHTTPS:YES];
     return [self postPath:path
@@ -117,7 +117,7 @@
                             aGUID, @"user[guid]",
                             aName == nil ? @"" : aName, @"user[display_name]",
                             anEmail == nil ? @"" : anEmail, @"user[email]",
-                            [UVSession currentSession].currentToken.oauthToken.key, @"request_token",
+                            [UVSession currentSession].requestToken.oauthToken.key, @"request_token",
                             nil];
     [self useHTTPS:YES];
     return [self postPath:path
@@ -130,7 +130,7 @@
     NSString *path = [self apiPath:@"/users/find_or_create.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aToken, @"sso",
-                            [UVSession currentSession].currentToken.oauthToken.key, @"request_token",
+                            [UVSession currentSession].requestToken.oauthToken.key, @"request_token",
                             nil];
     [self useHTTPS:YES];
     return [self postPath:path

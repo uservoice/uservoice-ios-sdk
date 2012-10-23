@@ -16,7 +16,7 @@
 #import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
-#import "UVToken.h"
+#import "UVAccessToken.h"
 #import "UVCategorySelectViewController.h"
 #import "UVNewTicketViewController.h"
 #import "UVSignInViewController.h"
@@ -108,7 +108,7 @@
     [UVSession currentSession].user = theUser;
 
     // token should have been loaded by ResponseDelegate
-    [[UVSession currentSession].currentToken persist];
+    [[UVSession currentSession].accessToken persist];
 
     [self createSuggestion];
 }

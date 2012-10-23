@@ -23,7 +23,8 @@
 @synthesize isModal;
 @synthesize config;
 @synthesize clientConfig;
-@synthesize currentToken;
+@synthesize accessToken;
+@synthesize requestToken;
 @synthesize info;
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
@@ -98,6 +99,7 @@
 - (void)clear {
     self.user = nil;
     self.clientConfig = nil;
+    self.requestToken = nil;
 }
 
 - (YOAuthConsumer *)yOAuthConsumer {

@@ -8,7 +8,8 @@
 
 #import "UVRootViewController.h"
 #import "UVClientConfig.h"
-#import "UVToken.h"
+#import "UVAccessToken.h"
+#import "UVRequestToken.h"
 #import "UVSession.h"
 #import "UVUser.h"
 #import "UVWelcomeViewController.h"
@@ -42,9 +43,9 @@
 
 - (void)didReceiveError:(NSError *)error {
     if ([error isAuthError]) {
-        if ([UVToken exists]) {
-            [[UVSession currentSession].currentToken remove];
-            [UVToken getRequestTokenWithDelegate:self];
+        if ([UVAccessToken exists]) {
+            [[UVSession currentSession].accessToken remove];
+            [UVRequestToken getRequestTokenWithDelegate:self];
         } else {
             [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
                                          message:NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil)
@@ -63,7 +64,7 @@
 
 - (void)pushNextView {
     UVSession *session = [UVSession currentSession];
-    if ((![UVToken exists] || session.user) && session.clientConfig && [self.navigationController.viewControllers count] == 1) {
+    if ((![UVAccessToken exists] || session.user) && session.clientConfig && [self.navigationController.viewControllers count] == 1) {
         CATransition* transition = [CATransition animation];
         transition.duration = 0.3;
         transition.type = kCATransitionFade;
@@ -91,9 +92,9 @@
 
 // Initialization: request token -> client config -> user -> persist the access token -> user's suggestions -> next view
 // If we don't have either a configured user, or a persisted token (which is therefore an access token) then we go straight from the client config to the next view
-- (void)didRetrieveRequestToken:(UVToken *)token {
+- (void)didRetrieveRequestToken:(UVRequestToken *)token {
     // should be storing all tokens and checking on type
-    [UVSession currentSession].currentToken = token;
+    [UVSession currentSession].requestToken = token;
     [UVClientConfig getWithDelegate:self];
 }
 
@@ -103,7 +104,7 @@
         [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
     } else if ([UVSession currentSession].config.email != nil) {
         [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
-    } else if ([UVToken exists]) {
+    } else if ([UVAccessToken exists]) {
         [UVUser retrieveCurrentUser:self];
     } else {
         [self pushNextView];
@@ -112,13 +113,13 @@
 
 - (void)didCreateUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
-    [[UVSession currentSession].currentToken persist];
+    [[UVSession currentSession].accessToken persist];
     [self pushNextView];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
-    [[UVSession currentSession].currentToken persist];
+    [[UVSession currentSession].accessToken persist];
     [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum
                                  user:theUser delegate:self];
 }
@@ -181,13 +182,13 @@
         serverErrorImage.clipsToBounds = YES;
         [self.view addSubview:serverErrorImage];
         [serverErrorImage release];
-    } else if (![UVToken exists]) {
-        [UVToken getRequestTokenWithDelegate:self];
+    } else if (![UVAccessToken exists]) {
+        [UVRequestToken getRequestTokenWithDelegate:self];
     } else if (![[UVSession currentSession] clientConfig]) {
-        [UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
+        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
         [UVClientConfig getWithDelegate:self];
     } else if (![UVSession currentSession].user) {
-        [UVSession currentSession].currentToken = [[[UVToken alloc] initWithExisting] autorelease];
+        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
         [UVUser retrieveCurrentUser:self];
     } else {
         // We already have a client config, because the user already logged in before during

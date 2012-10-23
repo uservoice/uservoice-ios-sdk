@@ -19,7 +19,6 @@
 #import "UVTicket.h"
 #import "UVForum.h"
 #import "UVSubdomain.h"
-#import "UVToken.h"
 #import "UVTextView.h"
 #import "NSError+UVExtras.h"
 #import "UVArticle.h"

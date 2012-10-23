@@ -10,7 +10,7 @@
 #import "UVStyleSheet.h"
 #import "UVSession.h"
 #import "UVUser.h"
-#import "UVToken.h"
+#import "UVAccessToken.h"
 #import "UVClientConfig.h"
 #import "UVProfileViewController.h"
 #import "UVClientConfig.h"
@@ -79,7 +79,7 @@
 - (void)checkPassword {
     if (self.passwordField.text && self.passwordField.text.length > 0) {
         [self showActivityIndicator];
-        [UVToken getAccessTokenWithDelegate:self andEmail:emailField.text andPassword:passwordField.text];
+        [UVAccessToken getAccessTokenWithDelegate:self andEmail:emailField.text andPassword:passwordField.text];
     }
 }
 
@@ -128,9 +128,9 @@
     }
 }
 
-- (void)didRetrieveAccessToken:(UVToken *)token {
+- (void)didRetrieveAccessToken:(UVAccessToken *)token {
     [token persist];
-    [UVSession currentSession].currentToken = token;
+    [UVSession currentSession].accessToken = token;
 
     // reload config to get any answers to questions
     [UVClientConfig getWithDelegate:self];
@@ -188,7 +188,7 @@
     [UVSession currentSession].user = theUser;
 
     // token should have been loaded by ResponseDelegate
-    [[UVSession currentSession].currentToken persist];
+    [[UVSession currentSession].accessToken persist];
 
     NSArray *viewControllers = [self.navigationController viewControllers];
     UVBaseViewController *prev = (UVBaseViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
