@@ -45,6 +45,7 @@
     if ([error isAuthError]) {
         if ([UVAccessToken exists]) {
             [[UVSession currentSession].accessToken remove];
+            [UVSession currentSession].accessToken = nil;
             [UVRequestToken getRequestTokenWithDelegate:self];
         } else {
             [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
