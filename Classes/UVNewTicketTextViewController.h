@@ -8,9 +8,13 @@
 
 #import "UVBaseTicketViewController.h"
 
-@interface UVNewTicketTextViewController : UVBaseTicketViewController {
+@interface UVNewTicketTextViewController : UVBaseTicketViewController<UITableViewDataSource, UITableViewDelegate> {
+    BOOL showInstantAnswersMessage;
+    BOOL userHasSeenInstantAnswers;
+    BOOL keyboardHidden;
+    UIView *instantAnswersMessage;
 }
 
-- (void)calculateTextViewFrame;
+@property (nonatomic,retain) UIView *instantAnswersMessage;
 
 @end

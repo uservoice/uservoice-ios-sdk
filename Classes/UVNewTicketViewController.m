@@ -332,22 +332,6 @@
     return nil;
 }
 
-- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    id model = [self.instantAnswers objectAtIndex:indexPath.row];
-    if ([model isMemberOfClass:[UVArticle class]]) {
-        UVArticle *article = (UVArticle *)model;
-        cell.textLabel.text = article.question;
-        cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
-    } else {
-        UVSuggestion *suggestion = (UVSuggestion *)model;
-        cell.textLabel.text = suggestion.title;
-        cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
-}
-
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -379,7 +363,6 @@
         [self selectInstantAnswerAtIndex:indexPath.row];
     }
 }
-
 
 # pragma mark ===== Keyboard handling =====
 
