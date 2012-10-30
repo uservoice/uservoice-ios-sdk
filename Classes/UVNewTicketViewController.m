@@ -28,10 +28,9 @@
 #import "UVConfig.h"
 #import "UVNewTicketTextViewController.h"
 
-#define UV_NEW_TICKET_SECTION_TEXT 0
-#define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 1
-#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 2
-#define UV_NEW_TICKET_SECTION_PROFILE 3
+#define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 0
+#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 1
+#define UV_NEW_TICKET_SECTION_PROFILE 2
 
 #define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
@@ -241,11 +240,11 @@
             style = UITableViewCellStyleValue1;
             break;
         case UV_NEW_TICKET_SECTION_INSTANT_ANSWERS:
+            // TODO put the identifier = @"Text" cell here, and then the IA message, if on iPad
+            // TODO on iPhone put just the message
+            // TODO figure out the expand/collape madness (different for each)
             identifier = @"InstantAnswer";
             selectable = YES;
-            break;
-        case UV_NEW_TICKET_SECTION_TEXT:
-            identifier = @"Text";
             break;
         case UV_NEW_TICKET_SECTION_PROFILE:
             identifier = @"Email";
@@ -260,7 +259,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 5;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -293,12 +292,8 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case UV_NEW_TICKET_SECTION_TEXT:
-            return 144;
-        default:
-            return 44;
-    }
+    // TODO return 144 (or something) if this is the text cell on the ipad
+    return 44;
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -331,7 +326,7 @@
     if (activeField == emailField)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
     else if (activeField == textView)
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
+        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS];
     else {
         UITableViewCell *cell = (UITableViewCell *)[activeField superview];
         UITableView *table = (UITableView *)[cell superview];
@@ -352,6 +347,14 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
+    
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 100)];
+    // TODO recalculate this on orientation change
+    textLabel.numberOfLines = 3;
+    textLabel.font = [UIFont systemFontOfSize:15];
+    textLabel.text = text;
+    textLabel.backgroundColor = [UIColor clearColor];
+    self.tableView.tableHeaderView = textLabel;
 
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
