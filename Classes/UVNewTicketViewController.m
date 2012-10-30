@@ -26,6 +26,7 @@
 #import "UVArticleViewController.h"
 #import "UVSuggestionDetailsViewController.h"
 #import "UVConfig.h"
+#import "UVNewTicketTextViewController.h"
 
 #define UV_NEW_TICKET_SECTION_TEXT 0
 #define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 1
@@ -39,20 +40,20 @@
 
 @implementation UVNewTicketViewController
 
-@synthesize textEditor;
 @synthesize emailField;
 @synthesize activeField;
-@synthesize text;
 @synthesize selectedCustomFieldValues;
-@synthesize timer;
-@synthesize instantAnswers;
-@synthesize loadingInstantAnswers;
 
-- (id)initWithText:(NSString *)initialText {
-    if (self = [self init]) {
-        self.text = initialText;
++ (UIViewController *)viewController {
+    return [self viewControllerWithText:@""];
+}
+
++ (UIViewController *)viewControllerWithText:(NSString *)text {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return [[[UVNewTicketViewController alloc] initWithText:text] autorelease];
+    } else {
+        return [[[UVNewTicketTextViewController alloc] initWithText:text] autorelease];
     }
-    return self;
 }
 
 - (id)init {
@@ -68,13 +69,13 @@
 
 - (void)dismissKeyboard {
     [emailField resignFirstResponder];
-    [textEditor resignFirstResponder];
+    [textView resignFirstResponder];
 }
 
 - (void)createButtonTapped {
     [self dismissKeyboard];
     NSString *email = emailField.text;
-    self.text = textEditor.text;
+    self.text = textView.text;
 
     if ([UVSession currentSession].user || (email && [email length] > 1)) {
         [self showActivityIndicator];
@@ -92,14 +93,14 @@
 }
 
 - (void)dismissTextView {
-    [self.textEditor resignFirstResponder];
+    [self.textView resignFirstResponder];
 }
 
 - (void)suggestionButtonTapped {
     NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
     [viewControllers removeLastObject];
     UVForum *forum = [UVSession currentSession].clientConfig.forum;
-    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:forum title:self.textEditor.text];
+    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:forum title:self.textView.text];
     [viewControllers addObject:next];
     [next release];
 
@@ -116,36 +117,12 @@
     [selectedCustomFieldValues setObject:textField.text forKey:field.name];
 }
 
-- (void)loadInstantAnswers:(NSTimer *)timer {
-    self.loadingInstantAnswers = YES;
+- (void)willLoadInstantAnswers {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
-    // It's a combined search, remember?
-    [[UVSession currentSession] trackInteraction:@"sf"];
-    [[UVSession currentSession] trackInteraction:@"si"];
-    [UVArticle getInstantAnswers:self.textEditor.text delegate:self];
 }
 
-- (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
-    self.instantAnswers = theInstantAnswers;
-    self.loadingInstantAnswers = NO;
+- (void)didLoadInstantAnswers {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
-
-    // This seems like the only way to do justice to tracking the number of results from the combined search
-    NSMutableArray *articleIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
-    for (id answer in theInstantAnswers) {
-        if ([answer isKindOfClass:[UVArticle class]]) {
-            [articleIds addObject:[NSNumber numberWithInt:[((UVArticle *)answer) articleId]]];
-        }
-    }
-    [[UVSession currentSession] trackInteraction:[articleIds count] > 0 ? @"rfp" : @"rfz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[articleIds count]], @"count", articleIds, @"ids", nil]];
-
-    NSMutableArray *suggestionIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
-    for (id answer in theInstantAnswers) {
-        if ([answer isKindOfClass:[UVSuggestion class]]) {
-            [suggestionIds addObject:[NSNumber numberWithInt:[((UVSuggestion *)answer) suggestionId]]];
-        }
-    }
-    [[UVSession currentSession] trackInteraction:[suggestionIds count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[suggestionIds count]], @"count", suggestionIds, @"ids", nil]];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -189,12 +166,6 @@
     return YES;
 }
 
-- (void)textViewDidChange:(UVTextView *)theTextEditor {
-    self.text = theTextEditor.text;
-    [self.timer invalidate];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
-}
-
 #pragma mark ===== table cells =====
 
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
@@ -221,8 +192,8 @@
     aTextEditor.text = self.text;
 
     [cell.contentView addSubview:aTextEditor];
-    self.textEditor = aTextEditor;
-    [textEditor becomeFirstResponder];
+    self.textView = aTextEditor;
+    [textView becomeFirstResponder];
     [aTextEditor release];
 }
 
@@ -405,18 +376,7 @@
             [textField becomeFirstResponder];
         }
     } else if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        id model = [self.instantAnswers objectAtIndex:indexPath.row];
-        if ([model isMemberOfClass:[UVArticle class]]) {
-            UVArticle *article = (UVArticle *)model;
-            [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.textEditor.text, @"t", nil]];
-            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
-            [self.navigationController pushViewController:next animated:YES];
-        } else {
-            UVSuggestion *suggestion = (UVSuggestion *)model;
-            [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", self.textEditor.text, @"t", nil]];
-            UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
-            [self.navigationController pushViewController:next animated:YES];
-        }
+        [self selectInstantAnswerAtIndex:indexPath.row];
     }
 }
 
@@ -431,7 +391,7 @@
     NSIndexPath *path;
     if (activeField == emailField)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
-    else if (activeField == textEditor)
+    else if (activeField == textView)
         path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
     else {
         UITableViewCell *cell = (UITableViewCell *)[activeField superview];
@@ -484,18 +444,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [textEditor becomeFirstResponder];
+    [textView becomeFirstResponder];
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.textEditor = nil;
     self.emailField = nil;
     self.activeField = nil;
     self.selectedCustomFieldValues = nil;
-    [self.timer invalidate];
-    self.timer = nil;
-    self.instantAnswers = nil;
     [super dealloc];
 }
 

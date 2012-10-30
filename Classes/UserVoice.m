@@ -57,7 +57,7 @@
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
     if ([[UVSession currentSession] clientConfig]) {
         UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-        UIViewController *newTicketViewController = [[[UVNewTicketViewController alloc] init] autorelease];
+        UIViewController *newTicketViewController = [UVNewTicketViewController viewController];
         NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
         [self presentUserVoiceControllers:viewControllers forParentViewController:parentViewController withConfig:config];
     } else {

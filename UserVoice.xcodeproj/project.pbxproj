@@ -182,6 +182,10 @@
 		D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */; };
 		D9B1D1E914ACFCE700D9189F /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */; };
 		D9B1D1EA14ACFCE700D9189F /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1E814ACFCE600D9189F /* NSString+HTMLEntities.m */; };
+		D9D4040F164022DD00D9CECA /* UVNewTicketTextViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D4040D164022DD00D9CECA /* UVNewTicketTextViewController.h */; };
+		D9D40410164022DD00D9CECA /* UVNewTicketTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D4040E164022DD00D9CECA /* UVNewTicketTextViewController.m */; };
+		D9D40414164023EF00D9CECA /* UVBaseTicketViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D40412164023EF00D9CECA /* UVBaseTicketViewController.h */; };
+		D9D40415164023EF00D9CECA /* UVBaseTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D40413164023EF00D9CECA /* UVBaseTicketViewController.m */; };
 		D9F2060414C08A8100F4441E /* UVDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F2060314C08A8100F4441E /* UVDelegate.h */; };
 /* End PBXBuildFile section */
 
@@ -400,6 +404,10 @@
 		D9B1D1E814ACFCE600D9189F /* NSString+HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLEntities.m"; sourceTree = "<group>"; };
 		D9CA8FF114F4110800F98763 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = UserVoice.strings; sourceTree = "<group>"; };
 		D9CA8FF414F4110800F98763 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = UserVoice.strings; sourceTree = "<group>"; };
+		D9D4040D164022DD00D9CECA /* UVNewTicketTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketTextViewController.h; sourceTree = "<group>"; };
+		D9D4040E164022DD00D9CECA /* UVNewTicketTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewTicketTextViewController.m; sourceTree = "<group>"; };
+		D9D40412164023EF00D9CECA /* UVBaseTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseTicketViewController.h; sourceTree = "<group>"; };
+		D9D40413164023EF00D9CECA /* UVBaseTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseTicketViewController.m; sourceTree = "<group>"; };
 		D9F2060314C08A8100F4441E /* UVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -568,6 +576,10 @@
 				AC31239E1090EB3700000D5F /* UVSuggestionListViewController.m */,
 				AC1B16C910D7F586002B03F7 /* UVWelcomeViewController.h */,
 				AC1B16CA10D7F586002B03F7 /* UVWelcomeViewController.m */,
+				D9D4040D164022DD00D9CECA /* UVNewTicketTextViewController.h */,
+				D9D4040E164022DD00D9CECA /* UVNewTicketTextViewController.m */,
+				D9D40412164023EF00D9CECA /* UVBaseTicketViewController.h */,
+				D9D40413164023EF00D9CECA /* UVBaseTicketViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -916,6 +928,8 @@
 				D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */,
 				D9819241156D302B00E6F66D /* NSString+Base64.h in Headers */,
 				D9522011163726EE00A7081D /* UVRequestToken.h in Headers */,
+				D9D4040F164022DD00D9CECA /* UVNewTicketTextViewController.h in Headers */,
+				D9D40414164023EF00D9CECA /* UVBaseTicketViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1060,6 +1074,8 @@
 				D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */,
 				D9819242156D302B00E6F66D /* NSString+Base64.m in Sources */,
 				D9522012163726EE00A7081D /* UVRequestToken.m in Sources */,
+				D9D40410164022DD00D9CECA /* UVNewTicketTextViewController.m in Sources */,
+				D9D40415164023EF00D9CECA /* UVBaseTicketViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

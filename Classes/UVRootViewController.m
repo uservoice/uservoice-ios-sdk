@@ -84,7 +84,7 @@
         } else if (self.viewToLoad == @"new_ticket") {
             self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-            UIViewController *newTicketViewController = [[[UVNewTicketViewController alloc] init] autorelease];
+            UIViewController *newTicketViewController = [UVNewTicketViewController viewController];
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
             [self.navigationController setViewControllers:viewControllers animated:NO];
         }

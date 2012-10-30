@@ -134,7 +134,7 @@
             UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:self.forum] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else {
-            UVNewTicketViewController *next = [[[UVNewTicketViewController alloc] init] autorelease];
+            UIViewController *next = [UVNewTicketViewController viewController];
             [self.navigationController pushViewController:next animated:YES];
         }
     } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {

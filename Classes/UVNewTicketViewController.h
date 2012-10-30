@@ -7,32 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVBaseViewController.h"
+#import "UVBaseTicketViewController.h"
 #import "UVTextView.h"
 
 @class UVCustomField;
 
-@interface UVNewTicketViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
-    UVTextView *textEditor;
+@interface UVNewTicketViewController : UVBaseTicketViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     UITextField *emailField;
     UIView *activeField;
-    NSString *text;
     NSMutableDictionary *selectedCustomFieldValues;
-    NSTimer *timer;
-    NSArray *instantAnswers;
-    BOOL loadingInstantAnswers;
 }
 
-@property (nonatomic, retain) UVTextView *textEditor;
++ (UIViewController *)viewController;
++ (UIViewController *)viewControllerWithText:(NSString *)text;
+
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIView *activeField;
-@property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
-@property (nonatomic, retain) NSTimer *timer;
-@property (nonatomic, retain) NSArray *instantAnswers;
-@property (nonatomic, assign) BOOL loadingInstantAnswers;
 
-- (id)initWithText:(NSString *)text;
 - (void)dismissKeyboard;
 
 @end

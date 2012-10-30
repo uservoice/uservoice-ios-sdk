@@ -161,7 +161,7 @@
 }
 
 - (void)contactButtonTapped {
-    UIViewController *next = [[[UVNewTicketViewController alloc] initWithText:titleField.text] autorelease];
+    UIViewController *next = [UVNewTicketViewController viewControllerWithText:titleField.text];
     NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
     [viewControllers removeLastObject];
     if ([viewControllers count] > 2)
