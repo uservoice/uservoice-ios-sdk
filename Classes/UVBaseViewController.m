@@ -275,6 +275,15 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)pushViewControllerFromWelcome:(UIViewController *)viewController {
+    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
+    [viewControllers removeLastObject];
+    if ([viewControllers count] > 2)
+        [viewControllers removeLastObject];
+    [viewControllers addObject:viewController];
+    [self.navigationController setViewControllers:viewControllers animated:YES];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {

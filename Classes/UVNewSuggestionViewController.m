@@ -162,12 +162,7 @@
 
 - (void)contactButtonTapped {
     UIViewController *next = [UVNewTicketViewController viewControllerWithText:titleField.text];
-    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
-    [viewControllers removeLastObject];
-    if ([viewControllers count] > 2)
-        [viewControllers removeLastObject];
-    [viewControllers addObject:next];
-    [self.navigationController setViewControllers:viewControllers animated:YES];
+    [self pushViewControllerFromWelcome:next];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====

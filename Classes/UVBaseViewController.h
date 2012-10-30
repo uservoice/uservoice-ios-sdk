@@ -39,6 +39,7 @@
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label;
 
 - (void)initNavigationItem;
+- (void)pushViewControllerFromWelcome:(UIViewController *)viewController;
 
 // Callback for HTTP errors. The default implementation hides the activity indicator
 // and displays an error alert. Can be overridden in subclasses that require

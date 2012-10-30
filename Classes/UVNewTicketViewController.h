@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "UVBaseTicketViewController.h"
-#import "UVTextView.h"
 
 @class UVCustomField;
 
