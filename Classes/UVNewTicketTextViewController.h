@@ -13,8 +13,12 @@
     BOOL userHasSeenInstantAnswers;
     BOOL keyboardHidden;
     UIView *instantAnswersMessage;
+    UIView *shadowView;
+    UVBaseTicketViewController *ticketViewController;
 }
 
 @property (nonatomic,retain) UIView *instantAnswersMessage;
+@property (nonatomic,retain) UIView *shadowView;
+@property (nonatomic,retain) UVBaseTicketViewController *ticketViewController;
 
 @end

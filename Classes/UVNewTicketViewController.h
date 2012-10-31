@@ -15,6 +15,7 @@
     UITextField *emailField;
     UIView *activeField;
     NSMutableDictionary *selectedCustomFieldValues;
+    BOOL showInstantAnswers;
 }
 
 + (UIViewController *)viewController;
@@ -23,6 +24,7 @@
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UIView *activeField;
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
+@property (assign) BOOL showInstantAnswers;
 
 - (void)dismissKeyboard;
 

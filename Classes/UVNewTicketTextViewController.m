@@ -16,33 +16,14 @@
 #define ARROW_TAG 102
 
 @synthesize instantAnswersMessage;
+@synthesize shadowView;
+@synthesize ticketViewController;
 
 - (void)loadView {
     [super loadView];
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.backgroundColor = [UIColor colorWithRed:0.92f green:0.92f blue:0.92f alpha:1.0f];
 
-    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
-    self.textView.text = self.text;
-    self.textView.backgroundColor = [UIColor whiteColor];
-    self.textView.placeholder = NSLocalizedStringFromTable(@"How can we help you today", @"UserVoice", nil);
-    self.textView.delegate = self;
-    self.textView.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.textView.layer.shadowOpacity = 0.4;
-    self.textView.layer.shadowOffset = CGSizeMake(0, 1);
-    self.textView.layer.shadowRadius = 5.0f;
-    self.textView.layer.masksToBounds = NO;
-    [self.textView becomeFirstResponder];
-
-    [self.view addSubview:self.textView];
-    
-    
-    UIBarButtonItem *nextButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self
-                                                                   action:@selector(nextButtonTapped)] autorelease];
-    self.navigationItem.rightBarButtonItem = nextButton;
-    
     self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 50)] autorelease];
     [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
     UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 6, 250, 30)] autorelease];
@@ -67,24 +48,52 @@
     instantAnswersMessage.hidden = YES;
     [self.view addSubview:instantAnswersMessage];
     
+    self.shadowView = [[[UIView alloc] initWithFrame:CGRectMake(-10, -100, 340, [UIScreen mainScreen].bounds.size.height - 180)] autorelease];
+    self.shadowView.backgroundColor = [UIColor whiteColor];
+    self.shadowView.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.shadowView.layer.shadowOpacity = 0.4;
+    self.shadowView.layer.shadowOffset = CGSizeMake(0, 1);
+    self.shadowView.layer.shadowRadius = 5.0f;
+    self.shadowView.layer.masksToBounds = NO;
+    [self.view addSubview:shadowView];
+    
+    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height - 280)] autorelease];
+    self.textView.text = self.text;
+    self.textView.backgroundColor = [UIColor whiteColor];
+    self.textView.placeholder = NSLocalizedStringFromTable(@"How can we help you today?", @"UserVoice", nil);
+    self.textView.delegate = self;
+    [self.view addSubview:self.textView];
+
+    UIBarButtonItem *nextButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(nextButtonTapped)] autorelease];
+    self.navigationItem.rightBarButtonItem = nextButton;
+    
     self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 250, 320, self.view.bounds.size.height-250) style:UITableViewStyleGrouped] autorelease];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.scrollEnabled = NO;
+    /* self.tableView.scrollEnabled = NO; */
     [self.view addSubview:self.tableView];
     
     [self calculateFrames];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [textView becomeFirstResponder];
+    [instantAnswersMessage viewWithTag:ARROW_TAG].layer.transform = CATransform3DIdentity;
+    keyboardHidden = NO;
+}
+
 - (void)nextButtonTapped {
-    UVNewTicketViewController *next = [[[UVNewTicketViewController alloc] initWithText:textView.text] autorelease];
-    next.instantAnswers = instantAnswers;
-    // TODO isn't there a problem where they tap next before IAs are loaded?
+    self.ticketViewController = [[[UVNewTicketViewController alloc] initWithText:textView.text] autorelease];
+    self.ticketViewController.instantAnswers = instantAnswers;
     // TODO if (!userHasSeenInstantAnswers) tell the next controller to show 'em
-    [self.navigationController pushViewController:next animated:YES];
+    [self.navigationController pushViewController:ticketViewController animated:YES];
 }
 
 - (void)updateInstantAnswersMessage {
@@ -118,6 +127,10 @@
 - (void)didLoadInstantAnswers {
     [self updateInstantAnswersMessage];
     [tableView reloadData];
+    if (ticketViewController) {
+        ticketViewController.instantAnswers = instantAnswers;
+        [ticketViewController didLoadInstantAnswers];
+    }
 }
 
 - (void)instantAnswersMessageTapped {
@@ -172,22 +185,15 @@
         textViewSize.height -= instantAnswersMessageSize.height;
     }
     CGFloat tableY = textViewSize.height + instantAnswersMessageSize.height;
-    CGPathRef shadowPath = [UIBezierPath bezierPathWithRect:CGRectMake(-10, 0, textViewSize.width + 20, textViewSize.height)].CGPath;
 
-    CABasicAnimation *shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-    shadowAnimation.duration = 0.3;
-    shadowAnimation.fromValue = (id)textView.layer.shadowPath;
-    shadowAnimation.toValue = (id)shadowPath;
-    shadowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    
     [UIView animateWithDuration:0.3 animations:^{
         textView.frame = CGRectMake(0, 0, textViewSize.width, textViewSize.height);
+        shadowView.frame = CGRectMake(-10, -100, textViewSize.width + 20, textViewSize.height + 100);
         instantAnswersMessage.frame = CGRectMake(0, textViewSize.height, instantAnswersMessageSize.width, instantAnswersMessageSize.height);
         tableView.frame = CGRectMake(0, tableY, instantAnswersMessageSize.width, self.view.frame.size.height - tableY);
+    } completion:^(BOOL finished) {
+        [textView scrollRangeToVisible:[textView selectedRange]];
     }];
-
-    [textView.layer addAnimation:shadowAnimation forKey:@"shadowPath"];
-    textView.layer.shadowPath = shadowPath;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
@@ -199,6 +205,8 @@
 
 - (void)dealloc {
     self.instantAnswersMessage = nil;
+    self.shadowView = nil;
+    self.ticketViewController = nil;
     [super dealloc];
 }
 

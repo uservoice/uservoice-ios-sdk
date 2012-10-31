@@ -35,7 +35,7 @@
 }
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
-    if (self.text == self.textView.text)
+    if ([[self.text lowercaseString] isEqualToString:[self.textView.text lowercaseString]])
         return;
     self.text = self.textView.text;
     [self.timer invalidate];

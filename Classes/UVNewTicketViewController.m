@@ -6,6 +6,7 @@
 //  Copyright 2010 UserVoice Inc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "UVNewTicketViewController.h"
 #import "UVStyleSheet.h"
 #import "UVCustomField.h"
@@ -29,18 +30,21 @@
 #import "UVNewTicketTextViewController.h"
 
 #define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 0
-#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 1
-#define UV_NEW_TICKET_SECTION_PROFILE 2
+#define UV_NEW_TICKET_SECTION_PROFILE 1
+#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 2
 
 #define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
 #define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
+
+#define INSTANT_ANSWER_ARROW_TAG 1000
 
 @implementation UVNewTicketViewController
 
 @synthesize emailField;
 @synthesize activeField;
 @synthesize selectedCustomFieldValues;
+@synthesize showInstantAnswers;
 
 + (UIViewController *)viewController {
     return [self viewControllerWithText:@""];
@@ -174,6 +178,34 @@
     [aTextEditor release];
 }
 
+- (void)initCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor colorWithRed:1.00f green:0.98f blue:0.85f alpha:1.0f];
+
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(18, 3, 250, 40)] autorelease];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    // TODO pull this crazy string into the base class
+    label.text = NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
+    label.font = [UIFont systemFontOfSize:11];
+    label.backgroundColor = [UIColor clearColor];
+    label.numberOfLines = 2;
+    [cell addSubview:label];
+
+    UIImageView *arrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_arrow.png"]] autorelease];
+    arrow.center = CGPointMake(290, 22);
+    arrow.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    arrow.tag = INSTANT_ANSWER_ARROW_TAG;
+    [cell addSubview:arrow];
+}
+
+- (void)customizeCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UIView *arrow = [cell viewWithTag:INSTANT_ANSWER_ARROW_TAG];
+    if (showInstantAnswers) {
+        arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+    } else {
+        arrow.layer.transform = CATransform3DIdentity;
+    }
+}
+
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(iPad ? 60 : 16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
@@ -241,10 +273,13 @@
             break;
         case UV_NEW_TICKET_SECTION_INSTANT_ANSWERS:
             // TODO put the identifier = @"Text" cell here, and then the IA message, if on iPad
-            // TODO on iPhone put just the message
-            // TODO figure out the expand/collape madness (different for each)
-            identifier = @"InstantAnswer";
-            selectable = YES;
+            if (indexPath.row == 0) {
+                identifier = @"InstantAnswersMessage";
+                selectable = YES;
+            } else {
+                identifier = @"InstantAnswer";
+                selectable = YES;
+            }
             break;
         case UV_NEW_TICKET_SECTION_PROFILE:
             identifier = @"Email";
@@ -270,7 +305,8 @@
             return 1;
         }
     } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        return [self.instantAnswers count];
+        // TODO add another on the ipad
+        return 1 + (showInstantAnswers ? [self.instantAnswers count] : 0);
     } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
         return [[UVSession currentSession].clientConfig.customFields count];
     } else {
@@ -300,8 +336,40 @@
             [textField becomeFirstResponder];
         }
     } else if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        [self selectInstantAnswerAtIndex:indexPath.row];
+        // TODO -2 for ipad
+        if (indexPath.row == 0) {
+            [self toggleInstantAnswers:indexPath];
+        } else {
+            [self selectInstantAnswerAtIndex:indexPath.row - 1];
+        }
     }
+}
+
+- (void)toggleInstantAnswers:(NSIndexPath *)indexPath {
+    showInstantAnswers = !showInstantAnswers;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIView *arrow = [cell viewWithTag:INSTANT_ANSWER_ARROW_TAG];
+    [UIView animateWithDuration:0.3 animations:^{
+        if (showInstantAnswers) {
+            arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+        } else {
+            arrow.layer.transform = CATransform3DIdentity;
+        }
+    }];
+    NSMutableArray *instantAnswerIndexPaths = [NSMutableArray arrayWithCapacity:[instantAnswers count]];
+    for (int i = 0; i < [instantAnswers count]; i++) {
+        NSIndexPath *indexPath = [[NSIndexPath indexPathWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] indexPathByAddingIndex:i+1];
+        [instantAnswerIndexPaths addObject:indexPath];
+    }
+    if (showInstantAnswers) {
+        [tableView insertRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [tableView deleteRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (void)textLabelTapped {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 # pragma mark ===== Keyboard handling =====
@@ -347,6 +415,7 @@
     [textLabel sizeToFit];
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:textLabel];
+    [headerView addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textLabelTapped)] autorelease]];
     self.tableView.tableHeaderView = headerView;
 
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
