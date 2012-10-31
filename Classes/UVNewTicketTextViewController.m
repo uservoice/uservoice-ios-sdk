@@ -162,6 +162,7 @@
 - (void)calculateFrames {
     CGSize textViewSize;
     CGSize instantAnswersMessageSize = CGSizeMake(320, 40);
+    // TODO all these calculations need to be adjusted for iPhone 5
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         textViewSize = CGSizeMake(480, 106);
     } else {

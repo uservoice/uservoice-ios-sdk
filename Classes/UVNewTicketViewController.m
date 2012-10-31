@@ -278,17 +278,6 @@
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        if (loadingInstantAnswers && [self.instantAnswers count] > 0) {
-            return NSLocalizedStringFromTable(@"Loading Instant Answers...", @"UserVoice", nil);
-        } else if (!loadingInstantAnswers && [self.instantAnswers count] > 0) {
-            return NSLocalizedStringFromTable(@"Instant Answers", @"UserVoice", nil);
-        }
-    }
-    return nil;
-}
-
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -348,13 +337,17 @@
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
     
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 100)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 62)];
     // TODO recalculate this on orientation change
+    // TODO make tapping the text label take you back
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 300, 60)];
     textLabel.numberOfLines = 3;
     textLabel.font = [UIFont systemFontOfSize:15];
     textLabel.text = text;
-    textLabel.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = textLabel;
+    [textLabel sizeToFit];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:textLabel];
+    self.tableView.tableHeaderView = headerView;
 
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
