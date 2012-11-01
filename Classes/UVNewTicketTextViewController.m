@@ -12,9 +12,6 @@
 
 @implementation UVNewTicketTextViewController
 
-#define SPINNER_TAG 101
-#define ARROW_TAG 102
-
 @synthesize instantAnswersMessage;
 @synthesize shadowView;
 @synthesize ticketViewController;
@@ -29,22 +26,12 @@
     UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 6, 250, 30)] autorelease];
     instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     instantAnswersLabel.numberOfLines = 2;
-    instantAnswersLabel.text = NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
+    instantAnswersLabel.text = [self instantAnswersFoundMessage];
     instantAnswersLabel.font = [UIFont systemFontOfSize:11];
     instantAnswersLabel.backgroundColor = [UIColor clearColor];
     instantAnswersLabel.textAlignment = UITextAlignmentLeft;
     [instantAnswersMessage addSubview:instantAnswersLabel];
-    UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
-    spinner.center = CGPointMake(320 - 22, 20);
-    spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    spinner.tag = SPINNER_TAG;
-    [spinner startAnimating];
-    [instantAnswersMessage addSubview:spinner];
-    UIImageView *arrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_arrow.png"]] autorelease];
-    arrow.center = spinner.center;
-    arrow.autoresizingMask = spinner.autoresizingMask;
-    arrow.tag = ARROW_TAG;
-    [instantAnswersMessage addSubview:arrow];
+    [self addSpinnerAndArrowTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
     instantAnswersMessage.hidden = YES;
     [self.view addSubview:instantAnswersMessage];
     
@@ -85,14 +72,17 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [textView becomeFirstResponder];
-    [instantAnswersMessage viewWithTag:ARROW_TAG].layer.transform = CATransform3DIdentity;
     keyboardHidden = NO;
+    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:keyboardHidden animated:NO];
 }
 
 - (void)nextButtonTapped {
     self.ticketViewController = [[[UVNewTicketViewController alloc] initWithText:textView.text] autorelease];
     self.ticketViewController.instantAnswers = instantAnswers;
-    // TODO if (!userHasSeenInstantAnswers) tell the next controller to show 'em
+    self.ticketViewController.loadingInstantAnswers = loadingInstantAnswers;
+    if (!userHasSeenInstantAnswers)
+        self.ticketViewController.showInstantAnswers = YES;
+    userHasSeenInstantAnswers = YES;
     [self.navigationController pushViewController:ticketViewController animated:YES];
 }
 
@@ -101,27 +91,19 @@
     [self calculateFrames];
     if (showInstantAnswersMessage) {
         instantAnswersMessage.hidden = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            if (loadingInstantAnswers) {
-                [instantAnswersMessage viewWithTag:SPINNER_TAG].layer.opacity = 1.0;
-                [instantAnswersMessage viewWithTag:ARROW_TAG].layer.opacity = 0.0;
-            } else {
-                [instantAnswersMessage viewWithTag:SPINNER_TAG].layer.opacity = 0.0;
-                UIView *arrow = [instantAnswersMessage viewWithTag:ARROW_TAG];
-                arrow.layer.opacity = 1.0;
-                if (keyboardHidden) {
-                    arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
-                } else {
-                    arrow.layer.transform = CATransform3DIdentity;
-                }
-            }
-        }];
+        [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:keyboardHidden animated:YES];
     }
 }
 
 - (void)willLoadInstantAnswers {
     [self updateInstantAnswersMessage];
+    userHasSeenInstantAnswers = NO;
     [tableView reloadData];
+    if (ticketViewController) {
+        ticketViewController.instantAnswers = instantAnswers;
+        ticketViewController.loadingInstantAnswers = loadingInstantAnswers;
+        [ticketViewController willLoadInstantAnswers];
+    }
 }
 
 - (void)didLoadInstantAnswers {
@@ -129,6 +111,7 @@
     [tableView reloadData];
     if (ticketViewController) {
         ticketViewController.instantAnswers = instantAnswers;
+        ticketViewController.loadingInstantAnswers = loadingInstantAnswers;
         [ticketViewController didLoadInstantAnswers];
     }
 }
@@ -165,6 +148,10 @@
                                indexPath:indexPath
                                    style:UITableViewCellStyleDefault
                               selectable:YES];
+}
+
+- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self customizeCellForInstantAnswer:cell index:indexPath.row];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

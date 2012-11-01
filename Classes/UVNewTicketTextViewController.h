@@ -7,6 +7,7 @@
 //
 
 #import "UVBaseTicketViewController.h"
+#import "UVNewTicketViewController.h"
 
 @interface UVNewTicketTextViewController : UVBaseTicketViewController<UITableViewDataSource, UITableViewDelegate> {
     BOOL showInstantAnswersMessage;
@@ -14,11 +15,11 @@
     BOOL keyboardHidden;
     UIView *instantAnswersMessage;
     UIView *shadowView;
-    UVBaseTicketViewController *ticketViewController;
+    UVNewTicketViewController *ticketViewController;
 }
 
 @property (nonatomic,retain) UIView *instantAnswersMessage;
 @property (nonatomic,retain) UIView *shadowView;
-@property (nonatomic,retain) UVBaseTicketViewController *ticketViewController;
+@property (nonatomic,retain) UVNewTicketViewController *ticketViewController;
 
 @end

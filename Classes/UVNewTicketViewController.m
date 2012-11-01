@@ -37,8 +37,6 @@
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
 #define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
 
-#define INSTANT_ANSWER_ARROW_TAG 1000
-
 @implementation UVNewTicketViewController
 
 @synthesize emailField;
@@ -183,27 +181,21 @@
 
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(18, 3, 250, 40)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    // TODO pull this crazy string into the base class
-    label.text = NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
+    label.text = [self instantAnswersFoundMessage];
     label.font = [UIFont systemFontOfSize:11];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
     [cell addSubview:label];
 
-    UIImageView *arrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_arrow.png"]] autorelease];
-    arrow.center = CGPointMake(290, 22);
-    arrow.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    arrow.tag = INSTANT_ANSWER_ARROW_TAG;
-    [cell addSubview:arrow];
+    [self addSpinnerAndArrowTo:cell atCenter:CGPointMake(290, 22)];
 }
 
 - (void)customizeCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UIView *arrow = [cell viewWithTag:INSTANT_ANSWER_ARROW_TAG];
-    if (showInstantAnswers) {
-        arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
-    } else {
-        arrow.layer.transform = CATransform3DIdentity;
-    }
+    [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:NO];
+}
+
+- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self customizeCellForInstantAnswer:cell index:indexPath.row-1];
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -306,7 +298,7 @@
         }
     } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
         // TODO add another on the ipad
-        return 1 + (showInstantAnswers ? [self.instantAnswers count] : 0);
+        return (loadingInstantAnswers || [instantAnswers count] > 0 ? 1 : 0) + (showInstantAnswers ? [instantAnswers count] : 0);
     } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
         return [[UVSession currentSession].clientConfig.customFields count];
     } else {
@@ -348,14 +340,7 @@
 - (void)toggleInstantAnswers:(NSIndexPath *)indexPath {
     showInstantAnswers = !showInstantAnswers;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    UIView *arrow = [cell viewWithTag:INSTANT_ANSWER_ARROW_TAG];
-    [UIView animateWithDuration:0.3 animations:^{
-        if (showInstantAnswers) {
-            arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
-        } else {
-            arrow.layer.transform = CATransform3DIdentity;
-        }
-    }];
+    [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
     NSMutableArray *instantAnswerIndexPaths = [NSMutableArray arrayWithCapacity:[instantAnswers count]];
     for (int i = 0; i < [instantAnswers count]; i++) {
         NSIndexPath *indexPath = [[NSIndexPath indexPathWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] indexPathByAddingIndex:i+1];
@@ -405,10 +390,10 @@
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 62)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 68)];
     // TODO recalculate this on orientation change
-    // TODO make tapping the text label take you back
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 300, 60)];
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 60)];
+    textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textLabel.numberOfLines = 3;
     textLabel.font = [UIFont systemFontOfSize:15];
     textLabel.text = text;
@@ -416,10 +401,15 @@
     headerView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:textLabel];
     [headerView addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textLabelTapped)] autorelease]];
+    headerView.layer.shadowColor = [[UIColor blackColor] CGColor];
+    headerView.layer.shadowOpacity = 0.4;
+    headerView.layer.shadowOffset = CGSizeMake(0, 1);
+    headerView.layer.shadowRadius = 3.0f;
+    headerView.layer.masksToBounds = NO;
     self.tableView.tableHeaderView = headerView;
 
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
     label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UVStyleSheet linkTextColor];
@@ -427,12 +417,10 @@
     label.font = [UIFont systemFontOfSize:13];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [footer addSubview:label];
-    [label release];
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 25, 320, 15);
-    NSString *buttonTitle = [[UVSession currentSession].clientConfig.forum prompt];
-    [button setTitle:buttonTitle forState:UIControlStateNormal];
+    [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
     [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor clearColor];
     button.showsTouchWhenHighlighted = YES;
@@ -442,7 +430,6 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     [footer addSubview:button];
     self.tableView.tableFooterView = footer;
-    [footer release];
     
     UIBarButtonItem *sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil)
                                                                     style:UIBarButtonItemStylePlain

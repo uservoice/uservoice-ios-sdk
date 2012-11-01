@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 UserVoice Inc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "UVBaseTicketViewController.h"
 #import "UVSession.h"
 #import "UVArticle.h"
@@ -81,8 +82,8 @@
 }
 
 
-- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    id model = [self.instantAnswers objectAtIndex:indexPath.row];
+- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
+    id model = [instantAnswers objectAtIndex:index];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         cell.textLabel.text = article.question;
@@ -110,6 +111,49 @@
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     }
+}
+
+- (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center {
+    UIImageView *arrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_arrow.png"]] autorelease];
+    arrow.center = center;
+    arrow.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    arrow.tag = TICKET_VIEW_ARROW_TAG;
+    [view addSubview:arrow];
+    
+    UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+    spinner.center = center;
+    spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    spinner.tag = TICKET_VIEW_SPINNER_TAG;
+    [spinner startAnimating];
+    [view addSubview:spinner];
+}
+
+- (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated {
+    UIView *spinner = [view viewWithTag:TICKET_VIEW_SPINNER_TAG];
+    UIView *arrow = [view viewWithTag:TICKET_VIEW_ARROW_TAG];
+    void (^update)() = ^{
+        if (loadingInstantAnswers) {
+            spinner.layer.opacity = 1.0;
+            arrow.layer.opacity = 0.0;
+        } else {
+            spinner.layer.opacity = 0.0;
+            arrow.layer.opacity = 1.0;
+            if (toggled) {
+                arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
+            } else {
+                arrow.layer.transform = CATransform3DIdentity;
+            }
+        }
+    };
+    if (animated) {
+        [UIView animateWithDuration:0.3 animations:update];
+    } else {
+        update();
+    }
+}
+
+- (NSString *)instantAnswersFoundMessage {
+    return NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
 }
 
 - (void)dealloc {
