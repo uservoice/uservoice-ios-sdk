@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 @class UVActivityIndicator;
 
 // Base class for UserVoice content view controllers. Will handle things like

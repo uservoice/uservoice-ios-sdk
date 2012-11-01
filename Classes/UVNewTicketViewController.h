@@ -16,6 +16,7 @@
     UIView *activeField;
     NSMutableDictionary *selectedCustomFieldValues;
     BOOL showInstantAnswers;
+    int instantAnswersCount;
 }
 
 + (UIViewController *)viewController;

@@ -49,7 +49,7 @@
 }
 
 + (UIViewController *)viewControllerWithText:(NSString *)text {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (IPAD) {
         return [[[UVNewTicketViewController alloc] initWithText:text] autorelease];
     } else {
         return [[[UVNewTicketTextViewController alloc] initWithText:text] autorelease];
@@ -115,11 +115,45 @@
 }
 
 - (void)willLoadInstantAnswers {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+    if (IPAD) {
+        [tableView beginUpdates];
+        int count = instantAnswersCount;
+        instantAnswersCount = 0;
+        if (showInstantAnswers) {
+            [tableView deleteRowsAtIndexPaths:[self indexPathsForInstantAnswers:count] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        if (count == 0) {
+            [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
+            [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+        }
+        [tableView endUpdates];
+    } else {
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 - (void)didLoadInstantAnswers {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+    if (IPAD) {
+        [tableView beginUpdates];
+        if (showInstantAnswers) {
+            [tableView deleteRowsAtIndexPaths:[self indexPathsForInstantAnswers:instantAnswersCount] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        instantAnswersCount = [instantAnswers count];
+        if (showInstantAnswers) {
+            [tableView insertRowsAtIndexPaths:[self indexPathsForInstantAnswers:instantAnswersCount] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        if (instantAnswersCount == 0) {
+            [tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
+            [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+        }
+        [tableView endUpdates];
+    } else {
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -179,15 +213,16 @@
 - (void)initCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor colorWithRed:1.00f green:0.98f blue:0.85f alpha:1.0f];
 
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(18, 3, 250, 40)] autorelease];
+    CGFloat margin = IPAD ? 45 : 10;
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(8 + margin, IPAD ? 1 : 3, cell.bounds.size.width - margin*2 - 100, 40)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.text = [self instantAnswersFoundMessage];
-    label.font = [UIFont systemFontOfSize:11];
+    label.font = [UIFont systemFontOfSize:IPAD ? 13 : 11];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
     [cell addSubview:label];
 
-    [self addSpinnerAndArrowTo:cell atCenter:CGPointMake(290, 22)];
+    [self addSpinnerAndArrowTo:cell atCenter:CGPointMake(cell.bounds.size.width - margin - 20, 22)];
 }
 
 - (void)customizeCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -195,12 +230,11 @@
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForInstantAnswer:cell index:indexPath.row-1];
+    [self customizeCellForInstantAnswer:cell index:indexPath.row - (IPAD ? 2 : 1)];
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(iPad ? 60 : 16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(IPAD ? 60 : 16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     label.font = [UIFont boldSystemFontOfSize:16];
     label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
@@ -209,14 +243,14 @@
     label.adjustsFontSizeToFitWidth = YES;
     [cell addSubview:label];
 
-    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (iPad ? 64 : 20), cell.frame.size.height - 10)] autorelease];
+    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)] autorelease];
     textField.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     textField.borderStyle = UITextBorderStyleNone;
     textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
     textField.delegate = self;
     [cell addSubview:textField];
 
-    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 - 14, 5, cell.frame.size.width / 2 - (iPad ? 64 : 20), cell.frame.size.height - 10)] autorelease];
+    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 - 14, 5, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)] autorelease];
     valueLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     valueLabel.font = [UIFont systemFontOfSize:16];
     valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
@@ -264,8 +298,9 @@
             style = UITableViewCellStyleValue1;
             break;
         case UV_NEW_TICKET_SECTION_INSTANT_ANSWERS:
-            // TODO put the identifier = @"Text" cell here, and then the IA message, if on iPad
-            if (indexPath.row == 0) {
+            if (IPAD && indexPath.row == 0) {
+                identifier = @"Text";
+            } else if (indexPath.row == 0 || (IPAD && indexPath.row == 1)) {
                 identifier = @"InstantAnswersMessage";
                 selectable = YES;
             } else {
@@ -297,8 +332,7 @@
             return 1;
         }
     } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        // TODO add another on the ipad
-        return (loadingInstantAnswers || [instantAnswers count] > 0 ? 1 : 0) + (showInstantAnswers ? [instantAnswers count] : 0);
+        return (IPAD ? 1 : 0) + (loadingInstantAnswers || instantAnswersCount > 0 ? 1 : 0) + (showInstantAnswers ? instantAnswersCount : 0);
     } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
         return [[UVSession currentSession].clientConfig.customFields count];
     } else {
@@ -309,8 +343,11 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO return 144 (or something) if this is the text cell on the ipad
-    return 44;
+    if (IPAD && indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS && indexPath.row == 0) {
+        return 144;
+    } else {
+        return 44;
+    }
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -328,11 +365,10 @@
             [textField becomeFirstResponder];
         }
     } else if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        // TODO -2 for ipad
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0 || (IPAD && indexPath.row == 1)) {
             [self toggleInstantAnswers:indexPath];
         } else {
-            [self selectInstantAnswerAtIndex:indexPath.row - 1];
+            [self selectInstantAnswerAtIndex:indexPath.row - (IPAD ? 2 : 1)];
         }
     }
 }
@@ -341,16 +377,21 @@
     showInstantAnswers = !showInstantAnswers;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
-    NSMutableArray *instantAnswerIndexPaths = [NSMutableArray arrayWithCapacity:[instantAnswers count]];
-    for (int i = 0; i < [instantAnswers count]; i++) {
-        NSIndexPath *indexPath = [[NSIndexPath indexPathWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] indexPathByAddingIndex:i+1];
-        [instantAnswerIndexPaths addObject:indexPath];
-    }
+    NSMutableArray *instantAnswerIndexPaths = [self indexPathsForInstantAnswers:instantAnswersCount];
     if (showInstantAnswers) {
         [tableView insertRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
     } else {
         [tableView deleteRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
     }
+}
+
+- (NSMutableArray *)indexPathsForInstantAnswers:(int)count {
+    NSMutableArray *instantAnswerIndexPaths = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i < count; i++) {
+        NSIndexPath *indexPath = [[NSIndexPath indexPathWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] indexPathByAddingIndex:i + (IPAD ? 2 : 1)];
+        [instantAnswerIndexPaths addObject:indexPath];
+    }
+    return instantAnswerIndexPaths;
 }
 
 - (void)textLabelTapped {
@@ -390,23 +431,25 @@
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 68)];
-    // TODO recalculate this on orientation change
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 60)];
-    textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textLabel.numberOfLines = 3;
-    textLabel.font = [UIFont systemFontOfSize:15];
-    textLabel.text = text;
-    [textLabel sizeToFit];
-    headerView.backgroundColor = [UIColor whiteColor];
-    [headerView addSubview:textLabel];
-    [headerView addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textLabelTapped)] autorelease]];
-    headerView.layer.shadowColor = [[UIColor blackColor] CGColor];
-    headerView.layer.shadowOpacity = 0.4;
-    headerView.layer.shadowOffset = CGSizeMake(0, 1);
-    headerView.layer.shadowRadius = 3.0f;
-    headerView.layer.masksToBounds = NO;
-    self.tableView.tableHeaderView = headerView;
+    if (!IPAD) {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 68)];
+        // TODO recalculate this on orientation change
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 60)];
+        textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        textLabel.numberOfLines = 3;
+        textLabel.font = [UIFont systemFontOfSize:15];
+        textLabel.text = text;
+        [textLabel sizeToFit];
+        headerView.backgroundColor = [UIColor whiteColor];
+        [headerView addSubview:textLabel];
+        [headerView addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textLabelTapped)] autorelease]];
+        headerView.layer.shadowColor = [[UIColor blackColor] CGColor];
+        headerView.layer.shadowOpacity = 0.4;
+        headerView.layer.shadowOffset = CGSizeMake(0, 1);
+        headerView.layer.shadowRadius = 3.0f;
+        headerView.layer.masksToBounds = NO;
+        self.tableView.tableHeaderView = headerView;
+    }
 
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)] autorelease];
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)] autorelease];
