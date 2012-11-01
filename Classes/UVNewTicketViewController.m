@@ -130,6 +130,7 @@
         }
         [tableView endUpdates];
     } else {
+        instantAnswersCount = 0;
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
@@ -152,6 +153,7 @@
         }
         [tableView endUpdates];
     } else {
+        instantAnswersCount = [instantAnswers count];
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
@@ -213,7 +215,7 @@
 - (void)initCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor colorWithRed:1.00f green:0.98f blue:0.85f alpha:1.0f];
 
-    CGFloat margin = IPAD ? 45 : 10;
+    CGFloat margin = IPAD ? 35 : 10;
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(8 + margin, IPAD ? 1 : 3, cell.bounds.size.width - margin*2 - 100, 40)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.text = [self instantAnswersFoundMessage];

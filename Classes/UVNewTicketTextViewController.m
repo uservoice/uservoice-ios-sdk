@@ -83,6 +83,7 @@
     if (!userHasSeenInstantAnswers)
         self.ticketViewController.showInstantAnswers = YES;
     userHasSeenInstantAnswers = YES;
+    [self.ticketViewController didLoadInstantAnswers];
     [self.navigationController pushViewController:ticketViewController animated:YES];
 }
 
