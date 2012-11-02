@@ -13,13 +13,12 @@
 @implementation UVNewTicketTextViewController
 
 @synthesize instantAnswersMessage;
-@synthesize shadowView;
 @synthesize ticketViewController;
 
 - (void)loadView {
     [super loadView];
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.view.backgroundColor = [UIColor colorWithRed:0.92f green:0.92f blue:0.92f alpha:1.0f];
+    self.view.backgroundColor = [UIColor whiteColor];
 
     self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 50)] autorelease];
     [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
@@ -34,15 +33,6 @@
     [self addSpinnerAndArrowTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
     instantAnswersMessage.hidden = YES;
     [self.view addSubview:instantAnswersMessage];
-    
-    self.shadowView = [[[UIView alloc] initWithFrame:CGRectMake(-10, -100, 340, [UIScreen mainScreen].bounds.size.height - 180)] autorelease];
-    self.shadowView.backgroundColor = [UIColor whiteColor];
-    self.shadowView.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.shadowView.layer.shadowOpacity = 0.4;
-    self.shadowView.layer.shadowOffset = CGSizeMake(0, 1);
-    self.shadowView.layer.shadowRadius = 5.0f;
-    self.shadowView.layer.masksToBounds = NO;
-    [self.view addSubview:shadowView];
     
     self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height - 280)] autorelease];
     self.textView.text = self.text;
@@ -176,7 +166,6 @@
 
     [UIView animateWithDuration:0.3 animations:^{
         textView.frame = CGRectMake(0, 0, textViewSize.width, textViewSize.height);
-        shadowView.frame = CGRectMake(-10, -100, textViewSize.width + 20, textViewSize.height + 100);
         instantAnswersMessage.frame = CGRectMake(0, textViewSize.height, instantAnswersMessageSize.width, instantAnswersMessageSize.height);
         tableView.frame = CGRectMake(0, tableY, instantAnswersMessageSize.width, self.view.frame.size.height - tableY);
     } completion:^(BOOL finished) {
@@ -193,7 +182,6 @@
 
 - (void)dealloc {
     self.instantAnswersMessage = nil;
-    self.shadowView = nil;
     self.ticketViewController = nil;
     [super dealloc];
 }

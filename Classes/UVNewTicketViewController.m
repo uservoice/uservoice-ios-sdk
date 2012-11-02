@@ -426,35 +426,51 @@
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
 
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+    self.view = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view.backgroundColor = [UIColor whiteColor];
 
-    [self setupGroupedTableView];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.sectionFooterHeight = 0.0;
+    self.messageTextView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height - 280)] autorelease];
+    self.textView = [[[UVTextView alloc] initWithFrame:messageTextView.bounds] autorelease];
+    self.textView.text = self.text;
+    self.textView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.textView.backgroundColor = [UIColor whiteColor];
+    self.textView.placeholder = NSLocalizedStringFromTable(@"How can we help you today?", @"UserVoice", nil);
+    self.textView.delegate = self;
+    [messageTextView addSubview:self.textView];
+    // TODO placeholder UILabel
+    [self.view addSubview:messageTextView];
+
+    self.instantAnswersView = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 50)] autorelease];
+    self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+    self.instantAnswersMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
+    UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 6, 250, 30)] autorelease];
+    instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    instantAnswersLabel.numberOfLines = 2;
+    instantAnswersLabel.text = [self instantAnswersFoundMessage];
+    instantAnswersLabel.font = [UIFont systemFontOfSize:11];
+    instantAnswersLabel.backgroundColor = [UIColor clearColor];
+    instantAnswersLabel.textAlignment = UITextAlignmentLeft;
+    [instantAnswersMessage addSubview:instantAnswersLabel];
+    [self addSpinnerAndArrowTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
+    [instantAnswersView addSubview:instantAnswersMessage];
+    self.instantAnswersTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 50, 320, 100) style:UITableViewStyleGrouped] autorelease];
+    self.instantAnswersTableView.backgroundView = nil;
+    self.instantAnswersTableView.backgroundColor = [UIColor clearColor];
+    self.instantAnswersTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.instantAnswersTableView.dataSource = self;
+    self.instantAnswersTableView.delegate = self;
+    // TODO footer view with buttons
+    [self.view addSubview:instantAnswersView];
     
-    if (!IPAD) {
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 68)];
-        // TODO recalculate this on orientation change
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 60)];
-        textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        textLabel.numberOfLines = 3;
-        textLabel.font = [UIFont systemFontOfSize:15];
-        textLabel.text = text;
-        [textLabel sizeToFit];
-        headerView.backgroundColor = [UIColor whiteColor];
-        [headerView addSubview:textLabel];
-        [headerView addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textLabelTapped)] autorelease]];
-        headerView.layer.shadowColor = [[UIColor blackColor] CGColor];
-        headerView.layer.shadowOpacity = 0.4;
-        headerView.layer.shadowOffset = CGSizeMake(0, 1);
-        headerView.layer.shadowRadius = 3.0f;
-        headerView.layer.masksToBounds = NO;
-        self.tableView.tableHeaderView = headerView;
-    }
+    self.fieldsTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 200, 320, 100) style:UITableViewStyleGrouped] autorelease];
+    self.fieldsTableView.backgroundView = nil;
+    self.fieldsTableView.dataSource = self;
+    self.fieldsTableView.delegate = self;
+    self.fieldsTableView.backgroundColor = [UIColor clearColor];
 
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)] autorelease];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, fieldsTableView.bounds.size.width, 50)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, fieldsTableView.bounds.size.width, 15)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
     label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UVStyleSheet linkTextColor];
@@ -462,7 +478,6 @@
     label.font = [UIFont systemFontOfSize:13];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [footer addSubview:label];
-
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 25, 320, 15);
     [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
@@ -474,13 +489,72 @@
     button.center = CGPointMake(footer.center.x, button.center.y);
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     [footer addSubview:button];
-    self.tableView.tableFooterView = footer;
+    self.fieldsTableView.tableFooterView = footer;
+
+    /* self.tableView.sectionFooterHeight = 0.0; */
     
-    UIBarButtonItem *sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil)
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self
-                                                                   action:@selector(sendButtonTapped)] autorelease];
-    self.navigationItem.rightBarButtonItem = sendButton;
+    // 3 panels
+    // - message text - 2 states (edit, show)
+    // - instant answers - 2 states (label only / label + table)
+    // - fields - single state
+    // states
+    // - edit message (edit, hide, hide)
+    // - show IA message (show, label, hide)
+    // - expand IA message (show, table, hide)
+    // - show fields (show, label, show)
+    // keyboard handling
+    // - set content insets on self.view
+    // - the text view has to be sized equal to the content size
+    // - the IA message is always at the bottom of the text view, so this affects that too
+    // - everything else has a natural content height
+
+    // STATE_BEGIN
+    // finds IAs -> STATE_IA
+    // next -> STATE_FIELDS
+
+    // STATE_IA
+    // next -> STATE_SHOW_IA
+    // tap IA message -> STATE_SHOW_IA
+    // find no IAs -> STATE_BEGIN
+    
+    // STATE_SHOW_IA
+    // tap IA message -> STATE_IA
+    // tap text -> STATE_IA
+    // tap no thanks -> STATE_FIELDS_IA
+
+    // STATE_FIELDS
+    // tap text -> STATE_BEGIN
+
+    // STATE_FIELDS_IA
+    // tap text -> STATE_IA
+    // tap IA message -> STATE_SHOW_IA
+
+    // showTextView = (STATE_BEGIN | STATE_IA)
+    // showIAMessage = (STATE_IA | STATE_SHOW_IA | STATE_FIELDS_IA)
+    // showIATable = (STATE_SHOW_IA)
+    // showFields = (STATE_FIELDS | STATE_FIELDS_IA)
+    // arrowDown = (STATE_IA | STATE_FIELDS_IA)
+    // showArrow = !loadingInstantAnswers
+    // showSpinner = loadingInstantAnswers
+    // textView.height = keyboardShown ? x : y
+    // IA.top = textView.height
+    
+    self.nextButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(nextButtonTapped)] autorelease];
+
+    self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil)
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(sendButtonTapped)] autorelease];
+
+    self.navigationItem.rightBarButtonItem = nextButton;
+}
+
+- (void)nextButtonTapped {
+    // 
+    // TODO self.state = STATE_IA_VIEW_INSTANT_ANSWERS
 }
 
 - (void)viewDidLoad {
