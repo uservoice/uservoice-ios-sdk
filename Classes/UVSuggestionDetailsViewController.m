@@ -108,7 +108,7 @@
 // Calculates the height of the text.
 - (CGSize)textSize {
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGFloat margin = screenWidth > 480 ? 45 : 10;
+    CGFloat margin = IPAD ? 45 : 10;
     // Probably doesn't matter, but we might want to cache this since we call it twice.
     return [self.suggestion.text
             sizeWithFont:[UIFont systemFontOfSize:13]
@@ -122,8 +122,8 @@
     // Probably doesn't matter, but we might want to cache this since we call it twice.
     return [self.suggestion.title
             sizeWithFont:[UIFont boldSystemFontOfSize:18]
-            constrainedToSize:CGSizeMake((screenWidth-85), 10000)
-            lineBreakMode:UILineBreakModeWordWrap];
+       constrainedToSize:CGSizeMake((screenWidth-(IPAD ? 130 : 85)), 10000)
+           lineBreakMode:UILineBreakModeWordWrap];
 }
 
 - (void)setVoteLabelTextAndColorForLabel:(UILabel *)label {
@@ -155,7 +155,7 @@
     [self removeBackgroundFromCell:cell];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, 72)];
+    UIView *bg = [[UILabel alloc] initWithFrame:cell.bounds];
     bg.backgroundColor = [UVStyleSheet backgroundColor];
     bg.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [cell.contentView addSubview:bg];
@@ -226,16 +226,14 @@
 - (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     [self removeBackgroundFromCell:cell];
 
-    NSInteger height = [self textSize].height > 0 ? [self textSize].height + 8 : 0;
-
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, height)];
+    UIView *bg = [[UILabel alloc] initWithFrame:cell.bounds];
     bg.backgroundColor = [UVStyleSheet backgroundColor];
     bg.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [cell.contentView addSubview:bg];
     [bg release];
 
     // The default margins are too large for the body, so we're using our own label.
-    UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, cell.bounds.size.width, [self textSize].height)] autorelease];
+    UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, cell.bounds.size.width, cell.bounds.size.height)] autorelease];
     body.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     body.text = self.suggestion.text;
     body.font = [UIFont systemFontOfSize:13];
@@ -379,7 +377,7 @@
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case UV_SUGGESTION_DETAILS_SECTION_VOTE:
-            return 73;
+            return 50;
             break;
         case UV_SUGGESTION_DETAILS_SECTION_BODY:
             return [self textSize].height > 0 ? [self textSize].height + 10 : 0;
@@ -429,8 +427,7 @@
     UIView *title = [headerView viewWithTag:HEADER_VIEW_TITLE_TAG];
     UIView *category = [headerView viewWithTag:HEADER_VIEW_CATEGORY_TAG];
     
-    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
-    CGFloat marginLeft = iPad ? 45 : 10;
+    CGFloat marginLeft = IPAD ? 45 : 10;
     CGFloat marginTop = 20;
     CGSize titleSize = [self titleSize];
     NSInteger headerHeight = MAX(titleSize.height + 50, 90);
@@ -438,8 +435,8 @@
     
     headerView.frame = CGRectMake(0, 0, screenWidth, headerHeight);
     bg.frame = CGRectMake(0, 0, screenWidth, headerHeight);
-    title.frame = CGRectMake(marginLeft + (iPad ? 75 : 65), marginTop, titleSize.width, titleSize.height);
-    category.frame = CGRectMake(marginLeft + (iPad ? 75 : 65), titleSize.height + marginTop + 4, titleSize.width, 11);
+    title.frame = CGRectMake(marginLeft + (IPAD ? 75 : 65), marginTop, titleSize.width, titleSize.height);
+    category.frame = CGRectMake(marginLeft + (IPAD ? 75 : 65), titleSize.height + marginTop + 4, titleSize.width, 11);
 }
 
 #pragma mark ===== Basic View Methods =====
