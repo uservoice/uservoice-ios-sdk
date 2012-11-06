@@ -12,11 +12,18 @@
 #define TICKET_VIEW_ARROW_TAG 1000
 #define TICKET_VIEW_SPINNER_TAG 1001
 
-@interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate> {
+#define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
+#define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
+#define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
+
+@interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     NSString *text;
     UVTextView *textView;
     NSTimer *timer;
     NSArray *instantAnswers;
+    UITextField *emailField;
+    UIView *activeField;
+    NSMutableDictionary *selectedCustomFieldValues;
     BOOL loadingInstantAnswers;
 }
 
@@ -24,15 +31,22 @@
 @property (nonatomic,retain) UVTextView *textView;
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSArray *instantAnswers;
-@property (assign) BOOL loadingInstantAnswers;
+@property (nonatomic, retain) UITextField *emailField;
+@property (nonatomic, retain) UIView *activeField;
+@property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)theText;
 - (void)selectInstantAnswerAtIndex:(int)index;
+- (void)selectCustomFieldAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)theTableView;
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
 - (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (NSString *)instantAnswersFoundMessage;
+- (BOOL)signedIn;
+- (void)sendButtonTapped;
+- (void)suggestionButtonTapped;
 
+- (void)dismissKeyboard;
 - (void)willLoadInstantAnswers;
 - (void)didLoadInstantAnswers;
 
