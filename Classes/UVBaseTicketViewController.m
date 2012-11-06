@@ -19,6 +19,7 @@
 #import "UVCustomField.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
+#import "UVConfig.h"
 #import "UVTicket.h"
 #import "UVForum.h"
 
@@ -35,6 +36,13 @@
 - (id)initWithText:(NSString *)theText {
     if (self = [self init]) {
         self.text = theText;
+    }
+    return self;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithDictionary:[UVSession currentSession].config.customFields];
     }
     return self;
 }
@@ -70,6 +78,10 @@
 - (void)suggestionButtonTapped {
     UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum title:self.textView.text];
     [self pushViewControllerFromWelcome:next];
+}
+
+- (void)reloadCustomFieldsTable {
+    [tableView reloadData];
 }
 
 - (void)selectCustomFieldAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)theTableView {

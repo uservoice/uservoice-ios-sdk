@@ -11,7 +11,7 @@
 #import "UVClientConfig.h"
 #import "UVCustomField.h"
 #import "UVSubdomain.h"
-#import "UVNewTicketViewController.h"
+#import "UVBaseTicketViewController.h"
 
 @implementation UVCustomFieldValueSelectViewController
 
@@ -57,8 +57,8 @@
     [valueDictionary setObject:cell.textLabel.text forKey:customField.name];
     // TODO: Uncheck the previously selected row
     NSArray *viewControllers = [self.navigationController viewControllers];
-    UVNewTicketViewController *prev = (UVNewTicketViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
-    [prev.tableView reloadData];
+    UVBaseTicketViewController *prev = (UVBaseTicketViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+    [prev reloadCustomFieldsTable];
     [prev dismissKeyboard];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -68,8 +68,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
         NSArray *viewControllers = [self.navigationController viewControllers];
-        UVNewTicketViewController *prev = (UVNewTicketViewController *)[viewControllers lastObject];
-        [prev.tableView reloadData];
+        UVBaseTicketViewController *prev = (UVBaseTicketViewController *)[viewControllers lastObject];
+        [prev reloadCustomFieldsTable];
         [prev dismissKeyboard];
     }
     [super viewWillDisappear:animated];

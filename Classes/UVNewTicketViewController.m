@@ -91,8 +91,24 @@
     self.instantAnswersTableView.dataSource = self;
     self.instantAnswersTableView.delegate = self;
     self.instantAnswersTableView.scrollEnabled = NO;
+    UIView *iaFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, instantAnswersTableView.bounds.size.width, 80)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, instantAnswersTableView.bounds.size.width, 15)] autorelease];
+    label.text = NSLocalizedStringFromTable(@"Do any of these answer your question?", @"UserVoice", nil);
+    label.font = [UIFont boldSystemFontOfSize:13];
+    [iaFooter addSubview:label];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(10, 35, 145, 35);
+    button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
+    [button setTitle:NSLocalizedStringFromTable(@"Thanks!", @"UserVoice", nil) forState:UIControlStateNormal];
+    [iaFooter addSubview:button];
+    button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(165, 35, 145, 35);
+    button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
+    [button setTitle:NSLocalizedStringFromTable(@"Not helpful", @"UserVoice", nil) forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(notInterestedTapped) forControlEvents:UIControlEventTouchUpInside];
+    [iaFooter addSubview:button];
+    self.instantAnswersTableView.tableFooterView = iaFooter;
     [instantAnswersView addSubview:instantAnswersTableView];
-    // TODO footer view with buttons
     [self.view addSubview:instantAnswersView];
     
     self.fieldsTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 200, 320, 100) style:UITableViewStyleGrouped] autorelease];
@@ -100,10 +116,15 @@
     self.fieldsTableView.dataSource = self;
     self.fieldsTableView.delegate = self;
     self.fieldsTableView.scrollEnabled = NO;
-    self.fieldsTableView.backgroundColor = [UIColor clearColor];
+    self.fieldsTableView.backgroundColor = [UIColor whiteColor];
+    fieldsTableView.hidden = YES;
+    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
+    border.backgroundColor = [UIColor colorWithRed:0.76f green:0.76f blue:0.76f alpha:1.0f];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [fieldsTableView addSubview:border];
 
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, fieldsTableView.bounds.size.width, 50)] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, fieldsTableView.bounds.size.width, 15)] autorelease];
+    label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, fieldsTableView.bounds.size.width, 15)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
     label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UVStyleSheet linkTextColor];
@@ -111,7 +132,7 @@
     label.font = [UIFont systemFontOfSize:13];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [footer addSubview:label];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 25, 320, 15);
     [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
     [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
@@ -123,6 +144,7 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     [footer addSubview:button];
     self.fieldsTableView.tableFooterView = footer;
+    [self.view addSubview:fieldsTableView];
     
     self.nextButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
                                                         style:UIBarButtonItemStylePlain
@@ -134,11 +156,15 @@
                                                        target:self
                                                        action:@selector(sendButtonTapped)] autorelease];
 
-    self.navigationItem.rightBarButtonItem = nextButton;
-
     state = STATE_BEGIN;
     keyboardHidden = NO;
     [textView becomeFirstResponder];
+    [self updateLayout];
+}
+
+- (void)notInterestedTapped {
+    notInterested = YES;
+    state = STATE_FIELDS_IA;
     [self updateLayout];
 }
 
@@ -146,13 +172,22 @@
     if (state == STATE_BEGIN) {
         state = STATE_FIELDS;
     } else if (state == STATE_IA) {
-        state = STATE_FIELDS_IA;
+        state = STATE_SHOW_IA;
     }
     [self updateLayout];
 }
 
+- (void)textViewDidChange:(UVTextView *)theTextEditor {
+    [super textViewDidChange:theTextEditor];
+    self.navigationItem.rightBarButtonItem = [theTextEditor.text length] == 0 ? nil : nextButton;
+}
+
+- (void)reloadCustomFieldsTable {
+    [fieldsTableView reloadData];
+}
+
 - (void)willLoadInstantAnswers {
-    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:(state != STATE_IA) animated:YES];
+    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
 }
 
 - (void)didLoadInstantAnswers {
@@ -160,6 +195,7 @@
         state = (state == STATE_FIELDS) ? STATE_FIELDS_IA : STATE_IA;
     else
         state = (state == STATE_FIELDS_IA) ? STATE_FIELDS : STATE_BEGIN;
+    notInterested = NO;
     [instantAnswersTableView reloadData];
     [self updateLayout];
 }
@@ -282,14 +318,16 @@
         textViewRect.size.height -= 40;
 
     CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.size.height);
-    CGPoint fieldsTableOrigin = CGPointMake(0, showFieldsTable ? instantAnswersOrigin.y + 40 : sH);
+    CGPoint fieldsTableOrigin = CGPointMake(0, showFieldsTable ? instantAnswersOrigin.y + (showIAMessage ? 40 : 0) : sH);
 
     instantAnswersView.hidden = !showIAMessage;
-    instantAnswersTableView.hidden = !showIATable;
-    fieldsTableView.hidden = !showFieldsTable;
+    if (showIATable)
+        instantAnswersTableView.hidden = NO;
+    if (showFieldsTable)
+        fieldsTableView.hidden = NO;
 
     if (showTextView)
-        self.navigationItem.rightBarButtonItem = nextButton;
+        self.navigationItem.rightBarButtonItem = [textView.text length] == 0 ? nil : nextButton;
     else if (showIATable)
         self.navigationItem.rightBarButtonItem = nil;
     else
@@ -299,13 +337,20 @@
     instantAnswersTableView.frame = CGRectMake(instantAnswersTableView.frame.origin.x, instantAnswersTableView.frame.origin.y, instantAnswersTableView.frame.size.width, instantAnswersTableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.frame.size.height : 0) + (showFieldsTable ? fieldsTableView.frame.size.height : 0));
 
-    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:(state != STATE_IA) animated:YES];
+    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
     [UIView animateWithDuration:0.3 animations:^{
         messageTextView.frame = textViewRect;
         instantAnswersView.frame = CGRectMake(instantAnswersOrigin.x, instantAnswersOrigin.y, textViewRect.size.width, instantAnswersTableView.frame.origin.y + instantAnswersTableView.frame.size.height);
         fieldsTableView.frame = CGRectMake(fieldsTableOrigin.x, fieldsTableOrigin.y, textViewRect.size.width, fieldsTableView.bounds.size.height);
     } completion:^(BOOL finished) {
-        [textView scrollRangeToVisible:[textView selectedRange]];
+        if (showTextView)
+            [textView scrollRangeToVisible:[textView selectedRange]];
+        else
+            [textView scrollRangeToVisible:NSMakeRange(0, 0)];
+        if (!showFieldsTable)
+            fieldsTableView.hidden = YES;
+        if (!showIATable)
+            instantAnswersTableView.hidden = YES;
     }];
 }
 

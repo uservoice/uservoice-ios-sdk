@@ -49,5 +49,6 @@
 - (void)dismissKeyboard;
 - (void)willLoadInstantAnswers;
 - (void)didLoadInstantAnswers;
+- (void)reloadCustomFieldsTable;
 
 @end
