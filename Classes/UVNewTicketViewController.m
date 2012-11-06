@@ -26,6 +26,7 @@
 #import "UVSuggestion.h"
 #import "UVArticleViewController.h"
 #import "UVSuggestionDetailsViewController.h"
+#import "UVConfig.h"
 
 #define UV_NEW_TICKET_SECTION_TEXT 0
 #define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 1
@@ -57,7 +58,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithCapacity:[[UVSession currentSession].clientConfig.customFields count]];
+        self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithDictionary:[UVSession currentSession].config.customFields];
     }
     return self;
 }

@@ -1,5 +1,10 @@
 ## master ##
 
+## 1.2.4 ##
+
+* Add support for setting custom fields programmatically
+* Add support for armv7s (iPhone 5)
+
 ## 1.2.3 ##
 
 * Fix a bug that would cause sign-in to fail when connected to a private forum

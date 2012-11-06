@@ -1063,6 +1063,7 @@
 					i386,
 					armv7,
 					armv6,
+					armv7s,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILT_PRODUCTS_DIR)";
 				CONFIGURATION_TEMP_DIR = "$(BUILT_PRODUCTS_DIR)";
@@ -1109,6 +1110,7 @@
 					i386,
 					armv7,
 					armv6,
+					armv7s,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILT_PRODUCTS_DIR)";
 				CONFIGURATION_TEMP_DIR = "$(BUILT_PRODUCTS_DIR)";
@@ -1204,6 +1206,7 @@
 					i386,
 					armv7,
 					armv6,
+					armv7s,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILT_PRODUCTS_DIR)";
 				CONFIGURATION_TEMP_DIR = "$(BUILT_PRODUCTS_DIR)";

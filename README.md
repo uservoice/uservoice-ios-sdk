@@ -68,6 +68,15 @@ encrypt the token on your servers and pass it to the iOS app.
                                       andSecret:@"YOUR_SECRET",
                                     andSSOToken:@"SOME_BIG_LONG_SSO_TOKEN"];
 
+### Custom Fields
+
+You can set custom field values on the `UVConfig` object. These will be used
+associated with any tickets the user creates during their session. You can
+also use this to set default values for custom fields on the contact form.
+
+    config.customFields = [NSDictionary dictionaryWithObjectsAndKeys:@"Value", @"Key", nil];
+
+
 ### Invocation
 
 Then you will want to launch UserVoice from the appropriate place in your code.
