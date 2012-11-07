@@ -10,19 +10,31 @@
 
 @implementation UVTextView
 
-@synthesize placeholder;
-@synthesize placeholderColor;
-@synthesize shouldDrawPlaceholder;
-
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
         
-        self.placeholderColor = [UIColor colorWithWhite:0.702f alpha:1.0f];
-        self.shouldDrawPlaceholder = NO;
         self.font = [UIFont systemFontOfSize:15];
+        placeholder = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, self.frame.size.width - 16, self.frame.size.height - 16)];
+        placeholder.font = self.font;
+        placeholder.textColor = [UIColor colorWithWhite:0.702f alpha:1.0f];
+        [self addSubview:placeholder];
     }
     return self;
+}
+
+- (void)setPlaceholder:(NSString *)newPlaceholder {
+    placeholder.text = newPlaceholder;
+    [placeholder sizeToFit];
+    [self updateShouldDrawPlaceholder];
+}
+
+- (NSString *)placeholder {
+    return placeholder.text;
+}
+
+- (void)updateShouldDrawPlaceholder {
+    placeholder.hidden = self.text.length != 0;
 }
 
 - (void)setText:(NSString *)string {
@@ -30,47 +42,13 @@
     [self updateShouldDrawPlaceholder];
 }
 
-
-- (void)setPlaceholder:(NSString *)newPlaceholder {
-    if ([newPlaceholder isEqual:placeholder]) {
-        return;
-    }
-    
-    [placeholder release];
-    placeholder = [newPlaceholder retain];
-    
-    [self updateShouldDrawPlaceholder];
-}
-
-
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    
-    if (shouldDrawPlaceholder) {
-        [placeholderColor set];
-        [placeholder drawInRect:CGRectMake(8.0f, 8.0f, self.frame.size.width - 16.0f, self.frame.size.height - 16.0f) withFont:self.font];
-    }
-}
-
-- (void)updateShouldDrawPlaceholder {
-    BOOL prev = shouldDrawPlaceholder;
-    shouldDrawPlaceholder = self.placeholder && self.placeholderColor && self.text.length == 0;
-    
-    if (prev != shouldDrawPlaceholder) {
-        [self setNeedsDisplay];
-    }
-}
-
-
 - (void)textChanged:(NSNotification *)notificaiton {
     [self updateShouldDrawPlaceholder];
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
-    
-    self.placeholder = nil;
-    self.placeholderColor = nil;
+    [placeholder release];
     [super dealloc];
 }
 

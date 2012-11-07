@@ -9,13 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UVTextView : UITextView {
-    NSString *placeholder;
-    UIColor *placeholderColor;
-    BOOL shouldDrawPlaceholder;
+    UILabel *placeholder;
 }
 
 @property(nonatomic,retain) NSString* placeholder;
-@property(nonatomic,retain) UIColor* placeholderColor;
-@property(nonatomic) BOOL shouldDrawPlaceholder;
 
 @end
