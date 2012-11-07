@@ -178,6 +178,8 @@
 		D9522012163726EE00A7081D /* UVRequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D9522010163726EE00A7081D /* UVRequestToken.m */; };
 		D9819241156D302B00E6F66D /* NSString+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = D981923F156D302B00E6F66D /* NSString+Base64.h */; };
 		D9819242156D302B00E6F66D /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D9819240156D302B00E6F66D /* NSString+Base64.m */; };
+		D99AFAA6164AC1A40061F50C /* UVKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */; };
+		D99AFAA7164AC1A40061F50C /* UVKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */; };
 		D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */; };
 		D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */; };
 		D9B1D1E914ACFCE700D9189F /* NSString+HTMLEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */; };
@@ -400,6 +402,8 @@
 		D986ADF31624C8E5008291AA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = UserVoice.strings; sourceTree = "<group>"; };
 		D99902C5152B881F00AED6A7 /* uv_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_logo.png; sourceTree = "<group>"; };
 		D99902C6152B881F00AED6A7 /* uv_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_logo@2x.png"; sourceTree = "<group>"; };
+		D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVKeyboardUtils.h; sourceTree = "<group>"; };
+		D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVKeyboardUtils.m; sourceTree = "<group>"; };
 		D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageCache.h; sourceTree = "<group>"; };
 		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
 		D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; };
@@ -485,6 +489,8 @@
 				AC31242310911C8600000D5F /* UVSession.h */,
 				AC31242410911C8600000D5F /* UVSession.m */,
 				AC312B1F109914C100000D5F /* UVStyleSheet.m */,
+				D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */,
+				D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -941,6 +947,7 @@
 				D9D4040F164022DD00D9CECA /* UVNewTicketViewController.h in Headers */,
 				D9D40414164023EF00D9CECA /* UVBaseTicketViewController.h in Headers */,
 				D9D404821643261400D9CECA /* UVNavigationController.h in Headers */,
+				D99AFAA6164AC1A40061F50C /* UVKeyboardUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,6 +1095,7 @@
 				D9D40410164022DD00D9CECA /* UVNewTicketViewController.m in Sources */,
 				D9D40415164023EF00D9CECA /* UVBaseTicketViewController.m in Sources */,
 				D9D404831643261400D9CECA /* UVNavigationController.m in Sources */,
+				D99AFAA7164AC1A40061F50C /* UVKeyboardUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

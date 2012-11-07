@@ -16,6 +16,7 @@
 #import "UVClientConfig.h"
 #import "UVTicket.h"
 #import "UVForum.h"
+#import "UVKeyboardUtils.h"
 
 @implementation UVNewTicketViewController
 
@@ -157,7 +158,6 @@
                                                        action:@selector(sendButtonTapped)] autorelease];
 
     state = STATE_BEGIN;
-    keyboardHidden = NO;
     [textView becomeFirstResponder];
     [self updateLayout];
 }
@@ -166,6 +166,8 @@
     notInterested = YES;
     state = STATE_FIELDS_IA;
     [self updateLayout];
+    if ([emailField.text length] == 0)
+        [emailField becomeFirstResponder];
 }
 
 - (void)nextButtonTapped {
@@ -200,8 +202,15 @@
     [self updateLayout];
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
+    offset.x = 0;
+    offset.y -= 20;
+    [scrollView setContentOffset:offset animated:YES];
+    return YES;
+}
+
 - (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
-    [super textViewDidBeginEditing:theTextEditor];
     if ([instantAnswers count] == 0)
         state = STATE_BEGIN;
     else
@@ -227,13 +236,13 @@
     [self updateLayout];
 }
 
-- (void)keyboardWillShow:(NSNotification*)notification {
-    keyboardHidden = NO;
+- (void)keyboardDidShow:(NSNotification*)notification {
+    [super keyboardDidShow:notification];
     [self updateLayout];
 }
 
-- (void)keyboardWillHide:(NSNotification*)notification {
-    keyboardHidden = YES;
+- (void)keyboardDidHide:(NSNotification*)notification {
+    [super keyboardDidHide:notification];
     [self updateLayout];
 }
 
@@ -299,6 +308,7 @@
     BOOL showIATable = state == STATE_SHOW_IA;
     BOOL showFieldsTable = state == STATE_FIELDS || state == STATE_FIELDS_IA;
     BOOL landscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    BOOL keyboardHidden = ![UVKeyboardUtils visible];
 
     if (showTextView)
         [textView becomeFirstResponder];

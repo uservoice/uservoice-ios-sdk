@@ -22,6 +22,7 @@
 #import "UVConfig.h"
 #import "UVTicket.h"
 #import "UVForum.h"
+#import "UVKeyboardUtils.h"
 
 @implementation UVBaseTicketViewController
 
@@ -30,7 +31,6 @@
 @synthesize textView;
 @synthesize instantAnswers;
 @synthesize emailField;
-@synthesize activeField;
 @synthesize selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)theText {
@@ -106,25 +106,9 @@
     [selectedCustomFieldValues setObject:textField.text forKey:field.name];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.activeField = textField;
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.activeField = nil;
-}
-
-- (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
-    self.activeField = theTextEditor;
-}
-
-- (void)textViewDidEndEditing:(UVTextView *)theTextEditor {
-    self.activeField = nil;
 }
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
@@ -186,7 +170,7 @@
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(IPAD ? 60 : 16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(16 + (IPAD ? 25 : 0), 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     label.font = [UIFont boldSystemFontOfSize:16];
     label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
@@ -236,7 +220,6 @@
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 }
-
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
     id model = [instantAnswers objectAtIndex:index];
@@ -324,7 +307,6 @@
     self.textView = nil;
     self.text = nil;
     self.emailField = nil;
-    self.activeField = nil;
     self.selectedCustomFieldValues = nil;
     [super dealloc];
 }

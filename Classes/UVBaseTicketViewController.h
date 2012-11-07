@@ -22,7 +22,6 @@
     NSTimer *timer;
     NSArray *instantAnswers;
     UITextField *emailField;
-    UIView *activeField;
     NSMutableDictionary *selectedCustomFieldValues;
     BOOL loadingInstantAnswers;
 }
@@ -32,7 +31,6 @@
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSArray *instantAnswers;
 @property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UIView *activeField;
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)theText;

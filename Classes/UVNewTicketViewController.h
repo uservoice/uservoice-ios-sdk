@@ -9,7 +9,6 @@
 #import "UVBaseTicketViewController.h"
 
 @interface UVNewTicketViewController : UVBaseTicketViewController {
-    BOOL keyboardHidden;
     BOOL notInterested;
     int state;
     UIScrollView *scrollView;

@@ -34,13 +34,6 @@
 
 @implementation UVNewTicketIpadViewController
 
-- (id)init {
-    if (self = [super init]) {
-        self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithDictionary:[UVSession currentSession].config.customFields];
-    }
-    return self;
-}
-
 - (NSString *)backButtonTitle {
     return @"Contact";
 }
@@ -221,30 +214,47 @@
     return instantAnswerIndexPaths;
 }
 
-# pragma mark ===== Keyboard handling =====
-
-- (void)keyboardDidShow:(NSNotification*)notification {
-    [super keyboardDidShow:notification];
-    if (activeField == nil)
-        return;
-
-    NSIndexPath *path;
-    if (activeField == emailField)
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
-    else if (activeField == textView)
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS];
-    else {
-        UITableViewCell *cell = (UITableViewCell *)[activeField superview];
-        UITableView *table = (UITableView *)[cell superview];
-        path = [table indexPathForCell:cell];
-    }
-    [tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-}
-
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
-    // TODO
+    [super loadView];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
+
+    CGFloat screenWidth = [UVClientConfig getScreenWidth];
+
+    [self setupGroupedTableView];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.sectionFooterHeight = 0.0;
+    
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)] autorelease];
+    label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UVStyleSheet linkTextColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:13];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [footer addSubview:label];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 25, 320, 15);
+    [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
+    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor clearColor];
+    button.showsTouchWhenHighlighted = YES;
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+    [button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    button.center = CGPointMake(footer.center.x, button.center.y);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+    [footer addSubview:button];
+    self.tableView.tableFooterView = footer;
+    
+    UIBarButtonItem *sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil)
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(sendButtonTapped)] autorelease];
+    self.navigationItem.rightBarButtonItem = sendButton;
 }
 
 - (void)viewDidLoad {

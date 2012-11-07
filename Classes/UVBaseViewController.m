@@ -244,10 +244,14 @@
     }
 }
 
+- (UIScrollView *)scrollView {
+    return tableView;
+}
+
 - (void)keyboardDidShow:(NSNotification*)notification {
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbHeight, 0.0);
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
+    [self scrollView].contentInset = contentInsets;
+    [self scrollView].scrollIndicatorInsets = contentInsets;
 }
 
 - (void)keyboardWillHide:(NSNotification*)notification {
@@ -255,8 +259,8 @@
 
 - (void)keyboardDidHide:(NSNotification*)notification {
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    tableView.contentInset = contentInsets;
-    tableView.scrollIndicatorInsets = contentInsets;
+    [self scrollView].contentInset = contentInsets;
+    [self scrollView].scrollIndicatorInsets = contentInsets;
 }
 
 - (void)hideExitButton {

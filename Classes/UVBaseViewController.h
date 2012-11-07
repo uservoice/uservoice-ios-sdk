@@ -85,5 +85,6 @@
 - (void)showExitButton;
 - (void)promptUserToSignIn;
 - (void)setupGroupedTableView;
+- (UIScrollView *)scrollView;
 
 @end
