@@ -1,5 +1,7 @@
 ## master ##
 
+## 1.2.5 ##
+
 * Fix a couple of bugs related to data not refreshing after sign-in
 * Add Dutch translation (thanks to nvh)
 * Add support for setting external_ids on the user, for integrations
