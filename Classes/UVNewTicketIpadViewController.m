@@ -102,7 +102,7 @@
     CGFloat margin = 35;
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(8 + margin, 1, cell.bounds.size.width - margin*2 - 100, 40)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.text = [self instantAnswersFoundMessage];
+    label.tag = TICKET_VIEW_IA_LABEL_TAG;
     label.font = [UIFont systemFontOfSize:13];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;

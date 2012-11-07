@@ -73,8 +73,9 @@
     [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
     UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 6, 250, 30)] autorelease];
     instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    instantAnswersLabel.tag = TICKET_VIEW_IA_LABEL_TAG;
     instantAnswersLabel.numberOfLines = 2;
-    instantAnswersLabel.text = [self instantAnswersFoundMessage];
+    instantAnswersLabel.textColor = [UIColor grayColor];
     instantAnswersLabel.font = [UIFont systemFontOfSize:11];
     instantAnswersLabel.backgroundColor = [UIColor clearColor];
     instantAnswersLabel.textAlignment = UITextAlignmentLeft;
@@ -92,22 +93,47 @@
     self.instantAnswersTableView.dataSource = self;
     self.instantAnswersTableView.delegate = self;
     self.instantAnswersTableView.scrollEnabled = NO;
-    UIView *iaFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, instantAnswersTableView.bounds.size.width, 80)] autorelease];
+
+    // IA footer
+    UIView *iaFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, instantAnswersTableView.bounds.size.width, 90)] autorelease];
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, instantAnswersTableView.bounds.size.width, 15)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Do any of these answer your question?", @"UserVoice", nil);
     label.font = [UIFont boldSystemFontOfSize:13];
     [iaFooter addSubview:label];
+
+    UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(10, 35, 145, 55)] autorelease];
+    container.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(10, 35, 145, 35);
-    button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
+    button.frame = CGRectMake(0, 0, container.bounds.size.width, 35);
+    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [button setTitle:NSLocalizedStringFromTable(@"Thanks!", @"UserVoice", nil) forState:UIControlStateNormal];
-    [iaFooter addSubview:button];
+    [container addSubview:button];
+    label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 36, container.bounds.size.width, 15)] autorelease];
+    label.textAlignment = UITextAlignmentCenter;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.text = NSLocalizedStringFromTable(@"I found what I was looking for!", @"UserVoice", nil);
+    label.font = [UIFont systemFontOfSize:10];
+    label.textColor = [UIColor grayColor];
+    [container addSubview:label];
+    [iaFooter addSubview:container];
+
+    container = [[[UIView alloc] initWithFrame:CGRectMake(165, 35, 145, 55)] autorelease];
+    container.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(165, 35, 145, 35);
-    button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
+    button.frame = CGRectMake(0, 0, container.bounds.size.width, 35);
+    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [button setTitle:NSLocalizedStringFromTable(@"Not helpful", @"UserVoice", nil) forState:UIControlStateNormal];
     [button addTarget:self action:@selector(notInterestedTapped) forControlEvents:UIControlEventTouchUpInside];
-    [iaFooter addSubview:button];
+    [container addSubview:button];
+    label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 36, container.bounds.size.width, 15)] autorelease];
+    label.textAlignment = UITextAlignmentCenter;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.text = NSLocalizedStringFromTable(@"I still need to contact you", @"UserVoice", nil);
+    label.font = [UIFont systemFontOfSize:10];
+    label.textColor = [UIColor grayColor];
+    [container addSubview:label];
+    [iaFooter addSubview:container];
+
     self.instantAnswersTableView.tableFooterView = iaFooter;
     [instantAnswersView addSubview:instantAnswersTableView];
     [self.view addSubview:instantAnswersView];
@@ -163,20 +189,25 @@
 }
 
 - (void)notInterestedTapped {
-    notInterested = YES;
     state = STATE_FIELDS_IA;
     [self updateLayout];
-    if ([emailField.text length] == 0)
-        [emailField becomeFirstResponder];
 }
 
 - (void)nextButtonTapped {
     if (state == STATE_BEGIN) {
+        // if timer set, fire it
+        // if loadingInstantAnswers go to STATE_WAITING
+        // in STATE_WAITING we change nothing but show an activity indicator
         state = STATE_FIELDS;
     } else if (state == STATE_IA) {
         state = STATE_SHOW_IA;
     }
     [self updateLayout];
+}
+
+- (void)dismissKeyboard {
+    [emailField becomeFirstResponder];
+    [emailField resignFirstResponder];
 }
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
@@ -193,11 +224,11 @@
 }
 
 - (void)didLoadInstantAnswers {
+    // if STATE_WAITING -> STATE_SHOW_IA | STATE_FIELDS
     if ([instantAnswers count] > 0)
         state = (state == STATE_FIELDS) ? STATE_FIELDS_IA : STATE_IA;
     else
         state = (state == STATE_FIELDS_IA) ? STATE_FIELDS : STATE_BEGIN;
-    notInterested = NO;
     [instantAnswersTableView reloadData];
     [self updateLayout];
 }
@@ -224,12 +255,10 @@
         state = STATE_SHOW_IA;
         break;
     case STATE_SHOW_IA:
-        if (notInterested)
-            state = STATE_FIELDS_IA;
-        else
-            state = STATE_IA;
+        state = STATE_FIELDS_IA;
         break;
     case STATE_FIELDS_IA:
+        [emailField resignFirstResponder];
         state = STATE_SHOW_IA;
         break;
     }
@@ -308,13 +337,13 @@
     BOOL showIATable = state == STATE_SHOW_IA;
     BOOL showFieldsTable = state == STATE_FIELDS || state == STATE_FIELDS_IA;
     BOOL landscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
-    BOOL keyboardHidden = ![UVKeyboardUtils visible];
 
     if (showTextView)
         [textView becomeFirstResponder];
     else
         [textView resignFirstResponder];
 
+    BOOL keyboardHidden = ![UVKeyboardUtils visible];
     CGFloat sH = [UIScreen mainScreen].bounds.size.height;
     CGFloat sW = [UIScreen mainScreen].bounds.size.width;
     CGFloat kbP = keyboardHidden ? 64 : 280;

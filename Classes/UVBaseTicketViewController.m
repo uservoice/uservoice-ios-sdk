@@ -85,6 +85,7 @@
 }
 
 - (void)selectCustomFieldAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)theTableView {
+    [emailField resignFirstResponder];
     UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
     if ([field isPredefined]) {
         UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
@@ -116,6 +117,7 @@
         return;
     self.text = self.textView.text;
     [self.timer invalidate];
+    self.timer = nil;
     if (self.textView.text.length == 0) {
         self.instantAnswers = [NSArray array];
         [self didLoadInstantAnswers];
@@ -268,8 +270,11 @@
 }
 
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated {
+    UILabel *label = (UILabel *)[view viewWithTag:TICKET_VIEW_IA_LABEL_TAG];
     UIView *spinner = [view viewWithTag:TICKET_VIEW_SPINNER_TAG];
     UIView *arrow = [view viewWithTag:TICKET_VIEW_ARROW_TAG];
+    if ([instantAnswers count] > 0)
+      label.text = [self instantAnswersFoundMessage];
     void (^update)() = ^{
         if (loadingInstantAnswers) {
             spinner.layer.opacity = 1.0;
@@ -296,7 +301,22 @@
 }
 
 - (NSString *)instantAnswersFoundMessage {
-    return NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
+    BOOL foundArticles = NO;
+    BOOL foundIdeas = NO;
+    for (id answer in instantAnswers) {
+        if ([answer isKindOfClass:[UVArticle class]])
+            foundArticles = YES;
+        else if ([answer isKindOfClass:[UVSuggestion class]])
+            foundIdeas = YES;
+    }
+    if (foundArticles && foundIdeas)
+        return NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
+    else if (foundArticles)
+        return NSLocalizedStringFromTable(@"We've found some related articles that may help you faster than sending a message", @"UserVoice", nil);
+    else if (foundIdeas)
+        return NSLocalizedStringFromTable(@"We've found some related ideas that may help you faster than sending a message", @"UserVoice", nil);
+    else
+        return @"";
 }
 
 - (void)dealloc {
