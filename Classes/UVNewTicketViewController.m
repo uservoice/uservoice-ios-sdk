@@ -40,7 +40,7 @@
 #define SECTION_FIELDS 1
 
 + (UIViewController *)viewController {
-    return [self viewControllerWithText:@""];
+    return [self viewControllerWithText:nil];
 }
 
 + (UIViewController *)viewControllerWithText:(NSString *)text {
@@ -83,10 +83,7 @@
     [instantAnswersMessage addSubview:instantAnswersLabel];
     [self addSpinnerAndArrowTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
     [instantAnswersView addSubview:instantAnswersMessage];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.76f green:0.76f blue:0.76f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [instantAnswersView addSubview:border];
+    [self addTopBorder:instantAnswersView];
     self.instantAnswersTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 40, 320, 100) style:UITableViewStyleGrouped] autorelease];
     self.instantAnswersTableView.backgroundView = nil;
     self.instantAnswersTableView.backgroundColor = [UIColor clearColor];
@@ -95,45 +92,25 @@
     self.instantAnswersTableView.delegate = self;
     self.instantAnswersTableView.scrollEnabled = NO;
 
-    // IA footer
     UIView *iaFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, instantAnswersTableView.bounds.size.width, 90)] autorelease];
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, instantAnswersTableView.bounds.size.width, 15)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Do any of these answer your question?", @"UserVoice", nil);
     label.font = [UIFont boldSystemFontOfSize:13];
     [iaFooter addSubview:label];
 
-    UIView *container = [[[UIView alloc] initWithFrame:CGRectMake(10, 35, 145, 55)] autorelease];
-    container.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(0, 0, container.bounds.size.width, 35);
-    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [button setTitle:NSLocalizedStringFromTable(@"Thanks!", @"UserVoice", nil) forState:UIControlStateNormal];
-    [container addSubview:button];
-    label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 36, container.bounds.size.width, 15)] autorelease];
-    label.textAlignment = UITextAlignmentCenter;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.text = NSLocalizedStringFromTable(@"I found what I was looking for!", @"UserVoice", nil);
-    label.font = [UIFont systemFontOfSize:10];
-    label.textColor = [UIColor grayColor];
-    [container addSubview:label];
-    [iaFooter addSubview:container];
+    [self addButton:@"Thanks!"
+        withCaption:@"I found what I was looking for"
+            andRect:CGRectMake(10, 35, 145, 35)
+            andMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin
+          andAction:@selector(thanksTapped)
+             toView:iaFooter];
 
-    container = [[[UIView alloc] initWithFrame:CGRectMake(165, 35, 145, 55)] autorelease];
-    container.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
-    button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(0, 0, container.bounds.size.width, 35);
-    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [button setTitle:NSLocalizedStringFromTable(@"Not helpful", @"UserVoice", nil) forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(notInterestedTapped) forControlEvents:UIControlEventTouchUpInside];
-    [container addSubview:button];
-    label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 36, container.bounds.size.width, 15)] autorelease];
-    label.textAlignment = UITextAlignmentCenter;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.text = NSLocalizedStringFromTable(@"I still need to contact you", @"UserVoice", nil);
-    label.font = [UIFont systemFontOfSize:10];
-    label.textColor = [UIColor grayColor];
-    [container addSubview:label];
-    [iaFooter addSubview:container];
+    [self addButton:@"Not helpful"
+        withCaption:@"I still need to contact you"
+            andRect:CGRectMake(165, 35, 145, 35)
+            andMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin
+          andAction:@selector(notInterestedTapped)
+             toView:iaFooter];
 
     self.instantAnswersTableView.tableFooterView = iaFooter;
     [instantAnswersView addSubview:instantAnswersTableView];
@@ -146,52 +123,29 @@
     self.fieldsTableView.scrollEnabled = NO;
     self.fieldsTableView.backgroundColor = [UIColor whiteColor];
     fieldsTableView.hidden = YES;
-    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.76f green:0.76f blue:0.76f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [fieldsTableView addSubview:border];
-
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, fieldsTableView.bounds.size.width, 50)] autorelease];
-    label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, fieldsTableView.bounds.size.width, 15)] autorelease];
-    label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
-    label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UVStyleSheet linkTextColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [footer addSubview:label];
-    button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 25, 320, 15);
-    [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
-    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor clearColor];
-    button.showsTouchWhenHighlighted = YES;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    button.center = CGPointMake(footer.center.x, button.center.y);
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    [footer addSubview:button];
-    self.fieldsTableView.tableFooterView = footer;
+    [self addTopBorder:fieldsTableView];
+    self.fieldsTableView.tableFooterView = [self fieldsTableFooterView];
     [self.view addSubview:fieldsTableView];
-    
-    self.nextButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(nextButtonTapped)] autorelease];
 
-    self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil)
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(sendButtonTapped)] autorelease];
+    self.nextButton = [self barButtonItem:@"Next" withAction:@selector(nextButtonTapped)];
+    self.sendButton = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
 
     state = STATE_BEGIN;
     [textView becomeFirstResponder];
     [self updateLayout];
+
+    if (self.text && [self.text length] > 0)
+        [self loadInstantAnswers];
 }
 
 - (void)notInterestedTapped {
     state = STATE_FIELDS_IA;
     [self updateLayout];
+}
+
+- (void)thanksTapped {
+    self.text = nil;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)nextButtonTapped {

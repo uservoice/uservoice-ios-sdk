@@ -19,6 +19,7 @@
 
 @interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     NSString *text;
+    NSString *email;
     UVTextView *textView;
     NSTimer *timer;
     NSArray *instantAnswers;
@@ -28,6 +29,7 @@
 }
 
 @property (nonatomic,retain) NSString *text;
+@property (nonatomic,retain) NSString *email;
 @property (nonatomic,retain) UVTextView *textView;
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSArray *instantAnswers;
@@ -44,6 +46,11 @@
 - (BOOL)signedIn;
 - (void)sendButtonTapped;
 - (void)suggestionButtonTapped;
+- (void)addTopBorder:(UIView *)view;
+- (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
+- (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView;
+- (UIView *)fieldsTableFooterView;
+- (void)loadInstantAnswers;
 
 - (void)dismissKeyboard;
 - (void)willLoadInstantAnswers;

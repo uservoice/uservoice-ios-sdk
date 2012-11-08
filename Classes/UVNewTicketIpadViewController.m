@@ -118,6 +118,7 @@
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     [self customizeCellForInstantAnswer:cell index:indexPath.row - 2];
 }
+
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -219,42 +220,14 @@
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
-
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
     [self setupGroupedTableView];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
-    
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)] autorelease];
-    label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
-    label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UVStyleSheet linkTextColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [footer addSubview:label];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 25, 320, 15);
-    [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
-    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor clearColor];
-    button.showsTouchWhenHighlighted = YES;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    button.center = CGPointMake(footer.center.x, button.center.y);
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    [footer addSubview:button];
-    self.tableView.tableFooterView = footer;
-    
-    UIBarButtonItem *sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil)
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self
-                                                                   action:@selector(sendButtonTapped)] autorelease];
-    self.navigationItem.rightBarButtonItem = sendButton;
+    self.tableView.tableFooterView = [self fieldsTableFooterView];
+    self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
+    if (self.text && [self.text length] > 0)
+        [self loadInstantAnswers];
 }
 
 - (void)viewDidLoad {
