@@ -13,6 +13,7 @@
 
 @interface UVNewTicketIpadViewController : UVBaseTicketViewController {
     BOOL showInstantAnswers;
+    BOOL showInstantAnswersMessage;
     int instantAnswersCount;
 }
 

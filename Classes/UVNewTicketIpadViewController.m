@@ -50,9 +50,7 @@
     if (showInstantAnswers) {
         [tableView deleteRowsAtIndexPaths:[self indexPathsForInstantAnswers:count] withRowAnimation:UITableViewRowAnimationFade];
     }
-    if (count == 0) {
-        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
-    } else {
+    if (showInstantAnswersMessage) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
         [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
     }
@@ -69,10 +67,16 @@
         [tableView insertRowsAtIndexPaths:[self indexPathsForInstantAnswers:instantAnswersCount] withRowAnimation:UITableViewRowAnimationFade];
     }
     if (instantAnswersCount == 0) {
+        showInstantAnswersMessage = NO;
         [tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
     } else {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
-        [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+        if (showInstantAnswersMessage) {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
+            [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+        } else {
+            [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        showInstantAnswersMessage = YES;
     }
     [tableView endUpdates];
 }
@@ -162,7 +166,7 @@
     if (section == UV_NEW_TICKET_SECTION_PROFILE) {
         return [self signedIn] ? 0 : 1;
     } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        return 1 + (loadingInstantAnswers || instantAnswersCount > 0 ? 1 : 0) + (showInstantAnswers ? instantAnswersCount : 0);
+        return 1 + (showInstantAnswersMessage ? 1 : 0) + (showInstantAnswers ? instantAnswersCount : 0);
     } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
         return [[UVSession currentSession].clientConfig.customFields count];
     } else {
