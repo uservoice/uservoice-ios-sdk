@@ -98,6 +98,27 @@ user directly to the forum screen.
     [UserVoice presentUserVoiceForumForParentViewController:self andConfig:config];
 
 
+### Customizing Colors
+
+You can also customize the appearance of the UserVoice user interface by
+creating a custom stylesheet.
+
+    #import "UVStylesheet.h"
+
+    @interface MyStylesheet : UVStylesheet
+
+    @end
+
+    @implementation MyStylesheet
+    
+    - (UIColor *)backgroundColor {
+        return [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.0f];
+    }
+
+    @end
+
+    [UVStylesheet setStylesheet:[[MyStylesheet alloc] init]];
+
 Feedback
 --------
 
