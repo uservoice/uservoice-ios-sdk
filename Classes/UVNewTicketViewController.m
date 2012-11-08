@@ -34,6 +34,7 @@
 #define STATE_SHOW_IA 1002
 #define STATE_FIELDS 1003
 #define STATE_FIELDS_IA 1004
+#define STATE_WAITING 1005
 
 #define SECTION_PROFILE 0
 #define SECTION_FIELDS 1
@@ -195,10 +196,15 @@
 
 - (void)nextButtonTapped {
     if (state == STATE_BEGIN) {
-        // if timer set, fire it
-        // if loadingInstantAnswers go to STATE_WAITING
-        // in STATE_WAITING we change nothing but show an activity indicator
-        state = STATE_FIELDS;
+        if (timer) {
+            [timer fire];
+            [timer invalidate];
+            self.timer = nil;
+        }
+        if (loadingInstantAnswers)
+            state = STATE_WAITING;
+        else
+            state = STATE_FIELDS;
     } else if (state == STATE_IA) {
         state = STATE_SHOW_IA;
     }
@@ -224,8 +230,10 @@
 }
 
 - (void)didLoadInstantAnswers {
-    // if STATE_WAITING -> STATE_SHOW_IA | STATE_FIELDS
-    if ([instantAnswers count] > 0)
+    BOOL found = [instantAnswers count] > 0;
+    if (state == STATE_WAITING || state == STATE_SHOW_IA)
+        state = found ? STATE_SHOW_IA : STATE_FIELDS;
+    else if (found)
         state = (state == STATE_FIELDS) ? STATE_FIELDS_IA : STATE_IA;
     else
         state = (state == STATE_FIELDS_IA) ? STATE_FIELDS : STATE_BEGIN;
@@ -332,7 +340,7 @@
 }
 
 - (void)updateLayout {
-    BOOL showTextView = state == STATE_BEGIN || state == STATE_IA;
+    BOOL showTextView = state == STATE_BEGIN || state == STATE_IA || state == STATE_WAITING;
     BOOL showIAMessage = state == STATE_IA || state == STATE_SHOW_IA || state == STATE_FIELDS_IA;
     BOOL showIATable = state == STATE_SHOW_IA;
     BOOL showFieldsTable = state == STATE_FIELDS || state == STATE_FIELDS_IA;
@@ -364,6 +372,11 @@
         instantAnswersTableView.hidden = NO;
     if (showFieldsTable)
         fieldsTableView.hidden = NO;
+
+    if (state == STATE_WAITING)
+        [self showActivityIndicator];
+    else
+        [self hideActivityIndicator];
 
     if (showTextView)
         self.navigationItem.rightBarButtonItem = [textView.text length] == 0 ? nil : nextButton;
