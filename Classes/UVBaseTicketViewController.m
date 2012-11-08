@@ -123,7 +123,7 @@
         self.instantAnswers = [NSArray array];
         [self didLoadInstantAnswers];
     } else {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
     }
 }
 
