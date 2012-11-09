@@ -17,6 +17,7 @@
 @interface UVBaseViewController : UIViewController {
     UVActivityIndicator *activityIndicator;
     BOOL needsReload;
+    BOOL firstController;
     UITableView *tableView;
     NSInteger kbHeight;
     UIBarButtonItem *exitButton;
@@ -24,6 +25,7 @@
 
 @property (nonatomic, retain) UVActivityIndicator *activityIndicator;
 @property (assign) BOOL needsReload;
+@property (assign) BOOL firstController;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
 

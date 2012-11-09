@@ -147,7 +147,10 @@
             }
             break;
         case UV_NEW_TICKET_SECTION_PROFILE:
-            identifier = @"Email";
+            if (indexPath.row == 0)
+                identifier = @"Email";
+            else
+                identifier = @"Name";
             break;
     }
 
@@ -164,7 +167,7 @@
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
     if (section == UV_NEW_TICKET_SECTION_PROFILE) {
-        return [self signedIn] ? 0 : 1;
+        return [self signedIn] ? 0 : 2;
     } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
         return 1 + (showInstantAnswersMessage ? 1 : 0) + (showInstantAnswers ? instantAnswersCount : 0);
     } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {

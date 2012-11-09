@@ -16,6 +16,7 @@
 
 + (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
+                andName:(NSString *)name
         andCustomFields:(NSDictionary *)customFields
             andDelegate:(id)delegate;
 

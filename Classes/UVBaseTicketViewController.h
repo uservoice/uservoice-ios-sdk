@@ -15,25 +15,28 @@
 
 #define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
-#define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
 
-@interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
+@interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
     NSString *text;
     NSString *email;
+    NSString *name;
     UVTextView *textView;
     NSTimer *timer;
     NSArray *instantAnswers;
     UITextField *emailField;
+    UITextField *nameField;
     NSMutableDictionary *selectedCustomFieldValues;
     BOOL loadingInstantAnswers;
 }
 
 @property (nonatomic,retain) NSString *text;
 @property (nonatomic,retain) NSString *email;
+@property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) UVTextView *textView;
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSArray *instantAnswers;
 @property (nonatomic, retain) UITextField *emailField;
+@property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)theText;
@@ -47,6 +50,7 @@
 - (void)sendButtonTapped;
 - (void)suggestionButtonTapped;
 - (void)addTopBorder:(UIView *)view;
+- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
 - (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView;
 - (UIView *)fieldsTableFooterView;

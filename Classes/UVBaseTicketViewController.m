@@ -30,6 +30,7 @@
 @synthesize textView;
 @synthesize instantAnswers;
 @synthesize emailField;
+@synthesize nameField;
 @synthesize selectedCustomFieldValues;
 
 - (id)initWithText:(NSString *)theText {
@@ -59,10 +60,11 @@
 - (void)sendButtonTapped {
     [self dismissKeyboard];
     self.email = emailField.text;
+    self.name = nameField.text;
     self.text = textView.text;
     if ([UVSession currentSession].user || (email && [email length] > 1)) {
         [self showActivityIndicator];
-        [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:email andCustomFields:selectedCustomFieldValues andDelegate:self];
+        [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:self.email andName:self.name andCustomFields:selectedCustomFieldValues andDelegate:self];
         [[UVSession currentSession] trackInteraction:@"pt"];
     } else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
@@ -125,6 +127,24 @@
     } else {
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
     }
+}
+
+- (void)setName:(NSString *)theName {
+    [theName retain];
+    [name release];
+    name = theName;
+
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:name forKey:@"uv-message-name"];
+    [prefs synchronize];
+}
+
+- (NSString *)name {
+    if (name)
+        return name;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    name = [[prefs stringForKey:@"uv-message-name"] retain];
+    return name;
 }
 
 - (void)setEmail:(NSString *)theEmail {
@@ -214,31 +234,32 @@
 
 - (UIView *)fieldsTableFooterView {
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 15)] autorelease];
-    label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
-    label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UVStyleSheet linkTextColor];
+    [self addTopBorder:footer alpha:0.5f];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, 30)] autorelease];
+    label.text = NSLocalizedStringFromTable(@"Would you rather post an idea on our forum so others can vote and comment on it?", @"UserVoice", nil);
+    label.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
+    label.font = [UIFont systemFontOfSize:11];
+    label.textAlignment = UITextAlignmentLeft;
+    label.numberOfLines = 2;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.userInteractionEnabled = YES;
+    [label addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(suggestionButtonTapped)] autorelease]];
     [footer addSubview:label];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 25, 320, 15);
-    [button setTitle:[[UVSession currentSession].clientConfig.forum prompt] forState:UIControlStateNormal];
-    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor clearColor];
-    button.showsTouchWhenHighlighted = YES;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    button.center = CGPointMake(footer.center.x, button.center.y);
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    [footer addSubview:button];
     return footer;
 }
 
 - (void)addTopBorder:(UIView *)view {
+    [self addTopBorder:view alpha:1.0];
+}
+
+- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha {
     UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.76f green:0.76f blue:0.76f alpha:1.0f];
+    border.backgroundColor = [UIColor colorWithRed:0.86f green:0.88f blue:0.89f alpha:1.0f];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [view addSubview:border];
+    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 1, 320, 1)] autorelease];
+    border.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     [view addSubview:border];
 }
@@ -271,6 +292,7 @@
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(16 + (IPAD ? 25 : 0), 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     label.font = [UIFont boldSystemFontOfSize:16];
@@ -286,23 +308,13 @@
     textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
     textField.delegate = self;
     [cell addSubview:textField];
-
-    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 - 14, 5, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)] autorelease];
-    valueLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
-    valueLabel.font = [UIFont systemFontOfSize:16];
-    valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
-    valueLabel.textColor = [UIColor blackColor];
-    valueLabel.backgroundColor = [UIColor clearColor];
-    valueLabel.adjustsFontSizeToFitWidth = YES;
-    valueLabel.textAlignment = NSTextAlignmentRight;
-    [cell addSubview:valueLabel];
 }
 
 - (void)customizeCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
     UILabel *label = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_LABEL_TAG];
     UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
-    UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG];
+    UILabel *valueLabel = cell.detailTextLabel;
     label.text = field.name;
     cell.accessoryType = [field isPredefined] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
     textField.enabled = [field isPredefined] ? NO : YES;
@@ -316,14 +328,22 @@
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
+    cell.backgroundColor = [UIColor whiteColor];
+    self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.emailField.text = self.email;
 }
 
+- (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
+    self.nameField.text = self.name;
+}
+
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
+    cell.backgroundColor = [UIColor whiteColor];
     id model = [instantAnswers objectAtIndex:index];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
@@ -419,6 +439,32 @@
         return @"";
 }
 
+/* - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex { */
+/*     if (buttonIndex == 0) */
+/*         self.text = nil; */
+
+/*     if ([UVSession currentSession].isModal && firstController) */
+/*         [self dismissUserVoice]; */
+/*     else */
+/*         [self.navigationController popViewControllerAnimated:YES]; */
+/* } */
+
+/* - (void)backButtonTapped { */
+/*     UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:@"" */
+/*                                                               delegate:self */
+/*                                                      cancelButtonTitle:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil) */
+/*                                                 destructiveButtonTitle:NSLocalizedStringFromTable(@"Delete draft", @"UserVoice", nil) */
+/*                                                      otherButtonTitles:nil] autorelease]; */
+/*     actionSheet.actionSheetStyle = UIActionSheetStyleDefault; */
+/*     [actionSheet showInView:self.view]; */
+/* } */
+
+/* - (void)initNavigationItem { */
+/*     [super initNavigationItem]; */
+/*     self.navigationItem.leftBarButtonItem.target = self; */
+/*     self.navigationItem.leftBarButtonItem.action = @selector(backButtonTapped); */
+/* } */
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.timer invalidate];
@@ -426,11 +472,14 @@
     self.instantAnswers = nil;
     self.textView = nil;
     self.emailField = nil;
+    self.nameField = nil;
     self.selectedCustomFieldValues = nil;
     [text release];
     text = nil;
     [email release];
     email = nil;
+    [name release];
+    name = nil;
     [super dealloc];
 }
 

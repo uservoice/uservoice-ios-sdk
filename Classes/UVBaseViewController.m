@@ -24,6 +24,7 @@
 
 @synthesize activityIndicator;
 @synthesize needsReload;
+@synthesize firstController;
 @synthesize tableView;
 @synthesize exitButton;
 
@@ -134,20 +135,16 @@
 - (void)initNavigationItem {
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
 
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:[self backButtonTitle]
-                                   style:UIBarButtonItemStylePlain
-                                   target:nil
-                                   action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
-    [backButton release];
+    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:nil
+                                                                             action:nil] autorelease];
 
-    if ([UVSession currentSession].isModal) {
-        self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(dismissUserVoice)] autorelease];
-        self.navigationItem.rightBarButtonItem = exitButton;
+    if ([UVSession currentSession].isModal && firstController) {
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(dismissUserVoice)] autorelease];
     }
 }
 

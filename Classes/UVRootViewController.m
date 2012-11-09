@@ -73,18 +73,21 @@
         if (self.viewToLoad == @"welcome") {
             self.navigationController.navigationBarHidden = NO;
             UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
+            welcomeView.firstController = YES;
             [self.navigationController pushViewController:welcomeView animated:NO];
             [welcomeView release];
         } else if (self.viewToLoad == @"suggestions") {
             self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-            UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+            UVBaseViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+            suggestionListViewController.firstController = YES;
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
             [self.navigationController setViewControllers:viewControllers animated:NO];
         } else if (self.viewToLoad == @"new_ticket") {
             self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-            UIViewController *newTicketViewController = [UVNewTicketViewController viewController];
+            UVBaseViewController *newTicketViewController = [UVNewTicketViewController viewController];
+            newTicketViewController.firstController = YES;
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
             [self.navigationController setViewControllers:viewControllers animated:NO];
         }

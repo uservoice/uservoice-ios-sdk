@@ -18,10 +18,12 @@
     UITableView *fieldsTableView;
     UIBarButtonItem *nextButton;
     UIBarButtonItem *sendButton;
+    UIView *shade;
+    UIActivityIndicatorView *activityIndicatorView;
 }
 
-+ (UIViewController *)viewController;
-+ (UIViewController *)viewControllerWithText:(NSString *)text;
++ (UVBaseViewController *)viewController;
++ (UVBaseViewController *)viewControllerWithText:(NSString *)text;
 
 @property (nonatomic,retain) UIScrollView *scrollView;
 @property (nonatomic,retain) UIView *messageTextView;
@@ -31,6 +33,8 @@
 @property (nonatomic,retain) UITableView *fieldsTableView;
 @property (nonatomic,retain) UIBarButtonItem *nextButton;
 @property (nonatomic,retain) UIBarButtonItem *sendButton;
+@property (nonatomic,retain) UIView *shade;
+@property (nonatomic,retain) UIActivityIndicatorView *activityIndicatorView;
 
 - (void)updateLayout;
 
