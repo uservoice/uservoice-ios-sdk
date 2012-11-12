@@ -32,6 +32,7 @@
 @synthesize emailField;
 @synthesize nameField;
 @synthesize selectedCustomFieldValues;
+@synthesize initialText;
 
 - (id)initWithText:(NSString *)theText {
     if (self = [self init]) {
@@ -439,31 +440,59 @@
         return @"";
 }
 
-/* - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex { */
-/*     if (buttonIndex == 0) */
-/*         self.text = nil; */
+- (void)initNavigationItem {
+    [super initNavigationItem];
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(dismiss)] autorelease];
+}
 
-/*     if ([UVSession currentSession].isModal && firstController) */
-/*         [self dismissUserVoice]; */
-/*     else */
-/*         [self.navigationController popViewControllerAnimated:YES]; */
-/* } */
+- (void)dismiss {
+    if ([self shouldLeaveViewController]) {
+        if ([UVSession currentSession].isModal && firstController)
+            [self dismissUserVoice];
+        else
+            [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 
-/* - (void)backButtonTapped { */
-/*     UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:@"" */
-/*                                                               delegate:self */
-/*                                                      cancelButtonTitle:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil) */
-/*                                                 destructiveButtonTitle:NSLocalizedStringFromTable(@"Delete draft", @"UserVoice", nil) */
-/*                                                      otherButtonTitles:nil] autorelease]; */
-/*     actionSheet.actionSheetStyle = UIActionSheetStyleDefault; */
-/*     [actionSheet showInView:self.view]; */
-/* } */
+- (void)showSaveActionSheet {
+    UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
+                                                     otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil] autorelease];
 
-/* - (void)initNavigationItem { */
-/*     [super initNavigationItem]; */
-/*     self.navigationItem.leftBarButtonItem.target = self; */
-/*     self.navigationItem.leftBarButtonItem.action = @selector(backButtonTapped); */
-/* } */
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0)
+        self.text = nil;
+    if (buttonIndex == 0 || buttonIndex == 1) {
+        readyToPopView = YES;
+        [self dismiss];
+    }
+}
+
+- (BOOL)shouldLeaveViewController {
+    BOOL textChanged = self.text && [self.text length] > 0 && ![self.initialText isEqualToString:self.text];
+    if (readyToPopView || !textChanged)
+        return YES;
+    [self showSaveActionSheet];
+    return NO;
+}
+
+- (void)dismissUserVoice {
+    if ([self shouldLeaveViewController])
+        [super dismissUserVoice];
+}
+
+- (void)loadView {
+    [super loadView];
+    self.initialText = self.text;
+}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -474,6 +503,7 @@
     self.emailField = nil;
     self.nameField = nil;
     self.selectedCustomFieldValues = nil;
+    self.initialText = nil;
     [text release];
     text = nil;
     [email release];

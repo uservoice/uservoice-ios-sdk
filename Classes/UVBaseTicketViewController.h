@@ -20,6 +20,7 @@
     NSString *text;
     NSString *email;
     NSString *name;
+    NSString *initialText;
     UVTextView *textView;
     NSTimer *timer;
     NSArray *instantAnswers;
@@ -27,11 +28,13 @@
     UITextField *nameField;
     NSMutableDictionary *selectedCustomFieldValues;
     BOOL loadingInstantAnswers;
+    BOOL readyToPopView;
 }
 
 @property (nonatomic,retain) NSString *text;
 @property (nonatomic,retain) NSString *email;
 @property (nonatomic,retain) NSString *name;
+@property (nonatomic,retain) NSString *initialText;
 @property (nonatomic,retain) UVTextView *textView;
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSArray *instantAnswers;
