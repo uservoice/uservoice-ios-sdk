@@ -19,7 +19,8 @@
     NSString *text;
     NSString *name;
     NSString *email;
-    UVTextView *textEditor;
+    UIScrollView *scrollView;
+    UVTextView *textView;
     UITextField *titleField;
     UITextField *nameField;
     UITextField *emailField;
@@ -33,7 +34,8 @@
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *email;
-@property (nonatomic, retain) UVTextView *textEditor;
+@property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, retain) UVTextView *textView;
 @property (nonatomic, retain) UITextField *titleField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;

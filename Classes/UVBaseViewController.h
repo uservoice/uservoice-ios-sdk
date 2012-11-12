@@ -40,6 +40,9 @@
 - (void)showActivityIndicator;
 - (void)hideActivityIndicator;
 
+- (void)addTopBorder:(UIView *)view;
+- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
+
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label;
 
 - (void)initNavigationItem;

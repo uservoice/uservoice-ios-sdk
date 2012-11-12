@@ -52,8 +52,6 @@
 - (BOOL)signedIn;
 - (void)sendButtonTapped;
 - (void)suggestionButtonTapped;
-- (void)addTopBorder:(UIView *)view;
-- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
 - (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView;
 - (UIView *)fieldsTableFooterView;

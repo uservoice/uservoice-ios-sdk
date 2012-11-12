@@ -294,6 +294,21 @@
     [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
+- (void)addTopBorder:(UIView *)view {
+    [self addTopBorder:view alpha:1.0];
+}
+
+- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha {
+    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
+    border.backgroundColor = [UIColor colorWithRed:0.86f green:0.88f blue:0.89f alpha:1.0f];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [view addSubview:border];
+    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 1, 320, 1)] autorelease];
+    border.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [view addSubview:border];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {

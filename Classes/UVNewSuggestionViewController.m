@@ -23,12 +23,8 @@
 #import "UVTextView.h"
 #import "NSError+UVExtras.h"
 
-#define UV_NEW_SUGGESTION_SECTION_TITLE 0
-#define UV_NEW_SUGGESTION_SECTION_TEXT 1
-#define UV_NEW_SUGGESTION_SECTION_CATEGORY 2
-#define UV_NEW_SUGGESTION_SECTION_PROFILE 3
-#define UV_NEW_SUGGESTION_SECTION_VOTE 4
-#define UV_NEW_SUGGESTION_SECTION_SUBMIT 5
+#define UV_NEW_SUGGESTION_SECTION_PROFILE 0
+#define UV_NEW_SUGGESTION_SECTION_CATEGORY 1
 
 @implementation UVNewSuggestionViewController
 
@@ -37,13 +33,14 @@
 @synthesize text;
 @synthesize name;
 @synthesize email;
-@synthesize textEditor;
+@synthesize textView;
 @synthesize titleField;
 @synthesize nameField;
 @synthesize emailField;
 @synthesize numVotes;
 @synthesize category;
 @synthesize shouldShowCategories;
+@synthesize scrollView;
 
 - (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle {
     if (self = [super init]) {
@@ -78,7 +75,7 @@
 - (void)dismissKeyboard {
     [nameField resignFirstResponder];
     [emailField resignFirstResponder];
-    [textEditor resignFirstResponder];
+    [textView resignFirstResponder];
 }
 
 - (void)updateFromTextFields {
@@ -151,7 +148,7 @@
 }
 
 - (void)dismissTextView {
-    [self.textEditor resignFirstResponder];
+    [self.textView resignFirstResponder];
 }
 
 - (void)voteSegmentChanged:(id)sender {
@@ -168,20 +165,13 @@
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    // Scroll to the active text field
-    NSIndexPath *path;
-    if (textField == self.titleField) {
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_SUGGESTION_SECTION_TITLE];
-    } else {
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_SUGGESTION_SECTION_PROFILE];
-    }
-    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    // TODO
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     if (textField==emailField) {
         [nameField resignFirstResponder];
-        [textEditor resignFirstResponder];
+        [textView resignFirstResponder];
         [self checkEmail];
     }
     return YES;
@@ -189,30 +179,6 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    return YES;
-}
-
-#pragma mark ===== UVTextEditorDelegate Methods =====
-
-- (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
-    // Change right bar button to Done, as there's no built-in way to dismiss the
-    // text view's keyboard.
-    UIBarButtonItem* saveItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                              target:self
-                                                                              action:@selector(dismissTextView)] autorelease];
-    [self.navigationItem setRightBarButtonItem:saveItem animated:NO];
-
-    // Scroll to the active text editor
-    NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_SUGGESTION_SECTION_TEXT];
-    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
-}
-
-- (void)textViewDidEndEditing:(UVTextView *)theTextEditor {
-    self.text = theTextEditor.text;
-    [self.navigationItem setRightBarButtonItem:nil animated:NO];
-}
-
-- (BOOL)textViewShouldEndEditing:(UVTextView *)theTextEditor {
     return YES;
 }
 
@@ -230,110 +196,24 @@
     return textField;
 }
 
-- (void)initCellForTitle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-
-    CGRect frame = CGRectMake(0, 0, cell.contentView.bounds.size.width, 31);
-    UITextField *theTitleField = [[UITextField alloc] initWithFrame:frame];
-    theTitleField.delegate = self;
-    theTitleField.returnKeyType = UIReturnKeyDone;
-    theTitleField.autocorrectionType = UITextAutocorrectionTypeYes;
-    theTitleField.text = self.title;
-    theTitleField.placeholder = NSLocalizedStringFromTable(@"Title", @"UserVoice", nil);
-    theTitleField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    theTitleField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    theTitleField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    theTitleField.borderStyle = UITextBorderStyleRoundedRect;
-    [cell.contentView addSubview:theTitleField];
-    self.titleField = theTitleField;
-    [theTitleField release];
-}
-
-- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    CGRect frame = CGRectMake(0, 0, 300, 102);
-    UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
-    aTextEditor.delegate = self;
-    aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-    aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
-    aTextEditor.backgroundColor = [UIColor clearColor];
-    aTextEditor.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
-
-    [cell.contentView addSubview:aTextEditor];
-    self.textEditor = aTextEditor;
-    [aTextEditor release];
-}
-
 - (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.text = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
     cell.detailTextLabel.text = self.category.name;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-
-    self.numVotes = 1;
-    NSArray *items = [NSArray arrayWithObjects:NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil), NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil), NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil), nil];
-    UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
-    segments.frame = CGRectMake(10, 0, 300, 44);
-    segments.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    segments.selectedSegmentIndex = 0;
-    NSInteger votesRemaining = 10;
-    if ([UVSession currentSession].user)
-        votesRemaining = [UVSession currentSession].user.votesRemaining;
-
-    for (int i = 0; i < segments.numberOfSegments; i++) {
-        BOOL enabled = (i + 1) <= votesRemaining;
-        [segments setEnabled:enabled forSegmentAtIndex:i];
-    }
-    if (votesRemaining==0) {
-        [cell.contentView addSubview:segments];
-
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 66, 300, 15)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = UITextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:12];
-        label.text = NSLocalizedStringFromTable(@"Sorry, you have run out of votes.", @"UserVoice", nil);
-        label.textColor = [UVStyleSheet alertTextColor];
-
-        [cell.contentView addSubview:label];
-        [label release];
-    } else {
-        [segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
-        [cell.contentView addSubview:segments];
-    }
-    [segments release];
-}
-
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
+    cell.backgroundColor = [UIColor whiteColor];
+    self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
+    cell.backgroundColor = [UIColor whiteColor];
+    self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-}
-
-- (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-    NSInteger votesRemaining = 10;
-    if ([UVSession currentSession].user)
-        votesRemaining = [UVSession currentSession].user.votesRemaining;
-
-    if (votesRemaining!=0) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(10, 0, 300, 42);
-        button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-        button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        button.titleLabel.textColor = [UIColor whiteColor];
-        [button setTitle:NSLocalizedStringFromTable(@"Create idea", @"UserVoice", nil) forState:UIControlStateNormal];
-        [button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
-        [button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
-        [button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:button];
-    }
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -344,24 +224,12 @@
     BOOL selectable = NO;
 
     switch (indexPath.section) {
-        case UV_NEW_SUGGESTION_SECTION_TITLE:
-            identifier = @"Title";
-            break;
-        case UV_NEW_SUGGESTION_SECTION_TEXT:
-            identifier = @"Text";
-            break;
         case UV_NEW_SUGGESTION_SECTION_CATEGORY:
             identifier = @"Category";
             style = UITableViewCellStyleValue1;
             break;
-        case UV_NEW_SUGGESTION_SECTION_VOTE:
-            identifier = @"Vote";
-            break;
         case UV_NEW_SUGGESTION_SECTION_PROFILE:
             identifier = indexPath.row == 0 ? @"Email" : @"Name";
-            break;
-        case UV_NEW_SUGGESTION_SECTION_SUBMIT:
-            identifier = @"Submit";
             break;
     }
 
@@ -373,7 +241,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 6;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -386,37 +254,6 @@
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
-
-- (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case UV_NEW_SUGGESTION_SECTION_TITLE:
-            return 31;
-        case UV_NEW_SUGGESTION_SECTION_TEXT:
-            return 102;
-        case UV_NEW_SUGGESTION_SECTION_VOTE:
-            return 44;
-        case UV_NEW_SUGGESTION_SECTION_SUBMIT:
-            return 42;
-        default:
-            return 44;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
-    switch (section) {
-        case UV_NEW_SUGGESTION_SECTION_TITLE:
-            return 10.0;
-        case UV_NEW_SUGGESTION_SECTION_PROFILE:
-            return 10.0;
-        default:
-            return 0.0;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
-    CGFloat height = [self tableView:theTableView heightForHeaderInSection:section];
-    return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)] autorelease];
-}
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -433,40 +270,53 @@
 
 - (void)loadView {
     [super loadView];
-    [self hideExitButton];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Post Idea", @"UserVoice", nil);
 
-    CGRect frame = [self contentFrame];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"New Suggestion", @"UserVoice", nil);
-    [self setupGroupedTableView];
+    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.scrollView.backgroundColor = [UIColor whiteColor];
+    self.view = scrollView;
+
+    UIView *titleView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 34)] autorelease];
+    titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(7, 7, 0, 0)] autorelease];
+    label.text = NSLocalizedStringFromTable(@"Title", @"UserVoice", nil);
+    label.font = [UIFont systemFontOfSize:15];
+    [label sizeToFit];
+    label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    [titleView addSubview:label];
+    self.titleField = [[[UITextField alloc] initWithFrame:CGRectMake(14 + label.bounds.size.width, 7, titleView.bounds.size.width - 14 - label.bounds.size.width, 22)] autorelease];
+    titleField.font = [UIFont systemFontOfSize:15];
+    titleField.placeholder = NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil);
+    titleField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    titleField.returnKeyType = UIReturnKeyDone;
+    titleField.delegate = self;
+    [titleView addSubview:titleField];
+    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 33, 320, 1)] autorelease];
+    border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    [titleView addSubview:border];
+    [scrollView addSubview:titleView];
+
+    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height, 320, 84)] autorelease];
+    textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
+    textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    textView.delegate = self;
+    [scrollView addSubview:textView];
+
+    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.tableView.backgroundView = nil;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.sectionFooterHeight = 0.0;
+    self.tableView.scrollEnabled = NO;
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self addTopBorder:tableView];
+    [scrollView addSubview:tableView];
 
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 50)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, frame.size.width, 15)];
-    label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    label.text = NSLocalizedStringFromTable(@"Want to send a private message instead?", @"UserVoice", nil);
-    label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UVStyleSheet linkTextColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
-    [footer addSubview:label];
-    [label release];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 25, frame.size.width, 15);
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Contact %@", @"UserVoice", nil), [UVSession currentSession].clientConfig.subdomain.name];
-    [button setTitle:buttonTitle forState:UIControlStateNormal];
-    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor clearColor];
-    button.showsTouchWhenHighlighted = YES;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [button addTarget:self action:@selector(contactButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [footer addSubview:button];
-
-    self.tableView.tableFooterView = footer;
-    [footer release];
+    self.navigationItem.rightBarButtonItem =  [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil)
+                                                                                style:UIBarButtonItemStyleDone
+                                                                               target:self
+                                                                               action:@selector(createButtonTapped)] autorelease];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -484,11 +334,12 @@
     self.text = nil;
     self.name = nil;
     self.email = nil;
-    self.textEditor = nil;
+    self.textView = nil;
     self.titleField = nil;
     self.nameField = nil;
     self.emailField = nil;
     self.category = nil;
+    self.scrollView = nil;
     [super dealloc];
 }
 
