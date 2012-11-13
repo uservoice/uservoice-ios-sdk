@@ -322,7 +322,14 @@
     [self.suggestions removeAllObjects];
     [self.suggestions addObjectsFromArray:[UVSession currentSession].clientConfig.forum.suggestions];
     [self.tableView reloadData];
-    [self.navigationItem setLeftBarButtonItem:nil animated:NO];
+    if ([UVSession currentSession].isModal && firstController) {
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(dismissUserVoice)] autorelease];
+    } else {
+        [self.navigationItem setLeftBarButtonItem:nil animated:NO];
+    }
 }
 
 - (void)dismissTextEditor {

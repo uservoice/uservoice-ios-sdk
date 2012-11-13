@@ -148,7 +148,10 @@
 }
 
 - (void)dismissTextView {
-    [self.textView resignFirstResponder];
+    [textView resignFirstResponder];
+    [emailField resignFirstResponder];
+    [nameField resignFirstResponder];
+    [titleField resignFirstResponder];
 }
 
 - (void)voteSegmentChanged:(id)sender {
@@ -165,7 +168,13 @@
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    // TODO
+    if (textField == self.titleField)
+        return;
+    CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
+    offset.x = 0;
+    offset.y -= 20;
+    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + kbHeight - scrollView.bounds.size.height));
+    [scrollView setContentOffset:offset animated:YES];
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
@@ -174,6 +183,7 @@
         [textView resignFirstResponder];
         [self checkEmail];
     }
+    [scrollView setContentOffset:CGPointZero animated:YES];
     return YES;
 }
 
@@ -214,6 +224,10 @@
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+}
+
+- (void)titleChanged:(NSNotification *)notification {
+    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] > 0;
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -276,7 +290,7 @@
     self.scrollView.backgroundColor = [UIColor whiteColor];
     self.view = scrollView;
 
-    UIView *titleView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 34)] autorelease];
+    UIView *titleView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 34)] autorelease];
     titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(7, 7, 0, 0)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Title", @"UserVoice", nil);
@@ -285,25 +299,30 @@
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     [titleView addSubview:label];
     self.titleField = [[[UITextField alloc] initWithFrame:CGRectMake(14 + label.bounds.size.width, 7, titleView.bounds.size.width - 14 - label.bounds.size.width, 22)] autorelease];
+    titleField.text = self.title;
     titleField.font = [UIFont systemFontOfSize:15];
     titleField.placeholder = NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil);
     titleField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     titleField.returnKeyType = UIReturnKeyDone;
     titleField.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(titleChanged:)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:titleField];
     [titleView addSubview:titleField];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 33, 320, 1)] autorelease];
+    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 33, scrollView.bounds.size.width, 1)] autorelease];
     border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     [titleView addSubview:border];
     [scrollView addSubview:titleView];
 
-    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height, 320, 84)] autorelease];
+    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height, scrollView.bounds.size.width, 84)] autorelease];
     textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textView.delegate = self;
     [scrollView addSubview:textView];
 
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, scrollView.bounds.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
     self.tableView.backgroundView = nil;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -311,12 +330,35 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self addTopBorder:tableView];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+    label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 50)] autorelease];
+    label.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
+    label.font = [UIFont systemFontOfSize:11];
+    label.textAlignment = UITextAlignmentLeft;
+    label.numberOfLines = 0;
+    label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    label.backgroundColor = [UIColor clearColor];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [label sizeToFit];
+    [footer addSubview:label];
+    self.tableView.tableFooterView = footer;
     [scrollView addSubview:tableView];
 
-    self.navigationItem.rightBarButtonItem =  [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil)
-                                                                                style:UIBarButtonItemStyleDone
-                                                                               target:self
-                                                                               action:@selector(createButtonTapped)] autorelease];
+    [tableView reloadData];
+    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, titleView.bounds.size.height + textView.bounds.size.height + tableView.contentSize.height);
+
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil)
+                                                                               style:UIBarButtonItemStyleDone
+                                                                              target:self
+                                                                              action:@selector(createButtonTapped)] autorelease];
+    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] > 0;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+   [super viewWillAppear:animated];
+   scrollView.contentInset = UIEdgeInsetsZero;
+   scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
+   scrollView.contentOffset = CGPointZero;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
