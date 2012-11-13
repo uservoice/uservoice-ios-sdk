@@ -233,7 +233,6 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
-    self.tableView.tableFooterView = [self fieldsTableFooterView];
     self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
     if (self.text && [self.text length] > 0)
         [self loadInstantAnswers];

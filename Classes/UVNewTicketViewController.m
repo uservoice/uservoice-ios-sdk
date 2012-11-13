@@ -95,25 +95,6 @@
     self.instantAnswersTableView.delegate = self;
     self.instantAnswersTableView.scrollEnabled = NO;
 
-    // UIView *iaFooter = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, instantAnswersTableView.bounds.size.width, 90)] autorelease];
-    // UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, instantAnswersTableView.bounds.size.width, 15)] autorelease];
-    // label.text = NSLocalizedStringFromTable(@"Do any of these answer your question?", @"UserVoice", nil);
-    // label.font = [UIFont boldSystemFontOfSize:13];
-    // [iaFooter addSubview:label];
-    // [self addButton:@"Thanks!"
-    //     withCaption:@"I found what I was looking for"
-    //         andRect:CGRectMake(10, 35, 145, 35)
-    //         andMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin
-    //       andAction:@selector(thanksTapped)
-    //          toView:iaFooter];
-    // [self addButton:@"Not helpful"
-    //     withCaption:@"I still need to contact you"
-    //         andRect:CGRectMake(165, 35, 145, 35)
-    //         andMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin
-    //       andAction:@selector(notInterestedTapped)
-    //          toView:iaFooter];
-    // self.instantAnswersTableView.tableFooterView = iaFooter;
-
     [instantAnswersView addSubview:instantAnswersTableView];
     [self.view addSubview:instantAnswersView];
     
@@ -125,7 +106,6 @@
     self.fieldsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
     fieldsTableView.hidden = YES;
     [self addTopBorder:fieldsTableView];
-    self.fieldsTableView.tableFooterView = [self fieldsTableFooterView];
     [self.view addSubview:fieldsTableView];
 
     self.nextButton = [self barButtonItem:@"Continue" withAction:@selector(nextButtonTapped)];
@@ -203,7 +183,13 @@
     CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
     offset.x = 0;
     offset.y -= 20;
+    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + kbHeight - scrollView.bounds.size.height));
     [scrollView setContentOffset:offset animated:YES];
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    [scrollView setContentOffset:CGPointZero animated:YES];
     return YES;
 }
 
@@ -392,6 +378,13 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
     [self updateLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+   [super viewWillAppear:animated];
+   scrollView.contentInset = UIEdgeInsetsZero;
+   scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
+   scrollView.contentOffset = CGPointZero;
 }
 
 - (void)dealloc {
