@@ -362,12 +362,6 @@
 }
 
 - (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center {
-    UIImageView *arrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_arrow.png"]] autorelease];
-    arrow.center = center;
-    arrow.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    arrow.tag = TICKET_VIEW_ARROW_TAG;
-    [view addSubview:arrow];
-    
     UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
     spinner.center = center;
     spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -379,21 +373,13 @@
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated {
     UILabel *label = (UILabel *)[view viewWithTag:TICKET_VIEW_IA_LABEL_TAG];
     UIView *spinner = [view viewWithTag:TICKET_VIEW_SPINNER_TAG];
-    UIView *arrow = [view viewWithTag:TICKET_VIEW_ARROW_TAG];
     if ([instantAnswers count] > 0)
-      label.text = [self instantAnswersFoundMessage];
+      label.text = [self instantAnswersFoundMessage:toggled];
     void (^update)() = ^{
         if (loadingInstantAnswers) {
             spinner.layer.opacity = 1.0;
-            arrow.layer.opacity = 0.0;
         } else {
             spinner.layer.opacity = 0.0;
-            arrow.layer.opacity = 1.0;
-            if (toggled) {
-                arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
-            } else {
-                arrow.layer.transform = CATransform3DIdentity;
-            }
         }
     };
     if (animated) {
@@ -407,7 +393,7 @@
     return [UVSession currentSession].user != nil;
 }
 
-- (NSString *)instantAnswersFoundMessage {
+- (NSString *)instantAnswersFoundMessage:(BOOL)toggled {
     BOOL foundArticles = NO;
     BOOL foundIdeas = NO;
     for (id answer in instantAnswers) {
@@ -417,11 +403,11 @@
             foundIdeas = YES;
     }
     if (foundArticles && foundIdeas)
-        return NSLocalizedStringFromTable(@"We've found some related articles and ideas that may help you faster than sending a message", @"UserVoice", nil);
+        return toggled ? NSLocalizedStringFromTable(@"Matching articles and ideas", @"UserVoice", nil) : NSLocalizedStringFromTable(@"View matching articles and ideas", @"UserVoice", nil);
     else if (foundArticles)
-        return NSLocalizedStringFromTable(@"We've found some related articles that may help you faster than sending a message", @"UserVoice", nil);
+        return toggled ? NSLocalizedStringFromTable(@"Matching articles", @"UserVoice", nil) : NSLocalizedStringFromTable(@"View matching articles", @"UserVoice", nil);
     else if (foundIdeas)
-        return NSLocalizedStringFromTable(@"We've found some related ideas that may help you faster than sending a message", @"UserVoice", nil);
+        return toggled ? NSLocalizedStringFromTable(@"Matching ideas", @"UserVoice", nil) : NSLocalizedStringFromTable(@"View matching ideas", @"UserVoice", nil);
     else
         return @"";
 }

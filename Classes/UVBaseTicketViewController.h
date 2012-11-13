@@ -48,7 +48,7 @@
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
 - (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
-- (NSString *)instantAnswersFoundMessage;
+- (NSString *)instantAnswersFoundMessage:(BOOL)toggled;
 - (BOOL)signedIn;
 - (void)sendButtonTapped;
 - (void)suggestionButtonTapped;

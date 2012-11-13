@@ -72,17 +72,21 @@
 
     self.instantAnswersView = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000)] autorelease];
     self.instantAnswersView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
+    self.instantAnswersView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.instantAnswersView.layer.shadowOffset = CGSizeMake(0, 1);
+    self.instantAnswersView.layer.shadowRadius = 2.0;
+    self.instantAnswersView.layer.shadowOpacity = 0.3;
     self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
     self.instantAnswersMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
-    UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 6, 250, 30)] autorelease];
+    UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 4, 300, 30)] autorelease];
     instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     instantAnswersLabel.tag = TICKET_VIEW_IA_LABEL_TAG;
     instantAnswersLabel.numberOfLines = 2;
-    instantAnswersLabel.textColor = [UIColor grayColor];
-    instantAnswersLabel.font = [UIFont systemFontOfSize:11];
+    instantAnswersLabel.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
+    instantAnswersLabel.font = [UIFont systemFontOfSize:15];
     instantAnswersLabel.backgroundColor = [UIColor clearColor];
-    instantAnswersLabel.textAlignment = UITextAlignmentLeft;
+    instantAnswersLabel.textAlignment = UITextAlignmentCenter;
     [instantAnswersMessage addSubview:instantAnswersLabel];
     [self addSpinnerAndArrowTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
     [instantAnswersView addSubview:instantAnswersMessage];
@@ -298,17 +302,16 @@
     else
         [textView resignFirstResponder];
 
-    BOOL keyboardHidden = ![UVKeyboardUtils visible];
     CGFloat sH = [UIScreen mainScreen].bounds.size.height;
     CGFloat sW = [UIScreen mainScreen].bounds.size.width;
-    CGFloat kbP = keyboardHidden ? 64 : 280;
-    CGFloat kbL = keyboardHidden ? 64 : 214;
+    CGFloat kbP = 280;
+    CGFloat kbL = 214;
 
     CGRect textViewRect = landscape ?
-        CGRectMake(0, 0, sH, showTextView ? (sW - kbL) : 50) :
-        CGRectMake(0, 0, sW, showTextView ? (sH - kbP) : 60);
+        CGRectMake(0, 0, sH, sW - kbL) :
+        CGRectMake(0, 0, sW, sH - kbP);
 
-    if (showTextView && showIAMessage)
+    if (showIAMessage)
         textViewRect.size.height -= 40;
 
     CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.size.height);
@@ -346,8 +349,6 @@
             [textView scrollRangeToVisible:NSMakeRange(0, 0)];
         if (!showFieldsTable)
             fieldsTableView.hidden = YES;
-        if (!showIATable)
-            instantAnswersTableView.hidden = YES;
     }];
 }
 
