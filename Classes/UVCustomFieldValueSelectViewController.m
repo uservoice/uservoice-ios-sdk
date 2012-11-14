@@ -78,7 +78,6 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     [super loadView];
-    [self hideExitButton];
 
     self.navigationItem.title = self.customField.name;
 

@@ -28,6 +28,7 @@
 @implementation UVWelcomeViewController
 
 @synthesize forum = _forum;
+@synthesize scrollView;
 
 - (id)init {
     if (self = [super init]) {
@@ -150,56 +151,71 @@
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        if ([UVSession currentSession].clientConfig.ticketsEnabled && [UVSession currentSession].clientConfig.feedbackEnabled) {
-            return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-        } else if ([UVSession currentSession].clientConfig.ticketsEnabled) {
-            return NSLocalizedStringFromTable(@"Support", @"UserVoice", nil);
-        } else {
-            return NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
-        }
-        return NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-    } else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
-        return NSLocalizedStringFromTable(@"FAQs", @"UserVoice", nil);
-    } else {
-        return [[UVSession currentSession].clientConfig.subdomain ideasHeading];
-    }
+- (void)postIdeaTapped {
+    UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:self.forum] autorelease];
+    [self.navigationController pushViewController:next animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
-    return (section == 0) ? 36 + 11 : 36;
+- (void)contactUsTapped {
+    UIViewController *next = [UVNewTicketViewController viewController];
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    navigationController.viewControllers = @[next];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navigationController animated:YES];
 }
 
-- (UIView *)tableView:(UITableView *)theTableView viewForHeaderInSection:(NSInteger)section {
-    UIView *containerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)] autorelease];
-    containerView.backgroundColor = [UIColor clearColor];
-    CGFloat marginLeft = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 45 : 10;
-    CGRect labelFrame = CGRectMake(marginLeft, 2, 320, 30);
-    if (section == 0)
-        labelFrame.origin.y += 11;
-    UILabel *label = [[[UILabel alloc] initWithFrame:labelFrame] autorelease];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:17];
-    label.shadowColor = [UVStyleSheet tableViewHeaderShadowColor];
-    label.shadowOffset = CGSizeMake(0, 1);
-    label.textColor = [UVStyleSheet tableViewHeaderColor];
-    label.text = [self tableView:theTableView titleForHeaderInSection:section];
-    [containerView addSubview:label];
-    return containerView;
+- (void)logoTapped {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.uservoice.com/ios"]];
 }
 
 #pragma mark ===== Basic View Methods =====
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     [super loadView];
-    [self.navigationItem setHidesBackButton:YES animated:NO];
-    [self setupGroupedTableView];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.sectionFooterHeight = 0.0;
-    self.tableView.tableFooterView = [UVFooterView footerViewForController:self];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
+    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = scrollView;
+    scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+
+    UIView *buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 130, scrollView.bounds.size.width - 20, 100)] autorelease];
+    buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    if ([UVSession currentSession].clientConfig.feedbackEnabled) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(0, 0, buttons.bounds.size.width, 40);
+        [button setTitle:NSLocalizedStringFromTable(@"Post an idea on our forum", @"UserVoice", nil) forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(postIdeaTapped) forControlEvents:UIControlEventTouchUpInside];
+        button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [buttons addSubview:button];
+    }
+    if ([UVSession currentSession].clientConfig.ticketsEnabled) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(0, 50, buttons.bounds.size.width, 40);
+        [button setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
+        button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [buttons addSubview:button];
+    }
+    [scrollView addSubview:buttons];
+
+    UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 5, 0, 0)] autorelease];
+    poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    poweredBy.backgroundColor = [UIColor clearColor];
+    poweredBy.textColor = [UIColor grayColor];
+    poweredBy.font = [UIFont systemFontOfSize:11];
+    poweredBy.text = NSLocalizedStringFromTable(@"powered by", @"UserVoice", nil);
+    [poweredBy sizeToFit];
+    [logo addSubview:poweredBy];
+    UIImageView *image = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]] autorelease];
+    image.frame = CGRectMake(poweredBy.bounds.size.width + 7, 0, image.bounds.size.width * 0.8, image.bounds.size.height * 0.8);
+    [logo addSubview:image];
+    logo.frame = CGRectMake(0, 0, image.frame.origin.x + image.frame.size.width, image.frame.size.height);
+    logo.center = CGPointMake(scrollView.bounds.size.width / 2, scrollView.bounds.size.height - logo.bounds.size.height / 2 - 15);
+    logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
+    [logo addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)] autorelease]];
+    
+    [scrollView addSubview:logo];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -219,6 +235,7 @@
 - (void)dealloc {
     self.forum = nil;
     self.tableView = nil;
+    self.scrollView = nil;
     [super dealloc];
 }
 

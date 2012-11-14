@@ -140,11 +140,12 @@
                                                                              target:nil
                                                                              action:nil] autorelease];
 
+    self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(dismissUserVoice)] autorelease];
     if ([UVSession currentSession].isModal && firstController) {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(dismissUserVoice)] autorelease];
+        self.navigationItem.leftBarButtonItem = exitButton;
     }
 }
 
@@ -260,13 +261,8 @@
     [self scrollView].scrollIndicatorInsets = contentInsets;
 }
 
-- (void)hideExitButton {
-    self.navigationItem.rightBarButtonItem = nil;
-}
-
 - (void)showExitButton {
-    if (exitButton)
-        self.navigationItem.rightBarButtonItem = exitButton;
+    self.navigationItem.leftBarButtonItem = exitButton;
 }
 
 - (void)promptUserToSignIn {

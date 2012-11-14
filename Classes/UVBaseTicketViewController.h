@@ -30,6 +30,7 @@
     NSMutableDictionary *selectedCustomFieldValues;
     BOOL loadingInstantAnswers;
     BOOL readyToPopView;
+    BOOL dismissed;
 }
 
 @property (nonatomic,retain) NSString *text;

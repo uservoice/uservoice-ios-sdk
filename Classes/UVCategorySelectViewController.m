@@ -73,7 +73,6 @@
 
 - (void)loadView {
     [super loadView];
-    [self hideExitButton];
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
 

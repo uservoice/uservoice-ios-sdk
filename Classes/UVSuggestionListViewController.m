@@ -347,7 +347,6 @@
     UIView *shade = [headerView viewWithTag:UV_SEARCH_SHADE];
 
     [self setLeftBarButtonCancel];
-    [self hideExitButton];
     shade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
     [UIView animateWithDuration:0.5 animations:^{
         shade.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];

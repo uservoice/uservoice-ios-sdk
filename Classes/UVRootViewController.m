@@ -140,6 +140,7 @@
 - (void)loadView {
     [super loadView];
     [self showExitButton];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
 
     CGRect frame = [self contentFrame];
     UIView *contentView = [[UIView alloc] initWithFrame:frame];

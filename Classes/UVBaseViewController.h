@@ -86,7 +86,6 @@
 
 - (void)alertError:(NSString *)message;
 - (void)alertSuccess:(NSString *)message;
-- (void)hideExitButton;
 - (void)showExitButton;
 - (void)promptUserToSignIn;
 - (void)setupGroupedTableView;

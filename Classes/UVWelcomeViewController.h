@@ -14,8 +14,10 @@
 
 @interface UVWelcomeViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
     UVForum *_forum;
+    UIScrollView *scrollView;
 }
 
 @property (nonatomic, retain) UVForum *forum;
+@property (nonatomic, retain) UIScrollView *scrollView;
 
 @end

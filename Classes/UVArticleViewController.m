@@ -24,7 +24,6 @@
 
 - (void)loadView {
     [super loadView];
-    [self hideExitButton];
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 40)] autorelease];
     NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: sans-serif; margin: 1em\"><h3>%@</h3>%@</body></html>", article.question, article.answerHTML];

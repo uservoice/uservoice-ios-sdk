@@ -200,6 +200,8 @@
 }
 
 - (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
+    if (dismissed)
+        return;
     self.instantAnswers = [theInstantAnswers subarrayWithRange:NSMakeRange(0, MIN(3, [theInstantAnswers count]))];
     loadingInstantAnswers = NO;
     [self didLoadInstantAnswers];
@@ -472,11 +474,14 @@
 }
 
 - (void)dismiss {
+    [timer invalidate];
+    self.timer = nil;
+    dismissed = YES;
     if ([self shouldLeaveViewController]) {
         if ([UVSession currentSession].isModal && firstController)
             [self dismissUserVoice];
         else
-            [self.navigationController popViewControllerAnimated:YES];
+            [self dismissModalViewControllerAnimated:YES];
     }
 }
 
