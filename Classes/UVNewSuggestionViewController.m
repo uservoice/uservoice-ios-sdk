@@ -370,6 +370,19 @@
     }
 }
 
+- (void)initNavigationItem {
+    [super initNavigationItem];
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(dismiss)] autorelease];
+}
+
+- (void)dismiss {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
 - (void)dealloc {
     self.forum = nil;
     self.title = nil;

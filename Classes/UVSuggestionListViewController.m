@@ -120,7 +120,7 @@
     // getting the cell size
     UVCellViewWithIndex *cellView = [[UVCellViewWithIndex alloc] initWithIndex:indexPath.row];
 
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryNone;
 
     UIFont *font = [UIFont boldSystemFontOfSize:18];
     UILabel *label = [[UILabel alloc] init];
@@ -272,10 +272,12 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 0 && _searching) {
-        UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum
-                                                                                             title:_textEditor.text];
-        [self.navigationController pushViewController:next animated:YES];
-        [next release];
+        UVNewSuggestionViewController *next = [[[UVNewSuggestionViewController alloc] initWithForum:self.forum title:_textEditor.text] autorelease];
+        UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+        navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+        navigationController.viewControllers = @[next];
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentModalViewController:navigationController animated:YES];
     } else if (indexPath.row < (_searching ? [self.suggestions count] + 1 : [self.suggestions count])) {
         UVSuggestion *suggestion = [suggestions objectAtIndex:(_searching ? indexPath.row-1 : indexPath.row)];
         UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
