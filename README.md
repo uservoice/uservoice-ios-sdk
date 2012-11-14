@@ -3,7 +3,9 @@ Overview
 
 UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
 
-You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com](http://uservoice.com/) to sign up.
+![Tour](http://www.uservoice.com/_assets/images/content/UserVoice-iOS-animation-joshua.gif)
+
+You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
 
 Binary builds of the SDK are available [for download](https://github.com/uservoice/uservoice-iphone-sdk/downloads).
 
@@ -23,7 +25,7 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 Obtain Key And Secret
 ---------------------
 
-* If you don't already have a UserVoice account then go get one for free at [uservoice.com](http://uservoice.com/).
+* If you don't already have a UserVoice account then go get one for free at [uservoice.com/ios](http://uservoice.com/ios).
 * Go to the admin console (yourdomain.uservoice.com/admin) of your UserVoice account, navigate to `Settings` and click the `Channels` tab.
 * Add an iOS App (if one doesn't already exist).
 * Copy the generated `Secret` and `API key`.
