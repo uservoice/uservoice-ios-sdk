@@ -404,6 +404,8 @@
 		D99902C6152B881F00AED6A7 /* uv_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_logo@2x.png"; sourceTree = "<group>"; };
 		D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVKeyboardUtils.h; sourceTree = "<group>"; };
 		D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVKeyboardUtils.m; sourceTree = "<group>"; };
+		D99AFAAF1653F2DE0061F50C /* uv_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_x.png; sourceTree = "<group>"; };
+		D99AFAB01653F2DE0061F50C /* uv_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_x@2x.png"; sourceTree = "<group>"; };
 		D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageCache.h; sourceTree = "<group>"; };
 		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
 		D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; };
@@ -708,6 +710,8 @@
 				D2620C6211B586230053EA4C /* uv_user_chicklet_light.png */,
 				D2620C6311B586230053EA4C /* uv_vote_chicklet.png */,
 				D2620C6411B586230053EA4C /* uv_vote_chicklet_empty.png */,
+				D99AFAAF1653F2DE0061F50C /* uv_x.png */,
+				D99AFAB01653F2DE0061F50C /* uv_x@2x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

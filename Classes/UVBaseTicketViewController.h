@@ -11,7 +11,8 @@
 
 #define TICKET_VIEW_ARROW_TAG 1000
 #define TICKET_VIEW_SPINNER_TAG 1001
-#define TICKET_VIEW_IA_LABEL_TAG 1002
+#define TICKET_VIEW_X_TAG 1002
+#define TICKET_VIEW_IA_LABEL_TAG 1003
 
 #define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
@@ -46,6 +47,8 @@
 - (void)selectInstantAnswerAtIndex:(int)index;
 - (void)selectCustomFieldAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)theTableView;
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
+- (void)addSpinnerAndXTo:(UIView *)view atCenter:(CGPoint)center;
+- (void)updateSpinnerAndXIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled;

@@ -73,7 +73,7 @@
     self.instantAnswersView = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000)] autorelease];
     self.instantAnswersView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
     self.instantAnswersView.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.instantAnswersView.layer.shadowOffset = CGSizeMake(0, 1);
+    self.instantAnswersView.layer.shadowOffset = CGSizeMake(0, 0);
     self.instantAnswersView.layer.shadowRadius = 2.0;
     self.instantAnswersView.layer.shadowOpacity = 0.3;
     self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
@@ -88,7 +88,7 @@
     instantAnswersLabel.backgroundColor = [UIColor clearColor];
     instantAnswersLabel.textAlignment = UITextAlignmentCenter;
     [instantAnswersMessage addSubview:instantAnswersLabel];
-    [self addSpinnerAndArrowTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
+    [self addSpinnerAndXTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
     [instantAnswersView addSubview:instantAnswersMessage];
     [self addTopBorder:instantAnswersView];
     self.instantAnswersTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 40, 320, 1000) style:UITableViewStyleGrouped] autorelease];
@@ -168,7 +168,7 @@
 }
 
 - (void)willLoadInstantAnswers {
-    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
 }
 
 - (void)didLoadInstantAnswers {
@@ -337,7 +337,7 @@
 
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableView.contentSize.height : 0));
 
-    [self updateSpinnerAndArrowIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
     [UIView animateWithDuration:0.3 animations:^{
         messageTextView.frame = textViewRect;
         instantAnswersView.frame = CGRectMake(instantAnswersOrigin.x, instantAnswersOrigin.y, textViewRect.size.width, instantAnswersTableView.frame.origin.y + instantAnswersTableView.frame.size.height);
