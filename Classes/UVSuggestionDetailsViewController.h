@@ -12,11 +12,14 @@
 
 @interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
     UVSuggestion *suggestion;
+    UIScrollView *scrollView;
+    UIView *statusBar;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
+@property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, retain) UIView *statusBar;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
-- (void)setVoteLabelTextAndColorForLabel:(UILabel *)label;
 
 @end

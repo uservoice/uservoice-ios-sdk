@@ -19,26 +19,16 @@
 #import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVSignInViewController.h"
+#import "UVUIColorAdditions.h"
+#import "UVImageView.h"
 
-#define CHICKLET_TAG 1001
-#define VOTE_SEGMENTS_TAG 1002
-#define VOTE_LABEL_TAG 1003
-#define NO_VOTE_LABEL_TAG 1004
-#define LOGIN_TAG 1005
-
-#define UV_SUGGESTION_DETAILS_SECTION_VOTE 0
-#define UV_SUGGESTION_DETAILS_SECTION_BODY 1
-#define UV_SUGGESTION_DETAILS_SECTION_COMMENTS 2
-#define UV_SUGGESTION_DETAILS_SECTION_CREATOR 3
-#define UV_SUGGESTION_DETAILS_SECTION_HEADER 5
-
-#define HEADER_VIEW_BG_TAG 101
-#define HEADER_VIEW_TITLE_TAG 102
-#define HEADER_VIEW_CATEGORY_TAG 103
+#define MARGIN 15
 
 @implementation UVSuggestionDetailsViewController
 
 @synthesize suggestion;
+@synthesize scrollView;
+@synthesize statusBar;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
     if ((self = [super init])) {
@@ -47,62 +37,14 @@
     return self;
 }
 
-- (NSString *)backButtonTitle {
-    return NSLocalizedStringFromTable(@"Idea", @"UserVoice", nil);
-}
-
-- (void)voteSegmentChanged:(id)sender {
-    UISegmentedControl *segments = (UISegmentedControl *)sender;
-    if ([UVSession currentSession].user != nil) {
-        if (segments.selectedSegmentIndex != self.suggestion.votesFor) {
-            [self showActivityIndicator];
-
-            // Inform the user model
-            if (segments.selectedSegmentIndex == 0 && self.suggestion.votesFor > 0) {
-                [[UVSession currentSession].user didWithdrawSupportForSuggestion:self.suggestion];
-            } else if (self.suggestion.votesFor == 0) {
-                [[UVSession currentSession] trackInteraction:@"v"];
-                [[UVSession currentSession].user didSupportSuggestion:self.suggestion];
-            }
-
-            self.suggestion.votesFor = segments.selectedSegmentIndex;
-            [self.suggestion vote:segments.selectedSegmentIndex delegate:self];
-        }
-    } else {
-        segments.selectedSegmentIndex = -1;
-        [self promptUserToSignIn];
-    }
-}
-
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
 
-    UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
-
-    if (self.suggestion.status) {
-        [chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
-    } else {
-        [chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
-    }
-
-    UILabel *votesLabel = (UILabel *)[self.view viewWithTag:VOTE_LABEL_TAG];
-    [self setVoteLabelTextAndColorForLabel:votesLabel];
+    /* UILabel *votesLabel = (UILabel *)[self.view viewWithTag:VOTE_LABEL_TAG]; */
+    /* [self setVoteLabelTextAndColorForLabel:votesLabel]; */
     [self hideActivityIndicator];
-}
-
-- (void)promptForFlag {
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Flag Idea?", @"UserVoice", nil)
-                                 message:NSLocalizedStringFromTable(@"Are you sure you want to flag this idea as inappropriate?", @"UserVoice", nil)
-                                delegate:self
-                       cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                       otherButtonTitles:NSLocalizedStringFromTable(@"Flag", @"UserVoice", nil), nil] autorelease] show];
-}
-
-- (void)didFlagSuggestion:(UVSuggestion *)theSuggestion {
-    [self hideActivityIndicator];
-    [self alertSuccess:NSLocalizedStringFromTable(@"You have successfully flagged this idea as inappropriate.", @"UserVoice", nil)];
 }
 
 // Calculates the height of the text.
@@ -126,11 +68,6 @@
            lineBreakMode:UILineBreakModeWordWrap];
 }
 
-- (void)setVoteLabelTextAndColorForLabel:(UILabel *)label {
-    NSInteger votesRemaining = [UVSession currentSession].user.votesRemaining;
-    [self setVoteLabelTextAndColorForVotesRemaining:votesRemaining label:label];
-}
-
 - (NSString *)postDateString {
     static NSDateFormatter* dateFormatter = nil;
     if (!dateFormatter) {
@@ -140,375 +77,171 @@
     return [dateFormatter stringFromDate:self.suggestion.createdAt];
 }
 
-#pragma mark ===== UIAlertViewDelegate Methods =====
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        [self showActivityIndicator];
-        [self.suggestion flag:@"inappropriate" delegate:self];
-    }
-}
-
-#pragma mark ===== table cells =====
-
-- (void)initCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    UIView *bg = [[UILabel alloc] initWithFrame:cell.bounds];
-    bg.backgroundColor = [UVStyleSheet backgroundColor];
-    bg.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [cell.contentView addSubview:bg];
-    [bg release];
-
-    if ([suggestion.status isEqualToString:@"completed"] || [suggestion.status isEqualToString:@"declined"]) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, cell.bounds.size.width, 44)];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        label.tag = NO_VOTE_LABEL_TAG;
-        label.numberOfLines = 2;
-        label.opaque = YES;
-        label.backgroundColor = [UVStyleSheet backgroundColor];
-        label.textAlignment = UITextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:14];
-        label.text = [NSString stringWithFormat:
-                      NSLocalizedStringFromTable(@"Voting for this suggestion is now closed and your %d %@ been returned to you", @"UserVoice", nil),
-                      self.suggestion.votesFor,
-                      self.suggestion.votesFor == 1 ? NSLocalizedStringFromTable(@"vote has", @"UserVoice", nil) : NSLocalizedStringFromTable(@"votes have", @"UserVoice", nil)];
-        label.textColor = [UVStyleSheet linkTextColor];
-        [cell.contentView addSubview:label];
-        [label release];
-
-    } else {
-        NSArray *items = [NSArray arrayWithObjects:NSLocalizedStringFromTable(@"0 votes", @"UserVoice", nil), NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil), NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil), NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil), nil];
-        UISegmentedControl *segments = [[UISegmentedControl alloc] initWithItems:items];
-        segments.tag = VOTE_SEGMENTS_TAG;
-        segments.frame = CGRectMake(0, 0, cell.bounds.size.width, 44);
-        segments.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [segments addTarget:self action:@selector(voteSegmentChanged:) forControlEvents:UIControlEventValueChanged];
-        [cell.contentView addSubview:segments];
-        [segments release];
-
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 49, cell.bounds.size.width, 17)];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        label.opaque = YES;
-        label.backgroundColor = [UVStyleSheet backgroundColor];
-        label.tag = VOTE_LABEL_TAG;
-        label.numberOfLines = 0;
-        label.textAlignment = UITextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:12];
-        [cell.contentView addSubview:label];
-        [label release];
-    }
-}
-
-- (void)customizeCellForVote:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UISegmentedControl *segments = (UISegmentedControl *)[cell.contentView viewWithTag:VOTE_SEGMENTS_TAG];
-    if ([UVSession currentSession].user != nil) {
-        segments.selectedSegmentIndex = self.suggestion.votesFor;
-        NSInteger votesRemaining = [UVSession currentSession].user.votesRemaining;
-        for (int i = 0; i < segments.numberOfSegments; i++) {
-            NSInteger votesNeeded = i - self.suggestion.votesFor;
-            BOOL enabled = votesNeeded <= votesRemaining;
-            [segments setEnabled:enabled forSegmentAtIndex:i];
-        }
-
-        UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
-        if (label) {
-            [label setHidden:NO];
-            [self setVoteLabelTextAndColorForLabel:label];
-        }
-    } else {
-        UILabel *label = (UILabel *)[cell.contentView viewWithTag:VOTE_LABEL_TAG];
-        [label setHidden:YES];
-    }
-}
-
-- (void)initCellForBody:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-
-    UIView *bg = [[UILabel alloc] initWithFrame:cell.bounds];
-    bg.backgroundColor = [UVStyleSheet backgroundColor];
-    bg.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [cell.contentView addSubview:bg];
-    [bg release];
-
-    // The default margins are too large for the body, so we're using our own label.
-    UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(0, -3, cell.bounds.size.width, cell.bounds.size.height)] autorelease];
-    body.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    body.text = self.suggestion.text;
-    body.font = [UIFont systemFontOfSize:13];
-    body.lineBreakMode = UILineBreakModeWordWrap;
-    body.numberOfLines = 0;
-    body.textColor = [UVStyleSheet primaryTextColor];
-    body.backgroundColor = [UIColor clearColor];
-    [cell.contentView addSubview:body];
-}
-
-- (void)customizeCellForStatus:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    NSString *status = suggestion.status ? suggestion.status : @"N/A";
-    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Status: %@", @"UserVoice", nil), [status capitalizedString]];
-
-    if (self.suggestion.responseText) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-}
-
-- (void)customizeCellForComments:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = [NSString stringWithFormat:(self.suggestion.commentsCount == 1 ? NSLocalizedStringFromTable(@"%d Comment", @"UserVoice", nil) : NSLocalizedStringFromTable(@"%d Comments", @"UserVoice", nil)), self.suggestion.commentsCount];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-}
-
-- (void)customizeCellForFlag:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Flag as inappropriate", @"UserVoice", nil);
-}
-
-- (void)initCellForCreator:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
-    UIView *bg = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 75)];
-    bg.backgroundColor = [UVStyleSheet backgroundColor];
-    bg.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [cell.contentView addSubview:bg];
-    [bg release];
-
-    // Name label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 13, 100, 16)];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UVStyleSheet labelTextColor];
-    label.textAlignment = UITextAlignmentRight;
-    label.font = [UIFont boldSystemFontOfSize:13];
-    label.text = NSLocalizedStringFromTable(@"Created by", @"UserVoice", nil);
-    [cell.contentView addSubview:label];
-    [label release];
-
-    // Name
-    UVUserButton *nameButton = [UVUserButton buttonWithUserId:self.suggestion.creatorId
-                                                         name:self.suggestion.creatorName
-                                                   controller:self
-                                                       origin:CGPointMake(110, 13)
-                                                     maxWidth:205
-                                                         font:[UIFont boldSystemFontOfSize:13]
-                                                        color:[UVStyleSheet linkTextColor]];
-    [cell.contentView addSubview:nameButton];
-
-    // Date label
-    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 43, 100, 13)];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UVStyleSheet labelTextColor];
-    label.textAlignment = UITextAlignmentRight;
-    label.font = [UIFont boldSystemFontOfSize:13];
-    label.text = NSLocalizedStringFromTable(@"Post date", @"UserVoice", nil);
-    [cell.contentView addSubview:label];
-    [label release];
-
-    // Date
-    label = [[UILabel alloc] initWithFrame:CGRectMake(110, 43, 205, 14)];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UVStyleSheet primaryTextColor];
-    label.textAlignment = UITextAlignmentLeft;
-    label.font = [UIFont systemFontOfSize:13];
-    label.text = [self postDateString];
-    [cell.contentView addSubview:label];
-    [label release];
-}
-
-#pragma mark ===== UITableViewDataSource Methods =====
-
-- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifier = @"";
-    BOOL selectable = YES;
-
-    switch (indexPath.section) {
-        case UV_SUGGESTION_DETAILS_SECTION_VOTE:
-            identifier = @"Vote";
-            if ([UVSession currentSession].user!=nil)
-                selectable = NO;
-            break;
-        case UV_SUGGESTION_DETAILS_SECTION_BODY:
-            identifier = @"Body";
-            selectable = NO;
-            break;
-        case UV_SUGGESTION_DETAILS_SECTION_COMMENTS:
-            switch (indexPath.row) {
-                case 0:
-                    identifier = @"Status";
-                    break;
-                case 1:
-                    identifier = @"Comments";
-                    break;
-                case 2:
-                    identifier = @"Flag";
-                    break;
-            }
-            break;
-        case UV_SUGGESTION_DETAILS_SECTION_CREATOR:
-            identifier = @"Creator";
-            selectable = NO;
-            break;
-    }
-    return [self createCellForIdentifier:identifier
-                               tableView:theTableView
-                               indexPath:indexPath
-                                   style:UITableViewCellStyleDefault
-                              selectable:selectable];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 4;
-}
-
-- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    switch (section) {
-        case UV_SUGGESTION_DETAILS_SECTION_COMMENTS:
-            return 3;
-            break;
-        default:
-            return 1;
-    }
-}
-
-#pragma mark ===== UITableViewDelegate Methods =====
-
-- (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case UV_SUGGESTION_DETAILS_SECTION_VOTE:
-            return 50;
-            break;
-        case UV_SUGGESTION_DETAILS_SECTION_BODY:
-            return [self textSize].height > 0 ? [self textSize].height + 10 : 0;
-            break;
-        case UV_SUGGESTION_DETAILS_SECTION_CREATOR:
-            return 71;
-            break;
-        default:
-            return 44;
-    }
-}
-
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIViewController *next = nil;
-
-    switch (indexPath.section) {
-        case UV_SUGGESTION_DETAILS_SECTION_COMMENTS: {
-            switch (indexPath.row) {
-                case 0: // status
-                    if (self.suggestion.responseText) {
-                        next = [[UVResponseViewController alloc] initWithSuggestion:self.suggestion];
-                    }
-                    break;
-                case 1: // comments
-                    next = [[UVCommentListViewController alloc] initWithSuggestion:self.suggestion];
-                    break;
-                case 2: // flag
-                    [self promptForFlag];
-                    break;
-            }
-            break;
-        }
-        default:
-            break;
-    }
-
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    if (next) {
-        [self.navigationController pushViewController:next animated:YES];
-        [next release];
-    }
-}
-
--(void)positionTableHeaderView:(UIView *)headerView {
-    UIView *bg = [headerView viewWithTag:HEADER_VIEW_BG_TAG];
-    UIView *title = [headerView viewWithTag:HEADER_VIEW_TITLE_TAG];
-    UIView *category = [headerView viewWithTag:HEADER_VIEW_CATEGORY_TAG];
-    
-    CGFloat marginLeft = IPAD ? 45 : 10;
-    CGFloat marginTop = 20;
-    CGSize titleSize = [self titleSize];
-    NSInteger headerHeight = MAX(titleSize.height + 50, 90);
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    
-    headerView.frame = CGRectMake(0, 0, screenWidth, headerHeight);
-    bg.frame = CGRectMake(0, 0, screenWidth, headerHeight);
-    title.frame = CGRectMake(marginLeft + (IPAD ? 75 : 65), marginTop, titleSize.width, titleSize.height);
-    category.frame = CGRectMake(marginLeft + (IPAD ? 75 : 65), titleSize.height + marginTop + 4, titleSize.width, 11);
-}
-
 #pragma mark ===== Basic View Methods =====
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)updateLayout {
+    // title sizeToFit
+    // move vote label
+    // move description
+    // if description expanded do that
+    // move poster label
+    // move admin response
+    // admin response text sizeToFit
+    // move buttons
+    // move table
+    // update table
+    if (statusBar) {
+        for (CALayer *layer in statusBar.layer.sublayers) {
+            layer.frame = CGRectMake(layer.frame.origin.x, layer.frame.origin.y, statusBar.frame.size.width, layer.frame.size.height);
+        }
+    }
+}
+
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = self.suggestion.title;
+    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    scrollView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
+    self.view = scrollView;
+    if (suggestion.status) {
+        self.statusBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)] autorelease];
+        self.statusBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+        self.statusBar.backgroundColor = [UIColor colorWithHexString:suggestion.statusHexColor];
+        UIColor *light = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.2];
+        UIColor *zero = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.0];
+        UIColor *dark = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
+        UIColor *darkest = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+        CALayer *top = [CALayer layer];
+        top.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 1);
+        top.backgroundColor = light.CGColor;
+        [self.statusBar.layer addSublayer:top];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = CGRectMake(0, 1, scrollView.bounds.size.width, 25);
+        gradient.colors = @[(id)dark.CGColor, (id)zero.CGColor, (id)light.CGColor];
+        [self.statusBar.layer addSublayer:gradient];
+        CALayer *bottom = [CALayer layer];
+        bottom.frame = CGRectMake(0, 26, scrollView.bounds.size.width, 1);
+        bottom.backgroundColor = darkest.CGColor;
+        [self.statusBar.layer addSublayer:bottom];
+        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, 4, statusBar.bounds.size.width, 17)] autorelease];
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [UIColor whiteColor];
+        label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+        label.shadowOffset = CGSizeMake(0, -1);
+        label.font = [UIFont boldSystemFontOfSize:13];
+        label.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Status:", @"UserVoice", nil), suggestion.status];
+        [statusBar addSubview:label];
+        [scrollView addSubview:statusBar];
+    }
 
-    [self setupGroupedTableView];
-    self.tableView.sectionFooterHeight = 0.0;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-
-    UIView *headerView = [[[UIView alloc] init] autorelease];
-    headerView.backgroundColor = [UIColor clearColor];
-
-    UIView *bg = [[[UIView alloc] init] autorelease];
-    bg.tag = HEADER_VIEW_BG_TAG;
-    bg.backgroundColor = [UVStyleSheet backgroundColor];
-    [headerView addSubview:bg];
-    
-    // Votes
-    CGFloat marginLeft = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 45 : 10;
-    CGFloat marginTop = 20;
-    UVSuggestionChickletView *chicklet = [UVSuggestionChickletView suggestionChickletViewWithOrigin:CGPointMake(marginLeft, marginTop)];
-    chicklet.tag = CHICKLET_TAG;
-    [headerView addSubview:chicklet];
-
-    UILabel *titleLabel = [[[UILabel alloc] init] autorelease];
-    titleLabel.tag = HEADER_VIEW_TITLE_TAG;
-    titleLabel.text = self.suggestion.title;
-    titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
-    titleLabel.textAlignment = UITextAlignmentLeft;
-    titleLabel.numberOfLines = 0;
-    titleLabel.textColor = [UVStyleSheet primaryTextColor];
+    UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, (statusBar ? 27 : 0) + 10, scrollView.bounds.size.width - MARGIN*2, 30)] autorelease];
+    titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     titleLabel.backgroundColor = [UIColor clearColor];
-    [headerView addSubview:titleLabel];
+    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    titleLabel.text = suggestion.title;
+    [titleLabel sizeToFit];
+    [scrollView addSubview:titleLabel];
 
-    UILabel *categoryLabel = [[[UILabel alloc] init] autorelease];
-    categoryLabel.tag = HEADER_VIEW_CATEGORY_TAG;
-    categoryLabel.lineBreakMode = UILineBreakModeTailTruncation;
-    categoryLabel.numberOfLines = 1;
-    categoryLabel.font = [UIFont boldSystemFontOfSize:11];
-    categoryLabel.textColor = [UVStyleSheet secondaryTextColor];
-    categoryLabel.backgroundColor = [UIColor clearColor];
-    categoryLabel.text = self.suggestion.categoryString;
-    [headerView addSubview:categoryLabel];
+    UILabel *votesLabel = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, titleLabel.frame.origin.y + titleLabel.frame.size.height + 2, scrollView.bounds.size.width, 15)] autorelease];
+    votesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    votesLabel.backgroundColor = [UIColor clearColor];
+    votesLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    votesLabel.font = [UIFont systemFontOfSize:11];
+    votesLabel.text = [NSString stringWithFormat:@"%i %@ • %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
+    [scrollView addSubview:votesLabel];
 
-    [self positionTableHeaderView:headerView];
-    self.tableView.tableHeaderView = headerView;
-}
+    UILabel *descriptionLabel = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, votesLabel.frame.origin.y + votesLabel.frame.size.height + 10, scrollView.bounds.size.width - MARGIN * 2, 100)] autorelease];
+    descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    descriptionLabel.backgroundColor = [UIColor clearColor];
+    descriptionLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
+    descriptionLabel.font = [UIFont systemFontOfSize:13];
+    descriptionLabel.text = suggestion.text;
+    descriptionLabel.numberOfLines = 3;
+    [descriptionLabel sizeToFit];
+    [scrollView addSubview:descriptionLabel];
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self positionTableHeaderView:self.tableView.tableHeaderView];
-    [self.tableView reloadData];
+    UILabel *creatorLabel = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, descriptionLabel.frame.origin.y + descriptionLabel.frame.size.height + 3, scrollView.bounds.size.width, 15)] autorelease];
+    creatorLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    creatorLabel.backgroundColor = [UIColor clearColor];
+    creatorLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    creatorLabel.font = [UIFont systemFontOfSize:11];
+    creatorLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedStringFromTable(@"Posted by", @"UserVoice", nil), suggestion.creatorName, NSLocalizedStringFromTable(@"on", @"UserVoice", nil), [NSDateFormatter localizedStringFromDate:suggestion.createdAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle]];
+    [scrollView addSubview:creatorLabel];
+
+    if (suggestion.responseText) {
+        UIView *responseView = [[[UIView alloc] initWithFrame:CGRectMake(MARGIN, creatorLabel.frame.origin.y + creatorLabel.frame.size.height + 15, scrollView.bounds.size.width - MARGIN*2, 100)] autorelease];
+        responseView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        responseView.backgroundColor = [UIColor whiteColor];
+        responseView.layer.cornerRadius = 2.0;
+        responseView.layer.masksToBounds = YES;
+        CALayer *border = [CALayer layer];
+        border.cornerRadius = 2.0;
+        border.masksToBounds = YES;
+        border.borderColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f].CGColor;
+        border.borderWidth = 1.0;
+        border.frame = responseView.bounds;
+        [responseView.layer addSublayer:border];
+        UIView *header = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, responseView.bounds.size.width, 21)] autorelease];
+        header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        header.backgroundColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+        UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 3, header.bounds.size.width - 20, 15)] autorelease];
+        headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        headerLabel.backgroundColor = [UIColor clearColor];
+        headerLabel.textColor = [UIColor whiteColor];
+        headerLabel.font = [UIFont boldSystemFontOfSize:9];
+        headerLabel.text = NSLocalizedStringFromTable(@"ADMIN RESPONSE", @"UserVoice", nil);
+        [header addSubview:headerLabel];
+        [responseView addSubview:header];
+        UVImageView *avatarView = [[[UVImageView alloc] initWithFrame:CGRectMake(10, 31, 40, 40)] autorelease];
+        avatarView.URL = suggestion.responseUserAvatarUrl;
+        avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
+        [responseView addSubview:avatarView];
+        UILabel *adminLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 31, 120, 15)] autorelease];
+        adminLabel.backgroundColor = [UIColor clearColor];
+        adminLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
+        adminLabel.font = [UIFont boldSystemFontOfSize:14];
+        adminLabel.text = suggestion.responseUserName;
+        [responseView addSubview:adminLabel];
+        // TODO response date (we don't have this data in the model yet)
+        UILabel *responseLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 48, responseView.bounds.size.width - 70, 100)] autorelease];
+        responseLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        responseLabel.backgroundColor = [UIColor clearColor];
+        responseLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+        responseLabel.font = [UIFont systemFontOfSize:13];
+        responseLabel.text = suggestion.responseText;
+        responseLabel.numberOfLines = 0;
+        [responseLabel sizeToFit];
+        [responseView addSubview:responseLabel];
+        responseView.frame = CGRectMake(responseView.frame.origin.x, responseView.frame.origin.y, responseView.frame.size.width, responseLabel.frame.origin.y + responseLabel.frame.size.height + 15);
+        border.frame = responseView.bounds;
+        [scrollView addSubview:responseView];
+    }
+
+    // vote, comment buttons
+    // comment table
+    //   avatar, name, date, content (wraps)
+    //   load more comments
+    [self updateLayout];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.tableView reloadData];
+    self.navigationController.navigationBar.layer.masksToBounds = YES;
+}
 
-    UVSuggestionChickletView *chicklet = (UVSuggestionChickletView *)[self.view viewWithTag:CHICKLET_TAG];
-    if (self.suggestion.status) {
-        [chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleDetail];
-    } else {
-        [chicklet updateWithSuggestion:self.suggestion style:UVSuggestionChickletStyleEmpty];
-    }
-    [super viewWillAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    self.navigationController.navigationBar.layer.masksToBounds = NO;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self updateLayout];
 }
 
 - (void)dealloc {
     self.suggestion = nil;
+    self.scrollView = nil;
+    self.statusBar = nil;
     [super dealloc];
 }
 
