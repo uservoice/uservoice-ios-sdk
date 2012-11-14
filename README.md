@@ -2,7 +2,7 @@ Overview
 --------
 
 The UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
-You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com](http://uservoice.com/iphone) to sign up.
+You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com](http://uservoice.com/) to sign up.
 
 Binary builds of the SDK are available [for download](https://github.com/uservoice/uservoice-iphone-sdk/downloads).
 
@@ -22,7 +22,7 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 Obtain Key And Secret
 ---------------------
 
-* If you don't already have a UserVoice account then go get one for free at [uservoice.com/ios](http://uservoice.com/ios).
+* If you don't already have a UserVoice account then go get one for free at [uservoice.com](http://uservoice.com/).
 * Go to the admin console (yourdomain.uservoice.com/admin) of your UserVoice account, navigate to `Settings` and click the `Channels` tab.
 * Add an iOS App (if one doesn't already exist).
 * Copy the generated `Secret` and `API key`.
@@ -133,9 +133,9 @@ There are a lot of reasons why UserVoice for iOS is superior to a Mail link:
 
 * It doesn’t take your users out of your app.
 * It’s a more efficient way to scale customer support and engagement:
-** UserVoice automatically suggests articles and forum posts that help solve users’ issues before they contact you. We call it Instant Answers and it can reduce your support load by up to 40%.
-** We've shown it can reduce junk emails (people clicking send to get out of the email app) by up to 74%.
-** You can setup custom fields to ask custom questions and pass in environment information (account IDs) that help your agents answer questions faster, reducing the back and forth between agents and customers.
+  * UserVoice automatically suggests articles and forum posts that help solve users’ issues before they contact you. We call it Instant Answers and it can reduce your support load by up to 40%.
+  * We've shown it can reduce junk emails (people clicking send to get out of the email app) by up to 74%.
+  * You can setup custom fields to ask custom questions and pass in environment information (account IDs) that help your agents answer questions faster, reducing the back and forth between agents and customers.
 * By having a dedicated space for users to give feedback and vote up other users’ ideas, not only will you get more feedback (and more prioritized feedback), but you’ll also reduce the number of feature requests that end up in your support queue.
 
 **What if I have a web app as well?**
