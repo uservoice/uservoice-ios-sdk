@@ -22,9 +22,9 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 Obtain Key And Secret
 ---------------------
 
-* Get your free UserVoice account at [uservoice.com](http://uservoice.com/ios).
-* Go to the admin section of your UserVoice account and click `Channels` under `Settings`.
-* Add an iOS App (if one doesn't already exist)
+* If you don't already have a UserVoice account then go get one for free at [uservoice.com/ios](http://uservoice.com/ios).
+* Go to the admin console (yourdomain.uservoice.com/admin) of your UserVoice account, navigate to `Settings` and click the `Channels` tab.
+* Add an iOS App (if one doesn't already exist).
 * Copy the generated `Secret` and `API key`.
 
 API
