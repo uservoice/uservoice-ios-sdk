@@ -1,10 +1,8 @@
 Overview
 --------
 
-(This documentation is for the master, or work-in-progress, version of the SDK.)
-
-The UserVoice iOS SDK allows you to embed UserVoice directly in your iOS app.
-You will need to have a UserVoice account for it to connect to.
+The UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
+You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com](http://uservoice.com/iphone) to sign up.
 
 Binary builds of the SDK are available [for download](https://github.com/uservoice/uservoice-iphone-sdk/downloads).
 
@@ -24,8 +22,9 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 Obtain Key And Secret
 ---------------------
 
+* Get your free UserVoice account at [uservoice.com](http://uservoice.com/ios).
 * Go to the admin section of your UserVoice account and click `Channels` under `Settings`.
-* Add an iOS App.
+* Add an iOS App (if one doesn't already exist)
 * Copy the generated `Secret` and `API key`.
 
 API
@@ -77,26 +76,21 @@ also use this to set default values for custom fields on the contact form.
     config.customFields = [NSDictionary dictionaryWithObjectsAndKeys:@"Value", @"Key", nil];
 
 
-### Invocation
+### Invocation (Deep Linking)
 
-Then you will want to launch UserVoice from the appropriate place in your code.
-There are 3 options here as well:
+There are 3 options for how to launch UserVoice from within your app:
 
-**1. Standard UserVoice Interface:** The user can browse suggestions, leave
-comments, etc. This is the full experience of everything the SDK can do
+**1. Standard UserVoice Interface:** This launches the UserVoice for iOS portal page where the user can browse suggestions, contact you or browse the knowledgebase. This is the full experience of everything the SDK can do:
     
     [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
 
-**2. Direct link to contact form:** Launches the regular UI, but forwards the user
-directly to the contact form.
+**2. Direct link to contact form:** Launches user directly into the contact form, with Instant Answers, experience. Useful to link to from error or setup pages in your app.
 
     [UserVoice presentUserVoiceContactUsFormForParentViewController:self andConfig:config];
     
-**3. Direct link to feedback forum:** Launches the regular UI, but forwards the
-user directly to the forum screen.
+**3. Direct link to feedback forum:** Launches the user directly into the feedback forum where they can browse, vote on or give their own feedback. Useful for linking from a "Give us your ideas?" prompt from within your app.
 
     [UserVoice presentUserVoiceForumForParentViewController:self andConfig:config];
-
 
 ### Customizing Colors
 
@@ -119,11 +113,44 @@ creating a custom stylesheet.
 
     [UVStylesheet setStylesheet:[[MyStylesheet alloc] init]];
 
+### User Language
+
+The library will detect and display in the language the device is set to provided that language is supported by the SDK ([see currently supported languages](https://github.com/uservoice/uservoice-iphone-sdk#translations).).
+
 Feedback
 --------
 
-You can share feedback on the [UserVoice iOS SDK forum](http://feedback.uservoice.com/forums/64519-iphone-sdk-feedback).
+You can share feedback on the [UserVoice for iOS forum](http://feedback.uservoice.com/forums/64519-iphone-sdk-feedback).
 
+FAQs
+--------
+
+**What if I only want to collect feedback? What if I only want a contact form?**
+Don’t worry. UserVoice is a modular system and you can link to only the parts of the SDK you want to use. Check out how you can configure [invocation](https://github.com/uservoice/uservoice-iphone-sdk#invocation).
+
+**Why would I use this over a Mail link?**
+There are a lot of reasons why UserVoice for iOS is superior to a Mail link:
+
+* It doesn’t take your users out of your app.
+* It’s a more efficient way to scale customer support and engagement:
+** UserVoice automatically suggests articles and forum posts that help solve users’ issues before they contact you. We call it Instant Answers and it can reduce your support load by up to 40%.
+** We've shown it can reduce junk emails (people clicking send to get out of the email app) by up to 74%.
+** You can setup custom fields to ask custom questions and pass in environment information (account IDs) that help your agents answer questions faster, reducing the back and forth between agents and customers.
+* By having a dedicated space for users to give feedback and vote up other users’ ideas, not only will you get more feedback (and more prioritized feedback), but you’ll also reduce the number of feature requests that end up in your support queue.
+
+**What if I have a web app as well?**
+No problemo! Every UserVoice account comes with a yourname.uservoice.com site and web widgets so you can administer both your mobile and web users from your UserVoice admin console.
+
+**What about users who still send in email for support?**
+UserVoice can handle that as well. Simply setup your existing support email forward to your UserVoice tickets email address (tickets@yourdomain.uservoice.com).
+
+**Does it pass device ids or anything that would get me in trouble with Apple?**
+Nope. UserVoice for iOS follows all of Apple’s policies to make sure you can confidently include our SDK in your app.
+
+**Can I customize the look and feel to match my app?**
+Yes. You can customize the colors of the UserVoice modal dialogs by creating your own stylesheet. Check out the [customization ] (https://github.com/uservoice/uservoice-iphone-sdk#customizing-colors) for more info.
+
+If you have any other questions please contact support@uservoice.com.
 
 Translations
 ------------
