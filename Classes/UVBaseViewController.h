@@ -10,17 +10,25 @@
 
 #define IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
+#define SIGNIN_STATE_NONE 0
+#define SIGNIN_STATE_EMAIL 1
+#define SIGNIN_STATE_PASSWORD 2
+
 @class UVActivityIndicator;
 
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
-@interface UVBaseViewController : UIViewController {
+@interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate> {
     UVActivityIndicator *activityIndicator;
     BOOL needsReload;
     BOOL firstController;
     UITableView *tableView;
     NSInteger kbHeight;
     UIBarButtonItem *exitButton;
+    int signinState;
+    SEL signinCallback;
+    NSString *signinEmail;
+    UIAlertView *signinAlertView;
 }
 
 @property (nonatomic, retain) UVActivityIndicator *activityIndicator;
@@ -28,6 +36,8 @@
 @property (assign) BOOL firstController;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
+@property (nonatomic, retain) NSString *signinEmail;
+@property (nonatomic, retain) UIAlertView *signinAlertView;
 
 - (void)dismissUserVoice;
 
@@ -67,6 +77,8 @@
 - (void)addHighlightToCell:(UITableViewCell *)cell;
 
 - (void)addShadowSeparatorToTableView:(UITableView *)tableView;
+
+- (void)requireUserSignedIn:(SEL)action;
 
 // Keyboard handling
 - (void)registerForKeyboardNotifications;

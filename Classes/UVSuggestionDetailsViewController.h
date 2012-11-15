@@ -10,7 +10,7 @@
 #import "UVBaseViewController.h"
 #import "UVSuggestion.h"
 
-@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     UVSuggestion *suggestion;
     NSMutableArray *comments;
     UIScrollView *scrollView;

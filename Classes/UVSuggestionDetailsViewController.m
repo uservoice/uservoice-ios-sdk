@@ -22,6 +22,7 @@
 #import "UVUIColorAdditions.h"
 #import "UVImageView.h"
 #import "UVComment.h"
+#import "UVCommentViewController.h"
 
 #define MARGIN 15
 
@@ -74,10 +75,8 @@
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
-
-    /* UILabel *votesLabel = (UILabel *)[self.view viewWithTag:VOTE_LABEL_TAG]; */
-    /* [self setVoteLabelTextAndColorForLabel:votesLabel]; */
     [self hideActivityIndicator];
+    [self updateVotesLabel];
 }
 
 #pragma mark ===== UITableView Methods =====
@@ -195,6 +194,86 @@
         [self retrieveMoreComments];
 }
 
+#pragma mark ===== Actions =====
+
+- (void)disableButton:(int)index inActionSheet:(UIActionSheet *)actionSheet {
+    for (UIView *view in actionSheet.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            if (index == 0) {
+                if ([view respondsToSelector:@selector(setEnabled:)]) {
+                    UIButton* button = (UIButton*)view;
+                    button.enabled = NO;
+                    button.layer.opacity = 0.8;
+                }
+            }
+            index--;
+        }
+    }
+}
+
+- (void)voteButtonTapped {
+    [self requireUserSignedIn:@selector(openVoteActionSheet)];
+}
+
+- (void)openVoteActionSheet {
+    UIActionSheet *actionSheet = [[[UIActionSheet alloc] init] autorelease];
+    int votesRemaining = [UVSession currentSession].user.votesRemaining;
+    actionSheet.title = [NSString stringWithFormat:@"%@\n(%@ %i %@)", NSLocalizedStringFromTable(@"How many votes would you like to use?", @"UserVoice", nil), NSLocalizedStringFromTable(@"You have", @"UserVoice", @"First part of \"You have 9 votes left\""), votesRemaining, NSLocalizedStringFromTable(@"votes left", @"UserVoice", @"Last part of \"You have 9 votes left\"")];
+    actionSheet.delegate = self;
+    [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil)];
+    [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil)];
+    [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil)];
+    if (suggestion.votesFor == 0) {
+        [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
+        actionSheet.cancelButtonIndex = 3;
+    } else {
+        [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"Remove votes", @"UserVoice", nil)];
+        [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
+        actionSheet.destructiveButtonIndex = 3;
+        actionSheet.cancelButtonIndex = 4;
+        [self disableButton:(suggestion.votesFor - 1) inActionSheet:actionSheet];
+    }
+    if (votesRemaining < 3)
+        [self disableButton:2 inActionSheet:actionSheet];
+    if (votesRemaining < 2)
+        [self disableButton:1 inActionSheet:actionSheet];
+    if (votesRemaining < 1)
+        [self disableButton:0 inActionSheet:actionSheet];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 4 || (suggestion.votesFor == 0 && buttonIndex == 3))
+        return;
+    int votes = (buttonIndex == 3) ? 0 : buttonIndex + 1;
+    if (votes == suggestion.votesFor)
+        return;
+
+    [self showActivityIndicator];
+    if (votes == 0) {
+        [[UVSession currentSession].user didWithdrawSupportForSuggestion:suggestion];
+    } else if (suggestion.votesFor == 0) {
+        [[UVSession currentSession] trackInteraction:@"v"];
+        [[UVSession currentSession].user didSupportSuggestion:suggestion];
+    }
+
+    suggestion.votesFor = votes;
+    [suggestion vote:votes delegate:self];
+}
+
+- (void)commentButtonTapped {
+    [self requireUserSignedIn:@selector(presentCommentController)];
+}
+
+- (void)presentCommentController {
+    UVCommentViewController *next = [[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease];
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    navigationController.viewControllers = @[next];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navigationController animated:YES];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)sizeToFit:(UIView *)view {
@@ -238,6 +317,10 @@
     [tableView reloadData];
     tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height + 100);
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, tableView.frame.origin.y + tableView.contentSize.height);
+}
+
+- (void)updateVotesLabel {
+    votesLabel.text = [NSString stringWithFormat:@"%i %@ • %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
 }
 
 - (CGRect)nextRectWithHeight:(CGFloat)height space:(CGFloat)space {
@@ -304,7 +387,6 @@
     votesLabel.backgroundColor = [UIColor clearColor];
     votesLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     votesLabel.font = [UIFont systemFontOfSize:11];
-    votesLabel.text = [NSString stringWithFormat:@"%i %@ • %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
     [scrollView addSubview:votesLabel];
 
     self.descriptionLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]] autorelease];
@@ -380,11 +462,13 @@
     voteButton.frame = CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height);
     voteButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     [voteButton setTitle:NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil) forState:UIControlStateNormal];
+    [voteButton addTarget:self action:@selector(voteButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [buttons addSubview:voteButton];
     UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     commentButton.frame = CGRectMake(buttons.bounds.size.width/2 + 5, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height);
     commentButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     [commentButton setTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil) forState:UIControlStateNormal];
+    [commentButton addTarget:self action:@selector(commentButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [buttons addSubview:commentButton];
     [scrollView addSubview:buttons];
     
@@ -405,6 +489,7 @@
     [self retrieveMoreComments];
 
     [self updateLayout];
+    [self updateVotesLabel];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
