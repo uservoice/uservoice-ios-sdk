@@ -13,7 +13,7 @@
 @class UVForum;
 @class UVCategory;
 
-@interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
+@interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate, UIActionSheetDelegate> {
     UVForum *forum;
     NSString *title;
     NSString *text;

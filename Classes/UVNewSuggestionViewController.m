@@ -378,8 +378,22 @@
                                                                              action:@selector(dismiss)] autorelease];
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0)
+        [self dismissModalViewControllerAnimated:YES];
+}
+
 - (void)dismiss {
-    [self dismissModalViewControllerAnimated:YES];
+    if (titleField.text.length > 0) {
+        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
+                                                                    delegate:self
+                                                           cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                      destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
+                                                           otherButtonTitles:nil] autorelease];
+        [actionSheet showInView:self.view];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 
