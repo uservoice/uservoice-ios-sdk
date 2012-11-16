@@ -29,6 +29,7 @@
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
 @synthesize externalIds;
+@synthesize topics;
 
 + (UVSession *)currentSession {
     static UVSession *currentSession;

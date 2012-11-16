@@ -21,13 +21,14 @@
 #import "UVSuggestionDetailsViewController.h"
 #import "UVArticleViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UVHelpTopic.h"
+#import "UVHelpTopicViewController.h"
 
 #define UV_WELCOME_VIEW_ROW_FEEDBACK 0
 #define UV_WELCOME_VIEW_ROW_SUPPORT 1
 
 @implementation UVWelcomeViewController
 
-@synthesize forum = _forum;
 @synthesize scrollView;
 
 - (id)init {
@@ -43,33 +44,18 @@
 
 #pragma mark ===== table cells =====
 
-- (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Give feedback", @"UserVoice", nil);
+- (void)customizeCellForTopic:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
+    cell.textLabel.text = topic.name;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.minimumFontSize = 8.0;
-    cell.textLabel.adjustsFontSizeToFitWidth = YES;
-}
-
-- (void)initCellForSupport:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Contact support", @"UserVoice", nil);
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.minimumFontSize = 8.0;
-    cell.textLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 - (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
     cell.textLabel.text = article.question;
     cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
-}
-
-- (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestion *suggestion = [[UVSession currentSession].clientConfig.topSuggestions objectAtIndex:indexPath.row];
-    cell.textLabel.text = suggestion.title;
-    cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.numberOfLines = 2;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
@@ -82,20 +68,8 @@
     BOOL selectable = YES;
 
     UITableViewCellStyle style = UITableViewCellStyleDefault;
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0 && [UVSession currentSession].clientConfig.feedbackEnabled) {
-            identifier = @"Forum";
-        } else {
-            identifier = @"Support";
-        }
-    } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
-        identifier = @"Article";
-        style = UITableViewCellStyleSubtitle;
-    } else {
-        identifier = @"Suggestion";
-        style = UITableViewCellStyleSubtitle;
-    }
-
+    // TODO if topic specified, or topics empty, identifier = @"Article"
+    identifier = @"Topic";
     return [self createCellForIdentifier:identifier
                                tableView:theTableView
                                indexPath:indexPath
@@ -104,55 +78,30 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSInteger sections = 1;
-    if ([UVSession currentSession].clientConfig.ticketsEnabled)
-        sections += 1;
-    if ([UVSession currentSession].clientConfig.feedbackEnabled)
-        sections += 1;
-    return sections;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        NSInteger rows = 0;
-        if ([UVSession currentSession].clientConfig.ticketsEnabled)
-            rows += 1;
-        if ([UVSession currentSession].clientConfig.feedbackEnabled)
-            rows += 1;
-        return rows;
-    } else if (section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
-        return [[UVSession currentSession].clientConfig.topArticles count];
-    } else {
-        return [[UVSession currentSession].clientConfig.topSuggestions count];
-    }
+    // TODO if topic specified, number of articles in topic
+    // TODO if topics empty, number of articles
+    return [[UVSession currentSession].topics count];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    // TODO if topic specified, or topics empty, show article
+    UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
+    UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+    [self.navigationController pushViewController:next animated:YES];
+}
 
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0 && [UVSession currentSession].clientConfig.feedbackEnabled) {
-            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:self.forum] autorelease];
-            [self.navigationController pushViewController:next animated:YES];
-        } else {
-            UIViewController *next = [UVNewTicketViewController viewController];
-            [self.navigationController pushViewController:next animated:YES];
-        }
-    } else if (indexPath.section == 1 && [UVSession currentSession].clientConfig.ticketsEnabled) {
-        UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
-        [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", nil]];
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
-        [self.navigationController pushViewController:next animated:YES];
-    } else {
-        UVSuggestion *suggestion = [[UVSession currentSession].clientConfig.topSuggestions objectAtIndex:indexPath.row];
-        [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", nil]];
-        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
-        [self.navigationController pushViewController:next animated:YES];
-    }
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    // TODO if topic specified show topic name
+    return NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
 }
 
 - (void)postIdeaTapped {
-    UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:self.forum] autorelease];
+    UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
     [self.navigationController pushViewController:next animated:YES];
 }
 
@@ -171,6 +120,11 @@
 
 #pragma mark ===== Basic View Methods =====
 
+- (void)updateLayout {
+    tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
+}
+
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
@@ -178,7 +132,7 @@
     self.view = scrollView;
     scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
 
-    UIView *buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 130, scrollView.bounds.size.width - 20, 100)] autorelease];
+    UIView *buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 100)] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -198,6 +152,17 @@
     }
     [scrollView addSubview:buttons];
 
+    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.tableView.scrollEnabled = NO;
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    [scrollView addSubview:tableView];
+
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)] autorelease];
+    footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 5, 0, 0)] autorelease];
     poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -211,30 +176,21 @@
     image.frame = CGRectMake(poweredBy.bounds.size.width + 7, 0, image.bounds.size.width * 0.8, image.bounds.size.height * 0.8);
     [logo addSubview:image];
     logo.frame = CGRectMake(0, 0, image.frame.origin.x + image.frame.size.width, image.frame.size.height);
-    logo.center = CGPointMake(scrollView.bounds.size.width / 2, scrollView.bounds.size.height - logo.bounds.size.height / 2 - 15);
+    logo.center = CGPointMake(footer.bounds.size.width / 2, footer.bounds.size.height - logo.bounds.size.height / 2 - 15);
     logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
     [logo addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)] autorelease]];
+    [footer addSubview:logo];
     
-    [scrollView addSubview:logo];
+    tableView.tableFooterView = footer;
+    [tableView reloadData];
+    [self updateLayout];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    self.forum = [UVSession currentSession].clientConfig.forum;
-    if ([self needsReload]) {
-        [(UVFooterView *)tableView.tableFooterView reloadFooter];
-    }
-
-    [tableView reloadData];
-
-    UVFooterView *footer = (UVFooterView *) self.tableView.tableFooterView;
-    [footer reloadFooter];
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self updateLayout];
 }
 
 - (void)dealloc {
-    self.forum = nil;
-    self.tableView = nil;
     self.scrollView = nil;
     [super dealloc];
 }

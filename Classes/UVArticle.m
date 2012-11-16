@@ -12,6 +12,7 @@
 #import "UVSession.h"
 #import "UVClientConfig.h"
 #import "UVForum.h"
+#import "UVHelpTopic.h"
 
 @implementation UVArticle
 
@@ -23,6 +24,15 @@
     [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
     [self setBaseURL:[self siteURL]];
 }
+
++ (id)getArticlesWithTopic:(UVHelpTopic *)topic delegate:(id)delegate {
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topic.topicId]];
+    return [self getPath:path
+              withParams:nil
+                  target:delegate
+                selector:@selector(didRetrieveArticles:)];
+}
+
 
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:

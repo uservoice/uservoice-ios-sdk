@@ -178,6 +178,10 @@
 		D9522012163726EE00A7081D /* UVRequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D9522010163726EE00A7081D /* UVRequestToken.m */; };
 		D95B33061655A78900B87A23 /* UVCommentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D95B33041655A78900B87A23 /* UVCommentViewController.h */; };
 		D95B33071655A78900B87A23 /* UVCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95B33051655A78900B87A23 /* UVCommentViewController.m */; };
+		D96FAE6F1656E63D00A384CC /* UVHelpTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */; };
+		D96FAE701656E63D00A384CC /* UVHelpTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */; };
+		D96FAE741656F50D00A384CC /* UVHelpTopicViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE721656F50D00A384CC /* UVHelpTopicViewController.h */; };
+		D96FAE751656F50D00A384CC /* UVHelpTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE731656F50D00A384CC /* UVHelpTopicViewController.m */; };
 		D9819241156D302B00E6F66D /* NSString+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = D981923F156D302B00E6F66D /* NSString+Base64.h */; };
 		D9819242156D302B00E6F66D /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D9819240156D302B00E6F66D /* NSString+Base64.m */; };
 		D99AFAA6164AC1A40061F50C /* UVKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */; };
@@ -399,6 +403,10 @@
 		D9522010163726EE00A7081D /* UVRequestToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRequestToken.m; sourceTree = "<group>"; };
 		D95B33041655A78900B87A23 /* UVCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCommentViewController.h; sourceTree = "<group>"; };
 		D95B33051655A78900B87A23 /* UVCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCommentViewController.m; sourceTree = "<group>"; };
+		D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVHelpTopic.h; sourceTree = "<group>"; };
+		D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVHelpTopic.m; sourceTree = "<group>"; };
+		D96FAE721656F50D00A384CC /* UVHelpTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVHelpTopicViewController.h; sourceTree = "<group>"; };
+		D96FAE731656F50D00A384CC /* UVHelpTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVHelpTopicViewController.m; sourceTree = "<group>"; };
 		D981923F156D302B00E6F66D /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
 		D9819240156D302B00E6F66D /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		D986ADED1624C8E5008291AA /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = UserVoice.strings; sourceTree = "<group>"; };
@@ -555,6 +563,8 @@
 				D9522010163726EE00A7081D /* UVRequestToken.m */,
 				AC312727109667CE00000D5F /* UVUser.h */,
 				AC312728109667CE00000D5F /* UVUser.m */,
+				D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */,
+				D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -602,6 +612,8 @@
 				D9D40413164023EF00D9CECA /* UVBaseTicketViewController.m */,
 				D95B33041655A78900B87A23 /* UVCommentViewController.h */,
 				D95B33051655A78900B87A23 /* UVCommentViewController.m */,
+				D96FAE721656F50D00A384CC /* UVHelpTopicViewController.h */,
+				D96FAE731656F50D00A384CC /* UVHelpTopicViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -959,6 +971,8 @@
 				D9D404821643261400D9CECA /* UVNavigationController.h in Headers */,
 				D99AFAA6164AC1A40061F50C /* UVKeyboardUtils.h in Headers */,
 				D95B33061655A78900B87A23 /* UVCommentViewController.h in Headers */,
+				D96FAE6F1656E63D00A384CC /* UVHelpTopic.h in Headers */,
+				D96FAE741656F50D00A384CC /* UVHelpTopicViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1108,6 +1122,8 @@
 				D9D404831643261400D9CECA /* UVNavigationController.m in Sources */,
 				D99AFAA7164AC1A40061F50C /* UVKeyboardUtils.m in Sources */,
 				D95B33071655A78900B87A23 /* UVCommentViewController.m in Sources */,
+				D96FAE701656E63D00A384CC /* UVHelpTopic.m in Sources */,
+				D96FAE751656F50D00A384CC /* UVHelpTopicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

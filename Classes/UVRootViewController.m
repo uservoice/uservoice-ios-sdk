@@ -21,6 +21,7 @@
 #import "UVConfig.h"
 #import "NSError+UVExtras.h"
 #import "UVStyleSheet.h"
+#import "UVHelpTopic.h"
 #include <QuartzCore/QuartzCore.h>
 
 @implementation UVRootViewController
@@ -99,7 +100,8 @@
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
     // should be storing all tokens and checking on type
     [UVSession currentSession].requestToken = token;
-    [UVClientConfig getWithDelegate:self];
+    // TODO or load the specified topic
+    [UVHelpTopic getAllWithDelegate:self];
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
@@ -124,14 +126,13 @@
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
-    [UVSuggestion getWithForumAndUser:[UVSession currentSession].clientConfig.forum
-                                 user:theUser delegate:self];
+    [self pushNextView];
 }
 
-- (void) didRetrieveUserSuggestions:(NSArray *) theSuggestions {
-    UVUser *user = [UVSession currentSession].user;
-    [user didLoadSuggestions:theSuggestions];
-    [self pushNextView];
+- (void)didRetrieveHelpTopics:(NSArray *)topics {
+    [UVSession currentSession].topics = topics;
+    // TODO if there are no topics find all articles
+    [UVClientConfig getWithDelegate:self];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -147,10 +148,7 @@
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     CGFloat screenHeight = [UVClientConfig getScreenHeight];
 
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        contentView.backgroundColor = [UVStyleSheet backgroundColor];
-//    else
-//        contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    contentView.backgroundColor = [UVStyleSheet backgroundColor];
 
     UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight/2 - 30, screenWidth, 20)];
     splashLabel2.backgroundColor = [UIColor clearColor];
