@@ -38,7 +38,6 @@
 
 - (void)didCreateComment:(UVComment *)comment {
     [self hideActivityIndicator];
-    // TODO tell the previous VC to reload
     self.suggestion.commentsCount += 1;
     [self dismiss];
 }
@@ -64,7 +63,6 @@
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.backgroundColor = [UIColor whiteColor];
 
-    // full/kb height text view
     self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height - 280)] autorelease];
     self.textView.placeholder = NSLocalizedStringFromTable(@"Write a comment...", @"UserVoice", nil);
     [self.view addSubview:textView];

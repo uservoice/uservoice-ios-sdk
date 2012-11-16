@@ -23,6 +23,7 @@
     UIView *responseView;
     UILabel *responseLabel;
     UIView *buttons;
+    UIButton *voteButton;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
@@ -36,6 +37,7 @@
 @property (nonatomic, retain) UILabel *responseLabel;
 @property (nonatomic, retain) UIView *responseView;
 @property (nonatomic, retain) UIView *buttons;
+@property (nonatomic, retain) UIButton *voteButton;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 

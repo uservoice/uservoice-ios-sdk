@@ -44,6 +44,7 @@
 @synthesize responseView;
 @synthesize responseLabel;
 @synthesize buttons;
+@synthesize voteButton;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
     if ((self = [super init])) {
@@ -315,12 +316,22 @@
         }
     }
     [tableView reloadData];
-    tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height + 100);
+    tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, tableView.frame.origin.y + tableView.contentSize.height);
 }
 
 - (void)updateVotesLabel {
     votesLabel.text = [NSString stringWithFormat:@"%i %@ • %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
+    NSString *title;
+    if (suggestion.votesFor == 1)
+        title = NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil);
+    else if (suggestion.votesFor == 2)
+        title = NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil);
+    else if (suggestion.votesFor == 3)
+        title = NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil);
+    else
+        title = NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil);
+    [voteButton setTitle:title forState:UIControlStateNormal];
 }
 
 - (CGRect)nextRectWithHeight:(CGFloat)height space:(CGFloat)space {
@@ -458,7 +469,7 @@
 
     self.buttons = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:40 space:10]] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    UIButton *voteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.voteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     voteButton.frame = CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height);
     voteButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     [voteButton setTitle:NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil) forState:UIControlStateNormal];
@@ -484,16 +495,15 @@
     [tableView addSubview:border];
     [scrollView addSubview:tableView];
 
-    allCommentsRetrieved = NO;
-    self.comments = [NSMutableArray arrayWithCapacity:10];
-    [self retrieveMoreComments];
-
     [self updateLayout];
-    [self updateVotesLabel];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.layer.masksToBounds = YES;
+    allCommentsRetrieved = NO;
+    [self updateVotesLabel];
+    self.comments = [NSMutableArray arrayWithCapacity:10];
+    [self retrieveMoreComments];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -516,6 +526,7 @@
     self.responseView = nil;
     self.responseLabel = nil;
     self.buttons = nil;
+    self.voteButton = nil;
     [super dealloc];
 }
 
