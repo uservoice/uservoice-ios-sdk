@@ -33,6 +33,13 @@
                 selector:@selector(didRetrieveArticles:)];
 }
 
++ (id)getArticlesWithDelegate:(id)delegate {
+    NSString *path = [self apiPath:@"/articles.json"];
+    return [self getPath:path
+              withParams:nil
+                  target:delegate
+                selector:@selector(didRetrieveArticles:)];
+}
 
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:

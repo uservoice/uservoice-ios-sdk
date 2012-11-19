@@ -23,6 +23,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UVHelpTopic.h"
 #import "UVHelpTopicViewController.h"
+#import "UVConfig.h"
 
 #define UV_WELCOME_VIEW_ROW_FEEDBACK 0
 #define UV_WELCOME_VIEW_ROW_SUPPORT 1
@@ -40,6 +41,10 @@
 
 - (NSString *)backButtonTitle {
     return NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
+}
+
+- (BOOL)showArticles {
+    return [UVSession currentSession].config.topicId || [[UVSession currentSession].topics count] == 0;
 }
 
 #pragma mark ===== table cells =====
@@ -65,39 +70,46 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
-    BOOL selectable = YES;
+    if ([self showArticles])
+        identifier = @"Article";
+    else
+        identifier = @"Topic";
 
-    UITableViewCellStyle style = UITableViewCellStyleDefault;
-    // TODO if topic specified, or topics empty, identifier = @"Article"
-    identifier = @"Topic";
-    return [self createCellForIdentifier:identifier
-                               tableView:theTableView
-                               indexPath:indexPath
-                                   style:style
-                              selectable:selectable];
+    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    if ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0)
+        return 1;
+    else
+        return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // TODO if topic specified, number of articles in topic
-    // TODO if topics empty, number of articles
-    return [[UVSession currentSession].topics count];
+    if ([self showArticles])
+        return [[UVSession currentSession].articles count];
+    else
+        return [[UVSession currentSession].topics count];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    // TODO if topic specified, or topics empty, show article
-    UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
-    UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
-    [self.navigationController pushViewController:next animated:YES];
+    if ([self showArticles]) {
+        UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
+        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+        [self.navigationController pushViewController:next animated:YES];
+    } else {
+        UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
+        UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+        [self.navigationController pushViewController:next animated:YES];
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    // TODO if topic specified show topic name
-    return NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
+    if ([UVSession currentSession].config.topicId)
+        return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
+    else
+        return NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
 }
 
 - (void)postIdeaTapped {

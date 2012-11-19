@@ -35,6 +35,7 @@
     NSUInteger interactionId;
     NSMutableDictionary *externalIds;
     NSArray *topics;
+    NSArray *articles;
 }
 
 @property (assign) BOOL isModal;
@@ -51,6 +52,7 @@
 @property (nonatomic, retain) NSMutableArray *interactionDetails;
 @property (nonatomic, retain) NSMutableDictionary *externalIds;
 @property (nonatomic, retain) NSArray *topics;
+@property (nonatomic, retain) NSArray *articles;
 @property (assign) NSUInteger interactionId;
 
 + (UVSession *)currentSession;

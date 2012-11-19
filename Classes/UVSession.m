@@ -30,6 +30,7 @@
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
 @synthesize externalIds;
 @synthesize topics;
+@synthesize articles;
 
 + (UVSession *)currentSession {
     static UVSession *currentSession;

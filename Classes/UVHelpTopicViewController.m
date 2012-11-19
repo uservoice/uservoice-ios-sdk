@@ -10,6 +10,8 @@
 #import "UVHelpTopic.h"
 #import "UVArticle.h"
 #import "UVArticleViewController.h"
+#import "UVNewTicketViewController.h"
+#import "UVStyleSheet.h"
 
 @implementation UVHelpTopicViewController
 
@@ -58,12 +60,29 @@
     [tableView reloadData];
 }
 
+- (void)contactUsTapped {
+    UIViewController *next = [UVNewTicketViewController viewController];
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    navigationController.viewControllers = @[next];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navigationController animated:YES];
+}
+
 - (void)loadView {
     [self setupGroupedTableView];
     tableView.delegate = self;
     tableView.dataSource = self;
     self.navigationItem.title = topic.name;
-    // TODO footer contact us button
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)] autorelease];
+    footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    UIButton *contactUsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    contactUsButton.frame = CGRectMake(10, 10, footer.bounds.size.width - 20, footer.bounds.size.height - 20);
+    [contactUsButton setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
+    [contactUsButton addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
+    contactUsButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [footer addSubview:contactUsButton];
+    tableView.tableFooterView = footer;
     [self showActivityIndicator];
     [UVArticle getArticlesWithTopic:topic delegate:self];
 }

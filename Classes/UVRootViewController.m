@@ -6,6 +6,7 @@
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
+#include <QuartzCore/QuartzCore.h>
 #import "UVRootViewController.h"
 #import "UVClientConfig.h"
 #import "UVAccessToken.h"
@@ -22,7 +23,7 @@
 #import "NSError+UVExtras.h"
 #import "UVStyleSheet.h"
 #import "UVHelpTopic.h"
-#include <QuartzCore/QuartzCore.h>
+#import "UVArticle.h"
 
 @implementation UVRootViewController
 
@@ -100,7 +101,6 @@
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
     // should be storing all tokens and checking on type
     [UVSession currentSession].requestToken = token;
-    // TODO or load the specified topic
     [UVHelpTopic getAllWithDelegate:self];
 }
 
@@ -130,8 +130,27 @@
 }
 
 - (void)didRetrieveHelpTopics:(NSArray *)topics {
-    [UVSession currentSession].topics = topics;
-    // TODO if there are no topics find all articles
+    if ([UVSession currentSession].config.topicId) {
+        for (UVHelpTopic *topic in topics) {
+            if (topic.topicId == [UVSession currentSession].config.topicId) {
+                [UVSession currentSession].topics = @[topic];
+                [UVArticle getArticlesWithTopic:topic delegate:self];
+            }
+        }
+    } else if ([topics count] == 0) {
+        [UVArticle getArticlesWithDelegate:self];
+    } else {
+        [UVSession currentSession].topics = topics;
+    }
+}
+
+- (void)didRetrieveHelpTopic:(UVHelpTopic *)topic {
+    [UVSession currentSession].topics = @[topic];
+    [UVArticle getArticlesWithTopic:topic delegate:self];
+}
+
+- (void)didRetrieveArticles:(NSArray *)articles {
+    [UVSession currentSession].articles = articles;
     [UVClientConfig getWithDelegate:self];
 }
 
@@ -189,10 +208,7 @@
         [UVRequestToken getRequestTokenWithDelegate:self];
     } else if (![[UVSession currentSession] clientConfig]) {
         [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
-        [UVClientConfig getWithDelegate:self];
-    } else if (![UVSession currentSession].user) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
-        [UVUser retrieveCurrentUser:self];
+        [UVHelpTopic getAllWithDelegate:self];
     } else {
         // We already have a client config, because the user already logged in before during
         // this session. Skip straight to the welcome view.

@@ -19,6 +19,7 @@
 @synthesize displayName;
 @synthesize guid;
 @synthesize customFields;
+@synthesize topicId;
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
     return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
