@@ -131,16 +131,25 @@
 
 - (void)didRetrieveHelpTopics:(NSArray *)topics {
     if ([UVSession currentSession].config.topicId) {
+        UVHelpTopic *foundTopic = nil;
         for (UVHelpTopic *topic in topics) {
             if (topic.topicId == [UVSession currentSession].config.topicId) {
-                [UVSession currentSession].topics = @[topic];
-                [UVArticle getArticlesWithTopic:topic delegate:self];
+                foundTopic = topic;
+                break;
             }
+        }
+        if (foundTopic) {
+            [UVSession currentSession].topics = @[foundTopic];
+            [UVArticle getArticlesWithTopic:foundTopic delegate:self];
+        } else {
+            [UVSession currentSession].topics = topics;
+            [UVClientConfig getWithDelegate:self];
         }
     } else if ([topics count] == 0) {
         [UVArticle getArticlesWithDelegate:self];
     } else {
         [UVSession currentSession].topics = topics;
+        [UVClientConfig getWithDelegate:self];
     }
 }
 

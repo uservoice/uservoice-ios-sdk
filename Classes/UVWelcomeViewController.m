@@ -58,7 +58,7 @@
 
 - (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    UVArticle *article = [[UVSession currentSession].clientConfig.topArticles objectAtIndex:indexPath.row];
+    UVArticle *article = [[UVSession currentSession].articles objectAtIndex:indexPath.row];
     cell.textLabel.text = article.question;
     cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
