@@ -31,6 +31,11 @@
 @implementation UVWelcomeViewController
 
 @synthesize scrollView;
+@synthesize flashButton;
+@synthesize flashMessageLabel;
+@synthesize flashTitleLabel;
+@synthesize flashView;
+@synthesize buttons;
 
 - (id)init {
     if (self = [super init]) {
@@ -94,6 +99,7 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    [[UVSession currentSession] clearFlash];
     if ([self showArticles]) {
         UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
@@ -113,11 +119,13 @@
 }
 
 - (void)postIdeaTapped {
+    [[UVSession currentSession] clearFlash];
     UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
     [self.navigationController pushViewController:next animated:YES];
 }
 
 - (void)contactUsTapped {
+    [[UVSession currentSession] clearFlash];
     UIViewController *next = [UVNewTicketViewController viewController];
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
@@ -130,10 +138,35 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.uservoice.com/ios"]];
 }
 
+- (void)flashButtonTapped {
+    UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    navigationController.viewControllers = @[next];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navigationController animated:YES];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)updateLayout {
-    tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height);
+    if ([UVSession currentSession].flashMessage) {
+        flashView.hidden = NO;
+        flashTitleLabel.text = [UVSession currentSession].flashTitle;
+        flashMessageLabel.text = [UVSession currentSession].flashMessage;
+        if ([UVSession currentSession].flashSuggestion) {
+            flashButton.hidden = NO;
+            flashView.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 140);
+        } else {
+            flashButton.hidden = YES;
+            flashView.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 80);
+        }
+        buttons.frame = CGRectMake(10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - 20, 100);
+    } else {
+        flashView.hidden = YES;
+        buttons.frame = CGRectMake(10, 20, scrollView.bounds.size.width - 20, 100);
+    }
+    tableView.frame = CGRectMake(tableView.frame.origin.x, buttons.frame.origin.y + buttons.frame.size.height, tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
 }
 
@@ -144,7 +177,37 @@
     self.view = scrollView;
     scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
 
-    UIView *buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 100)] autorelease];
+    self.flashView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 100)] autorelease];
+    flashView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.flashTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 20, flashView.bounds.size.width - 40, 20)] autorelease];
+    flashTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    flashTitleLabel.backgroundColor = [UIColor clearColor];
+    flashTitleLabel.textColor = [UIColor colorWithRed:0.30f green:0.34f blue:0.42f alpha:1.0f];
+    flashTitleLabel.font = [UIFont boldSystemFontOfSize:15];
+    [flashView addSubview:flashTitleLabel];
+    self.flashMessageLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 40, flashView.bounds.size.width - 40, 20)] autorelease];
+    flashMessageLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    flashMessageLabel.backgroundColor = [UIColor clearColor];
+    flashMessageLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    flashMessageLabel.font = [UIFont systemFontOfSize:14];
+    [flashView addSubview:flashMessageLabel];
+    self.flashButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    flashButton.frame = CGRectMake(10, 80, flashView.bounds.size.width - 20, 40);
+    [flashButton setTitle:NSLocalizedStringFromTable(@"View idea", @"UserVoice", nil) forState:UIControlStateNormal];
+    [flashButton addTarget:self action:@selector(flashButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    flashButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [flashView addSubview:flashButton];
+    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 2, flashView.bounds.size.width, 1)] autorelease];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
+    [flashView addSubview:border];
+    border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 1, flashView.bounds.size.width, 1)] autorelease];
+    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    border.backgroundColor = [UIColor whiteColor];
+    [flashView addSubview:border];
+    [scrollView addSubview:flashView];
+
+    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 100)] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -198,12 +261,21 @@
     [self updateLayout];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self updateLayout];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self updateLayout];
 }
 
 - (void)dealloc {
     self.scrollView = nil;
+    self.flashButton = nil;
+    self.flashMessageLabel = nil;
+    self.flashTitleLabel = nil;
+    self.flashView = nil;
+    self.buttons = nil;
     [super dealloc];
 }
 

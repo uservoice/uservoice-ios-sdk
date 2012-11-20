@@ -35,6 +35,7 @@
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] flushInteractions];
     [[UVSession currentSession] clear];
+    [[UVSession currentSession] clearFlash];
     
     [self dismissModalViewControllerAnimated:YES];
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])

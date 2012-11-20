@@ -23,6 +23,7 @@
 #import "UVTicket.h"
 #import "UVForum.h"
 #import "UVKeyboardUtils.h"
+#import "UVWelcomeViewController.h"
 
 @implementation UVBaseTicketViewController
 
@@ -75,8 +76,23 @@
 - (void)didCreateTicket:(UVTicket *)theTicket {
     self.text = nil;
     [self hideActivityIndicator];
-    [self alertSuccess:NSLocalizedStringFromTable(@"Your ticket was successfully submitted.", @"UserVoice", nil)];
-    [self.navigationController popViewControllerAnimated:YES];
+    [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your message has been sent.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:nil];
+
+    [timer invalidate];
+    self.timer = nil;
+    dismissed = YES;
+    if ([UVSession currentSession].isModal && firstController) {
+        CATransition* transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.type = kCATransitionFade;
+        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
+        welcomeView.firstController = YES;
+        NSArray *viewControllers = @[self.navigationController.viewControllers[0], welcomeView];
+        [self.navigationController setViewControllers:viewControllers animated:NO];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 - (void)suggestionButtonTapped {

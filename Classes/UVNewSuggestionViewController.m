@@ -22,6 +22,8 @@
 #import "UVSignInViewController.h"
 #import "UVTextView.h"
 #import "NSError+UVExtras.h"
+#import "UVWelcomeViewController.h"
+#import "UVSuggestionListViewController.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
 #define UV_NEW_SUGGESTION_SECTION_CATEGORY 1
@@ -112,7 +114,8 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [self hideActivityIndicator];
-    [self alertSuccess:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Your idea \"%@\" was successfully created.", @"UserVoice", nil), self.title]];
+    /* [self alertSuccess:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Your idea \"%@\" was successfully created.", @"UserVoice", nil), self.title]]; */
+    [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
 
     // increment the created suggestions and supported suggestions counts
     [[UVSession currentSession].user didCreateSuggestion:theSuggestion];
@@ -123,11 +126,20 @@
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
 
     // Back out to the welcome screen
-    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
-    [viewControllers removeLastObject];
-    if ([viewControllers count] > 2)
-        [viewControllers removeLastObject];
-    [self.navigationController setViewControllers:viewControllers animated:YES];
+    UVSuggestionListViewController *list = (UVSuggestionListViewController *)[((UINavigationController *)self.presentingViewController).viewControllers lastObject];
+    if ([UVSession currentSession].isModal && list.firstController) {
+        CATransition* transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.type = kCATransitionFade;
+        [list.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
+        welcomeView.firstController = YES;
+        NSArray *viewControllers = @[list.navigationController.viewControllers[0], welcomeView];
+        [list.navigationController setViewControllers:viewControllers animated:NO];
+    } else {
+        [list.navigationController popViewControllerAnimated:NO];
+    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {

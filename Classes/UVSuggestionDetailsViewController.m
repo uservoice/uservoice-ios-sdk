@@ -498,6 +498,20 @@
     [self updateLayout];
 }
 
+- (void)dismiss {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)initNavigationItem {
+    [super initNavigationItem];
+    if (self.navigationController.viewControllers.count == 1) {
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(dismiss)] autorelease];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.layer.masksToBounds = YES;
     allCommentsRetrieved = NO;
