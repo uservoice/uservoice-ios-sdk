@@ -17,6 +17,7 @@
     id delegate;
     SEL action;
     NSString *email;
+    NSString *name;
     UIAlertView *alertView;
     NSInteger state;
 }
@@ -24,9 +25,10 @@
 + (UVSigninManager *)manager;
 
 - (void)signInWithDelegate:(id)theDelegate action:(SEL)theAction;
-- (void)signInWithEmail:(NSString *)theEmail delegate:(id)theDelegate action:(SEL)theAction;
+- (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName delegate:(id)theDelegate action:(SEL)theAction;
 
 @property (nonatomic,retain) NSString *email;
+@property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) UIAlertView *alertView;
 
 @end

@@ -13,17 +13,16 @@
 #import "UVForum.h"
 #import "UVCategory.h"
 #import "UVSession.h"
-#import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
 #import "UVAccessToken.h"
 #import "UVCategorySelectViewController.h"
 #import "UVNewTicketViewController.h"
-#import "UVSignInViewController.h"
 #import "UVTextView.h"
 #import "NSError+UVExtras.h"
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
+#import "UVUser.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
 #define UV_NEW_SUGGESTION_SECTION_CATEGORY 1
@@ -66,6 +65,7 @@
 
 - (void)createSuggestion {
     [self showActivityIndicator];
+    [[UVSession currentSession] trackInteraction:@"pi"];
     [UVSuggestion createWithForum:self.forum
                          category:self.category
                             title:self.title
@@ -90,26 +90,11 @@
 
 - (void)createButtonTapped {
     [self updateFromTextFields];
-    if ([UVSession currentSession].user) {
-        [self createSuggestion];
-        [[UVSession currentSession] trackInteraction:@"pi"];
+    if (self.email && [self.email length] > 1) {
+        [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
     } else {
-        if (self.email && [self.email length] > 1) {
-            [self showActivityIndicator];
-            [UVUser findOrCreateWithEmail:self.email andName:self.name andDelegate:self];
-        } else {
-            [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
-        }
+        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
     }
-}
-
-- (void)didCreateUser:(UVUser *)theUser {
-    [UVSession currentSession].user = theUser;
-
-    // token should have been loaded by ResponseDelegate
-    [[UVSession currentSession].accessToken persist];
-
-    [self createSuggestion];
 }
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
@@ -140,23 +125,6 @@
         [list.navigationController popViewControllerAnimated:NO];
     }
     [self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)didDiscoverUser:(UVUser *)theUser {
-    [self hideActivityIndicator];
-
-    // add email to user as won't of been returned
-    theUser.email = self.emailField.text;
-    UVSignInViewController *signinView = [[UVSignInViewController alloc] initWithUVUser:theUser];
-    [self.navigationController pushViewController:signinView animated:YES];
-    [signinView release];
-}
-
-- (void)checkEmail {
-    if (self.emailField.text.length > 0) {
-        [self showActivityIndicator];
-        [UVUser discoverWithEmail:emailField.text delegate:self];
-    }
 }
 
 - (void)dismissTextView {
@@ -193,7 +161,6 @@
     if (textField==emailField) {
         [nameField resignFirstResponder];
         [textView resignFirstResponder];
-        [self checkEmail];
     }
     [scrollView setContentOffset:CGPointZero animated:YES];
     return YES;
@@ -228,6 +195,7 @@
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
+    self.nameField.text = self.userName;
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -236,6 +204,7 @@
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.emailField.text = self.userEmail;
 }
 
 - (void)titleChanged:(NSNotification *)notification {
@@ -272,7 +241,7 @@
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
     if (section == UV_NEW_SUGGESTION_SECTION_PROFILE)
-        return [[UVSession currentSession].user hasEmail] ? 0 : 2;
+        return 2;
     else if (section == UV_NEW_SUGGESTION_SECTION_CATEGORY)
         return self.shouldShowCategories ? 1 : 0;
     else

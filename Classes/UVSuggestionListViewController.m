@@ -13,8 +13,6 @@
 #import "UVSuggestion.h"
 #import "UVSuggestionDetailsViewController.h"
 #import "UVNewSuggestionViewController.h"
-#import "UVProfileViewController.h"
-#import "UVInfoViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
 #import "UVCellViewWithIndex.h"

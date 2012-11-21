@@ -19,8 +19,6 @@
 
 @interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
     NSString *text;
-    NSString *email;
-    NSString *name;
     NSString *initialText;
     UVTextView *textView;
     NSTimer *timer;
@@ -34,8 +32,6 @@
 }
 
 @property (nonatomic,retain) NSString *text;
-@property (nonatomic,retain) NSString *email;
-@property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *initialText;
 @property (nonatomic,retain) UVTextView *textView;
 @property (nonatomic,retain) NSTimer *timer;
@@ -53,7 +49,6 @@
 - (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled;
-- (BOOL)signedIn;
 - (void)sendButtonTapped;
 - (void)suggestionButtonTapped;
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;

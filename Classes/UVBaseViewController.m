@@ -18,7 +18,6 @@
 #import "NSError+UVExtras.h"
 #import "UVImageCache.h"
 #import "UserVoice.h"
-#import "UVSignInViewController.h"
 #import "UVAccessToken.h"
 #import "UVSigninManager.h"
 
@@ -268,11 +267,6 @@
     self.navigationItem.leftBarButtonItem = exitButton;
 }
 
-- (void)promptUserToSignIn {
-    UVSignInViewController *signInView = [[[UVSignInViewController alloc] init] autorelease];
-    [self.navigationController pushViewController:signInView animated:YES];
-}
-
 - (void)setupGroupedTableView {
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.backgroundColor = [UVStyleSheet backgroundColor];
@@ -314,10 +308,50 @@
     [signinManager signInWithDelegate:self action:action];
 }
 
-- (void)requireUserAuthenticated:(NSString *)email action:(SEL)action {
+- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action {
     if (!signinManager)
         self.signinManager = [UVSigninManager manager];
-    [signinManager signInWithEmail:email delegate:self action:action];
+    [signinManager signInWithEmail:email name:name delegate:self action:action];
+}
+
+- (void)setUserName:(NSString *)theName {
+    [theName retain];
+    [userName release];
+    userName = theName;
+
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:userName forKey:@"uv-user-name"];
+    [prefs synchronize];
+}
+
+- (NSString *)userName {
+    if ([UVSession currentSession].user)
+        return [UVSession currentSession].user.name;
+    if (userName)
+        return userName;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    userName = [[prefs stringForKey:@"uv-user-name"] retain];
+    return userName;
+}
+
+- (void)setUserEmail:(NSString *)theEmail {
+    [theEmail retain];
+    [userEmail release];
+    userEmail = theEmail;
+
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:userEmail forKey:@"uv-user-email"];
+    [prefs synchronize];
+}
+
+- (NSString *)userEmail {
+    if ([UVSession currentSession].user)
+        return [UVSession currentSession].user.email;
+    if (userEmail)
+        return userEmail;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    userEmail = [[prefs stringForKey:@"uv-user-email"] retain];
+    return userEmail;
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -351,6 +385,10 @@
     self.tableView = nil;
     self.exitButton = nil;
     self.signinManager = nil;
+    [userEmail release];
+    userEmail = nil;
+    [userName release];
+    userName = nil;
     [super dealloc];
 }
 

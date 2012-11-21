@@ -61,12 +61,12 @@
 
 - (void)sendButtonTapped {
     [self dismissKeyboard];
-    self.email = emailField.text;
-    self.name = nameField.text;
+    self.userEmail = emailField.text;
+    self.userName = nameField.text;
     self.text = textView.text;
-    if ([UVSession currentSession].user || (email && [email length] > 1)) {
+    if ([UVSession currentSession].user || (emailField.text.length > 1)) {
         [self showActivityIndicator];
-        [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:self.email andName:self.name andCustomFields:selectedCustomFieldValues andDelegate:self];
+        [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:emailField.text andName:nameField.text andCustomFields:selectedCustomFieldValues andDelegate:self];
         [[UVSession currentSession] trackInteraction:@"pt"];
     } else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
@@ -145,42 +145,6 @@
     } else {
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
     }
-}
-
-- (void)setName:(NSString *)theName {
-    [theName retain];
-    [name release];
-    name = theName;
-
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:name forKey:@"uv-message-name"];
-    [prefs synchronize];
-}
-
-- (NSString *)name {
-    if (name)
-        return name;
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    name = [[prefs stringForKey:@"uv-message-name"] retain];
-    return name;
-}
-
-- (void)setEmail:(NSString *)theEmail {
-    [theEmail retain];
-    [email release];
-    email = theEmail;
-
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:email forKey:@"uv-message-email"];
-    [prefs synchronize];
-}
-
-- (NSString *)email {
-    if (email)
-        return email;
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    email = [[prefs stringForKey:@"uv-message-email"] retain];
-    return email;
 }
 
 - (void)setText:(NSString *)theText {
@@ -338,13 +302,13 @@
     self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.emailField.text = self.email;
+    self.emailField.text = self.userEmail;
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
-    self.nameField.text = self.name;
+    self.nameField.text = self.userName;
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
@@ -458,10 +422,6 @@
     }
 }
 
-- (BOOL)signedIn {
-    return [UVSession currentSession].user != nil;
-}
-
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled {
     BOOL foundArticles = NO;
     BOOL foundIdeas = NO;
@@ -550,10 +510,6 @@
     self.initialText = nil;
     [text release];
     text = nil;
-    [email release];
-    email = nil;
-    [name release];
-    name = nil;
     [super dealloc];
 }
 

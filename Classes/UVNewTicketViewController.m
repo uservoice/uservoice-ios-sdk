@@ -241,7 +241,7 @@
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
     if (theTableView == fieldsTableView) {
         if (section == SECTION_PROFILE)
-            return [self signedIn] ? 0 : 2;
+            return 2;
         else
             return [[UVSession currentSession].clientConfig.customFields count];
     } else {

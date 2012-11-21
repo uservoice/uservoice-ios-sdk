@@ -15,6 +15,7 @@
 @implementation UVSigninManager
 
 @synthesize email;
+@synthesize name;
 @synthesize alertView;
 
 + (UVSigninManager *)manager {
@@ -70,7 +71,7 @@
     }
 }
 
-- (void)signInWithEmail:(NSString *)theEmail delegate:(id)theDelegate action:(SEL)theAction {
+- (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName delegate:(id)theDelegate action:(SEL)theAction {
     if ([UVSession currentSession].user && [UVSession currentSession].user.email == theEmail) {
         [theDelegate performSelector:theAction];
     } else {
@@ -78,6 +79,7 @@
         action = theAction;
         state = STATE_PASSWORD;
         self.email = theEmail;
+        self.name = theName;
         [delegate performSelector:@selector(showActivityIndicator)];
         [UVUser discoverWithEmail:email delegate:self];
     }
@@ -146,7 +148,7 @@
 
 - (void)didReceiveError:(NSError *)error {
     if (state == STATE_EMAIL && [error isNotFoundError]) {
-        [UVUser findOrCreateWithEmail:email andName:nil andDelegate:self];
+        [UVUser findOrCreateWithEmail:email andName:name andDelegate:self];
     } else if ([error isAuthError] || [error isNotFoundError]) {
         [delegate performSelector:@selector(hideActivityIndicator)];
         [self showFailedAlertView];
@@ -160,6 +162,7 @@
 
 - (void)dealloc {
     self.email = nil;
+    self.name = nil;
     self.alertView = nil;
     [super dealloc];
 }

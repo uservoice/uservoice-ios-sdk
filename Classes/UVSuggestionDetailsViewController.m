@@ -8,17 +8,12 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UVSuggestionDetailsViewController.h"
-#import "UVCommentListViewController.h"
-#import "UVProfileViewController.h"
 #import "UVStyleSheet.h"
 #import "UVSession.h"
 #import "UVSuggestion.h"
-#import "UVResponseViewController.h"
 #import "UVSuggestionChickletView.h"
-#import "UVUserButton.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
-#import "UVSignInViewController.h"
 #import "UVUIColorAdditions.h"
 #import "UVImageView.h"
 #import "UVComment.h"

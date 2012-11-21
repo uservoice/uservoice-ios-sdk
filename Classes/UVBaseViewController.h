@@ -23,6 +23,8 @@
     NSInteger kbHeight;
     UIBarButtonItem *exitButton;
     UVSigninManager *signinManager;
+    NSString *userEmail;
+    NSString *userName;
 }
 
 @property (nonatomic, retain) UVActivityIndicator *activityIndicator;
@@ -31,6 +33,8 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
 @property (nonatomic, retain) UVSigninManager *signinManager;
+@property (nonatomic,retain) NSString *userEmail;
+@property (nonatomic,retain) NSString *userName;
 
 - (void)dismissUserVoice;
 
@@ -72,6 +76,7 @@
 - (void)addShadowSeparatorToTableView:(UITableView *)tableView;
 
 - (void)requireUserSignedIn:(SEL)action;
+- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action;
 
 // Keyboard handling
 - (void)registerForKeyboardNotifications;
@@ -92,7 +97,6 @@
 - (void)alertError:(NSString *)message;
 - (void)alertSuccess:(NSString *)message;
 - (void)showExitButton;
-- (void)promptUserToSignIn;
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;
 
