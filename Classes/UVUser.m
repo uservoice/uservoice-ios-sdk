@@ -139,6 +139,15 @@
                  selector:@selector(didCreateUser:)];
 }
 
++ (id)forgotPassword:(NSString *)email delegate:(id)delegate {
+    NSString *path = [self apiPath:@"/users/forgot_password.json"];
+    NSDictionary *params = @{@"user[email]" : email};
+    return [self getPath:path
+              withParams:params
+                  target:delegate
+                selector:@selector(didSendForgotPassword:)];
+}
+
 + (void)processModel:(id)model {
     // add to the cache
     UVUser *user = model;

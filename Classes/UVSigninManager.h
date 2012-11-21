@@ -10,6 +10,7 @@
 
 #define STATE_EMAIL 1
 #define STATE_PASSWORD 2
+#define STATE_FAILED 3
 
 
 @interface UVSigninManager : NSObject<UITextFieldDelegate,UIAlertViewDelegate> {

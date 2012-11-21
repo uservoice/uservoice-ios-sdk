@@ -21,23 +21,52 @@
     return [[[self alloc] init] autorelease];
 }
 
+- (void)showEmailAlertView {
+    state = STATE_EMAIL;
+    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    alertView.title = NSLocalizedStringFromTable(@"Enter your email", @"UserVoice", nil);
+    alertView.delegate = self;
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Done", @"UserVoice", nil)];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    textField.keyboardType = UIKeyboardTypeEmailAddress;
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.delegate = self;
+    [alertView show];
+}
+
+- (void)showPasswordAlertView {
+    state = STATE_PASSWORD;
+    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    alertView.title = [NSString stringWithFormat:@"%@\n%@", NSLocalizedStringFromTable(@"Enter your password", @"UserVoice", nil), email];
+    alertView.delegate = self;
+    alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Forgot", @"UserVoice", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil)];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.delegate = self;
+    [alertView show];
+}
+
+- (void)showFailedAlertView {
+    state = STATE_FAILED;
+    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", nil);
+    alertView.delegate = self;
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Try again", @"UserVoice", nil)];
+    [alertView show];
+}
+
 - (void)signInWithDelegate:(id)theDelegate action:(SEL)theAction {
     if ([UVSession currentSession].user) {
         [theDelegate performSelector:theAction];
     } else {
         delegate = theDelegate;
         action = theAction;
-        state = STATE_EMAIL;
-        self.alertView = [[[UIAlertView alloc] init] autorelease];
-        alertView.title = NSLocalizedStringFromTable(@"Enter your email", @"UserVoice", nil);
-        alertView.delegate = self;
-        alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Done", @"UserVoice", nil)];
-        UITextField *textField = [alertView textFieldAtIndex:0];
-        textField.keyboardType = UIKeyboardTypeEmailAddress;
-        textField.returnKeyType = UIReturnKeyDone;
-        textField.delegate = self;
-        [alertView show];
+        [self showEmailAlertView];
     }
 }
 
@@ -76,31 +105,42 @@
 
 - (void)didDiscoverUser:(UVUser *)theUser {
     [delegate performSelector:@selector(hideActivityIndicator)];
-    state = STATE_PASSWORD;
+    [self showPasswordAlertView];
+}
+
+- (void)didSendForgotPassword:(id)obj {
+    [delegate performSelector:@selector(hideActivityIndicator)];
     self.alertView = [[[UIAlertView alloc] init] autorelease];
-    alertView.title = [NSString stringWithFormat:@"%@\n%@", NSLocalizedStringFromTable(@"Enter your password", @"UserVoice", nil), email];
-    alertView.delegate = self;
-    alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil)];
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.delegate = self;
+    alertView.title = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Password reset email sent to", @"UserVoice", nil), email];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
     [alertView show];
 }
 
 - (void)alertView:(UIAlertView *)theAlertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    NSString *text = [alertView textFieldAtIndex:0].text;
     if (state == STATE_EMAIL) {
-        if (text.length == 0)
-            return;
-        [delegate performSelector:@selector(showActivityIndicator)];
-        self.email = text;
-        [UVUser discoverWithEmail:text delegate:self];
+        if (buttonIndex == 1) {
+            NSString *text = [alertView textFieldAtIndex:0].text;
+            if (text.length == 0)
+                return;
+            [delegate performSelector:@selector(showActivityIndicator)];
+            self.email = text;
+            [UVUser discoverWithEmail:text delegate:self];
+        }
     } else if (state == STATE_PASSWORD) {
-        if (text.length == 0)
-            return;
-        [delegate performSelector:@selector(showActivityIndicator)];
-        [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:text];
+        if (buttonIndex == 0) {
+            [delegate performSelector:@selector(showActivityIndicator)];
+            [UVUser forgotPassword:email delegate:self];
+        } else {
+            NSString *text = [alertView textFieldAtIndex:0].text;
+            if (text.length == 0)
+                return;
+            [delegate performSelector:@selector(showActivityIndicator)];
+            [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:text];
+        }
+    } else if (state == STATE_FAILED) {
+        if (buttonIndex == 1) {
+            [self showPasswordAlertView];
+        }
     }
 }
 
@@ -109,13 +149,12 @@
         [UVUser findOrCreateWithEmail:email andName:nil andDelegate:self];
     } else if ([error isAuthError] || [error isNotFoundError]) {
         [delegate performSelector:@selector(hideActivityIndicator)];
-        NSString *msg = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", nil);
-        [delegate performSelector:@selector(alertError:) withObject:msg];
+        [self showFailedAlertView];
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [alertView dismissWithClickedButtonIndex:alertView.firstOtherButtonIndex animated:YES];
+    [alertView dismissWithClickedButtonIndex:1 animated:YES];
     return YES;
 }
 

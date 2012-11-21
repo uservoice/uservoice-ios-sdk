@@ -48,6 +48,7 @@
 - (NSInteger)createdSuggestionsCount;
 - (NSInteger)supportedSuggestionsCount;
 
++ (id)forgotPassword:(NSString *)email delegate:(id)delegate;
 
 // fetch
 + (id)getWithUserId:(NSInteger)userId delegate:(id)delegate;
