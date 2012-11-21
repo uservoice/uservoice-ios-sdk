@@ -111,6 +111,7 @@
     } else if ([UVSession currentSession].config.email != nil) {
         [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
     } else if ([UVAccessToken exists]) {
+        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
         [UVUser retrieveCurrentUser:self];
     } else {
         [self pushNextView];
@@ -213,15 +214,8 @@
         serverErrorImage.clipsToBounds = YES;
         [self.view addSubview:serverErrorImage];
         [serverErrorImage release];
-    } else if (![UVAccessToken exists]) {
-        [UVRequestToken getRequestTokenWithDelegate:self];
-    } else if (![[UVSession currentSession] clientConfig]) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
-        [UVHelpTopic getAllWithDelegate:self];
     } else {
-        // We already have a client config, because the user already logged in before during
-        // this session. Skip straight to the welcome view.
-        [self pushNextView];
+        [UVRequestToken getRequestTokenWithDelegate:self];
     }
 }
 

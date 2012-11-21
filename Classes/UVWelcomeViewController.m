@@ -22,6 +22,7 @@
 #import "UVHelpTopic.h"
 #import "UVHelpTopicViewController.h"
 #import "UVConfig.h"
+#import "UVNewSuggestionViewController.h"
 
 #define UV_WELCOME_VIEW_ROW_FEEDBACK 0
 #define UV_WELCOME_VIEW_ROW_SUPPORT 1
@@ -52,6 +53,12 @@
 
 #pragma mark ===== table cells =====
 
+- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
 - (void)customizeCellForTopic:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
@@ -73,7 +80,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
-    if ([self showArticles])
+    if (indexPath.section == 0)
+        identifier = @"Forum";
+    else if ([self showArticles])
         identifier = @"Article";
     else
         identifier = @"Topic";
@@ -83,13 +92,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0)
-        return 1;
+        return 2;
     else
-        return 0;
+        return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self showArticles])
+    if (section == 0)
+        return 1;
+    else if ([self showArticles])
         return [[UVSession currentSession].articles count];
     else
         return [[UVSession currentSession].topics count];
@@ -98,7 +109,10 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     [[UVSession currentSession] clearFlash];
-    if ([self showArticles]) {
+    if (indexPath.section == 0) {
+        UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+        [self.navigationController pushViewController:next animated:YES];
+    } else if ([self showArticles]) {
         UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
         [self.navigationController pushViewController:next animated:YES];
@@ -110,7 +124,9 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if ([UVSession currentSession].config.topicId)
+    if (section == 0)
+        return nil;
+    else if ([UVSession currentSession].config.topicId)
         return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
     else
         return NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
@@ -118,8 +134,12 @@
 
 - (void)postIdeaTapped {
     [[UVSession currentSession] clearFlash];
-    UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
-    [self.navigationController pushViewController:next animated:YES];
+    UIViewController *next = [[[UVNewSuggestionViewController alloc] init] autorelease];
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    navigationController.viewControllers = @[next];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)contactUsTapped {
@@ -159,10 +179,10 @@
             flashButton.hidden = YES;
             flashView.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 80);
         }
-        buttons.frame = CGRectMake(10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - 20, 100);
+        buttons.frame = CGRectMake(10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - 20, buttons.frame.size.height);
     } else {
         flashView.hidden = YES;
-        buttons.frame = CGRectMake(10, 20, scrollView.bounds.size.width - 20, 100);
+        buttons.frame = CGRectMake(10, 20, scrollView.bounds.size.width - 20, buttons.frame.size.height);
     }
     tableView.frame = CGRectMake(tableView.frame.origin.x, buttons.frame.origin.y + buttons.frame.size.height, tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
@@ -205,22 +225,22 @@
     [flashView addSubview:border];
     [scrollView addSubview:flashView];
 
-    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 100)] autorelease];
+    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 50)] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(0, 0, buttons.bounds.size.width, 40);
-        [button setTitle:NSLocalizedStringFromTable(@"Post an idea on our forum", @"UserVoice", nil) forState:UIControlStateNormal];
+        button.frame = CGRectMake(0, 0, buttons.bounds.size.width / 2 - 5, buttons.bounds.size.height);
+        [button setTitle:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) forState:UIControlStateNormal];
         [button addTarget:self action:@selector(postIdeaTapped) forControlEvents:UIControlEventTouchUpInside];
-        button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
         [buttons addSubview:button];
     }
     if ([UVSession currentSession].clientConfig.ticketsEnabled) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(0, 50, buttons.bounds.size.width, 40);
+        button.frame = CGRectMake(buttons.bounds.size.width / 2 + 5, 0, buttons.bounds.size.width / 2 - 5, buttons.bounds.size.height);
         [button setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
         [button addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
-        button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
         [buttons addSubview:button];
     }
     [scrollView addSubview:buttons];
