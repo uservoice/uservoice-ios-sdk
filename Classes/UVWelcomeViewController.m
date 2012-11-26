@@ -31,7 +31,7 @@
 @implementation UVWelcomeViewController
 
 @synthesize scrollView;
-@synthesize flashButton;
+@synthesize flashTable;
 @synthesize flashMessageLabel;
 @synthesize flashTitleLabel;
 @synthesize flashView;
@@ -77,54 +77,77 @@
     cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
 }
 
+- (void)initCellForFlash:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.text = NSLocalizedStringFromTable(@"View idea", @"UserVoice", nil);
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
-    if (indexPath.section == 0)
-        identifier = @"Forum";
-    else if ([self showArticles])
-        identifier = @"Article";
-    else
-        identifier = @"Topic";
+    if (theTableView == flashTable) {
+        identifier = @"Flash";
+    } else {
+        if (indexPath.section == 0)
+            identifier = @"Forum";
+        else if ([self showArticles])
+            identifier = @"Article";
+        else
+            identifier = @"Topic";
+    }
 
     return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0)
-        return 2;
-    else
-        return 1;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
+    if (theTableView == flashTable) {
+        return [UVSession currentSession].flashSuggestion ? 1 : 0;
+    } else {
+        if ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0)
+            return 2;
+        else
+            return 1;
+    }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0)
+- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
+    if (theTableView == flashTable) {
         return 1;
-    else if ([self showArticles])
-        return [[UVSession currentSession].articles count];
-    else
-        return [[UVSession currentSession].topics count];
+    } else {
+        if (section == 0)
+            return 1;
+        else if ([self showArticles])
+            return [[UVSession currentSession].articles count];
+        else
+            return [[UVSession currentSession].topics count];
+    }
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    [[UVSession currentSession] clearFlash];
-    if (indexPath.section == 0) {
-        UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
-        [self.navigationController pushViewController:next animated:YES];
-    } else if ([self showArticles]) {
-        UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+    if (theTableView == flashTable) {
+        UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
-        UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
-        UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
-        [self.navigationController pushViewController:next animated:YES];
+        [[UVSession currentSession] clearFlash];
+        if (indexPath.section == 0) {
+            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        } else if ([self showArticles]) {
+            UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
+            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        } else {
+            UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
+            UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+            [self.navigationController pushViewController:next animated:YES];
+        }
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0)
         return nil;
     else if ([UVSession currentSession].config.topicId)
@@ -157,15 +180,6 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.uservoice.com/ios"]];
 }
 
-- (void)flashButtonTapped {
-    UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    navigationController.viewControllers = @[next];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
-}
-
 #pragma mark ===== Basic View Methods =====
 - (void)addButton:(NSString *)title frame:(CGRect)frame action:(SEL)selector autoresizingMask:(int)mask {
     UVGradientButton *button = [[[UVGradientButton alloc] initWithFrame:frame] autorelease];
@@ -181,12 +195,12 @@
         flashTitleLabel.text = [UVSession currentSession].flashTitle;
         flashMessageLabel.text = [UVSession currentSession].flashMessage;
         if ([UVSession currentSession].flashSuggestion) {
-            flashButton.hidden = NO;
             flashView.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 140);
         } else {
-            flashButton.hidden = YES;
             flashView.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 80);
         }
+        [flashTable reloadData];
+        flashTable.frame = CGRectMake(flashTable.frame.origin.x, flashTable.frame.origin.y, flashTable.contentSize.width, flashTable.contentSize.height);
         buttons.frame = CGRectMake(10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - 20, buttons.frame.size.height);
     } else {
         flashView.hidden = YES;
@@ -210,6 +224,7 @@
 
     self.flashView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 100)] autorelease];
     flashView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    flashView.backgroundColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
     self.flashTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 20, flashView.bounds.size.width - 40, 20)] autorelease];
     flashTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     flashTitleLabel.backgroundColor = [UIColor clearColor];
@@ -222,12 +237,13 @@
     flashMessageLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     flashMessageLabel.font = [UIFont systemFontOfSize:14];
     [flashView addSubview:flashMessageLabel];
-    self.flashButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    flashButton.frame = CGRectMake(10, 80, flashView.bounds.size.width - 20, 40);
-    [flashButton setTitle:NSLocalizedStringFromTable(@"View idea", @"UserVoice", nil) forState:UIControlStateNormal];
-    [flashButton addTarget:self action:@selector(flashButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    flashButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [flashView addSubview:flashButton];
+    self.flashTable = [[[UITableView alloc] initWithFrame:CGRectMake(0, 70, flashView.bounds.size.width, 40) style:UITableViewStyleGrouped] autorelease];
+    flashTable.delegate = self;
+    flashTable.dataSource = self;
+    flashTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    flashTable.backgroundView = nil;
+    flashTable.backgroundColor = [UIColor clearColor];
+    [flashView addSubview:flashTable];
     UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 2, flashView.bounds.size.width, 1)] autorelease];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
@@ -290,7 +306,7 @@
 
 - (void)dealloc {
     self.scrollView = nil;
-    self.flashButton = nil;
+    self.flashTable = nil;
     self.flashMessageLabel = nil;
     self.flashTitleLabel = nil;
     self.flashView = nil;

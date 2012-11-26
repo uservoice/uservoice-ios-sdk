@@ -72,7 +72,7 @@
 }
 
 - (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName delegate:(id)theDelegate action:(SEL)theAction {
-    if ([UVSession currentSession].user && [UVSession currentSession].user.email == theEmail) {
+    if ([UVSession currentSession].user && [[UVSession currentSession].user.email isEqualToString:theEmail]) {
         [theDelegate performSelector:theAction];
     } else {
         delegate = theDelegate;

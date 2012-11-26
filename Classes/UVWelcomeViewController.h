@@ -11,7 +11,7 @@
 
 @interface UVWelcomeViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
     UIScrollView *scrollView;
-    UIButton *flashButton;
+    UITableView *flashTable;
     UILabel *flashMessageLabel;
     UILabel *flashTitleLabel;
     UIView *flashView;
@@ -19,7 +19,7 @@
 }
 
 @property (nonatomic, retain) UIScrollView *scrollView;
-@property (nonatomic, retain) UIButton *flashButton;
+@property (nonatomic, retain) UITableView *flashTable;
 @property (nonatomic, retain) UILabel *flashMessageLabel;
 @property (nonatomic, retain) UILabel *flashTitleLabel;
 @property (nonatomic, retain) UIView *flashView;

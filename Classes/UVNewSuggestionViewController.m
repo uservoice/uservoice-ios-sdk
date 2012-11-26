@@ -274,7 +274,7 @@
     UIView *titleView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 34)] autorelease];
     titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(7, 7, 0, 0)] autorelease];
-    label.text = NSLocalizedStringFromTable(@"Title", @"UserVoice", nil);
+    label.text = NSLocalizedStringFromTable(@"Title:", @"UserVoice", nil);
     label.font = [UIFont systemFontOfSize:15];
     [label sizeToFit];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
