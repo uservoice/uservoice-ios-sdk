@@ -192,7 +192,7 @@
         flashView.hidden = YES;
         buttons.frame = CGRectMake(10, 20, scrollView.bounds.size.width - 20, buttons.frame.size.height);
     }
-    tableView.frame = CGRectMake(tableView.frame.origin.x, buttons.frame.origin.y + buttons.frame.size.height, tableView.frame.size.width, tableView.contentSize.height);
+    tableView.frame = CGRectMake(tableView.frame.origin.x, buttons.frame.origin.y + buttons.frame.size.height + 10, tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
 }
 
