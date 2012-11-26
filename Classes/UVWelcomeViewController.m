@@ -6,6 +6,7 @@
 //  Copyright 2009 UserVoice Inc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "UVWelcomeViewController.h"
 #import "UVStyleSheet.h"
 #import "UVSession.h"
@@ -18,11 +19,11 @@
 #import "UVArticle.h"
 #import "UVSuggestionDetailsViewController.h"
 #import "UVArticleViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "UVHelpTopic.h"
 #import "UVHelpTopicViewController.h"
 #import "UVConfig.h"
 #import "UVNewSuggestionViewController.h"
+#import "UVGradientButton.h"
 
 #define UV_WELCOME_VIEW_ROW_FEEDBACK 0
 #define UV_WELCOME_VIEW_ROW_SUPPORT 1
@@ -166,6 +167,13 @@
 }
 
 #pragma mark ===== Basic View Methods =====
+- (void)addButton:(NSString *)title frame:(CGRect)frame action:(SEL)selector autoresizingMask:(int)mask {
+    UVGradientButton *button = [[[UVGradientButton alloc] initWithFrame:frame] autorelease];
+    [button setTitle:title forState:UIControlStateNormal];
+    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+    button.autoresizingMask = mask;
+    [buttons addSubview:button];
+}
 
 - (void)updateLayout {
     if ([UVSession currentSession].flashMessage) {
@@ -191,6 +199,11 @@
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(dismissUserVoice)] autorelease];
+
     self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view = scrollView;
     scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
@@ -225,24 +238,12 @@
     [flashView addSubview:border];
     [scrollView addSubview:flashView];
 
-    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 50)] autorelease];
+    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(10, 20, scrollView.bounds.size.width - 20, 44)] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    if ([UVSession currentSession].clientConfig.feedbackEnabled) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(0, 0, buttons.bounds.size.width / 2 - 5, buttons.bounds.size.height);
-        [button setTitle:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(postIdeaTapped) forControlEvents:UIControlEventTouchUpInside];
-        button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
-        [buttons addSubview:button];
-    }
-    if ([UVSession currentSession].clientConfig.ticketsEnabled) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(buttons.bounds.size.width / 2 + 5, 0, buttons.bounds.size.width / 2 - 5, buttons.bounds.size.height);
-        [button setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
-        button.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
-        [buttons addSubview:button];
-    }
+    if ([UVSession currentSession].clientConfig.feedbackEnabled)
+        [self addButton:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) frame:CGRectMake(0, 0, buttons.bounds.size.width / 2 - 5, buttons.bounds.size.height) action:@selector(postIdeaTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin];
+    if ([UVSession currentSession].clientConfig.ticketsEnabled)
+        [self addButton:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) frame:CGRectMake(buttons.bounds.size.width / 2 + 5, 0, buttons.bounds.size.width / 2 - 5, buttons.bounds.size.height) action:@selector(contactUsTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin];
     [scrollView addSubview:buttons];
 
     self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
@@ -257,7 +258,7 @@
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)] autorelease];
     footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 5, 0, 0)] autorelease];
+    UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)] autorelease];
     poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     poweredBy.backgroundColor = [UIColor clearColor];
     poweredBy.textColor = [UIColor grayColor];
