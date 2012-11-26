@@ -98,7 +98,6 @@
     self.instantAnswersTableView.dataSource = self;
     self.instantAnswersTableView.delegate = self;
     self.instantAnswersTableView.scrollEnabled = NO;
-
     [instantAnswersView addSubview:instantAnswersTableView];
     [self.view addSubview:instantAnswersView];
     
@@ -120,8 +119,10 @@
     [textView becomeFirstResponder];
     [self updateLayout];
 
-    if (self.text && [self.text length] > 0)
+    if (self.text && [self.text length] > 0) {
+        self.instantAnswersQuery = self.text;
         [self loadInstantAnswers];
+    }
 }
 
 - (void)notInterestedTapped {
@@ -136,11 +137,7 @@
 
 - (void)nextButtonTapped {
     if (state == STATE_BEGIN) {
-        if (timer) {
-            [timer fire];
-            [timer invalidate];
-            self.timer = nil;
-        }
+        [self fireInstantAnswersTimer];
         if (loadingInstantAnswers)
             state = STATE_WAITING;
         else

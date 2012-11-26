@@ -263,6 +263,68 @@
 
 #pragma mark ===== Basic View Methods =====
 
+- (void)updateLayout {
+    BOOL showTextView = state == STATE_BEGIN || state == STATE_IA || state == STATE_WAITING;
+    BOOL showIAMessage = state == STATE_IA || state == STATE_SHOW_IA || state == STATE_FIELDS_IA;
+    BOOL showIATable = state == STATE_SHOW_IA;
+    BOOL showFieldsTable = state == STATE_FIELDS || state == STATE_FIELDS_IA;
+    BOOL landscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+
+    if (showTextView)
+        [textView becomeFirstResponder];
+    else
+        [textView resignFirstResponder];
+
+    CGFloat sH = [UIScreen mainScreen].bounds.size.height;
+    CGFloat sW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat kbP = 280;
+    CGFloat kbL = 214;
+
+    CGRect textViewRect = landscape ?
+        CGRectMake(0, textView.frame.origin.y, sH, sW - kbL - textView.frame.origin.y) :
+        CGRectMake(0, textView.frame.origin.y, sW, sH - kbP - textView.frame.origin.y);
+
+    if (showIAMessage)
+        textViewRect.size.height -= 40;
+
+    CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.size.height);
+    CGPoint fieldsTableViewOrigin = CGPointMake(0, showFieldsTable ? instantAnswersOrigin.y + (showIAMessage ? 40 : 0) : sH);
+
+    instantAnswersView.hidden = !showIAMessage;
+    if (showIATable)
+        instantAnswersTableView.hidden = NO;
+    if (showFieldsTable)
+        fieldsTableViewView.hidden = NO;
+
+    if (state == STATE_WAITING)
+        [self showActivityIndicator];
+    else
+        [self hideActivityIndicator];
+
+    if (showTextView || showIATable)
+        self.navigationItem.rightBarButtonItem = nextButton;
+    else
+        self.navigationItem.rightBarButtonItem = sendButton;
+    
+    self.navigationItem.rightBarButtonItem.enabled = !(showTextView && [self.text length] == 0) && state != STATE_WAITING;
+
+    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableViewView.contentSize.height : 0));
+
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        textView.frame = textViewRect;
+        instantAnswersView.frame = CGRectMake(instantAnswersOrigin.x, instantAnswersOrigin.y, textViewRect.size.width, instantAnswersTableView.frame.origin.y + instantAnswersTableView.frame.size.height);
+        fieldsTableViewView.frame = CGRectMake(fieldsTableViewOrigin.x, fieldsTableViewOrigin.y, textViewRect.size.width, fieldsTableViewView.bounds.size.height);
+    } completion:^(BOOL finished) {
+        if (showTextView)
+            [textView scrollRangeToVisible:[textView selectedRange]];
+        else
+            [textView scrollRangeToVisible:NSMakeRange(0, 0)];
+        if (!showFieldsTable)
+            fieldsTableViewView.hidden = YES;
+    }];
+}
+
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Post Idea", @"UserVoice", nil);
@@ -303,14 +365,45 @@
     textView.delegate = self;
     [scrollView addSubview:textView];
 
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, scrollView.bounds.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
-    self.tableView.backgroundView = nil;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.scrollEnabled = NO;
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self addTopBorder:tableView];
+    self.instantAnswersView = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000)] autorelease];
+    self.instantAnswersView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
+    self.instantAnswersView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.instantAnswersView.layer.shadowOffset = CGSizeMake(0, 0);
+    self.instantAnswersView.layer.shadowRadius = 2.0;
+    self.instantAnswersView.layer.shadowOpacity = 0.3;
+    self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+    self.instantAnswersMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
+    UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 4, 300, 30)] autorelease];
+    instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    instantAnswersLabel.tag = TICKET_VIEW_IA_LABEL_TAG;
+    instantAnswersLabel.numberOfLines = 2;
+    instantAnswersLabel.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
+    instantAnswersLabel.font = [UIFont systemFontOfSize:15];
+    instantAnswersLabel.backgroundColor = [UIColor clearColor];
+    instantAnswersLabel.textAlignment = UITextAlignmentCenter;
+    [instantAnswersMessage addSubview:instantAnswersLabel];
+    [self addSpinnerAndXTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
+    [instantAnswersView addSubview:instantAnswersMessage];
+    [self addTopBorder:instantAnswersView];
+    self.instantAnswersTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 40, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.instantAnswersTableView.backgroundView = nil;
+    self.instantAnswersTableView.backgroundColor = [UIColor clearColor];
+    self.instantAnswersTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    self.instantAnswersTableView.dataSource = self;
+    self.instantAnswersTableView.delegate = self;
+    self.instantAnswersTableView.scrollEnabled = NO;
+    [instantAnswersView addSubview:instantAnswersTableView];
+    [self.view addSubview:instantAnswersView];
+
+    self.fieldsTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, scrollView.bounds.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.fieldsTableView.backgroundView = nil;
+    self.fieldsTableView.dataSource = self;
+    self.fieldsTableView.delegate = self;
+    self.fieldsTableView.scrollEnabled = NO;
+    self.fieldsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    self.fieldsTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self addTopBorder:fieldsTableView];
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
     label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 50)] autorelease];
     label.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
@@ -322,11 +415,11 @@
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [label sizeToFit];
     [footer addSubview:label];
-    self.tableView.tableFooterView = footer;
-    [scrollView addSubview:tableView];
+    self.fieldsTableView.tableFooterView = footer;
+    [scrollView addSubview:fieldsTableView];
 
-    [tableView reloadData];
-    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, titleView.bounds.size.height + textView.bounds.size.height + tableView.contentSize.height);
+    [fieldsTableView reloadData];
+    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, titleView.bounds.size.height + textView.bounds.size.height + fieldsTableView.contentSize.height);
 
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil)
                                                                                style:UIBarButtonItemStyleDone
@@ -340,15 +433,6 @@
    scrollView.contentInset = UIEdgeInsetsZero;
    scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
    scrollView.contentOffset = CGPointZero;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    if (self.needsReload) {
-        [self.tableView reloadData];
-        self.needsReload = NO;
-    }
 }
 
 - (void)initNavigationItem {
