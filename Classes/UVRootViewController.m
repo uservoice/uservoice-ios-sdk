@@ -202,6 +202,11 @@
 
     self.view = contentView;
     [contentView release];
+
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(dismissUserVoice)] autorelease];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
