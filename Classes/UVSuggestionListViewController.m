@@ -99,7 +99,7 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, -1, cell.bounds.size.width, cell.bounds.size.height + 1)] autorelease];
+    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, -1, cell.bounds.size.width, cell.bounds.size.height - 1)] autorelease];
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbar.tintColor = [UIColor colorWithRed:0.77f green:0.78f blue:0.80f alpha:1.0f];
     toolbar.tag = UV_SEARCH_TOOLBAR;
