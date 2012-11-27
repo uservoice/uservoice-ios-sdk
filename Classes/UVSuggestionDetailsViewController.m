@@ -18,6 +18,7 @@
 #import "UVImageView.h"
 #import "UVComment.h"
 #import "UVCommentViewController.h"
+#import "UVGradientButton.h"
 
 #define MARGIN 15
 
@@ -286,9 +287,10 @@
 }
 
 - (void)updateLayout {
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     [self sizeToFit:titleLabel];
-    [self update:votesLabel after:titleLabel space:2];
-    [self update:descriptionLabel after:votesLabel space:10];
+    [self update:descriptionLabel after:titleLabel space:10];
     // TODO expand description
     [self sizeToFit:descriptionLabel];
     [self update:creatorLabel after:descriptionLabel space:3];
@@ -302,8 +304,9 @@
         border.frame = responseView.bounds;
     }
     [self update:buttons after:(responseView ? responseView : creatorLabel) space:10];
+    [self update:votesLabel after:buttons space:10];
 
-    tableView.frame = CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000);
+    tableView.frame = CGRectMake(0, votesLabel.frame.origin.y + votesLabel.frame.size.height + 10, scrollView.frame.size.width, 1000);
 
     if (statusBar) {
         for (CALayer *layer in statusBar.layer.sublayers) {
@@ -313,10 +316,11 @@
     [tableView reloadData];
     tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, tableView.frame.origin.y + tableView.contentSize.height);
+    [CATransaction commit];
 }
 
 - (void)updateVotesLabel {
-    votesLabel.text = [NSString stringWithFormat:@"%i %@ • %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
+    votesLabel.text = [NSString stringWithFormat:@"%i %@  •  %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
     NSString *title;
     if (suggestion.votesFor == 1)
         title = NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil);
@@ -345,6 +349,7 @@
     self.navigationItem.title = self.suggestion.title;
     self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
     scrollView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
+    scrollView.alwaysBounceVertical = YES;
     self.view = scrollView;
     if (suggestion.status) {
         self.statusBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)] autorelease];
@@ -387,13 +392,6 @@
     titleLabel.numberOfLines = 0;
     [titleLabel sizeToFit];
     [scrollView addSubview:titleLabel];
-
-    self.votesLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:15 space:2]] autorelease];
-    votesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    votesLabel.backgroundColor = [UIColor clearColor];
-    votesLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    votesLabel.font = [UIFont systemFontOfSize:11];
-    [scrollView addSubview:votesLabel];
 
     self.descriptionLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]] autorelease];
     descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -447,7 +445,14 @@
         adminLabel.font = [UIFont boldSystemFontOfSize:14];
         adminLabel.text = suggestion.responseUserName;
         [responseView addSubview:adminLabel];
-        // TODO response date (we don't have this data in the model yet)
+        UILabel *createdAt = [[[UILabel alloc] initWithFrame:CGRectMake(responseView.bounds.size.width - 100, 30, 90, 15)] autorelease];
+        createdAt.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
+        createdAt.backgroundColor = [UIColor clearColor];
+        createdAt.textAlignment = UITextAlignmentRight;
+        createdAt.font = [UIFont systemFontOfSize:12];
+        createdAt.textColor = [UIColor colorWithRed:0.60f green:0.61f blue:0.62f alpha:1.0f];
+        createdAt.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
+        [responseView addSubview:createdAt];
         self.responseLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 48, responseView.bounds.size.width - 70, 100)] autorelease];
         responseLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         responseLabel.backgroundColor = [UIColor clearColor];
@@ -464,20 +469,26 @@
 
     self.buttons = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:40 space:10]] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.voteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    voteButton.frame = CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height);
+    self.voteButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)] autorelease];
     voteButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     [voteButton setTitle:NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil) forState:UIControlStateNormal];
     [voteButton addTarget:self action:@selector(voteButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [buttons addSubview:voteButton];
-    UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    commentButton.frame = CGRectMake(buttons.bounds.size.width/2 + 5, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height);
+    UIButton *commentButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(buttons.bounds.size.width/2 + 5, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)] autorelease];
     commentButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     [commentButton setTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil) forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [buttons addSubview:commentButton];
     [scrollView addSubview:buttons];
     
+    self.votesLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:25 space:10]] autorelease];
+    votesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    votesLabel.backgroundColor = [UIColor clearColor];
+    votesLabel.textColor = [UIColor colorWithRed:0.30f green:0.34f blue:0.42f alpha:1.0f];
+    votesLabel.font = [UIFont boldSystemFontOfSize:13];
+    votesLabel.textAlignment = UITextAlignmentCenter;
+    [scrollView addSubview:votesLabel];
+
     self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000) style:UITableViewStylePlain] autorelease];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.tableView.delegate = self;

@@ -41,6 +41,7 @@
 @synthesize responseUserName;
 @synthesize responseUserAvatarUrl;
 @synthesize responseUserId;
+@synthesize responseCreatedAt;
 @synthesize category;
 
 + (void)initialize {
@@ -199,6 +200,7 @@
                 self.responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
                 self.responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
             }
+            self.responseCreatedAt = [self parseJsonDate:[response objectForKey:@"created_at"]];
         }
 
         NSDictionary *topic = [self objectOrNilForDict:dict key:@"topic"];
@@ -237,6 +239,7 @@
     self.closedAt = nil;
     self.creatorName = nil;
     self.responseText = nil;
+    self.responseCreatedAt = nil;
     self.responseUserName = nil;
     self.responseUserAvatarUrl = nil;
     self.category = nil;
