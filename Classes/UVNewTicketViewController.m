@@ -200,6 +200,7 @@
     else
         state = STATE_IA;
     [self updateLayout];
+    [scrollView setContentOffset:CGPointZero animated:YES];
 }
 
 - (void)instantAnswersMessageTapped {
