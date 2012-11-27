@@ -99,10 +99,11 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UIToolbar *toolbar = [[[UIToolbar alloc] initWithFrame:cell.bounds] autorelease];
+    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, -1, cell.bounds.size.width, cell.bounds.size.height + 1)] autorelease];
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbar.tintColor = [UIColor colorWithRed:0.77f green:0.78f blue:0.80f alpha:1.0f];
     toolbar.tag = UV_SEARCH_TOOLBAR;
+    [toolbar addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(composeButtonTapped)] autorelease]];
 
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, cell.bounds.size.width - 60, cell.bounds.size.height)] autorelease];
     label.font = [UIFont boldSystemFontOfSize:13];
@@ -112,11 +113,12 @@
     label.tag = UV_SEARCH_TOOLBAR_LABEL;
     [toolbar addSubview:label];
 
-    UIBarButtonItem *space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
     UIBarButtonItem *compose = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeButtonTapped)] autorelease];
     compose.style = UIBarButtonItemStyleBordered;
     compose.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
-    toolbar.items = @[space, compose];
+    UINavigationItem *navItem = [[[UINavigationItem alloc] initWithTitle:nil] autorelease];
+    navItem.rightBarButtonItem = compose;
+    toolbar.items = @[navItem];
 
     [cell addSubview:toolbar];
 }
@@ -310,6 +312,8 @@
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                             target:self
                                                                                             action:@selector(composeButtonTapped)] autorelease];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
+
     if ([UVSession currentSession].isModal && firstController) {
         self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                                   style:UIBarButtonItemStylePlain
