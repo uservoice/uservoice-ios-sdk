@@ -78,7 +78,7 @@
     } else {
         delegate = theDelegate;
         action = theAction;
-        state = STATE_PASSWORD;
+        state = STATE_EMAIL;
         self.email = theEmail;
         self.name = theName;
         [delegate performSelector:@selector(showActivityIndicator)];
