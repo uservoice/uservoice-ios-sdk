@@ -46,7 +46,6 @@
 @synthesize titleField;
 @synthesize nameField;
 @synthesize emailField;
-@synthesize numVotes;
 @synthesize category;
 @synthesize shouldShowCategories;
 @synthesize scrollView;
@@ -86,7 +85,7 @@
                          category:self.category
                             title:self.title
                              text:self.text
-                            votes:self.numVotes
+                            votes:1
                          delegate:self];
 }
 
@@ -148,17 +147,6 @@
     [emailField resignFirstResponder];
     [nameField resignFirstResponder];
     [titleField resignFirstResponder];
-}
-
-- (void)voteSegmentChanged:(id)sender {
-    UISegmentedControl *segments = (UISegmentedControl *)sender;
-    self.numVotes = segments.selectedSegmentIndex + 1;
-    [self dismissTextView];
-}
-
-- (void)contactButtonTapped {
-    UIViewController *next = [UVNewTicketViewController viewControllerWithText:titleField.text];
-    [self pushViewControllerFromWelcome:next];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====

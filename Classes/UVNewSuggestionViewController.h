@@ -30,7 +30,6 @@
     UIView *instantAnswersMessage;
     UITableView *instantAnswersTableView;
     UITableView *fieldsTableView;
-    NSInteger numVotes;
     UVCategory *category;
     BOOL shouldShowCategories;
     int state;
@@ -56,7 +55,6 @@
 @property (nonatomic, retain) UITableView *fieldsTableView;
 @property (nonatomic, retain) UIView *shade;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
-@property (assign) NSInteger numVotes;
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;
 
