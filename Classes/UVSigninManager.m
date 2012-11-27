@@ -40,10 +40,10 @@
 - (void)showPasswordAlertView {
     state = STATE_PASSWORD;
     self.alertView = [[[UIAlertView alloc] init] autorelease];
-    alertView.title = [NSString stringWithFormat:@"%@\n%@", NSLocalizedStringFromTable(@"Enter your password", @"UserVoice", nil), email];
+    alertView.title = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Enter UserVoice password for", @"UserVoice", nil), email];
     alertView.delegate = self;
     alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Forgot", @"UserVoice", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil)];
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.returnKeyType = UIReturnKeyDone;
@@ -56,8 +56,9 @@
     self.alertView = [[[UIAlertView alloc] init] autorelease];
     alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", nil);
     alertView.delegate = self;
-    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Try again", @"UserVoice", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Forgot password", @"UserVoice", nil)];
+    [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
     [alertView show];
 }
 
@@ -129,19 +130,17 @@
             [UVUser discoverWithEmail:text delegate:self];
         }
     } else if (state == STATE_PASSWORD) {
-        if (buttonIndex == 0) {
-            [delegate performSelector:@selector(showActivityIndicator)];
-            [UVUser forgotPassword:email delegate:self];
-        } else {
+        if (buttonIndex == 1) {
             NSString *text = [alertView textFieldAtIndex:0].text;
-            if (text.length == 0)
-                return;
             [delegate performSelector:@selector(showActivityIndicator)];
             [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:text];
         }
     } else if (state == STATE_FAILED) {
-        if (buttonIndex == 1) {
+        if (buttonIndex == 0) {
             [self showPasswordAlertView];
+        } else if (buttonIndex == 1) {
+            [delegate performSelector:@selector(showActivityIndicator)];
+            [UVUser forgotPassword:email delegate:self];
         }
     }
 }
