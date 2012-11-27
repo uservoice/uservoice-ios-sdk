@@ -221,6 +221,7 @@
     self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view = scrollView;
     scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    scrollView.alwaysBounceVertical = YES;
 
     self.flashView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 100)] autorelease];
     flashView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -275,6 +276,9 @@
     footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)] autorelease];
+    // tweak for retina
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
+        poweredBy.frame = CGRectMake(0, 8, 0, 0);
     poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     poweredBy.backgroundColor = [UIColor clearColor];
     poweredBy.textColor = [UIColor grayColor];
