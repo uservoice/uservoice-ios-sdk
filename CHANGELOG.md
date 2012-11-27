@@ -1,5 +1,9 @@
 ## master ##
 
+## 1.2.6 ##
+
+* Fix missing submit button on new ticket form on iPad
+
 ## 1.2.5 ##
 
 * Fix a couple of bugs related to data not refreshing after sign-in
