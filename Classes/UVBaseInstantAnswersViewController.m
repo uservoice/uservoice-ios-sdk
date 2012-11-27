@@ -6,7 +6,13 @@
 //  Copyright (c) 2012 UserVoice Inc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "UVBaseInstantAnswersViewController.h"
+#import "UVSession.h"
+#import "UVArticleViewController.h"
+#import "UVArticle.h"
+#import "UVSuggestion.h"
+#import "UVSuggestionDetailsViewController.h"
 
 @implementation UVBaseInstantAnswersViewController
 
@@ -24,7 +30,7 @@
     if ([[self.instantAnswersQuery lowercaseString] isEqualToString:[query lowercaseString]])
         return;
     self.instantAnswersQuery = query;
-    [self cleanupInstantAnswers];
+    [self cleanupInstantAnswersTimer];
     if (query.length == 0) {
         self.instantAnswers = [NSArray array];
         [self didLoadInstantAnswers];
@@ -68,6 +74,13 @@
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     }
+}
+
+- (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector {
+    return [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(label, @"UserVoice", nil)
+                                             style:UIBarButtonItemStylePlain
+                                            target:self
+                                            action:selector] autorelease];
 }
 
 - (void)addSpinnerAndXTo:(UIView *)view atCenter:(CGPoint)center {
@@ -186,8 +199,6 @@
 }
 
 - (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
-    if (dismissed)
-        return;
     self.instantAnswers = [theInstantAnswers subarrayWithRange:NSMakeRange(0, MIN(3, [theInstantAnswers count]))];
     loadingInstantAnswers = NO;
     [self didLoadInstantAnswers];
@@ -210,15 +221,16 @@
     [[UVSession currentSession] trackInteraction:[suggestionIds count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[suggestionIds count]], @"count", suggestionIds, @"ids", nil]];
 }
 
-- (void)cleanupInstantAnswers {
+- (void)cleanupInstantAnswersTimer {
     [instantAnswersTimer invalidate];
     self.instantAnswersTimer = nil;
-    self.instantAnswers = nil;
-    self.instantAnswersQuery = nil;
 }
 
 - (void)dealloc {
-    [self cleanupInstantAnswers];
+    [self cleanupInstantAnswersTimer];
+    self.instantAnswers = nil;
+    self.instantAnswersQuery = nil;
+    [super dealloc];
 }
 
 @end

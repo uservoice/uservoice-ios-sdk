@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 UserVoice Inc. All rights reserved.
 //
 
-#import "UVBaseViewController.h"
+#import "UVBaseInstantAnswersViewController.h"
 #import "UVTextView.h"
 
 #define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
 
-@interface UVBaseTicketViewController : UVBaseViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
+@interface UVBaseTicketViewController : UVBaseInstantAnswersViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
     UVTextView *textView;
     NSString *text;
     NSString *initialText;
@@ -34,7 +34,6 @@
 - (void)selectCustomFieldAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)theTableView;
 - (void)sendButtonTapped;
 - (void)suggestionButtonTapped;
-- (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
 - (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView;
 - (UIView *)fieldsTableFooterView;
 - (void)dismissKeyboard;

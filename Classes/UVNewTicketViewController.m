@@ -184,7 +184,7 @@
     CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
     offset.x = 0;
     offset.y -= 20;
-    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + kbHeight - scrollView.bounds.size.height));
+    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + [UVKeyboardUtils height] - scrollView.bounds.size.height));
     [scrollView setContentOffset:offset animated:YES];
     return YES;
 }

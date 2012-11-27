@@ -70,7 +70,7 @@
     [self hideActivityIndicator];
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your message has been sent.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:nil];
 
-    [self cleanupInstantAnswers];
+    [self cleanupInstantAnswersTimer];
     dismissed = YES;
     if ([UVSession currentSession].isModal && firstController) {
         CATransition* transition = [CATransition animation];
@@ -147,6 +147,12 @@
     return text;
 }
 
+- (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
+    if (dismissed)
+        return;
+    [super didRetrieveInstantAnswers:theInstantAnswers];
+}
+
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
     cell.textLabel.text = label;
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 11, 230, 22)];
@@ -194,13 +200,6 @@
     captionLabel.textColor = [UIColor grayColor];
     [container addSubview:captionLabel];
     [parentView addSubview:container];
-}
-
-- (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector {
-    return [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(label, @"UserVoice", nil)
-                                             style:UIBarButtonItemStylePlain
-                                            target:self
-                                            action:selector] autorelease];
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -263,7 +262,7 @@
 }
 
 - (void)dismiss {
-    [self cleanupInstantAnswers];
+    [self cleanupInstantAnswersTimer];
     dismissed = YES;
     if ([self shouldLeaveViewController]) {
         if ([UVSession currentSession].isModal && firstController)

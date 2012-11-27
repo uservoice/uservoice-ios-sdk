@@ -10,8 +10,10 @@
 
 @interface UVKeyboardUtils : NSObject {
     BOOL visible;
+    CGFloat kbHeight;
 }
 
 + (BOOL)visible;
++ (CGFloat)height;
 
 @end

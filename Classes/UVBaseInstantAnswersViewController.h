@@ -30,11 +30,44 @@
 - (void)updateSpinnerAndXIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
+- (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled;
+
+/**
+ * Reset the instant answers timer for 0.5 seconds
+ */
 - (void)searchInstantAnswers:(NSString *)query;
+
+/**
+ * Query for instant answers immediately
+ * Set instantAnsewrsQuery before calling
+ */
 - (void)loadInstantAnswers;
+
+/**
+ * Callback called before loading instant answers
+ */
 - (void)willLoadInstantAnswers;
+
+/**
+ * Callback called after loading instant answers
+ */
 - (void)didLoadInstantAnswers;
-- (void)cleanupInstantAnswers;
+
+/**
+ * Remove the timer and free memory
+ */
+- (void)cleanupInstantAnswersTimer;
+
+/**
+ * Force the timer to fire immediately, if set
+ */
+- (void)fireInstantAnswersTimer;
+
+/**
+ * Process loaded instant answers
+ * This is here so that subclasses can no-op it if needed
+ */
+- (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers;
 
 @end

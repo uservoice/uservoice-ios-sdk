@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVBaseViewController.h"
+#import "UVBaseInstantAnswersViewController.h"
 #import "UVTextView.h"
 
 @class UVForum;
 @class UVCategory;
 
-@interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate, UIActionSheetDelegate> {
+@interface UVNewSuggestionViewController : UVBaseInstantAnswersViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate, UIActionSheetDelegate> {
     UVForum *forum;
     NSString *title;
     NSString *text;
@@ -24,9 +24,18 @@
     UITextField *titleField;
     UITextField *nameField;
     UITextField *emailField;
+    UIBarButtonItem *nextButton;
+    UIBarButtonItem *sendButton;
+    UIView *instantAnswersView;
+    UIView *instantAnswersMessage;
+    UITableView *instantAnswersTableView;
+    UITableView *fieldsTableView;
     NSInteger numVotes;
     UVCategory *category;
     BOOL shouldShowCategories;
+    int state;
+    UIView *shade;
+    UIActivityIndicatorView *activityIndicatorView;
 }
 
 @property (nonatomic, retain) UVForum *forum;
@@ -39,6 +48,14 @@
 @property (nonatomic, retain) UITextField *titleField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
+@property (nonatomic, retain) UIBarButtonItem *nextButton;
+@property (nonatomic, retain) UIBarButtonItem *sendButton;
+@property (nonatomic, retain) UIView *instantAnswersView;
+@property (nonatomic, retain) UIView *instantAnswersMessage;
+@property (nonatomic, retain) UITableView *instantAnswersTableView;
+@property (nonatomic, retain) UITableView *fieldsTableView;
+@property (nonatomic, retain) UIView *shade;
+@property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
 @property (assign) NSInteger numVotes;
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;

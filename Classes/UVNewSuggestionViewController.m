@@ -23,9 +23,17 @@
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVUser.h"
+#import "UVKeyboardUtils.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
 #define UV_NEW_SUGGESTION_SECTION_CATEGORY 1
+
+#define STATE_BEGIN 1000
+#define STATE_IA 1001
+#define STATE_SHOW_IA 1002
+#define STATE_FIELDS 1003
+#define STATE_FIELDS_IA 1004
+#define STATE_WAITING 1005
 
 @implementation UVNewSuggestionViewController
 
@@ -42,6 +50,14 @@
 @synthesize category;
 @synthesize shouldShowCategories;
 @synthesize scrollView;
+@synthesize nextButton;
+@synthesize sendButton;
+@synthesize instantAnswersView;
+@synthesize instantAnswersMessage;
+@synthesize instantAnswersTableView;
+@synthesize fieldsTableView;
+@synthesize shade;
+@synthesize activityIndicatorView;
 
 - (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle {
     if (self = [super init]) {
@@ -148,26 +164,39 @@
 #pragma mark ===== UITextFieldDelegate Methods =====
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    if (textField == self.titleField)
+    if (textField == self.titleField) {
+        if ([instantAnswers count] == 0)
+            state = STATE_BEGIN;
+        else
+            state = STATE_IA;
+        [self updateLayout];
+        [scrollView setContentOffset:CGPointZero animated:YES];
         return;
+    }
     CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
     offset.x = 0;
     offset.y -= 20;
-    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + kbHeight - scrollView.bounds.size.height));
+    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + [UVKeyboardUtils height] - scrollView.bounds.size.height));
     [scrollView setContentOffset:offset animated:YES];
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    if (textField==emailField) {
-        [nameField resignFirstResponder];
-        [textView resignFirstResponder];
-    }
     [scrollView setContentOffset:CGPointZero animated:YES];
     return YES;
 }
 
+- (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
+    if ([instantAnswers count] == 0)
+        state = STATE_BEGIN;
+    else
+        state = STATE_IA;
+    [self updateLayout];
+    [scrollView setContentOffset:CGPointZero animated:YES];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
+    if (textField == titleField)
+        [self nextButtonTapped];
     return YES;
 }
 
@@ -196,6 +225,7 @@
     cell.backgroundColor = [UIColor whiteColor];
     self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
     self.nameField.text = self.userName;
+    self.nameField.delegate = self;
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -205,10 +235,16 @@
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.emailField.text = self.userEmail;
+    self.emailField.delegate = self;
+}
+
+- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self customizeCellForInstantAnswer:cell index:indexPath.row];
 }
 
 - (void)titleChanged:(NSNotification *)notification {
-    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] > 0;
+    [self searchInstantAnswers:titleField.text];
+    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] != 0 && state != STATE_WAITING;
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -218,14 +254,19 @@
     UITableViewCellStyle style = UITableViewCellStyleDefault;
     BOOL selectable = NO;
 
-    switch (indexPath.section) {
-        case UV_NEW_SUGGESTION_SECTION_CATEGORY:
-            identifier = @"Category";
-            style = UITableViewCellStyleValue1;
-            break;
-        case UV_NEW_SUGGESTION_SECTION_PROFILE:
-            identifier = indexPath.row == 0 ? @"Email" : @"Name";
-            break;
+    if (theTableView == fieldsTableView) {
+        switch (indexPath.section) {
+            case UV_NEW_SUGGESTION_SECTION_CATEGORY:
+                identifier = @"Category";
+                style = UITableViewCellStyleValue1;
+                break;
+            case UV_NEW_SUGGESTION_SECTION_PROFILE:
+                identifier = indexPath.row == 0 ? @"Email" : @"Name";
+                break;
+        }
+    } else {
+        identifier = @"InstantAnswer";
+        selectable = YES;
     }
 
     return [self createCellForIdentifier:identifier
@@ -236,28 +277,39 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 2;
+    if (theTableView == fieldsTableView)
+        return 2;
+    else
+        return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (section == UV_NEW_SUGGESTION_SECTION_PROFILE)
-        return 2;
-    else if (section == UV_NEW_SUGGESTION_SECTION_CATEGORY)
-        return self.shouldShowCategories ? 1 : 0;
-    else
-        return 1;
+    if (theTableView == fieldsTableView) {
+        if (section == UV_NEW_SUGGESTION_SECTION_PROFILE)
+            return 2;
+        else if (section == UV_NEW_SUGGESTION_SECTION_CATEGORY)
+            return self.shouldShowCategories ? 1 : 0;
+        else
+            return 1;
+    } else {
+        return [instantAnswers count];
+    }
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
-        [self dismissTextView];
-        UIViewController *next = [[UVCategorySelectViewController alloc] initWithForum:self.forum andSelectedCategory:self.category];
-        [self.navigationController pushViewController:next animated:YES];
-        [next release];
+    if (theTableView == fieldsTableView) {
+        if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
+            [self dismissTextView];
+            UIViewController *next = [[UVCategorySelectViewController alloc] initWithForum:self.forum andSelectedCategory:self.category];
+            [self.navigationController pushViewController:next animated:YES];
+            [next release];
+        }
+    } else {
+        [self selectInstantAnswerAtIndex:indexPath.row];
     }
 }
 
@@ -270,10 +322,10 @@
     BOOL showFieldsTable = state == STATE_FIELDS || state == STATE_FIELDS_IA;
     BOOL landscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
 
-    if (showTextView)
-        [textView becomeFirstResponder];
-    else
+    if (!showTextView) {
+        [titleField resignFirstResponder];
         [textView resignFirstResponder];
+    }
 
     CGFloat sH = [UIScreen mainScreen].bounds.size.height;
     CGFloat sW = [UIScreen mainScreen].bounds.size.width;
@@ -287,14 +339,14 @@
     if (showIAMessage)
         textViewRect.size.height -= 40;
 
-    CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.size.height);
+    CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.origin.y + textViewRect.size.height);
     CGPoint fieldsTableViewOrigin = CGPointMake(0, showFieldsTable ? instantAnswersOrigin.y + (showIAMessage ? 40 : 0) : sH);
 
     instantAnswersView.hidden = !showIAMessage;
     if (showIATable)
         instantAnswersTableView.hidden = NO;
     if (showFieldsTable)
-        fieldsTableViewView.hidden = NO;
+        fieldsTableView.hidden = NO;
 
     if (state == STATE_WAITING)
         [self showActivityIndicator];
@@ -306,22 +358,22 @@
     else
         self.navigationItem.rightBarButtonItem = sendButton;
     
-    self.navigationItem.rightBarButtonItem.enabled = !(showTextView && [self.text length] == 0) && state != STATE_WAITING;
+    self.navigationItem.rightBarButtonItem.enabled = !(showTextView && [titleField.text length] == 0) && state != STATE_WAITING;
 
-    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableViewView.contentSize.height : 0));
+    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.origin.y + textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableView.contentSize.height : 0));
 
     [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
     [UIView animateWithDuration:0.3 animations:^{
         textView.frame = textViewRect;
         instantAnswersView.frame = CGRectMake(instantAnswersOrigin.x, instantAnswersOrigin.y, textViewRect.size.width, instantAnswersTableView.frame.origin.y + instantAnswersTableView.frame.size.height);
-        fieldsTableViewView.frame = CGRectMake(fieldsTableViewOrigin.x, fieldsTableViewOrigin.y, textViewRect.size.width, fieldsTableViewView.bounds.size.height);
+        fieldsTableView.frame = CGRectMake(fieldsTableViewOrigin.x, fieldsTableViewOrigin.y, textViewRect.size.width, fieldsTableView.bounds.size.height);
     } completion:^(BOOL finished) {
         if (showTextView)
             [textView scrollRangeToVisible:[textView selectedRange]];
         else
             [textView scrollRangeToVisible:NSMakeRange(0, 0)];
         if (!showFieldsTable)
-            fieldsTableViewView.hidden = YES;
+            fieldsTableView.hidden = YES;
     }];
 }
 
@@ -421,11 +473,18 @@
     [fieldsTableView reloadData];
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, titleView.bounds.size.height + textView.bounds.size.height + fieldsTableView.contentSize.height);
 
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil)
-                                                                               style:UIBarButtonItemStyleDone
-                                                                              target:self
-                                                                              action:@selector(createButtonTapped)] autorelease];
-    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] > 0;
+    self.nextButton = [self barButtonItem:@"Continue" withAction:@selector(nextButtonTapped)];
+    self.sendButton = [self barButtonItem:@"Submit" withAction:@selector(createButtonTapped)];
+    self.sendButton.style = UIBarButtonItemStyleDone;
+
+    state = STATE_BEGIN;
+    [self updateLayout];
+
+    if (self.title && [self.title length] > 0) {
+        self.instantAnswersQuery = self.title;
+        [self loadInstantAnswers];
+    }
+    [titleField becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -441,6 +500,92 @@
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
                                                                              action:@selector(dismiss)] autorelease];
+}
+
+- (void)showActivityIndicator {
+    if (!shade) {
+        self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+        self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        self.shade.backgroundColor = [UIColor blackColor];
+        self.shade.alpha = 0.5;
+        [self.view addSubview:shade];
+    }
+    if (!activityIndicatorView) {
+        self.activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+        self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
+        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
+        [self.view addSubview:activityIndicatorView];
+    }
+    shade.hidden = NO;
+    activityIndicatorView.hidden = NO;
+    [activityIndicatorView startAnimating];
+}
+
+- (void)hideActivityIndicator {
+    [activityIndicatorView stopAnimating];
+    activityIndicatorView.hidden = YES;
+    shade.hidden = YES;
+}
+
+- (void)nextButtonTapped {
+    if (state == STATE_BEGIN) {
+        [self fireInstantAnswersTimer];
+        if (loadingInstantAnswers)
+            state = STATE_WAITING;
+        else
+            state = STATE_FIELDS;
+    } else if (state == STATE_IA) {
+        state = STATE_SHOW_IA;
+    } else if (state == STATE_SHOW_IA) {
+        state = STATE_FIELDS_IA;
+    }
+    [self updateLayout];
+}
+
+- (void)willLoadInstantAnswers {
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
+}
+
+- (void)didLoadInstantAnswers {
+    BOOL found = [instantAnswers count] > 0;
+    if (state == STATE_WAITING || state == STATE_SHOW_IA)
+        state = found ? STATE_SHOW_IA : STATE_FIELDS;
+    else if (found)
+        state = (state == STATE_FIELDS) ? STATE_FIELDS_IA : STATE_IA;
+    else
+        state = (state == STATE_FIELDS_IA) ? STATE_FIELDS : STATE_BEGIN;
+    [instantAnswersTableView reloadData];
+    [self updateLayout];
+}
+
+- (void)instantAnswersMessageTapped {
+    switch (state) {
+    case STATE_IA:
+        state = STATE_SHOW_IA;
+        break;
+    case STATE_SHOW_IA:
+        state = STATE_FIELDS_IA;
+        break;
+    case STATE_FIELDS_IA:
+        [emailField resignFirstResponder];
+        state = STATE_SHOW_IA;
+        break;
+    }
+    [self updateLayout];
+}
+
+- (void)keyboardDidShow:(NSNotification*)notification {
+    [super keyboardDidShow:notification];
+    [self updateLayout];
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification {
+    [super keyboardDidHide:notification];
+    [self updateLayout];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
+    [self updateLayout];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -461,7 +606,6 @@
     }
 }
 
-
 - (void)dealloc {
     self.forum = nil;
     self.title = nil;
@@ -474,6 +618,14 @@
     self.emailField = nil;
     self.category = nil;
     self.scrollView = nil;
+    self.nextButton = nil;
+    self.sendButton = nil;
+    self.instantAnswersView = nil;
+    self.instantAnswersMessage = nil;
+    self.instantAnswersTableView = nil;
+    self.fieldsTableView = nil;
+    self.shade = nil;
+    self.activityIndicatorView = nil;
     [super dealloc];
 }
 
