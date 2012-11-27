@@ -60,8 +60,6 @@
     [UVSuggestion getWithForum:self.forum page:page delegate:self];
 }
 
-// Populates the suggestions. The default implementation retrieves the 10 most recent
-// suggestions, but this can be overridden in subclasses (e.g. for profile idea view).
 - (void)populateSuggestions {
     self.suggestions = [NSMutableArray arrayWithCapacity:10];
     [UVSession currentSession].clientConfig.forum.suggestions = [NSMutableArray arrayWithCapacity:10];
@@ -99,11 +97,12 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, -1, cell.bounds.size.width, cell.bounds.size.height - 1)] autorelease];
+    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)] autorelease];
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbar.tintColor = [UIColor colorWithRed:0.77f green:0.78f blue:0.80f alpha:1.0f];
     toolbar.tag = UV_SEARCH_TOOLBAR;
     [toolbar addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(composeButtonTapped)] autorelease]];
+    toolbar.layer.masksToBounds = YES;
 
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, cell.bounds.size.width - 60, cell.bounds.size.height)] autorelease];
     label.font = [UIFont boldSystemFontOfSize:13];
@@ -244,6 +243,8 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [searchController setActive:YES animated:YES];
+    [self addShadowSeparatorToTableView:searchController.searchResultsTableView];
+    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
 }
@@ -300,8 +301,6 @@
     searchController.delegate = self;
     searchController.searchResultsDataSource = self;
     searchController.searchResultsDelegate = self;
-    [self addShadowSeparatorToTableView:searchController.searchResultsTableView];
-    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     theTableView.tableHeaderView = headerView;
     [headerView release];
 
