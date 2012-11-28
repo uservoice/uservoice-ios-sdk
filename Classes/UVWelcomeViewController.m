@@ -137,7 +137,7 @@
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
             UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
-            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];

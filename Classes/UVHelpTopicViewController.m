@@ -36,7 +36,7 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     UVArticle *article = (UVArticle *)[articles objectAtIndex:indexPath.row];
-    UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+    UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
     [self.navigationController pushViewController:next animated:YES];
 }
 

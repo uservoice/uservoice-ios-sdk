@@ -19,6 +19,8 @@
 @synthesize instantAnswersTimer;
 @synthesize instantAnswers;
 @synthesize instantAnswersQuery;
+@synthesize articleHelpfulPrompt;
+@synthesize articleReturnMessage;
 
 - (void)willLoadInstantAnswers {
 }
@@ -66,7 +68,7 @@
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.instantAnswersQuery, @"t", nil]];
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
+        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
@@ -230,6 +232,8 @@
     [self cleanupInstantAnswersTimer];
     self.instantAnswers = nil;
     self.instantAnswersQuery = nil;
+    self.articleHelpfulPrompt = nil;
+    self.articleReturnMessage = nil;
     [super dealloc];
 }
 

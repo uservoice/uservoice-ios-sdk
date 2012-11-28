@@ -9,15 +9,21 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UVArticleViewController.h"
 #import "UVSession.h"
+#import "UVNewTicketViewController.h"
+#import "UVStyleSheet.h"
 
 @implementation UVArticleViewController
 
 @synthesize article;
 @synthesize webView;
+@synthesize helpfulPrompt;
+@synthesize returnMessage;
 
-- (id)initWithArticle:(UVArticle *)theArticle {
+- (id)initWithArticle:(UVArticle *)theArticle helpfulPrompt:(NSString *)theHelpfulPrompt returnMessage:(NSString *)theReturnMessage{
     if (self = [super init]) {
         self.article = theArticle;
+        self.helpfulPrompt = theHelpfulPrompt;
+        self.returnMessage = theReturnMessage;
     }
     return self;
 }
@@ -63,34 +69,58 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else if (buttonIndex == 1) {
-        [self dismissUserVoice];
+    if (helpfulPrompt) {
+        if (buttonIndex == 0) {
+            [self.navigationController popViewControllerAnimated:YES];
+        } else if (buttonIndex == 1) {
+            [self dismissUserVoice];
+        }
+    } else {
+        if (buttonIndex == 0) {
+            UIViewController *next = [UVNewTicketViewController viewController];
+            UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+            navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+            navigationController.viewControllers = @[next];
+            navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self presentModalViewController:navigationController animated:YES];
+        }
     }
 }
 
 - (void)yesButtonTapped {
     [[UVSession currentSession] trackInteraction:@"u"];
-    UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"Do you still want to contact us?", @"UserVoice", nil)
-                                                              delegate:self
-                                                     cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                destructiveButtonTitle:nil
-                                                     otherButtonTitles:NSLocalizedStringFromTable(@"Yes, go to my message", @"UserVoice", nil), NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil] autorelease];
-    [actionSheet showInView:self.view];
+    if (helpfulPrompt) {
+        // Do you still want to contact us?
+        // Yes, go to my message
+        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(helpfulPrompt, @"UserVoice", nil)
+                                                                  delegate:self
+                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                    destructiveButtonTitle:nil
+                                                         otherButtonTitles:NSLocalizedStringFromTable(returnMessage, @"UserVoice", nil), NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil] autorelease];
+        [actionSheet showInView:self.view];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)noButtonTapped {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (NSString *)backButtonTitle {
-    return @"Back";
+    if (helpfulPrompt) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"Would you like to contact us?", @"UserVoice", nil)
+                                                                  delegate:self
+                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil)
+                                                    destructiveButtonTitle:nil
+                                                         otherButtonTitles:NSLocalizedStringFromTable(@"Yes", @"UserVoice", nil), nil] autorelease];
+        [actionSheet showInView:self.view];
+    }
 }
 
 - (void)dealloc {
     self.article = nil;
     self.webView = nil;
+    self.helpfulPrompt = nil;
+    self.returnMessage = nil;
     [super dealloc];
 }
 

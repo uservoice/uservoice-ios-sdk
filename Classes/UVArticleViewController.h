@@ -12,11 +12,15 @@
 @interface UVArticleViewController : UVBaseViewController<UIActionSheetDelegate> {
     UVArticle *article;
     UIWebView *webView;
+    NSString *helpfulPrompt;
+    NSString *returnMessage;
 }
 
 @property (nonatomic, retain) UVArticle *article;
 @property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, retain) NSString *helpfulPrompt;
+@property (nonatomic, retain) NSString *returnMessage;
 
-- (id)initWithArticle:(UVArticle *)article;
+- (id)initWithArticle:(UVArticle *)article helpfulPrompt:(NSString *)helpfulPrompt returnMessage:(NSString *)returnMessage;
 
 @end

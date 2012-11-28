@@ -320,7 +320,24 @@
 }
 
 - (void)updateVotesLabel {
-    votesLabel.text = [NSString stringWithFormat:@"%i %@  •  %i %@", suggestion.voteCount, NSLocalizedStringFromTable(@"votes", @"UserVoice", nil), suggestion.commentsCount, NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
+    NSString *votesString = nil;
+    if (suggestion.voteCount == 0)
+        votesString = NSLocalizedStringFromTable(@"0 votes", @"UserVoice", nil);
+    else if (suggestion.voteCount == 1)
+        votesString = NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil);
+    else
+        votesString = [NSString stringWithFormat:@"%@ %@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:suggestion.voteCount] numberStyle:NSNumberFormatterDecimalStyle], NSLocalizedStringFromTable(@"votes", @"UserVoice", nil)];
+
+    NSString *commentsString = nil;
+    if (suggestion.voteCount == 0)
+        commentsString = NSLocalizedStringFromTable(@"0 comments", @"UserVoice", nil);
+    else if (suggestion.voteCount == 1)
+        commentsString = NSLocalizedStringFromTable(@"1 comment", @"UserVoice", nil);
+    else
+        commentsString = [NSString stringWithFormat:@"%@ %@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:suggestion.commentsCount] numberStyle:NSNumberFormatterDecimalStyle], NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
+
+    votesLabel.text = [NSString stringWithFormat:@"%@  •  %@", votesString, commentsString];
+
     NSString *title;
     if (suggestion.votesFor == 1)
         title = NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil);

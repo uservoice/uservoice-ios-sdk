@@ -63,6 +63,8 @@
         self.forum = theForum;
         self.title = theTitle;
         self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
+        self.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post an idea?", @"UserVoice", nil);
+        self.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my idea", @"UserVoice", nil);
     }
     return self;
 }

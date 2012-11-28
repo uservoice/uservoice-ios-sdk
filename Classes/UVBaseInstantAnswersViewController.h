@@ -17,12 +17,16 @@
     NSTimer *instantAnswersTimer;
     NSArray *instantAnswers;
     NSString *instantAnswersQuery;
+    NSString *articleHelpfulPrompt;
+    NSString *articleReturnMessage;
     BOOL loadingInstantAnswers;
 }
 
 @property (nonatomic,retain) NSTimer *instantAnswersTimer;
 @property (nonatomic,retain) NSArray *instantAnswers;
 @property (nonatomic,retain) NSString *instantAnswersQuery;
+@property (nonatomic,retain) NSString *articleHelpfulPrompt;
+@property (nonatomic,retain) NSString *articleReturnMessage;
 
 - (void)selectInstantAnswerAtIndex:(int)index;
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
