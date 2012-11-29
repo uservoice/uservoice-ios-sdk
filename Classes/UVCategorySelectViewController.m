@@ -11,6 +11,8 @@
 #import "UVCategory.h"
 #import "UVNewSuggestionViewController.h"
 #import "UVStyleSheet.h"
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 @implementation UVCategorySelectViewController
 
@@ -21,7 +23,7 @@
 - (id)initWithSelectedCategory:(UVCategory *)category {
     if (self = [super init]) {
         self.forum = [UVSession currentSession].clientConfig.forum;
-        self.categories = theForum.categories;
+        self.categories = self.forum.categories;
         self.selectedCategory = category;
     }
     return self;

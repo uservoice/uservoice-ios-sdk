@@ -300,7 +300,7 @@
     if (theTableView == fieldsTableView) {
         if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
             [self dismissTextView];
-            UIViewController *next = [[UVCategorySelectViewController alloc] initSelectedCategory:self.category];
+            UIViewController *next = [[UVCategorySelectViewController alloc] initWithSelectedCategory:self.category];
             [self.navigationController pushViewController:next animated:YES];
             [next release];
         }

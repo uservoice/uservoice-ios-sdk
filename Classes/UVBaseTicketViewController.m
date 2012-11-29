@@ -84,6 +84,8 @@
         NSArray *viewControllers = @[self.navigationController.viewControllers[0], welcomeView];
         [self.navigationController setViewControllers:viewControllers animated:NO];
     } else {
+        UINavigationController *nav = (UINavigationController *)self.presentingViewController;
+        [nav setViewControllers:[nav.viewControllers subarrayWithRange:NSMakeRange(0, 2)] animated:NO];
         [self dismissModalViewControllerAnimated:YES];
     }
 }
