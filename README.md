@@ -8,8 +8,8 @@ UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad 
 You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
 
 Binary builds of the SDK are available for download.
-* Current release: [1.2.5](https://github.com/downloads/uservoice/uservoice-iphone-sdk/UserVoiceSDK-1.2.5.tar.gz)
-* Current beta: [2.0.0b1](https://github.com/downloads/uservoice/uservoice-iphone-sdk/UserVoiceSDK-2.0.0b1.tar.gz)
+* Current release: [1.2.6](https://github.com/downloads/uservoice/uservoice-iphone-sdk/UserVoiceSDK-1.2.6.tar.gz)
+* Current beta: [2.0.0b2](https://github.com/downloads/uservoice/uservoice-iphone-sdk/UserVoiceSDK-2.0.0b2.tar.gz)
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
@@ -77,6 +77,9 @@ encrypt the token on your servers and pass it to the iOS app.
 You can set custom field values on the `UVConfig` object. These will be used
 associated with any tickets the user creates during their session. You can
 also use this to set default values for custom fields on the contact form.
+
+Note: You must first configure these fields in the UserVoice admin console.
+If you pass fields that are not recognized by the server, they will be ignored.
 
     config.customFields = [NSDictionary dictionaryWithObjectsAndKeys:@"Value", @"Key", nil];
 
