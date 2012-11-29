@@ -73,20 +73,17 @@
         transition.type = kCATransitionFade;
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         if (self.viewToLoad == @"welcome") {
-            self.navigationController.navigationBarHidden = NO;
             UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
             welcomeView.firstController = YES;
             [self.navigationController pushViewController:welcomeView animated:NO];
             [welcomeView release];
         } else if (self.viewToLoad == @"suggestions") {
-            self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
             UVBaseViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
             suggestionListViewController.firstController = YES;
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
             [self.navigationController setViewControllers:viewControllers animated:NO];
         } else if (self.viewToLoad == @"new_ticket") {
-            self.navigationController.navigationBarHidden = NO;
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
             UVBaseViewController *newTicketViewController = [UVNewTicketViewController viewController];
             newTicketViewController.firstController = YES;
@@ -99,7 +96,6 @@
 // Initialization: request token -> client config -> user -> persist the access token -> user's suggestions -> next view
 // If we don't have either a configured user, or a persisted token (which is therefore an access token) then we go straight from the client config to the next view
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
-    // should be storing all tokens and checking on type
     [UVSession currentSession].requestToken = token;
     [UVHelpTopic getAllWithDelegate:self];
 }
@@ -154,11 +150,6 @@
     }
 }
 
-- (void)didRetrieveHelpTopic:(UVHelpTopic *)topic {
-    [UVSession currentSession].topics = @[topic];
-    [UVArticle getArticlesWithTopic:topic delegate:self];
-}
-
 - (void)didRetrieveArticles:(NSArray *)articles {
     [UVSession currentSession].articles = articles;
     [UVClientConfig getWithDelegate:self];
@@ -166,67 +157,45 @@
 
 #pragma mark ===== Basic View Methods =====
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     [super loadView];
-    [self showExitButton];
+
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(dismissUserVoice)] autorelease];
 
-    CGRect frame = [self contentFrame];
-    UIView *contentView = [[UIView alloc] initWithFrame:frame];
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGFloat screenHeight = [UVClientConfig getScreenHeight];
+    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view.backgroundColor = [UVStyleSheet backgroundColor];
 
-    contentView.backgroundColor = [UVStyleSheet backgroundColor];
-
-    UILabel *splashLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight/2 - 30, screenWidth, 20)];
-    splashLabel2.backgroundColor = [UIColor clearColor];
-    splashLabel2.font = [UIFont systemFontOfSize:15];
-    splashLabel2.textColor = [UIColor darkGrayColor];
-    splashLabel2.textAlignment = UITextAlignmentCenter;
-    splashLabel2.text = NSLocalizedStringFromTable(@"Connecting to UserVoice", @"UserVoice", nil);
-    [contentView addSubview:splashLabel2];
-    [splashLabel2 release];
-
-    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIView *loading = [[[UIView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, 100)] autorelease];
+    loading.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
+    UIActivityIndicatorView *activity = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
     if ([activity respondsToSelector:@selector(setColor:)]) {
         [activity setColor:[UIColor grayColor]];
     } else {
         [activity release];
         activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
-    activity.center = CGPointMake(screenWidth/2, (screenHeight/ 2) - 60);
-    [contentView addSubview:activity];
+    activity.center = CGPointMake(loading.bounds.size.width/2, 40);
+    [loading addSubview:activity];
     [activity startAnimating];
-    [activity release];
-
-    self.view = contentView;
-    [contentView release];
-
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismissUserVoice)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 70, loading.frame.size.width, 20)] autorelease];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:15];
+    label.textColor = [UIColor darkGrayColor];
+    label.textAlignment = UITextAlignmentCenter;
+    label.text = NSLocalizedStringFromTable(@"Connecting to UserVoice", @"UserVoice", nil);
+    [label sizeToFit];
+    label.center = CGPointMake(loading.bounds.size.width/2, 85);
+    [loading addSubview:label];
+    [loading sizeToFit];
+    [self.view addSubview:loading];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (![UVNetworkUtils hasInternetAccess]) {
-        UIImageView *serverErrorImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_error_connection.png"]];
-        self.navigationController.navigationBarHidden = NO;
-        serverErrorImage.frame = self.view.frame;
-        serverErrorImage.contentMode = UIViewContentModeCenter;
-        serverErrorImage.backgroundColor = [UIColor colorWithRed:0.78f green:0.80f blue:0.83f alpha:1.0f];
-        serverErrorImage.clipsToBounds = YES;
-        [self.view addSubview:serverErrorImage];
-        [serverErrorImage release];
-    } else {
-        [UVRequestToken getRequestTokenWithDelegate:self];
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    // Re-enable the navigation bar
-    self.navigationController.navigationBarHidden = NO;
+    [UVRequestToken getRequestTokenWithDelegate:self];
 }
 
 - (void)dealloc {
