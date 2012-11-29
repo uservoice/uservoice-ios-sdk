@@ -66,9 +66,16 @@
     if ([UVSession currentSession].user) {
         [theDelegate performSelector:theAction];
     } else {
-        delegate = theDelegate;
-        action = theAction;
-        [self showEmailAlertView];
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        NSString *storedEmail = [prefs stringForKey:@"uv-user-email"];
+        NSString *storedName = [prefs stringForKey:@"uv-user-name"];
+        if (storedEmail && [storedEmail length] > 0) {
+            [self signInWithEmail:storedEmail name:storedName delegate:theDelegate action:theAction];
+        } else {
+            delegate = theDelegate;
+            action = theAction;
+            [self showEmailAlertView];
+        }
     }
 }
 
