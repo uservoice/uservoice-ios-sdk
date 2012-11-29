@@ -18,9 +18,9 @@
 @synthesize categories;
 @synthesize selectedCategory;
 
-- (id)initWithForum:(UVForum *)theForum andSelectedCategory:(UVCategory *)category {
+- (id)initWithSelectedCategory:(UVCategory *)category {
     if (self = [super init]) {
-        self.forum = theForum;
+        self.forum = [UVSession currentSession].clientConfig.forum;
         self.categories = theForum.categories;
         self.selectedCategory = category;
     }
@@ -81,7 +81,6 @@
     UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     theTableView.dataSource = self;
     theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 
     self.view = theTableView;
     [theTableView release];

@@ -133,7 +133,7 @@
     } else {
         [[UVSession currentSession] clearFlash];
         if (indexPath.section == 0) {
-            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
             UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];

@@ -22,6 +22,6 @@
 @property (nonatomic, retain) NSArray *categories;
 @property (nonatomic, retain) UVCategory *selectedCategory;
 
-- (id)initWithForum:(UVForum *)theForum andSelectedCategory:(UVCategory *)category;
+- (id)initWithSelectedCategory:(UVCategory *)category;
 
 @end

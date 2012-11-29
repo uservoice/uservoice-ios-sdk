@@ -27,8 +27,6 @@
 @property (nonatomic, retain) UISearchDisplayController *searchController;
 @property (nonatomic, retain) NSRegularExpression *searchPattern;
 
-- (id)initWithForum:(UVForum *)theForum;
-- (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions;
 - (void)reloadTableData;
 
 @end

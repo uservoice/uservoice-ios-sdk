@@ -36,21 +36,9 @@
 @synthesize searchController;
 @synthesize searchPattern;
 
-- (id)initWithForum:(UVForum *)theForum {
+- (id)init {
     if ((self = [super init])) {
-        if (theForum.suggestions) {
-            self = [self initWithForum:theForum andSuggestions:theForum.suggestions];
-        } else {
-            self.forum = theForum;
-        }
-    }
-    return self;
-}
-
-- (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions {
-    if ((self = [super init])) {
-        self.suggestions = [NSMutableArray arrayWithArray:theSuggestions];
-        self.forum = theForum;
+        self.forum = [UVSession currentSession].clientConfig.forum;
     }
     return self;
 }
@@ -89,8 +77,7 @@
 }
 
 - (void)addSuggestion:(UVCellViewWithIndex *)cellView {
-    UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:self.forum
-                                                                                         title:self.searchController.searchBar.text];
+    UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithTitle:self.searchController.searchBar.text];
     [self.navigationController pushViewController:next animated:YES];
     [next release];
 }
@@ -238,7 +225,7 @@
 }
 
 - (void)composeButtonTapped {
-    UVNewSuggestionViewController *next = [[[UVNewSuggestionViewController alloc] initWithForum:self.forum title:self.searchController.searchBar.text] autorelease];
+    UVNewSuggestionViewController *next = [[[UVNewSuggestionViewController alloc] initWithTitle:self.searchController.searchBar.text] autorelease];
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = @[next];

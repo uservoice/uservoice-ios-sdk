@@ -58,6 +58,6 @@
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;
 
-- (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle;
+- (id)initWithTitle:(NSString *)theTitle;
 
 @end

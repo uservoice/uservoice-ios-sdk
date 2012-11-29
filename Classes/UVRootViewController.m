@@ -78,7 +78,7 @@
             [welcomeView release];
         } else if (self.viewToLoad == @"suggestions") {
             UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-            UVBaseViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+            UVBaseViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] init] autorelease];
             suggestionListViewController.firstController = YES;
             NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
             [self.navigationController setViewControllers:viewControllers animated:NO];

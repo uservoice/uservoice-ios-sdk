@@ -58,10 +58,16 @@
 @synthesize shade;
 @synthesize activityIndicatorView;
 
-- (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle {
-    if (self = [super init]) {
-        self.forum = theForum;
+- (id)initWithTitle:(NSString *)theTitle {
+    if (self = [self init]) {
         self.title = theTitle;
+    }
+    return self;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        self.forum = [UVSession currentSession].clientConfig.forum;
         self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
         self.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post an idea?", @"UserVoice", nil);
         self.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my idea", @"UserVoice", nil);
@@ -294,7 +300,7 @@
     if (theTableView == fieldsTableView) {
         if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
             [self dismissTextView];
-            UIViewController *next = [[UVCategorySelectViewController alloc] initWithForum:self.forum andSelectedCategory:self.category];
+            UIViewController *next = [[UVCategorySelectViewController alloc] initSelectedCategory:self.category];
             [self.navigationController pushViewController:next animated:YES];
             [next release];
         }

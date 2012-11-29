@@ -89,7 +89,7 @@
 }
 
 - (void)suggestionButtonTapped {
-    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum title:self.textView.text];
+    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithTitle:self.textView.text];
     [self pushViewControllerFromWelcome:next];
 }
 
