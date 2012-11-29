@@ -174,6 +174,8 @@
 		D9B907761663FC80001AC6B2 /* UVGradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B907741663FC80001AC6B2 /* UVGradientButton.m */; };
 		D9B9077B166418D4001AC6B2 /* UVBaseInstantAnswersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B90779166418D4001AC6B2 /* UVBaseInstantAnswersViewController.h */; };
 		D9B9077C166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B9077A166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m */; };
+		D9B907831667EF4D001AC6B2 /* UVHighlightingLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B907811667EF4D001AC6B2 /* UVHighlightingLabel.h */; };
+		D9B907841667EF4D001AC6B2 /* UVHighlightingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B907821667EF4D001AC6B2 /* UVHighlightingLabel.m */; };
 		D9D4040F164022DD00D9CECA /* UVNewTicketViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D4040D164022DD00D9CECA /* UVNewTicketViewController.h */; };
 		D9D40410164022DD00D9CECA /* UVNewTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D4040E164022DD00D9CECA /* UVNewTicketViewController.m */; };
 		D9D40414164023EF00D9CECA /* UVBaseTicketViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D40412164023EF00D9CECA /* UVBaseTicketViewController.h */; };
@@ -390,6 +392,8 @@
 		D9B907741663FC80001AC6B2 /* UVGradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVGradientButton.m; sourceTree = "<group>"; };
 		D9B90779166418D4001AC6B2 /* UVBaseInstantAnswersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseInstantAnswersViewController.h; sourceTree = "<group>"; };
 		D9B9077A166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseInstantAnswersViewController.m; sourceTree = "<group>"; };
+		D9B907811667EF4D001AC6B2 /* UVHighlightingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVHighlightingLabel.h; sourceTree = "<group>"; };
+		D9B907821667EF4D001AC6B2 /* UVHighlightingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVHighlightingLabel.m; sourceTree = "<group>"; };
 		D9CA8FF114F4110800F98763 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = UserVoice.strings; sourceTree = "<group>"; };
 		D9CA8FF414F4110800F98763 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = UserVoice.strings; sourceTree = "<group>"; };
 		D9D4040D164022DD00D9CECA /* UVNewTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketViewController.h; sourceTree = "<group>"; };
@@ -636,6 +640,8 @@
 				D21726AC11A20396005487BA /* UVUserAvatarView.m */,
 				D9B907731663FC80001AC6B2 /* UVGradientButton.h */,
 				D9B907741663FC80001AC6B2 /* UVGradientButton.m */,
+				D9B907811667EF4D001AC6B2 /* UVHighlightingLabel.h */,
+				D9B907821667EF4D001AC6B2 /* UVHighlightingLabel.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -917,6 +923,7 @@
 				D96FAE78165C3DF100A384CC /* UVSigninManager.h in Headers */,
 				D9B907751663FC80001AC6B2 /* UVGradientButton.h in Headers */,
 				D9B9077B166418D4001AC6B2 /* UVBaseInstantAnswersViewController.h in Headers */,
+				D9B907831667EF4D001AC6B2 /* UVHighlightingLabel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1060,6 +1067,7 @@
 				D96FAE79165C3DF100A384CC /* UVSigninManager.m in Sources */,
 				D9B907761663FC80001AC6B2 /* UVGradientButton.m in Sources */,
 				D9B9077C166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m in Sources */,
+				D9B907841667EF4D001AC6B2 /* UVHighlightingLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

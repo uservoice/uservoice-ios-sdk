@@ -17,6 +17,7 @@
     NSMutableArray *suggestions;
     NSArray *searchResults;
     UISearchDisplayController *searchController;
+    NSRegularExpression *searchPattern;
 }
 
 @property (nonatomic, retain) UVForum *forum;
@@ -24,6 +25,7 @@
 @property (nonatomic, retain) NSMutableArray *suggestions;
 @property (nonatomic, retain) NSArray *searchResults;
 @property (nonatomic, retain) UISearchDisplayController *searchController;
+@property (nonatomic, retain) NSRegularExpression *searchPattern;
 
 - (id)initWithForum:(UVForum *)theForum;
 - (id)initWithForum:(UVForum *)theForum andSuggestions:(NSArray *)theSuggestions;

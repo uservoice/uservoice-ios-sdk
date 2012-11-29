@@ -34,6 +34,7 @@
 @synthesize suggestions;
 @synthesize searchResults;
 @synthesize searchController;
+@synthesize searchPattern;
 
 - (id)initWithForum:(UVForum *)theForum {
     if ((self = [super init])) {
@@ -94,6 +95,27 @@
     [next release];
 }
 
+- (void)updatePattern {
+    NSRegularExpression *termPattern = [NSRegularExpression regularExpressionWithPattern:@"\\b\\w+\\b" options:0 error:nil];
+    NSMutableString *pattern = [NSMutableString stringWithString:@"\\b("];
+    NSString *query = [NSString stringWithString:searchController.searchBar.text];
+    __block NSString *lastTerm = nil;
+    [termPattern enumerateMatchesInString:query options:0 range:NSMakeRange(0, [query length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
+        if (lastTerm) {
+            [pattern appendString:lastTerm];
+            [pattern appendString:@"|"];
+        }
+        lastTerm = [query substringWithRange:[match range]];
+    }];
+    if (lastTerm) {
+        [pattern appendString:lastTerm];
+        [pattern appendString:@")"];
+        self.searchPattern = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    } else {
+        self.searchPattern = nil;
+    }
+}
+
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -138,7 +160,7 @@
     UVSuggestion *suggestion = [searchResults objectAtIndex:indexPath.row - 1];
     UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
     [button setZebraColorFromIndex:indexPath.row];
-    [button showSuggestion:suggestion withIndex:indexPath.row];
+    [button showSuggestion:suggestion withIndex:indexPath.row pattern:searchPattern];
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -250,6 +272,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self updatePattern];
     [UVSuggestion searchWithForum:self.forum query:searchBar.text delegate:self];
     [[UVSession currentSession] trackInteraction:@"si"];
 }
@@ -346,6 +369,7 @@
     self.suggestions = nil;
     self.searchResults = nil;
     self.searchController = nil;
+    self.searchPattern = nil;
     [super dealloc];
 }
 

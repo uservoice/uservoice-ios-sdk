@@ -17,5 +17,6 @@
 - (id)initWithIndex:(NSInteger)index;
 
 - (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex;
+- (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex pattern:(NSRegularExpression *)pattern;
 
 @end
