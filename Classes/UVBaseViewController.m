@@ -14,7 +14,6 @@
 #import "UVUser.h"
 #import "UVStyleSheet.h"
 #import "UVActivityIndicator.h"
-#import "UVNetworkUtils.h"
 #import "NSError+UVExtras.h"
 #import "UVImageCache.h"
 #import "UserVoice.h"
@@ -105,7 +104,9 @@
 - (void)didReceiveError:(NSError *)error {
     NSString *msg = nil;
     [self hideActivityIndicator];
-    if ([UVNetworkUtils hasInternetAccess] && ![error isConnectionError]) {
+    if ([error isConnectionError]) {
+        msg = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
+    } else {
         NSDictionary *userInfo = [error userInfo];
         for (NSString *key in [userInfo allKeys]) {
             if ([key isEqualToString:@"message"] || [key isEqualToString:@"type"])
@@ -124,8 +125,6 @@
         }
         if (!msg)
             msg = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
-    } else {
-        msg = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
     }
     [self alertError:msg];
 }

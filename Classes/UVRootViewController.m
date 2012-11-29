@@ -17,7 +17,6 @@
 #import "UVNewSuggestionViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNewTicketViewController.h"
-#import "UVNetworkUtils.h"
 #import "UVSuggestion.h"
 #import "UVConfig.h"
 #import "NSError+UVExtras.h"
