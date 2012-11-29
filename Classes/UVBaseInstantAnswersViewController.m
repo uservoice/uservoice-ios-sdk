@@ -13,6 +13,9 @@
 #import "UVArticle.h"
 #import "UVSuggestion.h"
 #import "UVSuggestionDetailsViewController.h"
+#import "UVHighlightingLabel.h"
+
+#define HIGHLIGHTING_LABEL_TAG 100
 
 @implementation UVBaseInstantAnswersViewController
 
@@ -21,6 +24,7 @@
 @synthesize instantAnswersQuery;
 @synthesize articleHelpfulPrompt;
 @synthesize articleReturnMessage;
+@synthesize searchPattern;
 
 - (void)willLoadInstantAnswers {
 }
@@ -28,10 +32,32 @@
 - (void)didLoadInstantAnswers {
 }
 
+- (void)updatePattern {
+    NSRegularExpression *termPattern = [NSRegularExpression regularExpressionWithPattern:@"\\b\\w+\\b" options:0 error:nil];
+    NSMutableString *pattern = [NSMutableString stringWithString:@"\\b("];
+    NSString *query = instantAnswersQuery;
+    __block NSString *lastTerm = nil;
+    [termPattern enumerateMatchesInString:query options:0 range:NSMakeRange(0, [query length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
+        if (lastTerm) {
+            [pattern appendString:lastTerm];
+            [pattern appendString:@"|"];
+        }
+        lastTerm = [query substringWithRange:[match range]];
+    }];
+    if (lastTerm) {
+        [pattern appendString:lastTerm];
+        [pattern appendString:@")"];
+        self.searchPattern = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    } else {
+        self.searchPattern = nil;
+    }
+}
+
 - (void)searchInstantAnswers:(NSString *)query {
     if ([[self.instantAnswersQuery lowercaseString] isEqualToString:[query lowercaseString]])
         return;
     self.instantAnswersQuery = query;
+    [self updatePattern];
     [self cleanupInstantAnswersTimer];
     if (query.length == 0) {
         self.instantAnswers = [NSArray array];
@@ -57,6 +83,7 @@
     [[UVSession currentSession] trackInteraction:@"sf"];
     [[UVSession currentSession] trackInteraction:@"si"];
     [UVArticle getInstantAnswers:self.instantAnswersQuery delegate:self];
+    [self updatePattern];
 }
 
 - (void)loadInstantAnswers {
@@ -183,21 +210,30 @@
         return @"";
 }
 
-- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
+- (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
+    UVHighlightingLabel *label = [[[UVHighlightingLabel alloc] initWithFrame:CGRectMake(50.0f, 12.0f, cell.bounds.size.width - 80, 20.0f)] autorelease];
+    label.numberOfLines = 2;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.font = [UIFont boldSystemFontOfSize:13.0];
+    label.tag = HIGHLIGHTING_LABEL_TAG;
+    [cell addSubview:label];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
+- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
     id model = [instantAnswers objectAtIndex:index];
+    UVHighlightingLabel *label = (UVHighlightingLabel *)[cell viewWithTag:HIGHLIGHTING_LABEL_TAG];
+    label.pattern = searchPattern;
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
-        cell.textLabel.text = article.question;
+        label.text = article.question;
         cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
-        cell.textLabel.text = suggestion.title;
+        label.text = suggestion.title;
         cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
 }
 
 - (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
@@ -234,6 +270,7 @@
     self.instantAnswersQuery = nil;
     self.articleHelpfulPrompt = nil;
     self.articleReturnMessage = nil;
+    self.searchPattern = nil;
     [super dealloc];
 }
 

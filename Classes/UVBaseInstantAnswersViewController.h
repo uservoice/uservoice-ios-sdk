@@ -19,6 +19,7 @@
     NSString *instantAnswersQuery;
     NSString *articleHelpfulPrompt;
     NSString *articleReturnMessage;
+    NSRegularExpression *searchPattern;
     BOOL loadingInstantAnswers;
 }
 
@@ -27,6 +28,7 @@
 @property (nonatomic,retain) NSString *instantAnswersQuery;
 @property (nonatomic,retain) NSString *articleHelpfulPrompt;
 @property (nonatomic,retain) NSString *articleReturnMessage;
+@property (nonatomic,retain) NSRegularExpression *searchPattern;
 
 - (void)selectInstantAnswerAtIndex:(int)index;
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
