@@ -30,6 +30,7 @@
 #pragma mark ===== table cells =====
 
 - (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     UVCategory *category = (UVCategory *)[self.categories objectAtIndex:indexPath.row];
     cell.textLabel.text = category.name;
     if (self.selectedCategory && self.selectedCategory.categoryId == category.categoryId) {
