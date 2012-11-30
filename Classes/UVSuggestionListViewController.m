@@ -168,6 +168,7 @@
     cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
     UILabel *label = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
     label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
     label.textAlignment = UITextAlignmentCenter;

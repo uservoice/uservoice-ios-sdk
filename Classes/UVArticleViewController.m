@@ -48,7 +48,6 @@
     helpfulBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     helpfulBar.barStyle = UIBarStyleBlack;
     helpfulBar.tintColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
-    [self addTopBorder:helpfulBar];
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, helpfulBar.bounds.size.width - 100, 40)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Was this article helpful?", @"UserVoice", nil);
     label.font = [UIFont boldSystemFontOfSize:13];

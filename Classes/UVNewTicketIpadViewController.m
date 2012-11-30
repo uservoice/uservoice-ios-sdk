@@ -33,10 +33,6 @@
 
 @implementation UVNewTicketIpadViewController
 
-- (NSString *)backButtonTitle {
-    return @"Contact";
-}
-
 - (void)dismissKeyboard {
     [textView becomeFirstResponder];
     [textView resignFirstResponder];
@@ -233,8 +229,10 @@
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
     self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
-    if (self.text && [self.text length] > 0)
+    if (self.text && [self.text length] > 0) {
+        self.instantAnswersQuery = self.text;
         [self loadInstantAnswers];
+    }
 }
 
 - (void)viewDidLoad {
