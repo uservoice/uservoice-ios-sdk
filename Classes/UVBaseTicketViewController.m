@@ -91,7 +91,7 @@
 }
 
 - (void)suggestionButtonTapped {
-    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithTitle:self.textView.text];
+    UIViewController *next = [UVNewSuggestionViewController viewControllerWithTitle:self.textView.text];
     [self pushViewControllerFromWelcome:next];
 }
 

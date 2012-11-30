@@ -65,7 +65,7 @@
 
     // Update the previous view controller (the new suggestion view)
     NSArray *viewControllers = [self.navigationController viewControllers];
-    UVNewSuggestionViewController *prev = (UVNewSuggestionViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+    UVBaseSuggestionViewController *prev = (UVBaseSuggestionViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
     prev.category = category;
     prev.needsReload = YES;
 

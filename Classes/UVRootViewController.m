@@ -14,7 +14,6 @@
 #import "UVSession.h"
 #import "UVUser.h"
 #import "UVWelcomeViewController.h"
-#import "UVNewSuggestionViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNewTicketViewController.h"
 #import "UVSuggestion.h"

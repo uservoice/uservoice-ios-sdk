@@ -158,7 +158,7 @@
 
 - (void)postIdeaTapped {
     [[UVSession currentSession] clearFlash];
-    UIViewController *next = [[[UVNewSuggestionViewController alloc] init] autorelease];
+    UIViewController *next = [UVNewSuggestionViewController viewController];
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = @[next];

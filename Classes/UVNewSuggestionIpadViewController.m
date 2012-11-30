@@ -1,41 +1,19 @@
 //
-//  UVNewTicketViewIpadController.m
+//  UVNewSuggestionIpadViewController.m
 //  UserVoice
 //
-//  Created by UserVoice on 2/19/10.
-//  Copyright 2010 UserVoice Inc. All rights reserved.
+//  Created by Austin Taylor on 11/30/12.
+//  Copyright (c) 2012 UserVoice Inc. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
-#import "UVNewTicketIpadViewController.h"
-#import "UVStyleSheet.h"
-#import "UVCustomField.h"
-#import "UVSession.h"
-#import "UVUser.h"
+#import "UVNewSuggestionIpadViewController.h"
 #import "UVClientConfig.h"
-#import "UVCustomFieldValueSelectViewController.h"
-#import "UVClientConfig.h"
-#import "UVTicket.h"
-#import "UVForum.h"
-#import "UVSubdomain.h"
-#import "UVTextView.h"
-#import "NSError+UVExtras.h"
-#import "UVArticle.h"
-#import "UVSuggestion.h"
-#import "UVArticleViewController.h"
-#import "UVSuggestionDetailsViewController.h"
-#import "UVConfig.h"
 
-#define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 0
-#define UV_NEW_TICKET_SECTION_PROFILE 1
-#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 2
+#define UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS 0
+#define UV_NEW_SUGGESTION_SECTION_PROFILE 1
+#define UV_NEW_SUGGESTION_SECTION_CATEGORY 2
 
-@implementation UVNewTicketIpadViewController
-
-- (void)dismissKeyboard {
-    [textView becomeFirstResponder];
-    [textView resignFirstResponder];
-}
+@implementation UVNewSuggestionIpadViewController
 
 - (void)willLoadInstantAnswers {
     [tableView beginUpdates];
@@ -45,7 +23,7 @@
         [tableView deleteRowsAtIndexPaths:[self indexPathsForInstantAnswers:count] withRowAnimation:UITableViewRowAnimationFade];
     }
     if (showInstantAnswersMessage) {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS]];
         [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
     }
     [tableView endUpdates];
@@ -63,23 +41,61 @@
     if (instantAnswersCount == 0) {
         if (showInstantAnswersMessage) {
             showInstantAnswersMessage = NO;
-            [tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
         }
     } else {
         if (showInstantAnswersMessage) {
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS]];
             [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
         } else {
-            [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
         }
         showInstantAnswersMessage = YES;
     }
     [tableView endUpdates];
 }
 
+- (NSMutableArray *)indexPathsForInstantAnswers:(int)count {
+    NSMutableArray *instantAnswerIndexPaths = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i < count; i++) {
+        NSIndexPath *indexPath = [[NSIndexPath indexPathWithIndex:UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS] indexPathByAddingIndex:i + 3];
+        [instantAnswerIndexPaths addObject:indexPath];
+    }
+    return instantAnswerIndexPaths;
+}
+
+- (void)toggleInstantAnswers:(NSIndexPath *)indexPath {
+    showInstantAnswers = !showInstantAnswers;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+    NSMutableArray *instantAnswerIndexPaths = [self indexPathsForInstantAnswers:instantAnswersCount];
+    if (showInstantAnswers) {
+        [tableView insertRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [tableView deleteRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (void)titleChanged:(NSNotification *)notification {
+    [self searchInstantAnswers:titleField.text];
+}
+
 #pragma mark ===== table cells =====
 
+- (void)initCellForTitle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    self.titleField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
+    self.titleField.text = self.title;
+    self.titleField.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(titleChanged:)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:titleField];
+    [titleField becomeFirstResponder];
+}
+
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
     UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
@@ -87,12 +103,11 @@
     aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
     aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
     aTextEditor.backgroundColor = [UIColor clearColor];
-    aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
+    aTextEditor.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
     aTextEditor.text = self.text;
 
     [cell.contentView addSubview:aTextEditor];
     self.textView = aTextEditor;
-    [textView becomeFirstResponder];
     [aTextEditor release];
 }
 
@@ -116,7 +131,7 @@
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForInstantAnswer:cell index:indexPath.row - 2];
+    [self customizeCellForInstantAnswer:cell index:indexPath.row - 3];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -127,14 +142,12 @@
     BOOL selectable = NO;
 
     switch (indexPath.section) {
-        case UV_NEW_TICKET_SECTION_CUSTOM_FIELDS:
-            identifier = @"CustomField";
-            style = UITableViewCellStyleValue1;
-            break;
-        case UV_NEW_TICKET_SECTION_INSTANT_ANSWERS:
+        case UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS:
             if (indexPath.row == 0) {
-                identifier = @"Text";
+                identifier = @"Title";
             } else if (indexPath.row == 1) {
+                identifier = @"Text";
+            } else if (indexPath.row == 2) {
                 identifier = @"InstantAnswersMessage";
                 selectable = YES;
             } else {
@@ -142,11 +155,16 @@
                 selectable = YES;
             }
             break;
-        case UV_NEW_TICKET_SECTION_PROFILE:
+        case UV_NEW_SUGGESTION_SECTION_PROFILE:
             if (indexPath.row == 0)
                 identifier = @"Email";
             else
                 identifier = @"Name";
+            break;
+        case UV_NEW_SUGGESTION_SECTION_CATEGORY:
+            identifier = @"Category";
+            style = UITableViewCellStyleValue1;
+            selectable = YES;
             break;
     }
 
@@ -162,12 +180,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (section == UV_NEW_TICKET_SECTION_PROFILE) {
+    if (section == UV_NEW_SUGGESTION_SECTION_PROFILE) {
         return 2;
-    } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        return 1 + (showInstantAnswersMessage ? 1 : 0) + (showInstantAnswers ? instantAnswersCount : 0);
-    } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
-        return [[UVSession currentSession].clientConfig.customFields count];
+    } else if (section == UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS) {
+        return 2 + (showInstantAnswersMessage ? 1 : 0) + (showInstantAnswers ? instantAnswersCount : 0);
+    } else if (section == UV_NEW_SUGGESTION_SECTION_CATEGORY) {
+        return (shouldShowCategories ? 1 : 0);
     } else {
         return 1;
     }
@@ -176,7 +194,7 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS && indexPath.row == 0) {
+    if (indexPath.section == UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS && indexPath.row == 1) {
         return 144;
     } else {
         return 44;
@@ -186,57 +204,42 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
-        [self selectCustomFieldAtIndexPath:indexPath tableView:theTableView];
-    } else if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        if (indexPath.row == 1) {
+    if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY) {
+        [self pushCategorySelectView];
+    } else if (indexPath.section == UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS) {
+        if (indexPath.row == 2) {
             [self toggleInstantAnswers:indexPath];
-        } else {
-            [self selectInstantAnswerAtIndex:indexPath.row - 2];
+        } else if (indexPath.row > 2) {
+            [self selectInstantAnswerAtIndex:indexPath.row - 3];
         }
     }
-}
-
-- (void)toggleInstantAnswers:(NSIndexPath *)indexPath {
-    showInstantAnswers = !showInstantAnswers;
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
-    NSMutableArray *instantAnswerIndexPaths = [self indexPathsForInstantAnswers:instantAnswersCount];
-    if (showInstantAnswers) {
-        [tableView insertRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-    } else {
-        [tableView deleteRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-    }
-}
-
-- (NSMutableArray *)indexPathsForInstantAnswers:(int)count {
-    NSMutableArray *instantAnswerIndexPaths = [NSMutableArray arrayWithCapacity:count];
-    for (int i = 0; i < count; i++) {
-        NSIndexPath *indexPath = [[NSIndexPath indexPathWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] indexPathByAddingIndex:i + 2];
-        [instantAnswerIndexPaths addObject:indexPath];
-    }
-    return instantAnswerIndexPaths;
 }
 
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
     [super loadView];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Post Idea", @"UserVoice", nil);
     [self setupGroupedTableView];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
-    self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
-    if (self.text && [self.text length] > 0) {
-        self.instantAnswersQuery = self.text;
+    self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Submit" withAction:@selector(createButtonTapped)];
+    if (self.title && [self.title length] > 0) {
+        self.instantAnswersQuery = self.title;
         [self loadInstantAnswers];
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (needsReload)
+        [tableView reloadData];
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [textView becomeFirstResponder];
+    [titleField becomeFirstResponder];
 }
 
 @end

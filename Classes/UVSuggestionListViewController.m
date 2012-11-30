@@ -77,9 +77,8 @@
 }
 
 - (void)addSuggestion:(UVCellViewWithIndex *)cellView {
-    UVNewSuggestionViewController *next = [[UVNewSuggestionViewController alloc] initWithTitle:self.searchController.searchBar.text];
+    UIViewController *next = [UVNewSuggestionViewController viewControllerWithTitle:self.searchController.searchBar.text];
     [self.navigationController pushViewController:next animated:YES];
-    [next release];
 }
 
 - (void)updatePattern {
@@ -226,7 +225,7 @@
 }
 
 - (void)composeButtonTapped {
-    UVNewSuggestionViewController *next = [[[UVNewSuggestionViewController alloc] initWithTitle:self.searchController.searchBar.text] autorelease];
+    UIViewController *next = [UVNewSuggestionViewController viewControllerWithTitle:self.searchController.searchBar.text];
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = @[next];

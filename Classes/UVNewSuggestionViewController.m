@@ -19,11 +19,11 @@
 #import "UVCategorySelectViewController.h"
 #import "UVNewTicketViewController.h"
 #import "UVTextView.h"
-#import "NSError+UVExtras.h"
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVUser.h"
 #import "UVKeyboardUtils.h"
+#import "UVNewSuggestionIpadViewController.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
 #define UV_NEW_SUGGESTION_SECTION_CATEGORY 1
@@ -37,17 +37,6 @@
 
 @implementation UVNewSuggestionViewController
 
-@synthesize forum;
-@synthesize title;
-@synthesize text;
-@synthesize name;
-@synthesize email;
-@synthesize textView;
-@synthesize titleField;
-@synthesize nameField;
-@synthesize emailField;
-@synthesize category;
-@synthesize shouldShowCategories;
 @synthesize scrollView;
 @synthesize nextButton;
 @synthesize sendButton;
@@ -58,87 +47,16 @@
 @synthesize shade;
 @synthesize activityIndicatorView;
 
-- (id)initWithTitle:(NSString *)theTitle {
-    if (self = [self init]) {
-        self.title = theTitle;
-    }
-    return self;
++ (UVBaseViewController *)viewController {
+    return [self viewControllerWithTitle:nil];
 }
 
-- (id)init {
-    if (self = [super init]) {
-        self.forum = [UVSession currentSession].clientConfig.forum;
-        self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
-        self.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post an idea?", @"UserVoice", nil);
-        self.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my idea", @"UserVoice", nil);
-    }
-    return self;
-}
-
-- (void)didReceiveError:(NSError *)error {
-    if ([error isNotFoundError]) {
-        [self hideActivityIndicator];
-    } else if ([error isUVRecordInvalidForField:@"title" withMessage:@"is not allowed."]) {
-        [self hideActivityIndicator];
-        [self alertError:NSLocalizedStringFromTable(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", nil)];
++ (UVBaseViewController *)viewControllerWithTitle:(NSString *)text {
+    if (IPAD) {
+        return [[[UVNewSuggestionIpadViewController alloc] initWithTitle:text] autorelease];
     } else {
-        [super didReceiveError:error];
+        return [[[UVNewSuggestionViewController alloc] initWithTitle:text] autorelease];
     }
-}
-
-- (void)createSuggestion {
-    [self showActivityIndicator];
-    [[UVSession currentSession] trackInteraction:@"pi"];
-    [UVSuggestion createWithForum:self.forum
-                         category:self.category
-                            title:self.title
-                             text:self.text
-                            votes:1
-                         delegate:self];
-}
-
-- (void)createButtonTapped {
-    self.title = titleField.text;
-    self.name = nameField.text;
-    self.email = emailField.text;
-    [nameField resignFirstResponder];
-    [emailField resignFirstResponder];
-
-    if (self.email && [self.email length] > 1) {
-        [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
-    } else {
-        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
-    }
-}
-
-- (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
-    [self hideActivityIndicator];
-    /* [self alertSuccess:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Your idea \"%@\" was successfully created.", @"UserVoice", nil), self.title]]; */
-    [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
-
-    // increment the created suggestions and supported suggestions counts
-    [[UVSession currentSession].user didCreateSuggestion:theSuggestion];
-
-    [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
-
-    // update the remaining votes
-    [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
-
-    // Back out to the welcome screen
-    UVSuggestionListViewController *list = (UVSuggestionListViewController *)[((UINavigationController *)self.presentingViewController).viewControllers lastObject];
-    if ([UVSession currentSession].isModal && list.firstController) {
-        CATransition* transition = [CATransition animation];
-        transition.duration = 0.3;
-        transition.type = kCATransitionFade;
-        [list.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
-        welcomeView.firstController = YES;
-        NSArray *viewControllers = @[list.navigationController.viewControllers[0], welcomeView];
-        [list.navigationController setViewControllers:viewControllers animated:NO];
-    } else {
-        [list.navigationController popViewControllerAnimated:NO];
-    }
-    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -183,42 +101,6 @@
 }
 
 #pragma mark ===== table cells =====
-
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
-    cell.textLabel.text = label;
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 12, 230, 20)];
-    textField.placeholder = placeholder;
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.delegate = self;
-    [cell.contentView addSubview:textField];
-    [textField release];
-    return textField;
-}
-
-- (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
-    cell.detailTextLabel.text = self.category.name;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
-    self.nameField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
-    self.nameField.text = self.userName;
-    self.nameField.delegate = self;
-}
-
-- (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
-    self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
-    self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
-    self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.emailField.text = self.userEmail;
-    self.emailField.delegate = self;
-}
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     [self customizeCellForInstantAnswer:cell index:indexPath.row];
@@ -285,9 +167,7 @@
 
     if (theTableView == fieldsTableView) {
         if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
-            UIViewController *next = [[UVCategorySelectViewController alloc] initWithSelectedCategory:self.category];
-            [self.navigationController pushViewController:next animated:YES];
-            [next release];
+            [self pushCategorySelectView];
         }
     } else {
         [self selectInstantAnswerAtIndex:indexPath.row];
@@ -475,14 +355,6 @@
    scrollView.contentOffset = CGPointZero;
 }
 
-- (void)initNavigationItem {
-    [super initNavigationItem];
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismiss)] autorelease];
-}
-
 - (void)showActivityIndicator {
     if (!shade) {
         self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
@@ -569,35 +441,7 @@
     [self updateLayout];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0)
-        [self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)dismiss {
-    if (titleField.text.length > 0) {
-        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
-                                                                    delegate:self
-                                                           cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                      destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                                                           otherButtonTitles:nil] autorelease];
-        [actionSheet showInView:self.view];
-    } else {
-        [self dismissModalViewControllerAnimated:YES];
-    }
-}
-
 - (void)dealloc {
-    self.forum = nil;
-    self.title = nil;
-    self.text = nil;
-    self.name = nil;
-    self.email = nil;
-    self.textView = nil;
-    self.titleField = nil;
-    self.nameField = nil;
-    self.emailField = nil;
-    self.category = nil;
     self.scrollView = nil;
     self.nextButton = nil;
     self.sendButton = nil;

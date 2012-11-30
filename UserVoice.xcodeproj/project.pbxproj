@@ -146,6 +146,10 @@
 		D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
 		D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BEEBB81367436D00EBC307 /* UVTicket.m */; };
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
+		D900310216690F7B006A27C6 /* UVBaseSuggestionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D900310016690F7B006A27C6 /* UVBaseSuggestionViewController.h */; };
+		D900310316690F7B006A27C6 /* UVBaseSuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D900310116690F7B006A27C6 /* UVBaseSuggestionViewController.m */; };
+		D9003106166913A8006A27C6 /* UVNewSuggestionIpadViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9003104166913A8006A27C6 /* UVNewSuggestionIpadViewController.h */; };
+		D9003107166913A8006A27C6 /* UVNewSuggestionIpadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9003105166913A8006A27C6 /* UVNewSuggestionIpadViewController.m */; };
 		D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = D92767F915597F3700E17EF1 /* UVArticle.h */; };
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
@@ -330,6 +334,10 @@
 		D2BEEBB71367436D00EBC307 /* UVTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTicket.h; sourceTree = "<group>"; };
 		D2BEEBB81367436D00EBC307 /* UVTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTicket.m; sourceTree = "<group>"; };
 		D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D900310016690F7B006A27C6 /* UVBaseSuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBaseSuggestionViewController.h; sourceTree = "<group>"; };
+		D900310116690F7B006A27C6 /* UVBaseSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseSuggestionViewController.m; sourceTree = "<group>"; };
+		D9003104166913A8006A27C6 /* UVNewSuggestionIpadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewSuggestionIpadViewController.h; sourceTree = "<group>"; };
+		D9003105166913A8006A27C6 /* UVNewSuggestionIpadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewSuggestionIpadViewController.m; sourceTree = "<group>"; };
 		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
 		D92767F915597F3700E17EF1 /* UVArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticle.h; sourceTree = "<group>"; };
 		D92767FA15597F3800E17EF1 /* UVArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticle.m; sourceTree = "<group>"; };
@@ -550,6 +558,10 @@
 				D96FAE731656F50D00A384CC /* UVHelpTopicViewController.m */,
 				D9B90779166418D4001AC6B2 /* UVBaseInstantAnswersViewController.h */,
 				D9B9077A166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m */,
+				D900310016690F7B006A27C6 /* UVBaseSuggestionViewController.h */,
+				D900310116690F7B006A27C6 /* UVBaseSuggestionViewController.m */,
+				D9003104166913A8006A27C6 /* UVNewSuggestionIpadViewController.h */,
+				D9003105166913A8006A27C6 /* UVNewSuggestionIpadViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -877,6 +889,8 @@
 				D9B907751663FC80001AC6B2 /* UVGradientButton.h in Headers */,
 				D9B9077B166418D4001AC6B2 /* UVBaseInstantAnswersViewController.h in Headers */,
 				D9B907831667EF4D001AC6B2 /* UVHighlightingLabel.h in Headers */,
+				D900310216690F7B006A27C6 /* UVBaseSuggestionViewController.h in Headers */,
+				D9003106166913A8006A27C6 /* UVNewSuggestionIpadViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1020,6 +1034,8 @@
 				D9B907761663FC80001AC6B2 /* UVGradientButton.m in Sources */,
 				D9B9077C166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m in Sources */,
 				D9B907841667EF4D001AC6B2 /* UVHighlightingLabel.m in Sources */,
+				D900310316690F7B006A27C6 /* UVBaseSuggestionViewController.m in Sources */,
+				D9003107166913A8006A27C6 /* UVNewSuggestionIpadViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
