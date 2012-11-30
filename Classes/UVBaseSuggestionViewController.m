@@ -74,6 +74,7 @@
 
 - (void)createButtonTapped {
     self.title = titleField.text;
+    self.text = textView.text;
     self.name = nameField.text;
     self.email = emailField.text;
     [nameField resignFirstResponder];
