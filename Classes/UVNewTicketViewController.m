@@ -125,16 +125,6 @@
     }
 }
 
-- (void)notInterestedTapped {
-    state = STATE_FIELDS_IA;
-    [self updateLayout];
-}
-
-- (void)thanksTapped {
-    self.text = nil;
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)nextButtonTapped {
     if (state == STATE_BEGIN) {
         [self fireInstantAnswersTimer];

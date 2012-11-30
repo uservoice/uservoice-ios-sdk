@@ -97,22 +97,13 @@
                          delegate:self];
 }
 
-- (void)dismissKeyboard {
-    [nameField resignFirstResponder];
-    [emailField resignFirstResponder];
-    [textView resignFirstResponder];
-}
-
-- (void)updateFromTextFields {
+- (void)createButtonTapped {
     self.title = titleField.text;
     self.name = nameField.text;
     self.email = emailField.text;
+    [nameField resignFirstResponder];
+    [emailField resignFirstResponder];
 
-    [self dismissKeyboard];
-}
-
-- (void)createButtonTapped {
-    [self updateFromTextFields];
     if (self.email && [self.email length] > 1) {
         [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
     } else {
@@ -148,13 +139,6 @@
         [list.navigationController popViewControllerAnimated:NO];
     }
     [self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)dismissTextView {
-    [textView resignFirstResponder];
-    [emailField resignFirstResponder];
-    [nameField resignFirstResponder];
-    [titleField resignFirstResponder];
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====
@@ -193,6 +177,8 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == titleField)
         [self nextButtonTapped];
+    else
+        [textField resignFirstResponder];
     return YES;
 }
 
@@ -299,7 +285,6 @@
 
     if (theTableView == fieldsTableView) {
         if (indexPath.section == UV_NEW_SUGGESTION_SECTION_CATEGORY && self.shouldShowCategories) {
-            [self dismissTextView];
             UIViewController *next = [[UVCategorySelectViewController alloc] initWithSelectedCategory:self.category];
             [self.navigationController pushViewController:next animated:YES];
             [next release];
