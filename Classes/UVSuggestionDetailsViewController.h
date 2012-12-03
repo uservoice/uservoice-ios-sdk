@@ -40,5 +40,6 @@
 @property (nonatomic, retain) UIButton *voteButton;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
+- (void)reloadComments;
 
 @end

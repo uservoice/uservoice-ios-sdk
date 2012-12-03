@@ -105,10 +105,15 @@
     if (theTableView == flashTable) {
         return [UVSession currentSession].flashSuggestion ? 1 : 0;
     } else {
-        if ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0)
-            return 2;
-        else
-            return 1;
+        int sections = 0;
+
+        if ([UVSession currentSession].config.showKnowledgeBase && ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0))
+            sections++;
+        
+        if ([UVSession currentSession].config.showForum)
+            sections++;
+
+        return sections;
     }
 }
 
@@ -201,10 +206,10 @@
         }
         [flashTable reloadData];
         flashTable.frame = CGRectMake(flashTable.frame.origin.x, flashTable.frame.origin.y, flashTable.contentSize.width, flashTable.contentSize.height);
-        buttons.frame = CGRectMake(IPAD ? 30 : 10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), buttons.frame.size.height);
+        buttons.frame = CGRectMake(IPAD ? 30 : 10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), ([UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea) ? 44 : 0);
     } else {
         flashView.hidden = YES;
-        buttons.frame = CGRectMake(IPAD ? 30 : 10, 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), buttons.frame.size.height);
+        buttons.frame = CGRectMake(IPAD ? 30 : 10, 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), ([UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea) ? 44 : 0);
     }
     tableView.frame = CGRectMake(tableView.frame.origin.x, buttons.frame.origin.y + buttons.frame.size.height + (IPAD ? 0 : 10), tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
@@ -257,10 +262,14 @@
 
     self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), 44)] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    if ([UVSession currentSession].clientConfig.feedbackEnabled)
+    if ([UVSession currentSession].config.showContactUs && [UVSession currentSession].config.showPostIdea) {
         [self addButton:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) frame:CGRectMake(0, 0, buttons.bounds.size.width / 2 - (IPAD ? 10 : 5), buttons.bounds.size.height) action:@selector(postIdeaTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin];
-    if ([UVSession currentSession].clientConfig.ticketsEnabled)
         [self addButton:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) frame:CGRectMake(buttons.bounds.size.width / 2 + (IPAD ? 10 : 5), 0, buttons.bounds.size.width / 2 - (IPAD ? 10 : 5), buttons.bounds.size.height) action:@selector(contactUsTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin];
+    } else if ([UVSession currentSession].config.showPostIdea) {
+        [self addButton:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) frame:buttons.bounds action:@selector(postIdeaTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth];
+    } else if ([UVSession currentSession].config.showContactUs) {
+        [self addButton:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) frame:buttons.bounds action:@selector(contactUsTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth];
+    }
     [scrollView addSubview:buttons];
 
     self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];

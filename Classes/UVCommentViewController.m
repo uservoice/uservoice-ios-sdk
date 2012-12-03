@@ -10,6 +10,7 @@
 #import "UVSuggestion.h"
 #import "UVTextView.h"
 #import "UVComment.h"
+#import "UVSuggestionDetailsViewController.h"
 
 @implementation UVCommentViewController
 
@@ -39,6 +40,9 @@
 - (void)didCreateComment:(UVComment *)comment {
     [self hideActivityIndicator];
     self.suggestion.commentsCount += 1;
+    UINavigationController *navController = (UINavigationController *)self.presentingViewController;
+    UVSuggestionDetailsViewController *previous = (UVSuggestionDetailsViewController *)[navController.viewControllers lastObject];
+    [previous reloadComments];
     [self dismiss];
 }
 

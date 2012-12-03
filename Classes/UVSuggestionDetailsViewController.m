@@ -519,6 +519,7 @@
     [tableView addSubview:border];
     [scrollView addSubview:tableView];
 
+    [self reloadComments];
     [self updateLayout];
 }
 
@@ -536,12 +537,15 @@
     }
 }
 
+- (void)reloadComments {
+    allCommentsRetrieved = NO;
+    self.comments = [NSMutableArray arrayWithCapacity:10];
+    [self updateVotesLabel];
+    [self retrieveMoreComments];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.layer.masksToBounds = YES;
-    allCommentsRetrieved = NO;
-    [self updateVotesLabel];
-    self.comments = [NSMutableArray arrayWithCapacity:10];
-    [self retrieveMoreComments];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

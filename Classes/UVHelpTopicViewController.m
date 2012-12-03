@@ -75,14 +75,16 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     self.navigationItem.title = topic.name;
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)] autorelease];
-    footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    UVGradientButton *contactUsButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 10, footer.bounds.size.width - (IPAD ? 60 : 20), footer.bounds.size.height - 20)] autorelease];
-    [contactUsButton setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
-    [contactUsButton addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
-    contactUsButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [footer addSubview:contactUsButton];
-    tableView.tableFooterView = footer;
+    if ([UVSession currentSession].config.showContactUs) {
+        UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)] autorelease];
+        footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        UVGradientButton *contactUsButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 10, footer.bounds.size.width - (IPAD ? 60 : 20), footer.bounds.size.height - 20)] autorelease];
+        [contactUsButton setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
+        [contactUsButton addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
+        contactUsButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [footer addSubview:contactUsButton];
+        tableView.tableFooterView = footer;
+    }
     [self showActivityIndicator];
     [UVArticle getArticlesWithTopic:topic delegate:self];
 }
