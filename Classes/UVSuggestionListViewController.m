@@ -17,6 +17,7 @@
 #import "UVUser.h"
 #import "UVCellViewWithIndex.h"
 #import "UVSuggestionButton.h"
+#import "UVConfig.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -143,7 +144,7 @@
 }
 
 - (void)customizeCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestion *suggestion = [searchResults objectAtIndex:indexPath.row - 1];
+    UVSuggestion *suggestion = [searchResults objectAtIndex:indexPath.row - ([UVSession currentSession].config.showPostIdea ? 1 : 0)];
     UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
     [button setZebraColorFromIndex:indexPath.row];
     [button showSuggestion:suggestion withIndex:indexPath.row pattern:searchPattern];
@@ -186,7 +187,7 @@
     if (theTableView == tableView)
         identifier = (indexPath.row < [suggestions count]) ? @"Suggestion" : @"Load";
     else
-        identifier = (indexPath.row == 0) ? @"Add" : @"Result";
+        identifier = (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : @"Result";
 
     return [self createCellForIdentifier:identifier
                                tableView:theTableView
@@ -201,7 +202,7 @@
         int suggestionsCount = [UVSession currentSession].clientConfig.forum.suggestionsCount;
         return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
     } else {
-        return [searchResults count] + 1;
+        return [searchResults count] + ([UVSession currentSession].config.showPostIdea ? 1 : 0);
     }
 }
 
@@ -215,7 +216,7 @@
     if (theTableView == tableView)
         return (indexPath.row < [suggestions count]) ? 71 : 44;
     else
-        return (indexPath.row == 0) ? 44 : 71;
+        return (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea) ? 44 : 71;
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
@@ -241,7 +242,7 @@
         else
             [self retrieveMoreSuggestions];
     } else {
-        if (indexPath.row == 0)
+        if (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea)
             [self composeButtonTapped];
         else
             [self showSuggestion:[searchResults objectAtIndex:indexPath.row - 1]];
@@ -318,10 +319,12 @@
     [theTableView release];
     self.view = tableView;
 
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
-                                                                                            target:self
-                                                                                            action:@selector(composeButtonTapped)] autorelease];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
+    if ([UVSession currentSession].config.showPostIdea) {
+        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                                                target:self
+                                                                                                action:@selector(composeButtonTapped)] autorelease];
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
+    }
 
     if ([UVSession currentSession].isModal && firstController) {
         self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)

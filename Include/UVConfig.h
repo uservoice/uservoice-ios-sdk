@@ -36,10 +36,10 @@
 @property (nonatomic, retain) NSString *guid;
 @property (nonatomic, retain) NSDictionary *customFields;
 @property (assign) NSInteger topicId;
-@property (assign) BOOL showForum;
-@property (assign) BOOL showPostIdea;
-@property (assign) BOOL showContactUs;
-@property (assign) BOOL showKnowledgeBase;
+@property (nonatomic, assign) BOOL showForum;
+@property (nonatomic, assign) BOOL showPostIdea;
+@property (nonatomic, assign) BOOL showContactUs;
+@property (nonatomic, assign) BOOL showKnowledgeBase;
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret;
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken;

@@ -7,7 +7,8 @@
 //
 
 #import "UVConfig.h"
-
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 @implementation UVConfig
 

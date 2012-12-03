@@ -13,6 +13,8 @@
 #import "UVNewTicketViewController.h"
 #import "UVStyleSheet.h"
 #import "UVGradientButton.h"
+#import "UVSession.h"
+#import "UVConfig.h"
 
 @implementation UVHelpTopicViewController
 
