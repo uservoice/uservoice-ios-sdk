@@ -10,6 +10,8 @@
 #import "UVBaseViewController.h"
 #import "UVSuggestion.h"
 
+@class UVTruncatingLabel;
+
 @interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     UVSuggestion *suggestion;
     NSMutableArray *comments;
@@ -18,7 +20,7 @@
     BOOL allCommentsRetrieved;
     UILabel *titleLabel;
     UILabel *votesLabel;
-    UILabel *descriptionLabel;
+    UVTruncatingLabel *descriptionLabel;
     UILabel *creatorLabel;
     UIView *responseView;
     UILabel *responseLabel;
@@ -32,7 +34,7 @@
 @property (nonatomic, retain) UIView *statusBar;
 @property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UILabel *votesLabel;
-@property (nonatomic, retain) UILabel *descriptionLabel;
+@property (nonatomic, retain) UVTruncatingLabel *descriptionLabel;
 @property (nonatomic, retain) UILabel *creatorLabel;
 @property (nonatomic, retain) UILabel *responseLabel;
 @property (nonatomic, retain) UIView *responseView;

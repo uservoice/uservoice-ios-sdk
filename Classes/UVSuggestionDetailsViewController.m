@@ -19,6 +19,7 @@
 #import "UVComment.h"
 #import "UVCommentViewController.h"
 #import "UVGradientButton.h"
+#import "UVTruncatingLabel.h"
 
 #define MARGIN 15
 
@@ -292,7 +293,6 @@
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     [self sizeToFit:titleLabel];
     [self update:descriptionLabel after:titleLabel space:10];
-    // TODO expand description
     [self sizeToFit:descriptionLabel];
     [self update:creatorLabel after:descriptionLabel space:3];
     if (responseView) {
@@ -362,6 +362,10 @@
     return CGRectMake(MARGIN, offset + space, scrollView.bounds.size.width - MARGIN*2, height);
 }
 
+- (void)labelExpanded:(UVTruncatingLabel *)label {
+    [self updateLayout];
+}
+
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = self.suggestion.title;
@@ -412,13 +416,14 @@
     [titleLabel sizeToFit];
     [scrollView addSubview:titleLabel];
 
-    self.descriptionLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]] autorelease];
+    self.descriptionLabel = [[[UVTruncatingLabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]] autorelease];
     descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     descriptionLabel.backgroundColor = [UIColor clearColor];
     descriptionLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
     descriptionLabel.font = [UIFont systemFontOfSize:13];
-    descriptionLabel.text = suggestion.text;
+    descriptionLabel.fullText = suggestion.text;
     descriptionLabel.numberOfLines = 0;
+    descriptionLabel.delegate = self;
     [descriptionLabel sizeToFit];
     [scrollView addSubview:descriptionLabel];
 

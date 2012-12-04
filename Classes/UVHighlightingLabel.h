@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UVCalculatingLabel.h"
 
-@interface UVHighlightingLabel : UILabel {
+@interface UVHighlightingLabel : UVCalculatingLabel {
     NSRegularExpression *pattern;
 }
 
