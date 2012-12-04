@@ -52,6 +52,11 @@
     return [UVSession currentSession].config.topicId || [[UVSession currentSession].topics count] == 0;
 }
 
+- (void)clearFlash {
+    [[UVSession currentSession] clearFlash];
+    [self performSelector:@selector(updateLayout) withObject:nil afterDelay:1];
+}
+
 #pragma mark ===== table cells =====
 
 - (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -136,7 +141,7 @@
         UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
-        [[UVSession currentSession] clearFlash];
+        [self clearFlash];
         if (indexPath.section == 0) {
             UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
             [self.navigationController pushViewController:next animated:YES];
@@ -162,7 +167,7 @@
 }
 
 - (void)postIdeaTapped {
-    [[UVSession currentSession] clearFlash];
+    [self clearFlash];
     UIViewController *next = [UVNewSuggestionViewController viewController];
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
@@ -172,7 +177,7 @@
 }
 
 - (void)contactUsTapped {
-    [[UVSession currentSession] clearFlash];
+    [self clearFlash];
     UIViewController *next = [UVNewTicketViewController viewController];
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
@@ -243,7 +248,7 @@
     flashMessageLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     flashMessageLabel.font = [UIFont systemFontOfSize:14];
     [flashView addSubview:flashMessageLabel];
-    self.flashTable = [[[UITableView alloc] initWithFrame:CGRectMake(0, 70, flashView.bounds.size.width, 40) style:UITableViewStyleGrouped] autorelease];
+    self.flashTable = [[[UITableView alloc] initWithFrame:CGRectMake(0, IPAD ? 50 : 70, flashView.bounds.size.width, 40) style:UITableViewStyleGrouped] autorelease];
     flashTable.delegate = self;
     flashTable.dataSource = self;
     flashTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -306,10 +311,6 @@
     
     tableView.tableFooterView = footer;
     [tableView reloadData];
-    [self updateLayout];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
     [self updateLayout];
 }
 

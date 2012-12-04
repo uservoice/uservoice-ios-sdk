@@ -367,6 +367,7 @@
     self.navigationItem.title = self.suggestion.title;
     self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
     scrollView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
+    scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     scrollView.alwaysBounceVertical = YES;
     self.view = scrollView;
     if (suggestion.status) {
@@ -417,7 +418,7 @@
     descriptionLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
     descriptionLabel.font = [UIFont systemFontOfSize:13];
     descriptionLabel.text = suggestion.text;
-    descriptionLabel.numberOfLines = 3;
+    descriptionLabel.numberOfLines = 0;
     [descriptionLabel sizeToFit];
     [scrollView addSubview:descriptionLabel];
 

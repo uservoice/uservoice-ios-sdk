@@ -25,4 +25,6 @@
 @property (nonatomic, retain) UIView *flashView;
 @property (nonatomic, retain) UIView *buttons;
 
+- (void)updateLayout;
+
 @end
