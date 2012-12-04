@@ -107,6 +107,7 @@
         transition.duration = 0.3;
         transition.type = kCATransitionFade;
         [list.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        [list.navigationController setNavigationBarHidden:NO animated:NO];
         UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
         welcomeView.firstController = YES;
         NSArray *viewControllers = @[list.navigationController.viewControllers[0], welcomeView];
