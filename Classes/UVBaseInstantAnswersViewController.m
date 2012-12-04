@@ -149,48 +149,6 @@
     }
 }
 
-- (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center {
-    UIImageView *arrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_arrow.png"]] autorelease];
-    arrow.center = center;
-    arrow.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    arrow.tag = TICKET_VIEW_ARROW_TAG;
-    [view addSubview:arrow];
-    
-    UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
-    spinner.center = center;
-    spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    spinner.tag = TICKET_VIEW_SPINNER_TAG;
-    [spinner startAnimating];
-    [view addSubview:spinner];
-}
-
-- (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated {
-    UILabel *label = (UILabel *)[view viewWithTag:TICKET_VIEW_IA_LABEL_TAG];
-    UIView *spinner = [view viewWithTag:TICKET_VIEW_SPINNER_TAG];
-    UIView *arrow = [view viewWithTag:TICKET_VIEW_ARROW_TAG];
-    if ([instantAnswers count] > 0)
-      label.text = [self instantAnswersFoundMessage:toggled];
-    void (^update)() = ^{
-        if (loadingInstantAnswers) {
-            spinner.layer.opacity = 1.0;
-            arrow.layer.opacity = 0.0;
-        } else {
-            spinner.layer.opacity = 0.0;
-            arrow.layer.opacity = 1.0;
-            if (toggled) {
-                arrow.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0, 1);
-            } else {
-                arrow.layer.transform = CATransform3DIdentity;
-            }
-        }
-    };
-    if (animated) {
-        [UIView animateWithDuration:0.3 animations:update];
-    } else {
-        update();
-    }
-}
-
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled {
     BOOL foundArticles = NO;
     BOOL foundIdeas = NO;

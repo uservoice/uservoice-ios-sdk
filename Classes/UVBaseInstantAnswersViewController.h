@@ -34,8 +34,6 @@
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
 - (void)addSpinnerAndXTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndXIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
-- (void)addSpinnerAndArrowTo:(UIView *)view atCenter:(CGPoint)center;
-- (void)updateSpinnerAndArrowIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled;
 
