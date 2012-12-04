@@ -46,7 +46,7 @@
     }
     if (showInstantAnswersMessage) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
-        [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+        [self updateSpinnerAndXIn:cell withToggle:showInstantAnswers animated:YES];
     }
     [tableView endUpdates];
 }
@@ -57,6 +57,7 @@
         [tableView deleteRowsAtIndexPaths:[self indexPathsForInstantAnswers:instantAnswersCount] withRowAnimation:UITableViewRowAnimationFade];
     }
     instantAnswersCount = [instantAnswers count];
+    showInstantAnswers = YES;
     if (showInstantAnswers) {
         [tableView insertRowsAtIndexPaths:[self indexPathsForInstantAnswers:instantAnswersCount] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -68,7 +69,7 @@
     } else {
         if (showInstantAnswersMessage) {
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]];
-            [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+            [self updateSpinnerAndXIn:cell withToggle:showInstantAnswers animated:YES];
         } else {
             [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS]] withRowAnimation:UITableViewRowAnimationFade];
         }
@@ -77,9 +78,15 @@
     [tableView endUpdates];
 }
 
+- (void)textViewDidChange:(UVTextView *)theTextEditor {
+    [super textViewDidChange:theTextEditor];
+    self.navigationItem.rightBarButtonItem.enabled = [theTextEditor.text length] != 0;
+}
+
 #pragma mark ===== table cells =====
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
     CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
     UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
@@ -97,22 +104,24 @@
 }
 
 - (void)initCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor colorWithRed:1.00f green:0.98f blue:0.85f alpha:1.0f];
+    cell.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
 
     CGFloat margin = 35;
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(8 + margin, 1, cell.bounds.size.width - margin*2 - 100, 40)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(margin, 1, cell.bounds.size.width - margin*2, 40)] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.tag = TICKET_VIEW_IA_LABEL_TAG;
-    label.font = [UIFont systemFontOfSize:13];
+    label.font = [UIFont systemFontOfSize:15];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
     [cell addSubview:label];
 
-    [self addSpinnerAndArrowTo:cell atCenter:CGPointMake(cell.bounds.size.width - margin - 20, 22)];
+    [self addSpinnerAndXTo:cell atCenter:CGPointMake(cell.bounds.size.width - margin - 20, 22)];
 }
 
 - (void)customizeCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:NO];
+    [self updateSpinnerAndXIn:cell withToggle:showInstantAnswers animated:NO];
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -200,7 +209,7 @@
 - (void)toggleInstantAnswers:(NSIndexPath *)indexPath {
     showInstantAnswers = !showInstantAnswers;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self updateSpinnerAndArrowIn:cell withToggle:showInstantAnswers animated:YES];
+    [self updateSpinnerAndXIn:cell withToggle:showInstantAnswers animated:YES];
     NSMutableArray *instantAnswerIndexPaths = [self indexPathsForInstantAnswers:instantAnswersCount];
     if (showInstantAnswers) {
         [tableView insertRowsAtIndexPaths:instantAnswerIndexPaths withRowAnimation:UITableViewRowAnimationFade];
@@ -228,6 +237,8 @@
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
     self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
+    self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+    self.navigationItem.rightBarButtonItem.enabled = [self.text length] != 0;
     if (self.text && [self.text length] > 0) {
         self.instantAnswersQuery = self.text;
         [self loadInstantAnswers];

@@ -119,7 +119,8 @@
 
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
     cell.textLabel.text = label;
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 12, 230, 20)];
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 12, cell.bounds.size.width - 75, 22)];
+    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textField.placeholder = placeholder;
     textField.returnKeyType = UIReturnKeyDone;
     textField.borderStyle = UITextBorderStyleNone;
