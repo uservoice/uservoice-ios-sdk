@@ -114,6 +114,7 @@
         [list.navigationController setViewControllers:viewControllers animated:NO];
     } else {
         [list.navigationController popViewControllerAnimated:NO];
+        [(UVWelcomeViewController *)[list.navigationController.viewControllers lastObject] updateLayout];
     }
     [self dismissModalViewControllerAnimated:YES];
 }

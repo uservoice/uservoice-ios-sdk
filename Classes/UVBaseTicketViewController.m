@@ -86,6 +86,7 @@
     } else {
         UINavigationController *nav = (UINavigationController *)self.presentingViewController;
         [nav setViewControllers:[nav.viewControllers subarrayWithRange:NSMakeRange(0, 2)] animated:NO];
+        [(UVWelcomeViewController *)[nav.viewControllers lastObject] updateLayout];
         [self dismissModalViewControllerAnimated:YES];
     }
 }

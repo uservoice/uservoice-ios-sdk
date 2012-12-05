@@ -318,6 +318,10 @@
     [self updateLayout];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self updateLayout];
+}
+
 - (void)dealloc {
     self.scrollView = nil;
     self.flashTable = nil;
