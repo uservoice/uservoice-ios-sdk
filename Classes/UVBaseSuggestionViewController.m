@@ -62,6 +62,8 @@
 }
 
 - (void)createSuggestion {
+    self.title = titleField.text;
+    self.text = textView.text;
     [self showActivityIndicator];
     [[UVSession currentSession] trackInteraction:@"pi"];
     [UVSuggestion createWithForum:self.forum
