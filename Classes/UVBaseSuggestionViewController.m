@@ -171,10 +171,10 @@
 - (void)dismiss {
     if (titleField.text.length > 0) {
         UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
-                                                                    delegate:self
-                                                           cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                      destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                                                           otherButtonTitles:nil] autorelease];
+                                                                  delegate:self
+                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                    destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
+                                                         otherButtonTitles:nil] autorelease];
         [actionSheet showInView:self.view];
     } else {
         [self dismissModalViewControllerAnimated:YES];

@@ -18,8 +18,6 @@
     UITableView *fieldsTableView;
     UIBarButtonItem *nextButton;
     UIBarButtonItem *sendButton;
-    UIView *shade;
-    UIActivityIndicatorView *activityIndicatorView;
 }
 
 + (UVBaseViewController *)viewController;
@@ -33,8 +31,6 @@
 @property (nonatomic,retain) UITableView *fieldsTableView;
 @property (nonatomic,retain) UIBarButtonItem *nextButton;
 @property (nonatomic,retain) UIBarButtonItem *sendButton;
-@property (nonatomic,retain) UIView *shade;
-@property (nonatomic,retain) UIActivityIndicatorView *activityIndicatorView;
 
 - (void)updateLayout;
 

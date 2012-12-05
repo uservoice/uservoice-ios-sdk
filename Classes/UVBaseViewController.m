@@ -13,21 +13,22 @@
 #import "UVSuggestion.h"
 #import "UVUser.h"
 #import "UVStyleSheet.h"
-#import "UVActivityIndicator.h"
 #import "NSError+UVExtras.h"
 #import "UVImageCache.h"
 #import "UserVoice.h"
 #import "UVAccessToken.h"
 #import "UVSigninManager.h"
+#import "UVKeyboardUtils.h"
 
 @implementation UVBaseViewController
 
-@synthesize activityIndicator;
 @synthesize needsReload;
 @synthesize firstController;
 @synthesize tableView;
 @synthesize exitButton;
 @synthesize signinManager;
+@synthesize shade;
+@synthesize activityIndicatorView;
 
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
@@ -56,15 +57,29 @@
 }
 
 - (void)showActivityIndicator {
-    if (!self.activityIndicator) {
-        self.activityIndicator = [UVActivityIndicator activityIndicator];
+    if (!shade) {
+        self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+        self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        self.shade.backgroundColor = [UIColor blackColor];
+        self.shade.alpha = 0.5;
+        [self.view addSubview:shade];
     }
-
-    [self.activityIndicator show];
+    if (!activityIndicatorView) {
+        self.activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+        self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
+        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
+        [self.view addSubview:activityIndicatorView];
+    }
+    shade.hidden = NO;
+    activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/([UVKeyboardUtils visible] ? 4 : 2));
+    activityIndicatorView.hidden = NO;
+    [activityIndicatorView startAnimating];
 }
 
 - (void)hideActivityIndicator {
-    [self.activityIndicator hide];
+    [activityIndicatorView stopAnimating];
+    activityIndicatorView.hidden = YES;
+    shade.hidden = YES;
 }
 
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label {
@@ -375,15 +390,12 @@
     [super viewDidDisappear:animated];
 }
 
-- (void)viewDidUnload {
-    self.activityIndicator = nil;
-}
-
 - (void)dealloc {
-    self.activityIndicator = nil;
     self.tableView = nil;
     self.exitButton = nil;
     self.signinManager = nil;
+    self.shade = nil;
+    self.activityIndicatorView = nil;
     [userEmail release];
     userEmail = nil;
     [userName release];

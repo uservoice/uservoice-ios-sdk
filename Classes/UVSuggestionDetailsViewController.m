@@ -369,11 +369,13 @@
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = self.suggestion.title;
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view.autoresizesSubviews = YES;
+    self.scrollView = [[[UIScrollView alloc] initWithFrame:self.view.bounds] autorelease];
     scrollView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     scrollView.alwaysBounceVertical = YES;
-    self.view = scrollView;
+    [self.view addSubview:scrollView];
     if (suggestion.status) {
         self.statusBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)] autorelease];
         self.statusBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;

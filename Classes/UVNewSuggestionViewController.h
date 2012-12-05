@@ -18,8 +18,6 @@
     UITableView *instantAnswersTableView;
     UITableView *fieldsTableView;
     int state;
-    UIView *shade;
-    UIActivityIndicatorView *activityIndicatorView;
 }
 
 + (UVBaseViewController *)viewController;
@@ -32,7 +30,5 @@
 @property (nonatomic, retain) UIView *instantAnswersMessage;
 @property (nonatomic, retain) UITableView *instantAnswersTableView;
 @property (nonatomic, retain) UITableView *fieldsTableView;
-@property (nonatomic, retain) UIView *shade;
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
 
 @end

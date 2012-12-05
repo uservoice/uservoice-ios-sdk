@@ -71,8 +71,6 @@
 		AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */; };
 		AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */; };
 		AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */; };
-		ACBA824A11399A2B006D5219 /* UVActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = ACBA824711399A2B006D5219 /* UVActivityIndicator.h */; };
-		ACBA824B11399A2B006D5219 /* UVActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ACBA824811399A2B006D5219 /* UVActivityIndicator.m */; };
 		ACEE442E10AB370F003D8751 /* UVComment.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE442C10AB370F003D8751 /* UVComment.h */; };
 		ACEE442F10AB370F003D8751 /* UVComment.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE442D10AB370F003D8751 /* UVComment.m */; };
 		ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE461510ACC158003D8751 /* UVBaseViewController.h */; };
@@ -258,8 +256,6 @@
 		AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomFieldValueSelectViewController.m; sourceTree = "<group>"; };
 		AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCellViewWithIndex.h; sourceTree = "<group>"; };
 		AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCellViewWithIndex.m; sourceTree = "<group>"; };
-		ACBA824711399A2B006D5219 /* UVActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVActivityIndicator.h; sourceTree = "<group>"; };
-		ACBA824811399A2B006D5219 /* UVActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVActivityIndicator.m; sourceTree = "<group>"; };
 		ACEE442C10AB370F003D8751 /* UVComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVComment.h; sourceTree = "<group>"; };
 		ACEE442D10AB370F003D8751 /* UVComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVComment.m; sourceTree = "<group>"; };
 		ACEE461510ACC158003D8751 /* UVBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVBaseViewController.h; path = Classes/UVBaseViewController.h; sourceTree = SOURCE_ROOT; };
@@ -620,8 +616,6 @@
 		AC35306711014CB6006FD1C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				ACBA824711399A2B006D5219 /* UVActivityIndicator.h */,
-				ACBA824811399A2B006D5219 /* UVActivityIndicator.m */,
 				AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */,
 				AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */,
 				D24BDE6011DAE3FA00B26012 /* UVImageView.h */,
@@ -844,7 +838,6 @@
 				AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */,
 				AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */,
 				AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */,
-				ACBA824A11399A2B006D5219 /* UVActivityIndicator.h in Headers */,
 				D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */,
 				D2453EC611AF2AD900C7E4BA /* UVInfo.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
@@ -998,7 +991,6 @@
 				AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */,
 				AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */,
 				AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */,
-				ACBA824B11399A2B006D5219 /* UVActivityIndicator.m in Sources */,
 				D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */,
 				D2453EC711AF2AD900C7E4BA /* UVInfo.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,

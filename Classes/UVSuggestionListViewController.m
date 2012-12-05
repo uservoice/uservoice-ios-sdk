@@ -273,16 +273,18 @@
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
 
-    CGRect frame = [self contentFrame];
+    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view.autoresizesSubviews = YES;
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
-    UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+    UITableView *theTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     theTableView.dataSource = self;
     theTableView.delegate = self;
     theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     theTableView.sectionFooterHeight = 0.0;
     theTableView.sectionHeaderHeight = 0.0;
     theTableView.backgroundColor = [UVStyleSheet backgroundColor];
+    theTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
     // Add empty footer, to suppress blank cells (with separators) after actual content
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)] autorelease];
@@ -317,7 +319,8 @@
 
     self.tableView = theTableView;
     [theTableView release];
-    self.view = tableView;
+    [self.view addSubview:tableView];
+
 
     if ([UVSession currentSession].config.showPostIdea) {
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose

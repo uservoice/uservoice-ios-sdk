@@ -44,8 +44,6 @@
 @synthesize instantAnswersMessage;
 @synthesize instantAnswersTableView;
 @synthesize fieldsTableView;
-@synthesize shade;
-@synthesize activityIndicatorView;
 
 + (UVBaseViewController *)viewController {
     return [self viewControllerWithTitle:nil];
@@ -355,31 +353,6 @@
    scrollView.contentOffset = CGPointZero;
 }
 
-- (void)showActivityIndicator {
-    if (!shade) {
-        self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
-        self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.shade.backgroundColor = [UIColor blackColor];
-        self.shade.alpha = 0.5;
-        [self.view addSubview:shade];
-    }
-    if (!activityIndicatorView) {
-        self.activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
-        self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
-        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
-        [self.view addSubview:activityIndicatorView];
-    }
-    shade.hidden = NO;
-    activityIndicatorView.hidden = NO;
-    [activityIndicatorView startAnimating];
-}
-
-- (void)hideActivityIndicator {
-    [activityIndicatorView stopAnimating];
-    activityIndicatorView.hidden = YES;
-    shade.hidden = YES;
-}
-
 - (void)nextButtonTapped {
     if (state == STATE_BEGIN) {
         [self fireInstantAnswersTimer];
@@ -449,8 +422,6 @@
     self.instantAnswersMessage = nil;
     self.instantAnswersTableView = nil;
     self.fieldsTableView = nil;
-    self.shade = nil;
-    self.activityIndicatorView = nil;
     [super dealloc];
 }
 

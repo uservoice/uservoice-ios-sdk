@@ -20,7 +20,6 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
 @interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate> {
-    UVActivityIndicator *activityIndicator;
     BOOL needsReload;
     BOOL firstController;
     UITableView *tableView;
@@ -29,9 +28,10 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
     UVSigninManager *signinManager;
     NSString *userEmail;
     NSString *userName;
+    UIView *shade;
+    UIActivityIndicatorView *activityIndicatorView;
 }
 
-@property (nonatomic, retain) UVActivityIndicator *activityIndicator;
 @property (assign) BOOL needsReload;
 @property (assign) BOOL firstController;
 @property (nonatomic, retain) UITableView *tableView;
@@ -39,6 +39,8 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 @property (nonatomic, retain) UVSigninManager *signinManager;
 @property (nonatomic,retain) NSString *userEmail;
 @property (nonatomic,retain) NSString *userName;
+@property (nonatomic, retain) UIView *shade;
+@property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
 
 - (void)dismissUserVoice;
 
