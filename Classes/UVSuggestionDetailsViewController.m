@@ -330,9 +330,9 @@
         votesString = [NSString stringWithFormat:@"%@ %@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:suggestion.voteCount] numberStyle:NSNumberFormatterDecimalStyle], NSLocalizedStringFromTable(@"votes", @"UserVoice", nil)];
 
     NSString *commentsString = nil;
-    if (suggestion.voteCount == 0)
+    if (suggestion.commentsCount == 0)
         commentsString = NSLocalizedStringFromTable(@"0 comments", @"UserVoice", nil);
-    else if (suggestion.voteCount == 1)
+    else if (suggestion.commentsCount == 1)
         commentsString = NSLocalizedStringFromTable(@"1 comment", @"UserVoice", nil);
     else
         commentsString = [NSString stringWithFormat:@"%@ %@", [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:suggestion.commentsCount] numberStyle:NSNumberFormatterDecimalStyle], NSLocalizedStringFromTable(@"comments", @"UserVoice", nil)];
