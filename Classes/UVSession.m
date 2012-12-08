@@ -29,6 +29,11 @@
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
 @synthesize externalIds;
+@synthesize topics;
+@synthesize articles;
+@synthesize flashTitle;
+@synthesize flashMessage;
+@synthesize flashSuggestion;
 
 + (UVSession *)currentSession {
     static UVSession *currentSession;
@@ -60,6 +65,18 @@
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)config {
     // Do nothing. The UVClientConfig already sets the config on the current session.
+}
+
+- (void)clearFlash {
+    self.flashTitle = nil;
+    self.flashMessage = nil;
+    self.flashSuggestion = nil;
+}
+
+- (void)flash:(NSString *)message title:(NSString *)title suggestion:(UVSuggestion *)suggestion {
+    self.flashTitle = title;
+    self.flashMessage = message;
+    self.flashSuggestion = suggestion;
 }
 
 - (UVUser *)user {

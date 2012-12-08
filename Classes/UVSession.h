@@ -15,6 +15,7 @@
 @class UVRequestToken;
 @class YOAuthConsumer;
 @class UVInfo;
+@class UVSuggestion;
 
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
@@ -34,6 +35,11 @@
     NSMutableArray *interactionDetails;
     NSUInteger interactionId;
     NSMutableDictionary *externalIds;
+    NSArray *topics;
+    NSArray *articles;
+    NSString *flashTitle;
+    NSString *flashMessage;
+    UVSuggestion *flashSuggestion;
 }
 
 @property (assign) BOOL isModal;
@@ -49,6 +55,11 @@
 @property (nonatomic, retain) NSMutableArray *interactionSequence;
 @property (nonatomic, retain) NSMutableArray *interactionDetails;
 @property (nonatomic, retain) NSMutableDictionary *externalIds;
+@property (nonatomic, retain) NSArray *topics;
+@property (nonatomic, retain) NSArray *articles;
+@property (nonatomic, retain) NSString *flashTitle;
+@property (nonatomic, retain) NSString *flashMessage;
+@property (nonatomic, retain) UVSuggestion *flashSuggestion;
 @property (assign) NSUInteger interactionId;
 
 + (UVSession *)currentSession;
@@ -60,5 +71,7 @@
 - (void)flushInteractions;
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 - (void)clear;
+- (void)clearFlash;
+- (void)flash:(NSString *)message title:(NSString *)title suggestion:(UVSuggestion *)suggestion;
 
 @end

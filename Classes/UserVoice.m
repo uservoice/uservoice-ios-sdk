@@ -14,15 +14,17 @@
 #import "UVSession.h"
 #import "UVNewTicketViewController.h"
 #import "UVSuggestionListViewController.h"
+#import "UVNavigationController.h"
 
 @implementation UserVoice
 
 + (void) presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
     [UVSession currentSession].config = config;
     [UVSession currentSession].isModal = YES;
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    UINavigationController *navigationController = [[[UVNavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = viewControllers;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [parentViewController presentModalViewController:navigationController animated:YES];
 }
 
@@ -57,7 +59,7 @@
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
     if ([[UVSession currentSession] clientConfig]) {
         UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-        UIViewController *newTicketViewController = [[[UVNewTicketViewController alloc] init] autorelease];
+        UIViewController *newTicketViewController = [UVNewTicketViewController viewController];
         NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
         [self presentUserVoiceControllers:viewControllers forParentViewController:parentViewController withConfig:config];
     } else {
@@ -69,7 +71,7 @@
 + (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
     if ([[UVSession currentSession] clientConfig]) {
         UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-        UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] initWithForum:[UVSession currentSession].clientConfig.forum] autorelease];
+        UIViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] init] autorelease];
         NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
         [self presentUserVoiceControllers:viewControllers forParentViewController:parentViewController withConfig:config];
     } else {
@@ -92,7 +94,7 @@ static id<UVDelegate> userVoiceDelegate;
 }
 
 + (NSString *)version {
-    return @"1.2.6";
+    return @"2.0.0";
 }
 
 

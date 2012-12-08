@@ -7,7 +7,8 @@
 //
 
 #import "UVConfig.h"
-
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 @implementation UVConfig
 
@@ -19,6 +20,11 @@
 @synthesize displayName;
 @synthesize guid;
 @synthesize customFields;
+@synthesize topicId;
+@synthesize showForum;
+@synthesize showPostIdea;
+@synthesize showContactUs;
+@synthesize showKnowledgeBase;
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
     return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
@@ -45,8 +51,40 @@
         self.key = theKey;
         self.site = saneURL;
         self.secret = theSecret;
+        showForum = YES;
+        showPostIdea = YES;
+        showContactUs = YES;
+        showKnowledgeBase = YES;
     }
     return self;
+}
+
+- (BOOL)showForum {
+    if ([UVSession currentSession].clientConfig && ![UVSession currentSession].clientConfig.feedbackEnabled)
+        return NO;
+    else
+        return showForum;
+}
+
+- (BOOL)showPostIdea {
+    if ([UVSession currentSession].clientConfig && ![UVSession currentSession].clientConfig.feedbackEnabled)
+        return NO;
+    else
+        return showPostIdea;
+}
+
+- (BOOL)showContactUs {
+    if ([UVSession currentSession].clientConfig && ![UVSession currentSession].clientConfig.ticketsEnabled)
+        return NO;
+    else
+        return showContactUs;
+}
+
+- (BOOL)showKnowledgeBase {
+    if ([UVSession currentSession].clientConfig && ![UVSession currentSession].clientConfig.ticketsEnabled)
+        return NO;
+    else
+        return showKnowledgeBase;
 }
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken {

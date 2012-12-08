@@ -8,6 +8,8 @@
 
 #import "UVBaseModel.h"
 
+@class UVHelpTopic;
+
 @interface UVArticle : UVBaseModel {
     NSString *question;
     NSString *answerHTML;
@@ -15,6 +17,8 @@
 }
 
 + getInstantAnswers:(NSString *)query delegate:(id)delegate;
++ (id)getArticlesWithTopic:(UVHelpTopic *)topic delegate:(id)delegate;
++ (id)getArticlesWithDelegate:(id)delegate;
 
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answerHTML;

@@ -2,37 +2,36 @@
 //  UVNewTicketViewController.h
 //  UserVoice
 //
-//  Created by UserVoice on 2/19/10.
-//  Copyright 2010 UserVoice Inc. All rights reserved.
+//  Created by Austin Taylor on 10/30/12.
+//  Copyright (c) 2012 UserVoice Inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "UVBaseViewController.h"
-#import "UVTextView.h"
+#import "UVBaseTicketViewController.h"
 
-@class UVCustomField;
-
-@interface UVNewTicketViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
-    UVTextView *textEditor;
-    UITextField *emailField;
-    UIView *activeField;
-    NSString *text;
-    NSMutableDictionary *selectedCustomFieldValues;
-    NSTimer *timer;
-    NSArray *instantAnswers;
-    BOOL loadingInstantAnswers;
+@interface UVNewTicketViewController : UVBaseTicketViewController {
+    int state;
+    UIScrollView *scrollView;
+    UIView *messageTextView;
+    UIView *instantAnswersView;
+    UIView *instantAnswersMessage;
+    UITableView *instantAnswersTableView;
+    UITableView *fieldsTableView;
+    UIBarButtonItem *nextButton;
+    UIBarButtonItem *sendButton;
 }
 
-@property (nonatomic, retain) UVTextView *textEditor;
-@property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UIView *activeField;
-@property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) NSMutableDictionary *selectedCustomFieldValues;
-@property (nonatomic, retain) NSTimer *timer;
-@property (nonatomic, retain) NSArray *instantAnswers;
-@property (nonatomic, assign) BOOL loadingInstantAnswers;
++ (UVBaseViewController *)viewController;
++ (UVBaseViewController *)viewControllerWithText:(NSString *)text;
 
-- (id)initWithText:(NSString *)text;
-- (void)dismissKeyboard;
+@property (nonatomic,retain) UIScrollView *scrollView;
+@property (nonatomic,retain) UIView *messageTextView;
+@property (nonatomic,retain) UIView *instantAnswersView;
+@property (nonatomic,retain) UIView *instantAnswersMessage;
+@property (nonatomic,retain) UITableView *instantAnswersTableView;
+@property (nonatomic,retain) UITableView *fieldsTableView;
+@property (nonatomic,retain) UIBarButtonItem *nextButton;
+@property (nonatomic,retain) UIBarButtonItem *sendButton;
+
+- (void)updateLayout;
 
 @end

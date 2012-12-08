@@ -2,324 +2,257 @@
 //  UVNewTicketViewController.m
 //  UserVoice
 //
-//  Created by UserVoice on 2/19/10.
-//  Copyright 2010 UserVoice Inc. All rights reserved.
+//  Created by Austin Taylor on 10/30/12.
+//  Copyright (c) 2012 UserVoice Inc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+#import "UVNewTicketIpadViewController.h"
 #import "UVNewTicketViewController.h"
-#import "UVStyleSheet.h"
-#import "UVCustomField.h"
+#import "UVStylesheet.h"
 #import "UVSession.h"
+#import "UVCustomField.h"
 #import "UVUser.h"
-#import "UVClientConfig.h"
-#import "UVCustomFieldValueSelectViewController.h"
-#import "UVNewSuggestionViewController.h"
-#import "UVSignInViewController.h"
 #import "UVClientConfig.h"
 #import "UVTicket.h"
 #import "UVForum.h"
-#import "UVSubdomain.h"
-#import "UVTextView.h"
-#import "NSError+UVExtras.h"
-#import "UVArticle.h"
-#import "UVSuggestion.h"
-#import "UVArticleViewController.h"
-#import "UVSuggestionDetailsViewController.h"
-#import "UVConfig.h"
-
-#define UV_NEW_TICKET_SECTION_TEXT 0
-#define UV_NEW_TICKET_SECTION_INSTANT_ANSWERS 1
-#define UV_NEW_TICKET_SECTION_CUSTOM_FIELDS 2
-#define UV_NEW_TICKET_SECTION_PROFILE 3
-#define UV_NEW_TICKET_SECTION_SUBMIT 4
-
-#define UV_CUSTOM_FIELD_CELL_LABEL_TAG 100
-#define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
-#define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
+#import "UVKeyboardUtils.h"
 
 @implementation UVNewTicketViewController
 
-@synthesize textEditor;
-@synthesize emailField;
-@synthesize activeField;
-@synthesize text;
-@synthesize selectedCustomFieldValues;
-@synthesize timer;
-@synthesize instantAnswers;
-@synthesize loadingInstantAnswers;
+@synthesize scrollView;
+@synthesize messageTextView;
+@synthesize instantAnswersView;
+@synthesize instantAnswersMessage;
+@synthesize instantAnswersTableView;
+@synthesize fieldsTableView;
+@synthesize nextButton;
+@synthesize sendButton;
 
-- (id)initWithText:(NSString *)initialText {
-    if (self = [self init]) {
-        self.text = initialText;
-    }
-    return self;
+#define STATE_BEGIN 1000
+#define STATE_IA 1001
+#define STATE_SHOW_IA 1002
+#define STATE_FIELDS 1003
+#define STATE_FIELDS_IA 1004
+#define STATE_WAITING 1005
+
+#define SECTION_PROFILE 0
+#define SECTION_FIELDS 1
+
++ (UVBaseViewController *)viewController {
+    return [self viewControllerWithText:nil];
 }
 
-- (id)init {
-    if (self = [super init]) {
-        self.selectedCustomFieldValues = [NSMutableDictionary dictionaryWithDictionary:[UVSession currentSession].config.customFields];
++ (UVBaseViewController *)viewControllerWithText:(NSString *)text {
+    if (IPAD) {
+        return [[[UVNewTicketIpadViewController alloc] initWithText:text] autorelease];
+    } else {
+        return [[[UVNewTicketViewController alloc] initWithText:text] autorelease];
     }
-    return self;
 }
 
-- (NSString *)backButtonTitle {
-    return @"Contact";
+- (void)loadView {
+    [super loadView];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
+
+    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.scrollView.backgroundColor = [UIColor whiteColor];
+    self.view = scrollView;
+
+    self.messageTextView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, [UIScreen mainScreen].bounds.size.height - 280)] autorelease];
+    self.textView = [[[UVTextView alloc] initWithFrame:messageTextView.bounds] autorelease];
+    self.textView.text = self.text;
+    self.textView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.textView.placeholder = NSLocalizedStringFromTable(@"How can we help you today?", @"UserVoice", nil);
+    self.textView.delegate = self;
+    [messageTextView addSubview:self.textView];
+    [self.view addSubview:messageTextView];
+
+    self.instantAnswersView = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000)] autorelease];
+    self.instantAnswersView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
+    self.instantAnswersView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.instantAnswersView.layer.shadowOffset = CGSizeMake(0, 0);
+    self.instantAnswersView.layer.shadowRadius = 2.0;
+    self.instantAnswersView.layer.shadowOpacity = 0.3;
+    self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+    self.instantAnswersMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
+    UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 4, 300, 30)] autorelease];
+    instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    instantAnswersLabel.tag = TICKET_VIEW_IA_LABEL_TAG;
+    instantAnswersLabel.numberOfLines = 2;
+    instantAnswersLabel.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
+    instantAnswersLabel.font = [UIFont systemFontOfSize:15];
+    instantAnswersLabel.backgroundColor = [UIColor clearColor];
+    instantAnswersLabel.textAlignment = UITextAlignmentCenter;
+    [instantAnswersMessage addSubview:instantAnswersLabel];
+    [self addSpinnerAndXTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
+    [instantAnswersView addSubview:instantAnswersMessage];
+    [self addTopBorder:instantAnswersView];
+    self.instantAnswersTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 40, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.instantAnswersTableView.backgroundView = nil;
+    self.instantAnswersTableView.backgroundColor = [UIColor clearColor];
+    self.instantAnswersTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    self.instantAnswersTableView.dataSource = self;
+    self.instantAnswersTableView.delegate = self;
+    self.instantAnswersTableView.scrollEnabled = NO;
+    [instantAnswersView addSubview:instantAnswersTableView];
+    [self.view addSubview:instantAnswersView];
+    
+    self.fieldsTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.fieldsTableView.backgroundView = nil;
+    self.fieldsTableView.dataSource = self;
+    self.fieldsTableView.delegate = self;
+    self.fieldsTableView.scrollEnabled = NO;
+    self.fieldsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    fieldsTableView.hidden = YES;
+    [self addTopBorder:fieldsTableView];
+    [self.view addSubview:fieldsTableView];
+
+    self.nextButton = [self barButtonItem:@"Continue" withAction:@selector(nextButtonTapped)];
+    self.sendButton = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
+    self.sendButton.style = UIBarButtonItemStyleDone;
+
+    state = STATE_BEGIN;
+    [textView becomeFirstResponder];
+    [self updateLayout];
+
+    if (self.text && [self.text length] > 0) {
+        self.instantAnswersQuery = self.text;
+        [self loadInstantAnswers];
+    }
+}
+
+- (void)nextButtonTapped {
+    if (state == STATE_BEGIN) {
+        [self fireInstantAnswersTimer];
+        if (loadingInstantAnswers)
+            state = STATE_WAITING;
+        else
+            state = STATE_FIELDS;
+    } else if (state == STATE_IA) {
+        state = STATE_SHOW_IA;
+    } else if (state == STATE_SHOW_IA) {
+        state = STATE_FIELDS_IA;
+    }
+    [self updateLayout];
 }
 
 - (void)dismissKeyboard {
+    [emailField becomeFirstResponder];
     [emailField resignFirstResponder];
-    [textEditor resignFirstResponder];
 }
 
-- (void)createButtonTapped {
-    [self dismissKeyboard];
-    NSString *email = emailField.text;
-    self.text = textEditor.text;
-
-    if ([UVSession currentSession].user || (email && [email length] > 1)) {
-        [self showActivityIndicator];
-        [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:email andCustomFields:selectedCustomFieldValues andDelegate:self];
-        [[UVSession currentSession] trackInteraction:@"pt"];
-    } else {
-        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
-    }
+- (void)textViewDidChange:(UVTextView *)theTextEditor {
+    [super textViewDidChange:theTextEditor];
+    self.navigationItem.rightBarButtonItem.enabled = [theTextEditor.text length] != 0 && state != STATE_WAITING;
 }
 
-- (void)didCreateTicket:(UVTicket *)theTicket {
-    [self hideActivityIndicator];
-    [self alertSuccess:NSLocalizedStringFromTable(@"Your ticket was successfully submitted.", @"UserVoice", nil)];
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)reloadCustomFieldsTable {
+    [fieldsTableView reloadData];
 }
 
-- (void)dismissTextView {
-    [self.textEditor resignFirstResponder];
+- (void)willLoadInstantAnswers {
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
 }
 
-- (void)suggestionButtonTapped {
-    NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
-    [viewControllers removeLastObject];
-    UVForum *forum = [UVSession currentSession].clientConfig.forum;
-    UIViewController *next = [[UVNewSuggestionViewController alloc] initWithForum:forum title:self.textEditor.text];
-    [viewControllers addObject:next];
-    [next release];
-
-    [self.navigationController setViewControllers:viewControllers animated:YES];
-    [viewControllers release];
+- (void)didLoadInstantAnswers {
+    BOOL found = [instantAnswers count] > 0;
+    if (state == STATE_WAITING || state == STATE_SHOW_IA)
+        state = found ? STATE_SHOW_IA : STATE_FIELDS;
+    else if (found)
+        state = (state == STATE_FIELDS) ? STATE_FIELDS_IA : STATE_IA;
+    else
+        state = (state == STATE_FIELDS_IA) ? STATE_FIELDS : STATE_BEGIN;
+    [instantAnswersTableView reloadData];
+    [self updateLayout];
 }
 
-- (void)nonPredefinedValueChanged:(NSNotification *)notification {
-    UITextField *textField = (UITextField *)[notification object];
-    UITableViewCell *cell = (UITableViewCell *)[textField superview];
-    UITableView *table = (UITableView *)[cell superview];
-    NSIndexPath *path = [table indexPathForCell:cell];
-    UVCustomField *field = (UVCustomField *)[[UVSession currentSession].clientConfig.customFields objectAtIndex:path.row];
-    [selectedCustomFieldValues setObject:textField.text forKey:field.name];
-}
-
-- (void)loadInstantAnswers:(NSTimer *)timer {
-    self.loadingInstantAnswers = YES;
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
-    // It's a combined search, remember?
-    [[UVSession currentSession] trackInteraction:@"sf"];
-    [[UVSession currentSession] trackInteraction:@"si"];
-    [UVArticle getInstantAnswers:self.textEditor.text delegate:self];
-}
-
-- (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
-    self.instantAnswers = theInstantAnswers;
-    self.loadingInstantAnswers = NO;
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:UV_NEW_TICKET_SECTION_INSTANT_ANSWERS] withRowAnimation:UITableViewRowAnimationFade];
-
-    // This seems like the only way to do justice to tracking the number of results from the combined search
-    NSMutableArray *articleIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
-    for (id answer in theInstantAnswers) {
-        if ([answer isKindOfClass:[UVArticle class]]) {
-            [articleIds addObject:[NSNumber numberWithInt:[((UVArticle *)answer) articleId]]];
-        }
-    }
-    [[UVSession currentSession] trackInteraction:[articleIds count] > 0 ? @"rfp" : @"rfz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[articleIds count]], @"count", articleIds, @"ids", nil]];
-
-    NSMutableArray *suggestionIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
-    for (id answer in theInstantAnswers) {
-        if ([answer isKindOfClass:[UVSuggestion class]]) {
-            [suggestionIds addObject:[NSNumber numberWithInt:[((UVSuggestion *)answer) suggestionId]]];
-        }
-    }
-    [[UVSession currentSession] trackInteraction:[suggestionIds count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[suggestionIds count]], @"count", suggestionIds, @"ids", nil]];
-}
-
-#pragma mark ===== UITextFieldDelegate Methods =====
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.activeField = textField;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
+    offset.x = 0;
+    offset.y -= 20;
+    offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + [UVKeyboardUtils height] - scrollView.bounds.size.height));
+    [scrollView setContentOffset:offset animated:YES];
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.activeField = nil;
-}
-
-#pragma mark ===== UVTextEditorDelegate Methods =====
-
-- (BOOL)textViewShouldBeginEditing:(UVTextView *)theTextEditor {
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    [scrollView setContentOffset:CGPointZero animated:YES];
     return YES;
 }
 
 - (void)textViewDidBeginEditing:(UVTextView *)theTextEditor {
-    // Change right bar button to Done, as there's no built-in way to dismiss the
-    // text view's keyboard.
-    [self hideExitButton];
-    UIBarButtonItem* saveItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                               target:self
-                                                                               action:@selector(dismissTextView)] autorelease];
-    [self.navigationItem setRightBarButtonItem:saveItem animated:NO];
-    self.activeField = theTextEditor;
+    if ([instantAnswers count] == 0)
+        state = STATE_BEGIN;
+    else
+        state = STATE_IA;
+    [self updateLayout];
+    [scrollView setContentOffset:CGPointZero animated:YES];
 }
 
-- (void)textViewDidEndEditing:(UVTextView *)theTextEditor {
-    [self showExitButton];
-    self.activeField = nil;
+- (void)instantAnswersMessageTapped {
+    switch (state) {
+    case STATE_IA:
+        state = STATE_SHOW_IA;
+        break;
+    case STATE_SHOW_IA:
+        state = STATE_FIELDS_IA;
+        break;
+    case STATE_FIELDS_IA:
+        [emailField resignFirstResponder];
+        state = STATE_SHOW_IA;
+        break;
+    }
+    [self updateLayout];
 }
 
-- (BOOL)textViewShouldEndEditing:(UVTextView *)theTextEditor {
-    return YES;
+- (void)keyboardDidShow:(NSNotification*)notification {
+    [super keyboardDidShow:notification];
+    [self updateLayout];
 }
 
-- (void)textViewDidChange:(UVTextView *)theTextEditor {
-    self.text = theTextEditor.text;
-    [self.timer invalidate];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadInstantAnswers:) userInfo:nil repeats:NO];
+- (void)keyboardDidHide:(NSNotification*)notification {
+    [super keyboardDidHide:notification];
+    [self updateLayout];
 }
 
-#pragma mark ===== table cells =====
-
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
-    cell.textLabel.text = label;
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(65, 11, 230, 22)];
-    textField.placeholder = placeholder;
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.backgroundColor = [UIColor clearColor];
-    textField.delegate = self;
-    [cell.contentView addSubview:textField];
-    return [textField autorelease];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
+    if (theTableView == fieldsTableView)
+        return 2;
+    else
+        return 1;
 }
 
-- (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
-    UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
-    aTextEditor.delegate = self;
-    aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-    aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
-    aTextEditor.backgroundColor = [UIColor clearColor];
-    aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
-    aTextEditor.text = self.text;
-
-    [cell.contentView addSubview:aTextEditor];
-    self.textEditor = aTextEditor;
-    [textEditor becomeFirstResponder];
-    [aTextEditor release];
+- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
+    if (theTableView == fieldsTableView) {
+        if (section == SECTION_PROFILE)
+            return 2;
+        else
+            return [[UVSession currentSession].clientConfig.customFields count];
+    } else {
+        return [instantAnswers count];
+    }
 }
-
-- (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    BOOL iPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(iPad ? 60 : 16, 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
-    label.font = [UIFont boldSystemFontOfSize:16];
-    label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
-    label.textColor = [UIColor blackColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.adjustsFontSizeToFitWidth = YES;
-    [cell addSubview:label];
-
-    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (iPad ? 64 : 20), cell.frame.size.height - 10)] autorelease];
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
-    textField.delegate = self;
-    [cell addSubview:textField];
-
-    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 - 14, 5, cell.frame.size.width / 2 - (iPad ? 64 : 20), cell.frame.size.height - 10)] autorelease];
-    valueLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
-    valueLabel.font = [UIFont systemFontOfSize:16];
-    valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
-    valueLabel.textColor = [UIColor blackColor];
-    valueLabel.backgroundColor = [UIColor clearColor];
-    valueLabel.adjustsFontSizeToFitWidth = YES;
-    valueLabel.textAlignment = NSTextAlignmentRight;
-    [cell addSubview:valueLabel];
-}
-
-- (void)customizeCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
-    UILabel *label = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_LABEL_TAG];
-    UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
-    UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG];
-    label.text = field.name;
-    cell.accessoryType = [field isPredefined] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-    textField.enabled = [field isPredefined] ? NO : YES;
-    cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
-    valueLabel.hidden = ![field isPredefined];
-    valueLabel.text = [selectedCustomFieldValues objectForKey:field.name];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(nonPredefinedValueChanged:)
-                                                 name:UITextFieldTextDidChangeNotification
-                                               object:textField];
-}
-
-- (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.emailField = [self customizeTextFieldCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"Required", @"UserVoice", nil)];
-    self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
-    self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-}
-
-- (void)initCellForSubmit:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self removeBackgroundFromCell:cell];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 300, 42);
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    button.titleLabel.textColor = [UIColor whiteColor];
-    [button setTitle:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil) forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green.png"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"uv_primary_button_green_active.png"] forState:UIControlStateHighlighted];
-    [button addTarget:self action:@selector(createButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [cell.contentView addSubview:button];
-    button.center = CGPointMake(cell.bounds.size.width/2, button.center.y);
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-}
-
-#pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
     UITableViewCellStyle style = UITableViewCellStyleDefault;
     BOOL selectable = NO;
 
-    switch (indexPath.section) {
-        case UV_NEW_TICKET_SECTION_CUSTOM_FIELDS:
+    if (theTableView == fieldsTableView) {
+        if (indexPath.section == SECTION_PROFILE) {
+            if (indexPath.row == 0)
+                identifier = @"Email";
+            else
+                identifier = @"Name";
+        } else if (indexPath.section == SECTION_FIELDS) {
             identifier = @"CustomField";
             style = UITableViewCellStyleValue1;
-            break;
-        case UV_NEW_TICKET_SECTION_INSTANT_ANSWERS:
-            identifier = @"InstantAnswer";
-            selectable = YES;
-            break;
-        case UV_NEW_TICKET_SECTION_TEXT:
-            identifier = @"Text";
-            break;
-        case UV_NEW_TICKET_SECTION_PROFILE:
-            identifier = @"Email";
-            break;
-        case UV_NEW_TICKET_SECTION_SUBMIT:
-            identifier = @"Submit";
-            break;
+        }
+    } else {
+        identifier = @"InstantAnswer";
+        selectable = YES;
     }
 
     return [self createCellForIdentifier:identifier
@@ -329,172 +262,102 @@
                               selectable:selectable];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    return 5;
-}
-
-- (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (section == UV_NEW_TICKET_SECTION_PROFILE) {
-        if ([UVSession currentSession].user!=nil) {
-            return 0;
-        } else {
-            return 1;
-        }
-    } else if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        return [self.instantAnswers count];
-    } else if (section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
-        return [[UVSession currentSession].clientConfig.customFields count];
-    } else {
-        return 1;
-    }
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        if (loadingInstantAnswers && [self.instantAnswers count] > 0) {
-            return NSLocalizedStringFromTable(@"Loading Instant Answers...", @"UserVoice", nil);
-        } else if (!loadingInstantAnswers && [self.instantAnswers count] > 0) {
-            return NSLocalizedStringFromTable(@"Instant Answers", @"UserVoice", nil);
-        }
-    }
-    return nil;
-}
-
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    id model = [self.instantAnswers objectAtIndex:indexPath.row];
-    if ([model isMemberOfClass:[UVArticle class]]) {
-        UVArticle *article = (UVArticle *)model;
-        cell.textLabel.text = article.question;
-        cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
-    } else {
-        UVSuggestion *suggestion = (UVSuggestion *)model;
-        cell.textLabel.text = suggestion.title;
-        cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
-}
-
-#pragma mark ===== UITableViewDelegate Methods =====
-
-- (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case UV_NEW_TICKET_SECTION_TEXT:
-            return 144;
-        case UV_NEW_TICKET_SECTION_SUBMIT:
-            return 42;
-        default:
-            return 44;
-    }
+    [self customizeCellForInstantAnswer:cell index:indexPath.row];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS) {
-        UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
-        if ([field isPredefined]) {
-            UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
-            self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
-            [self.navigationController pushViewController:next animated:YES];
-        } else {
-            UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
-            UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
-            [textField becomeFirstResponder];
-        }
-    } else if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS) {
-        id model = [self.instantAnswers objectAtIndex:indexPath.row];
-        if ([model isMemberOfClass:[UVArticle class]]) {
-            UVArticle *article = (UVArticle *)model;
-            [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.textEditor.text, @"t", nil]];
-            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article] autorelease];
-            [self.navigationController pushViewController:next animated:YES];
-        } else {
-            UVSuggestion *suggestion = (UVSuggestion *)model;
-            [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", self.textEditor.text, @"t", nil]];
-            UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
-            [self.navigationController pushViewController:next animated:YES];
-        }
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (theTableView == fieldsTableView) {
+        if (indexPath.section == SECTION_FIELDS)
+            [self selectCustomFieldAtIndexPath:indexPath tableView:theTableView];
+    } else {
+        [self selectInstantAnswerAtIndex:indexPath.row];
     }
 }
 
+- (void)updateLayout {
+    BOOL showTextView = state == STATE_BEGIN || state == STATE_IA || state == STATE_WAITING;
+    BOOL showIAMessage = state == STATE_IA || state == STATE_SHOW_IA || state == STATE_FIELDS_IA;
+    BOOL showIATable = state == STATE_SHOW_IA;
+    BOOL showFieldsTable = state == STATE_FIELDS || state == STATE_FIELDS_IA;
+    BOOL landscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
 
-# pragma mark ===== Keyboard handling =====
+    if (showTextView)
+        [textView becomeFirstResponder];
+    else
+        [textView resignFirstResponder];
 
-- (void)keyboardDidShow:(NSNotification*)notification {
-    [super keyboardDidShow:notification];
-    if (activeField == nil)
-        return;
+    CGFloat sH = [UIScreen mainScreen].bounds.size.height;
+    CGFloat sW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat kbP = 280;
+    CGFloat kbL = 214;
 
-    NSIndexPath *path;
-    if (activeField == emailField)
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_PROFILE];
-    else if (activeField == textEditor)
-        path = [NSIndexPath indexPathForRow:0 inSection:UV_NEW_TICKET_SECTION_TEXT];
-    else {
-        UITableViewCell *cell = (UITableViewCell *)[activeField superview];
-        UITableView *table = (UITableView *)[cell superview];
-        path = [table indexPathForCell:cell];
-    }
-    [tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    CGRect textViewRect = landscape ?
+        CGRectMake(0, 0, sH, sW - kbL) :
+        CGRectMake(0, 0, sW, sH - kbP);
+
+    if (showIAMessage)
+        textViewRect.size.height -= 40;
+
+    CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.size.height);
+    CGPoint fieldsTableOrigin = CGPointMake(0, showFieldsTable ? instantAnswersOrigin.y + (showIAMessage ? 40 : 0) : sH);
+
+    instantAnswersView.hidden = !showIAMessage;
+    if (showIATable)
+        instantAnswersTableView.hidden = NO;
+    if (showFieldsTable)
+        fieldsTableView.hidden = NO;
+
+    if (state == STATE_WAITING)
+        [self showActivityIndicator];
+    else
+        [self hideActivityIndicator];
+
+    if (showTextView || showIATable)
+        self.navigationItem.rightBarButtonItem = nextButton;
+    else
+        self.navigationItem.rightBarButtonItem = sendButton;
+    
+    self.navigationItem.rightBarButtonItem.enabled = !(showTextView && [self.text length] == 0) && state != STATE_WAITING;
+
+    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableView.contentSize.height : 0));
+
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        messageTextView.frame = textViewRect;
+        instantAnswersView.frame = CGRectMake(instantAnswersOrigin.x, instantAnswersOrigin.y, textViewRect.size.width, instantAnswersTableView.frame.origin.y + instantAnswersTableView.frame.size.height);
+        fieldsTableView.frame = CGRectMake(fieldsTableOrigin.x, fieldsTableOrigin.y, textViewRect.size.width, fieldsTableView.bounds.size.height);
+    } completion:^(BOOL finished) {
+        if (showTextView)
+            [textView scrollRangeToVisible:[textView selectedRange]];
+        else
+            [textView scrollRangeToVisible:NSMakeRange(0, 0)];
+        if (!showFieldsTable)
+            fieldsTableView.hidden = YES;
+    }];
 }
 
-#pragma mark ===== Basic View Methods =====
-
-- (void)loadView {
-    [super loadView];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Contact Us", @"UserVoice", nil);
-
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
-    [self setupGroupedTableView];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.sectionFooterHeight = 0.0;
-
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 50)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 15)];
-    label.text = NSLocalizedStringFromTable(@"Want to suggest an idea instead?", @"UserVoice", nil);
-    label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UVStyleSheet linkTextColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [footer addSubview:label];
-    [label release];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 25, 320, 15);
-    NSString *buttonTitle = [[UVSession currentSession].clientConfig.forum prompt];
-    [button setTitle:buttonTitle forState:UIControlStateNormal];
-    [button setTitleColor:[UVStyleSheet linkTextColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor clearColor];
-    button.showsTouchWhenHighlighted = YES;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [button addTarget:self action:@selector(suggestionButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    button.center = CGPointMake(footer.center.x, button.center.y);
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    [footer addSubview:button];
-
-    self.tableView.tableFooterView = footer;
-    [footer release];
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
+    [self updateLayout];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [textEditor becomeFirstResponder];
+- (void)viewWillAppear:(BOOL)animated {
+   [super viewWillAppear:animated];
+   scrollView.contentInset = UIEdgeInsetsZero;
+   scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
+   scrollView.contentOffset = CGPointZero;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.textEditor = nil;
-    self.emailField = nil;
-    self.activeField = nil;
-    self.selectedCustomFieldValues = nil;
-    [self.timer invalidate];
-    self.timer = nil;
-    self.instantAnswers = nil;
+    self.scrollView = nil;
+    self.messageTextView = nil;
+    self.instantAnswersView = nil;
+    self.instantAnswersMessage = nil;
+    self.instantAnswersTableView = nil;
+    self.fieldsTableView = nil;
+    self.nextButton = nil;
+    self.sendButton = nil;
     [super dealloc];
 }
 

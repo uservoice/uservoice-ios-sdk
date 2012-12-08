@@ -10,6 +10,7 @@
 #import "UVCellViewWithIndex.h"
 #import "UVSuggestionChickletView.h"
 #import "UVStyleSheet.h"
+#import "UVHighlightingLabel.h"
 
 #define UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE 9000
 #define UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY 9001
@@ -20,7 +21,7 @@
 - (id)initWithIndex:(NSInteger)index {
     if (self = [super initWithIndex:index]) {
         // Title
-        UILabel *label = [[UILabel alloc] init];
+        UVHighlightingLabel *label = [[UVHighlightingLabel alloc] init];
         label.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE;
         label.lineBreakMode = UILineBreakModeTailTruncation;
         label.numberOfLines = 0;
@@ -31,15 +32,15 @@
         [label release];
 
         // Forum + Category
-        label = [[UILabel alloc] initWithFrame:CGRectMake(75, 50, 225, 14)];
-        label.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY;
-        label.lineBreakMode = UILineBreakModeTailTruncation;
-        label.numberOfLines = 1;
-        label.font = [UIFont boldSystemFontOfSize:11];
-        label.textColor = [UVStyleSheet secondaryTextColor];
-        label.backgroundColor = [UIColor clearColor];
-        [self addSubview:label];
-        [label release];
+        UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(75, 50, 225, 14)];
+        label2.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY;
+        label2.lineBreakMode = UILineBreakModeTailTruncation;
+        label2.numberOfLines = 1;
+        label2.font = [UIFont boldSystemFontOfSize:11];
+        label2.textColor = [UVStyleSheet secondaryTextColor];
+        label2.backgroundColor = [UIColor clearColor];
+        [self addSubview:label2];
+        [label2 release];
 
         // Chicklet
         UVSuggestionChickletView *chicklet = [[UVSuggestionChickletView alloc] initWithOrigin:CGPointMake(10, 5)];
@@ -51,24 +52,29 @@
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex {
+    [self showSuggestion:suggestion withIndex:theIndex pattern:nil];
+}
+
+- (void)showSuggestion:(UVSuggestion *)suggestion withIndex:(NSInteger)theIndex pattern:(NSRegularExpression *)pattern {
     if (_suggestion!=suggestion)
         _suggestion = suggestion;
 
     // update the index
     _index = theIndex;
 
-    UILabel *label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE];
+    UVHighlightingLabel *label = (UVHighlightingLabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_TITLE];
     CGSize maxSize = CGSizeMake(225, 34);
     CGSize size = [suggestion.title sizeWithFont:label.font
                                constrainedToSize:maxSize
                                    lineBreakMode:UILineBreakModeTailTruncation];
-    label.frame = CGRectMake(75, 10, size.width, size.height);
+    label.frame = CGRectMake(75 - 3, 10, size.width + 6, size.height);
+    label.pattern = pattern;
     label.text = suggestion.title;
     //label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
 
-    label = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY];
-    label.text = suggestion.categoryString;
-    //label.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
+    UILabel *label2 = (UILabel *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CATEGORY];
+    label2.text = suggestion.categoryString;
+    //label2.textColor = [self isHighlighted] ? [UIColor whiteColor] : [UIColor blackColor];
 
     UVSuggestionChickletView *chicklet =
         (UVSuggestionChickletView *)[self viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET];

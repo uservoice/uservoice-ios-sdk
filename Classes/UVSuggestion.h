@@ -37,6 +37,7 @@
     NSString *responseUserName;
     NSString *responseUserAvatarUrl;
     NSInteger responseUserId;
+    NSDate *responseCreatedAt;
 
     UVCategory *category;
 }
@@ -61,6 +62,7 @@
 @property (nonatomic, retain) NSString *responseText;
 @property (nonatomic, retain) NSString *responseUserName;
 @property (nonatomic, retain) NSString *responseUserAvatarUrl;
+@property (nonatomic, retain) NSDate *responseCreatedAt;
 @property (assign) NSInteger responseUserId;
 @property (nonatomic, retain) UVCategory *category;
 @property (nonatomic, readonly) UIColor *statusColor;

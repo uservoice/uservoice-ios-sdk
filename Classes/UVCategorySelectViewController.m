@@ -11,6 +11,8 @@
 #import "UVCategory.h"
 #import "UVNewSuggestionViewController.h"
 #import "UVStyleSheet.h"
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 @implementation UVCategorySelectViewController
 
@@ -18,10 +20,10 @@
 @synthesize categories;
 @synthesize selectedCategory;
 
-- (id)initWithForum:(UVForum *)theForum andSelectedCategory:(UVCategory *)category {
+- (id)initWithSelectedCategory:(UVCategory *)category {
     if (self = [super init]) {
-        self.forum = theForum;
-        self.categories = theForum.categories;
+        self.forum = [UVSession currentSession].clientConfig.forum;
+        self.categories = self.forum.categories;
         self.selectedCategory = category;
     }
     return self;
@@ -30,6 +32,7 @@
 #pragma mark ===== table cells =====
 
 - (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
     UVCategory *category = (UVCategory *)[self.categories objectAtIndex:indexPath.row];
     cell.textLabel.text = category.name;
     if (self.selectedCategory && self.selectedCategory.categoryId == category.categoryId) {
@@ -62,7 +65,7 @@
 
     // Update the previous view controller (the new suggestion view)
     NSArray *viewControllers = [self.navigationController viewControllers];
-    UVNewSuggestionViewController *prev = (UVNewSuggestionViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
+    UVBaseSuggestionViewController *prev = (UVBaseSuggestionViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
     prev.category = category;
     prev.needsReload = YES;
 
@@ -73,7 +76,6 @@
 
 - (void)loadView {
     [super loadView];
-    [self hideExitButton];
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
 
@@ -81,7 +83,6 @@
     UITableView *theTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     theTableView.dataSource = self;
     theTableView.delegate = self;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
 
     self.view = theTableView;
     [theTableView release];

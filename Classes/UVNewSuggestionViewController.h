@@ -7,40 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVBaseViewController.h"
-#import "UVTextView.h"
+#import "UVBaseSuggestionViewController.h"
 
-@class UVForum;
-@class UVCategory;
-
-@interface UVNewSuggestionViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
-    UVForum *forum;
-    NSString *title;
-    NSString *text;
-    NSString *name;
-    NSString *email;
-    UVTextView *textEditor;
-    UITextField *titleField;
-    UITextField *nameField;
-    UITextField *emailField;
-    NSInteger numVotes;
-    UVCategory *category;
-    BOOL shouldShowCategories;
+@interface UVNewSuggestionViewController : UVBaseSuggestionViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
+    UIScrollView *scrollView;
+    UIBarButtonItem *nextButton;
+    UIBarButtonItem *sendButton;
+    UIView *instantAnswersView;
+    UIView *instantAnswersMessage;
+    UITableView *instantAnswersTableView;
+    UITableView *fieldsTableView;
+    int state;
 }
 
-@property (nonatomic, retain) UVForum *forum;
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *email;
-@property (nonatomic, retain) UVTextView *textEditor;
-@property (nonatomic, retain) UITextField *titleField;
-@property (nonatomic, retain) UITextField *nameField;
-@property (nonatomic, retain) UITextField *emailField;
-@property (assign) NSInteger numVotes;
-@property (nonatomic, retain) UVCategory *category;
-@property (assign) BOOL shouldShowCategories;
++ (UVBaseViewController *)viewController;
++ (UVBaseViewController *)viewControllerWithTitle:(NSString *)text;
 
-- (id)initWithForum:(UVForum *)theForum title:(NSString *)theTitle;
+@property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, retain) UIBarButtonItem *nextButton;
+@property (nonatomic, retain) UIBarButtonItem *sendButton;
+@property (nonatomic, retain) UIView *instantAnswersView;
+@property (nonatomic, retain) UIView *instantAnswersMessage;
+@property (nonatomic, retain) UITableView *instantAnswersTableView;
+@property (nonatomic, retain) UITableView *fieldsTableView;
 
 @end

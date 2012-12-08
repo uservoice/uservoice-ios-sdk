@@ -9,13 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
 
-@class UVForum;
-@class UVQuestion;
-
 @interface UVWelcomeViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
-    UVForum *_forum;
+    UIScrollView *scrollView;
+    UITableView *flashTable;
+    UILabel *flashMessageLabel;
+    UILabel *flashTitleLabel;
+    UIView *flashView;
+    UIView *buttons;
 }
 
-@property (nonatomic, retain) UVForum *forum;
+@property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, retain) UITableView *flashTable;
+@property (nonatomic, retain) UILabel *flashMessageLabel;
+@property (nonatomic, retain) UILabel *flashTitleLabel;
+@property (nonatomic, retain) UIView *flashView;
+@property (nonatomic, retain) UIView *buttons;
+
+- (void)updateLayout;
 
 @end

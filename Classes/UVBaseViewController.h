@@ -8,22 +8,39 @@
 
 #import <UIKit/UIKit.h>
 
+#define IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+       green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+        blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 @class UVActivityIndicator;
+@class UVSigninManager;
 
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
-@interface UVBaseViewController : UIViewController {
-    UVActivityIndicator *activityIndicator;
+@interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate> {
     BOOL needsReload;
+    BOOL firstController;
     UITableView *tableView;
     NSInteger kbHeight;
     UIBarButtonItem *exitButton;
+    UVSigninManager *signinManager;
+    NSString *userEmail;
+    NSString *userName;
+    UIView *shade;
+    UIActivityIndicatorView *activityIndicatorView;
 }
 
-@property (nonatomic, retain) UVActivityIndicator *activityIndicator;
 @property (assign) BOOL needsReload;
+@property (assign) BOOL firstController;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
+@property (nonatomic, retain) UVSigninManager *signinManager;
+@property (nonatomic,retain) NSString *userEmail;
+@property (nonatomic,retain) NSString *userName;
+@property (nonatomic, retain) UIView *shade;
+@property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
 
 - (void)dismissUserVoice;
 
@@ -36,9 +53,13 @@
 - (void)showActivityIndicator;
 - (void)hideActivityIndicator;
 
+- (void)addTopBorder:(UIView *)view;
+- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
+
 - (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label;
 
 - (void)initNavigationItem;
+- (void)pushViewControllerFromWelcome:(UIViewController *)viewController;
 
 // Callback for HTTP errors. The default implementation hides the activity indicator
 // and displays an error alert. Can be overridden in subclasses that require
@@ -60,6 +81,9 @@
 
 - (void)addShadowSeparatorToTableView:(UITableView *)tableView;
 
+- (void)requireUserSignedIn:(SEL)action;
+- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action;
+
 // Keyboard handling
 - (void)registerForKeyboardNotifications;
 - (void)keyboardWillShow:(NSNotification*)notification;
@@ -78,9 +102,8 @@
 
 - (void)alertError:(NSString *)message;
 - (void)alertSuccess:(NSString *)message;
-- (void)hideExitButton;
 - (void)showExitButton;
-- (void)promptUserToSignIn;
 - (void)setupGroupedTableView;
+- (UIScrollView *)scrollView;
 
 @end

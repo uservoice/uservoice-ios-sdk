@@ -12,6 +12,8 @@
 #import "UVSession.h"
 #import "UVClientConfig.h"
 #import "UVForum.h"
+#import "UVHelpTopic.h"
+#import "UVConfig.h"
 
 @implementation UVArticle
 
@@ -24,12 +26,31 @@
     [self setBaseURL:[self siteURL]];
 }
 
++ (id)getArticlesWithTopic:(UVHelpTopic *)topic delegate:(id)delegate {
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topic.topicId]];
+    return [self getPath:path
+              withParams:nil
+                  target:delegate
+                selector:@selector(didRetrieveArticles:)];
+}
+
++ (id)getArticlesWithDelegate:(id)delegate {
+    NSString *path = [self apiPath:@"/articles.json"];
+    return [self getPath:path
+              withParams:nil
+                  target:delegate
+                selector:@selector(didRetrieveArticles:)];
+}
+
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"3", @"per_page",
-                            [NSString stringWithFormat:@"%d", [UVSession currentSession].clientConfig.forum.forumId], @"forum_id",
-                            query, @"query",
-                            nil];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{
+        @"per_page" : @"3",
+        @"forum_id" : [NSString stringWithFormat:@"%d", [UVSession currentSession].clientConfig.forum.forumId],
+           @"query" : query
+    }];
+
+    if ([UVSession currentSession].config.topicId)
+        params[@"topic_id"] = [NSString stringWithFormat:@"%d", [UVSession currentSession].config.topicId];
 
     return [self getPath:[self apiPath:@"/instant_answers/search.json"]
               withParams:params
@@ -38,8 +59,7 @@
 }
 
 + (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
-    NSString *type = [dict objectForKey:@"type"];
-    if ([@"suggestion" isEqualToString:type])
+    if ([@"suggestion" isEqualToString:dict[@"type"]])
         return [UVSuggestion modelForDictionary:dict];
     return [super modelForDictionary:dict];
 }

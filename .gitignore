@@ -8,3 +8,5 @@ xcuserdata
 xcuserdata
 profile
 dist
+.idea
+*.swp

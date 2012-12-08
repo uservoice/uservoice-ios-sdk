@@ -45,37 +45,16 @@
     [UVSession currentSession].clientConfig = model;
 }
 
-+ (CGFloat)getScreenWidth
-{
-    CGRect appFrame = [[UIScreen mainScreen] bounds];
-
-    CGFloat screenWidth;
-    if (([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) || ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeRight))
-    {
-        screenWidth = appFrame.size.height;
-    }
-    else
-    {
-        screenWidth = appFrame.size.width;
-    }
-
-    return screenWidth;
++ (CGFloat)getScreenWidth {
+  id appDelegate = (id)UIApplication.sharedApplication.delegate;
+  UIViewController *root = [appDelegate window].rootViewController;
+  return root.presentedViewController.view.bounds.size.width;
 }
 
-+ (CGFloat)getScreenHeight
-{
-    CGRect appFrame = [[UIScreen mainScreen] bounds];
-    CGFloat screenHeight;
-    if (([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) || ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeRight))
-    {
-        screenHeight = appFrame.size.width;
-    }
-    else
-    {
-        screenHeight = appFrame.size.height;
-    }
-
-    return screenHeight;
++ (CGFloat)getScreenHeight {
+  id appDelegate = (id)UIApplication.sharedApplication.delegate;
+  UIViewController *root = [appDelegate window].rootViewController;
+  return root.presentedViewController.view.bounds.size.height;
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {

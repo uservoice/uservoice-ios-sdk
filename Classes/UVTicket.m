@@ -31,12 +31,14 @@
 
 + (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
+                andName:(NSString *)name
         andCustomFields:(NSDictionary *)fields
             andDelegate:(id)delegate {
     NSString *path = [self apiPath:@"/tickets.json"];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         message == nil ? @"" : message, @"ticket[message]",
         email   == nil ? @"" : email,   @"email",
+        name    == nil ? @"" : name,    @"display_name",
         nil];
     
     for (NSString *scope in [UVSession currentSession].externalIds) {
