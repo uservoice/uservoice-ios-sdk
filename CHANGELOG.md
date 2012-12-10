@@ -1,5 +1,8 @@
 ## master ##
 
+## 2.0.1 ##
+
+* Fix a bug related to feedback-only accounts
 * Add a method to directly launch the new idea screen
 
 ## 2.0.0 ##
