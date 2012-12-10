@@ -22,6 +22,7 @@
 #import "UVStyleSheet.h"
 #import "UVHelpTopic.h"
 #import "UVArticle.h"
+#import "UVNewSuggestionViewController.h"
 
 @implementation UVRootViewController
 
@@ -70,24 +71,18 @@
         transition.duration = 0.3;
         transition.type = kCATransitionFade;
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        if (self.viewToLoad == @"welcome") {
-            UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
-            welcomeView.firstController = YES;
-            [self.navigationController pushViewController:welcomeView animated:NO];
-            [welcomeView release];
-        } else if (self.viewToLoad == @"suggestions") {
-            UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-            UVBaseViewController *suggestionListViewController = [[[UVSuggestionListViewController alloc] init] autorelease];
-            suggestionListViewController.firstController = YES;
-            NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, suggestionListViewController, nil];
-            [self.navigationController setViewControllers:viewControllers animated:NO];
-        } else if (self.viewToLoad == @"new_ticket") {
-            UIViewController *welcomeViewController = [[[UVWelcomeViewController alloc] init] autorelease];
-            UVBaseViewController *newTicketViewController = [UVNewTicketViewController viewController];
-            newTicketViewController.firstController = YES;
-            NSArray *viewControllers = [NSArray arrayWithObjects:welcomeViewController, newTicketViewController, nil];
-            [self.navigationController setViewControllers:viewControllers animated:NO];
-        }
+        UVBaseViewController *next = nil;
+        if (self.viewToLoad == @"welcome")
+            next = [[[UVWelcomeViewController alloc] init] autorelease];
+        else if (self.viewToLoad == @"suggestions")
+            next = [[[UVSuggestionListViewController alloc] init] autorelease];
+        else if (self.viewToLoad == @"new_suggestion")
+            next = [UVNewSuggestionViewController viewController];
+        else if (self.viewToLoad == @"new_ticket")
+            next = [UVNewTicketViewController viewController];
+
+        next.firstController = YES;
+        [self.navigationController pushViewController:next animated:NO];
     }
 }
 

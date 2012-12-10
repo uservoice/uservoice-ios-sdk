@@ -14,13 +14,16 @@
 @interface UserVoice : NSObject {
 }
 
-// Modally present the UserVoice interface
+// Modally present the UserVoice portal view
 + (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
 
 // Modally present the UserVoice contact form
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
 
-// Modally present the UserVoice interface, but go directly to the forum screen
+// Modally present the UserVoice new idea form
++ (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
+
+// Modally present the UserVoice forum view
 + (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
 
 // Set a <UVDelegate> to receive callbacks
