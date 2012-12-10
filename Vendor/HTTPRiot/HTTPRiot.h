@@ -120,7 +120,8 @@ If you want to distribute HTTPRiot.framework with your application you'll need t
 #import <Foundation/Foundation.h>
 
 //#import "AIXMLSerialization.h"
-#import "JSON.h"
+#import "UVJSON.h"
+#import "NSObject+UVJSON.h"
 
 #import "HROperationQueue.h"
 #import "HRRequestOperation.h"

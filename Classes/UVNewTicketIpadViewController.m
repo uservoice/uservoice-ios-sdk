@@ -95,7 +95,6 @@
     textView.backgroundColor = [UIColor clearColor];
     textView.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
     textView.text = self.text;
-
     [cell.contentView addSubview:textView];
     [textView becomeFirstResponder];
 }

@@ -106,7 +106,6 @@
 		D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */; };
 		D2620F1411B597290053EA4C /* HRBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC711B597290053EA4C /* HRBase64.h */; };
 		D2620F1511B597290053EA4C /* HRBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EC811B597290053EA4C /* HRBase64.m */; };
-		D2620F1B11B597290053EA4C /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED211B597290053EA4C /* JSON.h */; };
 		D2620F2011B597290053EA4C /* UVJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED711B597290053EA4C /* UVJSON.h */; };
 		D2620F2111B597290053EA4C /* UVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED811B597290053EA4C /* UVJSON.m */; };
 		D2620F2211B597290053EA4C /* UVJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED911B597290053EA4C /* UVJsonBase.h */; };
@@ -297,7 +296,6 @@
 		D2620EC711B597290053EA4C /* HRBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRBase64.h; sourceTree = "<group>"; };
 		D2620EC811B597290053EA4C /* HRBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRBase64.m; sourceTree = "<group>"; };
 		D2620ED111B597290053EA4C /* CREDITS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS; sourceTree = "<group>"; };
-		D2620ED211B597290053EA4C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		D2620ED711B597290053EA4C /* UVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJSON.h; sourceTree = "<group>"; };
 		D2620ED811B597290053EA4C /* UVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJSON.m; sourceTree = "<group>"; };
 		D2620ED911B597290053EA4C /* UVJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonBase.h; sourceTree = "<group>"; };
@@ -713,7 +711,6 @@
 			isa = PBXGroup;
 			children = (
 				D2620ED111B597290053EA4C /* CREDITS */,
-				D2620ED211B597290053EA4C /* JSON.h */,
 				D2620ED711B597290053EA4C /* UVJSON.h */,
 				D2620ED811B597290053EA4C /* UVJSON.m */,
 				D2620ED911B597290053EA4C /* UVJsonBase.h */,
@@ -858,7 +855,6 @@
 				D2620F1211B597290053EA4C /* HTTPRiot.h in Headers */,
 				D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */,
 				D2620F1411B597290053EA4C /* HRBase64.h in Headers */,
-				D2620F1B11B597290053EA4C /* JSON.h in Headers */,
 				D2620F2011B597290053EA4C /* UVJSON.h in Headers */,
 				D2620F2211B597290053EA4C /* UVJsonBase.h in Headers */,
 				D2620F2411B597290053EA4C /* UVJsonParser.h in Headers */,
