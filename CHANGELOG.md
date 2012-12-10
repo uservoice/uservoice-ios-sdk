@@ -1,12 +1,13 @@
 ## master ##
 
+* Add a method to directly launch the new idea screen
+
 ## 2.0.0 ##
 
 * UI overhaul
 * Add knowledgebase browser
 * Add an option to specify a help topic
 * Add options to turn off different parts of the UI
-* Add a method to directly launch the new idea screen
 
 ## 1.2.6 ##
 

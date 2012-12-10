@@ -16,6 +16,7 @@
     UILabel *flashTitleLabel;
     UIView *flashView;
     UIView *buttons;
+    /* UISearchController *searchController; */
 }
 
 @property (nonatomic, retain) UIScrollView *scrollView;
@@ -24,6 +25,7 @@
 @property (nonatomic, retain) UILabel *flashTitleLabel;
 @property (nonatomic, retain) UIView *flashView;
 @property (nonatomic, retain) UIView *buttons;
+/* @property (nonatomic, retain) UISearchController *searchController; */
 
 - (void)updateLayout;
 

@@ -16,13 +16,10 @@
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNewTicketViewController.h"
-#import "UVSuggestion.h"
 #import "UVConfig.h"
-#import "NSError+UVExtras.h"
 #import "UVStyleSheet.h"
-#import "UVHelpTopic.h"
-#import "UVArticle.h"
 #import "UVNewSuggestionViewController.h"
+#import "UVInitialLoadManager.h"
 
 @implementation UVRootViewController
 
@@ -40,28 +37,6 @@
         self.viewToLoad = theViewToLoad;
     }
     return self;
-}
-
-- (void)didReceiveError:(NSError *)error {
-    if ([error isAuthError]) {
-        if ([UVAccessToken exists]) {
-            [[UVSession currentSession].accessToken remove];
-            [UVSession currentSession].accessToken = nil;
-            [UVRequestToken getRequestTokenWithDelegate:self];
-        } else {
-            [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
-                                         message:NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil)
-                                        delegate:self
-                               cancelButtonTitle:nil
-                               otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] autorelease] show];
-        }
-    } else {
-        [super didReceiveError:error];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self dismissUserVoice];
 }
 
 - (void)pushNextView {
@@ -86,67 +61,6 @@
     }
 }
 
-// Initialization: request token -> client config -> user -> persist the access token -> user's suggestions -> next view
-// If we don't have either a configured user, or a persisted token (which is therefore an access token) then we go straight from the client config to the next view
-- (void)didRetrieveRequestToken:(UVRequestToken *)token {
-    [UVSession currentSession].requestToken = token;
-    [UVHelpTopic getAllWithDelegate:self];
-}
-
-- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
-    // check if we have a sso token and if so exchange it for an access token and user
-    if ([UVSession currentSession].config.ssoToken != nil) {
-        [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
-    } else if ([UVSession currentSession].config.email != nil) {
-        [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
-    } else if ([UVAccessToken exists]) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
-        [UVUser retrieveCurrentUser:self];
-    } else {
-        [self pushNextView];
-    }
-}
-
-- (void)didCreateUser:(UVUser *)theUser {
-    [UVSession currentSession].user = theUser;
-    [[UVSession currentSession].accessToken persist];
-    [self pushNextView];
-}
-
-- (void)didRetrieveCurrentUser:(UVUser *)theUser {
-    [UVSession currentSession].user = theUser;
-    [[UVSession currentSession].accessToken persist];
-    [self pushNextView];
-}
-
-- (void)didRetrieveHelpTopics:(NSArray *)topics {
-    if ([UVSession currentSession].config.topicId) {
-        UVHelpTopic *foundTopic = nil;
-        for (UVHelpTopic *topic in topics) {
-            if (topic.topicId == [UVSession currentSession].config.topicId) {
-                foundTopic = topic;
-                break;
-            }
-        }
-        if (foundTopic) {
-            [UVSession currentSession].topics = @[foundTopic];
-            [UVArticle getArticlesWithTopic:foundTopic delegate:self];
-        } else {
-            [UVSession currentSession].topics = topics;
-            [UVClientConfig getWithDelegate:self];
-        }
-    } else if ([topics count] == 0) {
-        [UVArticle getArticlesWithDelegate:self];
-    } else {
-        [UVSession currentSession].topics = topics;
-        [UVClientConfig getWithDelegate:self];
-    }
-}
-
-- (void)didRetrieveArticles:(NSArray *)articles {
-    [UVSession currentSession].articles = articles;
-    [UVClientConfig getWithDelegate:self];
-}
 
 #pragma mark ===== Basic View Methods =====
 
@@ -188,7 +102,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [UVRequestToken getRequestTokenWithDelegate:self];
+    [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
 }
 
 - (void)dealloc {

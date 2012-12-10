@@ -180,6 +180,8 @@
 		D9C35BD6166E7DB0004FAA89 /* UVTruncatingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C35BD4166E7DB0004FAA89 /* UVTruncatingLabel.m */; };
 		D9C35BD9166E7E00004FAA89 /* UVCalculatingLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = D9C35BD7166E7E00004FAA89 /* UVCalculatingLabel.h */; };
 		D9C35BDA166E7E00004FAA89 /* UVCalculatingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C35BD8166E7E00004FAA89 /* UVCalculatingLabel.m */; };
+		D9C35BE3167680F2004FAA89 /* UVInitialLoadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D9C35BE1167680F2004FAA89 /* UVInitialLoadManager.h */; };
+		D9C35BE4167680F2004FAA89 /* UVInitialLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C35BE2167680F2004FAA89 /* UVInitialLoadManager.m */; };
 		D9D4040F164022DD00D9CECA /* UVNewTicketViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D4040D164022DD00D9CECA /* UVNewTicketViewController.h */; };
 		D9D40410164022DD00D9CECA /* UVNewTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D4040E164022DD00D9CECA /* UVNewTicketViewController.m */; };
 		D9D40414164023EF00D9CECA /* UVBaseTicketViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D40412164023EF00D9CECA /* UVBaseTicketViewController.h */; };
@@ -384,6 +386,8 @@
 		D9C35BD4166E7DB0004FAA89 /* UVTruncatingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTruncatingLabel.m; sourceTree = "<group>"; };
 		D9C35BD7166E7E00004FAA89 /* UVCalculatingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCalculatingLabel.h; sourceTree = "<group>"; };
 		D9C35BD8166E7E00004FAA89 /* UVCalculatingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCalculatingLabel.m; sourceTree = "<group>"; };
+		D9C35BE1167680F2004FAA89 /* UVInitialLoadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVInitialLoadManager.h; sourceTree = "<group>"; };
+		D9C35BE2167680F2004FAA89 /* UVInitialLoadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVInitialLoadManager.m; sourceTree = "<group>"; };
 		D9CA8FF114F4110800F98763 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = UserVoice.strings; sourceTree = "<group>"; };
 		D9CA8FF414F4110800F98763 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = UserVoice.strings; sourceTree = "<group>"; };
 		D9D4040D164022DD00D9CECA /* UVNewTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketViewController.h; sourceTree = "<group>"; };
@@ -465,6 +469,8 @@
 				D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */,
 				D96FAE76165C3DF100A384CC /* UVSigninManager.h */,
 				D96FAE77165C3DF100A384CC /* UVSigninManager.m */,
+				D9C35BE1167680F2004FAA89 /* UVInitialLoadManager.h */,
+				D9C35BE2167680F2004FAA89 /* UVInitialLoadManager.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -898,6 +904,7 @@
 				D9003106166913A8006A27C6 /* UVNewSuggestionIpadViewController.h in Headers */,
 				D9C35BD5166E7DB0004FAA89 /* UVTruncatingLabel.h in Headers */,
 				D9C35BD9166E7E00004FAA89 /* UVCalculatingLabel.h in Headers */,
+				D9C35BE3167680F2004FAA89 /* UVInitialLoadManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1044,6 +1051,7 @@
 				D9003107166913A8006A27C6 /* UVNewSuggestionIpadViewController.m in Sources */,
 				D9C35BD6166E7DB0004FAA89 /* UVTruncatingLabel.m in Sources */,
 				D9C35BDA166E7E00004FAA89 /* UVCalculatingLabel.m in Sources */,
+				D9C35BE4167680F2004FAA89 /* UVInitialLoadManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
