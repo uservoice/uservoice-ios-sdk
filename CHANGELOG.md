@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug related to textview text overflowing cell bounds on iPad
+
 ## 2.0.1 ##
 
 * Fix a bug related to feedback-only accounts

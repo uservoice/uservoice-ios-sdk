@@ -87,20 +87,17 @@
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-    CGRect frame = CGRectMake(0, 0, (screenWidth-20), 144);
-    UVTextView *aTextEditor = [[UVTextView alloc] initWithFrame:frame];
-    aTextEditor.delegate = self;
-    aTextEditor.autocorrectionType = UITextAutocorrectionTypeYes;
-    aTextEditor.autocapitalizationType = UITextAutocapitalizationTypeSentences;
-    aTextEditor.backgroundColor = [UIColor clearColor];
-    aTextEditor.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
-    aTextEditor.text = self.text;
+    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, 144)] autorelease];
+    textView.delegate = self;
+    textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    textView.autocorrectionType = UITextAutocorrectionTypeYes;
+    textView.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+    textView.backgroundColor = [UIColor clearColor];
+    textView.placeholder = NSLocalizedStringFromTable(@"Message", @"UserVoice", nil);
+    textView.text = self.text;
 
-    [cell.contentView addSubview:aTextEditor];
-    self.textView = aTextEditor;
+    [cell.contentView addSubview:textView];
     [textView becomeFirstResponder];
-    [aTextEditor release];
 }
 
 - (void)initCellForInstantAnswersMessage:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
