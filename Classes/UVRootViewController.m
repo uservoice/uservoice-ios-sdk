@@ -24,6 +24,7 @@
 @implementation UVRootViewController
 
 @synthesize viewToLoad;
+@synthesize loader;
 
 - (id)init {
     if (self = [super init]) {
@@ -37,6 +38,11 @@
         self.viewToLoad = theViewToLoad;
     }
     return self;
+}
+
+- (void)dismissUserVoice {
+    loader.dismissed = YES;
+    [super dismissUserVoice];
 }
 
 - (void)pushNextView {
@@ -102,11 +108,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
+    self.loader = [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
 }
 
 - (void)dealloc {
     self.viewToLoad = nil;
+    self.loader = nil;
     [super dealloc];
 }
 

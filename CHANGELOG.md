@@ -4,6 +4,7 @@
 * Fix a bug causing crashes on iOS 5
 * Add combined search to portal screen
 * Add 'All Articles' section to knowledge base
+* Fix a bug where the app would crash if UV load canceled by user
 
 ## 2.0.1 ##
 

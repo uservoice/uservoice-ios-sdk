@@ -19,9 +19,12 @@
 
 @implementation UVInitialLoadManager
 
-+ (void)loadWithDelegate:(id)delegate action:(SEL)action {
+@synthesize dismissed;
+
++ (UVInitialLoadManager *)loadWithDelegate:(id)delegate action:(SEL)action {
     UVInitialLoadManager *manager = [[UVInitialLoadManager alloc] initWithDelegate:delegate action:action];
     [manager beginLoad];
+    return manager;
 }
 
 - (id)initWithDelegate:(id)theDelegate action:(SEL)theAction {
@@ -43,11 +46,11 @@
 - (void)checkComplete {
     if (configDone && userDone && topicsDone && articlesDone) {
         [delegate performSelector:action];
-        [self release];
     }
 }
 
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
+    if (dismissed) return;
     [UVSession currentSession].requestToken = token;
     [UVClientConfig getWithDelegate:self];
     if ([UVSession currentSession].config.ssoToken != nil) {
@@ -64,6 +67,7 @@
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
+    if (dismissed) return;
     configDone = YES;
     if (clientConfig.ticketsEnabled) {
         [UVHelpTopic getAllWithDelegate:self];
@@ -79,6 +83,7 @@
 }
 
 - (void)didCreateUser:(UVUser *)theUser {
+    if (dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     userDone = YES;
@@ -86,6 +91,7 @@
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
+    if (dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     userDone = YES;
@@ -93,6 +99,7 @@
 }
 
 - (void)didRetrieveHelpTopics:(NSArray *)topics {
+    if (dismissed) return;
     if ([UVSession currentSession].config.topicId) {
         UVHelpTopic *foundTopic = nil;
         for (UVHelpTopic *topic in topics) {
@@ -113,6 +120,7 @@
 }
 
 - (void)didRetrieveArticles:(NSArray *)articles {
+    if (dismissed) return;
     [UVSession currentSession].articles = articles;
     articlesDone = YES;
     [self checkComplete];
@@ -120,10 +128,10 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     [delegate performSelector:@selector(dismissUserVoice)];
-    [self release];
 }
 
 - (void)didReceiveError:(NSError *)error {
+    if (dismissed) return;
     NSString *message = nil;
     if ([error isAuthError]) {
         if ([UVAccessToken exists]) {
