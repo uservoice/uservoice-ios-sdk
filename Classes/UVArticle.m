@@ -50,7 +50,7 @@
     }];
 
     if ([UVSession currentSession].config.topicId)
-        [params setObject:[NSString stringWithFormat:@"%d", [[UVSession currentSession].config.topicId]] forKey:@"topic_id"];
+        [params setObject:[NSString stringWithFormat:@"%d", [UVSession currentSession].config.topicId] forKey:@"topic_id"];
 
     return [self getPath:[self apiPath:@"/instant_answers/search.json"]
               withParams:params
