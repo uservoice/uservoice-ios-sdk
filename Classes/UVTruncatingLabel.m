@@ -49,7 +49,7 @@
             UIFont *moreFont = [UIFont boldSystemFontOfSize:self.font.pointSize];
             NSString *more = NSLocalizedStringFromTable(@"More", @"UserVoice", nil);
             CGSize moreSize = [more sizeWithFont:moreFont];
-            self.text = [NSString stringWithFormat:@"%@%@%@", lines[0], lines[1], lines[2]];
+            self.text = [NSString stringWithFormat:@"%@%@%@", [lines objectAtIndex:0], [lines objectAtIndex:1], [lines objectAtIndex:2]];
             int i = [self.text length] - 1;
             CGRect r = [self rectForLetterAtIndex:i];
             while (self.frame.size.width - r.origin.x - r.size.width < 30 + moreSize.width) {
