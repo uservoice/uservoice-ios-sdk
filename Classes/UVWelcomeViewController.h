@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UVBaseViewController.h"
+#import "UVBaseInstantAnswersViewController.h"
 
-@interface UVWelcomeViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface UVWelcomeViewController : UVBaseInstantAnswersViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate> {
     UIScrollView *scrollView;
     UITableView *flashTable;
     UILabel *flashMessageLabel;
     UILabel *flashTitleLabel;
     UIView *flashView;
     UIView *buttons;
-    /* UISearchController *searchController; */
+    UISearchDisplayController *searchController;
 }
 
 @property (nonatomic, retain) UIScrollView *scrollView;
@@ -25,7 +25,7 @@
 @property (nonatomic, retain) UILabel *flashTitleLabel;
 @property (nonatomic, retain) UIView *flashView;
 @property (nonatomic, retain) UIView *buttons;
-/* @property (nonatomic, retain) UISearchController *searchController; */
+@property (nonatomic, retain) UISearchDisplayController *searchController;
 
 - (void)updateLayout;
 

@@ -171,6 +171,7 @@
 - (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     UVHighlightingLabel *label = [[[UVHighlightingLabel alloc] initWithFrame:CGRectMake(IPAD ? 75 : 50, 12, cell.bounds.size.width - (IPAD ? 130 : 80), 20)] autorelease];
+    label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont boldSystemFontOfSize:13.0];
@@ -180,6 +181,8 @@
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index {
+    if ([instantAnswers count] <= index)
+        return;
     id model = [instantAnswers objectAtIndex:index];
     UVHighlightingLabel *label = (UVHighlightingLabel *)[cell viewWithTag:HIGHLIGHTING_LABEL_TAG];
     label.pattern = searchPattern;
@@ -194,8 +197,31 @@
     }
 }
 
+- (int)maxInstantAnswerResults {
+    return 3;
+}
+
+- (void)setFilter:(int)theFilter {
+    filter = theFilter;
+    [self loadInstantAnswers];
+}
+
+- (int)filter {
+    return filter;
+}
+
 - (void)didRetrieveInstantAnswers:(NSArray *)theInstantAnswers {
-    self.instantAnswers = [theInstantAnswers subarrayWithRange:NSMakeRange(0, MIN(3, [theInstantAnswers count]))];
+    NSArray *filteredAnswers = nil;
+    if (filter == IA_FILTER_ALL) {
+        filteredAnswers = theInstantAnswers;
+    } else if (filter == IA_FILTER_IDEAS) {
+        filteredAnswers = [theInstantAnswers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", [UVSuggestion class]]];
+    } else if (filter == IA_FILTER_ARTICLES) {
+        filteredAnswers = [theInstantAnswers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", [UVArticle class]]];
+    } else {
+        filteredAnswers = theInstantAnswers;
+    }
+    self.instantAnswers = [filteredAnswers subarrayWithRange:NSMakeRange(0, MIN([self maxInstantAnswerResults], [filteredAnswers count]))];
     loadingInstantAnswers = NO;
     [self didLoadInstantAnswers];
     

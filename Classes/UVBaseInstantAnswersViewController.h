@@ -13,6 +13,10 @@
 #define TICKET_VIEW_X_TAG 1002
 #define TICKET_VIEW_IA_LABEL_TAG 1003
 
+#define IA_FILTER_ALL 0
+#define IA_FILTER_ARTICLES 1
+#define IA_FILTER_IDEAS 2
+
 @interface UVBaseInstantAnswersViewController : UVBaseViewController {
     NSTimer *instantAnswersTimer;
     NSArray *instantAnswers;
@@ -21,6 +25,7 @@
     NSString *articleReturnMessage;
     NSRegularExpression *searchPattern;
     BOOL loadingInstantAnswers;
+    int filter;
 }
 
 @property (nonatomic,retain) NSTimer *instantAnswersTimer;
@@ -29,6 +34,7 @@
 @property (nonatomic,retain) NSString *articleHelpfulPrompt;
 @property (nonatomic,retain) NSString *articleReturnMessage;
 @property (nonatomic,retain) NSRegularExpression *searchPattern;
+@property (assign) int filter;
 
 - (void)selectInstantAnswerAtIndex:(int)index;
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
@@ -36,6 +42,7 @@
 - (void)updateSpinnerAndXIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector;
 - (NSString *)instantAnswersFoundMessage:(BOOL)toggled;
+- (int)maxInstantAnswerResults;
 
 /**
  * Reset the instant answers timer for 0.5 seconds
