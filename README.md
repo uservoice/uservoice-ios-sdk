@@ -82,10 +82,43 @@ If you pass fields that are not recognized by the server, they will be ignored.
 
     config.customFields = [NSDictionary dictionaryWithObjectsAndKeys:@"Value", @"Key", nil];
 
+### Specify a help topic (optional)
+
+You can specify a help topic by id, which affects two things:
+
+1. That topics articles will be displayed directly on the portal screen.
+2. Only artiles in that topic will show up as instant answers.
+
+    config.topicId = 123;
+
+### Toggle features
+
+You can turn off certain features of the SDK if you do not want to use them. By
+default, all features are enabled if they are available on your account.
+
+**1. Turn off browsing the forum.** The user will still be able to post ideas, and view ideas that they find by searching.
+
+    config.showForum = NO;
+
+**2. Turn off posting ideas.** The user will still be able to browse and search existing ideas.
+
+    config.showPostIdea = NO;
+
+**3. Turn off the contact form.**
+
+    config.showContactUs = NO;
+
+**4. Turn of the knowledge base.** This only affects the knowledge base browser on the portal screen. Instant answers will still include articles.
+
+    config.showKnowledgeBase = NO;
+
+If you deep-link to an area that is turned off (such as the contact form), it
+will still work. Turning off the feature only prevents it from being accessible
+anywhere in the UserVoice UI.
 
 ### Invocation (Deep Linking)
 
-There are 3 options for how to launch UserVoice from within your app:
+There are 4 options for how to launch UserVoice from within your app:
 
 **1. Standard UserVoice Interface:** This launches the UserVoice for iOS portal page where the user can browse suggestions, contact you or browse the knowledgebase. This is the full experience of everything the SDK can do:
     
@@ -98,6 +131,10 @@ There are 3 options for how to launch UserVoice from within your app:
 **3. Direct link to feedback forum:** Launches the user directly into the feedback forum where they can browse, vote on or give their own feedback. Useful for linking from a "Give us your ideas?" prompt from within your app.
 
     [UserVoice presentUserVoiceForumForParentViewController:self andConfig:config];
+
+**4. Direct link to idea form:** Launches user directly into the idea form, with Instant Answers, experience.
+
+    [UserVoice presentUserVoiceNewIdeaFormForParentViewController:self andConfig:config];
 
 ### Customizing Colors
 

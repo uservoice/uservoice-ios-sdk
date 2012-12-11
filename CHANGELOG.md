@@ -1,6 +1,9 @@
 ## master ##
 
 * Fix a bug related to textview text overflowing cell bounds on iPad
+* Fix a bug causing crashes on iOS 5
+* Add combined search to portal screen
+* Add 'All Articles' section to knowledge base
 
 ## 2.0.1 ##
 
