@@ -80,16 +80,18 @@ also use this to set default values for custom fields on the contact form.
 Note: You must first configure these fields in the UserVoice admin console.
 If you pass fields that are not recognized by the server, they will be ignored.
 
-    config.customFields = [NSDictionary dictionaryWithObjectsAndKeys:@"Value", @"Key", nil];
+    config.customFields = @{@"Key" : @"Value"};
 
 ### Specify a help topic (optional)
 
 You can specify a help topic by id, which affects two things:
 
-1. That topics articles will be displayed directly on the portal screen.
-2. Only artiles in that topic will show up as instant answers.
+ 1. That topics articles will be displayed directly on the portal screen.
+ 2. Only artiles in that topic will show up as instant answers.
 
-    config.topicId = 123;
+<pre>
+config.topicId = 123;
+</pre>
 
 ### Toggle features
 
