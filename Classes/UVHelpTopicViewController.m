@@ -87,8 +87,13 @@
         [footer addSubview:contactUsButton];
         tableView.tableFooterView = footer;
     }
-    [self showActivityIndicator];
-    [UVArticle getArticlesWithTopic:topic delegate:self];
+    if (self.topic) {
+        [self showActivityIndicator];
+        [UVArticle getArticlesWithTopicId:topic.topicId delegate:self];
+    } else {
+        self.articles = [UVSession currentSession].articles;
+        [tableView reloadData];
+    }
 }
 
 - (void)dealloc {

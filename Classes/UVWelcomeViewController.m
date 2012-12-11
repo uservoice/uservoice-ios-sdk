@@ -71,8 +71,12 @@
 
 - (void)customizeCellForTopic:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
-    cell.textLabel.text = topic.name;
+    if (indexPath.row == [[UVSession currentSession].topics count]) {
+        cell.textLabel.text = NSLocalizedStringFromTable(@"All Articles", @"UserVoice", nil);
+    } else {
+        UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
+        cell.textLabel.text = topic.name;
+    }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -164,7 +168,7 @@
         else if ([self showArticles])
             return [[UVSession currentSession].articles count];
         else
-            return [[UVSession currentSession].topics count];
+            return [[UVSession currentSession].topics count] + 1;
     }
 }
 
@@ -185,7 +189,9 @@
             UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else {
-            UVHelpTopic *topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
+            UVHelpTopic *topic = nil;
+            if (indexPath.row < [[UVSession currentSession].topics count])
+                topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
             UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         }

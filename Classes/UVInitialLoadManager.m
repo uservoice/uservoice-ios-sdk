@@ -30,7 +30,8 @@
         action = theAction;
         configDone = NO;
         userDone = NO;
-        kbDone = NO;
+        topicsDone = NO;
+        articlesDone = NO;
     }
     return self;
 }
@@ -40,7 +41,7 @@
 }
 
 - (void)checkComplete {
-    if (configDone && userDone && kbDone) {
+    if (configDone && userDone && topicsDone && articlesDone) {
         [delegate performSelector:action];
         [self release];
     }
@@ -66,8 +67,13 @@
     configDone = YES;
     if (clientConfig.ticketsEnabled) {
         [UVHelpTopic getAllWithDelegate:self];
+        if ([UVSession currentSession].config.topicId)
+            [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId delegate:self];
+        else
+            [UVArticle getArticlesWithDelegate:self];
     } else {
-        kbDone = YES;
+        topicsDone = YES;
+        articlesDone = YES;
     }
     [self checkComplete];
 }
@@ -95,25 +101,20 @@
                 break;
             }
         }
-        if (foundTopic) {
+        if (foundTopic)
             [UVSession currentSession].topics = @[foundTopic];
-            [UVArticle getArticlesWithTopic:foundTopic delegate:self];
-        } else {
+        else
             [UVSession currentSession].topics = topics;
-            kbDone = YES;
-        }
-    } else if ([topics count] == 0) {
-        [UVArticle getArticlesWithDelegate:self];
     } else {
         [UVSession currentSession].topics = topics;
-        kbDone = YES;
     }
+    topicsDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveArticles:(NSArray *)articles {
     [UVSession currentSession].articles = articles;
-    kbDone = YES;
+    articlesDone = YES;
     [self checkComplete];
 }
 
@@ -128,7 +129,8 @@
         if ([UVAccessToken exists]) {
             [[UVSession currentSession].accessToken remove];
             [UVSession currentSession].accessToken = nil;
-            kbDone = NO;
+            articlesDone = NO;
+            topicsDone = NO;
             userDone = NO;
             configDone = NO;
             [UVRequestToken getRequestTokenWithDelegate:self];

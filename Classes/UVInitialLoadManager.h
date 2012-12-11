@@ -12,7 +12,8 @@
     id delegate;
     SEL action;
     BOOL userDone;
-    BOOL kbDone;
+    BOOL topicsDone;
+    BOOL articlesDone;
     BOOL configDone;
 }
 

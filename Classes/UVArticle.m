@@ -26,8 +26,8 @@
     [self setBaseURL:[self siteURL]];
 }
 
-+ (id)getArticlesWithTopic:(UVHelpTopic *)topic delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topic.topicId]];
++ (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topicId]];
     return [self getPath:path
               withParams:nil
                   target:delegate
