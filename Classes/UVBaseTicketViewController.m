@@ -81,7 +81,7 @@
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
         welcomeView.firstController = YES;
-        NSArray *viewControllers = @[self.navigationController.viewControllers[0], welcomeView];
+        NSArray *viewControllers = @[[self.navigationController.viewControllers objectAtIndex:0], welcomeView];
         [self.navigationController setViewControllers:viewControllers animated:NO];
     } else {
         UINavigationController *nav = (UINavigationController *)self.presentingViewController;
