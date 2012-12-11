@@ -59,6 +59,7 @@
     } else {
         userDone = YES;
     }
+    [self checkComplete];
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
@@ -118,9 +119,11 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     [delegate performSelector:@selector(dismissUserVoice)];
+    [self release];
 }
 
 - (void)didReceiveError:(NSError *)error {
+    NSString *message = nil;
     if ([error isAuthError]) {
         if ([UVAccessToken exists]) {
             [[UVSession currentSession].accessToken remove];
@@ -129,14 +132,16 @@
             userDone = NO;
             configDone = NO;
             [UVRequestToken getRequestTokenWithDelegate:self];
+            return;
         } else {
-            [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
-                                         message:NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil)
-                                        delegate:self
-                               cancelButtonTitle:nil
-                               otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] autorelease] show];
+            message = NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil);
         }
+    } else if ([error isConnectionError]) {
+        message = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
+    } else {
+        message = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
     }
+    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil) message:message delegate:self cancelButtonTitle:nil otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] autorelease] show];
 }
 
 
