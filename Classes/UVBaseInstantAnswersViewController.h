@@ -13,6 +13,8 @@
 #define TICKET_VIEW_X_TAG 1002
 #define TICKET_VIEW_IA_LABEL_TAG 1003
 
+#define HIGHLIGHTING_LABEL_TAG 100
+
 #define IA_FILTER_ALL 0
 #define IA_FILTER_ARTICLES 1
 #define IA_FILTER_IDEAS 2
@@ -37,6 +39,7 @@
 @property (assign) int filter;
 
 - (void)selectInstantAnswerAtIndex:(int)index;
+- (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath;
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell index:(int)index;
 - (void)addSpinnerAndXTo:(UIView *)view atCenter:(CGPoint)center;
 - (void)updateSpinnerAndXIn:(UIView *)view withToggle:(BOOL)toggled animated:(BOOL)animated;

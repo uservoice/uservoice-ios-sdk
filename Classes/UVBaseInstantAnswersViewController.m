@@ -15,8 +15,6 @@
 #import "UVSuggestionDetailsViewController.h"
 #import "UVHighlightingLabel.h"
 
-#define HIGHLIGHTING_LABEL_TAG 100
-
 @implementation UVBaseInstantAnswersViewController
 
 @synthesize instantAnswersTimer;
@@ -78,6 +76,7 @@
 - (void)loadInstantAnswers:(NSTimer *)timer {
     loadingInstantAnswers = YES;
     self.instantAnswers = [NSArray array];
+    if (self.instantAnswersQuery == nil) return;
     [self willLoadInstantAnswers];
     // It's a combined search, remember?
     [[UVSession currentSession] trackInteraction:@"sf"];

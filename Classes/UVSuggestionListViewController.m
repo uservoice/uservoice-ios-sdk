@@ -296,11 +296,9 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];
     headerView.backgroundColor = [UIColor clearColor];
 
-    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor lightGrayColor]];
     UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)] autorelease];
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), self.forum.name];
-    searchBar.tintColor = [UIColor colorWithRed:0.77f green:0.78f blue:0.79f alpha:1.0f];
     searchBar.delegate = self;
 
     UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height - 1, searchBar.bounds.size.width, 1)] autorelease];
