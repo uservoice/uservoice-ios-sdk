@@ -178,7 +178,8 @@
         UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else if (theTableView == searchController.searchResultsTableView) {
-        [self selectInstantAnswerAtIndex:indexPath.row - 1];
+        if (indexPath.row > 0)
+            [self selectInstantAnswerAtIndex:indexPath.row - 1];
     } else {
         [self clearFlash];
         if (indexPath.section == 0) {
