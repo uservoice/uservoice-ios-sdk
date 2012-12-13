@@ -11,6 +11,7 @@
 #import "UVTextView.h"
 #import "UVComment.h"
 #import "UVSuggestionDetailsViewController.h"
+#import "UVKeyboardUtils.h"
 
 @implementation UVCommentViewController
 
@@ -51,10 +52,11 @@
     CGFloat sW = [UIScreen mainScreen].bounds.size.width;
     CGFloat kbP = 280;
     CGFloat kbL = 214;
+    BOOL kb = [UVKeyboardUtils visible];
 
     CGRect textViewRect = UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ?
-        CGRectMake(0, 0, sH, sW - kbL) :
-        CGRectMake(0, 0, sW, sH - kbP);
+        CGRectMake(0, 0, sH, sW - (kb ? kbL : 54)) :
+        CGRectMake(0, 0, sW, sH - (kb ? kbP : 64));
 
     [UIView animateWithDuration:0.3 animations:^{
         self.textView.frame = textViewRect;
@@ -81,6 +83,17 @@
                                                                               target:self
                                                                               action:@selector(commentButtonTapped)] autorelease];
     [self.textView becomeFirstResponder];
+    [self updateLayout];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification {
+    [super keyboardDidShow:notification];
+    [self updateLayout];
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    [super keyboardDidHide:notification];
+    [self updateLayout];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {

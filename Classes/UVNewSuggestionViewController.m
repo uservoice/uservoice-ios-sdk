@@ -201,6 +201,9 @@
     CGPoint instantAnswersOrigin = CGPointMake(0, textViewRect.origin.y + textViewRect.size.height);
     CGPoint fieldsTableViewOrigin = CGPointMake(0, showFieldsTable ? instantAnswersOrigin.y + (showIAMessage ? 40 : 0) : sH);
 
+    if (state == STATE_BEGIN && ![UVKeyboardUtils visible])
+        instantAnswersOrigin.y = sH;
+
     instantAnswersView.hidden = !showIAMessage;
     if (showIATable)
         instantAnswersTableView.hidden = NO;
@@ -221,7 +224,7 @@
 
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.origin.y + textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableView.contentSize.height : 0));
 
-    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA) animated:YES];
+    [self updateSpinnerAndXIn:instantAnswersMessage withToggle:(state == STATE_SHOW_IA || (state == STATE_IA && ![UVKeyboardUtils visible])) animated:YES];
     [UIView animateWithDuration:0.3 animations:^{
         textView.frame = textViewRect;
         instantAnswersView.frame = CGRectMake(instantAnswersOrigin.x, instantAnswersOrigin.y, textViewRect.size.width, instantAnswersTableView.frame.origin.y + instantAnswersTableView.frame.size.height);
@@ -361,7 +364,7 @@
         else
             state = STATE_FIELDS;
     } else if (state == STATE_IA) {
-        state = STATE_SHOW_IA;
+        state = [UVKeyboardUtils visible] ? STATE_SHOW_IA : STATE_FIELDS_IA;
     } else if (state == STATE_SHOW_IA) {
         state = STATE_FIELDS_IA;
     }
@@ -387,7 +390,7 @@
 - (void)instantAnswersMessageTapped {
     switch (state) {
     case STATE_IA:
-        state = STATE_SHOW_IA;
+        state = [UVKeyboardUtils visible] ? STATE_SHOW_IA : STATE_FIELDS_IA;
         break;
     case STATE_SHOW_IA:
         state = STATE_FIELDS_IA;
