@@ -372,10 +372,6 @@
 
 - (void)loadView {
     [self initNavigationItem];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     [self registerForKeyboardNotifications];
 }
 
@@ -385,12 +381,8 @@
         [self.view performSelector:@selector(setBackgroundView:) withObject:nil];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super viewDidDisappear:animated];
-}
-
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.tableView = nil;
     self.exitButton = nil;
     self.signinManager = nil;
