@@ -230,11 +230,13 @@
     searchController.searchResultsTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.0f];
     [searchBar setShowsCancelButton:YES animated:YES];
     filter = IA_FILTER_ALL;
+    searchBar.showsScopeBar = YES;
     searchBar.selectedScopeButtonIndex = 0;
     return YES;
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+    controller.searchBar.showsScopeBar = NO;
     [self updateLayoutAnimated:YES];
 }
 
@@ -319,7 +321,6 @@
         searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"UserVoice", nil);
         searchBar.delegate = self;
         if ([UVSession currentSession].config.showForum) {
-            searchBar.showsScopeBar = YES;
             searchBar.scopeButtonTitles = @[NSLocalizedStringFromTable(@"All", @"UserVoice", nil), NSLocalizedStringFromTable(@"Articles", @"UserVoice", nil), NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil)];
         }
         UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height, searchBar.bounds.size.width, 1)] autorelease];

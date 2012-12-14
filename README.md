@@ -38,7 +38,7 @@ Once you have completed these steps, you are ready to launch the UserVoice UI
 from your code. Import `UserVoice.h` and create a `UVConfig` using one of the
 following options.
 
-#### Configuration
+### Configuration
 
 **1. Standard Login:** This is the most basic option, which will allow users to
 either sign in, or create a UserVoice account, from inside the UserVoice UI.
@@ -122,7 +122,7 @@ anywhere in the UserVoice UI.
 
 There are 4 options for how to launch UserVoice from within your app:
 
-**1. Standard UserVoice Interface:** This launches the UserVoice for iOS portal page where the user can browse suggestions, contact you or browse the knowledgebase. This is the full experience of everything the SDK can do:
+**1. Standard UserVoice Interface:** This launches the UserVoice for iOS portal page where the user can browse suggestions, contact you or browse the knowledgebase. This is the full experience of everything the SDK can do.
     
     [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
 
