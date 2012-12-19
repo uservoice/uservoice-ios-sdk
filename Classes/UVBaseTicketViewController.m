@@ -91,11 +91,6 @@
     }
 }
 
-- (void)suggestionButtonTapped {
-    UIViewController *next = [UVNewSuggestionViewController viewControllerWithTitle:self.textView.text];
-    [self pushViewControllerFromWelcome:next];
-}
-
 - (void)reloadCustomFieldsTable {
     [tableView reloadData];
 }
@@ -169,23 +164,6 @@
     textField.delegate = self;
     [cell.contentView addSubview:textField];
     return [textField autorelease];
-}
-
-- (UIView *)fieldsTableFooterView {
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
-    [self addTopBorder:footer alpha:0.5f];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, 30)] autorelease];
-    label.text = NSLocalizedStringFromTable(@"Would you rather post an idea on our forum so others can vote and comment on it?", @"UserVoice", nil);
-    label.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:11];
-    label.textAlignment = UITextAlignmentLeft;
-    label.numberOfLines = 2;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.userInteractionEnabled = YES;
-    [label addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(suggestionButtonTapped)] autorelease]];
-    [footer addSubview:label];
-    return footer;
 }
 
 - (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView {

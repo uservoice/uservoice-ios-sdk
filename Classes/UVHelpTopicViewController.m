@@ -64,12 +64,7 @@
 }
 
 - (void)contactUsTapped {
-    UIViewController *next = [UVNewTicketViewController viewController];
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    navigationController.viewControllers = @[next];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentModalViewController:[UVNewTicketViewController viewController]];
 }
 
 - (void)loadView {

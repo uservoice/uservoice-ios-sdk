@@ -56,28 +56,13 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 - (void)addTopBorder:(UIView *)view;
 - (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
 
-- (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label;
-
 - (void)initNavigationItem;
-- (void)pushViewControllerFromWelcome:(UIViewController *)viewController;
+- (void)presentModalViewController:(UIViewController *)viewController;
 
 // Callback for HTTP errors. The default implementation hides the activity indicator
 // and displays an error alert. Can be overridden in subclasses that require
 // specialized behavior.
 - (void)didReceiveError:(NSError *)error;
-
-// Override this to use a title other than "Back".
-- (NSString *)backButtonTitle;
-
-// Adds a background gradient from dark to light gray
-//- (void)addGradientBackground;
-
-// Magic incantation to remove the white cell background, border, and rounded corners.
-- (void)removeBackgroundFromCell:(UITableViewCell *)cell;
-
-// Adds a highlight row at the top. You need to separately add a dark shadow via
-// the table separator.
-- (void)addHighlightToCell:(UITableViewCell *)cell;
 
 - (void)addShadowSeparatorToTableView:(UITableView *)tableView;
 
@@ -101,7 +86,6 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
                                   selectable:(BOOL)selectable;
 
 - (void)alertError:(NSString *)message;
-- (void)alertSuccess:(NSString *)message;
 - (void)showExitButton;
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;

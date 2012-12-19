@@ -82,38 +82,12 @@
     shade.hidden = YES;
 }
 
-- (void)setVoteLabelTextAndColorForVotesRemaining:(NSInteger)votesRemaining label:(UILabel *)label {
-    if ([UVSession currentSession].user) {
-        if (votesRemaining == 0) {
-            label.text = NSLocalizedStringFromTable(@"Sorry, you have no more votes remaining in this forum.", @"UserVoice", nil);
-            label.textColor = [UVStyleSheet alertTextColor];
-        } else {
-            label.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"You have %d %@ remaining in this forum", @"UserVoice", @"%d for number of votes, %@ for pluralization of 'votes'"),
-                          votesRemaining,
-                          votesRemaining == 1 ? NSLocalizedStringFromTable(@"vote", @"UserVoice", nil) : NSLocalizedStringFromTable(@"votes", @"UserVoice", nil)];
-            label.textColor = [UVStyleSheet linkTextColor];
-        }
-    } else {
-        label.font = [UIFont boldSystemFontOfSize:14];
-        label.text = NSLocalizedStringFromTable(@"You will need to sign in to vote.", @"UserVoice", nil);
-        label.textColor = [UVStyleSheet alertTextColor];
-    }
-}
-
 - (void)alertError:(NSString *)message {
     [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
                                 message:message
                                delegate:nil
                       cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
                       otherButtonTitles:nil] autorelease] show];
-}
-
-- (void)alertSuccess:(NSString *)message {
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Success", @"UserVoice", nil)
-                                 message:message
-                                delegate:nil
-                       cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                       otherButtonTitles:nil] autorelease] show];
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -144,10 +118,6 @@
     [self alertError:msg];
 }
 
-- (NSString *)backButtonTitle {
-    return NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
-}
-
 - (void)initNavigationItem {
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
 
@@ -171,13 +141,6 @@
 
 #pragma mark ===== helper methods for table views =====
 
-- (void)removeBackgroundFromCell:(UITableViewCell *)cell {
-    UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    backView.backgroundColor = [UIColor clearColor];
-    cell.backgroundView = backView;
-    cell.backgroundColor = [UIColor clearColor];
-}
-
 - (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
                                    tableView:(UITableView *)theTableView
                                    indexPath:(NSIndexPath *)indexPath
@@ -199,21 +162,6 @@
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
     }
     return cell;
-}
-
-// Add a highlight row at the top. You need to separately add a dark shadow via
-// the table separator.
-- (void)addHighlightToCell:(UITableViewCell *)cell {
-
-    //CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
-    UIView *highlight = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
-    highlight.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
-    highlight.opaque = YES;
-    [cell.contentView addSubview:highlight];
-    [highlight release];
 }
 
 - (void)addShadowSeparatorToTableView:(UITableView *)theTableView {
@@ -277,6 +225,15 @@
     [self scrollView].scrollIndicatorInsets = contentInsets;
 }
 
+- (void)presentModalViewController:(UIViewController *)viewController {
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    navigationController.viewControllers = @[viewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navigationController animated:YES];
+    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+}
+
 - (void)showExitButton {
     self.navigationItem.leftBarButtonItem = exitButton;
 }
@@ -290,15 +247,6 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.tableView];
-}
-
-- (void)pushViewControllerFromWelcome:(UIViewController *)viewController {
-    NSMutableArray *viewControllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
-    [viewControllers removeLastObject];
-    if ([viewControllers count] > 2)
-        [viewControllers removeLastObject];
-    [viewControllers addObject:viewController];
-    [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 - (void)addTopBorder:(UIView *)view {
