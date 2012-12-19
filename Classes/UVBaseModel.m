@@ -12,6 +12,7 @@
 #import "UVSession.h"
 #import "UVAccessToken.h"
 #import "YOAuthToken.h"
+#import "UserVoice.h"
 
 @implementation UVBaseModel
 
@@ -44,6 +45,7 @@
     // Last not least, our production server seems to have an issue with GET requests
     // without a content type, even though it should be irrelevant for GET.
     [headers setObject:@"application/x-www-form-urlencoded" forKey:@"Content-Type"];
+    [headers setObject:[NSString stringWithFormat:@"uservoice-ios-%@", [UserVoice version]] forKey:@"API-Client"];
     [headers setObject:[[NSLocale preferredLanguages] objectAtIndex:0] forKey:@"Accept-Language"];
     YOAuthToken *token = nil;
 
