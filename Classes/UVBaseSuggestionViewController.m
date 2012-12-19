@@ -91,7 +91,6 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [self hideActivityIndicator];
-    /* [self alertSuccess:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Your idea \"%@\" was successfully created.", @"UserVoice", nil), self.title]]; */
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
 
     // increment the created suggestions and supported suggestions counts

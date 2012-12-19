@@ -48,10 +48,6 @@
     return self;
 }
 
-- (NSString *)backButtonTitle {
-    return NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
-}
-
 - (BOOL)showArticles {
     return [UVSession currentSession].config.topicId || [[UVSession currentSession].topics count] == 0;
 }
@@ -197,22 +193,12 @@
 
 - (void)postIdeaTapped {
     [self clearFlash];
-    UIViewController *next = [UVNewSuggestionViewController viewController];
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    navigationController.viewControllers = @[next];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentModalViewController:[UVNewSuggestionViewController viewController]];
 }
 
 - (void)contactUsTapped {
     [self clearFlash];
-    UIViewController *next = [UVNewTicketViewController viewController];
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    navigationController.viewControllers = @[next];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentModalViewController:[UVNewTicketViewController viewController]];
 }
 
 - (void)logoTapped {

@@ -33,9 +33,7 @@
 - (id)initWithText:(NSString *)theText;
 - (void)selectCustomFieldAtIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)theTableView;
 - (void)sendButtonTapped;
-- (void)suggestionButtonTapped;
 - (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView;
-- (UIView *)fieldsTableFooterView;
 - (void)dismissKeyboard;
 - (void)reloadCustomFieldsTable;
 

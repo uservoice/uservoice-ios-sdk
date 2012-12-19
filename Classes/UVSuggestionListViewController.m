@@ -226,12 +226,7 @@
 }
 
 - (void)composeButtonTapped {
-    UIViewController *next = [UVNewSuggestionViewController viewControllerWithTitle:self.searchController.searchBar.text];
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    navigationController.viewControllers = @[next];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentModalViewController:[UVNewSuggestionViewController viewControllerWithTitle:self.searchController.searchBar.text]];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

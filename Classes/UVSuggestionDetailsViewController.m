@@ -265,12 +265,7 @@
 }
 
 - (void)presentCommentController {
-    UVCommentViewController *next = [[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease];
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    navigationController.viewControllers = @[next];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentModalViewController:[[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease]];
 }
 
 #pragma mark ===== Basic View Methods =====
