@@ -5,6 +5,7 @@
 * Fix a bug related to nested modals on iPad
 * Fix an infinite loop in UVTruncatingLabel
 * Fix a bug related to sizing of comment text labels
+* Fix a bug with the layout of the comment form
 
 ## 2.0.2 ##
 
