@@ -166,26 +166,6 @@
     return [textField autorelease];
 }
 
-- (void)addButton:(NSString *)label withCaption:(NSString *)caption andRect:(CGRect)rect andMask:(int)autoresizingMask andAction:(SEL)selector toView:(UIView *)parentView {
-    CGRect containerRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height + 20);
-    UIView *container = [[[UIView alloc] initWithFrame:containerRect] autorelease];
-    container.autoresizingMask = autoresizingMask;
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
-    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [button setTitle:NSLocalizedStringFromTable(label, @"UserVoice", nil) forState:UIControlStateNormal];
-    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-    [container addSubview:button];
-    UILabel *captionLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 36, rect.size.width, 15)] autorelease];
-    captionLabel.textAlignment = UITextAlignmentCenter;
-    captionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    captionLabel.text = NSLocalizedStringFromTable(caption, @"UserVoice", nil);
-    captionLabel.font = [UIFont systemFontOfSize:10];
-    captionLabel.textColor = [UIColor grayColor];
-    [container addSubview:captionLabel];
-    [parentView addSubview:container];
-}
-
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(16 + (IPAD ? 25 : 0), 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];

@@ -6,6 +6,7 @@
 * Fix an infinite loop in UVTruncatingLabel
 * Fix a bug related to sizing of comment text labels
 * Fix a bug with the layout of the comment form
+* Update Dutch translation (thanks @nvh)
 
 ## 2.0.2 ##
 

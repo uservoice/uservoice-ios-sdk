@@ -335,8 +335,8 @@
     [fieldsTableView reloadData];
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, titleView.bounds.size.height + textView.bounds.size.height + fieldsTableView.contentSize.height);
 
-    self.nextButton = [self barButtonItem:@"Continue" withAction:@selector(nextButtonTapped)];
-    self.sendButton = [self barButtonItem:@"Submit" withAction:@selector(createButtonTapped)];
+    self.nextButton = [self barButtonItem:NSLocalizedStringFromTable(@"Continue", @"UserVoice", nil) withAction:@selector(nextButtonTapped)];
+    self.sendButton = [self barButtonItem:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil) withAction:@selector(createButtonTapped)];
     self.sendButton.style = UIBarButtonItemStyleDone;
 
     state = STATE_BEGIN;

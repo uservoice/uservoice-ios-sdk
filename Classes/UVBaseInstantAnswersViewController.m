@@ -105,7 +105,7 @@
 }
 
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector {
-    return [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(label, @"UserVoice", nil)
+    return [[[UIBarButtonItem alloc] initWithTitle:label
                                              style:UIBarButtonItemStylePlain
                                             target:self
                                             action:selector] autorelease];

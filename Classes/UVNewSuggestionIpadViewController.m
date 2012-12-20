@@ -224,7 +224,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
-    self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Submit" withAction:@selector(createButtonTapped)];
+    self.navigationItem.rightBarButtonItem = [self barButtonItem:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil) withAction:@selector(createButtonTapped)];
     self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
     self.navigationItem.rightBarButtonItem.enabled = [self.title length] != 0;
     if (self.title && [self.title length] > 0) {

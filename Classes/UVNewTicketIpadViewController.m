@@ -232,7 +232,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.sectionFooterHeight = 0.0;
-    self.navigationItem.rightBarButtonItem = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
+    self.navigationItem.rightBarButtonItem = [self barButtonItem:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil) withAction:@selector(sendButtonTapped)];
     self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
     self.navigationItem.rightBarButtonItem.enabled = [self.text length] != 0;
     if (self.text && [self.text length] > 0) {

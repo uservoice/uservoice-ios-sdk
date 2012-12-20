@@ -4,19 +4,19 @@
  * Language: fr
  */
 
-/********** UserVoice **********/
+/********** Uncategorized **********/
 
-"%d Comment" = "%d Commentaire";
+"%@ comments" = "%@ commentaires";
 
-"%d Comments" = "%d Commentaires";
+"%@ votes" = "%@ votes";
 
-"%d days ago" = "il y a %d jours";
+"(required)" = "(required)";
 
-"'Member since 'MMM yyyy" = "'Membre depuis 'MMM yyyy";
+"0 comments" = "0 comments";
 
 "0 votes" = "0 votes";
 
-"1 Comment" = "1 Commentaire";
+"1 comment" = "1 comment";
 
 "1 vote" = "1 vote";
 
@@ -26,15 +26,15 @@
 
 "A suggestion with this title already exists. Please change the title." = "A suggestion with this title already exists. Please change the title.";
 
-"Add" = "Ajouter";
+"ADMIN RESPONSE" = "ADMIN RESPONSE";
 
-"Add a comment..." = "Ajouter un commentaire";
+"All" = "All";
 
-"admin" = "admin";
+"All Articles" = "All Articles";
 
 "Anonymous" = "Anonyme";
 
-"Are you sure you want to flag this idea as inappropriate?" = "Etes-vous sûr de vouloir signaler ce commentaire comme abusif?";
+"Articles" = "Articles";
 
 "Back" = "Retour";
 
@@ -42,37 +42,33 @@
 
 "Category" = "Category";
 
-"Changing your email address will require it to be confirmed again." = "Changer votre adresse mail implique une nouvelle confirmation.";
-
-"Checking..." = "en cours de vérification...";
-
 "Close" = "Fermer";
 
-"Comments" = "Comments";
+"Comment" = "Comment";
 
 "Connecting to UserVoice" = "En cours de connexion à UserVoice";
 
-"Contact %@" = "Contact %@";
-
-"Contact support" = "Contactez l'assistance technique";
-
 "Contact Us" = "Contactez-nous";
 
-"Create Account" = "Créer un compte";
+"Contact us" = "Contactez-nous";
 
-"Create idea" = "Create idea";
-
-"Created %d %@" = "Créé %d %@";
-
-"Created by" = "Créé par";
+"Continue" = "Continue";
 
 "Description (optional)" = "Description (optional)";
 
-"Edit my profile" = "Editer mon profil";
+"Do you still want to contact us?" = "Do you still want to contact us?";
 
-"Edit Profile" = "Editer son profil";
+"Do you still want to post an idea?" = "Do you still want to post an idea?";
+
+"Don't save" = "Don't save";
+
+"Done" = "Done";
 
 "Email" = "Email";
+
+"Enter UserVoice password for %@" = "Enter UserVoice password for %@";
+
+"Enter your email" = "Enter your email";
 
 "Error" = "Erreur";
 
@@ -80,93 +76,75 @@
 
 "Feedback & Support" = "Retours & Aide technique";
 
-"Feedback powered by UserVoice" = "Retour réalisé grâce à UserVoice";
+"Feedback Forum" = "Feedback Forum";
 
-"Flag" = "Signaler";
-
-"Flag as inappropriate" = "Signaler un abus";
-
-"Flag Comment?" = "Signaler ce commentaire ?";
-
-"Flag Idea?" = "Signaler cette idée ?";
-
-"Forgot your password?" = "Mot de passe oublié ?";
-
-"Give feedback" = "Donner son retour";
-
-"Idea" = "Idée";
-
-"idea" = "idée";
-
-"ideas" = "idées";
-
-"Ideas" = "Idées";
-
-"Ideas Created" = "Idées crééés";
-
-"Ideas Supported" = "Idées approuvées";
-
-"New Ideas" = "New Ideas";
+"Forgot password" = "Forgot password";
 
 "Hot Ideas" = "Hot Ideas";
 
-"Top Ideas" = "Top Ideas";
+"How can we help you today?" = "How can we help you today?";
 
-"Load more comments..." = "Télécharger plus de commentaires...";
+"How many votes would you like to use?" = "How many votes would you like to use?";
 
-"Load more ideas..." = "Télécharger plus de idées...";
+"Ideas" = "Idées";
 
-"Loading..." = "Télécharger...";
+"Knowledge Base" = "Knowledge Base";
 
-"Logout from UserVoice" = "Se déconnecter d'UserVoice";
+"Load more" = "Load more";
 
-"Looks like it's your first time here, welcome to UserVoice!" = "Comme c'est votre première fois sur UserVoice, nous vous souhaitons la bienvenue!";
+"Matching articles" = "Matching articles";
+
+"Matching articles and ideas" = "Matching articles and ideas";
+
+"Matching ideas" = "Matching ideas";
 
 "Message" = "Message";
 
-"My Profile" = "Mon Profil";
-
-"My profile" = "Mon profil";
+"More" = "More";
 
 "Name" = "Nom";
 
-"New Suggestion" = "New Suggestion";
+"New Ideas" = "New Ideas";
+
+"No" = "No";
+
+"No, I'm done" = "No, I'm done";
 
 "OK" = "OK";
 
-"Password" = "Mot de passe";
+"Password reset email sent to" = "Password reset email sent to";
 
 "Please enter your email address before submitting your suggestion." = "Please enter your email address before submitting your suggestion.";
 
 "Please enter your email address before submitting your ticket." = "Merci d'enregister votre email avant de soumettre votre proposition.";
 
-"Please enter your email address." = "Merci d'entrer votre email.";
+"Post" = "Post";
 
-"Please sign in here to comment." = "Please sign in here to comment.";
+"Post an idea" = "Post an idea";
 
-"Post date" = "Date de l'envoi";
+"Post Idea" = "Post Idea";
 
-"Required" = "Obligatoire";
+"Posted by %@ on %@" = "Posted by %@ on %@";
+
+"powered by" = "powered by";
+
+"Remove votes" = "Remove votes";
+
+"Save draft" = "Save draft";
+
+"Search" = "Search";
 
 "Send" = "Envoyer";
-
-"Sign In" = "Se connecter";
 
 "Sign in" = "Se connecter";
 
 "Sorry, there was an error in the application." = "Désolé, il y a une erreur dans l'application.";
 
-"Sorry, you have no more votes remaining in this forum." = "Désolé, vous n'avez pas assez de votes dans ce forum.";
-
-"Sorry, you have run out of votes." = "Sorry, you have run out of votes.";
-
 "Status: %@" = "Status: %@";
 
-"Subject" = "Sujet";
+"Submit" = "Submit";
 
-"Success" = "Succès";
-
-"Supporting %d %@" = "Supporting %d %@";
+"Success!" = "Success!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.";
 
@@ -174,44 +152,54 @@
 
 "This application didn't configure UserVoice properly" = "Cette application n'a pas configuré UserVoice";
 
-"Type" = "Type";
+"Title" = "Title";
 
-"Update" = "Mettre à jour";
+"Title:" = "Title:";
+
+"Top Ideas" = "Top Ideas";
+
+"Try again" = "Try again";
 
 "User name" = "User name";
 
-"User Profile" = "Profil utilisateur";
+"View idea" = "View idea";
+
+"View matching articles" = "View matching articles";
+
+"View matching articles and ideas" = "View matching articles and ideas";
+
+"View matching ideas" = "View matching ideas";
 
 "vote" = "vote";
 
-"vote has" = "vote est";
+"Vote" = "Vote";
 
 "votes" = "votes";
 
-"votes have" = "votes sont";
-
-"Voting for this suggestion is now closed and your %d %@ been returned to you" = "Voter pour cette suggestion n'est plus possible et votre %d %@ vous a été retourné.";
-
-"Want to send a private message instead?" = "Want to send a private message instead?";
-
-"Want to suggest an idea instead?" = "Voulez-vous suggérer une autre idée à la place ?";
-
-"We've sent an email telling you how to login and change your password." = "Nous vous avons envoyé un email vous expliquant comment vous identifier et changer de mot de passe.";
+"Was this article helpful?" = "Was this article helpful?";
 
 "Welcome" = "Bienvenue";
 
-"Welcome back! We found your profile, but we need you to sign in to verify you are... you." = "Bienvenue ! Nous avons trouvé votre profil, cependant nous avons besoin que vous vous identifiez afin de vérifier qui vous êtes.";
+"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified." = "When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.";
 
-"You have %d %@ remaining in this forum" = "Vous avez %d %@ maintenu dans ce forum.";
+"Would you like to contact us?" = "Would you like to contact us?";
 
-"You have successfully flagged this comment as inappropriate." = "Votre signalement d'un commentaire abusif a été réalisé avec succès.";
+"Write a comment..." = "Write a comment...";
 
-"You have successfully flagged this idea as inappropriate." = "Votre signalement d'une idée abusive a été réalisé avec succès.";
+"Yes" = "Yes";
 
-"You will need to sign in to vote." = "Vous aurez besoin de vous identifier pour voter.";
+"Yes!" = "Yes!";
 
-"Your email has not yet been confirmed" = "Votre email n'a pas été encore confirmé";
+"Yes, go to my idea" = "Yes, go to my idea";
 
-"Your idea \"%@\" was successfully created." = "Your idea \"%@\" was successfully created.";
+"Yes, go to my message" = "Yes, go to my message";
 
-"Your ticket was successfully submitted." = "Votre commentaire a été soumis avec succès.";
+"You have %i votes left" = "You have %i votes left";
+
+"You have not posted your idea. Are you sure you want to lose your unsaved data?" = "You have not posted your idea. Are you sure you want to lose your unsaved data?";
+
+"Your idea has been posted on our forum." = "Your idea has been posted on our forum.";
+
+"Your message has been sent." = "Your message has been sent.";
+
+"“Anonymous”" = "“Anonyme”";

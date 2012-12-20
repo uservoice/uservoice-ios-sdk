@@ -4,19 +4,19 @@
  * Language: nl
  */
 
-/********** UserVoice **********/
+/********** Uncategorized **********/
 
-"%d Comment" = "%d Reactie";
+"%@ comments" = "%@ reacties";
 
-"%d Comments" = "%d Reacties";
+"%@ votes" = "%@ stemmen";
 
-"%d days ago" = "%d dagen geleden";
+"(required)" = "(verplicht)";
 
-"'Member since 'MMM yyyy" = "'Lid sinds 'MMM yyyy";
+"0 comments" = "0 reacties";
 
 "0 votes" = "0 stemmen";
 
-"1 Comment" = "1 Reactie";
+"1 comment" = "1 reactie";
 
 "1 vote" = "1 stem";
 
@@ -26,15 +26,15 @@
 
 "A suggestion with this title already exists. Please change the title." = "Een idee met deze titel bestaat reeds. Wijzig de titel.";
 
-"Add" = "Voeg toe";
+"ADMIN RESPONSE" = "REACTIE VAN DE BEHEERDER";
 
-"Add a comment..." = "Voeg een reactie toe";
+"All" = "Alle";
 
-"admin" = "admin";
+"All Articles" = "Alle Artikelen";
 
 "Anonymous" = "Anoniem";
 
-"Are you sure you want to flag this idea as inappropriate?" = "Weet u zeker dat u dit idee als ongepast wilt markeren?";
+"Articles" = "Articles";
 
 "Back" = "Terug";
 
@@ -42,37 +42,33 @@
 
 "Category" = "Categorie";
 
-"Changing your email address will require it to be confirmed again." = "Na wijzigen van uw e-mailadres dient u deze opnieuw te verifiëren.";
-
-"Checking..." = "Controleren...";
-
 "Close" = "Sluiten";
 
-"Comments" = "Reacties";
+"Comment" = "Reageer";
 
 "Connecting to UserVoice" = "Verbinden met UserVoice";
 
-"Contact %@" = "Contact %@";
-
-"Contact support" = "Contact support";
-
 "Contact Us" = "Neem contact met ons op";
 
-"Create Account" = "Account aanmaken";
+"Contact us" = "Neem contact met ons op";
 
-"Create idea" = "Idee aanmaken";
-
-"Created %d %@" = "%1$d %2$@ aangemaakt";
-
-"Created by" = "Gemaakt door";
+"Continue" = "Continue";
 
 "Description (optional)" = "Beschrijving (optioneel)";
 
-"Edit my profile" = "Mijn profiel aanpassen";
+"Do you still want to contact us?" = "Wilt u ons nog steeds contact met ons opnemen?";
 
-"Edit Profile" = "Profiel aanpassen";
+"Do you still want to post an idea?" = "Wilt u nog steeds een idee plaatsen?";
+
+"Don't save" = "Niet opslaan";
+
+"Done" = "OK";
 
 "Email" = "E-mail";
+
+"Enter UserVoice password for %@" = "Vul uw UserVoice wachtwoord in voor %@";
+
+"Enter your email" = "Vul uw e-mail adres in";
 
 "Error" = "Fout";
 
@@ -80,93 +76,75 @@
 
 "Feedback & Support" = "Feedback & Support";
 
-"Feedback powered by UserVoice" = "Feedback gerealiseerd door UserVoice";
+"Feedback Forum" = "Feedback Forum";
 
-"Flag" = "Markeer";
-
-"Flag as inappropriate" = "Markeer als ongepast";
-
-"Flag Comment?" = "Reactie markeren?";
-
-"Flag Idea?" = "Idee markeren?";
-
-"Forgot your password?" = "Wachtwoord vergeten?";
-
-"Give feedback" = "Geef feedback";
-
-"Idea" = "Idee";
-
-"idea" = "idee";
-
-"ideas" = "ideeën";
-
-"Ideas" = "Ideeën";
-
-"Ideas Created" = "Ideeën aangemaakt";
-
-"Ideas Supported" = "Gesteunde Ideeën";
-
-"New Ideas" = "Nieuwe Ideeën";
+"Forgot password" = "Wachtwoord vergeten";
 
 "Hot Ideas" = "Populaire Ideeën";
 
-"Top Ideas" = "Top Ideeën";
+"How can we help you today?" = "Hoe kunnen we u vandaag helpen?";
 
-"Load more comments..." = "Laad meer reacties...";
+"How many votes would you like to use?" = "How many votes would you like to use?";
 
-"Load more ideas..." = "Laad meer ideeën...";
+"Ideas" = "Ideeën";
 
-"Loading..." = "Laden...";
+"Knowledge Base" = "Kennisbank";
 
-"Logout from UserVoice" = "Uitloggen UserVoice";
+"Load more" = "Laad meer";
 
-"Looks like it's your first time here, welcome to UserVoice!" = "Het lijkt erop dat u hier voor het eerst bent, welkom bij UserVoice!";
+"Matching articles" = "Soortgelijke artikelen";
+
+"Matching articles and ideas" = "Soortgelijke artikelen en ideeën";
+
+"Matching ideas" = "Soortgelijke ideeën";
 
 "Message" = "Bericht";
 
-"My Profile" = "Mijn Profiel";
-
-"My profile" = "Mijn profiel";
+"More" = "Meer";
 
 "Name" = "Naam";
 
-"New Suggestion" = "Nieuw idee";
+"New Ideas" = "Nieuwe Ideeën";
+
+"No" = "Nee";
+
+"No, I'm done" = "Nee, ik ben klaar";
 
 "OK" = "OK";
 
-"Password" = "Wachtwoord";
+"Password reset email sent to" = "Wachtwoord reset e-mail verstuurd naar";
 
 "Please enter your email address before submitting your suggestion." = "Vul eerst uw e-mailadres in voor het indienen van uw idee.";
 
 "Please enter your email address before submitting your ticket." = "Vul eerst uw e-mailadres in voor het indienen van uw ticket";
 
-"Please enter your email address." = "Vul uw e-mailadres in.";
+"Post" = "Verstuur";
 
-"Please sign in here to comment." = "Hier aanmelden om te kunnen reageren";
+"Post an idea" = "Plaats een idee";
 
-"Post date" = "Inzenddatum";
+"Post Idea" = "Plaats idee";
 
-"Required" = "Verplicht";
+"Posted by %@ on %@" = "Geplaatst door %@ op %@";
+
+"powered by" = "gerealiseerd door";
+
+"Remove votes" = "Verwijder stemmen";
+
+"Save draft" = "Concept opslaan";
+
+"Search" = "Doorzoek";
 
 "Send" = "Verstuur";
-
-"Sign In" = "Aanmelden";
 
 "Sign in" = "Aanmelden";
 
 "Sorry, there was an error in the application." = "Excuses, er is een fout opgetreden in de applicatie.";
 
-"Sorry, you have no more votes remaining in this forum." = "Sorry, u heeft geen stemmen meer over in dit forum.";
-
-"Sorry, you have run out of votes." = "Sorry, u heeft geen stemmen meer.";
-
 "Status: %@" = "Status: %@";
 
-"Subject" = "Onderwerp";
+"Submit" = "Submit";
 
-"Success" = "Succes";
-
-"Supporting %d %@" = "Steunt %d %@";
+"Success!" = "Gelukt!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Er lijkt een probleem met uw netwerkverbinding, controleer uw verbinding en probeer het opnieuw.";
 
@@ -174,44 +152,54 @@
 
 "This application didn't configure UserVoice properly" = "Deze applicatie heeft UserVoice niet goed geconfigureerd.";
 
-"Type" = "Type";
+"Title" = "Titel";
 
-"Update" = "Update";
+"Title:" = "Titel:";
+
+"Top Ideas" = "Top Ideeën";
+
+"Try again" = "Probeer opnieuw";
 
 "User name" = "Gebruikersnaam";
 
-"User Profile" = "Gebruikersprofiel";
+"View idea" = "Bekijk idee";
+
+"View matching articles" = "Bekijk soortgelijke ideeën";
+
+"View matching articles and ideas" = "Bekijk soortgelijke artikelen en ideeën";
+
+"View matching ideas" = "Bekijk soortgelijke ideeën";
 
 "vote" = "stem";
 
-"vote has" = "stem heeft";
+"Vote" = "Stem";
 
 "votes" = "stemmen";
 
-"votes have" = "stemmen hebben";
-
-"Voting for this suggestion is now closed and your %d %@ been returned to you" = "De stemming voor dit idee is nu gesloten en uw %d %@ zijn aan u geretourneerd.";
-
-"Want to send a private message instead?" = "Wilt u in plaats hiervan een privébericht sturen?";
-
-"Want to suggest an idea instead?" = "Wilt u in plaats hiervan een idee voorstellen?";
-
-"We've sent an email telling you how to login and change your password." = "We hebben u een e-mail gestuurd met instructies hoe in te loggen en uw wachtwoord te wijzigen.";
+"Was this article helpful?" = "Heeft dit artikel u geholpen?";
 
 "Welcome" = "Welkom";
 
-"Welcome back! We found your profile, but we need you to sign in to verify you are... you." = "Welkom terug! We hebben uw profiel gevonden, maar u dient zich eerst aan te melden om te controleren dat u... uzelf bent.";
+"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified." = "Wanneer u een idee op ons forum plaatst, kunnen anderen ook op dit idee stemmen en reageren. U krijgt een bericht wanneer we op het idee reageren.";
 
-"You have %d %@ remaining in this forum" = "U heeft nog %d %@ in dit forum]";
+"Would you like to contact us?" = "Wilt u contact met ons opnemen?";
 
-"You have successfully flagged this comment as inappropriate." = "U heeft deze reactie succesvol als ongepast gemarkeerd.";
+"Write a comment..." = "Schrijf een reactie...";
 
-"You have successfully flagged this idea as inappropriate." = "U heeft dit idee succesvol als ongepast gemarkeerd.";
+"Yes" = "Ja";
 
-"You will need to sign in to vote." = "U dient zich eerst aan te melden voor u kunt stemmen.";
+"Yes!" = "Ja!";
 
-"Your email has not yet been confirmed" = "Uw e-mail is nog niet bevestigd.";
+"Yes, go to my idea" = "Ja, ga naar mijn idee";
 
-"Your idea \"%@\" was successfully created." = "Uw idee \"%@\" is succesvol gecreëerd.";
+"Yes, go to my message" = "Ja, ga naar mijn bericht";
 
-"Your ticket was successfully submitted." = "Uw ticket is succesvol ingediend.";
+"You have %i votes left" = "U heeft %i stemmen over";
+
+"You have not posted your idea. Are you sure you want to lose your unsaved data?" = "U heeft uw idee niet geplaatst. Weet u zeker dat u uw onopgeslagen gegevens wilt verwijderen?";
+
+"Your idea has been posted on our forum." = "Uw idee is op ons forum geplaatst";
+
+"Your message has been sent." = "Uw bericht is verstuurd";
+
+"“Anonymous”" = "“Anoniem”";
