@@ -123,12 +123,13 @@
     date.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [cell addSubview:date];
 
-    UILabel *text = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN + 20, cell.bounds.size.width - MARGIN * 2 - 50, 100)] autorelease];
+    UILabel *text = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN + 20, cell.bounds.size.width - MARGIN * 2 - 50, cell.bounds.size.height - MARGIN * 2 - 20)] autorelease];
     text.tag = COMMENT_TEXT_TAG;
     text.numberOfLines = 0;
     text.font = [UIFont systemFontOfSize:13];
     text.backgroundColor = [UIColor clearColor];
     text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    text.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [cell addSubview:text];
 }
 
@@ -149,8 +150,6 @@
 
     UILabel *text = (UILabel *)[cell viewWithTag:COMMENT_TEXT_TAG];
     text.text = comment.text;
-    text.frame = CGRectMake(MARGIN + 50, MARGIN + 20, cell.bounds.size.width - MARGIN * 2 - 50, 100);
-    [text sizeToFit];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

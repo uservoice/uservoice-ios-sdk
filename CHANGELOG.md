@@ -2,6 +2,9 @@
 
 * Fix a bug related to scroll insets not being set initially on form views on iPad
 * Tweak forms for bluetooth keyboards
+* Fix a bug related to nested modals on iPad
+* Fix an infinite loop in UVTruncatingLabel
+* Fix a bug related to sizing of comment text labels
 
 ## 2.0.2 ##
 
