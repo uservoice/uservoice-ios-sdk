@@ -40,7 +40,7 @@
 - (void)showPasswordAlertView {
     state = STATE_PASSWORD;
     self.alertView = [[[UIAlertView alloc] init] autorelease];
-    alertView.title = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Enter UserVoice password for", @"UserVoice", nil), email];
+    alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Enter UserVoice password for %@", @"UserVoice", nil), email];
     alertView.delegate = self;
     alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
@@ -121,7 +121,7 @@
 - (void)didSendForgotPassword:(id)obj {
     [delegate performSelector:@selector(hideActivityIndicator)];
     self.alertView = [[[UIAlertView alloc] init] autorelease];
-    alertView.title = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Password reset email sent to", @"UserVoice", nil), email];
+    alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to", @"UserVoice", nil), email];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
     [alertView show];
 }

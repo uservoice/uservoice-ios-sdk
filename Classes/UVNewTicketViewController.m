@@ -109,8 +109,8 @@
     [self addTopBorder:fieldsTableView];
     [self.view addSubview:fieldsTableView];
 
-    self.nextButton = [self barButtonItem:@"Continue" withAction:@selector(nextButtonTapped)];
-    self.sendButton = [self barButtonItem:@"Send" withAction:@selector(sendButtonTapped)];
+    self.nextButton = [self barButtonItem:NSLocalizedStringFromTable(@"Continue", @"UserVoice", nil) withAction:@selector(nextButtonTapped)];
+    self.sendButton = [self barButtonItem:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil) withAction:@selector(sendButtonTapped)];
     self.sendButton.style = UIBarButtonItemStyleDone;
 
     state = STATE_BEGIN;

@@ -86,11 +86,11 @@
     if (helpfulPrompt) {
         // Do you still want to contact us?
         // Yes, go to my message
-        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(helpfulPrompt, @"UserVoice", nil)
+        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:helpfulPrompt
                                                                   delegate:self
                                                          cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                     destructiveButtonTitle:nil
-                                                         otherButtonTitles:NSLocalizedStringFromTable(returnMessage, @"UserVoice", nil), NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil] autorelease];
+                                                         otherButtonTitles:returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil] autorelease];
         [actionSheet showInView:self.view];
     } else {
         [self.navigationController popViewControllerAnimated:YES];
