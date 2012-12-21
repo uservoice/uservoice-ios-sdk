@@ -1,5 +1,7 @@
 ## master ##
 
+## 2.0.3 ##
+
 * Fix a bug related to scroll insets not being set initially on form views on iPad
 * Tweak forms for bluetooth keyboards
 * Fix a bug related to nested modals on iPad
