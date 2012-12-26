@@ -229,9 +229,11 @@
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = @[viewController];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    if (IPAD)
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentModalViewController:navigationController animated:YES];
-    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+    if (IPAD)
+        navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
 }
 
 - (void)showExitButton {

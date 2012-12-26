@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug introduced in 2.0.3 where dismissing a form on the iPhone resulted in a blank screen
+
 ## 2.0.3 ##
 
 * Fix a bug related to scroll insets not being set initially on form views on iPad
