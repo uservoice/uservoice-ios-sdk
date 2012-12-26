@@ -42,5 +42,6 @@
 - (id)initWithTitle:(NSString *)theTitle;
 - (void)pushCategorySelectView;
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder;
+- (void)reloadCategoryTable;
 
 @end

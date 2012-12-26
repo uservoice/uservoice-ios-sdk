@@ -1,6 +1,7 @@
 ## master ##
 
 * Fix a bug introduced in 2.0.3 where dismissing a form on the iPhone resulted in a blank screen
+* Fix a bug where the selected category was not displayed on the idea form
 
 ## 2.0.3 ##
 
