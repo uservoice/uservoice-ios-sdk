@@ -168,6 +168,10 @@
     self.emailField.delegate = self;
 }
 
+- (void)reloadCategoryTable {
+    [tableView reloadData];
+}
+
 - (void)pushCategorySelectView {
     UIViewController *next = [[[UVCategorySelectViewController alloc] initWithSelectedCategory:self.category] autorelease];
     [self.navigationController pushViewController:next animated:YES];

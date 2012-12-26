@@ -67,7 +67,7 @@
     NSArray *viewControllers = [self.navigationController viewControllers];
     UVBaseSuggestionViewController *prev = (UVBaseSuggestionViewController *)[viewControllers objectAtIndex:[viewControllers count] - 2];
     prev.category = category;
-    prev.needsReload = YES;
+    [prev reloadCategoryTable];
 
     [self.navigationController popViewControllerAnimated:YES];
 }

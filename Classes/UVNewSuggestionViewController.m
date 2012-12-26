@@ -349,6 +349,10 @@
     [titleField becomeFirstResponder];
 }
 
+- (void)reloadCategoryTable {
+    [fieldsTableView reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
    [super viewWillAppear:animated];
    scrollView.contentInset = UIEdgeInsetsZero;
