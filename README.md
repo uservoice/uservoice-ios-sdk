@@ -17,6 +17,7 @@ Installation
 
 * Download the latest build.
 * Drag `UVHeaders`, `UVResources`, and `libUserVoice.a` into your project.
+  * When adding the folders, make sure you have "Create groups for any added folders" selected rather than "Create folder references for any added folders".
 * Note that the `.h` files in  `UVHeaders` do not need to be added to your target.
 * Add QuartzCore and SystemConfiguration frameworks to your project.
 * Add `-ObjC` to `Other Linker Flags` in the Build Settings for your target. (There is also an `Other Linker Flags` setting for your entire project, but that's not the one you want.)
@@ -216,7 +217,7 @@ If you want to go the extra mile and test your translations, do the following:
   * `mkdir Resources/YOURLOCALE.lproj`
   * `touch Resources/YOURLOCALE.lproj/UserVoice.strings`
 * Install the `twine` gem
-* Run `./strings.sh` to generate the strings files
+* Run `./update_strings.sh` to generate the strings files
 * Run the example app (or your own app) to see how things look in the UI
 * Make note of any layout issues in your pull request so that we can look at it
   and figure out what to do.
