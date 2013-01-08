@@ -19,7 +19,7 @@
 }
 
 - (BOOL)isUserVoiceError {
-    return [self domain] == @"uservoice";
+    return [[self domain] isEqualToString:@"uservoice"];
 }
 
 - (NSString *)userVoiceErrorMessage {
