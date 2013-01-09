@@ -1,6 +1,7 @@
 ## master ##
 
 * Fix a bug with scroll behavior on contact form
+* Only show topics that have articles
 
 ## 2.0.4 ##
 
