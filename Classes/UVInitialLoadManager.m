@@ -113,7 +113,7 @@
         else
             [UVSession currentSession].topics = topics;
     } else {
-        [UVSession currentSession].topics = topics;
+        [UVSession currentSession].topics = [topics filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"articleCount > 0"]];
     }
     topicsDone = YES;
     [self checkComplete];

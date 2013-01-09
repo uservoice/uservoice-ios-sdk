@@ -13,6 +13,7 @@
 
 @synthesize name;
 @synthesize topicId;
+@synthesize articleCount;
 
 + (void)initialize {
     [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -31,7 +32,8 @@
     if ((self = [super init])) {
         self.topicId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
         self.name = [self objectOrNilForDict:dict key:@"name"];
-        // position, article_count, url
+        self.articleCount = [(NSNumber *)[dict objectForKey:@"article_count"] integerValue];
+        // position, url
     }
     return self;
 }

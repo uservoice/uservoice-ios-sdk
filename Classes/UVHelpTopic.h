@@ -11,10 +11,12 @@
 @interface UVHelpTopic : UVBaseModel {
     NSString *name;
     NSInteger topicId;
+    NSInteger articleCount;
 }
 
 @property (nonatomic,retain) NSString *name;
 @property (assign) NSInteger topicId;
+@property (assign) NSInteger articleCount;
 
 + (id)getAllWithDelegate:(id)delegate;
 
