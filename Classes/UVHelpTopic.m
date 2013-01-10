@@ -28,6 +28,15 @@
                 selector:@selector(didRetrieveHelpTopics:)];
 }
 
++ (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate {
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%i.json", topicId]];
+    return [self getPath:path
+              withParams:nil
+                  target:delegate
+                selector:@selector(didRetrieveHelpTopic:)];
+}
+
+
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
         self.topicId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];

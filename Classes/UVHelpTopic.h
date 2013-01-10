@@ -19,5 +19,6 @@
 @property (assign) NSInteger articleCount;
 
 + (id)getAllWithDelegate:(id)delegate;
++ (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate;
 
 @end
