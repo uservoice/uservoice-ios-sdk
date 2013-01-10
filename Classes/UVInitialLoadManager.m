@@ -70,11 +70,13 @@
     if (dismissed) return;
     configDone = YES;
     if (clientConfig.ticketsEnabled) {
-        [UVHelpTopic getAllWithDelegate:self];
-        if ([UVSession currentSession].config.topicId)
+        if ([UVSession currentSession].config.topicId) {
+            [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
             [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId delegate:self];
-        else
+        } else {
+            [UVHelpTopic getAllWithDelegate:self];
             [UVArticle getArticlesWithDelegate:self];
+        }
     } else {
         topicsDone = YES;
         articlesDone = YES;
@@ -98,23 +100,16 @@
     [self checkComplete];
 }
 
+- (void)didRetrieveHelpTopic:(UVHelpTopic *)topic {
+    if (dismissed) return;
+    [UVSession currentSession].topics = @[topic];
+    topicsDone = YES;
+    [self checkComplete];
+}
+
 - (void)didRetrieveHelpTopics:(NSArray *)topics {
     if (dismissed) return;
-    if ([UVSession currentSession].config.topicId) {
-        UVHelpTopic *foundTopic = nil;
-        for (UVHelpTopic *topic in topics) {
-            if (topic.topicId == [UVSession currentSession].config.topicId) {
-                foundTopic = topic;
-                break;
-            }
-        }
-        if (foundTopic)
-            [UVSession currentSession].topics = @[foundTopic];
-        else
-            [UVSession currentSession].topics = topics;
-    } else {
-        [UVSession currentSession].topics = [topics filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"articleCount > 0"]];
-    }
+    [UVSession currentSession].topics = [topics filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"articleCount > 0"]];
     topicsDone = YES;
     [self checkComplete];
 }
