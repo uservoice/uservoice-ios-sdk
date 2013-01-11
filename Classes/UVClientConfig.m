@@ -28,6 +28,7 @@
 @synthesize topArticles;
 @synthesize topSuggestions;
 @synthesize clientId;
+@synthesize whiteLabel;
 
 + (void)initialize {
     [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
@@ -64,6 +65,9 @@
         }
         if ([dict objectForKey:@"feedback_enabled"] != [NSNull null]) {
             self.feedbackEnabled = [(NSNumber *)[dict objectForKey:@"feedback_enabled"] boolValue];
+        }
+        if ([dict objectForKey:@"white_label"] != [NSNull null]) {
+            self.whiteLabel = [(NSNumber *)[dict objectForKey:@"white_label"] boolValue];
         }
 
         if (feedbackEnabled) {
