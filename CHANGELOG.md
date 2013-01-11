@@ -3,6 +3,7 @@
 * Fix a bug with scroll behavior on contact form
 * Only show topics that have articles
 * Fix a bug related to loading a single topic
+* Hide UserVoice logo for white label accounts
 
 ## 2.0.4 ##
 
