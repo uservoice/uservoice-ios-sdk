@@ -117,7 +117,7 @@
 		zh-Hant = 詳細的說明 (非必填)
 	[Do you still want to contact us?]
 		en = Do you still want to contact us?
-		nl = Wilt u ons nog steeds contact met ons opnemen?
+		nl = Wilt u nog steeds contact met ons opnemen?
 	[Do you still want to post an idea?]
 		en = Do you still want to post an idea?
 		nl = Wilt u nog steeds een idee plaatsen?
@@ -126,7 +126,7 @@
 		nl = Niet opslaan
 	[Done]
 		en = Done
-		nl = OK
+		nl = Klaar
 	[Email]
 		en = Email
 		nl = E-mail
@@ -146,13 +146,16 @@
 		en = Feedback
 		fr = Retours
 		zh-Hant = 建議與問題回報
+		nl = Feedback
 	[Feedback & Support]
 		en = Feedback & Support
 		fr = Retours & Aide technique
 		it = Feedback & Supporto
 		zh-Hant = 意見回饋與支援
+		nl = Feedback & Support
 	[Feedback Forum]
 		en = Feedback Forum
+		nl = Feedback Forum
 	[Forgot password]
 		en = Forgot password
 		nl = Wachtwoord vergeten
@@ -212,9 +215,10 @@
 	[OK]
 		en = OK
 		zh-Hant = 沒問題
+		nl = OK
 	[Password reset email sent to]
 		en = Password reset email sent to
-		nl = Wachtwoord reset e-mail verstuurd naar
+		nl = E-mail wachtwoord wijzigen is verstuurd naar
 	[Please enter your email address before submitting your suggestion.]
 		en = Please enter your email address before submitting your suggestion.
 		it = Inserisci la tua email prima di inserire un suggerimento.
@@ -270,6 +274,7 @@
 		zh-Hant = 抱歉，程式出現了錯誤。
 	[Status: %@]
 		en = Status: %@
+		nl = Status: %@
 		zh-Hant = 狀態: %@
 	[Submit]
 		en = Submit
@@ -281,7 +286,7 @@
 		en = There appears to be a problem with your network connection, please check your connectivity and try again.
 		fr = Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.
 		it = Sembra ci sia un problema con la tua connessione Internet, controlla la tua connessione e prova ancora.
-		nl = Er lijkt een probleem met uw netwerkverbinding, controleer uw verbinding en probeer het opnieuw.
+		nl = Er lijkt een probleem met uw internetverbinding, controleer uw verbinding en probeer het opnieuw.
 		zh-Hant = 網路連線似乎出了問題，請檢查連線後再試一次。
 	[There was a problem logging you in, please check your password and try again.]
 		en = There was a problem logging you in, please check your password and try again.
@@ -317,13 +322,13 @@
 		nl = Bekijk idee
 	[View matching articles]
 		en = View matching articles
-		nl = Bekijk soortgelijke ideeën
+		nl = Bekijk vergelijkebare artikelen
 	[View matching articles and ideas]
 		en = View matching articles and ideas
-		nl = Bekijk soortgelijke artikelen en ideeën
+		nl = Bekijk vergelijkbare artikelen en ideeën
 	[View matching ideas]
 		en = View matching ideas
-		nl = Bekijk soortgelijke ideeën
+		nl = Bekijk vergelijkbare ideeën
 	[vote]
 		en = vote
 		it = voto
@@ -350,7 +355,7 @@
 		zh-Hant = 歡迎
 	[When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.]
 		en = When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.
-		nl = Wanneer u een idee op ons forum plaatst, kunnen anderen ook op dit idee stemmen en reageren. U krijgt een bericht wanneer we op het idee reageren.
+		nl = Als u een idee op ons forum plaatst, kunnen anderen ook op dit idee stemmen en reageren. U ontvangt bericht zodra we op het idee reageren.
 	[Would you like to contact us?]
 		en = Would you like to contact us?
 		nl = Wilt u contact met ons opnemen?
