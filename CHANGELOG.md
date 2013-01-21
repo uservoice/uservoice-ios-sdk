@@ -1,5 +1,7 @@
 ## master ##
 
+## 2.0.6 ##
+
 * Fix a bug where kb browser would not work if forum was turned off
 
 ## 2.0.5 ##
