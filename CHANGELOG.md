@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug where kb browser would not work if forum was turned off
+
 ## 2.0.5 ##
 
 * Fix a bug with scroll behavior on contact form

@@ -112,7 +112,7 @@
     } else if (theTableView == searchController.searchResultsTableView) {
         identifier = @"InstantAnswer";
     } else {
-        if (indexPath.section == 0)
+        if (indexPath.section == 0 && [UVSession currentSession].config.showForum)
             identifier = @"Forum";
         else if ([self showArticles])
             identifier = @"Article";
@@ -147,7 +147,7 @@
     } else if (theTableView == searchController.searchResultsTableView) {
         return [instantAnswers count];
     } else {
-        if (section == 0)
+        if (section == 0 && [UVSession currentSession].config.showForum)
             return 1;
         else if ([self showArticles])
             return [[UVSession currentSession].articles count];
@@ -165,7 +165,7 @@
         [self selectInstantAnswerAtIndex:indexPath.row];
     } else {
         [self clearFlash];
-        if (indexPath.section == 0) {
+        if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
             UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
@@ -183,7 +183,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0)
+    if (section == 0 && [UVSession currentSession].config.showForum)
         return nil;
     else if ([UVSession currentSession].config.topicId)
         return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
