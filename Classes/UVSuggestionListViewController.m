@@ -123,7 +123,8 @@
 
     UIBarButtonItem *compose = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeButtonTapped)] autorelease];
     compose.style = UIBarButtonItemStyleBordered;
-    compose.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
+    if ([compose respondsToSelector:@selector(setTintColor:)])
+        compose.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
     UINavigationItem *navItem = [[[UINavigationItem alloc] initWithTitle:nil] autorelease];
     navItem.rightBarButtonItem = compose;
     toolbar.items = @[navItem];
@@ -319,7 +320,8 @@
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                                 target:self
                                                                                                 action:@selector(composeButtonTapped)] autorelease];
-        self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
+        if ([self.navigationItem.rightBarButtonItem respondsToSelector:@selector(setTintColor:)])
+            self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
     }
 
     if ([UVSession currentSession].isModal && firstController) {

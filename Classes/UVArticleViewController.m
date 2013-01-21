@@ -35,10 +35,12 @@
     self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 40)] autorelease];
     NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: sans-serif; margin: 1em\"><h3>%@</h3>%@</body></html>", article.question, article.answerHTML];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.webView.backgroundColor = [UIColor whiteColor];
-    for (UIView* shadowView in [self.webView.scrollView subviews]) {
-        if ([shadowView isKindOfClass:[UIImageView class]]) {
-            [shadowView setHidden:YES];
+    if ([self.webView respondsToSelector:@selector(scrollView)]) {
+        self.webView.backgroundColor = [UIColor whiteColor];
+        for (UIView* shadowView in [[self.webView scrollView] subviews]) {
+            if ([shadowView isKindOfClass:[UIImageView class]]) {
+                [shadowView setHidden:YES];
+            }
         }
     }
     [self.webView loadHTMLString:html baseURL:nil];
