@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix some compatibility issues with iOS 4.3
+
 ## 2.0.6 ##
 
 * Fix a bug where kb browser would not work if forum was turned off
