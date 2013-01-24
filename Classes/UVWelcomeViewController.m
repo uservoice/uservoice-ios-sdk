@@ -306,6 +306,7 @@
         searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"UserVoice", nil);
         searchBar.delegate = self;
+        searchBar.showsScopeBar = NO;
         if ([UVSession currentSession].config.showForum) {
             searchBar.scopeButtonTitles = @[NSLocalizedStringFromTable(@"All", @"UserVoice", nil), NSLocalizedStringFromTable(@"Articles", @"UserVoice", nil), NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil)];
         }
