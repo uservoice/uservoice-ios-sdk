@@ -99,7 +99,7 @@
     label.font = [UIFont systemFontOfSize:15];
     label.textColor = [UIColor darkGrayColor];
     label.textAlignment = UITextAlignmentCenter;
-    label.text = NSLocalizedStringFromTable(@"Connecting to UserVoice", @"UserVoice", nil);
+    label.text = NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil);
     [label sizeToFit];
     label.center = CGPointMake(loading.bounds.size.width/2, 85);
     [loading addSubview:label];
