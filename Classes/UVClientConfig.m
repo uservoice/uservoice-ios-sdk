@@ -47,15 +47,13 @@
 }
 
 + (CGFloat)getScreenWidth {
-  id appDelegate = (id)UIApplication.sharedApplication.delegate;
-  UIViewController *root = [appDelegate window].rootViewController;
-  return root.presentedViewController.view.bounds.size.width;
+    UIViewController *root = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    return root.presentedViewController.view.bounds.size.width;
 }
 
 + (CGFloat)getScreenHeight {
-  id appDelegate = (id)UIApplication.sharedApplication.delegate;
-  UIViewController *root = [appDelegate window].rootViewController;
-  return root.presentedViewController.view.bounds.size.height;
+    UIViewController *root = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    return root.presentedViewController.view.bounds.size.height;
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
