@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug related to showPostIdea = NO
+
 ## 2.0.7 ##
 
 * Fix some compatibility issues with iOS 4.3
