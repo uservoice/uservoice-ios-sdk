@@ -241,7 +241,7 @@
         if (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea)
             [self composeButtonTapped];
         else
-            [self showSuggestion:[searchResults objectAtIndex:indexPath.row - 1]];
+            [self showSuggestion:[searchResults objectAtIndex:indexPath.row - ([UVSession currentSession].config.showPostIdea ? 1 : 0)]];
     }
 }
 
