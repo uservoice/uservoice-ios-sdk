@@ -25,7 +25,7 @@
 // Returns a UIColor by scanning the string for a hex number and passing that to +[UIColor colorWithRGBHex:]
 // Skips any leading whitespace and ignores any trailing characters
 + (UIColor *)colorWithHexString:(NSString *)stringToConvert {
-    if ([stringToConvert length] > 0 && [stringToConvert characterAtIndex:0]) {
+    if ([stringToConvert length] > 0 && [stringToConvert characterAtIndex:0] == '#') {
         // Account for #rrggbb format (instead of 0xrrggbb or rrggbb)
         stringToConvert = [stringToConvert substringFromIndex:1];
     }
