@@ -8,7 +8,6 @@
 
 #import "UVRequestToken.h"
 #import "YOAuthToken.h"
-#import "UVResponseDelegate.h"
 #import "UVSession.h"
 #import "UVConfig.h"
 
@@ -17,11 +16,7 @@
 @synthesize oauthToken;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    
-    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
-    BOOL useHttps = range.location == NSNotFound; // not pointing to a us.com (aka dev) url => use https
-    [self setBaseURL:[self siteURLWithHTTPS:useHttps]];
+    [self initModel];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {

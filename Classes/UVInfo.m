@@ -7,7 +7,6 @@
 //
 
 #import "UVInfo.h"
-#import "UVResponseDelegate.h"
 
 @implementation UVInfo
 
@@ -19,8 +18,7 @@
 @synthesize contacts;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 + (id)getWithDelegate:(id)delegate {

@@ -7,10 +7,9 @@
 //
 
 #import "UVUser.h"
-#import "UVResponseDelegate.h"
+#import "UVRequestToken.h"
 #import "UVSuggestion.h"
 #import "UVSession.h"
-#import "UVRequestToken.h"
 #import "YOAuthToken.h"
 #import "UVConfig.h"
 #import "UVClientConfig.h"
@@ -34,16 +33,7 @@
 @synthesize votesRemaining;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self useHTTPS:NO];
-}
-
-// make this configurable on a request by request basis
-+ (void)useHTTPS:(BOOL)secure {
-    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
-    // not pointing to a us.com (aka dev) url => use https
-    BOOL useHttps = (range.location == NSNotFound) && secure;
-    [self setBaseURL:[self siteURLWithHTTPS:useHttps]];
+    [self initModel];
 }
 
 + (id)getWithUserId:(NSInteger)userId delegate:(id)delegate {
@@ -88,7 +78,6 @@
 
 + (id)retrieveCurrentUser:(id)delegate {
     NSString *path = [self apiPath:@"/users/current.json"];
-    [self useHTTPS:YES];
     return [self getPath:path
               withParams:nil
                   target:delegate
@@ -103,7 +92,6 @@
                             anEmail == nil ? @"" : anEmail, @"user[email]",
                             [UVSession currentSession].requestToken.oauthToken.key, @"request_token",
                             nil];
-    [self useHTTPS:YES];
     return [self postPath:path
                withParams:params
                    target:delegate
@@ -119,7 +107,6 @@
                             anEmail == nil ? @"" : anEmail, @"user[email]",
                             [UVSession currentSession].requestToken.oauthToken.key, @"request_token",
                             nil];
-    [self useHTTPS:YES];
     return [self postPath:path
               withParams:params
                   target:delegate
@@ -132,7 +119,6 @@
                             aToken, @"sso",
                             [UVSession currentSession].requestToken.oauthToken.key, @"request_token",
                             nil];
-    [self useHTTPS:YES];
     return [self postPath:path
                withParams:params
                    target:delegate
@@ -178,7 +164,6 @@
                             newEmail == nil ? @"" : newEmail, @"user[email]",
                             nil];
 
-    [[self class] useHTTPS:YES];
     return [[self class] putPath:path
                       withParams:params
                           target:delegate
@@ -198,7 +183,6 @@
         ]
     };
     
-    [[self class] useHTTPS:YES];
     return [[self class] putPath:path
                         withJSON:payload
                           target:delegate

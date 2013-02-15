@@ -13,8 +13,7 @@
 
 }
 
-+ (NSURL *)siteURLWithHTTPS:(BOOL)https;
-+ (NSURL *)siteURL;
++ (void)initModel;
 + (NSString *)apiPrefix;
 + (NSString *)apiPath:(NSString *)path;
 

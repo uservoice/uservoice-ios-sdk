@@ -9,7 +9,6 @@
 #import "HTTPRiot.h"
 #import "UVClientConfig.h"
 #import "UVSession.h"
-#import "UVResponseDelegate.h"
 #import "UVForum.h"
 #import "UVSubject.h"
 #import "UVUser.h"
@@ -31,8 +30,7 @@
 @synthesize whiteLabel;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 + (id)getWithDelegate:(id)delegate {

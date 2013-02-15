@@ -7,7 +7,6 @@
 //
 
 #import "UVComment.h"
-#import "UVResponseDelegate.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
 #import "UVSuggestion.h"
@@ -26,8 +25,7 @@
 @synthesize createdAt;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate {

@@ -7,7 +7,6 @@
 //
 
 #import "UVSuggestion.h"
-#import "UVResponseDelegate.h"
 #import "UVSession.h"
 #import "UVSubdomain.h"
 #import "UVClientConfig.h"
@@ -45,10 +44,8 @@
 @synthesize category;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
-
 
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];

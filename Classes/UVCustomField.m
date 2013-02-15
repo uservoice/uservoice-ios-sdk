@@ -7,7 +7,6 @@
 //
 
 #import "UVCustomField.h"
-#import "UVResponseDelegate.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
 

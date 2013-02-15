@@ -8,7 +8,6 @@
 
 #import "UVArticle.h"
 #import "UVSuggestion.h"
-#import "UVResponseDelegate.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
 #import "UVForum.h"
@@ -22,8 +21,7 @@
 @synthesize articleId;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 + (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {

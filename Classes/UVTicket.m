@@ -18,15 +18,13 @@
 
 #import "UVTicket.h"
 #import "UVCustomField.h"
-#import "UVResponseDelegate.h"
 #import "UVSession.h"
 #import "UVConfig.h"
 
 @implementation UVTicket
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 + (id)createWithMessage:(NSString *)message
