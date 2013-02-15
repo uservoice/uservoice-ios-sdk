@@ -10,7 +10,6 @@
 #import "UVRequestToken.h"
 #import "YOAuthToken.h"
 #import "UVSession.h"
-#import "UVResponseDelegate.h"
 #import "UVConfig.h"
 
 @implementation UVAccessToken
@@ -18,11 +17,7 @@
 @synthesize oauthToken;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-
-    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
-    BOOL useHttps = range.location == NSNotFound; // not pointing to a us.com (aka dev) url => use https
-    [self setBaseURL:[self siteURLWithHTTPS:useHttps]];
+    [self initModel];
 }
 
 + (BOOL) exists {

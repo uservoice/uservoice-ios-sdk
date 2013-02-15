@@ -13,8 +13,13 @@
 #import "UVAccessToken.h"
 #import "YOAuthToken.h"
 #import "UserVoice.h"
+#import "UVResponseDelegate.h"
 
 @implementation UVBaseModel
+
++ (void)initModel {
+    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
+}
 
 + (NSURL *)siteURLWithHTTPS:(BOOL)https {
     UVConfig *config = [UVSession currentSession].config;
@@ -22,8 +27,16 @@
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@", protocol, config.site]];
 }
 
-+ (NSURL *)siteURL {
-    return [self siteURLWithHTTPS:NO];
++ (NSURL *)baseURL {
+    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
+    BOOL useHttps = range.location == NSNotFound; // not pointing to a us.com (aka dev) url => use https
+    return [self siteURLWithHTTPS:useHttps];
+}
+
++ (NSMutableDictionary *)mergedOptions:(NSDictionary *)options {
+    NSMutableDictionary *_options = [super mergedOptions:options];
+    [_options setValue:[self baseURL] forKey:kHRClassAttributesBaseURLKey];
+    return _options;
 }
 
 + (NSString *)apiPrefix {

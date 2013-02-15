@@ -7,7 +7,6 @@
 //
 
 #import "UVHelpTopic.h"
-#import "UVResponseDelegate.h"
 
 @implementation UVHelpTopic
 
@@ -16,8 +15,7 @@
 @synthesize articleCount;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 + (id)getAllWithDelegate:(id)delegate {

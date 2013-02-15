@@ -7,7 +7,6 @@
 //
 
 #import "UVSubdomain.h"
-#import "UVResponseDelegate.h"
 #import "UVSubject.h"
 #import "UVStatus.h"
 
@@ -21,8 +20,7 @@
 @synthesize defaultSort;
 
 + (void)initialize {
-    [self setDelegate:[[UVResponseDelegate alloc] initWithModelClass:[self class]]];
-    [self setBaseURL:[self siteURL]];
+    [self initModel];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {

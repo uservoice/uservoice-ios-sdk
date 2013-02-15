@@ -202,4 +202,8 @@
  */
 + (NSOperation *)deletePath:(NSString *)path withOptions:(NSDictionary *)options object:(id)object;
 //@}
+//
+
+// UV added so we can override some things
++ (NSMutableDictionary *)mergedOptions:(NSDictionary *)options;
 @end
