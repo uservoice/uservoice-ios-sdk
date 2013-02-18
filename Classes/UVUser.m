@@ -31,6 +31,7 @@
 @synthesize createdAt;
 @synthesize suggestionsNeedReload;
 @synthesize votesRemaining;
+@synthesize visibleForumsDict;
 
 + (void)initialize {
     [self initModel];
@@ -214,15 +215,21 @@
         self.createdSuggestions = [NSMutableArray array];
         self.supportedSuggestions = [NSMutableArray array];
         
-        NSArray *visibleForums = [self objectOrNilForDict:dict key:@"visible_forums"];
-        for (NSDictionary *forum in visibleForums) {
-            if ([(NSNumber *)[forum valueForKey:@"id"] integerValue] == [UVSession currentSession].clientConfig.forum.forumId) {
-                NSDictionary *activity = [self objectOrNilForDict:forum key:@"forum_activity"];
-                self.votesRemaining = [(NSNumber *)[activity valueForKey:@"votes_available"] integerValue];
-            }
-        }
+        self.visibleForumsDict = [self objectOrNilForDict:dict key:@"visible_forums"];
+        if ([UVSession currentSession].clientConfig.forum)
+          [self updateVotesRemaining];
     }
     return self;
+}
+
+- (void)updateVotesRemaining {
+    for (NSDictionary *forum in self.visibleForumsDict) {
+        if ([(NSNumber *)[forum valueForKey:@"id"] integerValue] == [UVSession currentSession].clientConfig.forum.forumId) {
+            NSDictionary *activity = [self objectOrNilForDict:forum key:@"forum_activity"];
+            self.votesRemaining = [(NSNumber *)[activity valueForKey:@"votes_available"] integerValue];
+        }
+    }
+    self.visibleForumsDict = nil;
 }
 
 - (NSInteger)supportedSuggestionsCount {
@@ -302,6 +309,7 @@
     self.supportedSuggestions = nil;
     self.createdSuggestions = nil;
     self.createdAt = nil;
+    self.visibleForumsDict = nil;
     [super dealloc];
 }
 
