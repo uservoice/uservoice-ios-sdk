@@ -45,6 +45,9 @@
 
 - (void)checkComplete {
     if (configDone && userDone && topicsDone && articlesDone) {
+        if ([UVSession currentSession].user) {
+            [[UVSession currentSession].user updateVotesRemaining];
+        }
         [delegate performSelector:action];
     }
 }
