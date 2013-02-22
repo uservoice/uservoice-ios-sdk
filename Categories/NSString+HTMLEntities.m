@@ -18,6 +18,11 @@
     [string replaceOccurrencesOfString:@"&amp;"  withString:@"&"  options:0 range:NSMakeRange(0, [string length])];
     [string replaceOccurrencesOfString:@"&lt;"   withString:@"<"  options:0 range:NSMakeRange(0, [string length])];
     [string replaceOccurrencesOfString:@"&gt;"   withString:@">"  options:0 range:NSMakeRange(0, [string length])];
+    [string replaceOccurrencesOfString:@"&#34;" withString:@"\""  options:0 range:NSMakeRange(0, [string length])];
+    [string replaceOccurrencesOfString:@"&#39;" withString:@"'"  options:0 range:NSMakeRange(0, [string length])];
+    [string replaceOccurrencesOfString:@"&#38;" withString:@"&"  options:0 range:NSMakeRange(0, [string length])];
+    [string replaceOccurrencesOfString:@"&#60;" withString:@"<"  options:0 range:NSMakeRange(0, [string length])];
+    [string replaceOccurrencesOfString:@"&#62;" withString:@">"  options:0 range:NSMakeRange(0, [string length])];
     return string;
 }
 
