@@ -24,7 +24,7 @@
     
     NSArray *lines = [self breakString];
     int targetLineNumber = 0, targetColumnNumber = 0, elapsedChars = 0;
-    NSString *targetLine;
+    NSString *targetLine = nil;
     for (int i = 0; i < [lines count]; i++) {
         NSString *line = [lines objectAtIndex:i];
         if (index >= elapsedChars + [line length]) {

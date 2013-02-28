@@ -57,7 +57,7 @@ static const short _base64DecodingTable[256] = {
     int i = 0, j = 0, k;
 
     unsigned char * objResult;
-    objResult = calloc(intLength, sizeof(char));
+    objResult = calloc(intLength, sizeof(unsigned char));
 
     // Run through the whole string, converting as we go
     while ( ((intCurrent = *objPointer++) != '\0') && (intLength-- > 0) ) {
