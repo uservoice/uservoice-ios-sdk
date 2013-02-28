@@ -51,6 +51,7 @@ static NSMutableDictionary *attributes;
 }
 
 + (void)setDelegate:(NSObject *)del {
+    [del retain];
     [self setAttributeValue:[NSValue valueWithNonretainedObject:del] forKey:kHRClassAttributesDelegateKey];
 }
 
