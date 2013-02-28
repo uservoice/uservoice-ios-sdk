@@ -88,8 +88,7 @@
     if ([activity respondsToSelector:@selector(setColor:)]) {
         [activity setColor:[UIColor grayColor]];
     } else {
-        [activity release];
-        activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activity = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
     }
     activity.center = CGPointMake(loading.bounds.size.width/2, 40);
     [loading addSubview:activity];
