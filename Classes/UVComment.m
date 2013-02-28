@@ -72,7 +72,7 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.commentId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.text = [[dict objectForKey:@"text"] stringByDecodingHTMLEntities];
+        self.text = [[self objectOrNilForDict:dict key:@"text"] stringByDecodingHTMLEntities];
         NSDictionary *user = [dict objectForKey:@"creator"];
         if (user && ![[NSNull null] isEqual:user]) {
             self.userName = [user objectForKey:@"name"];
