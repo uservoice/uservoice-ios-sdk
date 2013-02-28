@@ -3,7 +3,7 @@ Overview
 
 UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
 
-![Tour](http://www.uservoice.com/_assets/images/content/UserVoice-iOS-animation-joshua.gif)
+![Tour](https://www.uservoice.com/assets/img/ios/ios-animation.gif)
 
 You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
 
