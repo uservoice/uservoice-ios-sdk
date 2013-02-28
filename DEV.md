@@ -2,8 +2,7 @@ Distribution
 ------------
 
 To build for distribution, simply run `./build.sh`. It will create a fat binary
-for i386, arm6, and arm7, copy over the necessary resources, and make a
-tarball.
+for i386 & armv7, copy over the necessary resources, and make a tarball.
 
 Development
 -----------
@@ -12,7 +11,7 @@ Follow these instructions to set up the SDK for development alongside an iOS
 project. See the `dev` branch of the example project for an example of this
 setup using a submodule to manage the SDK.
 
-* Run XCode 4.2 (there is an XCode 3 branch, but it is not up to date)
+* Run XCode 4.2+
 * Have your project inside an XCode workspace
 * Download the SDK and drag it into your workspace (or check it out using a git submodule)
 * Add `libUserVoice.a` under the `Link Binary With Libraries` build phase
