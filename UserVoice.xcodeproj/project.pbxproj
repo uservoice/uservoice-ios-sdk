@@ -261,6 +261,7 @@
 		ACEE442D10AB370F003D8751 /* UVComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVComment.m; sourceTree = "<group>"; };
 		ACEE461510ACC158003D8751 /* UVBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVBaseViewController.h; path = Classes/UVBaseViewController.h; sourceTree = SOURCE_ROOT; };
 		ACEE461610ACC158003D8751 /* UVBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UVBaseViewController.m; path = Classes/UVBaseViewController.m; sourceTree = SOURCE_ROOT; };
+		BC1F064216BBF700006E9027 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = UserVoice.strings; sourceTree = "<group>"; };
 		D20402C911E03B0C00022C44 /* UVSuggestionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionButton.h; sourceTree = "<group>"; };
 		D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionButton.m; sourceTree = "<group>"; };
 		D2453EC411AF2AD900C7E4BA /* UVInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVInfo.h; sourceTree = "<group>"; };
@@ -642,9 +643,18 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		BC1F064016BBF700006E9027 /* de.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				BC1F064116BBF700006E9027 /* UserVoice.strings */,
+			);
+			path = de.lproj;
+			sourceTree = "<group>";
+		};
 		D2620C4B11B586230053EA4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BC1F064016BBF700006E9027 /* de.lproj */,
 				D986ADEB1624C8E5008291AA /* it.lproj */,
 				D986ADEE1624C8E5008291AA /* nl.lproj */,
 				D986ADF11624C8E5008291AA /* zh-Hant.lproj */,
@@ -947,6 +957,7 @@
 				it,
 				nl,
 				"zh-Hant",
+				de,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* UserVoice */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1054,6 +1065,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		BC1F064116BBF700006E9027 /* UserVoice.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC1F064216BBF700006E9027 /* de */,
+			);
+			name = UserVoice.strings;
+			sourceTree = "<group>";
+		};
 		D986ADEC1624C8E5008291AA /* UserVoice.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
