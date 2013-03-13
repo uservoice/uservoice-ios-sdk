@@ -9,14 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HTTPRiot.h"
 
-
-@interface UVResponseDelegate : NSObject <HRResponseDelegate> {
-    Class modelClass;
-    NSInteger statusCode;
-}
-
-@property (assign) Class modelClass;
-
-- (id)initWithModelClass:(Class)clazz;
+@interface UVResponseDelegate : NSObject <HRResponseDelegate>
 
 @end

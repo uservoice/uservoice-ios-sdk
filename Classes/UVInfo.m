@@ -17,10 +17,6 @@
 @synthesize management;
 @synthesize contacts;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)getWithDelegate:(id)delegate {
     return [self getPath:[self apiPath:@"/info.json"]
               withParams:nil

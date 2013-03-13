@@ -20,10 +20,6 @@
 @synthesize answerHTML;
 @synthesize articleId;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topicId]];
     return [self getPath:path

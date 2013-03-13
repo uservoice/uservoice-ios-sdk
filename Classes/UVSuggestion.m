@@ -43,10 +43,6 @@
 @synthesize responseCreatedAt;
 @synthesize category;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:

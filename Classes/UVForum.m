@@ -22,10 +22,6 @@
 @synthesize suggestionsNeedReload;
 @synthesize suggestionsCount;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.forumId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];

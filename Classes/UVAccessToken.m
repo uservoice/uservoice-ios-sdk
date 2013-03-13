@@ -16,13 +16,8 @@
 
 @synthesize oauthToken;
 
-+ (void)initialize {
-    [self initModel];
-}
-
-+ (BOOL) exists {
++ (BOOL)exists {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-
     return [prefs stringForKey:@"uv-iphone-k"] != nil;
 }
 

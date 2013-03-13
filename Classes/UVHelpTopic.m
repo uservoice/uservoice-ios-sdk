@@ -14,10 +14,6 @@
 @synthesize topicId;
 @synthesize articleCount;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)getAllWithDelegate:(id)delegate {
     NSString *path = [self apiPath:@"/topics.json"];
     return [self getPath:path

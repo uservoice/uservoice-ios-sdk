@@ -15,7 +15,6 @@
 
 }
 
-+ (void)initModel;
 + (NSString *)apiPrefix;
 + (NSString *)apiPath:(NSString *)path;
 
