@@ -52,12 +52,8 @@
 
 + (id)forgotPassword:(NSString *)email delegate:(id)delegate;
 
-// fetch
-+ (id)getWithUserId:(NSInteger)userId delegate:(id)delegate;
-
 // discover
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate;
-+ (id)discoverWithGUID:(NSString *)guid delegate:(id)delegate;
 
 // create
 + (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;

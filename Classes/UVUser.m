@@ -37,40 +37,9 @@
     [self initModel];
 }
 
-+ (id)getWithUserId:(NSInteger)userId delegate:(id)delegate {
-    NSString *key = [NSString stringWithFormat:@"%d", userId];
-    id cachedUser = [[UVSession currentSession].userCache objectForKey:key];
-
-    if (cachedUser && ![[NSNull null] isEqual:cachedUser]) {
-        // gonna fake the call and pass the cached user back to the selector
-        NSMethodSignature *sig = [delegate methodSignatureForSelector:@selector(didRetrieveUser:)];
-        NSInvocation *callback = [NSInvocation invocationWithMethodSignature:sig];
-        [callback setTarget:delegate];
-        [callback setSelector:@selector(didRetrieveUser:)];
-        [callback retainArguments];
-        [UVUser didReturnModel:cachedUser callback:callback];
-        return cachedUser;
-    } else {
-        NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/%d.json", userId]];
-        return [self getPath:path
-                  withParams:nil
-                      target:delegate
-                    selector:@selector(didRetrieveUser:)];
-    }
-}
-
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
     NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];
-    return [self getPath:path
-              withParams:params
-                  target:delegate
-                selector:@selector(didDiscoverUser:)];
-}
-
-+ (id)discoverWithGUID:(NSString *)guid delegate:(id)delegate {
-    NSString *path = [self apiPath:@"/users/discover.json"];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: guid, @"guid", nil];
     return [self getPath:path
               withParams:params
                   target:delegate
@@ -111,7 +80,8 @@
     return [self postPath:path
               withParams:params
                   target:delegate
-                selector:@selector(didCreateUser:)];
+                selector:@selector(didCreateUser:)
+                 context:@"local-sso"];
 }
 
 + (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate {
@@ -123,7 +93,8 @@
     return [self postPath:path
                withParams:params
                    target:delegate
-                 selector:@selector(didCreateUser:)];
+                 selector:@selector(didCreateUser:)
+                  context:@"sso"];
 }
 
 + (id)forgotPassword:(NSString *)email delegate:(id)delegate {

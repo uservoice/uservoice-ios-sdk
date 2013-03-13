@@ -16,6 +16,7 @@
 #import "UVConfig.h"
 #import "UVUser.h"
 #import "UVSession.h"
+#import "UVRequestContext.h"
 
 @implementation UVInitialLoadManager
 
@@ -128,10 +129,15 @@
     [delegate performSelector:@selector(dismissUserVoice)];
 }
 
-- (void)didReceiveError:(NSError *)error {
+- (void)didReceiveError:(NSError *)error context:(UVRequestContext *)requestContext {
     if (dismissed) return;
     NSString *message = nil;
     if ([error isAuthError]) {
+        if ([requestContext.context isEqualToString:@"sso"] || [requestContext.context isEqualToString:@"local-sso"]) {
+          // SSO and local SSO can fail with regard to admins. It's ok to proceed without a user.
+          userDone = YES;
+          return;
+        }
         if ([UVAccessToken exists]) {
             [[UVSession currentSession].accessToken remove];
             [UVSession currentSession].accessToken = nil;

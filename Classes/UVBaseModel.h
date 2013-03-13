@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HTTPRiot.h"
 
+@class UVRequestContext;
+
 @interface UVBaseModel : HRRestModel {
 
 }
@@ -23,6 +25,11 @@
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
 + (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector;
 
++ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context;
++ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context;
++ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context;
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector context:(NSString *)context;
+
 // Exposed for subclasses that need to implement their own requests
 + (NSMutableDictionary *)headersForPath:(NSString *)path params:(NSDictionary *)params method:(NSString *)method;
 
@@ -33,13 +40,13 @@
 
 // Processes the returned model(s) and invokes the specified callback. Should not
 // need to be overridden in subclasses. Override processModel(s) instead.
-+ (void)didReturnModel:(id)model callback:(NSInvocation *)callback;
-+ (void)didReturnModels:(NSArray *)models callback:(NSInvocation *)callback;
++ (void)didReturnModel:(id)model context:(UVRequestContext *)requestContext;
++ (void)didReturnModels:(NSArray *)models context:(UVRequestContext *)requestContext;
 
 // Any of the different types of HTTPRiot errors result in this method being
 // called. Invokes the didReceiveError: selector on the callback target. Can be
 // overridden in subclasses that need more specific error handling.
-+ (void)didReceiveError:(NSError *)error callback:(NSInvocation *)callback;
++ (void)didReceiveError:(NSError *)error context:(UVRequestContext *)requestContext;
 
 // Should be overriden in subclasses to populate themselves based on the
 // returned resource.
