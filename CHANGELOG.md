@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug where initialization would stall if sso fails
+
 ## 2.0.8 ##
 
 * Fix a crash related to comments with null text

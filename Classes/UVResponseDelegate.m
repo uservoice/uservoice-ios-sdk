@@ -11,6 +11,7 @@
 #import "UVAccessToken.h"
 #import "UVSession.h"
 #import "UVCustomField.h"
+#import "UVRequestContext.h"
 
 @implementation UVResponseDelegate
 
@@ -30,14 +31,11 @@
 #pragma mark - HRResponseDelegate Methods
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response object:(id)object {
-    //NSLog(@"DidReceiveResponse: %@", response);
     //HttpRiot ignores the status code if a JSON body is present and sends didReturnResource"
     statusCode = [response statusCode];
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReturnResource:(id)resource object:(id)object {
-    //NSLog(@"didReturnResource: %@", resource);
-
     if (statusCode >= 400) {
         NSDictionary *userInfo = nil;
 
@@ -45,7 +43,7 @@
             userInfo = [resource objectForKey:@"errors"];
 
         NSError *error = [NSError errorWithDomain:@"uservoice" code:statusCode userInfo:userInfo];
-        [modelClass didReceiveError:error callback:object];
+        [modelClass didReceiveError:error context:object];
 
     } else {
         // here we get one root node of the response class (response node has been removed for JSON)
@@ -73,12 +71,12 @@
                 for (id item in [mutableResource objectForKey:[nodes objectAtIndex:0]]) {
                     [models addObject:[self modelForDictionary:item]];
                 }
-                [modelClass didReturnModels:models callback:object];
+                [modelClass didReturnModels:models context:object];
 
             } else {
                 NSDictionary *dict = [mutableResource objectForKey:[nodes objectAtIndex:0]];
 
-                [modelClass didReturnModel:[self modelForDictionary:dict] callback:object];
+                [modelClass didReturnModel:[self modelForDictionary:dict] context:object];
             }
         }
     }
@@ -87,14 +85,14 @@
 - (void)restConnection:(NSURLConnection *)connection didFailWithError:(NSError *)error object:(id)object {
     // Handle connection errors.  Failures to connect to the server, etc.
     NSLog(@"Error (HTTP connection failed): %@", error);
-    [modelClass didReceiveError:error callback:object];
+    [modelClass didReceiveError:error context:object];
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveParseError:(NSError *)error responseBody:(NSString *)string object:(id)object {
     // Request was successful, but couldn't parse the data returned by the server.
     NSLog(@"Error parsing response: %@", error);
     NSLog(@"Response Body: %@\n", string);
-    [modelClass didReceiveError:error callback:object];
+    [modelClass didReceiveError:error context:object];
 }
 
 @end

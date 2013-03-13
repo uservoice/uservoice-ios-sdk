@@ -14,6 +14,7 @@
 #import "YOAuthToken.h"
 #import "UserVoice.h"
 #import "UVResponseDelegate.h"
+#import "UVRequestContext.h"
 
 @implementation UVBaseModel
 
@@ -117,28 +118,52 @@
     return callback;
 }
 
++ (UVRequestContext *)requestContextWithTarget:(id)target selector:(SEL)selector context:(NSString *)context {
+    UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];
+    requestContext.modelClass = self;
+    requestContext.context = context;
+    requestContext.callback = [self invocationWithTarget:target selector:selector];
+    return requestContext;
+}
+
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+    return [self getPath:path withParams:params target:target selector:selector context:nil];
+}
+
++ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
-    return [self getPath:path withOptions:opts object:callback];
+    return [self getPath:path withOptions:opts object:requestContext];
 }
 
 + (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+    return [self postPath:path withParams:params target:target selector:selector context:nil];
+}
+
++ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"POST"];
-    return [self postPath:path withOptions:opts object:callback];
+    return [self postPath:path withOptions:opts object:requestContext];
 }
 
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+    return [self putPath:path withParams:params target:target selector:selector context:nil];
+}
+
++ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"PUT"];
-    return [self putPath:path withOptions:opts object:callback];
+    return [self putPath:path withOptions:opts object:requestContext];
 }
 
 + (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector {
-    NSInvocation *callback = [self invocationWithTarget:target selector:selector];
+    return [self putPath:path withJSON:payload target:target selector:selector context:nil];
+}
+
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
     NSDictionary *opts = [self optionsForPath:path JSON:payload method:@"PUT"];
-    return [self putPath:path withOptions:opts object:callback];
+    return [self putPath:path withOptions:opts object:requestContext];
 }
 
 + (void)processModel:(id)model {
@@ -153,27 +178,34 @@
     return [[[self alloc] initWithDictionary:dict] autorelease];
 }
 
-+ (void)didReturnModel:(id)model callback:(NSInvocation *)callback {
++ (void)didReturnModel:(id)model context:(UVRequestContext *)context {
     [self processModel:model];
 
-    if (callback.methodSignature.numberOfArguments > 2) {
-        [callback setArgument:&model atIndex:2];
-    }
-    [callback invoke];
+    if (context.callback.methodSignature.numberOfArguments > 2)
+        [context.callback setArgument:&model atIndex:2];
+
+    // TODO it would be nice to optionally pass the context here, but there
+    // isn't an easy way to do it with the way the callback is defined
+
+    [context.callback invoke];
 }
 
-+ (void)didReturnModels:(NSArray *)models callback:(NSInvocation *)callback {
++ (void)didReturnModels:(NSArray *)models context:(UVRequestContext *)context {
     [self processModels:models];
 
-    if (callback.methodSignature.numberOfArguments > 2) {
-        [callback setArgument:&models atIndex:2];
-    }
-    [callback invoke];
+    if (context.callback.methodSignature.numberOfArguments > 2)
+        [context.callback setArgument:&models atIndex:2];
+
+    [context.callback invoke];
 }
 
-+ (void)didReceiveError:(NSError *)error callback:(NSInvocation *)callback {
++ (void)didReceiveError:(NSError *)error context:(UVRequestContext *)context {
     NSLog(@"UserVoice SDK network error: %@", error);
-    [callback.target performSelector:@selector(didReceiveError:) withObject:error];
+
+    if ([context.callback.target respondsToSelector:@selector(didReceiveError:context:)])
+        [context.callback.target performSelector:@selector(didReceiveError:context:) withObject:error withObject:context];
+    else if ([context.callback.target respondsToSelector:@selector(didReceiveError:)])
+        [context.callback.target performSelector:@selector(didReceiveError:) withObject:error];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
