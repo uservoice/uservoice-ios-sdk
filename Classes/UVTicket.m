@@ -23,10 +23,6 @@
 
 @implementation UVTicket
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)createWithMessage:(NSString *)message
   andEmailIfNotLoggedIn:(NSString *)email
                 andName:(NSString *)name

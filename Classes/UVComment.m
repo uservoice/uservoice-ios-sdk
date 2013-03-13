@@ -24,10 +24,6 @@
 @synthesize karmaScore;
 @synthesize createdAt;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/comments.json",
                                     suggestion.forumId,

@@ -33,10 +33,6 @@
 @synthesize votesRemaining;
 @synthesize visibleForumsDict;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
     NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];

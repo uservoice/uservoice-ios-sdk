@@ -19,10 +19,6 @@
 @synthesize statuses;
 @synthesize defaultSort;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         // get statuses

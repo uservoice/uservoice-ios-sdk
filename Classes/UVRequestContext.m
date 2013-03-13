@@ -10,7 +10,10 @@
 
 @implementation UVRequestContext
 
-@synthesize modelClass, context, callback;
+@synthesize modelClass;
+@synthesize statusCode;
+@synthesize context;
+@synthesize callback;
 
 - (void)dealloc {
   self.context = nil;

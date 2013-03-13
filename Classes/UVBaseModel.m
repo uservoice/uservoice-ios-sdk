@@ -18,8 +18,8 @@
 
 @implementation UVBaseModel
 
-+ (void)initModel {
-    [self setDelegate:[[[UVResponseDelegate alloc] initWithModelClass:[self class]] autorelease]];
++ (void)initialize {
+    [self setDelegate:[[[UVResponseDelegate alloc] init] autorelease]];
 }
 
 + (NSURL *)siteURLWithHTTPS:(BOOL)https {

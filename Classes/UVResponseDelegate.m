@@ -15,35 +15,24 @@
 
 @implementation UVResponseDelegate
 
-@synthesize modelClass;
-
-- (id)initWithModelClass:(Class)clazz {
-    if (self = [super init]) {
-        self.modelClass = clazz;
-    }
-    return self;
-}
-
-- (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
-    return [self.modelClass modelForDictionary:dict];
-}
-
 #pragma mark - HRResponseDelegate Methods
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response object:(id)object {
     //HttpRiot ignores the status code if a JSON body is present and sends didReturnResource"
-    statusCode = [response statusCode];
+    UVRequestContext *requestContext = (UVRequestContext *)object;
+    requestContext.statusCode = [response statusCode];
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReturnResource:(id)resource object:(id)object {
-    if (statusCode >= 400) {
+    UVRequestContext *requestContext = (UVRequestContext *)object;
+    if (requestContext.statusCode >= 400) {
         NSDictionary *userInfo = nil;
 
         if ([resource respondsToSelector:@selector(objectForKey:)])
             userInfo = [resource objectForKey:@"errors"];
 
-        NSError *error = [NSError errorWithDomain:@"uservoice" code:statusCode userInfo:userInfo];
-        [modelClass didReceiveError:error context:object];
+        NSError *error = [NSError errorWithDomain:@"uservoice" code:requestContext.statusCode userInfo:userInfo];
+        [requestContext.modelClass didReceiveError:error context:object];
 
     } else {
         // here we get one root node of the response class (response node has been removed for JSON)
@@ -69,14 +58,14 @@
             if ([[mutableResource objectForKey:[nodes objectAtIndex:0]] isKindOfClass:[NSArray class]]) {
                 NSMutableArray *models = [NSMutableArray array];
                 for (id item in [mutableResource objectForKey:[nodes objectAtIndex:0]]) {
-                    [models addObject:[self modelForDictionary:item]];
+                    [models addObject:[requestContext.modelClass modelForDictionary:item]];
                 }
-                [modelClass didReturnModels:models context:object];
+                [requestContext.modelClass didReturnModels:models context:object];
 
             } else {
                 NSDictionary *dict = [mutableResource objectForKey:[nodes objectAtIndex:0]];
 
-                [modelClass didReturnModel:[self modelForDictionary:dict] context:object];
+                [requestContext.modelClass didReturnModel:[requestContext.modelClass modelForDictionary:dict] context:object];
             }
         }
     }
@@ -85,14 +74,16 @@
 - (void)restConnection:(NSURLConnection *)connection didFailWithError:(NSError *)error object:(id)object {
     // Handle connection errors.  Failures to connect to the server, etc.
     NSLog(@"Error (HTTP connection failed): %@", error);
-    [modelClass didReceiveError:error context:object];
+    UVRequestContext *requestContext = (UVRequestContext *)object;
+    [requestContext.modelClass didReceiveError:error context:object];
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveParseError:(NSError *)error responseBody:(NSString *)string object:(id)object {
     // Request was successful, but couldn't parse the data returned by the server.
     NSLog(@"Error parsing response: %@", error);
     NSLog(@"Response Body: %@\n", string);
-    [modelClass didReceiveError:error context:object];
+    UVRequestContext *requestContext = (UVRequestContext *)object;
+    [requestContext.modelClass didReceiveError:error context:object];
 }
 
 @end

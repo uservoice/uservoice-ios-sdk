@@ -15,10 +15,6 @@
 
 @synthesize oauthToken;
 
-+ (void)initialize {
-    [self initModel];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.oauthToken = [YOAuthToken tokenWithDictionary:dict];
