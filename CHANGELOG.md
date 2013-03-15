@@ -1,5 +1,7 @@
 ## master ##
 
+## 2.0.9 ##
+
 * Add German translation (thanks to vinzenzweber)
 * Fix a layout bug affecting translated labels on the idea form
 * Fix a bug where initialization would stall if sso fails
