@@ -35,7 +35,8 @@
     return [self getPath:path
               withParams:params
                   target:delegate
-                selector:@selector(didRetrieveComments:)];
+                selector:@selector(didRetrieveComments:)
+                 rootKey:@"comments"];
 }
 
 + (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id)delegate {
@@ -48,7 +49,8 @@
     return [[self class] postPath:path
                        withParams:params
                            target:delegate
-                         selector:@selector(didCreateComment:)];
+                         selector:@selector(didCreateComment:)
+                          rootKey:@"comment"];
 }
 
 - (id)flag:(NSString *)code suggestion:(UVSuggestion *)suggestion delegate:(id)delegate {
@@ -62,7 +64,8 @@
     return [[self class] postPath:path
                        withParams:params
                            target:delegate
-                         selector:@selector(didFlagComment:)];
+                         selector:@selector(didFlagComment:)
+                          rootKey:@"comment"];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {

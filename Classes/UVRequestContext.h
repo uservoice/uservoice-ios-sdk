@@ -13,11 +13,13 @@
   NSString *context;
   NSInvocation *callback;
   NSInteger statusCode;
+  NSString *rootKey;
 }
 
 @property (assign) Class modelClass;
 @property (assign) NSInteger statusCode;
 @property (nonatomic, retain) NSString *context;
 @property (nonatomic, retain) NSInvocation *callback;
+@property (nonatomic, retain) NSString *rootKey;
 
 @end

@@ -39,7 +39,8 @@
     return [self getPath:path
               withParams:params
                   target:delegate
-                selector:@selector(didDiscoverUser:)];
+                selector:@selector(didDiscoverUser:)
+                 rootKey:@"user"];
 }
 
 + (id)retrieveCurrentUser:(id)delegate {
@@ -47,7 +48,8 @@
     return [self getPath:path
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveCurrentUser:)];
+                selector:@selector(didRetrieveCurrentUser:)
+                 rootKey:@"user"];
 }
 
 // only called when instigated by the user, creates a global user
@@ -61,7 +63,8 @@
     return [self postPath:path
                withParams:params
                    target:delegate
-                 selector:@selector(didCreateUser:)];
+                 selector:@selector(didCreateUser:)
+                  rootKey:@"user"];
 }
 
 // two methods for creating with the client, create local users
@@ -77,6 +80,7 @@
               withParams:params
                   target:delegate
                 selector:@selector(didCreateUser:)
+                 rootKey:@"user"
                  context:@"local-sso"];
 }
 
@@ -90,6 +94,7 @@
                withParams:params
                    target:delegate
                  selector:@selector(didCreateUser:)
+                  rootKey:@"user"
                   context:@"sso"];
 }
 
@@ -99,7 +104,8 @@
     return [self getPath:path
               withParams:params
                   target:delegate
-                selector:@selector(didSendForgotPassword:)];
+                selector:@selector(didSendForgotPassword:)
+                 rootKey:@"user"];
 }
 
 + (void)processModel:(id)model {
@@ -121,7 +127,8 @@
     return [[self class] getPath:path
                       withParams:params
                           target:delegate
-                        selector:@selector(didSendForgotPassword)];
+                        selector:@selector(didSendForgotPassword)
+                         rootKey:@"user"];
 }
 
 - (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate {
@@ -135,7 +142,8 @@
     return [[self class] putPath:path
                       withParams:params
                           target:delegate
-                        selector:@selector(didUpdateUser:)];
+                        selector:@selector(didUpdateUser:)
+                         rootKey:@"user"];
 }
 
 - (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate {
@@ -154,7 +162,8 @@
     return [[self class] putPath:path
                         withJSON:payload
                           target:delegate
-                        selector:@selector(didIdentifyUser:)];
+                        selector:@selector(didIdentifyUser:)
+                         rootKey:@"identifications"];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
