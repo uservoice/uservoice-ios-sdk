@@ -25,7 +25,6 @@
 @synthesize clientConfig;
 @synthesize accessToken;
 @synthesize requestToken;
-@synthesize info;
 @synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
 @synthesize externalIds;

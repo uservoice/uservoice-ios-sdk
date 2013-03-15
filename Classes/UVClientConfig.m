@@ -33,7 +33,8 @@
     return [self getPath:[self apiPath:@"/client.json"]
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveClientConfig:)];
+                selector:@selector(didRetrieveClientConfig:)
+                 rootKey:@"client"];
 }
 
 + (void)processModel:(id)model {

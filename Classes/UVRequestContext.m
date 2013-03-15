@@ -14,10 +14,12 @@
 @synthesize statusCode;
 @synthesize context;
 @synthesize callback;
+@synthesize rootKey;
 
 - (void)dealloc {
   self.context = nil;
   self.callback = nil;
+  self.rootKey = nil;
   [super dealloc];
 }
 

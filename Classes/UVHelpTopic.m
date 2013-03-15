@@ -19,7 +19,8 @@
     return [self getPath:path
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveHelpTopics:)];
+                selector:@selector(didRetrieveHelpTopics:)
+                 rootKey:@"topics"];
 }
 
 + (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate {
@@ -27,7 +28,8 @@
     return [self getPath:path
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveHelpTopic:)];
+                selector:@selector(didRetrieveHelpTopic:)
+                 rootKey:@"topic"];
 }
 
 

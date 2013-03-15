@@ -52,7 +52,8 @@
     return [[self class] postPath:path
                        withParams:params
                            target:delegate
-                         selector:@selector(didCreateTicket:)];
+                         selector:@selector(didCreateTicket:)
+                          rootKey:@"ticket"];
 }
 
 @end

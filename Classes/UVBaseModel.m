@@ -118,50 +118,51 @@
     return callback;
 }
 
-+ (UVRequestContext *)requestContextWithTarget:(id)target selector:(SEL)selector context:(NSString *)context {
++ (UVRequestContext *)requestContextWithTarget:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
     UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];
     requestContext.modelClass = self;
+    requestContext.rootKey = rootKey;
     requestContext.context = context;
     requestContext.callback = [self invocationWithTarget:target selector:selector];
     return requestContext;
 }
 
-+ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    return [self getPath:path withParams:params target:target selector:selector context:nil];
++ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey {
+    return [self getPath:path withParams:params target:target selector:selector rootKey:rootKey context:nil];
 }
 
-+ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
++ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
     return [self getPath:path withOptions:opts object:requestContext];
 }
 
-+ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    return [self postPath:path withParams:params target:target selector:selector context:nil];
++ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey {
+    return [self postPath:path withParams:params target:target selector:selector rootKey:rootKey context:nil];
 }
 
-+ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
++ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"POST"];
     return [self postPath:path withOptions:opts object:requestContext];
 }
 
-+ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector {
-    return [self putPath:path withParams:params target:target selector:selector context:nil];
++ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey {
+    return [self putPath:path withParams:params target:target selector:selector rootKey:rootKey context:nil];
 }
 
-+ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
++ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"PUT"];
     return [self putPath:path withOptions:opts object:requestContext];
 }
 
-+ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector {
-    return [self putPath:path withJSON:payload target:target selector:selector context:nil];
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey {
+    return [self putPath:path withJSON:payload target:target selector:selector rootKey:rootKey context:nil];
 }
 
-+ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector context:context];
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
     NSDictionary *opts = [self optionsForPath:path JSON:payload method:@"PUT"];
     return [self putPath:path withOptions:opts object:requestContext];
 }

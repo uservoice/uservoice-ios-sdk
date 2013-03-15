@@ -28,7 +28,9 @@
     return [self getPath:path
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveRequestToken:)];
+                selector:@selector(didRetrieveRequestToken:)
+                 rootKey:@"token"
+                 context:@"request-token"];
 }
 
 @end

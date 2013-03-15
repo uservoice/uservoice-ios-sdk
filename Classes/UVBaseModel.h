@@ -19,15 +19,15 @@
 + (NSString *)apiPath:(NSString *)path;
 
 // Perform a GET, POST, and PUT respectively
-+ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
-+ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
-+ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector;
-+ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector;
++ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey;
++ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey;
++ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey;
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey;
 
-+ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context;
-+ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context;
-+ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector context:(NSString *)context;
-+ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector context:(NSString *)context;
++ (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context;
++ (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context;
++ (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context;
++ (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context;
 
 // Exposed for subclasses that need to implement their own requests
 + (NSMutableDictionary *)headersForPath:(NSString *)path params:(NSDictionary *)params method:(NSString *)method;

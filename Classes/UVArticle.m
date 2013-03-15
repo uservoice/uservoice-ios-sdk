@@ -25,7 +25,8 @@
     return [self getPath:path
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveArticles:)];
+                selector:@selector(didRetrieveArticles:)
+                 rootKey:@"articles"];
 }
 
 + (id)getArticlesWithDelegate:(id)delegate {
@@ -33,7 +34,8 @@
     return [self getPath:path
               withParams:nil
                   target:delegate
-                selector:@selector(didRetrieveArticles:)];
+                selector:@selector(didRetrieveArticles:)
+                 rootKey:@"articles"];
 }
 
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
@@ -49,7 +51,8 @@
     return [self getPath:[self apiPath:@"/instant_answers/search.json"]
               withParams:params
                   target:delegate
-                selector:@selector(didRetrieveInstantAnswers:)];
+                selector:@selector(didRetrieveInstantAnswers:)
+                 rootKey:@"instant_answers"];
 }
 
 + (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
