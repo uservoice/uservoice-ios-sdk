@@ -246,7 +246,7 @@ Special thanks to:
 * [Piero87](https://github.com/Piero87) for the Italian translation
 * [zetachang](https://github.com/zetachang) for the Traditional Chinese translation
 * [nvh](https://github.com/nvh) for the Dutch translation
-* [vinzenweber](https://github.com/venzenweber) and [Blockhaus Media](http://www.blockhaus-media.com/) for the German translation
+* [vinzenzweber](https://github.com/venzenzweber) and [Blockhaus Media](http://www.blockhaus-media.com/) for the German translation
 * Everyone else who [reported bugs or made pull requests](https://github.com/uservoice/uservoice-iphone-sdk/issues?state=closed)!
 
 License
