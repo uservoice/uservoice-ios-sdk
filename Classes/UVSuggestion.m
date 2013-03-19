@@ -209,7 +209,7 @@
             NSDictionary *forum = [self objectOrNilForDict:topic key:@"forum"];
             if (forum) {
                 self.forumId = [(NSNumber *)[forum objectForKey:@"id"] integerValue];
-                self.forumName = [self objectOrNilForDict:forum key:@"name"];
+                self.forumName = [[self objectOrNilForDict:forum key:@"name"] stringByDecodingHTMLEntities];
             }
 
             self.votesRemaining = [(NSNumber *)[topic objectForKey:@"votes_remaining"] integerValue];
