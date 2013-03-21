@@ -74,7 +74,7 @@
         self.text = [[self objectOrNilForDict:dict key:@"text"] stringByDecodingHTMLEntities];
         NSDictionary *user = [dict objectForKey:@"creator"];
         if (user && ![[NSNull null] isEqual:user]) {
-            self.userName = [user objectForKey:@"name"];
+            self.userName = [[user objectForKey:@"name"] stringByDecodingHTMLEntities];
             self.userId = [(NSNumber *)[user objectForKey:@"id"] integerValue];
             self.avatarUrl = [self objectOrNilForDict:user key:@"avatar_url"];
             self.karmaScore = [(NSNumber *)[user objectForKey:@"karma_score"] integerValue];
