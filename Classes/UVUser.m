@@ -14,6 +14,7 @@
 #import "UVConfig.h"
 #import "UVClientConfig.h"
 #import "UVForum.h"
+#import "NSString+HTMLEntities.h"
 
 @implementation UVUser
 
@@ -169,7 +170,7 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [self objectOrNilForDict:dict key:@"name"];
+        self.name = [[self objectOrNilForDict:dict key:@"name"] stringByDecodingHTMLEntities];
         self.displayName = [self objectOrNilForDict:dict key:@"name"];
         self.email = [self objectOrNilForDict:dict key:@"email"];
         self.ideaScore = [(NSNumber *)[dict objectForKey:@"idea_score"] integerValue];
