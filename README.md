@@ -145,13 +145,13 @@ There are 4 options for how to launch UserVoice from within your app:
 You can also customize the appearance of the UserVoice user interface by
 creating a custom stylesheet.
 
-    #import "UVStylesheet.h"
+    #import "UVStyleSheet.h"
 
-    @interface MyStylesheet : UVStylesheet
+    @interface MyStyleSheet : UVStyleSheet
 
     @end
 
-    @implementation MyStylesheet
+    @implementation MyStyleSheet
     
     - (UIColor *)backgroundColor {
         return [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.0f];
@@ -159,7 +159,7 @@ creating a custom stylesheet.
 
     @end
 
-    [UVStylesheet setStylesheet:[[MyStylesheet alloc] init]];
+    [UVStyleSheet setStyleSheet:[[MyStyleSheet alloc] init]];
 
 ### User Language
 
