@@ -103,7 +103,10 @@
     else
         backgroundImageView.frame = CGRectMake(0, 0, 60, 60);
 
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     statusColorLayer.backgroundColor = [suggestion.statusColor CGColor];
+    [CATransaction commit];
 
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
