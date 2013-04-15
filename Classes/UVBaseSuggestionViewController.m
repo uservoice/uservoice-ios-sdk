@@ -113,12 +113,12 @@
         [self.navigationController setViewControllers:viewControllers animated:NO];
     } else {
         UVSuggestionListViewController *list = (UVSuggestionListViewController *)[((UINavigationController *)self.presentingViewController).viewControllers lastObject];
+        [list.navigationController setNavigationBarHidden:NO animated:NO];
         if ([UVSession currentSession].isModal && list.firstController) {
             CATransition* transition = [CATransition animation];
             transition.duration = 0.3;
             transition.type = kCATransitionFade;
             [list.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-            [list.navigationController setNavigationBarHidden:NO animated:NO];
             UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
             welcomeView.firstController = YES;
             NSArray *viewControllers = @[[list.navigationController.viewControllers objectAtIndex:0], welcomeView];

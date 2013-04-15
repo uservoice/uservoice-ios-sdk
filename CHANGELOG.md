@@ -1,5 +1,11 @@
 ## master ##
 
+* Fix an issue where the navigation bar would sometimes be hidden after posting an idea
+* Tweak layout of welcome screen when both buttons are hidden
+* Fix an issue where incorrect idea status colors would be visible briefly when scrolling
+* Fix html entity codes showing up on the idea list
+* Fix html entity codes showing up in user names
+
 ## 2.0.9 ##
 
 * Add German translation (thanks to vinzenzweber)
