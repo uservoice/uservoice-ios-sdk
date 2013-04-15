@@ -183,7 +183,9 @@
 }
 
 - (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0 && [UVSession currentSession].config.showForum)
+    if (theTableView == flashTable)
+        return nil;
+    else if (section == 0 && [UVSession currentSession].config.showForum)
         return nil;
     else if ([UVSession currentSession].config.topicId)
         return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
