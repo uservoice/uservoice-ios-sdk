@@ -26,8 +26,6 @@
     YOAuthConsumer *yOAuthConsumer;
     UVAccessToken *accessToken;
     UVRequestToken *requestToken;
-    NSMutableDictionary *userCache;
-    NSDate *startTime;
     NSMutableDictionary *interactions;
     NSMutableArray *interactionSequence;
     NSMutableArray *interactionDetails;
@@ -46,8 +44,6 @@
 @property (nonatomic, retain) UVUser *user;
 @property (nonatomic, retain) UVAccessToken *accessToken;
 @property (nonatomic, retain) UVRequestToken *requestToken;
-@property (nonatomic, retain) NSMutableDictionary *userCache;
-@property (nonatomic, retain) NSDate *startTime;
 @property (nonatomic, retain) NSMutableDictionary *interactions;
 @property (nonatomic, retain) NSMutableArray *interactionSequence;
 @property (nonatomic, retain) NSMutableArray *interactionDetails;

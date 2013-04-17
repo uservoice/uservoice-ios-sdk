@@ -63,8 +63,6 @@
 		AC312B21109914C100000D5F /* UVStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312B1F109914C100000D5F /* UVStyleSheet.m */; };
 		AC35308111014D20006FD1C1 /* UVSuggestionChickletView.h in Headers */ = {isa = PBXBuildFile; fileRef = AC35307F11014D20006FD1C1 /* UVSuggestionChickletView.h */; };
 		AC35308211014D20006FD1C1 /* UVSuggestionChickletView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC35308011014D20006FD1C1 /* UVSuggestionChickletView.m */; };
-		AC91B26D112F213900D84566 /* UVSubject.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B26A112F213900D84566 /* UVSubject.h */; };
-		AC91B26E112F213900D84566 /* UVSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B26B112F213900D84566 /* UVSubject.m */; };
 		AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */; };
 		AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B287112F28EE00D84566 /* UVNewTicketIpadViewController.m */; };
 		AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */; };
@@ -85,8 +83,6 @@
 		D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BDE6111DAE3FA00B26012 /* UVImageView.m */; };
 		D24BE09F11DB1B7C00B26012 /* UVTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE09D11DB1B7C00B26012 /* UVTextView.h */; };
 		D24BE0A011DB1B7C00B26012 /* UVTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE09E11DB1B7C00B26012 /* UVTextView.m */; };
-		D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = D25C899311B1CE98000C0B43 /* UVStatus.h */; };
-		D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D25C899411B1CE98000C0B43 /* UVStatus.m */; };
 		D2620D2E11B589FE0053EA4C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */; };
 		D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EB611B597290053EA4C /* HRFormatJSON.h */; };
 		D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EB711B597290053EA4C /* HRFormatJSON.m */; };
@@ -249,8 +245,6 @@
 		AC35308011014D20006FD1C1 /* UVSuggestionChickletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionChickletView.m; sourceTree = "<group>"; };
 		AC61BF4B1089119500BCD3F2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AC61BF4E1089119500BCD3F2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		AC91B26A112F213900D84566 /* UVSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSubject.h; sourceTree = "<group>"; };
-		AC91B26B112F213900D84566 /* UVSubject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubject.m; sourceTree = "<group>"; };
 		AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketIpadViewController.h; sourceTree = "<group>"; };
 		AC91B287112F28EE00D84566 /* UVNewTicketIpadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewTicketIpadViewController.m; sourceTree = "<group>"; };
 		AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomFieldValueSelectViewController.h; sourceTree = "<group>"; };
@@ -272,8 +266,6 @@
 		D24BDE6111DAE3FA00B26012 /* UVImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageView.m; sourceTree = "<group>"; };
 		D24BE09D11DB1B7C00B26012 /* UVTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextView.h; sourceTree = "<group>"; };
 		D24BE09E11DB1B7C00B26012 /* UVTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextView.m; sourceTree = "<group>"; };
-		D25C899311B1CE98000C0B43 /* UVStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVStatus.h; sourceTree = "<group>"; };
-		D25C899411B1CE98000C0B43 /* UVStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStatus.m; sourceTree = "<group>"; };
 		D2605D03144662150029F16B /* uv_default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_default_avatar@2x.png"; sourceTree = "<group>"; };
 		D2620C6311B586230053EA4C /* uv_vote_chicklet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_vote_chicklet.png; sourceTree = "<group>"; };
 		D2620C6411B586230053EA4C /* uv_vote_chicklet_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_vote_chicklet_empty.png; sourceTree = "<group>"; };
@@ -512,12 +504,8 @@
 				80B5291D13A16A2F008709D2 /* UVCustomField.m */,
 				AC1BA2ED10BB4931002C8712 /* UVForum.h */,
 				AC1BA2EE10BB4931002C8712 /* UVForum.m */,
-				D25C899311B1CE98000C0B43 /* UVStatus.h */,
-				D25C899411B1CE98000C0B43 /* UVStatus.m */,
 				D24540BE11B095AA00C7E4BA /* UVSubdomain.h */,
 				D24540BF11B095AA00C7E4BA /* UVSubdomain.m */,
-				AC91B26A112F213900D84566 /* UVSubject.h */,
-				AC91B26B112F213900D84566 /* UVSubject.m */,
 				AC3127E810976ED800000D5F /* UVSuggestion.h */,
 				AC3127E910976ED800000D5F /* UVSuggestion.m */,
 				D2BEEBB71367436D00EBC307 /* UVTicket.h */,
@@ -847,13 +835,11 @@
 				AC1B18D410D878D0002B03F7 /* UVCategory.h in Headers */,
 				AC35308111014D20006FD1C1 /* UVSuggestionChickletView.h in Headers */,
 				AC1E2F82111E2EB200415C16 /* UVCategorySelectViewController.h in Headers */,
-				AC91B26D112F213900D84566 /* UVSubject.h in Headers */,
 				AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */,
 				AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */,
 				AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */,
 				D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
-				D25C899511B1CE98000C0B43 /* UVStatus.h in Headers */,
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
 				D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */,
 				D2620F0911B597290053EA4C /* HRGlobal.h in Headers */,
@@ -1001,13 +987,11 @@
 				AC1B18D510D878D0002B03F7 /* UVCategory.m in Sources */,
 				AC35308211014D20006FD1C1 /* UVSuggestionChickletView.m in Sources */,
 				AC1E2F83111E2EB200415C16 /* UVCategorySelectViewController.m in Sources */,
-				AC91B26E112F213900D84566 /* UVSubject.m in Sources */,
 				AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */,
 				AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */,
 				AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */,
 				D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,
-				D25C899611B1CE98000C0B43 /* UVStatus.m in Sources */,
 				D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */,
 				D2620F0A11B597290053EA4C /* HRGlobal.m in Sources */,
 				D2620F0C11B597290053EA4C /* HROperationQueue.m in Sources */,
@@ -1212,9 +1196,10 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
@@ -1230,8 +1215,9 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
@@ -1247,8 +1233,9 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";

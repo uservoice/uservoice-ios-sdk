@@ -58,34 +58,6 @@
                  rootKey:@"suggestions"];
 }
 
-+ (id)getWithForumAndUser:(UVForum *)forum user:(UVUser *)user delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/users/%d/suggestions.json", forum.forumId, user.userId]];
-
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"1000", @"per_page",
-                            nil];
-
-    return [self getPath:path
-              withParams:params
-                  target:delegate
-                selector:@selector(didRetrieveUserSuggestions:)
-                 rootKey:@"suggestions"];
-}
-
-+ (id)getWithUser:(UVUser *)user delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/users/%d/suggestions.json", user.userId]];
-
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"1000", @"per_page",
-                            nil];
-
-    return [self getPath:path
-              withParams:params
-                  target:delegate
-                selector:@selector(didRetrieveUserSuggestions:)
-                 rootKey:@"suggestions"];
-}
-
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -131,20 +103,6 @@
                        withParams:params
                            target:delegate
                          selector:@selector(didVoteForSuggestion:)
-                          rootKey:@"suggestion"];
-}
-
-- (id)flag:(NSString *)code delegate:(id)delegate {
-    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/flags",
-                                            self.forumId,
-                                            self.suggestionId]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            code, @"code",
-                            nil];
-    return [[self class] postPath:path
-                       withParams:params
-                           target:delegate
-                         selector:@selector(didFlagSuggestion:)
                           rootKey:@"suggestion"];
 }
 

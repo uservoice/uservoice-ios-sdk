@@ -109,44 +109,6 @@
                  rootKey:@"user"];
 }
 
-+ (void)processModel:(id)model {
-    // add to the cache
-    UVUser *user = model;
-    NSString *key = [NSString stringWithFormat:@"%d", user.userId];
-
-    if ([[UVSession currentSession].userCache objectForKey:key]==nil) {
-        [[UVSession currentSession].userCache setObject:model forKey:key];
-    }
-}
-
-- (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate {
-    NSString *path = [UVUser apiPath:@"/users/forgot_password.json"];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            anEmail, @"user[email]",
-                            nil];
-
-    return [[self class] getPath:path
-                      withParams:params
-                          target:delegate
-                        selector:@selector(didSendForgotPassword)
-                         rootKey:@"user"];
-}
-
-- (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate {
-    NSString *path = [UVUser apiPath:[NSString stringWithFormat:@"/users/%d.json",
-                                      [UVSession currentSession].user.userId]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            newName == nil ? @"" : newName, @"user[display_name]",
-                            newEmail == nil ? @"" : newEmail, @"user[email]",
-                            nil];
-
-    return [[self class] putPath:path
-                      withParams:params
-                          target:delegate
-                        selector:@selector(didUpdateUser:)
-                         rootKey:@"user"];
-}
-
 - (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate {
     NSString *path = [UVUser apiPath:@"/users/identify.json"];
     NSDictionary *payload = @{

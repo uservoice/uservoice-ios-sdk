@@ -31,6 +31,5 @@
 
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate;
 + (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id)delegate;
-- (id)flag:(NSString *)code suggestion:(UVSuggestion *)suggestion delegate:(id)delegate;
 
 @end

@@ -25,7 +25,6 @@
 @synthesize clientConfig;
 @synthesize accessToken;
 @synthesize requestToken;
-@synthesize userCache, startTime;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
 @synthesize externalIds;
 @synthesize topics;
@@ -39,7 +38,6 @@
     @synchronized(self) {
         if (!currentSession) {
             currentSession = [[UVSession alloc] init];
-            currentSession.startTime = [NSDate date];
             currentSession.interactions = [NSMutableDictionary dictionary];
             currentSession.interactionSequence = [NSMutableArray array];
             currentSession.interactionDetails = [NSMutableArray array];
@@ -53,13 +51,6 @@
 
 - (BOOL)loggedIn {
     return self.user != nil;
-}
-
-- (id)init {
-    if (self = [super init]) {
-        self.userCache = [NSMutableDictionary dictionary];
-    }
-    return self;
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)config {

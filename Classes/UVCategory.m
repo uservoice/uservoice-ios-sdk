@@ -23,10 +23,6 @@
     return self;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"categoryId: %d\nname: %@", self.categoryId, self.name];
-}
-
 - (void)dealloc {
     self.name = nil;
     [super dealloc];

@@ -53,21 +53,6 @@
                           rootKey:@"comment"];
 }
 
-- (id)flag:(NSString *)code suggestion:(UVSuggestion *)suggestion delegate:(id)delegate {
-    NSString *path = [UVComment apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/comments/%d/flags",
-                                         suggestion.forumId,
-                                         suggestion.suggestionId,
-                                         self.commentId]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            code, @"code",
-                            nil];
-    return [[self class] postPath:path
-                       withParams:params
-                           target:delegate
-                         selector:@selector(didFlagComment:)
-                          rootKey:@"comment"];
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.commentId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];

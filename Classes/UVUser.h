@@ -62,7 +62,6 @@
 + (id)retrieveCurrentUser:(id)delegate;
 
 // update
-- (id)updateName:(NSString *)newName email:(NSString *)newEmail delegate:(id)delegate;
 - (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate;
 - (void)didSupportSuggestion:(UVSuggestion *)suggestion;
 - (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion;
@@ -70,7 +69,6 @@
 - (void)didLoadSuggestions:(NSArray *)suggestions;
 
 // others
-- (id)forgotPasswordForEmail:(NSString *)anEmail andDelegate:(id)delegate;
 - (BOOL)hasEmail;
 
 // this is used to get around an order dependency when loading the config

@@ -10,7 +10,6 @@
 #import "UVClientConfig.h"
 #import "UVSession.h"
 #import "UVForum.h"
-#import "UVSubject.h"
 #import "UVUser.h"
 #import "UVSubdomain.h"
 #import "UVCustomField.h"
