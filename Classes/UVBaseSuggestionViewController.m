@@ -107,7 +107,7 @@
         transition.duration = 0.3;
         transition.type = kCATransitionFade;
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
+        UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
         welcomeView.firstController = YES;
         NSArray *viewControllers = @[[self.navigationController.viewControllers objectAtIndex:0], welcomeView];
         [self.navigationController setViewControllers:viewControllers animated:NO];
@@ -119,7 +119,7 @@
             transition.duration = 0.3;
             transition.type = kCATransitionFade;
             [list.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-            UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
+            UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
             welcomeView.firstController = YES;
             NSArray *viewControllers = @[[list.navigationController.viewControllers objectAtIndex:0], welcomeView];
             [list.navigationController setViewControllers:viewControllers animated:NO];
@@ -142,7 +142,6 @@
     textField.borderStyle = UITextBorderStyleNone;
     textField.delegate = self;
     [cell.contentView addSubview:textField];
-    [textField release];
     return textField;
 }
 
@@ -175,7 +174,7 @@
 }
 
 - (void)pushCategorySelectView {
-    UIViewController *next = [[[UVCategorySelectViewController alloc] initWithSelectedCategory:self.category] autorelease];
+    UIViewController *next = [[UVCategorySelectViewController alloc] initWithSelectedCategory:self.category];
     [self.navigationController pushViewController:next animated:YES];
 }
 
@@ -186,11 +185,11 @@
 
 - (void)dismiss {
     if (titleField.text.length > 0) {
-        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
-                                                                  delegate:self
-                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                    destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                                                         otherButtonTitles:nil] autorelease];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                   destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
+                                                        otherButtonTitles:nil];
         [actionSheet showInView:self.view];
     } else {
         [self dismissModalViewControllerAnimated:YES];
@@ -199,24 +198,10 @@
 
 - (void)initNavigationItem {
     [super initNavigationItem];
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismiss)] autorelease];
-}
-
-- (void)dealloc {
-    self.forum = nil;
-    self.title = nil;
-    self.text = nil;
-    self.name = nil;
-    self.email = nil;
-    self.textView = nil;
-    self.titleField = nil;
-    self.nameField = nil;
-    self.emailField = nil;
-    self.category = nil;
-    [super dealloc];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismiss)];
 }
 
 @end

@@ -23,7 +23,6 @@
     }
 
     NSString *queryString = [queryParameters componentsJoinedByString:@"&"];
-    [queryParameters release];
 
     return queryString;
 }

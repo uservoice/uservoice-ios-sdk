@@ -27,15 +27,15 @@
 @synthesize showKnowledgeBase;
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
-    return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 }
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andSSOToken:(NSString *)token {
-    return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andSSOToken:token] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andSSOToken:token];
 }
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andEmail:(NSString *)email andDisplayName:(NSString *)displayName andGUID:(NSString *)guid {
-    return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andEmail:email andDisplayName:displayName andGUID:guid] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andEmail:email andDisplayName:displayName andGUID:guid];
 }
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret {
@@ -105,21 +105,6 @@
 
 - (BOOL)wasSignedInBySDK {
     return (self.ssoToken != nil || self.guid != nil);
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"Site: %@\nKey: %@\nSecret: %@", self.site, self.key, self.secret];
-}
-
-- (void)dealloc {
-    self.site = nil;
-    self.key = nil;
-    self.site = nil;
-    self.ssoToken = nil;
-    self.email = nil;
-    self.displayName = nil;
-    self.guid = nil;
-    [super dealloc];
 }
 
 @end

@@ -74,8 +74,6 @@
 }
 
 - (void)setUser:(UVUser *)newUser {
-    [newUser retain];
-    [user release];
     user = newUser;
     if (user && externalIds) {
         for (NSString *scope in externalIds) {
@@ -130,7 +128,9 @@
                             [NSNumber numberWithInt:interactionId], @"interaction_id",
                             [NSNumber numberWithBool:isFinal], @"is_final",
                             nil];
-    NSString *payload = [[[values JSONRepresentation] base64EncodedString] URLEncodedString];
+    NSError *error;
+    NSData *payloadData = [NSJSONSerialization dataWithJSONObject:values options:0 error:&error];
+    NSString *payload = [[[[NSString alloc] initWithData:payloadData encoding:NSUTF8StringEncoding] base64EncodedString] URLEncodedString];
     NSString *url = [NSString stringWithFormat:@"http://%@/track.gif?%@", config.site, payload];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection connectionWithRequest:request delegate:nil];

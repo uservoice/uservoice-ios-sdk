@@ -50,14 +50,8 @@
 
 
 - (void)setPattern:(NSRegularExpression *)thePattern {
-    [pattern release];
-    pattern = [thePattern retain];
+    pattern = thePattern;
     [self setNeedsDisplay];
-}
-
-- (void)dealloc {
-    self.pattern = nil;
-    [super dealloc];
 }
 
 @end

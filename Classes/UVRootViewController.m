@@ -54,9 +54,9 @@
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         UVBaseViewController *next = nil;
         if ([self.viewToLoad isEqualToString:@"welcome"])
-            next = [[[UVWelcomeViewController alloc] init] autorelease];
+            next = [[UVWelcomeViewController alloc] init];
         else if ([self.viewToLoad isEqualToString:@"suggestions"])
-            next = [[[UVSuggestionListViewController alloc] init] autorelease];
+            next = [[UVSuggestionListViewController alloc] init];
         else if ([self.viewToLoad isEqualToString:@"new_suggestion"])
             next = [UVNewSuggestionViewController viewController];
         else if ([self.viewToLoad isEqualToString:@"new_ticket"])
@@ -74,26 +74,26 @@
     [super loadView];
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismissUserVoice)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismissUserVoice)];
 
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
     self.view.backgroundColor = [UVStyleSheet backgroundColor];
 
-    UIView *loading = [[[UIView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, 100)] autorelease];
+    UIView *loading = [[UIView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, 100)];
     loading.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
-    UIActivityIndicatorView *activity = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     if ([activity respondsToSelector:@selector(setColor:)]) {
         [activity setColor:[UIColor grayColor]];
     } else {
-        activity = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+        activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
     activity.center = CGPointMake(loading.bounds.size.width/2, 40);
     [loading addSubview:activity];
     [activity startAnimating];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 70, loading.frame.size.width, 20)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, loading.frame.size.width, 20)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:15];
     label.textColor = [UIColor darkGrayColor];
@@ -108,12 +108,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.loader = [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
-}
-
-- (void)dealloc {
-    self.viewToLoad = nil;
-    self.loader = nil;
-    [super dealloc];
 }
 
 @end

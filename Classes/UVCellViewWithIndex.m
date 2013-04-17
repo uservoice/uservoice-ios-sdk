@@ -27,7 +27,6 @@
         highlight.backgroundColor = [UVStyleSheet topSeparatorColor];
         highlight.opaque = YES;
         [self addSubview:highlight];
-        [highlight release];
     }
     return self;
 }

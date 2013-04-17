@@ -88,13 +88,6 @@
     theTableView.delegate = self;
 
     self.view = theTableView;
-    [theTableView release];
-}
-
-- (void)dealloc {
-    self.customField = nil;
-    self.valueDictionary = nil;
-    [super dealloc];
 }
 
 @end

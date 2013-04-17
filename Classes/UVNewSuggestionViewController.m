@@ -51,9 +51,9 @@
 
 + (UVBaseViewController *)viewControllerWithTitle:(NSString *)text {
     if (IPAD) {
-        return [[[UVNewSuggestionIpadViewController alloc] initWithTitle:text] autorelease];
+        return [[UVNewSuggestionIpadViewController alloc] initWithTitle:text];
     } else {
-        return [[[UVNewSuggestionViewController alloc] initWithTitle:text] autorelease];
+        return [[UVNewSuggestionViewController alloc] initWithTitle:text];
     }
 }
 
@@ -243,19 +243,19 @@
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Post Idea", @"UserVoice", nil);
 
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:[self contentFrame]];
     self.scrollView.backgroundColor = [UIColor whiteColor];
     self.view = scrollView;
 
-    UIView *titleView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 34)] autorelease];
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 34)];
     titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(7, 7, 0, 0)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(7, 7, 0, 0)];
     label.text = NSLocalizedStringFromTable(@"Title:", @"UserVoice", nil);
     label.font = [UIFont systemFontOfSize:15];
     [label sizeToFit];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     [titleView addSubview:label];
-    self.titleField = [[[UITextField alloc] initWithFrame:CGRectMake(14 + label.bounds.size.width, 7, titleView.bounds.size.width - 14 - label.bounds.size.width, 22)] autorelease];
+    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(14 + label.bounds.size.width, 7, titleView.bounds.size.width - 14 - label.bounds.size.width, 22)];
     titleField.text = self.title;
     titleField.font = [UIFont systemFontOfSize:15];
     titleField.placeholder = NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil);
@@ -267,28 +267,28 @@
                                                  name:UITextFieldTextDidChangeNotification
                                                object:titleField];
     [titleView addSubview:titleField];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 33, scrollView.bounds.size.width, 1)] autorelease];
+    UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0, 33, scrollView.bounds.size.width, 1)];
     border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     [titleView addSubview:border];
     [scrollView addSubview:titleView];
 
-    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height, scrollView.bounds.size.width, 84)] autorelease];
+    self.textView = [[UVTextView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height, scrollView.bounds.size.width, 84)];
     textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textView.delegate = self;
     [scrollView addSubview:textView];
 
-    self.instantAnswersView = [[[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000)] autorelease];
+    self.instantAnswersView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000)];
     self.instantAnswersView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
     self.instantAnswersView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.instantAnswersView.layer.shadowOffset = CGSizeMake(0, 0);
     self.instantAnswersView.layer.shadowRadius = 2.0;
     self.instantAnswersView.layer.shadowOpacity = 0.3;
-    self.instantAnswersMessage = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+    self.instantAnswersMessage = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
     self.instantAnswersMessage.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [instantAnswersMessage addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)] autorelease]];
-    UILabel *instantAnswersLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 4, 300, 30)] autorelease];
+    [instantAnswersMessage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(instantAnswersMessageTapped)]];
+    UILabel *instantAnswersLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, 300, 30)];
     instantAnswersLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     instantAnswersLabel.tag = TICKET_VIEW_IA_LABEL_TAG;
     instantAnswersLabel.numberOfLines = 2;
@@ -300,7 +300,7 @@
     [self addSpinnerAndXTo:instantAnswersMessage atCenter:CGPointMake(320 - 22, 20)];
     [instantAnswersView addSubview:instantAnswersMessage];
     [self addTopBorder:instantAnswersView];
-    self.instantAnswersTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 40, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.instantAnswersTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, 320, 1000) style:UITableViewStyleGrouped];
     self.instantAnswersTableView.backgroundView = nil;
     self.instantAnswersTableView.backgroundColor = [UIColor clearColor];
     self.instantAnswersTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
@@ -310,7 +310,7 @@
     [instantAnswersView addSubview:instantAnswersTableView];
     [self.view addSubview:instantAnswersView];
 
-    self.fieldsTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, scrollView.bounds.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.fieldsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, titleView.bounds.size.height + textView.bounds.size.height, scrollView.bounds.size.width, 1000) style:UITableViewStyleGrouped];
     self.fieldsTableView.backgroundView = nil;
     self.fieldsTableView.dataSource = self;
     self.fieldsTableView.delegate = self;
@@ -318,8 +318,8 @@
     self.fieldsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
     self.fieldsTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self addTopBorder:fieldsTableView];
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
-    label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 50)] autorelease];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
     label.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     label.font = [UIFont systemFontOfSize:11];
     label.textAlignment = UITextAlignmentLeft;
@@ -419,17 +419,6 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
     [self updateLayout];
-}
-
-- (void)dealloc {
-    self.scrollView = nil;
-    self.nextButton = nil;
-    self.sendButton = nil;
-    self.instantAnswersView = nil;
-    self.instantAnswersMessage = nil;
-    self.instantAnswersTableView = nil;
-    self.fieldsTableView = nil;
-    [super dealloc];
 }
 
 @end

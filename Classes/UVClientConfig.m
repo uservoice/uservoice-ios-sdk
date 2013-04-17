@@ -67,14 +67,12 @@
             NSDictionary *forumDict = [self objectOrNilForDict:dict key:@"forum"];
             UVForum *theForum = [[UVForum alloc] initWithDictionary:forumDict];
             self.forum = theForum;
-            [theForum release];
         }
 
         // get the subdomain
         NSDictionary *subdomainDict = [self objectOrNilForDict:dict key:@"subdomain"];
         UVSubdomain *theSubdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];
         self.subdomain = theSubdomain;
-        [theSubdomain release];
 
         self.customFields = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"custom_fields"] withClass:[UVCustomField class]];
         self.topArticles = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_articles"] withClass:[UVArticle class]];
@@ -82,15 +80,6 @@
         self.clientId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
     }
     return self;
-}
-
-- (void)dealloc {
-    self.forum = nil;
-    self.subdomain = nil;
-    self.customFields = nil;
-    self.topArticles = nil;
-    self.topSuggestions = nil;
-    [super dealloc];
 }
 
 @end

@@ -58,14 +58,14 @@
 
 - (void)showActivityIndicator {
     if (!shade) {
-        self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+        self.shade = [[UIView alloc] initWithFrame:self.view.bounds];
         self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.shade.backgroundColor = [UIColor blackColor];
         self.shade.alpha = 0.5;
         [self.view addSubview:shade];
     }
     if (!activityIndicatorView) {
-        self.activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+        self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
         self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
         [self.view addSubview:activityIndicatorView];
@@ -83,11 +83,11 @@
 }
 
 - (void)alertError:(NSString *)message {
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
                                 message:message
                                delegate:nil
                       cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                      otherButtonTitles:nil] autorelease] show];
+                      otherButtonTitles:nil] show];
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -121,15 +121,15 @@
 - (void)initNavigationItem {
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
 
-    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:nil
-                                                                             action:nil] autorelease];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
 
-    self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(dismissUserVoice)] autorelease];
+    self.exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                       style:UIBarButtonItemStylePlain
+                                                      target:self
+                                                      action:@selector(dismissUserVoice)];
     if ([UVSession currentSession].isModal && firstController) {
         self.navigationItem.leftBarButtonItem = exitButton;
     }
@@ -148,7 +148,7 @@
                                   selectable:(BOOL)selectable {
     UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier];
         cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
 
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", identifier]);
@@ -226,7 +226,7 @@
 }
 
 - (void)presentModalViewController:(UIViewController *)viewController {
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    UINavigationController *navigationController = [[UINavigationController alloc] init];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     navigationController.viewControllers = @[viewController];
     if (IPAD)
@@ -241,10 +241,10 @@
 }
 
 - (void)setupGroupedTableView {
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
     self.view.backgroundColor = [UVStyleSheet backgroundColor];
     self.view.autoresizesSubviews = YES;
-    self.tableView = [[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped] autorelease];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -256,11 +256,11 @@
 }
 
 - (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha {
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
+    UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
     border.backgroundColor = [UIColor colorWithRed:0.86f green:0.88f blue:0.89f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     [view addSubview:border];
-    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 1, 320, 1)] autorelease];
+    border = [[UIView alloc] initWithFrame:CGRectMake(0, 1, 320, 1)];
     border.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     [view addSubview:border];
@@ -279,8 +279,6 @@
 }
 
 - (void)setUserName:(NSString *)theName {
-    [theName retain];
-    [userName release];
     userName = theName;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -294,13 +292,11 @@
     if (userName)
         return userName;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userName = [[prefs stringForKey:@"uv-user-name"] retain];
+    userName = [prefs stringForKey:@"uv-user-name"];
     return userName;
 }
 
 - (void)setUserEmail:(NSString *)theEmail {
-    [theEmail retain];
-    [userEmail release];
     userEmail = theEmail;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -314,7 +310,7 @@
     if (userEmail)
         return userEmail;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userEmail = [[prefs stringForKey:@"uv-user-email"] retain];
+    userEmail = [prefs stringForKey:@"uv-user-email"];
     return userEmail;
 }
 
@@ -333,16 +329,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.tableView = nil;
-    self.exitButton = nil;
-    self.signinManager = nil;
-    self.shade = nil;
-    self.activityIndicatorView = nil;
-    [userEmail release];
-    userEmail = nil;
-    [userName release];
-    userName = nil;
-    [super dealloc];
 }
 
 @end

@@ -25,7 +25,6 @@
     }
 
     [self performSelectorOnMainThread:selector withObjectArray:objects];
-    [objects release];
 }
 
 - (void)performSelectorOnMainThread:(SEL)selector withObjectArray:(NSArray *)objects {

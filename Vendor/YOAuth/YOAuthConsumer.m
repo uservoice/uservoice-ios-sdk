@@ -22,7 +22,7 @@
 {
 	YOAuthConsumer *consumer = [[YOAuthConsumer alloc] initWithKey:aKey andSecret:aSecret];
 	
-	return [consumer autorelease];
+	return consumer;
 }
 
 - (id)initWithKey:(NSString *)aKey andSecret:(NSString *)aSecret
@@ -33,12 +33,6 @@
 	}
 	
 	return self;
-}
-
-- (void)dealloc {
-    self.key = nil;
-    self.secret = nil;
-    [super dealloc];
 }
 
 @end

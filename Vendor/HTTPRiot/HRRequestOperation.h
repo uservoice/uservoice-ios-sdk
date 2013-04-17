@@ -16,7 +16,7 @@
  */
 @interface HRRequestOperation : NSOperation {
     /// HRResponse Delegate
-    NSObject        <HRResponseDelegate>*_delegate;
+    __unsafe_unretained NSObject        <HRResponseDelegate>*_delegate;
     
     /// Connection object
     NSURLConnection *_connection;

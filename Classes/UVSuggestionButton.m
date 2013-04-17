@@ -29,7 +29,6 @@
         label.textColor = [UVStyleSheet primaryTextColor];
         label.backgroundColor = [UIColor clearColor];
         [self addSubview:label];
-        [label release];
 
         // Forum + Category
         UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(75, 50, 225, 14)];
@@ -40,13 +39,11 @@
         label2.textColor = [UVStyleSheet secondaryTextColor];
         label2.backgroundColor = [UIColor clearColor];
         [self addSubview:label2];
-        [label2 release];
 
         // Chicklet
         UVSuggestionChickletView *chicklet = [[UVSuggestionChickletView alloc] initWithOrigin:CGPointMake(10, 5)];
         chicklet.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_CHICKLET;
         [self addSubview:chicklet];
-        [chicklet release];
     }
     return self;
 }

@@ -10,7 +10,7 @@
 
 @interface UVTruncatingLabel : UVCalculatingLabel {
     NSString *fullText;
-    id delegate;
+    __unsafe_unretained id delegate;
     BOOL expanded;
 }
 

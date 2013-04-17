@@ -65,7 +65,6 @@
 	[signableObjects addObject:[[self signableParameters] URLEncodedString]];
 	
 	NSString *theSignableString = [signableObjects componentsJoinedByString:@"&"];
-	[signableObjects autorelease];
 	
 	return theSignableString;
 }
@@ -79,7 +78,6 @@
 	[secrets addObject:theTokenSecret];
 	
 	NSString *theSignableSecrets = [secrets componentsJoinedByString:@"&"];
-	[secrets release];
 	
 	return theSignableSecrets;
 }
@@ -100,8 +98,6 @@
 	}
 	
 	NSMutableArray *sortedQueryParams = (NSMutableArray*)[queryParameters sortedArrayUsingSelector:@selector(compare:)];
-	
-	[queryParameters release];
 	
 	NSString *keyValuePairs = [sortedQueryParams componentsJoinedByString:@"&"];
 	return keyValuePairs;
@@ -198,7 +194,7 @@
 	[parameterDictionary addEntriesFromDictionary:oauthParams];
 	if(requestParams && [requestParams count]) [parameterDictionary addEntriesFromDictionary:requestParams];
 	
-	return [parameterDictionary autorelease];
+	return parameterDictionary;
 }
 
 - (NSMutableDictionary *)allNonOAuthRequestParametersAsDictionary
@@ -206,7 +202,7 @@
 	NSMutableDictionary *parameterDictionary = [[NSMutableDictionary alloc] init];
 	if(requestParams && [requestParams count]) [parameterDictionary addEntriesFromDictionary:requestParams];
 	
-	return [parameterDictionary autorelease];
+	return parameterDictionary;
 }
 
 - (NSMutableDictionary *)allOAuthRequestParametersAsDictionary
@@ -214,7 +210,7 @@
 	NSMutableDictionary *parameterDictionary = [[NSMutableDictionary alloc] init];
 	[parameterDictionary addEntriesFromDictionary:self.oauthParams];
 	
-	return [parameterDictionary autorelease];
+	return parameterDictionary;
 }
 
 - (NSString *)buildAuthorizationHeaderValue
@@ -238,26 +234,7 @@
 	
 	NSString *authorizationHeaderValue = [NSString stringWithFormat:@"OAuth %@", [authorizationHeaderParts componentsJoinedByString:@","]];
 	
-	[authorizationHeaderParts release];
-	
 	return authorizationHeaderValue;
-}
-
-- (void)dealloc {
-    self.consumer = nil;
-    self.token = nil;
-    self.realm = nil;
-    self.HTTPMethod = nil;
-    self.url = nil;
-    self.requestParams = nil;
-    self.oauthParams = nil;
-    self.oauthSignature = nil;
-    self.oauthNonce = nil;
-    self.oauthVersion = nil;
-    self.oauthTimestamp = nil;
-    [signatureMethod release];
-    signatureMethod = nil;
-    [super dealloc];
 }
 
 @end

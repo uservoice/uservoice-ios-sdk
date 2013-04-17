@@ -62,7 +62,7 @@
     } else if ([UVSession currentSession].config.email != nil) {
         [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
     } else if ([UVAccessToken exists]) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
+        [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithExisting];
         [UVUser retrieveCurrentUser:self];
     } else {
         userDone = YES;
@@ -155,7 +155,7 @@
     } else {
         message = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
     }
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil) message:message delegate:self cancelButtonTitle:nil otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] autorelease] show];
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil) message:message delegate:self cancelButtonTitle:nil otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] show];
 }
 
 

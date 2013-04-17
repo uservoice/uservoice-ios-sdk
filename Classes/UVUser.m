@@ -239,17 +239,4 @@
     return self.displayName ? self.displayName : NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil);
 }
 
-- (void)dealloc {
-    self.name = nil;
-    self.displayName = nil;
-    self.email = nil;
-    self.url = nil;
-    self.avatarUrl = nil;
-    self.supportedSuggestions = nil;
-    self.createdSuggestions = nil;
-    self.createdAt = nil;
-    self.visibleForumsDict = nil;
-    [super dealloc];
-}
-
 @end
