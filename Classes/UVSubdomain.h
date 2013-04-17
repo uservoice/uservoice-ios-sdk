@@ -13,7 +13,6 @@
     NSString *name;
     NSString *host;
     NSString *key;
-    NSArray *statuses;
     NSInteger subdomainId;
     NSString *defaultSort;
 }
@@ -22,10 +21,8 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *key;
-@property (nonatomic, retain) NSArray *statuses;
 @property (nonatomic, retain) NSString *defaultSort;
 
-- (NSString *)ideasHeading;
 - (NSString *)suggestionSort;
 
 @end

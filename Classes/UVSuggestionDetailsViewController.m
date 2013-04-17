@@ -11,7 +11,6 @@
 #import "UVStyleSheet.h"
 #import "UVSession.h"
 #import "UVSuggestion.h"
-#import "UVSuggestionChickletView.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
 #import "UVUIColorAdditions.h"
