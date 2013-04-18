@@ -130,7 +130,9 @@
                             [NSNumber numberWithInt:interactionId], @"interaction_id",
                             [NSNumber numberWithBool:isFinal], @"is_final",
                             nil];
-    NSString *payload = [[[values JSONRepresentation] base64EncodedString] URLEncodedString];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:values options:0 error:NULL];
+    NSString *payloadJSON = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    NSString *payload = [[payloadJSON base64EncodedString] URLEncodedString];
     NSString *url = [NSString stringWithFormat:@"http://%@/track.gif?%@", config.site, payload];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection connectionWithRequest:request delegate:nil];

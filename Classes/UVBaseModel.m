@@ -105,7 +105,9 @@
     
     NSMutableDictionary *headers = [self headersForPath:path params:@{} method:method];
     [headers setObject:@"application/json" forKey:@"Content-Type"];
-    NSDictionary *opts = [NSDictionary dictionaryWithObjectsAndKeys:[payload JSONRepresentation], @"body", headers, @"headers", nil];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:NULL];
+    NSString *payloadJSON = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    NSDictionary *opts = [NSDictionary dictionaryWithObjectsAndKeys:payloadJSON, @"body", headers, @"headers", nil];
     return opts;
 }
 
