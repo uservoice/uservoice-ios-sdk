@@ -106,14 +106,14 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)] autorelease];
+    UINavigationBar *toolbar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)];
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     toolbar.tintColor = [UIColor colorWithRed:0.77f green:0.78f blue:0.80f alpha:1.0f];
     toolbar.tag = UV_SEARCH_TOOLBAR;
-    [toolbar addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(composeButtonTapped)] autorelease]];
+    [toolbar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(composeButtonTapped)]];
     toolbar.layer.masksToBounds = YES;
 
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, cell.bounds.size.width - 60, cell.bounds.size.height)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, cell.bounds.size.width - 60, cell.bounds.size.height)];
     label.font = [UIFont boldSystemFontOfSize:13];
     label.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
     label.backgroundColor = [UIColor clearColor];
@@ -121,11 +121,11 @@
     label.tag = UV_SEARCH_TOOLBAR_LABEL;
     [toolbar addSubview:label];
 
-    UIBarButtonItem *compose = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeButtonTapped)] autorelease];
+    UIBarButtonItem *compose = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeButtonTapped)];
     compose.style = UIBarButtonItemStyleBordered;
     if ([compose respondsToSelector:@selector(setTintColor:)])
         compose.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
-    UINavigationItem *navItem = [[[UINavigationItem alloc] initWithTitle:nil] autorelease];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:nil];
     navItem.rightBarButtonItem = compose;
     toolbar.items = @[navItem];
 
@@ -138,7 +138,7 @@
 }
 
 - (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestionButton *button = [[[UVSuggestionButton alloc] initWithIndex:indexPath.row] autorelease];
+    UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row];
     button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
     [cell.contentView addSubview:button];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -152,7 +152,7 @@
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestionButton *button = [[[UVSuggestionButton alloc] initWithIndex:indexPath.row] autorelease];
+    UVSuggestionButton *button = [[UVSuggestionButton alloc] initWithIndex:indexPath.row];
     button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
     [cell.contentView addSubview:button];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -166,8 +166,8 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
+    cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
     label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
@@ -221,7 +221,7 @@
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
-    UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] init] autorelease];
+    UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] init];
     next.suggestion = suggestion;
     [self.navigationController pushViewController:next animated:YES];
 }
@@ -250,7 +250,7 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [searchController setActive:YES animated:YES];
     [self addShadowSeparatorToTableView:searchController.searchResultsTableView];
-    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
 }
@@ -269,7 +269,7 @@
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
 
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
     self.view.autoresizesSubviews = YES;
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
@@ -283,7 +283,7 @@
     theTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
     // Add empty footer, to suppress blank cells (with separators) after actual content
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)] autorelease];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)];
     theTableView.tableFooterView = footer;
 
     [self addShadowSeparatorToTableView:theTableView];
@@ -292,43 +292,41 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];
     headerView.backgroundColor = [UIColor clearColor];
 
-    UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)] autorelease];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), self.forum.name];
     searchBar.delegate = self;
 
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height - 1, searchBar.bounds.size.width, 1)] autorelease];
+    UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height - 1, searchBar.bounds.size.width, 1)];
     border.backgroundColor = [UIColor colorWithRed:0.64f green:0.66f blue:0.68f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     [searchBar addSubview:border];
 
     [headerView addSubview:searchBar];
 
-    self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
+    self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
     searchController.delegate = self;
     searchController.searchResultsDataSource = self;
     searchController.searchResultsDelegate = self;
     theTableView.tableHeaderView = headerView;
-    [headerView release];
 
     self.tableView = theTableView;
-    [theTableView release];
     [self.view addSubview:tableView];
 
 
     if ([UVSession currentSession].config.showPostIdea) {
-        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
-                                                                                                target:self
-                                                                                                action:@selector(composeButtonTapped)] autorelease];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                                               target:self
+                                                                                               action:@selector(composeButtonTapped)];
         if ([self.navigationItem.rightBarButtonItem respondsToSelector:@selector(setTintColor:)])
             self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
     }
 
     if ([UVSession currentSession].isModal && firstController) {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(dismissUserVoice)] autorelease];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(dismissUserVoice)];
     }
 }
 
@@ -350,15 +348,6 @@
         }
     }
     [self.tableView reloadData];
-}
-
-- (void)dealloc {
-    self.forum = nil;
-    self.suggestions = nil;
-    self.searchResults = nil;
-    self.searchController = nil;
-    self.searchPattern = nil;
-    [super dealloc];
 }
 
 @end

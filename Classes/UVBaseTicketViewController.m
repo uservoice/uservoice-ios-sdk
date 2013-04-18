@@ -79,7 +79,7 @@
         transition.duration = 0.3;
         transition.type = kCATransitionFade;
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
+        UVWelcomeViewController *welcomeView = [[UVWelcomeViewController alloc] init];
         welcomeView.firstController = YES;
         NSArray *viewControllers = @[[self.navigationController.viewControllers objectAtIndex:0], welcomeView];
         [self.navigationController setViewControllers:viewControllers animated:NO];
@@ -99,7 +99,7 @@
     [emailField resignFirstResponder];
     UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
     if ([field isPredefined]) {
-        UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
+        UIViewController *next = [[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues];
         self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
         [self dismissKeyboard];
         [self.navigationController pushViewController:next animated:YES];
@@ -130,8 +130,6 @@
 }
 
 - (void)setText:(NSString *)theText {
-    [theText retain];
-    [text release];
     text = theText;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -143,7 +141,7 @@
     if (text)
         return text;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    text = [[prefs stringForKey:@"uv-message-text"] retain];
+    text = [prefs stringForKey:@"uv-message-text"];
     return text;
 }
 
@@ -163,12 +161,12 @@
     textField.backgroundColor = [UIColor clearColor];
     textField.delegate = self;
     [cell.contentView addSubview:textField];
-    return [textField autorelease];
+    return textField;
 }
 
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(16 + (IPAD ? 25 : 0), 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(16 + (IPAD ? 25 : 0), 0, cell.frame.size.width / 2 - 20, cell.frame.size.height)];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     label.font = [UIFont boldSystemFontOfSize:16];
     label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
@@ -177,7 +175,7 @@
     label.adjustsFontSizeToFitWidth = YES;
     [cell addSubview:label];
 
-    UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)] autorelease];
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)];
     textField.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     textField.borderStyle = UITextBorderStyleNone;
     textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
@@ -219,10 +217,10 @@
 
 - (void)initNavigationItem {
     [super initNavigationItem];
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismiss)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismiss)];
 }
 
 - (void)dismiss {
@@ -237,11 +235,11 @@
 }
 
 - (void)showSaveActionSheet {
-    UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:nil
-                                                              delegate:self
-                                                     cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
-                                                     otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil] autorelease];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                               destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
+                                                    otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil];
 
     [actionSheet showInView:self.view];
 }
@@ -275,14 +273,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.textView = nil;
-    self.emailField = nil;
-    self.nameField = nil;
-    self.selectedCustomFieldValues = nil;
-    self.initialText = nil;
-    [text release];
-    text = nil;
-    [super dealloc];
 }
 
 @end

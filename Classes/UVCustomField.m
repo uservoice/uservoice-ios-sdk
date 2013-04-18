@@ -34,10 +34,4 @@
     return [self.values count] > 0;
 }
 
-- (void)dealloc {
-    self.name = nil;
-    self.values = nil;
-    [super dealloc];
-}
-
 @end

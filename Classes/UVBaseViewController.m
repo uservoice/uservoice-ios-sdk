@@ -141,6 +141,8 @@
 
 #pragma mark ===== helper methods for table views =====
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
                                    tableView:(UITableView *)theTableView
                                    indexPath:(NSIndexPath *)indexPath
@@ -163,6 +165,7 @@
     }
     return cell;
 }
+#pragma clang diagnostic pop
 
 - (void)addShadowSeparatorToTableView:(UITableView *)theTableView {
     theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;

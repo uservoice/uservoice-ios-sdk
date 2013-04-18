@@ -98,7 +98,7 @@
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, 144)] autorelease];
+    self.textView = [[UVTextView alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, 144)];
     textView.delegate = self;
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textView.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -113,7 +113,7 @@
     cell.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
 
     CGFloat margin = 35;
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(margin, 1, cell.bounds.size.width - margin*2, 40)] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(margin, 1, cell.bounds.size.width - margin*2, 40)];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.tag = TICKET_VIEW_IA_LABEL_TAG;
     label.font = [UIFont systemFontOfSize:15];

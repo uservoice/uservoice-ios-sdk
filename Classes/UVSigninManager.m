@@ -19,12 +19,12 @@
 @synthesize alertView;
 
 + (UVSigninManager *)manager {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 - (void)showEmailAlertView {
     state = STATE_EMAIL;
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [[UIAlertView alloc] init];
     alertView.title = NSLocalizedStringFromTable(@"Enter your email", @"UserVoice", nil);
     alertView.delegate = self;
     if ([alertView respondsToSelector:@selector(setAlertViewStyle:)])
@@ -40,7 +40,7 @@
 
 - (void)showPasswordAlertView {
     state = STATE_PASSWORD;
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [[UIAlertView alloc] init];
     alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Enter UserVoice password for %@", @"UserVoice", nil), email];
     alertView.delegate = self;
     if ([alertView respondsToSelector:@selector(setAlertViewStyle:)])
@@ -55,7 +55,7 @@
 
 - (void)showFailedAlertView {
     state = STATE_FAILED;
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [[UIAlertView alloc] init];
     alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", nil);
     alertView.delegate = self;
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Try again", @"UserVoice", nil)];
@@ -64,6 +64,8 @@
     [alertView show];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (void)signInWithDelegate:(id)theDelegate action:(SEL)theAction {
     if ([UVSession currentSession].user) {
         [theDelegate performSelector:theAction];
@@ -114,6 +116,7 @@
     [UVSession currentSession].user = theUser;
     [delegate performSelector:action];
 }
+#pragma clang diagnostic pop
 
 - (void)didDiscoverUser:(UVUser *)theUser {
     [delegate performSelector:@selector(hideActivityIndicator)];
@@ -122,7 +125,7 @@
 
 - (void)didSendForgotPassword:(id)obj {
     [delegate performSelector:@selector(hideActivityIndicator)];
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [[UIAlertView alloc] init];
     alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to", @"UserVoice", nil), email];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
     [alertView show];
@@ -166,13 +169,6 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [alertView dismissWithClickedButtonIndex:1 animated:YES];
     return YES;
-}
-
-- (void)dealloc {
-    self.email = nil;
-    self.name = nil;
-    self.alertView = nil;
-    [super dealloc];
 }
 
 @end

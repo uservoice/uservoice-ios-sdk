@@ -44,6 +44,8 @@
     [UVRequestToken getRequestTokenWithDelegate:self];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (void)checkComplete {
     if (configDone && userDone && topicsDone && articlesDone) {
         if ([UVSession currentSession].user) {
@@ -52,6 +54,7 @@
         [delegate performSelector:action];
     }
 }
+#pragma clang diagnostic pop
 
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
     if (dismissed) return;

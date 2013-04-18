@@ -29,7 +29,7 @@
 }
 
 + (UVSuggestionChickletView *)suggestionChickletViewWithOrigin:(CGPoint)origin {
-    return [[[UVSuggestionChickletView alloc] initWithOrigin:origin] autorelease];
+    return [[UVSuggestionChickletView alloc] initWithOrigin:origin];
 }
 
 - (void)addSubviews {
@@ -111,19 +111,9 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     voteNumLabel.text = [formatter stringFromNumber:[NSNumber numberWithInteger:suggestion.voteCount]];
-    [formatter release];
 
     voteLabel.text = suggestion.voteCount == 1 ? NSLocalizedStringFromTable(@"vote", @"UserVoice", nil) : NSLocalizedStringFromTable(@"votes", @"UserVoice", nil);
     statusLabel.text = suggestion.status == nil ? @"" : suggestion.status;
-}
-
-- (void)dealloc {
-    self.statusColorLayer = nil;
-    self.backgroundImageView = nil;
-    self.voteNumLabel = nil;
-    self.voteLabel = nil;
-    self.statusLabel = nil;
-    [super dealloc];
 }
 
 @end

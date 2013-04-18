@@ -98,14 +98,14 @@
 }
 
 - (void)initCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
+    cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
 
-    UVImageView *avatar = [[[UVImageView alloc] initWithFrame:CGRectMake(MARGIN, MARGIN, 40, 40)] autorelease];
+    UVImageView *avatar = [[UVImageView alloc] initWithFrame:CGRectMake(MARGIN, MARGIN, 40, 40)];
     avatar.tag = COMMENT_AVATAR_TAG;
     avatar.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
     [cell addSubview:avatar];
 
-    UILabel *name = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN, cell.bounds.size.width - 100, 15)] autorelease];
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN, cell.bounds.size.width - 100, 15)];
     name.tag = COMMENT_NAME_TAG;
     name.font = [UIFont boldSystemFontOfSize:13];
     name.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -113,7 +113,7 @@
     name.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
     [cell addSubview:name];
 
-    UILabel *date = [[[UILabel alloc] initWithFrame:CGRectMake(cell.bounds.size.width - MARGIN - 100, MARGIN, 100, 15)] autorelease];
+    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(cell.bounds.size.width - MARGIN - 100, MARGIN, 100, 15)];
     date.tag = COMMENT_DATE_TAG;
     date.font = [UIFont systemFontOfSize:12];
     date.textAlignment = UITextAlignmentRight;
@@ -122,7 +122,7 @@
     date.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [cell addSubview:date];
 
-    UILabel *text = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN + 20, cell.bounds.size.width - MARGIN * 2 - 50, cell.bounds.size.height - MARGIN * 2 - 20)] autorelease];
+    UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN + 20, cell.bounds.size.width - MARGIN * 2 - 50, cell.bounds.size.height - MARGIN * 2 - 20)];
     text.tag = COMMENT_TEXT_TAG;
     text.numberOfLines = 0;
     text.font = [UIFont systemFontOfSize:13];
@@ -152,8 +152,8 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
+    cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
     label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
@@ -213,7 +213,7 @@
 }
 
 - (void)openVoteActionSheet {
-    UIActionSheet *actionSheet = [[[UIActionSheet alloc] init] autorelease];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
     int votesRemaining = [UVSession currentSession].user.votesRemaining;
     actionSheet.title = [NSString stringWithFormat:@"%@\n(%@)", NSLocalizedStringFromTable(@"How many votes would you like to use?", @"UserVoice", nil), [NSString stringWithFormat:NSLocalizedStringFromTable(@"You have %i votes left", @"UserVoice", nil), votesRemaining]];
     actionSheet.delegate = self;
@@ -263,7 +263,7 @@
 }
 
 - (void)presentCommentController {
-    [self presentModalViewController:[[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease]];
+    [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:suggestion]];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -362,15 +362,15 @@
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = self.suggestion.title;
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
     self.view.autoresizesSubviews = YES;
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:self.view.bounds] autorelease];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     scrollView.alwaysBounceVertical = YES;
     [self.view addSubview:scrollView];
     if (suggestion.status) {
-        self.statusBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)] autorelease];
+        self.statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)];
         self.statusBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
         self.statusBar.backgroundColor = [UIColor colorWithHexString:suggestion.statusHexColor];
         UIColor *light = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.2];
@@ -389,7 +389,7 @@
         bottom.frame = CGRectMake(0, 26, scrollView.bounds.size.width, 1);
         bottom.backgroundColor = darkest.CGColor;
         [self.statusBar.layer addSublayer:bottom];
-        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, 4, statusBar.bounds.size.width, 17)] autorelease];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(MARGIN, 4, statusBar.bounds.size.width, 17)];
         label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
@@ -401,7 +401,7 @@
         [scrollView addSubview:statusBar];
     }
 
-    self.titleLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:30 space:10]] autorelease];
+    self.titleLabel = [[UILabel alloc] initWithFrame:[self nextRectWithHeight:30 space:10]];
     titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = [UIColor blackColor];
@@ -411,7 +411,7 @@
     [titleLabel sizeToFit];
     [scrollView addSubview:titleLabel];
 
-    self.descriptionLabel = [[[UVTruncatingLabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]] autorelease];
+    self.descriptionLabel = [[UVTruncatingLabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]];
     descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     descriptionLabel.backgroundColor = [UIColor clearColor];
     descriptionLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
@@ -422,7 +422,7 @@
     [descriptionLabel sizeToFit];
     [scrollView addSubview:descriptionLabel];
 
-    self.creatorLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:15 space:3]] autorelease];
+    self.creatorLabel = [[UILabel alloc] initWithFrame:[self nextRectWithHeight:15 space:3]];
     creatorLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     creatorLabel.backgroundColor = [UIColor clearColor];
     creatorLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
@@ -431,7 +431,7 @@
     [scrollView addSubview:creatorLabel];
 
     if (suggestion.responseText) {
-        self.responseView = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:100 space:15]] autorelease];
+        self.responseView = [[UIView alloc] initWithFrame:[self nextRectWithHeight:100 space:15]];
         responseView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         responseView.backgroundColor = [UIColor whiteColor];
         responseView.layer.cornerRadius = 2.0;
@@ -443,10 +443,10 @@
         border.borderWidth = 1.0;
         border.frame = responseView.bounds;
         [responseView.layer addSublayer:border];
-        UIView *header = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, responseView.bounds.size.width, 21)] autorelease];
+        UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, responseView.bounds.size.width, 21)];
         header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         header.backgroundColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-        UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 3, header.bounds.size.width - 20, 15)] autorelease];
+        UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 3, header.bounds.size.width - 20, 15)];
         headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         headerLabel.backgroundColor = [UIColor clearColor];
         headerLabel.textColor = [UIColor whiteColor];
@@ -454,17 +454,17 @@
         headerLabel.text = NSLocalizedStringFromTable(@"ADMIN RESPONSE", @"UserVoice", nil);
         [header addSubview:headerLabel];
         [responseView addSubview:header];
-        UVImageView *avatarView = [[[UVImageView alloc] initWithFrame:CGRectMake(10, 31, 40, 40)] autorelease];
+        UVImageView *avatarView = [[UVImageView alloc] initWithFrame:CGRectMake(10, 31, 40, 40)];
         avatarView.URL = suggestion.responseUserAvatarUrl;
         avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
         [responseView addSubview:avatarView];
-        UILabel *adminLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 31, 120, 15)] autorelease];
+        UILabel *adminLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 31, 120, 15)];
         adminLabel.backgroundColor = [UIColor clearColor];
         adminLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
         adminLabel.font = [UIFont boldSystemFontOfSize:14];
         adminLabel.text = suggestion.responseUserName;
         [responseView addSubview:adminLabel];
-        UILabel *createdAt = [[[UILabel alloc] initWithFrame:CGRectMake(responseView.bounds.size.width - 100, 30, 90, 15)] autorelease];
+        UILabel *createdAt = [[UILabel alloc] initWithFrame:CGRectMake(responseView.bounds.size.width - 100, 30, 90, 15)];
         createdAt.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
         createdAt.backgroundColor = [UIColor clearColor];
         createdAt.textAlignment = UITextAlignmentRight;
@@ -472,7 +472,7 @@
         createdAt.textColor = [UIColor colorWithRed:0.60f green:0.61f blue:0.62f alpha:1.0f];
         createdAt.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
         [responseView addSubview:createdAt];
-        self.responseLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 48, responseView.bounds.size.width - 70, 100)] autorelease];
+        self.responseLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 48, responseView.bounds.size.width - 70, 100)];
         responseLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         responseLabel.backgroundColor = [UIColor clearColor];
         responseLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
@@ -486,21 +486,21 @@
         [scrollView addSubview:responseView];
     }
 
-    self.buttons = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:40 space:10]] autorelease];
+    self.buttons = [[UIView alloc] initWithFrame:[self nextRectWithHeight:40 space:10]];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.voteButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)] autorelease];
+    self.voteButton = [[UVGradientButton alloc] initWithFrame:CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)];
     voteButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
     [voteButton setTitle:NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil) forState:UIControlStateNormal];
     [voteButton addTarget:self action:@selector(voteButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [buttons addSubview:voteButton];
-    UIButton *commentButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(buttons.bounds.size.width/2 + 5, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)] autorelease];
+    UIButton *commentButton = [[UVGradientButton alloc] initWithFrame:CGRectMake(buttons.bounds.size.width/2 + 5, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)];
     commentButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     [commentButton setTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil) forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [buttons addSubview:commentButton];
     [scrollView addSubview:buttons];
     
-    self.votesLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:25 space:10]] autorelease];
+    self.votesLabel = [[UILabel alloc] initWithFrame:[self nextRectWithHeight:25 space:10]];
     votesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     votesLabel.backgroundColor = [UIColor clearColor];
     votesLabel.textColor = [UIColor colorWithRed:0.30f green:0.34f blue:0.42f alpha:1.0f];
@@ -508,13 +508,13 @@
     votesLabel.textAlignment = UITextAlignmentCenter;
     [scrollView addSubview:votesLabel];
 
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000) style:UITableViewStylePlain] autorelease];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000) style:UITableViewStylePlain];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.scrollEnabled = NO;
     self.tableView.separatorColor = [UIColor colorWithRed:0.76f green:0.78f blue:0.80f alpha:1.0f];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 1)] autorelease];
+    UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 1)];
     border.backgroundColor = [UIColor colorWithRed:0.76f green:0.78f blue:0.80f alpha:1.0f];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [tableView addSubview:border];
@@ -531,10 +531,10 @@
 - (void)initNavigationItem {
     [super initNavigationItem];
     if (self.navigationController.viewControllers.count == 1) {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(dismiss)] autorelease];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(dismiss)];
     }
 }
 
@@ -555,22 +555,6 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self updateLayout];
-}
-
-- (void)dealloc {
-    self.suggestion = nil;
-    self.scrollView = nil;
-    self.statusBar = nil;
-    self.comments = nil;
-    self.titleLabel = nil;
-    self.votesLabel = nil;
-    self.descriptionLabel = nil;
-    self.creatorLabel = nil;
-    self.responseView = nil;
-    self.responseLabel = nil;
-    self.buttons = nil;
-    self.voteButton = nil;
-    [super dealloc];
 }
 
 @end

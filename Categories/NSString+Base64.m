@@ -120,7 +120,7 @@ static const short _base64DecodingTable[256] = {
     }
 
     // Cleanup and setup the return NSData
-    return [[[NSData alloc] initWithBytesNoCopy:objResult length:j freeWhenDone:YES] autorelease];
+    return [[NSData alloc] initWithBytesNoCopy:objResult length:j freeWhenDone:YES];
 }
 
 - (NSString *)base64EncodedString {
@@ -164,7 +164,7 @@ static const short _base64DecodingTable[256] = {
     }
 
     NSString *strToReturn = [[NSString alloc] initWithBytesNoCopy:strResult length:objPointer - strResult encoding:NSASCIIStringEncoding freeWhenDone:YES];
-    return [strToReturn autorelease];
+    return strToReturn;
 }
 
 

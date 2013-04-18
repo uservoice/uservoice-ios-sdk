@@ -16,14 +16,13 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
-        [self addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expand)] autorelease]];
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expand)]];
     }
     return self;
 }
 
 - (void)setFullText:(NSString *)theText {
-    [fullText release];
-    fullText = [theText retain];
+    fullText = theText;
     [self setNeedsDisplay];
 }
 
@@ -69,11 +68,6 @@
         }
     }
     [super drawRect:rect];
-}
-
-- (void)dealloc {
-    self.fullText = nil;
-    [super dealloc];
 }
 
 @end

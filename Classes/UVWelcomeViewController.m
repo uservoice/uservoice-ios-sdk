@@ -159,24 +159,24 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (theTableView == flashTable) {
-        UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
+        UIViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion];
         [self.navigationController pushViewController:next animated:YES];
     } else if (theTableView == searchController.searchResultsTableView) {
         [self selectInstantAnswerAtIndex:indexPath.row];
     } else {
         [self clearFlash];
         if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
-            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
+            UVSuggestionListViewController *next = [[UVSuggestionListViewController alloc] init];
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
             UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
-            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
+            UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil];
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UVHelpTopic *topic = nil;
             if (indexPath.row < [[UVSession currentSession].topics count])
                 topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
-            UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+            UVHelpTopicViewController *next = [[UVHelpTopicViewController alloc] initWithTopic:topic];
             [self.navigationController pushViewController:next animated:YES];
         }
     }
@@ -212,7 +212,7 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [searchController setActive:YES animated:YES];
     [self updateLayoutAnimated:YES];
-    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     searchController.searchResultsTableView.backgroundView = nil;
     searchController.searchResultsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
     searchController.searchResultsTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.0f];
@@ -249,7 +249,7 @@
 #pragma mark ===== Basic View Methods =====
 
 - (void)addButton:(NSString *)title frame:(CGRect)frame action:(SEL)selector autoresizingMask:(int)mask {
-    UVGradientButton *button = [[[UVGradientButton alloc] initWithFrame:frame] autorelease];
+    UVGradientButton *button = [[UVGradientButton alloc] initWithFrame:frame];
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     button.autoresizingMask = mask;
@@ -294,18 +294,18 @@
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismissUserVoice)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismissUserVoice)];
 
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:[self contentFrame]];
     self.view = scrollView;
     scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
     scrollView.alwaysBounceVertical = YES;
 
     if ([UVSession currentSession].config.showKnowledgeBase) {
-        UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)] autorelease];
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
         searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"UserVoice", nil);
         searchBar.delegate = self;
@@ -313,51 +313,51 @@
         if ([UVSession currentSession].config.showForum) {
             searchBar.scopeButtonTitles = @[NSLocalizedStringFromTable(@"All", @"UserVoice", nil), NSLocalizedStringFromTable(@"Articles", @"UserVoice", nil), NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil)];
         }
-        UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height, searchBar.bounds.size.width, 1)] autorelease];
+        UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height, searchBar.bounds.size.width, 1)];
         border.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         border.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:border];
         [self.view addSubview:searchBar];
 
-        self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
+        self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
         searchController.delegate = self;
         searchController.searchResultsDelegate = self;
         searchController.searchResultsDataSource = self;
     }
 
-    self.flashView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 100)] autorelease];
+    self.flashView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 100)];
     flashView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     flashView.backgroundColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
-    self.flashTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 20, flashView.bounds.size.width - 40, 20)] autorelease];
+    self.flashTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, flashView.bounds.size.width - 40, 20)];
     flashTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     flashTitleLabel.backgroundColor = [UIColor clearColor];
     flashTitleLabel.textColor = [UIColor colorWithRed:0.30f green:0.34f blue:0.42f alpha:1.0f];
     flashTitleLabel.font = [UIFont boldSystemFontOfSize:15];
     [flashView addSubview:flashTitleLabel];
-    self.flashMessageLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 40, flashView.bounds.size.width - 40, 20)] autorelease];
+    self.flashMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 40, flashView.bounds.size.width - 40, 20)];
     flashMessageLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     flashMessageLabel.backgroundColor = [UIColor clearColor];
     flashMessageLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     flashMessageLabel.font = [UIFont systemFontOfSize:14];
     [flashView addSubview:flashMessageLabel];
-    self.flashTable = [[[UITableView alloc] initWithFrame:CGRectMake(0, IPAD ? 50 : 70, flashView.bounds.size.width, 40) style:UITableViewStyleGrouped] autorelease];
+    self.flashTable = [[UITableView alloc] initWithFrame:CGRectMake(0, IPAD ? 50 : 70, flashView.bounds.size.width, 40) style:UITableViewStyleGrouped];
     flashTable.delegate = self;
     flashTable.dataSource = self;
     flashTable.backgroundView = nil;
     flashTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     flashTable.backgroundColor = [UIColor clearColor];
     [flashView addSubview:flashTable];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 2, flashView.bounds.size.width, 1)] autorelease];
+    UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 2, flashView.bounds.size.width, 1)];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
     [flashView addSubview:border];
-    border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 1, flashView.bounds.size.width, 1)] autorelease];
+    border = [[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 1, flashView.bounds.size.width, 1)];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     border.backgroundColor = [UIColor whiteColor];
     [flashView addSubview:border];
     [scrollView addSubview:flashView];
 
-    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 44 + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), 44)] autorelease];
+    self.buttons = [[UIView alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 44 + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), 44)];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     if ([UVSession currentSession].config.showContactUs && [UVSession currentSession].config.showPostIdea) {
         [self addButton:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) frame:CGRectMake(0, 0, buttons.bounds.size.width / 2 - (IPAD ? 10 : 5), buttons.bounds.size.height) action:@selector(postIdeaTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin];
@@ -369,7 +369,7 @@
     }
     [scrollView addSubview:buttons];
 
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -379,10 +379,10 @@
     [scrollView addSubview:tableView];
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
-        UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)] autorelease];
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)];
         footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)] autorelease];
+        UIView *logo = [[UIView alloc] initWithFrame:CGRectZero];
+        UILabel *poweredBy = [[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)];
         // tweak for retina
         if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
             poweredBy.frame = CGRectMake(0, 8, 0, 0);
@@ -393,13 +393,13 @@
         poweredBy.text = NSLocalizedStringFromTable(@"powered by", @"UserVoice", nil);
         [poweredBy sizeToFit];
         [logo addSubview:poweredBy];
-        UIImageView *image = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]] autorelease];
+        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]];
         image.frame = CGRectMake(poweredBy.bounds.size.width + 7, 0, image.bounds.size.width * 0.8, image.bounds.size.height * 0.8);
         [logo addSubview:image];
         logo.frame = CGRectMake(0, 0, image.frame.origin.x + image.frame.size.width, image.frame.size.height);
         logo.center = CGPointMake(footer.bounds.size.width / 2, footer.bounds.size.height - logo.bounds.size.height / 2 - 15);
         logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
-        [logo addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)] autorelease]];
+        [logo addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)]];
         [footer addSubview:logo];
         tableView.tableFooterView = footer;
     }
@@ -414,17 +414,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [self updateLayout];
-}
-
-- (void)dealloc {
-    self.scrollView = nil;
-    self.flashTable = nil;
-    self.flashMessageLabel = nil;
-    self.flashTitleLabel = nil;
-    self.flashView = nil;
-    self.buttons = nil;
-    self.searchController = nil;
-    [super dealloc];
 }
 
 @end

@@ -70,10 +70,4 @@
     return self;
 }
 
-- (void)dealloc {
-    self.question = nil;
-    self.answerHTML = nil;
-    [super dealloc];
-}
-
 @end

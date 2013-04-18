@@ -85,15 +85,6 @@
     theTableView.delegate = self;
 
     self.view = theTableView;
-    [theTableView release];
 }
-
-- (void)dealloc {
-    self.forum = nil;
-    self.categories = nil;
-    self.selectedCategory = nil;
-    [super dealloc];
-}
-
 
 @end

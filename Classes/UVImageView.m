@@ -49,8 +49,7 @@
         return;
 
     [self stopLoading];
-    [_URL release];
-    _URL = [URL retain];
+    _URL = URL;
 
     if (_URL && _URL.length) {
         self.image = [[UVImageCache sharedInstance] imageForURL:_URL];
@@ -62,8 +61,7 @@
 
 - (void)setImage:(UIImage*)image {
     if (image != _image) {
-        [_image release];
-        _image = [image retain];
+        _image = image;
     }
 }
 
@@ -92,10 +90,6 @@
 
 - (void)dealloc {
     [self stopLoading];
-    self.URL = nil;
-    self.image = nil;
-    self.defaultImage = nil;
-    [super dealloc];
 }
 
 @end

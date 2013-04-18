@@ -38,7 +38,7 @@
         self.categories = [NSMutableArray array];
         NSMutableArray *categoryDicts = [self objectOrNilForDict:topic key:@"categories"];
         for (NSDictionary *categoryDict in categoryDicts) {
-            [self.categories addObject:[[[UVCategory alloc] initWithDictionary:categoryDict] autorelease]];
+            [self.categories addObject:[[UVCategory alloc] initWithDictionary:categoryDict]];
         }
     }
     return self;
@@ -46,15 +46,6 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"forumId: %d\nname: %@", self.forumId, self.name];
-}
-
-- (void)dealloc {
-    self.name = nil;
-    self.example = nil;
-    self.prompt = nil;
-    self.categories = nil;
-    self.suggestions = nil;
-    [super dealloc];
 }
 
 @end

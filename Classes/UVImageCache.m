@@ -60,12 +60,4 @@
     [mostRecentlyUsed removeAllObjects];
 }
 
-- (void)dealloc {
-    [cache release];
-    cache = nil;
-    [mostRecentlyUsed release];
-    mostRecentlyUsed = nil;
-    [super dealloc];
-}
-
 @end

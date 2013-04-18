@@ -94,31 +94,31 @@
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.instantAnswersQuery, @"t", nil]];
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
+        UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage];
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
         [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", self.instantAnswersQuery, @"t", nil]];
-        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion];
         [self.navigationController pushViewController:next animated:YES];
     }
 }
 
 - (UIBarButtonItem *)barButtonItem:(NSString *)label withAction:(SEL)selector {
-    return [[[UIBarButtonItem alloc] initWithTitle:label
-                                             style:UIBarButtonItemStylePlain
-                                            target:self
-                                            action:selector] autorelease];
+    return [[UIBarButtonItem alloc] initWithTitle:label
+                                            style:UIBarButtonItemStylePlain
+                                           target:self
+                                           action:selector];
 }
 
 - (void)addSpinnerAndXTo:(UIView *)view atCenter:(CGPoint)center {
-    UIImageView *x = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_x.png"]] autorelease];
+    UIImageView *x = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_x.png"]];
     x.center = center;
     x.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     x.tag = TICKET_VIEW_X_TAG;
     [view addSubview:x];
     
-    UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = center;
     spinner.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     spinner.tag = TICKET_VIEW_SPINNER_TAG;
@@ -169,7 +169,7 @@
 
 - (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    UVHighlightingLabel *label = [[[UVHighlightingLabel alloc] initWithFrame:CGRectMake(IPAD ? 75 : 50, 12, cell.bounds.size.width - (IPAD ? 130 : 80), 20)] autorelease];
+    UVHighlightingLabel *label = [[UVHighlightingLabel alloc] initWithFrame:CGRectMake(IPAD ? 75 : 50, 12, cell.bounds.size.width - (IPAD ? 130 : 80), 20)];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -249,12 +249,6 @@
 
 - (void)dealloc {
     [self cleanupInstantAnswersTimer];
-    self.instantAnswers = nil;
-    self.instantAnswersQuery = nil;
-    self.articleHelpfulPrompt = nil;
-    self.articleReturnMessage = nil;
-    self.searchPattern = nil;
-    [super dealloc];
 }
 
 @end
