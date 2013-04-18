@@ -329,6 +329,7 @@
 		D900310116690F7B006A27C6 /* UVBaseSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseSuggestionViewController.m; sourceTree = "<group>"; };
 		D9003104166913A8006A27C6 /* UVNewSuggestionIpadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewSuggestionIpadViewController.h; sourceTree = "<group>"; };
 		D9003105166913A8006A27C6 /* UVNewSuggestionIpadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewSuggestionIpadViewController.m; sourceTree = "<group>"; };
+		D90F94C617204C8100974DAE /* UserVoice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UserVoice.storyboard; sourceTree = "<group>"; };
 		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
 		D92767F915597F3700E17EF1 /* UVArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticle.h; sourceTree = "<group>"; };
 		D92767FA15597F3800E17EF1 /* UVArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticle.m; sourceTree = "<group>"; };
@@ -662,6 +663,7 @@
 				D2620C6311B586230053EA4C /* uv_vote_chicklet.png */,
 				D2620C6411B586230053EA4C /* uv_vote_chicklet_empty.png */,
 				D99AFAAF1653F2DE0061F50C /* uv_x.png */,
+				D90F94C617204C8100974DAE /* UserVoice.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
