@@ -100,26 +100,12 @@
 		D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */; };
 		D2620F1411B597290053EA4C /* HRBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC711B597290053EA4C /* HRBase64.h */; };
 		D2620F1511B597290053EA4C /* HRBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EC811B597290053EA4C /* HRBase64.m */; };
-		D29734D711E50B8F001B8D6E /* NSData+OAuthResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */; };
-		D29734D811E50B8F001B8D6E /* NSData+OAuthResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */; };
-		D29734D911E50B8F001B8D6E /* NSDictionary+ParamUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */; };
-		D29734DA11E50B8F001B8D6E /* NSDictionary+ParamUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C211E50B8F001B8D6E /* NSDictionary+ParamUtils.m */; };
-		D29734DB11E50B8F001B8D6E /* NSDictionary+QueryString.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734C311E50B8F001B8D6E /* NSDictionary+QueryString.h */; };
-		D29734DC11E50B8F001B8D6E /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C411E50B8F001B8D6E /* NSDictionary+QueryString.m */; };
 		D29734DD11E50B8F001B8D6E /* NSError+UVExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734C511E50B8F001B8D6E /* NSError+UVExtras.h */; };
 		D29734DE11E50B8F001B8D6E /* NSError+UVExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C611E50B8F001B8D6E /* NSError+UVExtras.m */; };
 		D29734DF11E50B8F001B8D6E /* NSObject+InvocationUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734C711E50B8F001B8D6E /* NSObject+InvocationUtils.h */; };
 		D29734E011E50B8F001B8D6E /* NSObject+InvocationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734C811E50B8F001B8D6E /* NSObject+InvocationUtils.m */; };
-		D29734E311E50B8F001B8D6E /* NSString+EscapingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734CB11E50B8F001B8D6E /* NSString+EscapingUtils.h */; };
-		D29734E411E50B8F001B8D6E /* NSString+EscapingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734CC11E50B8F001B8D6E /* NSString+EscapingUtils.m */; };
 		D29734E511E50B8F001B8D6E /* NSString+URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734CD11E50B8F001B8D6E /* NSString+URLEncoding.h */; };
 		D29734E611E50B8F001B8D6E /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734CE11E50B8F001B8D6E /* NSString+URLEncoding.m */; };
-		D29734E911E50B8F001B8D6E /* NSURL+DictionaryQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734D111E50B8F001B8D6E /* NSURL+DictionaryQuery.h */; };
-		D29734EA11E50B8F001B8D6E /* NSURL+DictionaryQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734D211E50B8F001B8D6E /* NSURL+DictionaryQuery.m */; };
-		D29734EB11E50B8F001B8D6E /* UIFont+UVExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734D311E50B8F001B8D6E /* UIFont+UVExtras.h */; };
-		D29734EC11E50B8F001B8D6E /* UIFont+UVExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734D411E50B8F001B8D6E /* UIFont+UVExtras.m */; };
-		D29734ED11E50B8F001B8D6E /* UIView+UVExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = D29734D511E50B8F001B8D6E /* UIView+UVExtras.h */; };
-		D29734EE11E50B8F001B8D6E /* UIView+UVExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = D29734D611E50B8F001B8D6E /* UIView+UVExtras.m */; };
 		D297353211E50C83001B8D6E /* UVUIColorAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D297353011E50C83001B8D6E /* UVUIColorAdditions.h */; };
 		D297353311E50C83001B8D6E /* UVUIColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D297353111E50C83001B8D6E /* UVUIColorAdditions.m */; };
 		D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
@@ -274,26 +260,12 @@
 		D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPRiot_Prefix.pch; sourceTree = "<group>"; };
 		D2620EC711B597290053EA4C /* HRBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRBase64.h; sourceTree = "<group>"; };
 		D2620EC811B597290053EA4C /* HRBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRBase64.m; sourceTree = "<group>"; };
-		D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+OAuthResponse.h"; sourceTree = "<group>"; };
-		D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+OAuthResponse.m"; sourceTree = "<group>"; };
-		D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ParamUtils.h"; sourceTree = "<group>"; };
-		D29734C211E50B8F001B8D6E /* NSDictionary+ParamUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ParamUtils.m"; sourceTree = "<group>"; };
-		D29734C311E50B8F001B8D6E /* NSDictionary+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryString.h"; sourceTree = "<group>"; };
-		D29734C411E50B8F001B8D6E /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
 		D29734C511E50B8F001B8D6E /* NSError+UVExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+UVExtras.h"; sourceTree = "<group>"; };
 		D29734C611E50B8F001B8D6E /* NSError+UVExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+UVExtras.m"; sourceTree = "<group>"; };
 		D29734C711E50B8F001B8D6E /* NSObject+InvocationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+InvocationUtils.h"; sourceTree = "<group>"; };
 		D29734C811E50B8F001B8D6E /* NSObject+InvocationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+InvocationUtils.m"; sourceTree = "<group>"; };
-		D29734CB11E50B8F001B8D6E /* NSString+EscapingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EscapingUtils.h"; sourceTree = "<group>"; };
-		D29734CC11E50B8F001B8D6E /* NSString+EscapingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EscapingUtils.m"; sourceTree = "<group>"; };
 		D29734CD11E50B8F001B8D6E /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		D29734CE11E50B8F001B8D6E /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
-		D29734D111E50B8F001B8D6E /* NSURL+DictionaryQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+DictionaryQuery.h"; sourceTree = "<group>"; };
-		D29734D211E50B8F001B8D6E /* NSURL+DictionaryQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+DictionaryQuery.m"; sourceTree = "<group>"; };
-		D29734D311E50B8F001B8D6E /* UIFont+UVExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+UVExtras.h"; sourceTree = "<group>"; };
-		D29734D411E50B8F001B8D6E /* UIFont+UVExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+UVExtras.m"; sourceTree = "<group>"; };
-		D29734D511E50B8F001B8D6E /* UIView+UVExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UVExtras.h"; sourceTree = "<group>"; };
-		D29734D611E50B8F001B8D6E /* UIView+UVExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UVExtras.m"; sourceTree = "<group>"; };
 		D297353011E50C83001B8D6E /* UVUIColorAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUIColorAdditions.h; sourceTree = "<group>"; };
 		D297353111E50C83001B8D6E /* UVUIColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUIColorAdditions.m; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libUserVoice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUserVoice.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -684,28 +656,14 @@
 			children = (
 				D297353011E50C83001B8D6E /* UVUIColorAdditions.h */,
 				D297353111E50C83001B8D6E /* UVUIColorAdditions.m */,
-				D29734BF11E50B8F001B8D6E /* NSData+OAuthResponse.h */,
-				D29734C011E50B8F001B8D6E /* NSData+OAuthResponse.m */,
-				D29734C111E50B8F001B8D6E /* NSDictionary+ParamUtils.h */,
-				D29734C211E50B8F001B8D6E /* NSDictionary+ParamUtils.m */,
-				D29734C311E50B8F001B8D6E /* NSDictionary+QueryString.h */,
-				D29734C411E50B8F001B8D6E /* NSDictionary+QueryString.m */,
 				D29734C511E50B8F001B8D6E /* NSError+UVExtras.h */,
 				D29734C611E50B8F001B8D6E /* NSError+UVExtras.m */,
 				D29734C711E50B8F001B8D6E /* NSObject+InvocationUtils.h */,
 				D29734C811E50B8F001B8D6E /* NSObject+InvocationUtils.m */,
-				D29734CB11E50B8F001B8D6E /* NSString+EscapingUtils.h */,
-				D29734CC11E50B8F001B8D6E /* NSString+EscapingUtils.m */,
 				D29734CD11E50B8F001B8D6E /* NSString+URLEncoding.h */,
 				D29734CE11E50B8F001B8D6E /* NSString+URLEncoding.m */,
 				D9B1D1E714ACFCE600D9189F /* NSString+HTMLEntities.h */,
 				D9B1D1E814ACFCE600D9189F /* NSString+HTMLEntities.m */,
-				D29734D111E50B8F001B8D6E /* NSURL+DictionaryQuery.h */,
-				D29734D211E50B8F001B8D6E /* NSURL+DictionaryQuery.m */,
-				D29734D311E50B8F001B8D6E /* UIFont+UVExtras.h */,
-				D29734D411E50B8F001B8D6E /* UIFont+UVExtras.m */,
-				D29734D511E50B8F001B8D6E /* UIView+UVExtras.h */,
-				D29734D611E50B8F001B8D6E /* UIView+UVExtras.m */,
 				D981923F156D302B00E6F66D /* NSString+Base64.h */,
 				D9819240156D302B00E6F66D /* NSString+Base64.m */,
 			);
@@ -806,16 +764,9 @@
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextView.h in Headers */,
 				D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */,
-				D29734D711E50B8F001B8D6E /* NSData+OAuthResponse.h in Headers */,
-				D29734D911E50B8F001B8D6E /* NSDictionary+ParamUtils.h in Headers */,
-				D29734DB11E50B8F001B8D6E /* NSDictionary+QueryString.h in Headers */,
 				D29734DD11E50B8F001B8D6E /* NSError+UVExtras.h in Headers */,
 				D29734DF11E50B8F001B8D6E /* NSObject+InvocationUtils.h in Headers */,
-				D29734E311E50B8F001B8D6E /* NSString+EscapingUtils.h in Headers */,
 				D29734E511E50B8F001B8D6E /* NSString+URLEncoding.h in Headers */,
-				D29734E911E50B8F001B8D6E /* NSURL+DictionaryQuery.h in Headers */,
-				D29734EB11E50B8F001B8D6E /* UIFont+UVExtras.h in Headers */,
-				D29734ED11E50B8F001B8D6E /* UIView+UVExtras.h in Headers */,
 				D297353211E50C83001B8D6E /* UVUIColorAdditions.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
@@ -948,16 +899,9 @@
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextView.m in Sources */,
 				D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */,
-				D29734D811E50B8F001B8D6E /* NSData+OAuthResponse.m in Sources */,
-				D29734DA11E50B8F001B8D6E /* NSDictionary+ParamUtils.m in Sources */,
-				D29734DC11E50B8F001B8D6E /* NSDictionary+QueryString.m in Sources */,
 				D29734DE11E50B8F001B8D6E /* NSError+UVExtras.m in Sources */,
 				D29734E011E50B8F001B8D6E /* NSObject+InvocationUtils.m in Sources */,
-				D29734E411E50B8F001B8D6E /* NSString+EscapingUtils.m in Sources */,
 				D29734E611E50B8F001B8D6E /* NSString+URLEncoding.m in Sources */,
-				D29734EA11E50B8F001B8D6E /* NSURL+DictionaryQuery.m in Sources */,
-				D29734EC11E50B8F001B8D6E /* UIFont+UVExtras.m in Sources */,
-				D29734EE11E50B8F001B8D6E /* UIView+UVExtras.m in Sources */,
 				D297353311E50C83001B8D6E /* UVUIColorAdditions.m in Sources */,
 				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
 				80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */,
