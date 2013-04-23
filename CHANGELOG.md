@@ -1,5 +1,6 @@
 ## master ##
 
+* Fix a layout issue with long custom field values
 * Fix an issue with the flash message when the forum is turned off
 * Fix an issue where the navigation bar would sometimes be hidden after posting an idea
 * Tweak layout of welcome screen when both buttons are hidden
