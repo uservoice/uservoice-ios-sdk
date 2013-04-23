@@ -53,17 +53,30 @@
 - (void)dismissKeyboard {
 }
 
+- (BOOL)validateCustomFields {
+    for (UVCustomField *field in [UVSession currentSession].clientConfig.customFields) {
+        if ([field isRequired]) {
+            NSString *value = [selectedCustomFieldValues valueForKey:field.name];
+            if (!value || value.length == 0)
+                return NO;
+        }
+    }
+    return YES;
+}
+
 - (void)sendButtonTapped {
     [self dismissKeyboard];
     self.userEmail = emailField.text;
     self.userName = nameField.text;
     self.text = textView.text;
-    if ([UVSession currentSession].user || (emailField.text.length > 1)) {
+    if (![UVSession currentSession].user && emailField.text.length == 0) {
+        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
+    } else if (![self validateCustomFields]) {
+        [self alertError:NSLocalizedStringFromTable(@"Please fill out all required fields.", @"UserVoice", nil)];
+    } else {
         [self showActivityIndicator];
         [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:emailField.text andName:nameField.text andCustomFields:selectedCustomFieldValues andDelegate:self];
         [[UVSession currentSession] trackInteraction:@"pt"];
-    } else {
-        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
     }
 }
 
@@ -201,7 +214,7 @@
     UILabel *label = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_LABEL_TAG];
     UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
     UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG];
-    label.text = field.name;
+    label.text = [field isRequired] ? [NSString stringWithFormat:@"%@*", field.name] : field.name;
     cell.accessoryType = [field isPredefined] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
     textField.enabled = [field isPredefined] ? NO : YES;
     cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;

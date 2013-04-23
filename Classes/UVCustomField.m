@@ -19,6 +19,7 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.fieldId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        required = ![(NSNumber *)[self objectOrNilForDict:dict key:@"allow_blank"] boolValue];
         self.name = [self objectOrNilForDict:dict key:@"name"];
         NSArray *valueDictionaries = [self objectOrNilForDict:dict key:@"possible_values"];
         NSMutableArray *valueNames = [NSMutableArray arrayWithCapacity:[valueDictionaries count]];
@@ -32,6 +33,10 @@
 
 - (BOOL)isPredefined {
     return [self.values count] > 0;
+}
+
+- (BOOL)isRequired {
+    return required;
 }
 
 - (void)dealloc {

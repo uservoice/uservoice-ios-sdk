@@ -13,6 +13,7 @@
     NSString *name;
     NSArray *values;
     NSInteger fieldId;
+    BOOL required;
 }
 
 @property (assign) NSInteger fieldId;
@@ -21,5 +22,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict;
 - (BOOL)isPredefined;
+- (BOOL)isRequired;
 
 @end
