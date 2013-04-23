@@ -69,10 +69,6 @@
     return self;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"commentId: %d", self.commentId];
-}
-
 - (void)dealloc {
     self.text = nil;
     self.userName = nil;
