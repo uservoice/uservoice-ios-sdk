@@ -41,19 +41,13 @@
         [[UserVoice delegate] userVoiceWasDismissed];
 }
 
-- (CGRect)contentFrameWithNavBar:(BOOL)navBarEnabled {
+- (CGRect)contentFrame {
     CGRect barFrame = CGRectZero;
-    if (navBarEnabled) {
-        barFrame = self.navigationController.navigationBar.frame;
-    }
+    barFrame = self.navigationController.navigationBar.frame;
     CGRect appFrame = [UIScreen mainScreen].applicationFrame;
     CGFloat yStart = barFrame.origin.y + barFrame.size.height;
-
+    
     return CGRectMake(0, yStart, appFrame.size.width, appFrame.size.height - barFrame.size.height);
-}
-
-- (CGRect)contentFrame {
-    return [self contentFrameWithNavBar:YES];
 }
 
 - (void)showActivityIndicator {
@@ -164,11 +158,6 @@
     return cell;
 }
 
-- (void)addShadowSeparatorToTableView:(UITableView *)theTableView {
-    theTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    theTableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
-}
-
 #pragma mark ===== Keyboard Notifications =====
 
 - (void)registerForKeyboardNotifications {
@@ -234,10 +223,6 @@
     [self presentModalViewController:navigationController animated:YES];
     if (IPAD)
         navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
-}
-
-- (void)showExitButton {
-    self.navigationItem.leftBarButtonItem = exitButton;
 }
 
 - (void)setupGroupedTableView {
@@ -323,12 +308,6 @@
 - (void)loadView {
     [self initNavigationItem];
     [self registerForKeyboardNotifications];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    // Fix background color on iPad
-    if ([self.view respondsToSelector:@selector(setBackgroundView:)])
-        [self.view performSelector:@selector(setBackgroundView:) withObject:nil];
 }
 
 - (void)dealloc {

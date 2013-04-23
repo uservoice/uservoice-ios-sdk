@@ -46,7 +46,6 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 
 // Calculates the content view frame, based on the size and position of the
 // navigation bar.
-- (CGRect)contentFrameWithNavBar:(BOOL)navBarEnabled;
 - (CGRect)contentFrame;
 
 // activity indicator
@@ -63,8 +62,6 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 // and displays an error alert. Can be overridden in subclasses that require
 // specialized behavior.
 - (void)didReceiveError:(NSError *)error;
-
-- (void)addShadowSeparatorToTableView:(UITableView *)tableView;
 
 - (void)requireUserSignedIn:(SEL)action;
 - (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action;
@@ -86,7 +83,6 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
                                   selectable:(BOOL)selectable;
 
 - (void)alertError:(NSString *)message;
-- (void)showExitButton;
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;
 

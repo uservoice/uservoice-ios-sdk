@@ -7,11 +7,9 @@
 //
 
 #import "NSDictionary+ParamUtils.h"
-#import "NSString+EscapingUtils.h"
+#import "NSString+URLEncoding.h"
 
 @implementation NSDictionary (UVParamUtils)
-
-
 
 - (NSString *)toQueryString {
     NSMutableArray *pairs = [[[NSMutableArray alloc] init] autorelease];
@@ -19,10 +17,10 @@
         id value = [self objectForKey:key];
         if ([value isKindOfClass:[NSArray class]]) {
             for (id val in value) {
-                [pairs addObject:[NSString stringWithFormat:@"%@=%@",key, [val stringByPreparingForURL]]];
+                [pairs addObject:[NSString stringWithFormat:@"%@=%@",key, [val URLEncodedString]]];
             }
         } else {
-            [pairs addObject:[NSString stringWithFormat:@"%@=%@",key, [value stringByPreparingForURL]]];
+            [pairs addObject:[NSString stringWithFormat:@"%@=%@",key, [value URLEncodedString]]];
         }
     }
     return [pairs componentsJoinedByString:@"&"];

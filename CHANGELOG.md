@@ -26,7 +26,7 @@
 ## 2.0.7 ##
 
 * Fix some compatibility issues with iOS 4.3
-* Change 'Connecting to UserVoice' to 'Loading...' for since that message is displayed before we know if the account is white-label or not
+* Change 'Connecting to UserVoice' to 'Loading...' since that message is displayed before we know if the account is white-label or not
 * Stop assuming that the app delegate responds to `window`
 
 ## 2.0.6 ##
