@@ -44,10 +44,6 @@
     return self;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"forumId: %d\nname: %@", self.forumId, self.name];
-}
-
 - (void)dealloc {
     self.name = nil;
     self.example = nil;

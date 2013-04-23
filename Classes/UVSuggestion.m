@@ -181,10 +181,6 @@
     return self;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"suggestionId: %d\ntitle: %@\nvotes: %d", self.suggestionId, self.title, self.voteCount];
-}
-
 - (void)dealloc {
     self.title = nil;
     self.abstract = nil;

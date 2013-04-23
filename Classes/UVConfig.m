@@ -107,10 +107,6 @@
     return (self.ssoToken != nil || self.guid != nil);
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"Site: %@\nKey: %@\nSecret: %@", self.site, self.key, self.secret];
-}
-
 - (void)dealloc {
     self.site = nil;
     self.key = nil;

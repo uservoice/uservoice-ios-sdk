@@ -227,10 +227,6 @@
     suggestionsNeedReload = NO;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"userId: %d\nname: %@\nemail: %@", self.userId, self.displayName, self.email];
-}
-
 - (BOOL)hasEmail {
     return self.email != nil && [self.email length] > 0;
 }
