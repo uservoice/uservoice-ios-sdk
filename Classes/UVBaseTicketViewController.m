@@ -177,6 +177,17 @@
     label.adjustsFontSizeToFitWidth = YES;
     [cell addSubview:label];
 
+    UILabel *valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 5, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)] autorelease];
+    valueLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
+    valueLabel.font = [UIFont systemFontOfSize:18];
+    valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
+    valueLabel.textColor = [UIColor colorWithRed:0.22f green:0.33f blue:0.53f alpha:1.0f];
+    valueLabel.backgroundColor = [UIColor clearColor];
+    valueLabel.adjustsFontSizeToFitWidth = YES;
+    valueLabel.textAlignment = UITextAlignmentRight;
+    valueLabel.minimumFontSize = 14;
+    [cell addSubview:valueLabel];
+
     UITextField *textField = [[[UITextField alloc] initWithFrame:CGRectMake(cell.frame.size.width / 2 + 10, 10, cell.frame.size.width / 2 - (IPAD ? 64 : 20), cell.frame.size.height - 10)] autorelease];
     textField.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
     textField.borderStyle = UITextBorderStyleNone;
@@ -189,13 +200,18 @@
     UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
     UILabel *label = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_LABEL_TAG];
     UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
-    UILabel *valueLabel = cell.detailTextLabel;
+    UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG];
     label.text = field.name;
     cell.accessoryType = [field isPredefined] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
     textField.enabled = [field isPredefined] ? NO : YES;
     cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
     valueLabel.hidden = ![field isPredefined];
     valueLabel.text = [selectedCustomFieldValues objectForKey:field.name];
+    CGRect labelFrame = label.frame;
+    [label sizeToFit];
+    CGFloat labelWidth = MIN(label.frame.size.width, labelFrame.size.width);
+    label.frame = labelFrame;
+    valueLabel.frame = CGRectMake(label.frame.origin.x + labelWidth + 10, valueLabel.frame.origin.y, cell.frame.size.width - label.frame.origin.x - labelWidth - (IPAD ? 64 : 20) - 25, valueLabel.frame.size.height);
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(nonPredefinedValueChanged:)
                                                  name:UITextFieldTextDidChangeNotification
