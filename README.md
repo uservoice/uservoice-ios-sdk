@@ -25,6 +25,8 @@ Installation
 
 See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
 
+Note: If you opt to compile pull the UserVoice source into your application rather than using `libUserVoice.a`, and your project uses ARC, you will need to set `-fno-objc-arc` for all of the UserVoice source files. We are not currently using ARC, although we are planning to migrate to it eventually.
+
 Obtain Key And Secret
 ---------------------
 
