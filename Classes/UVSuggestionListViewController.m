@@ -249,7 +249,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [searchController setActive:YES animated:YES];
-    [self addShadowSeparatorToTableView:searchController.searchResultsTableView];
+    searchController.searchResultsTableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
     searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
@@ -285,8 +285,7 @@
     // Add empty footer, to suppress blank cells (with separators) after actual content
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)] autorelease];
     theTableView.tableFooterView = footer;
-
-    [self addShadowSeparatorToTableView:theTableView];
+    theTableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
 
     NSInteger headerHeight = 44;
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];
