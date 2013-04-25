@@ -1,5 +1,7 @@
 ## master ##
 
+## 2.0.10 ##
+
 * Validate required custom fields
 * Fix a layout issue with long custom field values
 * Fix an issue with the flash message when the forum is turned off
