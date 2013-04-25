@@ -16,6 +16,7 @@
     NSString *displayName;
     NSString *email;
     NSString *guid;
+    NSString *extraTicketInfo;
     NSInteger topicId;
     BOOL showForum;
     BOOL showPostIdea;
@@ -40,9 +41,7 @@
 @property (nonatomic, assign) BOOL showPostIdea;
 @property (nonatomic, assign) BOOL showContactUs;
 @property (nonatomic, assign) BOOL showKnowledgeBase;
-
-// A custom message that will be added to the end of each new ticket
-@property (nonatomic, retain) NSString* customMessage;
+@property (nonatomic, retain) NSString* extraTicketInfo;
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret;
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken;

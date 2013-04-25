@@ -25,7 +25,7 @@
 @synthesize showPostIdea;
 @synthesize showContactUs;
 @synthesize showKnowledgeBase;
-@synthesize customMessage;
+@synthesize extraTicketInfo;
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
     return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];

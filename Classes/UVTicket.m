@@ -49,6 +49,11 @@
         [params setObject:[fields objectForKey:name] forKey:[NSString stringWithFormat:@"ticket[custom_field_values][%@]", name]];
     }
 
+    if ([UVSession currentSession].config.extraTicketInfo != nil) {
+        NSString *messageText = [NSString stringWithFormat:@"%@\n\n%@", message, [UVSession currentSession].config.extraTicketInfo];
+        [params setObject:messageText forKey:@"ticket[message]"];
+    }
+
     return [[self class] postPath:path
                        withParams:params
                            target:delegate

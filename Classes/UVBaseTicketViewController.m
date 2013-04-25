@@ -69,13 +69,6 @@
     self.userEmail = emailField.text;
     self.userName = nameField.text;
     self.text = textView.text;
-
-    //Append custom text at the end of the message
-    UVConfig *config = [UVSession currentSession].config;
-    if(config.customMessage != nil){
-        self.text = [self.text stringByAppendingString:config.customMessage];
-    }
-
     if (![UVSession currentSession].user && emailField.text.length == 0) {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
     } else if (![self validateCustomFields]) {
