@@ -285,7 +285,7 @@
         scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
     };
     if (animated) {
-        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationCurveLinear animations:update completion:nil];
+        [UIView animateWithDuration:0.25 delay:0 options:0 animations:update completion:nil];
     } else {
         update();
     }
