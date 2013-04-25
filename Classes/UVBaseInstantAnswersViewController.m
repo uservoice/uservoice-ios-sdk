@@ -90,7 +90,10 @@
 }
 
 - (void)selectInstantAnswerAtIndex:(int)index {
-    id model = [self.instantAnswers objectAtIndex:index];
+    NSArray *answers = self.instantAnswers;
+    if (index >= [answers count])
+        return;
+    id model = [answers objectAtIndex:index];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.instantAnswersQuery, @"t", nil]];
