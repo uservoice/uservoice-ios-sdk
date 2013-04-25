@@ -22,7 +22,7 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 @interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate> {
     BOOL needsReload;
     BOOL firstController;
-    UITableView *tableView;
+    IBOutlet UITableView *tableView;
     NSInteger kbHeight;
     UIBarButtonItem *exitButton;
     UVSigninManager *signinManager;
@@ -85,5 +85,6 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 - (void)alertError:(NSString *)message;
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;
+- (UIStoryboard *)storyboard;
 
 @end

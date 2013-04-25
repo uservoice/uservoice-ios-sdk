@@ -176,7 +176,8 @@
             UVHelpTopic *topic = nil;
             if (indexPath.row < [[UVSession currentSession].topics count])
                 topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
-            UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+            UVHelpTopicViewController *next = (UVHelpTopicViewController *)[[self storyboard] instantiateViewControllerWithIdentifier:@"UVHelpTopic"];
+            next.topic = topic;
             [self.navigationController pushViewController:next animated:YES];
         }
     }

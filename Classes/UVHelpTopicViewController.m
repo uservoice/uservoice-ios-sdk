@@ -21,13 +21,6 @@
 @synthesize topic;
 @synthesize articles;
 
-- (id)initWithTopic:(UVHelpTopic *)theTopic {
-    if (self = [super init]) {
-        self.topic = theTopic;
-    }
-    return self;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -44,51 +37,30 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self createCellForIdentifier:@"Article" tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
-}
-
-- (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:@"UVArticle"];
     UVArticle *article = [articles objectAtIndex:indexPath.row];
     cell.textLabel.text = article.question;
-    cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
+    return cell;
 }
 
 - (void)didRetrieveArticles:(NSArray *)theArticles {
-    [self hideActivityIndicator];
+//    [self hideActivityIndicator];
     self.articles = theArticles;
-    [tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)contactUsTapped {
-    [self presentModalViewController:[UVNewTicketViewController viewController]];
+//    [self presentModalViewController:[UVNewTicketViewController viewController]];
 }
 
-- (void)loadView {
-    [self setupGroupedTableView];
-    tableView.delegate = self;
-    tableView.dataSource = self;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.navigationItem.title = topic.name;
-    if ([UVSession currentSession].config.showContactUs) {
-        UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 60)] autorelease];
-        footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        UVGradientButton *contactUsButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 10, footer.bounds.size.width - (IPAD ? 60 : 20), footer.bounds.size.height - 20)] autorelease];
-        [contactUsButton setTitle:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) forState:UIControlStateNormal];
-        [contactUsButton addTarget:self action:@selector(contactUsTapped) forControlEvents:UIControlEventTouchUpInside];
-        contactUsButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [footer addSubview:contactUsButton];
-        tableView.tableFooterView = footer;
+    if (![UVSession currentSession].config.showContactUs) {
+        // hide contact button
     }
-    if (self.topic) {
-        [self showActivityIndicator];
-        [UVArticle getArticlesWithTopicId:topic.topicId delegate:self];
-    } else {
-        self.articles = [UVSession currentSession].articles;
-        [tableView reloadData];
-    }
+//    [self showActivityIndicator];
+    [UVArticle getArticlesWithTopicId:topic.topicId delegate:self];
 }
 
 - (void)dealloc {

@@ -10,14 +10,15 @@
 
 @class UVHelpTopic;
 
-@interface UVHelpTopicViewController : UVBaseViewController<UITableViewDataSource,UITableViewDelegate> {
+@interface UVHelpTopicViewController : UITableViewController<UITableViewDataSource,UITableViewDelegate> {
     UVHelpTopic *topic;
     NSArray *articles;
+    IBOutlet UIButton *contactButton;
 }
 
 @property (nonatomic,retain) UVHelpTopic *topic;
 @property (nonatomic,retain) NSArray *articles;
 
-- (id)initWithTopic:(UVHelpTopic *)theTopic;
+- (IBAction)contactUsTapped;
 
 @end

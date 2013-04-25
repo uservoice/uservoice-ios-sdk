@@ -195,6 +195,10 @@
     }
 }
 
+- (UIStoryboard *)storyboard {
+    return [UIStoryboard storyboardWithName:@"UserVoice" bundle:nil];
+}
+
 - (UIScrollView *)scrollView {
     return tableView;
 }
