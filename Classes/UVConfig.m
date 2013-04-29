@@ -104,10 +104,6 @@
     return self;
 }
 
-- (BOOL)wasSignedInBySDK {
-    return (self.ssoToken != nil || self.guid != nil);
-}
-
 - (void)dealloc {
     self.site = nil;
     self.key = nil;

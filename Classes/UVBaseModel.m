@@ -15,6 +15,7 @@
 #import "UserVoice.h"
 #import "UVResponseDelegate.h"
 #import "UVRequestContext.h"
+#import "UVUtils.h"
 
 @implementation UVBaseModel
 
@@ -105,7 +106,7 @@
     
     NSMutableDictionary *headers = [self headersForPath:path params:@{} method:method];
     [headers setObject:@"application/json" forKey:@"Content-Type"];
-    NSDictionary *opts = [NSDictionary dictionaryWithObjectsAndKeys:[payload JSONRepresentation], @"body", headers, @"headers", nil];
+    NSDictionary *opts = [NSDictionary dictionaryWithObjectsAndKeys:[UVUtils encodeJSON:payload], @"body", headers, @"headers", nil];
     return opts;
 }
 

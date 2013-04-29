@@ -11,7 +11,7 @@
 #import "UVClientConfig.h"
 #import "UVSuggestion.h"
 #import "UVForum.h"
-#import "NSString+HTMLEntities.h"
+#import "UVUtils.h"
 
 
 @implementation UVComment
@@ -56,10 +56,10 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         self.commentId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.text = [[self objectOrNilForDict:dict key:@"text"] stringByDecodingHTMLEntities];
+        self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
         NSDictionary *user = [dict objectForKey:@"creator"];
         if (user && ![[NSNull null] isEqual:user]) {
-            self.userName = [[user objectForKey:@"name"] stringByDecodingHTMLEntities];
+            self.userName = [UVUtils decodeHTMLEntities:[user objectForKey:@"name"]];
             self.userId = [(NSNumber *)[user objectForKey:@"id"] integerValue];
             self.avatarUrl = [self objectOrNilForDict:user key:@"avatar_url"];
             self.karmaScore = [(NSNumber *)[user objectForKey:@"karma_score"] integerValue];

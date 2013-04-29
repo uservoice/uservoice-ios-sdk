@@ -8,7 +8,7 @@
 
 #import "HRFormatJSON.h"
 #import "UVJSON.h"
-#import "NSObject+UVJSON.h"
+#import "UVUtils.h"
 
 @implementation HRFormatJSON
 + (NSString *)extension {
@@ -42,6 +42,6 @@
 }
 
 + (NSString *)encode:(id)data error:(NSError **)error {
-    return [data JSONRepresentation];
+    return [UVUtils encodeJSON:data];
 }
 @end

@@ -10,7 +10,7 @@
 
 #import "YOAuthRequest.h"
 
-#import "NSString+URLEncoding.h"
+#import "UVUtils.h"
 #import "YOAuthUtil.h"
 #import "YOAuthSignatureMethod_HMAC-SHA1.h"
 #import "YOAuthSignatureMethod_PLAINTEXT.h"
@@ -60,9 +60,9 @@
 {
 	NSMutableArray *signableObjects = [[NSMutableArray alloc] init];	
 
-	[signableObjects addObject:[HTTPMethod URLEncodedString]];
-	[signableObjects addObject:[[url absoluteString] URLEncodedString]];
-	[signableObjects addObject:[[self signableParameters] URLEncodedString]];
+	[signableObjects addObject:[UVUtils URLEncode:HTTPMethod]];
+	[signableObjects addObject:[UVUtils URLEncode:[url absoluteString]]];
+	[signableObjects addObject:[UVUtils URLEncode:[self signableParameters]]];
 	
 	NSString *theSignableString = [signableObjects componentsJoinedByString:@"&"];
 	[signableObjects autorelease];
@@ -95,7 +95,7 @@
 	
 	for (NSString *key in [requestDictionary allKeys]) {
 		NSString *value = [requestDictionary objectForKey:key];
-		NSString *keyValuePair = [NSString stringWithFormat:@"%@=\%@", [key URLEncodedString], [value URLEncodedString]];
+		NSString *keyValuePair = [NSString stringWithFormat:@"%@=\%@", [UVUtils URLEncode:key], [UVUtils URLEncode:value]];
 		[queryParameters addObject:keyValuePair];
 	}
 	
@@ -222,18 +222,18 @@
 	NSMutableArray *authorizationHeaderParts = [[NSMutableArray alloc] init];
 	
 	if(realm && ![realm isEqualToString:@""]) {
-		[authorizationHeaderParts addObject:[NSString stringWithFormat:@"realm=\"%@\"", [realm URLEncodedString]]];
+		[authorizationHeaderParts addObject:[NSString stringWithFormat:@"realm=\"%@\"", [UVUtils URLEncode:realm]]];
 	}
 	
-	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_consumer_key=\"%@\"", [self.consumer.key URLEncodedString]]];
-	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_signature_method=\"%@\"", [[signatureMethod name] URLEncodedString]]];
-	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_signature=\"%@\"", [self.oauthSignature URLEncodedString]]];
-	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_timestamp=\"%@\"", [self.oauthTimestamp URLEncodedString]]];
-	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_nonce=\"%@\"", [self.oauthNonce URLEncodedString]]];
-	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_version=\"%@\"", [self.oauthVersion URLEncodedString]]];
+	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_consumer_key=\"%@\"", [UVUtils URLEncode:self.consumer.key]]];
+	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_signature_method=\"%@\"", [UVUtils URLEncode:[signatureMethod name]]]];
+	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_signature=\"%@\"", [UVUtils URLEncode:self.oauthSignature]]];
+	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_timestamp=\"%@\"", [UVUtils URLEncode:self.oauthTimestamp]]];
+	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_nonce=\"%@\"", [UVUtils URLEncode:self.oauthNonce]]];
+	[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_version=\"%@\"", [UVUtils URLEncode:self.oauthVersion]]];
 	
 	if(token && ![token.key isEqualToString:@""]){
-		[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_token=\"%@\"", [self.token.key URLEncodedString]]];
+		[authorizationHeaderParts addObject:[NSString stringWithFormat:@"oauth_token=\"%@\"", [UVUtils URLEncode:self.token.key]]];
 	}
 	
 	NSString *authorizationHeaderValue = [NSString stringWithFormat:@"OAuth %@", [authorizationHeaderParts componentsJoinedByString:@","]];

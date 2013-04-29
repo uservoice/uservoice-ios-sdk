@@ -8,7 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UVBaseSuggestionViewController.h"
-#import "NSError+UVExtras.h"
+#import "UVUtils.h"
 #import "UVSession.h"
 #import "UVForum.h"
 #import "UVCategory.h"
@@ -51,9 +51,9 @@
 }
 
 - (void)didReceiveError:(NSError *)error {
-    if ([error isNotFoundError]) {
+    if ([UVUtils isNotFoundError:error]) {
         [self hideActivityIndicator];
-    } else if ([error isUVRecordInvalidForField:@"title" withMessage:@"is not allowed."]) {
+    } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
         [self hideActivityIndicator];
         [self alertError:NSLocalizedStringFromTable(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", nil)];
     } else {

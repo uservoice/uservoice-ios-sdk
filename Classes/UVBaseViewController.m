@@ -13,12 +13,12 @@
 #import "UVSuggestion.h"
 #import "UVUser.h"
 #import "UVStyleSheet.h"
-#import "NSError+UVExtras.h"
 #import "UVImageCache.h"
 #import "UserVoice.h"
 #import "UVAccessToken.h"
 #import "UVSigninManager.h"
 #import "UVKeyboardUtils.h"
+#import "UVUtils.h"
 
 @implementation UVBaseViewController
 
@@ -87,7 +87,7 @@
 - (void)didReceiveError:(NSError *)error {
     NSString *msg = nil;
     [self hideActivityIndicator];
-    if ([error isConnectionError]) {
+    if ([UVUtils isConnectionError:error]) {
         msg = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
     } else {
         NSDictionary *userInfo = [error userInfo];

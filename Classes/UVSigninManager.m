@@ -10,7 +10,7 @@
 #import "UVSession.h"
 #import "UVUser.h"
 #import "UVAccessToken.h"
-#import "NSError+UVExtras.h"
+#import "UVUtils.h"
 
 @implementation UVSigninManager
 
@@ -155,9 +155,9 @@
 }
 
 - (void)didReceiveError:(NSError *)error {
-    if (state == STATE_EMAIL && [error isNotFoundError]) {
+    if (state == STATE_EMAIL && [UVUtils isNotFoundError:error]) {
         [UVUser findOrCreateWithEmail:email andName:name andDelegate:self];
-    } else if ([error isAuthError] || [error isNotFoundError]) {
+    } else if ([UVUtils isAuthError:error] || [UVUtils isNotFoundError:error]) {
         [delegate performSelector:@selector(hideActivityIndicator)];
         [self showFailedAlertView];
     }

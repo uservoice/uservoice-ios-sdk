@@ -19,7 +19,6 @@
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVTextView.h"
-#import "NSError+UVExtras.h"
 #import "UVArticle.h"
 #import "UVSuggestion.h"
 #import "UVArticleViewController.h"

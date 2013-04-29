@@ -12,11 +12,11 @@
 #import "UVAccessToken.h"
 #import "UVRequestToken.h"
 #import "UVClientConfig.h"
-#import "NSError+UVExtras.h"
 #import "UVConfig.h"
 #import "UVUser.h"
 #import "UVSession.h"
 #import "UVRequestContext.h"
+#import "UVUtils.h"
 
 @implementation UVInitialLoadManager
 
@@ -132,7 +132,7 @@
 - (void)didReceiveError:(NSError *)error context:(UVRequestContext *)requestContext {
     if (dismissed) return;
     NSString *message = nil;
-    if ([error isAuthError]) {
+    if ([UVUtils isAuthError:error]) {
         if ([requestContext.context isEqualToString:@"sso"] || [requestContext.context isEqualToString:@"local-sso"]) {
           // SSO and local SSO can fail with regard to admins. It's ok to proceed without a user.
           userDone = YES;
@@ -150,7 +150,7 @@
         } else {
             message = NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil);
         }
-    } else if ([error isConnectionError]) {
+    } else if ([UVUtils isConnectionError:error]) {
         message = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
     } else {
         message = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);

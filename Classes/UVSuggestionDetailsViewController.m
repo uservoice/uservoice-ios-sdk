@@ -13,7 +13,6 @@
 #import "UVSuggestion.h"
 #import "UVUser.h"
 #import "UVClientConfig.h"
-#import "UVUIColorAdditions.h"
 #import "UVImageView.h"
 #import "UVComment.h"
 #import "UVCommentViewController.h"
@@ -372,7 +371,7 @@
     if (suggestion.status) {
         self.statusBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)] autorelease];
         self.statusBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-        self.statusBar.backgroundColor = [UIColor colorWithHexString:suggestion.statusHexColor];
+        self.statusBar.backgroundColor = [suggestion statusColor];
         UIColor *light = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.2];
         UIColor *zero = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.0];
         UIColor *dark = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];

@@ -14,8 +14,7 @@
 #import "UVClientConfig.h"
 #import "UVForum.h"
 #import "UVSubdomain.h"
-#import "NSString+Base64.h"
-#import "NSString+URLEncoding.h"
+#import "UVUtils.h"
 #import <stdlib.h>
 
 @implementation UVSession
@@ -130,7 +129,7 @@
                             [NSNumber numberWithInt:interactionId], @"interaction_id",
                             [NSNumber numberWithBool:isFinal], @"is_final",
                             nil];
-    NSString *payload = [[[values JSONRepresentation] base64EncodedString] URLEncodedString];
+    NSString *payload = [UVUtils URLEncode:[UVUtils encode64:[UVUtils encodeJSON:values]]];
     NSString *url = [NSString stringWithFormat:@"http://%@/track.gif?%@", config.site, payload];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection connectionWithRequest:request delegate:nil];
