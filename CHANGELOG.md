@@ -1,5 +1,7 @@
 ## master ##
 
+* Use localized quotation marks
+
 ## 2.0.10 ##
 
 * Validate required custom fields

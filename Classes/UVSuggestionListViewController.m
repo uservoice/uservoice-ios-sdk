@@ -134,7 +134,8 @@
 
 - (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UILabel *label = (UILabel *)[[cell viewWithTag:UV_SEARCH_TOOLBAR] viewWithTag:UV_SEARCH_TOOLBAR_LABEL];
-    label.text = [NSString stringWithFormat:@"%@ “%@”...", NSLocalizedStringFromTable(@"Post", @"UserVoice", nil), self.searchController.searchBar.text];
+    NSLocale *locale = [NSLocale currentLocale];
+    label.text = [NSString stringWithFormat:@"%@ %@%@%@...", NSLocalizedStringFromTable(@"Post", @"UserVoice", nil), [locale objectForKey:NSLocaleQuotationBeginDelimiterKey], self.searchController.searchBar.text, [locale objectForKey:NSLocaleQuotationEndDelimiterKey]];
 }
 
 - (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
