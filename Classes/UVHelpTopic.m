@@ -7,6 +7,7 @@
 //
 
 #import "UVHelpTopic.h"
+#import "UVUtils.h"
 
 @implementation UVHelpTopic
 
@@ -36,7 +37,7 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
         self.topicId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [self objectOrNilForDict:dict key:@"name"];
+        self.name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
         self.articleCount = [(NSNumber *)[dict objectForKey:@"article_count"] integerValue];
         // position, url
     }
