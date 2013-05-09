@@ -56,7 +56,11 @@
 - (void)showFailedAlertView {
     state = STATE_FAILED;
     self.alertView = [[[UIAlertView alloc] init] autorelease];
-    alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", nil);
+    if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
+        alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in.", @"UserVoice", @"shorter version for landscpae");
+    } else {
+        alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in, please check your password and try again.", @"UserVoice", @"longer version for portrait");
+    }
     alertView.delegate = self;
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Try again", @"UserVoice", nil)];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Forgot password", @"UserVoice", nil)];
