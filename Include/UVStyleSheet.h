@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class UIColor;
+@class UIColor, UIImage;
 
 @interface UVStyleSheet : NSObject {
 
@@ -32,6 +32,7 @@
 + (UIColor *)linkTextColor;
 + (UIColor *)alertTextColor;
 + (UIColor *)navigationBarTintColor;
++ (UIImage *)navigationBarBackgroundImage;
 
 /**
  * The background color for all table views, etc.
@@ -116,5 +117,13 @@
  * Default: nil (platform default blue).
  */
 - (UIColor *)navigationBarTintColor;
+
+/**
+ * Set as the backgroundImage for the navigation bar in the UserVoice popover.
+ *
+ * Default: nil (platform default blue).
+ */
+- (UIImage *)navigationBarBackgroundImage;
+
 
 @end

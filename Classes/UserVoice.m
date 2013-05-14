@@ -23,6 +23,7 @@
     [UVSession currentSession].isModal = YES;
     UINavigationController *navigationController = [[[UVNavigationController alloc] init] autorelease];
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
     navigationController.viewControllers = viewControllers;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [parentViewController presentModalViewController:navigationController animated:YES];
