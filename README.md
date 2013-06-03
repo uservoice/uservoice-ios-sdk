@@ -8,7 +8,7 @@ UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad 
 You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
 
 Binary builds of the SDK are available for download.
-* Current release: [2.0.10](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-2.0.10.tar.gz)
+* Current release: [2.0.11](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-2.0.11.tar.gz)
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
@@ -20,8 +20,6 @@ Installation
   * When adding the folders, make sure you have "Create groups for any added folders" selected rather than "Create folder references for any added folders".
 * Note that the `.h` files in  `UVHeaders` do not need to be added to your target.
 * Add QuartzCore and SystemConfiguration frameworks to your project.
-* Add `-ObjC` to `Other Linker Flags` in the Build Settings for your target. (There is also an `Other Linker Flags` setting for your entire project, but that's not the one you want.)
-  * Note: make sure that this flag is set for both Release and Debug builds (you can expand the setting by clicking the arrow on the right).
 
 See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
 

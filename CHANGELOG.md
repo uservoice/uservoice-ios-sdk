@@ -1,5 +1,8 @@
 ## master ##
 
+## 2.0.11 ##
+
+* Remove the need for -ObjC
 * Use localized quotation marks
 
 ## 2.0.10 ##
