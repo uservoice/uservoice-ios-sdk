@@ -18,6 +18,7 @@
 #import "UVCellViewWithIndex.h"
 #import "UVSuggestionButton.h"
 #import "UVConfig.h"
+#import "UVUtils.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -83,24 +84,7 @@
 }
 
 - (void)updatePattern {
-    NSRegularExpression *termPattern = [NSRegularExpression regularExpressionWithPattern:@"\\b\\w+\\b" options:0 error:nil];
-    NSMutableString *pattern = [NSMutableString stringWithString:@"\\b("];
-    NSString *query = [NSString stringWithString:searchController.searchBar.text];
-    __block NSString *lastTerm = nil;
-    [termPattern enumerateMatchesInString:query options:0 range:NSMakeRange(0, [query length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
-        if (lastTerm) {
-            [pattern appendString:lastTerm];
-            [pattern appendString:@"|"];
-        }
-        lastTerm = [query substringWithRange:[match range]];
-    }];
-    if (lastTerm) {
-        [pattern appendString:lastTerm];
-        [pattern appendString:@")"];
-        self.searchPattern = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
-    } else {
-        self.searchPattern = nil;
-    }
+    self.searchPattern = [UVUtils patternForQuery:searchController.searchBar.text];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
