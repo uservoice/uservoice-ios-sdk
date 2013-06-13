@@ -1,5 +1,7 @@
 ## master ##
 
+* Respect specified order of articles within a topic
+
 ## 2.0.11 ##
 
 * Remove the need for -ObjC
