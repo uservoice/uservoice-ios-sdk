@@ -20,6 +20,7 @@
     NSString *name;
     UIAlertView *alertView;
     NSInteger state;
+    NSString *password;
 }
 
 + (UVSigninManager *)manager;
@@ -29,6 +30,7 @@
 
 @property (nonatomic,retain) NSString *email;
 @property (nonatomic,retain) NSString *name;
+@property (nonatomic,retain) NSString *password;
 @property (nonatomic,retain) UIAlertView *alertView;
 
 @end

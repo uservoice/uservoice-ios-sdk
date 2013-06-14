@@ -11,11 +11,13 @@
 #import "UVUser.h"
 #import "UVAccessToken.h"
 #import "UVUtils.h"
+#import "UVRequestToken.h"
 
 @implementation UVSigninManager
 
 @synthesize email;
 @synthesize name;
+@synthesize password;
 @synthesize alertView;
 
 + (UVSigninManager *)manager {
@@ -144,9 +146,14 @@
         }
     } else if (state == STATE_PASSWORD) {
         if (buttonIndex == 1) {
-            NSString *text = [alertView textFieldAtIndex:0].text;
+            self.password = [alertView textFieldAtIndex:0].text;
             [delegate performSelector:@selector(showActivityIndicator)];
-            [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:text];
+            if ([UVSession currentSession].requestToken == nil) {
+                [UVRequestToken getRequestTokenWithDelegate:self];
+            } else {
+                [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:password];
+                self.password = nil;
+            }
         }
     } else if (state == STATE_FAILED) {
         if (buttonIndex == 0) {
@@ -158,9 +165,23 @@
     }
 }
 
+- (void)didRetrieveRequestToken:(UVRequestToken *)token {
+    [UVSession currentSession].requestToken = token;
+    if (state == STATE_EMAIL) {
+        [UVUser findOrCreateWithEmail:email andName:name andDelegate:self];
+    } else if (state == STATE_PASSWORD) {
+        [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:password];
+        self.password = nil;
+    }
+}
+
 - (void)didReceiveError:(NSError *)error {
     if (state == STATE_EMAIL && [UVUtils isNotFoundError:error]) {
-        [UVUser findOrCreateWithEmail:email andName:name andDelegate:self];
+        if ([UVSession currentSession].requestToken == nil) {
+            [UVRequestToken getRequestTokenWithDelegate:self];
+        } else {
+            [UVUser findOrCreateWithEmail:email andName:name andDelegate:self];
+        }
     } else if ([UVUtils isAuthError:error] || [UVUtils isNotFoundError:error]) {
         [delegate performSelector:@selector(hideActivityIndicator)];
         [self showFailedAlertView];

@@ -41,7 +41,16 @@
 }
 
 - (void)beginLoad {
-    [UVRequestToken getRequestTokenWithDelegate:self];
+    [UVClientConfig getWithDelegate:self];
+    if ([UVSession currentSession].config.ssoToken != nil || [UVSession currentSession].config.email != nil) {
+        [UVRequestToken getRequestTokenWithDelegate:self];
+    } else if ([UVAccessToken exists]) {
+        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
+        [UVUser retrieveCurrentUser:self];
+    } else {
+        userDone = YES;
+    }
+    [self checkComplete];
 }
 
 - (void)checkComplete {
@@ -56,18 +65,11 @@
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
     if (dismissed) return;
     [UVSession currentSession].requestToken = token;
-    [UVClientConfig getWithDelegate:self];
     if ([UVSession currentSession].config.ssoToken != nil) {
         [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
     } else if ([UVSession currentSession].config.email != nil) {
         [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
-    } else if ([UVAccessToken exists]) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
-        [UVUser retrieveCurrentUser:self];
-    } else {
-        userDone = YES;
     }
-    [self checkComplete];
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
