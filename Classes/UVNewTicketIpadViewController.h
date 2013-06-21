@@ -11,7 +11,7 @@
 
 @class UVCustomField;
 
-@interface UVNewTicketIpadViewController : UVBaseTicketViewController {
+@interface UVNewTicketIpadViewController : UVBaseTicketViewController <UITableViewDataSource> {
     BOOL showInstantAnswers;
     BOOL showInstantAnswersMessage;
     int instantAnswersCount;

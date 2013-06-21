@@ -13,7 +13,7 @@
 #define UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG 101
 #define UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG 102
 
-@interface UVBaseTicketViewController : UVBaseInstantAnswersViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
+@interface UVBaseTicketViewController : UVBaseInstantAnswersViewController<UITextViewDelegate, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate> {
     UVTextView *textView;
     NSString *text;
     NSString *initialText;

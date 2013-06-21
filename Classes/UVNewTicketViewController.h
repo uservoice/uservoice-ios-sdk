@@ -8,7 +8,7 @@
 
 #import "UVBaseTicketViewController.h"
 
-@interface UVNewTicketViewController : UVBaseTicketViewController {
+@interface UVNewTicketViewController : UVBaseTicketViewController <UITableViewDataSource> {
     int state;
     UIScrollView *scrollView;
     UIView *messageTextView;
