@@ -33,6 +33,8 @@
 + (UIColor *)alertTextColor;
 + (UIColor *)navigationBarTintColor;
 + (UIImage *)navigationBarBackgroundImage;
++ (UIColor *)navigationBarTextColor;
++ (UIColor *)navigationBarTextShadowColor;
 
 /**
  * The background color for all table views, etc.
@@ -125,5 +127,18 @@
  */
 - (UIImage *)navigationBarBackgroundImage;
 
+/**
+ * Set as the textColor for the navigation bar in the UserVoice popover.
+ *
+ * Default: nil (platform default).
+ */
+- (UIColor *)navigationBarTextColor;
+
+/**
+ * Set as the textShadowColor for the navigation bar in the UserVoice popover.
+ *
+ * Default: nil (platform default).
+ */
+- (UIColor *)navigationBarTextShadowColor;
 
 @end

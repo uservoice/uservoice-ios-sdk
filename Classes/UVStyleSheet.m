@@ -93,6 +93,14 @@ static UVStyleSheet *styleSheet;
     return [[self styleSheet] navigationBarBackgroundImage];
 }
 
++ (UIColor *)navigationBarTextColor {
+    return [[self styleSheet] navigationBarTextColor];
+}
+
++ (UIColor *)navigationBarTextShadowColor {
+    return [[self styleSheet] navigationBarTextShadowColor];
+}
+
 + (UIColor *)tableViewHeaderColor {
     return [[self styleSheet] tableViewHeaderColor];
 }
@@ -158,6 +166,14 @@ static UVStyleSheet *styleSheet;
 }
 
 - (UIImage *)navigationBarBackgroundImage {
+    return nil;
+}
+
+- (UIColor *)navigationBarTextColor {
+    return nil;
+}
+
+- (UIColor *)navigationBarTextShadowColor {
     return nil;
 }
 
