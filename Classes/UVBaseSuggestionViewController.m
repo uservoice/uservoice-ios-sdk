@@ -64,7 +64,6 @@
 - (void)createSuggestion {
     self.title = titleField.text;
     self.text = textView.text;
-    [self showActivityIndicator];
     [[UVSession currentSession] trackInteraction:@"pi"];
     [UVSuggestion createWithForum:self.forum
                          category:self.category
@@ -83,6 +82,9 @@
     [emailField resignFirstResponder];
 
     if (self.email && [self.email length] > 1) {
+        [self disableNavigationButtons];
+        [self showActivityIndicator];
+
         [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
     } else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
@@ -90,7 +92,6 @@
 }
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
-    [self hideActivityIndicator];
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
 
     // increment the created suggestions and supported suggestions counts
@@ -128,6 +129,7 @@
             [(UVWelcomeViewController *)[list.navigationController.viewControllers lastObject] updateLayout];
         }
     }
+    [self hideActivityIndicator];
     [self dismissModalViewControllerAnimated:YES];
 }
 
