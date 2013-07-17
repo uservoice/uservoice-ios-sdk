@@ -17,7 +17,7 @@
     return self.frame.size.width - 6;
 }
 
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)theRect {
     if (self.text && pattern) {
         CGFloat radius = 4.0;
         CGContextRef context = UIGraphicsGetCurrentContext();
@@ -40,7 +40,7 @@
             }
         }];
     }
-    [super drawRect:rect];
+    [super drawRect:theRect];
 }
 
 - (void)drawTextInRect:(CGRect)rect {
