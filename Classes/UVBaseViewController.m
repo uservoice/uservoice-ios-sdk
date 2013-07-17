@@ -216,17 +216,7 @@
 
 - (void)presentModalViewController:(UIViewController *)viewController {
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
-    
-    NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)], UITextAttributeTextShadowOffset, nil];
-    if ([UVStyleSheet navigationBarTextColor]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextColor] forKey:UITextAttributeTextColor];
-    }
-    if ([UVStyleSheet navigationBarTextShadowColor]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextShadowColor] forKey:UITextAttributeTextShadowColor];\
-    }
-    [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
+    [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = @[viewController];
     if (IPAD)
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;

@@ -8,6 +8,7 @@
 
 #import "UVUtils.h"
 #import "UVJSON.h"
+#import "UVStyleSheet.h"
 
 @implementation UVUtils
 
@@ -251,6 +252,19 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     } else {
         return nil;
     }
+}
+
++ (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
+    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
+    [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
+    NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset, nil];
+    if ([UVStyleSheet navigationBarTextColor]) {
+        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextColor] forKey:UITextAttributeTextColor];
+    }
+    if ([UVStyleSheet navigationBarTextShadowColor]) {
+        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextShadowColor] forKey:UITextAttributeTextShadowColor];
+    }
+    [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }
 
 @end
