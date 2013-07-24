@@ -257,7 +257,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
-    NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset, nil];
+    NSMutableDictionary *navbarTitleTextAttributes = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSValue valueWithUIOffset:UIOffsetMake(0, -1)], UITextAttributeTextShadowOffset, nil] autorelease];
     if ([UVStyleSheet navigationBarTextColor]) {
         [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextColor] forKey:UITextAttributeTextColor];
     }
