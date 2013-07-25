@@ -191,7 +191,11 @@
                                                          cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                     destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
                                                          otherButtonTitles:nil] autorelease];
-        [actionSheet showInView:self.view];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+        } else {
+            [actionSheet showInView:self.view];
+        }
     } else {
         [self dismissModalViewControllerAnimated:YES];
     }
