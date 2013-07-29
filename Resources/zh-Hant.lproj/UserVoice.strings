@@ -6,17 +6,17 @@
 
 /********** Uncategorized **********/
 
-"%@ comments" = "%d 評論";
+"%@ comments" = "%d 個評論";
 
 "%@ votes" = "%@ 票";
 
 "(required)" = "(required)";
 
-"0 comments" = "0 評論";
+"0 comments" = "0 個評論";
 
 "0 votes" = "0 票";
 
-"1 comment" = "1 comment";
+"1 comment" = "1 個評論";
 
 "1 vote" = "1 票";
 
@@ -26,15 +26,15 @@
 
 "A suggestion with this title already exists. Please change the title." = "已經有一個與此標題一樣的建議存在，請更換您的標題。";
 
-"ADMIN RESPONSE" = "ADMIN RESPONSE";
+"ADMIN RESPONSE" = "管理員回應";
 
-"All" = "All";
+"All" = "全部";
 
-"All Articles" = "All Articles";
+"All Articles" = "所有文章";
 
-"Anonymous" = "Anonymous";
+"Anonymous" = "匿名";
 
-"Articles" = "Articles";
+"Articles" = "文章";
 
 "Back" = "返回";
 
@@ -44,7 +44,7 @@
 
 "Close" = "關閉";
 
-"Comment" = "Comment";
+"Comment" = "評論";
 
 "Connecting to UserVoice" = "正在與 UserVoice 連線";
 
@@ -52,23 +52,23 @@
 
 "Contact us" = "聯絡我們";
 
-"Continue" = "Continue";
+"Continue" = "繼續";
 
 "Description (optional)" = "詳細的說明 (非必填)";
 
-"Do you still want to contact us?" = "Do you still want to contact us?";
+"Do you still want to contact us?" = "你仍然想要聯絡我們嗎?";
 
-"Do you still want to post an idea?" = "Do you still want to post an idea?";
+"Do you still want to post an idea?" = "你仍然想要張貼意見嗎?";
 
-"Don't save" = "Don't save";
+"Don't save" = "不要儲存";
 
-"Done" = "Done";
+"Done" = "結束";
 
 "Email" = "Email";
 
-"Enter UserVoice password for %@" = "Enter UserVoice password for %@";
+"Enter UserVoice password for %@" = "輸入 %@ 的 UserVoice 密碼";
 
-"Enter your email" = "Enter your email";
+"Enter your email" = "輸入你的 email";
 
 "Error" = "錯誤";
 
@@ -76,63 +76,63 @@
 
 "Feedback & Support" = "意見回饋與支援";
 
-"Feedback Forum" = "Feedback Forum";
+"Feedback Forum" = "意見回饋論壇";
 
-"Forgot password" = "Forgot password";
+"Forgot password" = "忘記密碼";
 
-"Hot Ideas" = "Hot Ideas";
+"Hot Ideas" = "熱門意見";
 
-"How can we help you today?" = "How can we help you today?";
+"How can we help you today?" = "現在我們可以提供什麼協助?";
 
-"How many votes would you like to use?" = "How many votes would you like to use?";
+"How many votes would you like to use?" = "你想要投幾張票?";
 
 "Ideas" = "想法";
 
-"Knowledge Base" = "Knowledge Base";
+"Knowledge Base" = "知識庫";
 
-"Load more" = "Load more";
+"Load more" = "載入更多";
 
-"Matching articles" = "Matching articles";
+"Matching articles" = "符合的文章";
 
-"Matching articles and ideas" = "Matching articles and ideas";
+"Matching articles and ideas" = "符合的文章和意見";
 
-"Matching ideas" = "Matching ideas";
+"Matching ideas" = "符合的意見";
 
 "Message" = "訊息";
 
-"More" = "More";
+"More" = "更多";
 
 "Name" = "名字";
 
-"New Ideas" = "New Ideas";
+"New Ideas" = "新的意見";
 
-"No" = "No";
+"No" = "否";
 
-"No, I'm done" = "No, I'm done";
+"No, I'm done" = "否，不需要了";
 
 "OK" = "沒問題";
 
-"Password reset email sent to" = "Password reset email sent to";
+"Password reset email sent to" = "重設密碼的 email 寄到 %@";
 
 "Please enter your email address before submitting your suggestion." = "在提供你的建議前，請先填入你的 email。";
 
 "Please enter your email address before submitting your ticket." = "在上傳你的 ticket 前，請先填入你的 email。";
 
-"Post" = "Post";
+"Post" = "張貼";
 
-"Post an idea" = "Post an idea";
+"Post an idea" = "張貼一則意見";
 
-"Post Idea" = "Post Idea";
+"Post Idea" = "張貼意見";
 
-"Posted by %@ on %@" = "Posted by %@ on %@";
+"Posted by %@ on %@" = "由 %@ 於 %@ 張貼";
 
 "powered by" = "powered by";
 
-"Remove votes" = "Remove votes";
+"Remove votes" = "移除投票";
 
-"Save draft" = "Save draft";
+"Save draft" = "儲存草稿";
 
-"Search" = "Search";
+"Search" = "搜尋";
 
 "Send" = "送出";
 
@@ -142,9 +142,9 @@
 
 "Status: %@" = "狀態: %@";
 
-"Submit" = "Submit";
+"Submit" = "送出";
 
-"Success!" = "Success!";
+"Success!" = "成功!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "網路連線似乎出了問題，請檢查連線後再試一次。";
 
@@ -152,23 +152,23 @@
 
 "This application didn't configure UserVoice properly" = "UserVoice 並沒有被設定好。";
 
-"Title" = "Title";
+"Title" = "標題";
 
-"Title:" = "Title:";
+"Title:" = "標題:";
 
-"Top Ideas" = "Top Ideas";
+"Top Ideas" = "熱門意見";
 
-"Try again" = "Try again";
+"Try again" = "再試一次";
 
 "User name" = "名字";
 
-"View idea" = "View idea";
+"View idea" = "檢視意見";
 
-"View matching articles" = "View matching articles";
+"View matching articles" = "檢視符合的文章";
 
-"View matching articles and ideas" = "View matching articles and ideas";
+"View matching articles and ideas" = "檢視符合的文章和意見";
 
-"View matching ideas" = "View matching ideas";
+"View matching ideas" = "檢視符合的意見";
 
 "vote" = "投票";
 
@@ -176,30 +176,30 @@
 
 "votes" = "票";
 
-"Was this article helpful?" = "Was this article helpful?";
+"Was this article helpful?" = "這篇文章有幫助嗎?";
 
 "Welcome" = "歡迎";
 
-"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified." = "When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.";
+"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified." = "你在論壇張貼的意見，其他人可以投票或評論。當我們回復此意見時，你會隨即收到通知。";
 
-"Would you like to contact us?" = "Would you like to contact us?";
+"Would you like to contact us?" = "你想要聯絡我們嗎?";
 
-"Write a comment..." = "Write a comment...";
+"Write a comment..." = "撰寫評論...";
 
-"Yes" = "Yes";
+"Yes" = "是";
 
-"Yes!" = "Yes!";
+"Yes!" = "是!";
 
-"Yes, go to my idea" = "Yes, go to my idea";
+"Yes, go to my idea" = "是, 檢視我的意見";
 
-"Yes, go to my message" = "Yes, go to my message";
+"Yes, go to my message" = "是, 檢視我的訊息";
 
-"You have %i votes left" = "You have %i votes left";
+"You have %i votes left" = "你還有 %i 張票";
 
-"You have not posted your idea. Are you sure you want to lose your unsaved data?" = "You have not posted your idea. Are you sure you want to lose your unsaved data?";
+"You have not posted your idea. Are you sure you want to lose your unsaved data?" = "你還沒有張貼你的意見，未儲存的內容將會遺失，確定要離開嗎？";
 
-"Your idea has been posted on our forum." = "Your idea has been posted on our forum.";
+"Your idea has been posted on our forum." = "你的意見已張貼在論壇上";
 
-"Your message has been sent." = "Your message has been sent.";
+"Your message has been sent." = "你的訊息已寄出";
 
-"“Anonymous”" = "“Anonymous”";
+"“Anonymous”" = "“匿名”";
