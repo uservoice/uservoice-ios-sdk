@@ -112,7 +112,7 @@
 
 "OK" = "OK";
 
-"Password reset email sent to" = "Wachtwoord reset e-mail verstuurd naar";
+"Password reset email sent to %@" = "Wachtwoord reset e-mail verstuurd naar %@";
 
 "Please enter your email address before submitting your suggestion." = "Vul eerst uw e-mailadres in voor het indienen van uw idee.";
 

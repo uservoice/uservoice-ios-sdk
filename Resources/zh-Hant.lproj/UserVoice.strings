@@ -112,7 +112,7 @@
 
 "OK" = "沒問題";
 
-"Password reset email sent to" = "重設密碼的 email 寄到 %@";
+"Password reset email sent to %@" = "重設密碼的 email 寄到 %@";
 
 "Please enter your email address before submitting your suggestion." = "在提供你的建議前，請先填入你的 email。";
 
