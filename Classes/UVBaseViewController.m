@@ -71,9 +71,32 @@
 }
 
 - (void)hideActivityIndicator {
+    [self enableNavigationButtons];
     [activityIndicatorView stopAnimating];
     activityIndicatorView.hidden = YES;
     shade.hidden = YES;
+}
+
+- (void)setNavigatoinButtonsEnabled:(BOOL)enabled {
+    if (!self.navigationItem) {
+        return;
+    }
+    
+    if (self.navigationItem.rightBarButtonItem) {
+        self.navigationItem.rightBarButtonItem.enabled = enabled;
+    }
+    
+    if (self.navigationItem.leftBarButtonItem) {
+        self.navigationItem.leftBarButtonItem.enabled = enabled;
+    }
+}
+
+- (void)disableNavigationButtons {
+    [self setNavigatoinButtonsEnabled:NO];
+}
+
+- (void)enableNavigationButtons {
+    [self setNavigatoinButtonsEnabled:YES];
 }
 
 - (void)alertError:(NSString *)message {

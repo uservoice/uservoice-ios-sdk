@@ -52,6 +52,10 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 - (void)showActivityIndicator;
 - (void)hideActivityIndicator;
 
+// navigation buttons
+- (void)disableNavigationButtons;
+- (void)enableNavigationButtons;
+
 - (void)addTopBorder:(UIView *)view;
 - (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
 
