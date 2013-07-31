@@ -203,7 +203,7 @@ If you have any other questions please contact support@uservoice.com.
 Translations
 ------------
 
-Currently the UI is available in English, French, German, Dutch, Italian, Portuguese and Traditional Chinese.
+Currently the UI is available in English, French, German, Dutch, Italian, Portuguese, and Traditional Chinese.
 We are using [Twine](https://github.com/mobiata/twine) to manage the translations.
 
 To contribute to the translations, follow these steps:
@@ -247,6 +247,7 @@ Special thanks to:
 * [zetachang](https://github.com/zetachang) for the Traditional Chinese translation
 * [nvh](https://github.com/nvh) for the Dutch translation
 * [vinzenzweber](https://github.com/vinzenzweber) and [Blockhaus Media](http://www.blockhaus-media.com/) for the German translation
+* [hebertialmeida](https://github.com/hebertialmeida) for the Portuguese translation
 * Everyone else who [reported bugs or made pull requests](https://github.com/uservoice/uservoice-iphone-sdk/issues?state=closed)!
 
 License
