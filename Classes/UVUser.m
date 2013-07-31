@@ -168,7 +168,6 @@
             self.votesRemaining = [(NSNumber *)[activity valueForKey:@"votes_available"] integerValue];
         }
     }
-    self.visibleForumsDict = nil;
 }
 
 - (NSInteger)supportedSuggestionsCount {

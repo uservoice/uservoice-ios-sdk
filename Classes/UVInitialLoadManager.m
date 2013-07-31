@@ -149,7 +149,7 @@
             topicsDone = NO;
             userDone = NO;
             configDone = NO;
-            [UVRequestToken getRequestTokenWithDelegate:self];
+            [self beginLoad];
             return;
         } else {
             message = NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil);
