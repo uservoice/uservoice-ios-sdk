@@ -75,7 +75,7 @@
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
     if (dismissed) return;
-    [UVSession currentSession].clientConfig = model;
+    [UVSession currentSession].clientConfig = clientConfig;
     configDone = YES;
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
