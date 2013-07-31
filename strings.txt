@@ -5,85 +5,101 @@
 		fr = %@ commentaires
 		it = %@ commenti
 		nl = %@ reacties
+		pt = %@ comentários
 		zh-Hant = %d 評論
 	[%@ votes]
 		en = %@ votes
 		de = %@ Votes
 		it = %@ voti
 		nl = %@ stemmen
+		pt = %@ votos
 		zh-Hant = %@ 票
 	[(required)]
 		en = (required)
 		de = (erforderlich)
 		nl = (verplicht)
+		pt = (obrigatório)
 	[0 comments]
 		en = 0 comments
 		de = 0 Kommentare
 		it = 0 commenti
 		nl = 0 reacties
+		pt = 0 comentários
 		zh-Hant = 0 評論
 	[0 votes]
 		en = 0 votes
 		de = 0 Votes
 		it = 0 voti
 		nl = 0 stemmen
+		pt = 0 votos
 		zh-Hant = 0 票
 	[1 comment]
 		en = 1 comment
 		de = 1 Kommentar
 		nl = 1 reactie
+		pt = 1 comentário
 	[1 vote]
 		en = 1 vote
 		de = 1 Vote
 		it = 1 voto
 		nl = 1 stem
+		pt = 1 voto
 		zh-Hant = 1 票
 	[2 votes]
 		en = 2 votes
 		de = 2 Votes
 		it = 2 voti
 		nl = 2 stemmen
+		pt = 2 votos
 		zh-Hant = 2 票
 	[3 votes]
 		en = 3 votes
 		de = 3 Votes
 		it = 3 voti
 		nl = 3 stemmen
+		pt = 3 votos
 		zh-Hant = 3 票
 	[A suggestion with this title already exists. Please change the title.]
 		en = A suggestion with this title already exists. Please change the title.
 		de = Ein Vorschlag mit diesem Titel existiert bereits. Bitte ändern Sie den Titel.
 		it = Un suggerimento con questo titolo esiste già. Per favore cambiare il titolo.
 		nl = Een idee met deze titel bestaat reeds. Wijzig de titel.
+		pt = Uma sugestão com este título já existe. Por favor, altere o título.
 		zh-Hant = 已經有一個與此標題一樣的建議存在，請更換您的標題。
 	[ADMIN RESPONSE]
 		en = ADMIN RESPONSE
 		de = ADMIN ANTWORT
 		nl = REACTIE VAN DE BEHEERDER
+		pt = RESPOSTA DO ADMIN
 	[All]
 		en = All
 		de = Alle
 		nl = Alle
+		pt = Todos
 	[All Articles]
 		en = All Articles
 		de = Alle Artikel
 		nl = Alle Artikelen
+		pt = Todos os Artigos
 	[Anonymous]
 		en = Anonymous
 		de = Anonym
 		fr = Anonyme
 		it = Anonimo
 		nl = Anoniem
+		pt = Anônimo
 	[Articles]
 		en = Articles
 		de = Artikel
 		nl = Artikelen
+		pt = Artigos
 	[Back]
 		en = Back
 		de = Zurück
 		fr = Retour
 		it = Indietro
 		nl = Terug
+		pt = Voltar
 		zh-Hant = 返回
 	[Cancel]
 		en = Cancel
@@ -91,12 +107,14 @@
 		fr = Quitter
 		it = Annulla
 		nl = Annuleren
+		pt = Cancelar
 		zh-Hant = 取消
 	[Category]
 		en = Category
 		de = Kategorie
 		it = Categoria
 		nl = Categorie
+		pt = Categoria
 		zh-Hant = 分類
 	[Close]
 		en = Close
@@ -104,17 +122,20 @@
 		fr = Fermer
 		it = Chiudi
 		nl = Sluiten
+		pt = Fechar
 		zh-Hant = 關閉
 	[Comment]
 		en = Comment
 		de = Kommentar
 		nl = Reageer
+		pt = Comentário
 	[Connecting to UserVoice]
 		en = Connecting to UserVoice
 		de = Kontakt zu UserVoice aufnehmen
 		fr = En cours de connexion à UserVoice
 		it = Connettiti a UserVoice
 		nl = Verbinden met UserVoice
+		pt = Conectando ao UserVoice
 		zh-Hant = 正在與 UserVoice 連線
 	[Contact Us]
 		en = Contact Us
@@ -122,6 +143,7 @@
 		fr = Contactez-nous
 		it = Contattaci
 		nl = Neem contact met ons op
+		pt = Suporte
 		zh-Hant = 聯絡我們
 	[Contact us]
 		en = Contact us
@@ -129,50 +151,61 @@
 		fr = Contactez-nous
 		it = Contattaci
 		nl = Neem contact met ons op
+		pt = Suporte
 		zh-Hant = 聯絡我們
 	[Continue]
 		en = Continue
 		de = Weiter
 		nl = Volgende
+		pt = Continuar
 	[Description (optional)]
 		en = Description (optional)
 		de = Beschreibung (optional)
 		it = Descrizione (opzionale)
 		nl = Beschrijving (optioneel)
+		pt = Descrição (opcional)
 		zh-Hant = 詳細的說明 (非必填)
 	[Do you still want to contact us?]
 		en = Do you still want to contact us?
 		de = Wollen Sie uns trotzdem kontaktieren?
 		nl = Wilt u ons nog steeds contact met ons opnemen?
+		pt = Você ainda quer entrar em contato com a gente?
 	[Do you still want to post an idea?]
 		en = Do you still want to post an idea?
 		de = Wollen Sie trotzdem eine Idee posten?
 		nl = Wilt u nog steeds een idee plaatsen?
+		pt = Você ainda deseja postar uma ideia?
 	[Don't save]
 		en = Don't save
 		de = Nicht speichern
 		nl = Niet opslaan
+		pt = Não salvar
 	[Done]
 		en = Done
 		de = Fertig
 		nl = OK
+		pt = Pronto
 	[Email]
 		en = Email
 		nl = E-mail
+		pt = E-mail
 	[Enter UserVoice password for %@]
 		en = Enter UserVoice password for %@
 		de = Geben Sie ein Passwort ein für %@
 		nl = Vul uw UserVoice wachtwoord in voor %@
+		pt = Digite uma senha UserVoice para %@
 	[Enter your email]
 		en = Enter your email
 		de = Geben Sie ihre Email an
 		nl = Vul uw e-mail adres in
+		pt = Digite seu e-mail
 	[Error]
 		en = Error
 		de = Fehler
 		fr = Erreur
 		it = Errore
 		nl = Fout
+		pt = Erro
 		zh-Hant = 錯誤
 	[Feedback]
 		en = Feedback
@@ -182,80 +215,98 @@
 		en = Feedback & Support
 		fr = Retours & Aide technique
 		it = Feedback & Supporto
+		pt = Feedback & Suporte
 		zh-Hant = 意見回饋與支援
 	[Feedback Forum]
 		en = Feedback Forum
+		pt = Fórum de Feedback
 	[Forgot password]
 		en = Forgot password
 		de = Passwort vergessen
 		nl = Wachtwoord vergeten
+		pt = Esqueci a senha
 	[Hot Ideas]
 		en = Hot Ideas
 		de = Heiße Ideen
 		nl = Populaire Ideeën
+		pt = Idéias Populares
 	[How can we help you today?]
 		en = How can we help you today?
 		de = Wie können wir Ihnen helfen?
 		nl = Hoe kunnen we u vandaag helpen?
+		pt = Como podemos ajudá-lo hoje?
 	[How many votes would you like to use?]
 		en = How many votes would you like to use?
 		de = Wie viele Votes möchten Sie vergeben?
 		nl = Hoeveel stemmen wilt u gebruiken?
+		pt = Quantos votos você deseja usar?
 	[Ideas]
 		en = Ideas
 		de = Ideen
 		fr = Idées
 		it = idee
 		nl = Ideeën
+		pt = Idéias
 		zh-Hant = 想法
 	[Knowledge Base]
 		en = Knowledge Base
 		de = Wissensdatenbank
 		nl = Kennisbank
+		pt = Base de conhecimento
 	[Load more]
 		en = Load more
 		de = Mehr laden
 		nl = Laad meer
+		pt = Carregar mais
 	[Matching articles]
 		en = Matching articles
 		de = Ähnliche Artikel
 		nl = Soortgelijke artikelen
+		pt = Artigos correspondentes
 	[Matching articles and ideas]
 		en = Matching articles and ideas
 		de = Ähnliche Artikel und Ideen
 		nl = Soortgelijke artikelen en ideeën
+		pt = Artigos e idéias correspondentes
 	[Matching ideas]
 		en = Matching ideas
 		de = Ähnliche Ideen
 		nl = Soortgelijke ideeën
+		pt = Idéias correspondentes
 	[Message]
 		en = Message
 		de = Nachricht
 		it = Messaggio
 		nl = Bericht
+		pt = Mensagem
 		zh-Hant = 訊息
 	[More]
 		en = More
 		de = Mehr
 		nl = Meer
+		pt = Mais
 	[Name]
 		en = Name
 		fr = Nom
 		it = Nome
 		nl = Naam
+		pt = Mais
 		zh-Hant = 名字
 	[New Ideas]
 		en = New Ideas
 		de = Neue Ideen
 		nl = Nieuwe Ideeën
+		pt = Novas idéias
 	[No]
 		en = No
 		de = Nein
 		nl = Nee
+		pt = Não
 	[No, I'm done]
 		en = No, I'm done
 		de = Nein, ich bin fertig
 		nl = Nee, ik ben klaar
+		pt = Não, eu estou pronto
 	[OK]
 		en = OK
 		zh-Hant = 沒問題
@@ -263,11 +314,13 @@
 		en = Password reset email sent to
 		de = Passwort-Reset Email wurde versendet an
 		nl = Wachtwoord reset e-mail verstuurd naar
+		pt = E-mail de reset de senha enviado para
 	[Please enter your email address before submitting your suggestion.]
 		en = Please enter your email address before submitting your suggestion.
 		de = Bitte tragen Sie Ihre Email-Adresse ein, bevor Sie einen Vorschlag einreichen.
 		it = Inserisci la tua email prima di inserire un suggerimento.
 		nl = Vul eerst uw e-mailadres in voor het indienen van uw idee.
+		pt = Por favor, insira seu endereço de e-mail antes de enviar sua sugestão.
 		zh-Hant = 在提供你的建議前，請先填入你的 email。
 	[Please enter your email address before submitting your ticket.]
 		en = Please enter your email address before submitting your ticket.
@@ -275,22 +328,27 @@
 		fr = Merci d'enregister votre email avant de soumettre votre proposition.
 		it = Per favore inserisci la tua email prima di suggerirci quello che pensi.
 		nl = Vul eerst uw e-mailadres in voor het indienen van uw ticket
+		pt = Por favor, insira seu endereço de e-mail antes de enviar o seu ticket.
 		zh-Hant = 在上傳你的 ticket 前，請先填入你的 email。
 	[Post]
 		en = Post
 		nl = Verstuur
+		pt = Postar
 	[Post an idea]
 		en = Post an idea
 		de = Idee posten
 		nl = Plaats een idee
+		pt = Postar uma idéia
 	[Post Idea]
 		en = Post Idea
 		de = Idee posten
 		nl = Plaats idee
+		pt = Postar idéia
 	[Posted by %@ on %@]
 		en = Posted by %@ on %@
 		de = Gepostet von %@ am %@
 		nl = Geplaatst door %@ op %@
+		pt = Postado por %@ em %@
 	[powered by]
 		en = powered by
 		nl = gerealiseerd door
@@ -298,20 +356,24 @@
 		en = Remove votes
 		de = Votes entfernen
 		nl = Verwijder stemmen
+		pt = Remover votos
 	[Save draft]
 		en = Save draft
 		de = Entwurf speichern
 		nl = Concept opslaan
+		pt = Salvar rascunho
 	[Search]
 		en = Search
 		de = Suchen
 		nl = Doorzoek
+		pt = Procurar
 	[Send]
 		en = Send
 		de = Senden
 		fr = Envoyer
 		it = Invia
 		nl = Verstuur
+		pt = Enviar
 		zh-Hant = 送出
 	[Sign in]
 		en = Sign in
@@ -319,6 +381,7 @@
 		fr = Se connecter
 		it = Connettiti
 		nl = Aanmelden
+		pt = Entrar
 		zh-Hant = 登入
 	[Sorry, there was an error in the application.]
 		en = Sorry, there was an error in the application.
@@ -326,6 +389,7 @@
 		fr = Désolé, il y a une erreur dans l'application.
 		it = Ci dispiace, c'è stato un errore nell'applicazione.
 		nl = Excuses, er is een fout opgetreden in de applicatie.
+		pt = Desculpe, houve um erro na aplicação.
 		zh-Hant = 抱歉，程式出現了錯誤。
 	[Status: %@]
 		en = Status: %@
@@ -334,16 +398,19 @@
 		en = Submit
 		de = Einreichen
 		nl = Verzenden
+		pt = Submeter
 	[Success!]
 		en = Success!
 		de = Erfolgreich!
 		nl = Gelukt!
+		pt = Sucesso!
 	[There appears to be a problem with your network connection, please check your connectivity and try again.]
 		en = There appears to be a problem with your network connection, please check your connectivity and try again.
 		de = Es scheint ein Problem mit Ihrer Netzwerkverbindung zu geben. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.
 		fr = Apparemment il y a un problème avec votre connection Internet, veuillez vérifier votre accès au réseau et essayez de nouveau.
 		it = Sembra ci sia un problema con la tua connessione Internet, controlla la tua connessione e prova ancora.
 		nl = Er lijkt een probleem met uw netwerkverbinding, controleer uw verbinding en probeer het opnieuw.
+		pt = Parece haver um problema com sua conexão de rede, verifique a sua conectividade e tente novamente.
 		zh-Hant = 網路連線似乎出了問題，請檢查連線後再試一次。
 	[There was a problem logging you in, please check your password and try again.]
 		en = There was a problem logging you in, please check your password and try again.
@@ -351,6 +418,7 @@
 		fr = Il y a eu un problème durant votre identification, veuillez vérifier votre mot de passe et essayez de nouveau s'il-vous-plaît.
 		it = C'è stato un problema nel login, controlla la tua password e riprova.
 		nl = Er is een probleem opgetreden tijdens het inloggen, controleer uw wachtwoord en probeer het opnieuw.
+		pt = Houve um problema ao iniciar sessão, por favor, verifique sua senha e tente novamente.
 		zh-Hant = 登入出現問題，請檢查密碼後再試一次。
 	[This application didn't configure UserVoice properly]
 		en = This application didn't configure UserVoice properly
@@ -358,118 +426,145 @@
 		fr = Cette application n'a pas configuré UserVoice
 		it = Questa applicazione non riesce a configurare correttamente UserVoice.
 		nl = Deze applicatie heeft UserVoice niet goed geconfigureerd.
+		pt = Esta aplicação não configurar corretamente UserVoice
 		zh-Hant = UserVoice 並沒有被設定好。
 	[Title]
 		en = Title
 		de = Titel
 		nl = Titel
+		pt = Título
 	[Title:]
 		en = Title:
 		de = Titel:
 		nl = Titel:
+		pt = Título:
 	[Top Ideas]
 		en = Top Ideas
 		de = Top Ideen
 		nl = Top Ideeën
+		pt = Melhores idéias
 	[Try again]
 		en = Try again
 		de = Versuchen Sie es erneut
 		nl = Probeer opnieuw
+		pt = Tente novamente
 	[User name]
 		en = User name
 		it = Nome Utente
 		nl = Gebruikersnaam
+		pt = Nome de usuário
 		zh-Hant = 名字
 	[View idea]
 		en = View idea
 		de = Idee ansehen
 		nl = Bekijk idee
+		pt = Ver idéia
 	[View matching articles]
 		en = View matching articles
 		de = Ähnliche Artikel anzeigen
 		nl = Bekijk soortgelijke ideeën
+		pt = Ver artigos correspondentes
 	[View matching articles and ideas]
 		en = View matching articles and ideas
 		de = Ähnliche Artikel und Ideen anzeigen
 		nl = Bekijk soortgelijke artikelen en ideeën
+		pt = Ver artigos e idéias correspondentes
 	[View matching ideas]
 		en = View matching ideas
 		de = Ähnliche Ideen anzeigen
 		nl = Bekijk soortgelijke ideeën
+		pt = Ver idéias correspondentes
 	[vote]
 		en = vote
 		it = voto
 		nl = stem
+		pt = voto
 		zh-Hant = 投票
 	[Vote]
 		en = Vote
 		it = Voto
 		nl = Stem
+		pt = Voto
 		zh-Hant = 投票
 	[votes]
 		en = votes
 		de = Votes
 		it = voti
 		nl = stemmen
+		pt = Votos
 		zh-Hant = 票
 	[Was this article helpful?]
 		en = Was this article helpful?
 		de = War dieser Artikel hilfreich?
 		nl = Heeft dit artikel u geholpen?
+		pt = Este artigo foi útil?
 	[Welcome]
 		en = Welcome
 		de = Willkommen
 		fr = Bienvenue
 		it = Benvenuto
 		nl = Welkom
+		pt = Bem vindo
 		zh-Hant = 歡迎
 	[When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.]
 		en = When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.
 		de = Wenn Sie eine Idee in unserem Forum veröffentlichen, können andere Nutzer diese kommentieren und dafür voten. Sollten wir auf diese Idee antworten, werden Sie benachrichtigt.
 		nl = Wanneer u een idee op ons forum plaatst, kunnen anderen ook op dit idee stemmen en reageren. U krijgt een bericht wanneer we op het idee reageren.
+		pt = Quando você postar uma ideia no nosso fórum, os outros vão poder votar e comentar sobre ele também. Quando respondemos à idéia, você vai ser notificado.
 	[Would you like to contact us?]
 		en = Would you like to contact us?
 		de = Möchten Sie uns kontaktieren?
 		nl = Wilt u contact met ons opnemen?
+		pt = Gostaria de entrar em contato conosco?
 	[Write a comment...]
 		en = Write a comment...
 		de = Kommentar verfassen...
 		nl = Schrijf een reactie...
+		pt = Escrever um comentário...
 	[Yes]
 		en = Yes
 		de = Ja
 		nl = Ja
+		pt = Sim
 	[Yes!]
 		en = Yes!
 		de = Ja!
 		nl = Ja!
+		pt = Sim!
 	[Yes, go to my idea]
 		en = Yes, go to my idea
 		de = Ja, zu meiner Idee
 		nl = Ja, ga naar mijn idee
+		pt = Sim, ir para minha idéia
 	[Yes, go to my message]
 		en = Yes, go to my message
 		de = Ja, zu meiner Nachricht
 		nl = Ja, ga naar mijn bericht
+		pt = Sim, ir para minha mensagem
 	[You have %i votes left]
 		en = You have %i votes left
 		de = Sie haben %i Votes übrig
 		nl = U heeft %i stemmen over
+		pt = Você tem %i votos restantes
 	[You have not posted your idea. Are you sure you want to lose your unsaved data?]
 		en = You have not posted your idea. Are you sure you want to lose your unsaved data?
 		de = Sie haben Ihre Idee noch nicht veröffentlicht. Sind Sie sicher, dass Sie Ihre Eingaben verwerfen möchten?
 		nl = U heeft uw idee niet geplaatst. Weet u zeker dat u uw onopgeslagen gegevens wilt verwijderen?
+		pt = Você não postou sua idéia. Você tem certeza que quer perder seus dados não salvos?
 	[Your idea has been posted on our forum.]
 		en = Your idea has been posted on our forum.
 		de = Ihre Idee wurde veröffentlicht.
 		nl = Uw idee is op ons forum geplaatst
+		pt = Sua idéia foi postada no nosso fórum.
 	[Your message has been sent.]
 		en = Your message has been sent.
 		de = Ihre Nachricht wurde gesendet.
 		nl = Uw bericht is verstuurd
+		pt = Sua mensagem foi enviada.
 	[“Anonymous”]
 		en = “Anonymous”
 		de = “Anonym”
 		fr = “Anonyme”
 		it = “Anonimo”
 		nl = “Anoniem”
+		pt = “Anônimo”

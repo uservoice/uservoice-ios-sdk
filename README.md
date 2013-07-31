@@ -203,7 +203,7 @@ If you have any other questions please contact support@uservoice.com.
 Translations
 ------------
 
-Currently the UI is available in English, French, German, Dutch, Italian, and Traditional Chinese.
+Currently the UI is available in English, French, German, Dutch, Italian, Portuguese and Traditional Chinese.
 We are using [Twine](https://github.com/mobiata/twine) to manage the translations.
 
 To contribute to the translations, follow these steps:
