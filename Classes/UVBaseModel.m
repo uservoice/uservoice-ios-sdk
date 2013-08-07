@@ -168,21 +168,11 @@
     return [self putPath:path withOptions:opts object:requestContext];
 }
 
-+ (void)processModel:(id)model {
-    // Override in subclasses if necessary
-}
-
-+ (void)processModels:(NSArray *)models {
-    // Override in subclasses if necessary
-}
-
 + (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
     return [[[self alloc] initWithDictionary:dict] autorelease];
 }
 
 + (void)didReturnModel:(id)model context:(UVRequestContext *)context {
-    [self processModel:model];
-
     if (context.callback.methodSignature.numberOfArguments > 2)
         [context.callback setArgument:&model atIndex:2];
 
@@ -193,8 +183,6 @@
 }
 
 + (void)didReturnModels:(NSArray *)models context:(UVRequestContext *)context {
-    [self processModels:models];
-
     if (context.callback.methodSignature.numberOfArguments > 2)
         [context.callback setArgument:&models atIndex:2];
 

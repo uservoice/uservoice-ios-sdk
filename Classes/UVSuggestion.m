@@ -105,15 +105,6 @@
                           rootKey:@"suggestion"];
 }
 
-+ (void)processModels:(NSArray *)models {
-    if ([models count] > 0) {
-        // Votes remaining are returned as part of the nested forum element for each
-        // invividual suggestion, even though they're all the same. We'll arbitrarily
-        // grab it from the first one.
-        [self processModel:[models objectAtIndex:0]];
-    }
-}
-
 - (UIColor *)statusColor {
     return self.statusHexColor ? [UVUtils parseHexColor:self.statusHexColor] : [UIColor clearColor];
 }

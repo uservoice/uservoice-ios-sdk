@@ -75,6 +75,7 @@
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
     if (dismissed) return;
+    [UVSession currentSession].clientConfig = clientConfig;
     configDone = YES;
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
@@ -148,7 +149,7 @@
             topicsDone = NO;
             userDone = NO;
             configDone = NO;
-            [UVRequestToken getRequestTokenWithDelegate:self];
+            [self beginLoad];
             return;
         } else {
             message = NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil);
