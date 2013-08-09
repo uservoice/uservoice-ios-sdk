@@ -133,9 +133,11 @@
 
 - (void)customizeCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVComment *comment = [self.comments objectAtIndex:indexPath.row];
-    cell.backgroundView.backgroundColor = indexPath.row % 2 == 0 ?
-        [UIColor colorWithRed:0.99f green:1.00f blue:1.00f alpha:1.0f] :
-        [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    if (!IOS7) {
+        cell.backgroundView.backgroundColor = indexPath.row % 2 == 0 ?
+            [UIColor colorWithRed:0.99f green:1.00f blue:1.00f alpha:1.0f] :
+            [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    }
 
     UVImageView *avatar = (UVImageView *)[cell viewWithTag:COMMENT_AVATAR_TAG];
     avatar.URL = comment.avatarUrl;
@@ -162,9 +164,11 @@
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView.backgroundColor = indexPath.row % 2 == 0 ?
-        [UIColor colorWithRed:0.99f green:1.00f blue:1.00f alpha:1.0f] :
-        [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    if (!IOS7) {
+        cell.backgroundView.backgroundColor = indexPath.row % 2 == 0 ?
+            [UIColor colorWithRed:0.99f green:1.00f blue:1.00f alpha:1.0f] :
+            [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
