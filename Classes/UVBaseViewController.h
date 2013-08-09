@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7)
 #define UIColorFromRGB(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
        green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
@@ -85,5 +86,12 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 - (void)alertError:(NSString *)message;
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;
+
+- (CGRect)cellValueRect:(UIView *)container;
+- (CGRect)cellLabelRect:(UIView *)container;
+- (UILabel *)addCellLabel:(UIView *)container;
+- (UILabel *)addCellValueLabel:(UIView *)container;
+- (UITextField *)addCellValueTextField:(UIView *)container;
+- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder;
 
 @end

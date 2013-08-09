@@ -347,6 +347,60 @@
     return userEmail;
 }
 
+- (CGRect)cellLabelRect:(UIView *)container {
+    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
+    return CGRectMake(offset, 12, container.frame.size.width - offset - (IOS7 ? 2 : offset), 16);
+}
+
+- (CGRect)cellValueRect:(UIView *)container {
+    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
+    return CGRectMake(offset, 28, container.frame.size.width - offset - (IOS7 ? 2 : offset), 30);
+}
+
+- (UILabel *)addCellLabel:(UIView *)container {
+    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellLabelRect:container]] autorelease];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.font = [UIFont systemFontOfSize:13];
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 7){
+        label.textColor = self.view.tintColor;
+    } else {
+        label.textColor = [UIColor grayColor];
+    }
+    label.backgroundColor = [UIColor clearColor];
+    [container addSubview:label];
+    return label;
+}
+
+- (UILabel *)addCellValueLabel:(UIView *)container {
+    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellValueRect:container]] autorelease];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.font = [UIFont systemFontOfSize:16];
+    label.backgroundColor = [UIColor clearColor];
+    [container addSubview:label];
+    return label;
+}
+
+- (UITextField *)addCellValueTextField:(UIView *)container {
+    UITextField *textField = [[[UITextField alloc] initWithFrame:[self cellValueRect:container]] autorelease];
+    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    textField.borderStyle = UITextBorderStyleNone;
+    textField.backgroundColor = [UIColor clearColor];
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
+    [container addSubview:textField];
+    return textField;
+}
+
+- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder {
+    UILabel *label = [self addCellLabel:cell];
+    label.text = labelText;
+    UITextField *textField = [self addCellValueTextField:cell];
+    textField.placeholder = placeholder;
+    textField.delegate = self;
+    return textField;
+}
+
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {

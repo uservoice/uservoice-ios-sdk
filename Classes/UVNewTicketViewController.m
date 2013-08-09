@@ -100,6 +100,7 @@
     [self.view addSubview:instantAnswersView];
     
     self.fieldsTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 200, 320, 1000) style:UITableViewStyleGrouped] autorelease];
+    self.fieldsTableView.rowHeight = 62;
     self.fieldsTableView.backgroundView = nil;
     self.fieldsTableView.dataSource = self;
     self.fieldsTableView.delegate = self;

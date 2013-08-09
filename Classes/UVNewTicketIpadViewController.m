@@ -182,6 +182,8 @@
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == UV_NEW_TICKET_SECTION_INSTANT_ANSWERS && indexPath.row == 0) {
         return 144;
+    } else if (indexPath.section == UV_NEW_TICKET_SECTION_CUSTOM_FIELDS || indexPath.section == UV_NEW_TICKET_SECTION_PROFILE) {
+        return 62;
     } else {
         return 44;
     }
