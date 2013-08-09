@@ -545,11 +545,15 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBar.layer.masksToBounds = YES;
+    if (!IOS7) {
+        self.navigationController.navigationBar.layer.masksToBounds = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    self.navigationController.navigationBar.layer.masksToBounds = NO;
+    if (!IOS7) {
+        self.navigationController.navigationBar.layer.masksToBounds = NO;
+    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
