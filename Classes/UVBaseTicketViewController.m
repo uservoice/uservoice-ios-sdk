@@ -166,15 +166,6 @@
     [super didRetrieveInstantAnswers:theInstantAnswers];
 }
 
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder {
-    UILabel *label = [self addCellLabel:cell];
-    label.text = labelText;
-    UITextField *textField = [self addCellValueTextField:cell];
-    textField.placeholder = placeholder;
-    textField.delegate = self;
-    return textField;
-}
-
 - (void)initCellForCustomField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     UILabel *label = [self addCellLabel:cell];
