@@ -48,13 +48,13 @@
 
     UIToolbar *helpfulBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 40)] autorelease];
     helpfulBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    if ([UIDevice currentDevice].systemVersion.floatValue < 7) {
+    if (!IOS7) {
         helpfulBar.barStyle = UIBarStyleBlack;
         helpfulBar.tintColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
     }
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, helpfulBar.bounds.size.width - 100, 40)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Was this article helpful?", @"UserVoice", nil);
-    label.font = [UIFont boldSystemFontOfSize:13];
+    label.font = IOS7 ? [UIFont systemFontOfSize:13] : [UIFont boldSystemFontOfSize:13];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = UITextAlignmentCenter;
