@@ -362,7 +362,7 @@
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont systemFontOfSize:13];
     if ([UIDevice currentDevice].systemVersion.floatValue >= 7){
-        label.textColor = self.view.tintColor;
+        label.textColor = [self.view valueForKey:@"tintColor"];
     } else {
         label.textColor = [UIColor grayColor];
     }
