@@ -106,7 +106,12 @@
 
 - (void)titleChanged:(NSNotification *)notification {
     [self searchInstantAnswers:titleField.text];
-    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] != 0 && state != STATE_WAITING;
+    
+    if ([titleField.text length] != 0 && state != STATE_WAITING) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -220,7 +225,12 @@
     else
         self.navigationItem.rightBarButtonItem = sendButton;
     
-    self.navigationItem.rightBarButtonItem.enabled = !(showTextView && [titleField.text length] == 0) && state != STATE_WAITING;
+    
+    if (!(showTextView && [titleField.text length] == 0) && state != STATE_WAITING) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
 
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.origin.y + textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableView.contentSize.height : 0));
 

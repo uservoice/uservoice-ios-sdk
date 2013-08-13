@@ -19,7 +19,11 @@
 #import "UVWelcomeViewController.h"
 #import "UVCategorySelectViewController.h"
 
-@implementation UVBaseSuggestionViewController
+@implementation UVBaseSuggestionViewController {
+    
+    BOOL _isSubmittingSuggestion;
+
+}
 
 @synthesize forum;
 @synthesize title;
@@ -51,6 +55,8 @@
 }
 
 - (void)didReceiveError:(NSError *)error {
+    _isSubmittingSuggestion = NO;
+    
     if ([UVUtils isNotFoundError:error]) {
         [self hideActivityIndicator];
     } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
@@ -82,13 +88,18 @@
     [emailField resignFirstResponder];
 
     if (self.email && [self.email length] > 1) {
-        [self disableNavigationButtons];
+        [self disableSubmitButton];
         [self showActivityIndicator];
 
         [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
+        _isSubmittingSuggestion = YES;
     } else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
     }
+}
+
+- (BOOL)shouldEnableSubmitButton {
+    return !_isSubmittingSuggestion;
 }
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
@@ -129,6 +140,9 @@
             [(UVWelcomeViewController *)[list.navigationController.viewControllers lastObject] updateLayout];
         }
     }
+    
+    _isSubmittingSuggestion = NO;
+    
     [self hideActivityIndicator];
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -181,13 +195,19 @@
     [self.navigationController pushViewController:next animated:YES];
 }
 
+- (void)keyboardDidShow:(NSNotification*)notification {
+    [super keyboardDidShow:notification];
+    _isSubmittingSuggestion = NO;
+    [self enableSubmitButton];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0)
         [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)dismiss {
-    if (titleField.text.length > 0) {
+    if (titleField.text.length > 0 && !_isSubmittingSuggestion) {
         UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
                                                                   delegate:self
                                                          cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)

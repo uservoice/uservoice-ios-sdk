@@ -53,8 +53,10 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 - (void)hideActivityIndicator;
 
 // navigation buttons
-- (void)disableNavigationButtons;
-- (void)enableNavigationButtons;
+- (void)disableSubmitButton;
+- (void)enableSubmitButton;
+- (void)enableSubmitButtonForce:(BOOL)force;
+- (BOOL)shouldEnableSubmitButton;
 
 - (void)addTopBorder:(UIView *)view;
 - (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
