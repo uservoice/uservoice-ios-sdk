@@ -18,10 +18,13 @@
 #import "UVSuggestionListViewController.h"
 #import "UVWelcomeViewController.h"
 #import "UVCategorySelectViewController.h"
+#import "UVCallback.h"
 
 @implementation UVBaseSuggestionViewController {
     
     BOOL _isSubmittingSuggestion;
+    UVCallback *_didCreateCallback;
+    UVCallback *_didAuthenticateCallback;
 
 }
 
@@ -50,6 +53,9 @@
         self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
         self.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post an idea?", @"UserVoice", nil);
         self.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my idea", @"UserVoice", nil);
+        
+        _didCreateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(didCreateSuggestion:)];
+        _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];
     }
     return self;
 }
@@ -71,12 +77,13 @@
     self.title = titleField.text;
     self.text = textView.text;
     [[UVSession currentSession] trackInteraction:@"pi"];
+    
     [UVSuggestion createWithForum:self.forum
                          category:self.category
                             title:self.title
                              text:self.text
                             votes:1
-                         delegate:self];
+                         callback:_didCreateCallback];
 }
 
 - (void)createButtonTapped {
@@ -91,8 +98,9 @@
         [self disableSubmitButton];
         [self showActivityIndicator];
 
-        [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
         _isSubmittingSuggestion = YES;
+        
+        [self requireUserAuthenticated:email name:name callback:_didAuthenticateCallback];
     } else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
     }
@@ -231,6 +239,15 @@
                                                                              action:@selector(dismiss)] autorelease];
 }
 
+
+#pragma mark - UVSigninManageDelegate
+
+- (void)signinManagerDidFail {
+    _isSubmittingSuggestion = NO;
+    [super signinManagerDidFail];
+}
+
+
 - (void)dealloc {
     self.forum = nil;
     self.title = nil;
@@ -242,6 +259,12 @@
     self.nameField = nil;
     self.emailField = nil;
     self.category = nil;
+    
+    [_didCreateCallback invalidate];
+    [_didCreateCallback release];
+    [_didAuthenticateCallback invalidate];
+    [_didAuthenticateCallback release];
+    
     [super dealloc];
 }
 

@@ -18,6 +18,7 @@
 #import "UVCommentViewController.h"
 #import "UVGradientButton.h"
 #import "UVTruncatingLabel.h"
+#import "UVCallback.h"
 
 #define MARGIN 15
 
@@ -26,7 +27,12 @@
 #define COMMENT_DATE_TAG 1002
 #define COMMENT_TEXT_TAG 1003
 
-@implementation UVSuggestionDetailsViewController
+@implementation UVSuggestionDetailsViewController {
+    
+    UVCallback *_showVotesCallback;
+    UVCallback *_showCommentControllerCallback;
+    
+}
 
 @synthesize suggestion;
 @synthesize scrollView;
@@ -42,9 +48,14 @@
 @synthesize voteButton;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
-    if ((self = [super init])) {
+    self = [super init];
+
+    if (self) {
         self.suggestion = theSuggestion;
+        _showVotesCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(openVoteActionSheet)];
+        _showCommentControllerCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(presentCommentController)];
     }
+
     return self;
 }
 
@@ -208,7 +219,7 @@
 }
 
 - (void)voteButtonTapped {
-    [self requireUserSignedIn:@selector(openVoteActionSheet)];
+    [self requireUserSignedIn:_showVotesCallback];
 }
 
 - (void)openVoteActionSheet {
@@ -258,7 +269,7 @@
 }
 
 - (void)commentButtonTapped {
-    [self requireUserSignedIn:@selector(presentCommentController)];
+    [self requireUserSignedIn:_showCommentControllerCallback];
 }
 
 - (void)presentCommentController {
@@ -569,6 +580,12 @@
     self.responseLabel = nil;
     self.buttons = nil;
     self.voteButton = nil;
+    
+    [_showVotesCallback invalidate];
+    [_showVotesCallback release];
+    [_showCommentControllerCallback invalidate];
+    [_showCommentControllerCallback release];
+    
     [super dealloc];
 }
 

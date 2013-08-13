@@ -9,7 +9,6 @@
 #import "UVSession.h"
 #import "UVConfig.h"
 #import "UVStyleSheet.h"
-#import "UVUser.h"
 #import "YOAuth.h"
 #import "UVClientConfig.h"
 #import "UVForum.h"

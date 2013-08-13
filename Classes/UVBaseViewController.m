@@ -30,6 +30,15 @@
 @synthesize shade;
 @synthesize activityIndicatorView;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.signinManager = [UVSigninManager manager];
+        self.signinManager.delegate = self;
+    }
+    return self;
+}
+
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] flushInteractions];
@@ -326,16 +335,12 @@
     [view addSubview:border];
 }
 
-- (void)requireUserSignedIn:(SEL)action {
-    if (!signinManager)
-        self.signinManager = [UVSigninManager manager];
-    [signinManager signInWithDelegate:self action:action];
+- (void)requireUserSignedIn:(UVCallback *)callback {
+    [signinManager signInWithCallback:callback];
 }
 
-- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action {
-    if (!signinManager)
-        self.signinManager = [UVSigninManager manager];
-    [signinManager signInWithEmail:email name:name delegate:self action:action];
+- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name callback:(UVCallback *)callback {
+    [self.signinManager signInWithEmail:email name:name callback:callback];
 }
 
 - (void)setUserName:(NSString *)theName {
@@ -378,6 +383,17 @@
     return userEmail;
 }
 
+#pragma mark - UVSigninManageDelegate
+
+- (void)signinManagerDidSignIn:(UVUser *)user {
+    [self hideActivityIndicator];
+}
+
+- (void)signinManagerDidFail {
+    [self hideActivityIndicator];
+}
+
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
@@ -389,6 +405,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.tableView = nil;
     self.exitButton = nil;
+    self.signinManager.delegate = nil;
     self.signinManager = nil;
     self.shade = nil;
     self.activityIndicatorView = nil;

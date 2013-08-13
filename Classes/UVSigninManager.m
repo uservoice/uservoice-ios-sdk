@@ -25,7 +25,10 @@
 }
 
 - (void)showEmailAlertView {
+    [self clearAlertViewDelegate];
+    
     state = STATE_EMAIL;
+
     self.alertView = [[[UIAlertView alloc] init] autorelease];
     alertView.title = NSLocalizedStringFromTable(@"Enter your email", @"UserVoice", nil);
     alertView.delegate = self;
@@ -40,23 +43,39 @@
     [alertView show];
 }
 
+- (void)clearAlertViewDelegate {
+    if (self.alertView) {
+        self.alertView.delegate = nil;
+    }
+}
+
 - (void)showPasswordAlertView {
+    [self clearAlertViewDelegate];
+    
     state = STATE_PASSWORD;
+    
     self.alertView = [[[UIAlertView alloc] init] autorelease];
     alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Enter UserVoice password for %@", @"UserVoice", nil), email];
     alertView.delegate = self;
+    
     if ([alertView respondsToSelector:@selector(setAlertViewStyle:)])
         alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil)];
+    
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.returnKeyType = UIReturnKeyDone;
     textField.delegate = self;
+    
     [alertView show];
 }
 
 - (void)showFailedAlertView {
+    [self clearAlertViewDelegate];
+    
     state = STATE_FAILED;
+    
     self.alertView = [[[UIAlertView alloc] init] autorelease];
     if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
         alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in.", @"UserVoice", @"shorter version for landscpae");
@@ -70,68 +89,97 @@
     [alertView show];
 }
 
-- (void)signInWithDelegate:(id)theDelegate action:(SEL)theAction {
-    if ([UVSession currentSession].user) {
-        [theDelegate performSelector:theAction];
+- (void)signInWithCallback:(UVCallback *)callback {
+    if ([self user]) {
+        [callback invokeCallback:nil];
     } else {
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
         NSString *storedEmail = [prefs stringForKey:@"uv-user-email"];
         NSString *storedName = [prefs stringForKey:@"uv-user-name"];
         if (storedEmail && [storedEmail length] > 0) {
-            [self signInWithEmail:storedEmail name:storedName delegate:theDelegate action:theAction];
+            [self signInWithEmail:storedEmail name:storedName callback:callback];
         } else {
-            delegate = theDelegate;
-            action = theAction;
+            if (_callback) {
+                [_callback release];
+            }
+            _callback = [callback retain];
             [self showEmailAlertView];
         }
     }
 }
 
-- (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName delegate:(id)theDelegate action:(SEL)theAction {
-    if ([UVSession currentSession].user && [[UVSession currentSession].user.email isEqualToString:theEmail]) {
-        [theDelegate performSelector:theAction];
+- (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName callback:(UVCallback *)callback {
+    if ([self user] && [[self user].email isEqualToString:theEmail]) {
+        [callback invokeCallback:nil];
     } else {
-        delegate = theDelegate;
-        action = theAction;
         state = STATE_EMAIL;
         self.email = theEmail;
         self.name = theName;
-        [delegate performSelector:@selector(showActivityIndicator)];
+        if (_callback) {
+            [_callback release];
+        }
+        _callback = [callback retain];
         [UVUser discoverWithEmail:email delegate:self];
     }
 }
 
+- (UVUser *)user {
+    return [UVSession currentSession].user;
+}
+
+#pragma mark - Invoke UVSigninManagerDelegate methods
+
+- (void)invokeDidSignIn {
+    if (_callback) {
+        [_callback invokeCallback:[self user]];
+        [_callback release];
+        _callback = nil;
+    }
+
+    if ([self.delegate respondsToSelector:@selector(signinManagerDidSignIn:)]) {
+        [self.delegate signinManagerDidSignIn:[self user]];
+    }
+}
+
+- (void)invokeDidFail {
+    if ([self.delegate respondsToSelector:@selector(signinManagerDidFail)]) {
+        [self.delegate signinManagerDidFail];
+    }
+}
+
 - (void)didRetrieveAccessToken:(UVAccessToken *)token {
-    [delegate performSelector:@selector(hideActivityIndicator)];
     [token persist];
     [UVSession currentSession].accessToken = token;
     [UVUser retrieveCurrentUser:self];
 }
 
+
+#pragma mark - UVUserDelegate
+
 - (void)didCreateUser:(UVUser *)theUser {
-    [delegate performSelector:@selector(hideActivityIndicator)];
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
-    [delegate performSelector:action];
+    [self invokeDidSignIn];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
-    [delegate performSelector:@selector(hideActivityIndicator)];
     [UVSession currentSession].user = theUser;
-    [delegate performSelector:action];
+    [self invokeDidSignIn];
 }
 
 - (void)didDiscoverUser:(UVUser *)theUser {
-    [delegate performSelector:@selector(hideActivityIndicator)];
     [self showPasswordAlertView];
 }
 
 - (void)didSendForgotPassword:(id)obj {
-    [delegate performSelector:@selector(hideActivityIndicator)];
+    [self clearAlertViewDelegate];
+
     self.alertView = [[[UIAlertView alloc] init] autorelease];
     alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to %@", @"UserVoice", nil), email];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
     [alertView show];
+    
+    [self invokeDidFail];
 }
 
 - (void)alertView:(UIAlertView *)theAlertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -140,27 +188,29 @@
             NSString *text = [alertView textFieldAtIndex:0].text;
             if (text.length == 0)
                 return;
-            [delegate performSelector:@selector(showActivityIndicator)];
+
             self.email = text;
             [UVUser discoverWithEmail:text delegate:self];
         }
     } else if (state == STATE_PASSWORD) {
         if (buttonIndex == 1) {
             self.password = [alertView textFieldAtIndex:0].text;
-            [delegate performSelector:@selector(showActivityIndicator)];
             if ([UVSession currentSession].requestToken == nil) {
                 [UVRequestToken getRequestTokenWithDelegate:self];
             } else {
                 [UVAccessToken getAccessTokenWithDelegate:self andEmail:email andPassword:password];
                 self.password = nil;
             }
+        } else {
+            [self invokeDidFail];
         }
     } else if (state == STATE_FAILED) {
         if (buttonIndex == 0) {
             [self showPasswordAlertView];
         } else if (buttonIndex == 1) {
-            [delegate performSelector:@selector(showActivityIndicator)];
             [UVUser forgotPassword:email delegate:self];
+        } else {
+            [self invokeDidFail];
         }
     }
 }
@@ -183,7 +233,6 @@
             [UVUser findOrCreateWithEmail:email andName:name andDelegate:self];
         }
     } else if ([UVUtils isAuthError:error] || [UVUtils isNotFoundError:error]) {
-        [delegate performSelector:@selector(hideActivityIndicator)];
         [self showFailedAlertView];
     }
 }
@@ -196,7 +245,10 @@
 - (void)dealloc {
     self.email = nil;
     self.name = nil;
+
+    [self clearAlertViewDelegate];
     self.alertView = nil;
+
     [super dealloc];
 }
 

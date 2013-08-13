@@ -7,30 +7,47 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UVCallback.h"
+#import "UVUser.h"
 
 #define STATE_EMAIL 1
 #define STATE_PASSWORD 2
 #define STATE_FAILED 3
 
+@protocol UVSigninManagerDelegate;
 
-@interface UVSigninManager : NSObject<UITextFieldDelegate,UIAlertViewDelegate> {
-    id delegate;
-    SEL action;
+
+@interface UVSigninManager : NSObject<UITextFieldDelegate, UIAlertViewDelegate, UVUserDelegate> {
+
     NSString *email;
     NSString *name;
     UIAlertView *alertView;
     NSInteger state;
     NSString *password;
+
+    UVCallback *_callback;
+
 }
 
 + (UVSigninManager *)manager;
 
-- (void)signInWithDelegate:(id)theDelegate action:(SEL)theAction;
-- (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName delegate:(id)theDelegate action:(SEL)theAction;
+- (void)signInWithCallback:(UVCallback *)callback;
+- (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName callback:(UVCallback *)callback;
 
+@property (nonatomic, assign) id<UVSigninManagerDelegate> delegate;
 @property (nonatomic,retain) NSString *email;
 @property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *password;
 @property (nonatomic,retain) UIAlertView *alertView;
+
+@end
+
+
+@protocol UVSigninManagerDelegate <NSObject>
+
+@optional
+
+- (void)signinManagerDidSignIn:(UVUser *)user;
+- (void)signinManagerDidFail;
 
 @end

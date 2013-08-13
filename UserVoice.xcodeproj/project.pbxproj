@@ -72,6 +72,8 @@
 		ACEE442F10AB370F003D8751 /* UVComment.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE442D10AB370F003D8751 /* UVComment.m */; };
 		ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE461510ACC158003D8751 /* UVBaseViewController.h */; };
 		ACEE461810ACC158003D8751 /* UVBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE461610ACC158003D8751 /* UVBaseViewController.m */; };
+		C184F7EA17B5AD7C00DBB38C /* UVCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = C184F7E817B5AD7C00DBB38C /* UVCallback.h */; };
+		C184F7EB17B5AD7C00DBB38C /* UVCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = C184F7E917B5AD7C00DBB38C /* UVCallback.m */; };
 		D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D20402C911E03B0C00022C44 /* UVSuggestionButton.h */; };
 		D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */; };
 		D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */ = {isa = PBXBuildFile; fileRef = D24540BE11B095AA00C7E4BA /* UVSubdomain.h */; };
@@ -225,6 +227,8 @@
 		ACEE461510ACC158003D8751 /* UVBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVBaseViewController.h; path = Classes/UVBaseViewController.h; sourceTree = SOURCE_ROOT; };
 		ACEE461610ACC158003D8751 /* UVBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UVBaseViewController.m; path = Classes/UVBaseViewController.m; sourceTree = SOURCE_ROOT; };
 		BC1F064216BBF700006E9027 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = UserVoice.strings; sourceTree = "<group>"; };
+		C184F7E817B5AD7C00DBB38C /* UVCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCallback.h; sourceTree = "<group>"; };
+		C184F7E917B5AD7C00DBB38C /* UVCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCallback.m; sourceTree = "<group>"; };
 		D20402C911E03B0C00022C44 /* UVSuggestionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionButton.h; sourceTree = "<group>"; };
 		D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionButton.m; sourceTree = "<group>"; };
 		D24540BE11B095AA00C7E4BA /* UVSubdomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSubdomain.h; sourceTree = "<group>"; };
@@ -458,6 +462,8 @@
 				AC312728109667CE00000D5F /* UVUser.m */,
 				D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */,
 				D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */,
+				C184F7E817B5AD7C00DBB38C /* UVCallback.h */,
+				C184F7E917B5AD7C00DBB38C /* UVCallback.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -774,6 +780,7 @@
 				D9C35BE3167680F2004FAA89 /* UVInitialLoadManager.h in Headers */,
 				D95F23DF16EFD8B1003F6850 /* UVRequestContext.h in Headers */,
 				D95F23E5172EFD2A003F6850 /* UVUtils.h in Headers */,
+				C184F7EA17B5AD7C00DBB38C /* UVCallback.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,6 +912,7 @@
 				D9C35BE4167680F2004FAA89 /* UVInitialLoadManager.m in Sources */,
 				D95F23E016EFD8B1003F6850 /* UVRequestContext.m in Sources */,
 				D95F23E6172EFD2A003F6850 /* UVUtils.m in Sources */,
+				C184F7EB17B5AD7C00DBB38C /* UVCallback.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

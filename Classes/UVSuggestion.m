@@ -74,7 +74,7 @@
                 title:(NSString *)title
                  text:(NSString *)text
                 votes:(NSInteger)votes
-             delegate:(id)delegate {
+             callback:(UVCallback *)callback {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
@@ -84,8 +84,8 @@
                             nil];
     return [[self class] postPath:path
                        withParams:params
-                           target:delegate
-                         selector:@selector(didCreateSuggestion:)
+                           target:callback
+                         selector:@selector(invokeCallback:)
                           rootKey:@"suggestion"];
 }
 
