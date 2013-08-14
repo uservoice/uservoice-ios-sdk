@@ -47,13 +47,22 @@
 @synthesize buttons;
 @synthesize voteButton;
 
-- (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
+- (id)init {
     self = [super init];
+    
+    if (self) {
+        _showVotesCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(openVoteActionSheet)];
+        _showCommentControllerCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(presentCommentController)];
+    }
+    
+    return self;
+}
+
+- (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
+    self = [self init];
 
     if (self) {
         self.suggestion = theSuggestion;
-        _showVotesCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(openVoteActionSheet)];
-        _showCommentControllerCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(presentCommentController)];
     }
 
     return self;
