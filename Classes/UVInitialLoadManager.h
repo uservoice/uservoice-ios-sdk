@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UVUser.h"
 
-@interface UVInitialLoadManager : NSObject<UIAlertViewDelegate> {
+@interface UVInitialLoadManager : NSObject<UIAlertViewDelegate, UVUserDelegate> {
     id delegate;
     SEL action;
     BOOL userDone;

@@ -33,7 +33,7 @@
     if (textView.text.length == 0) {
         [self dismiss];
     } else {
-        [self disableNavigationButtons];
+        [self disableSubmitButton];
         [self showActivityIndicator];
         [UVComment createWithSuggestion:suggestion text:textView.text delegate:self];
     }

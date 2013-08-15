@@ -146,7 +146,12 @@
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
     [super textViewDidChange:theTextEditor];
-    self.navigationItem.rightBarButtonItem.enabled = [theTextEditor.text length] != 0 && state != STATE_WAITING;
+    
+    if ([theTextEditor.text length] != 0 && state != STATE_WAITING) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
 }
 
 - (void)reloadCustomFieldsTable {
@@ -322,7 +327,11 @@
     else
         self.navigationItem.rightBarButtonItem = sendButton;
     
-    self.navigationItem.rightBarButtonItem.enabled = !(showTextView && [self.text length] == 0) && state != STATE_WAITING;
+    if (!(showTextView && [self.text length] == 0) && state != STATE_WAITING) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
 
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, textViewRect.size.height + (showIAMessage ? 40 : 0) + (showIATable ? instantAnswersTableView.contentSize.height : 0) + (showFieldsTable ? fieldsTableView.contentSize.height : 0));
 

@@ -11,6 +11,8 @@
 
 @class UVSuggestion;
 
+@protocol UVUserDelegate;
+
 @interface UVUser : UVBaseModel {
     NSInteger userId;
     NSString *name;
@@ -50,19 +52,19 @@
 - (NSInteger)createdSuggestionsCount;
 - (NSInteger)supportedSuggestionsCount;
 
-+ (id)forgotPassword:(NSString *)email delegate:(id)delegate;
++ (id)forgotPassword:(NSString *)email delegate:(id<UVUserDelegate>)delegate;
 
 // discover
-+ (id)discoverWithEmail:(NSString *)email delegate:(id)delegate;
++ (id)discoverWithEmail:(NSString *)email delegate:(id<UVUserDelegate>)delegate;
 
 // create
-+ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
-+ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate;
-+ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate;
-+ (id)retrieveCurrentUser:(id)delegate;
++ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVUserDelegate>)delegate;
++ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVUserDelegate>)delegate;
++ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id<UVUserDelegate>)delegate;
++ (id)retrieveCurrentUser:(id<UVUserDelegate>)delegate;
 
 // update
-- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate;
+- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id<UVUserDelegate>)delegate;
 - (void)didSupportSuggestion:(UVSuggestion *)suggestion;
 - (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion;
 - (void)didCreateSuggestion:(UVSuggestion *)suggestion;
@@ -76,5 +78,18 @@
 
 // Returns the user's name, or "Anonymous" if they don't have one.
 - (NSString *)nameOrAnonymous;
+
+@end
+
+
+@protocol UVUserDelegate <NSObject>
+
+@optional
+
+- (void)didCreateUser:(UVUser *)user;
+- (void)didDiscoverUser:(UVUser *)user;
+- (void)didIdentifyUser:(UVUser *)user;
+- (void)didRetrieveCurrentUser:(UVUser *)user;
+- (void)didSendForgotPassword:(id)obj;
 
 @end

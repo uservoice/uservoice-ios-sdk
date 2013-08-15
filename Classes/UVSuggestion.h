@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UVBaseModel.h"
 #import "UVForum.h"
+#import "UVCallback.h"
 
 @class UVCategory;
 @class UVUser;
@@ -80,7 +81,7 @@
                 title:(NSString *)title
                  text:(NSString *)text
                 votes:(NSInteger)votes
-             delegate:(id)delegate;
+             callback:(UVCallback *)callback;
 
 // Records the specified number of votes for a suggestion.
 - (id)vote:(NSInteger)number delegate:(id)delegate;

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UVCallback.h"
+#import "UVSigninManager.h"
 
 #define IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7)
@@ -16,11 +18,10 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
         blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @class UVActivityIndicator;
-@class UVSigninManager;
 
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
-@interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate> {
+@interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate, UVSigninManagerDelegate> {
     BOOL needsReload;
     BOOL firstController;
     UITableView *tableView;
@@ -54,8 +55,10 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 - (void)hideActivityIndicator;
 
 // navigation buttons
-- (void)disableNavigationButtons;
-- (void)enableNavigationButtons;
+- (void)disableSubmitButton;
+- (void)enableSubmitButton;
+- (void)enableSubmitButtonForce:(BOOL)force;
+- (BOOL)shouldEnableSubmitButton;
 
 - (void)addTopBorder:(UIView *)view;
 - (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
@@ -68,8 +71,8 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 // specialized behavior.
 - (void)didReceiveError:(NSError *)error;
 
-- (void)requireUserSignedIn:(SEL)action;
-- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action;
+- (void)requireUserSignedIn:(UVCallback *)callback;
+- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name callback:(UVCallback *)callback;
 
 // Keyboard handling
 - (void)registerForKeyboardNotifications;

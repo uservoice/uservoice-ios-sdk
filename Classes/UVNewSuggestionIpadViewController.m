@@ -79,7 +79,12 @@
 
 - (void)titleChanged:(NSNotification *)notification {
     [self searchInstantAnswers:titleField.text];
-    self.navigationItem.rightBarButtonItem.enabled = [titleField.text length] != 0;
+
+    if ([titleField.text length] != 0) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
 }
 
 #pragma mark ===== table cells =====
@@ -228,10 +233,13 @@
     self.tableView.sectionFooterHeight = 0.0;
     self.navigationItem.rightBarButtonItem = [self barButtonItem:NSLocalizedStringFromTable(@"Submit", @"UserVoice", nil) withAction:@selector(createButtonTapped)];
     self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
-    self.navigationItem.rightBarButtonItem.enabled = [self.title length] != 0;
+
     if (self.title && [self.title length] > 0) {
+        [self enableSubmitButton];
         self.instantAnswersQuery = self.title;
         [self loadInstantAnswers];
+    } else {
+        [self disableSubmitButton];
     }
 }
 
