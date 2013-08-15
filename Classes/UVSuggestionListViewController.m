@@ -162,7 +162,9 @@
 }
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
+    if (!IOS7) {
+        cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -281,10 +283,12 @@
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), self.forum.name];
     searchBar.delegate = self;
 
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height - 1, searchBar.bounds.size.width, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.64f green:0.66f blue:0.68f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    [searchBar addSubview:border];
+    if (!IOS7) {
+        UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height - 1, searchBar.bounds.size.width, 1)] autorelease];
+        border.backgroundColor = [UIColor colorWithRed:0.64f green:0.66f blue:0.68f alpha:1.0f];
+        border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+        [searchBar addSubview:border];
+    }
 
     [headerView addSubview:searchBar];
 

@@ -98,7 +98,7 @@
 
 - (void)initCellForText:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
-    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, 144)] autorelease];
+    self.textView = [[[UVTextView alloc] initWithFrame:CGRectMake(IOS7 ? 12 : 0, 0, cell.bounds.size.width - 14, 144)] autorelease];
     textView.delegate = self;
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textView.autocorrectionType = UITextAutocorrectionTypeYes;
@@ -196,8 +196,10 @@
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS && indexPath.row == 1) {
         return 144;
-    } else {
+    } else if (indexPath.section == UV_NEW_SUGGESTION_SECTION_INSTANT_ANSWERS && indexPath.row != 0) {
         return 44;
+    } else {
+        return 62;
     }
 }
 

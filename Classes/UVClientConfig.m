@@ -36,10 +36,6 @@
                  rootKey:@"client"];
 }
 
-+ (void)processModel:(id)model {
-    [UVSession currentSession].clientConfig = model;
-}
-
 + (CGFloat)getScreenWidth {
     UIViewController *root = [[UIApplication sharedApplication] keyWindow].rootViewController;
     return root.presentedViewController.view.bounds.size.width;

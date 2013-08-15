@@ -112,7 +112,7 @@
 
 "OK" = "OK";
 
-"Password reset email sent to" = "Password reset email sent to";
+"Password reset email sent to %@" = "Password reset email sent to %@";
 
 "Please enter your email address before submitting your suggestion." = "Please enter your email address before submitting your suggestion.";
 

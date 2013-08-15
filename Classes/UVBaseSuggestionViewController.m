@@ -33,6 +33,8 @@
 @synthesize category;
 @synthesize shouldShowCategories;
 
+#define UV_CATEGORY_VALUE 100
+
 - (id)initWithTitle:(NSString *)theTitle {
     if (self = [self init]) {
         self.title = theTitle;
@@ -133,26 +135,24 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)label placeholder:(NSString *)placeholder {
-    cell.textLabel.text = label;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
-    NSInteger offset = MAX(65, [label sizeWithFont:cell.textLabel.font].width + 14);
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(offset, 12, cell.bounds.size.width - offset - 10, 22)];
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textField.placeholder = placeholder;
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.delegate = self;
-    [cell.contentView addSubview:textField];
-    [textField release];
-    return textField;
+- (void)initCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    UILabel *label = [self addCellLabel:cell];
+    label.text = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
+    UILabel *valueLabel = [self addCellValueLabel:cell];
+    valueLabel.tag = UV_CATEGORY_VALUE;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)customizeCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Category", @"UserVoice", nil);
-    cell.detailTextLabel.text = self.category.name;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CATEGORY_VALUE];
+    if (self.category.name) {
+        valueLabel.text = self.category.name;
+        valueLabel.textColor = [UIColor blackColor];
+    } else {
+        valueLabel.text = NSLocalizedStringFromTable(@"select", @"UserVoice", nil);
+        valueLabel.textColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f];
+    }
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -193,7 +193,11 @@
                                                          cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                     destructiveButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
                                                          otherButtonTitles:nil] autorelease];
-        [actionSheet showInView:self.view];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+        } else {
+            [actionSheet showInView:self.view];
+        }
     } else {
         [self dismissModalViewControllerAnimated:YES];
     }

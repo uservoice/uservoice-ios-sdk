@@ -52,10 +52,6 @@
     return self.user != nil;
 }
 
-- (void)didRetrieveClientConfig:(UVClientConfig *)config {
-    // Do nothing. The UVClientConfig already sets the config on the current session.
-}
-
 - (void)clearFlash {
     self.flashTitle = nil;
     self.flashMessage = nil;

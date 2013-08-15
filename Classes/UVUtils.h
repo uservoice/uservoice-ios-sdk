@@ -29,4 +29,6 @@
 + (BOOL)isAuthError:(NSError *)error;
 + (BOOL)isNotFoundError:(NSError *)error;
 
++ (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController;
+
 @end

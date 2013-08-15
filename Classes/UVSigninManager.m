@@ -129,7 +129,7 @@
 - (void)didSendForgotPassword:(id)obj {
     [delegate performSelector:@selector(hideActivityIndicator)];
     self.alertView = [[[UIAlertView alloc] init] autorelease];
-    alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to", @"UserVoice", nil), email];
+    alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to %@", @"UserVoice", nil), email];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
     [alertView show];
 }

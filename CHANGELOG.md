@@ -1,6 +1,12 @@
 ## master ##
 
 * Respect specified order of articles within a topic
+* Speed up initial load slightly
+* Fix a potential crash when the SDK is dismissed during initial load
+* Add ability to customize navigation bar title appearance
+* Show action sheets from bar button item on iPad
+* Update Traditional Chinese translation (thanks to bcylin)
+* Add Portuguese translation (thanks to hebertialmeida)
 
 ## 2.0.11 ##
 
