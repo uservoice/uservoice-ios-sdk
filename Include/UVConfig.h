@@ -18,6 +18,7 @@
     NSString *guid;
     NSString *extraTicketInfo;
     NSInteger topicId;
+    NSInteger forumId;
     BOOL showForum;
     BOOL showPostIdea;
     BOOL showContactUs;
@@ -36,7 +37,8 @@
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *guid;
 @property (nonatomic, retain) NSDictionary *customFields;
-@property (assign) NSInteger topicId;
+@property (nonatomic, assign) NSInteger topicId;
+@property (nonatomic, assign) NSInteger forumId;
 @property (nonatomic, assign) BOOL showForum;
 @property (nonatomic, assign) BOOL showPostIdea;
 @property (nonatomic, assign) BOOL showContactUs;

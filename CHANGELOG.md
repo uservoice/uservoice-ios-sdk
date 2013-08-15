@@ -7,6 +7,7 @@
 * Show action sheets from bar button item on iPad
 * Update Traditional Chinese translation (thanks to bcylin)
 * Add Portuguese translation (thanks to hebertialmeida)
+* Add client-side forumId option
 
 ## 2.0.11 ##
 

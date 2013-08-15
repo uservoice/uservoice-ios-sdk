@@ -44,7 +44,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.forum = [UVSession currentSession].clientConfig.forum;
+        self.forum = [UVSession currentSession].forum;
         self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
         self.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post an idea?", @"UserVoice", nil);
         self.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my idea", @"UserVoice", nil);
@@ -98,7 +98,7 @@
     // increment the created suggestions and supported suggestions counts
     [[UVSession currentSession].user didCreateSuggestion:theSuggestion];
 
-    [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
+    self.forum.suggestionsNeedReload = YES;
 
     // update the remaining votes
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;

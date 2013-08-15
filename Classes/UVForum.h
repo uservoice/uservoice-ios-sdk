@@ -22,15 +22,17 @@
     BOOL suggestionsNeedReload;
 }
 
-@property (assign) NSInteger forumId;
-@property (assign) BOOL isPrivate;
+@property (nonatomic, assign) NSInteger forumId;
+@property (nonatomic, assign) BOOL isPrivate;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *example;
 @property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, assign) NSInteger votesAllowed;
 @property (nonatomic, assign) NSInteger suggestionsCount;
-@property (assign) BOOL suggestionsNeedReload;
+@property (nonatomic, assign) BOOL suggestionsNeedReload;
 @property (nonatomic, retain) NSMutableArray *categories;
 @property (nonatomic, retain) NSMutableArray *suggestions;
+
++ (id)getWithId:(int)forumId delegate:(id)delegate;
 
 @end

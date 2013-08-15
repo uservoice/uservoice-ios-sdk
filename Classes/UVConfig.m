@@ -21,6 +21,7 @@
 @synthesize guid;
 @synthesize customFields;
 @synthesize topicId;
+@synthesize forumId;
 @synthesize showForum;
 @synthesize showPostIdea;
 @synthesize showContactUs;
@@ -58,6 +59,10 @@
         showKnowledgeBase = YES;
     }
     return self;
+}
+
+- (int)forumId {
+    return forumId == 0 ? [UVSession currentSession].clientConfig.defaultForumId : forumId;
 }
 
 - (BOOL)showForum {

@@ -15,6 +15,7 @@
 @class UVRequestToken;
 @class YOAuthConsumer;
 @class UVSuggestion;
+@class UVForum;
 
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
@@ -26,6 +27,7 @@
     YOAuthConsumer *yOAuthConsumer;
     UVAccessToken *accessToken;
     UVRequestToken *requestToken;
+    UVForum *forum;
     NSMutableDictionary *interactions;
     NSMutableArray *interactionSequence;
     NSMutableArray *interactionDetails;
@@ -38,10 +40,11 @@
     UVSuggestion *flashSuggestion;
 }
 
-@property (assign) BOOL isModal;
+@property (nonatomic, assign) BOOL isModal;
 @property (nonatomic, retain) UVConfig *config;
 @property (nonatomic, retain) UVClientConfig *clientConfig;
 @property (nonatomic, retain) UVUser *user;
+@property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVAccessToken *accessToken;
 @property (nonatomic, retain) UVRequestToken *requestToken;
 @property (nonatomic, retain) NSMutableDictionary *interactions;
@@ -53,7 +56,7 @@
 @property (nonatomic, retain) NSString *flashTitle;
 @property (nonatomic, retain) NSString *flashMessage;
 @property (nonatomic, retain) UVSuggestion *flashSuggestion;
-@property (assign) NSUInteger interactionId;
+@property (nonatomic, assign) NSUInteger interactionId;
 
 + (UVSession *)currentSession;
 - (YOAuthConsumer *)yOAuthConsumer;

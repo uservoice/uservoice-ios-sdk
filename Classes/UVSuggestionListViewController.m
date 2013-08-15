@@ -40,7 +40,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        self.forum = [UVSession currentSession].clientConfig.forum;
+        self.forum = [UVSession currentSession].forum;
     }
     return self;
 }
@@ -53,8 +53,8 @@
 
 - (void)populateSuggestions {
     self.suggestions = [NSMutableArray arrayWithCapacity:10];
-    [UVSession currentSession].clientConfig.forum.suggestions = [NSMutableArray arrayWithCapacity:10];
-    [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = NO;
+    _forum.suggestions = [NSMutableArray arrayWithCapacity:10];
+    _forum.suggestionsNeedReload = NO;
     [self retrieveMoreSuggestions];
 }
 
@@ -64,7 +64,7 @@
         [self.suggestions addObjectsFromArray:theSuggestions];
     }
 
-    [[UVSession currentSession].clientConfig.forum.suggestions addObjectsFromArray:theSuggestions];
+    [_forum.suggestions addObjectsFromArray:theSuggestions];
     [self.tableView reloadData];
 }
 
@@ -187,7 +187,7 @@
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
     if (theTableView == tableView) {
         int loadedCount = [self.suggestions count];
-        int suggestionsCount = [UVSession currentSession].clientConfig.forum.suggestionsCount;
+        int suggestionsCount = _forum.suggestionsCount;
         return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
     } else {
         return [searchResults count] + ([UVSession currentSession].config.showPostIdea ? 1 : 0);
@@ -280,7 +280,7 @@
 
     UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)] autorelease];
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), self.forum.name];
+    searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), _forum.name];
     searchBar.delegate = self;
 
     if (!IOS7) {
@@ -321,15 +321,15 @@
 }
 
 - (void)reloadTableData {
-    self.suggestions = [UVSession currentSession].clientConfig.forum.suggestions;
+    self.suggestions = _forum.suggestions;
     [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (self.forum) {
-        if ([UVSession currentSession].clientConfig.forum.suggestionsNeedReload) {
+    if (_forum) {
+        if (_forum.suggestionsNeedReload) {
             self.suggestions = nil;
         }
 

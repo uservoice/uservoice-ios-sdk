@@ -17,6 +17,7 @@
 #import "UVSession.h"
 #import "UVRequestContext.h"
 #import "UVUtils.h"
+#import "UVForum.h"
 
 @implementation UVInitialLoadManager
 
@@ -32,16 +33,16 @@
     if (self = [super init]) {
         delegate = theDelegate;
         action = theAction;
-        configDone = NO;
-        userDone = NO;
-        topicsDone = NO;
-        articlesDone = NO;
     }
     return self;
 }
 
 - (void)beginLoad {
     [UVClientConfig getWithDelegate:self];
+    [self loadUser];
+}
+
+- (void)loadUser {
     if ([UVSession currentSession].config.ssoToken != nil || [UVSession currentSession].config.email != nil) {
         [UVRequestToken getRequestTokenWithDelegate:self];
     } else if ([UVAccessToken exists]) {
@@ -89,6 +90,18 @@
         topicsDone = YES;
         articlesDone = YES;
     }
+    if (clientConfig.feedbackEnabled) {
+        [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
+    } else {
+        forumDone = YES;
+    }
+    [self checkComplete];
+}
+
+- (void)didRetrieveForum:(UVForum *)forum {
+    if (dismissed) return;
+    [UVSession currentSession].forum = forum;
+    forumDone = YES;
     [self checkComplete];
 }
 
@@ -145,11 +158,7 @@
         if ([UVAccessToken exists]) {
             [[UVSession currentSession].accessToken remove];
             [UVSession currentSession].accessToken = nil;
-            articlesDone = NO;
-            topicsDone = NO;
-            userDone = NO;
-            configDone = NO;
-            [self beginLoad];
+            [self loadUser];
             return;
         } else {
             message = NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil);

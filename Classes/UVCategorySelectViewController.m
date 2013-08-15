@@ -22,7 +22,7 @@
 
 - (id)initWithSelectedCategory:(UVCategory *)category {
     if (self = [super init]) {
-        self.forum = [UVSession currentSession].clientConfig.forum;
+        self.forum = [UVSession currentSession].forum;
         self.categories = self.forum.categories;
         self.selectedCategory = category;
     }

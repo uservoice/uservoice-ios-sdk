@@ -15,6 +15,7 @@
     BOOL topicsDone;
     BOOL articlesDone;
     BOOL configDone;
+    BOOL forumDone;
     BOOL dismissed;
 }
 

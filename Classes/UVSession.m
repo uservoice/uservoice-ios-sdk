@@ -22,6 +22,7 @@
 @synthesize isModal;
 @synthesize config;
 @synthesize clientConfig;
+@synthesize forum;
 @synthesize accessToken;
 @synthesize requestToken;
 @synthesize interactions, interactionSequence, interactionDetails, interactionId;
@@ -88,13 +89,6 @@
     if (user) {
         [user identify:identifier withScope:scope delegate:self];
     }
-}
-
-- (void)didIdentifyUser:(UVUser *)user {
-}
-
-- (void)didReceiveError:(NSError *)error {
-    // identify failed
 }
 
 // This is used when dismissing UV so that everything gets reloaded

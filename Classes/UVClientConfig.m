@@ -9,7 +9,6 @@
 #import "HTTPRiot.h"
 #import "UVClientConfig.h"
 #import "UVSession.h"
-#import "UVForum.h"
 #import "UVUser.h"
 #import "UVSubdomain.h"
 #import "UVCustomField.h"
@@ -20,13 +19,13 @@
 
 @synthesize ticketsEnabled;
 @synthesize feedbackEnabled;
-@synthesize forum;
 @synthesize subdomain;
 @synthesize customFields;
 @synthesize topArticles;
 @synthesize topSuggestions;
 @synthesize clientId;
 @synthesize whiteLabel;
+@synthesize defaultForumId;
 
 + (id)getWithDelegate:(id)delegate {
     return [self getPath:[self apiPath:@"/client.json"]
@@ -58,20 +57,13 @@
             self.whiteLabel = [(NSNumber *)[dict objectForKey:@"white_label"] boolValue];
         }
 
-        if (feedbackEnabled) {
-            // get the forum
-            NSDictionary *forumDict = [self objectOrNilForDict:dict key:@"forum"];
-            UVForum *theForum = [[UVForum alloc] initWithDictionary:forumDict];
-            self.forum = theForum;
-            [theForum release];
-        }
-
         // get the subdomain
         NSDictionary *subdomainDict = [self objectOrNilForDict:dict key:@"subdomain"];
         UVSubdomain *theSubdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];
         self.subdomain = theSubdomain;
         [theSubdomain release];
 
+        self.defaultForumId = [[[self objectOrNilForDict:dict key:@"forum"] objectForKey:@"id"] intValue];
         self.customFields = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"custom_fields"] withClass:[UVCustomField class]];
         self.topArticles = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_articles"] withClass:[UVArticle class]];
         self.topSuggestions = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_suggestions"] withClass:[UVSuggestion class]];
@@ -81,7 +73,6 @@
 }
 
 - (void)dealloc {
-    self.forum = nil;
     self.subdomain = nil;
     self.customFields = nil;
     self.topArticles = nil;

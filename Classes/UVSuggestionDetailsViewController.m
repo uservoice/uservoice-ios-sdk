@@ -69,7 +69,7 @@
 
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
-    [UVSession currentSession].clientConfig.forum.suggestionsNeedReload = YES;
+    [UVSession currentSession].forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
     [self hideActivityIndicator];
     [self updateVotesLabel];

@@ -43,7 +43,7 @@
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{
         @"per_page" : @"3",
-        @"forum_id" : [NSString stringWithFormat:@"%d", [UVSession currentSession].clientConfig.forum.forumId],
+        @"forum_id" : [NSString stringWithFormat:@"%d", [UVSession currentSession].forum.forumId],
            @"query" : query
     }];
 
