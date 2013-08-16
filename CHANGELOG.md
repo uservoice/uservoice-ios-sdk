@@ -8,6 +8,8 @@
 * Update Traditional Chinese translation (thanks to bcylin)
 * Add Portuguese translation (thanks to hebertialmeida)
 * Add client-side forumId option
+* Add a bunch of translations (thanks to rafaelbaggio)
+* Remove need for client keys
 
 ## 2.0.11 ##
 

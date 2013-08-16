@@ -28,6 +28,10 @@
 @synthesize showKnowledgeBase;
 @synthesize extraTicketInfo;
 
++ (UVConfig *)configWithSite:(NSString *)site {
+    return [[[UVConfig alloc] initWithSite:site andKey:nil andSecret:nil] autorelease];
+}
+
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
     return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
 }
@@ -91,6 +95,12 @@
         return NO;
     else
         return showKnowledgeBase;
+}
+
+- (void)identifyUserWithEmail:(NSString *)theEmail name:(NSString *)name guid:(NSString *)theGuid {
+    self.email = theEmail;
+    self.displayName = name;
+    self.guid = theGuid;
 }
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret andSSOToken:(NSString *)theToken {

@@ -99,8 +99,13 @@
 
 - (YOAuthConsumer *)yOAuthConsumer {
     if (!yOAuthConsumer) {
-        yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
-                                                   andSecret:self.config.secret];
+        if (config.key != nil) {
+            yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
+                                                       andSecret:self.config.secret];
+        } else if (clientConfig != nil) {
+            yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:clientConfig.key
+                                                       andSecret:clientConfig.secret];
+        }
     }
     return yOAuthConsumer;
 }

@@ -62,24 +62,25 @@
     [headers setObject:@"application/x-www-form-urlencoded" forKey:@"Content-Type"];
     [headers setObject:[NSString stringWithFormat:@"uservoice-ios-%@", [UserVoice version]] forKey:@"API-Client"];
     [headers setObject:[[NSLocale preferredLanguages] objectAtIndex:0] forKey:@"Accept-Language"];
-    YOAuthToken *token = nil;
 
-    // only store access tokens
-    if ([UVAccessToken exists]) {
-        token = [UVSession currentSession].accessToken.oauthToken;
+    if ([UVSession currentSession].yOAuthConsumer != nil) {
+        YOAuthToken *token = nil;
+        if ([UVAccessToken exists]) {
+            token = [UVSession currentSession].accessToken.oauthToken;
+        }
+        NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
+        YOAuthRequest *yReq = [[YOAuthRequest alloc] initWithConsumer:[[UVSession currentSession] yOAuthConsumer]
+                                                               andUrl:url
+                                                        andHTTPMethod:method
+                                                             andToken:token
+                                                   andSignatureMethod:nil];
+        if (![@"PUT" isEqualToString:method])
+            yReq.requestParams = [NSMutableDictionary dictionaryWithDictionary:params];
+        [yReq prepareRequest];
+        NSString *authHeader = [yReq buildAuthorizationHeaderValue];
+        [headers setObject:authHeader forKey:@"Authorization"];
+        [yReq release];
     }
-    NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
-    YOAuthRequest *yReq = [[YOAuthRequest alloc] initWithConsumer:[[UVSession currentSession] yOAuthConsumer]
-                                                           andUrl:url
-                                                    andHTTPMethod:method
-                                                         andToken:token
-                                               andSignatureMethod:nil];
-    if (![@"PUT" isEqualToString:method])
-        yReq.requestParams = [NSMutableDictionary dictionaryWithDictionary:params];
-    [yReq prepareRequest];
-    NSString *authHeader = [yReq buildAuthorizationHeaderValue];
-    [headers setObject:authHeader forKey:@"Authorization"];
-    [yReq release];
 
     return headers;
 }

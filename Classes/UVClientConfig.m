@@ -14,6 +14,7 @@
 #import "UVCustomField.h"
 #import "UVSuggestion.h"
 #import "UVArticle.h"
+#import "UVConfig.h"
 
 @implementation UVClientConfig
 
@@ -21,14 +22,15 @@
 @synthesize feedbackEnabled;
 @synthesize subdomain;
 @synthesize customFields;
-@synthesize topArticles;
-@synthesize topSuggestions;
 @synthesize clientId;
 @synthesize whiteLabel;
 @synthesize defaultForumId;
+@synthesize key;
+@synthesize secret;
 
 + (id)getWithDelegate:(id)delegate {
-    return [self getPath:[self apiPath:@"/client.json"]
+    NSString *path = ([UVSession currentSession].config.key == nil) ? @"/clients/default.json" : @"/client.json";
+    return [self getPath:[self apiPath:path]
               withParams:nil
                   target:delegate
                 selector:@selector(didRetrieveClientConfig:)
@@ -57,7 +59,6 @@
             self.whiteLabel = [(NSNumber *)[dict objectForKey:@"white_label"] boolValue];
         }
 
-        // get the subdomain
         NSDictionary *subdomainDict = [self objectOrNilForDict:dict key:@"subdomain"];
         UVSubdomain *theSubdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];
         self.subdomain = theSubdomain;
@@ -65,9 +66,10 @@
 
         self.defaultForumId = [[[self objectOrNilForDict:dict key:@"forum"] objectForKey:@"id"] intValue];
         self.customFields = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"custom_fields"] withClass:[UVCustomField class]];
-        self.topArticles = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_articles"] withClass:[UVArticle class]];
-        self.topSuggestions = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"top_suggestions"] withClass:[UVSuggestion class]];
         self.clientId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
+        self.key = [self objectOrNilForDict:dict key:@"key"];
+        // secret is only available if we are using the default client
+        self.secret = [self objectOrNilForDict:dict key:@"secret"];
     }
     return self;
 }
@@ -75,8 +77,8 @@
 - (void)dealloc {
     self.subdomain = nil;
     self.customFields = nil;
-    self.topArticles = nil;
-    self.topSuggestions = nil;
+    self.key = nil;
+    self.secret = nil;
     [super dealloc];
 }
 
