@@ -1,11 +1,11 @@
 Overview
 --------
 
-UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
+UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app. For more info go to [uservoice.com/ios](http://uservoice.com/ios).
 
 ![Tour](https://www.uservoice.com/assets/img/ios/ios-animation.gif)
 
-You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
+You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) for more details and to sign up.
 
 Binary builds of the SDK are available for download.
 * Current release: [2.0.11](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-2.0.11.tar.gz)
@@ -162,6 +162,7 @@ creating a custom stylesheet.
     [UVStyleSheet setStyleSheet:[[MyStyleSheet alloc] init]];
 
 ### User Language
+
 
 The library will detect and display in the language the device is set to provided that language is supported by the SDK ([see currently supported languages](https://github.com/uservoice/uservoice-iphone-sdk#translations).).
 
