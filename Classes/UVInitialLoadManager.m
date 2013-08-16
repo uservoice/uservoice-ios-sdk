@@ -19,7 +19,11 @@
 #import "UVUtils.h"
 #import "UVForum.h"
 
-@implementation UVInitialLoadManager
+@implementation UVInitialLoadManager {
+    
+    UIAlertView *_errorAlertView;
+    
+}
 
 @synthesize dismissed;
 
@@ -168,7 +172,26 @@
     } else {
         message = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
     }
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil) message:message delegate:self cancelButtonTitle:nil otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil] autorelease] show];
+    
+    if (_errorAlertView) {
+        return;
+    }
+    
+    _errorAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+                                                 message:message
+                                                delegate:self
+                                       cancelButtonTitle:nil
+                                       otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil];
+    [_errorAlertView autorelease];
+    [_errorAlertView show];
+}
+
+- (void)dealloc {
+    if (_errorAlertView) {
+        _errorAlertView.delegate = nil;
+    }
+    
+    [super dealloc];
 }
 
 

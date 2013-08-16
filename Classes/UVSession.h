@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UVUser.h"
 
 @class UVConfig;
 @class UVClientConfig;
-@class UVUser;
 @class UVAccessToken;
 @class UVRequestToken;
 @class YOAuthConsumer;
@@ -19,7 +19,7 @@
 
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
-@interface UVSession : NSObject {
+@interface UVSession : NSObject<UVUserDelegate> {
     BOOL isModal;
     UVConfig *config;
     UVClientConfig *clientConfig;

@@ -79,7 +79,12 @@
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
     [super textViewDidChange:theTextEditor];
-    self.navigationItem.rightBarButtonItem.enabled = [theTextEditor.text length] != 0;
+    
+    if ([theTextEditor.text length] != 0) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
 }
 
 #pragma mark ===== table cells =====
@@ -235,7 +240,13 @@
     self.tableView.sectionFooterHeight = 0.0;
     self.navigationItem.rightBarButtonItem = [self barButtonItem:NSLocalizedStringFromTable(@"Send", @"UserVoice", nil) withAction:@selector(sendButtonTapped)];
     self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
-    self.navigationItem.rightBarButtonItem.enabled = [self.text length] != 0;
+    
+    if ([self.text length] != 0) {
+        [self enableSubmitButton];
+    } else {
+        [self disableSubmitButton];
+    }
+
     if (self.text && [self.text length] > 0) {
         self.instantAnswersQuery = self.text;
         [self loadInstantAnswers];

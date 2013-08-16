@@ -30,6 +30,15 @@
 @synthesize shade;
 @synthesize activityIndicatorView;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.signinManager = [UVSigninManager manager];
+        self.signinManager.delegate = self;
+    }
+    return self;
+}
+
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] flushInteractions];
@@ -71,9 +80,40 @@
 }
 
 - (void)hideActivityIndicator {
+    [self enableSubmitButton];
     [activityIndicatorView stopAnimating];
     activityIndicatorView.hidden = YES;
     shade.hidden = YES;
+}
+
+- (void)setSubmitButtonEnabled:(BOOL)enabled {
+    if (!self.navigationItem) {
+        return;
+    }
+    
+    if (self.navigationItem.rightBarButtonItem) {
+        self.navigationItem.rightBarButtonItem.enabled = enabled;
+    }
+}
+
+- (void)disableSubmitButton {
+    [self setSubmitButtonEnabled:NO];
+}
+
+- (void)enableSubmitButton {
+    [self enableSubmitButtonForce:NO];
+}
+
+- (void)enableSubmitButtonForce:(BOOL)force {
+    BOOL shouldEnableButton = [self shouldEnableSubmitButton];
+
+    if (shouldEnableButton || force) {
+        [self setSubmitButtonEnabled:YES];
+    }
+}
+
+- (BOOL)shouldEnableSubmitButton {
+    return YES;
 }
 
 - (void)alertError:(NSString *)message {
@@ -295,16 +335,12 @@
     [view addSubview:border];
 }
 
-- (void)requireUserSignedIn:(SEL)action {
-    if (!signinManager)
-        self.signinManager = [UVSigninManager manager];
-    [signinManager signInWithDelegate:self action:action];
+- (void)requireUserSignedIn:(UVCallback *)callback {
+    [signinManager signInWithCallback:callback];
 }
 
-- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name action:(SEL)action {
-    if (!signinManager)
-        self.signinManager = [UVSigninManager manager];
-    [signinManager signInWithEmail:email name:name delegate:self action:action];
+- (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name callback:(UVCallback *)callback {
+    [self.signinManager signInWithEmail:email name:name callback:callback];
 }
 
 - (void)setUserName:(NSString *)theName {
@@ -347,57 +383,14 @@
     return userEmail;
 }
 
-- (CGRect)cellLabelRect:(UIView *)container {
-    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
-    return CGRectMake(offset, 12, container.frame.size.width - offset - (IOS7 ? 2 : offset), 16);
+#pragma mark - UVSigninManageDelegate
+
+- (void)signinManagerDidSignIn:(UVUser *)user {
+    [self hideActivityIndicator];
 }
 
-- (CGRect)cellValueRect:(UIView *)container {
-    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
-    return CGRectMake(offset, 28, container.frame.size.width - offset - (IOS7 ? 2 : offset), 30);
-}
-
-- (UILabel *)addCellLabel:(UIView *)container {
-    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellLabelRect:container]] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.font = [UIFont systemFontOfSize:13];
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7){
-        label.textColor = [self.view valueForKey:@"tintColor"];
-    } else {
-        label.textColor = [UIColor grayColor];
-    }
-    label.backgroundColor = [UIColor clearColor];
-    [container addSubview:label];
-    return label;
-}
-
-- (UILabel *)addCellValueLabel:(UIView *)container {
-    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellValueRect:container]] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.font = [UIFont systemFontOfSize:16];
-    label.backgroundColor = [UIColor clearColor];
-    [container addSubview:label];
-    return label;
-}
-
-- (UITextField *)addCellValueTextField:(UIView *)container {
-    UITextField *textField = [[[UITextField alloc] initWithFrame:[self cellValueRect:container]] autorelease];
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.backgroundColor = [UIColor clearColor];
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
-    [container addSubview:textField];
-    return textField;
-}
-
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder {
-    UILabel *label = [self addCellLabel:cell];
-    label.text = labelText;
-    UITextField *textField = [self addCellValueTextField:cell];
-    textField.placeholder = placeholder;
-    textField.delegate = self;
-    return textField;
+- (void)signinManagerDidFail {
+    [self hideActivityIndicator];
 }
 
 
@@ -412,6 +405,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.tableView = nil;
     self.exitButton = nil;
+    self.signinManager.delegate = nil;
     self.signinManager = nil;
     self.shade = nil;
     self.activityIndicatorView = nil;

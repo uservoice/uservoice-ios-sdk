@@ -18,8 +18,15 @@
 #import "UVSuggestionListViewController.h"
 #import "UVWelcomeViewController.h"
 #import "UVCategorySelectViewController.h"
+#import "UVCallback.h"
 
-@implementation UVBaseSuggestionViewController
+@implementation UVBaseSuggestionViewController {
+    
+    BOOL _isSubmittingSuggestion;
+    UVCallback *_didCreateCallback;
+    UVCallback *_didAuthenticateCallback;
+
+}
 
 @synthesize forum;
 @synthesize title;
@@ -48,11 +55,16 @@
         self.shouldShowCategories = self.forum.categories && [self.forum.categories count] > 0;
         self.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post an idea?", @"UserVoice", nil);
         self.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my idea", @"UserVoice", nil);
+        
+        _didCreateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(didCreateSuggestion:)];
+        _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];
     }
     return self;
 }
 
 - (void)didReceiveError:(NSError *)error {
+    _isSubmittingSuggestion = NO;
+    
     if ([UVUtils isNotFoundError:error]) {
         [self hideActivityIndicator];
     } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
@@ -66,14 +78,14 @@
 - (void)createSuggestion {
     self.title = titleField.text;
     self.text = textView.text;
-    [self showActivityIndicator];
     [[UVSession currentSession] trackInteraction:@"pi"];
+    
     [UVSuggestion createWithForum:self.forum
                          category:self.category
                             title:self.title
                              text:self.text
                             votes:1
-                         delegate:self];
+                         callback:_didCreateCallback];
 }
 
 - (void)createButtonTapped {
@@ -85,14 +97,22 @@
     [emailField resignFirstResponder];
 
     if (self.email && [self.email length] > 1) {
-        [self requireUserAuthenticated:email name:name action:@selector(createSuggestion)];
+        [self disableSubmitButton];
+        [self showActivityIndicator];
+
+        _isSubmittingSuggestion = YES;
+        
+        [self requireUserAuthenticated:email name:name callback:_didAuthenticateCallback];
     } else {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your suggestion.", @"UserVoice", nil)];
     }
 }
 
+- (BOOL)shouldEnableSubmitButton {
+    return !_isSubmittingSuggestion;
+}
+
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
-    [self hideActivityIndicator];
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
 
     // increment the created suggestions and supported suggestions counts
@@ -130,6 +150,10 @@
             [(UVWelcomeViewController *)[list.navigationController.viewControllers lastObject] updateLayout];
         }
     }
+    
+    _isSubmittingSuggestion = NO;
+    
+    [self hideActivityIndicator];
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -179,13 +203,19 @@
     [self.navigationController pushViewController:next animated:YES];
 }
 
+- (void)keyboardDidShow:(NSNotification*)notification {
+    [super keyboardDidShow:notification];
+    _isSubmittingSuggestion = NO;
+    [self enableSubmitButton];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0)
         [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)dismiss {
-    if (titleField.text.length > 0) {
+    if (titleField.text.length > 0 && !_isSubmittingSuggestion) {
         UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"You have not posted your idea. Are you sure you want to lose your unsaved data?", @"UserVoice", nil)
                                                                   delegate:self
                                                          cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
@@ -209,6 +239,15 @@
                                                                              action:@selector(dismiss)] autorelease];
 }
 
+
+#pragma mark - UVSigninManageDelegate
+
+- (void)signinManagerDidFail {
+    _isSubmittingSuggestion = NO;
+    [super signinManagerDidFail];
+}
+
+
 - (void)dealloc {
     self.forum = nil;
     self.title = nil;
@@ -220,6 +259,12 @@
     self.nameField = nil;
     self.emailField = nil;
     self.category = nil;
+    
+    [_didCreateCallback invalidate];
+    [_didCreateCallback release];
+    [_didAuthenticateCallback invalidate];
+    [_didAuthenticateCallback release];
+    
     [super dealloc];
 }
 

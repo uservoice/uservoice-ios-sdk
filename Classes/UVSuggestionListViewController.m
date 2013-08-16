@@ -208,8 +208,7 @@
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
-    UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] init] autorelease];
-    next.suggestion = suggestion;
+    UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
     [self.navigationController pushViewController:next animated:YES];
 }
 
