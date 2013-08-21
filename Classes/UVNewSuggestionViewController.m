@@ -66,10 +66,10 @@
         else
             state = STATE_IA;
         [self updateLayout];
-        [scrollView setContentOffset:CGPointZero animated:YES];
+        [scrollView setContentOffset:CGPointMake(0, -scrollView.contentInset.top) animated:YES];
         return;
     }
-    CGPoint offset = [textField convertPoint:CGPointZero toView:scrollView];
+    CGPoint offset = [textField convertPoint:CGPointMake(0, -scrollView.contentInset.top) toView:scrollView];
     offset.x = 0;
     offset.y -= 20;
     offset.y = MIN(offset.y, MAX(0, scrollView.contentSize.height + [UVKeyboardUtils height] - scrollView.bounds.size.height));
@@ -77,7 +77,7 @@
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    [scrollView setContentOffset:CGPointZero animated:YES];
+    [scrollView setContentOffset:CGPointMake(0, -scrollView.contentInset.top) animated:YES];
     return YES;
 }
 
@@ -87,7 +87,7 @@
     else
         state = STATE_IA;
     [self updateLayout];
-    [scrollView setContentOffset:CGPointZero animated:YES];
+    [scrollView setContentOffset:CGPointMake(0, -scrollView.contentInset.top) animated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -327,6 +327,7 @@
     self.fieldsTableView.scrollEnabled = NO;
     self.fieldsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
     self.fieldsTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.fieldsTableView.rowHeight = 62;
     [self addTopBorder:fieldsTableView];
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
     label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 50)] autorelease];
@@ -364,10 +365,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-   [super viewWillAppear:animated];
-   scrollView.contentInset = UIEdgeInsetsZero;
-   scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
-   scrollView.contentOffset = CGPointZero;
+    [super viewWillAppear:animated];
+    if (!IOS7) {
+        scrollView.contentInset = UIEdgeInsetsZero;
+        scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
+        scrollView.contentOffset = CGPointZero;
+    }
 }
 
 - (void)nextButtonTapped {
