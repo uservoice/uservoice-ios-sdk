@@ -274,6 +274,7 @@
 		D900310116690F7B006A27C6 /* UVBaseSuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseSuggestionViewController.m; sourceTree = "<group>"; };
 		D9003104166913A8006A27C6 /* UVNewSuggestionIpadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewSuggestionIpadViewController.h; sourceTree = "<group>"; };
 		D9003105166913A8006A27C6 /* UVNewSuggestionIpadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewSuggestionIpadViewController.m; sourceTree = "<group>"; };
+		D909DD4117CD3CAA00ECE395 /* UVDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDefines.h; sourceTree = "<group>"; };
 		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
 		D92767F915597F3700E17EF1 /* UVArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticle.h; sourceTree = "<group>"; };
 		D92767FA15597F3800E17EF1 /* UVArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticle.m; sourceTree = "<group>"; };
@@ -408,6 +409,7 @@
 				D95F23DE16EFD8B1003F6850 /* UVRequestContext.m */,
 				D95F23E3172EFD2A003F6850 /* UVUtils.h */,
 				D95F23E4172EFD2A003F6850 /* UVUtils.m */,
+				D909DD4117CD3CAA00ECE395 /* UVDefines.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

@@ -397,7 +397,7 @@
     UILabel *label = [[[UILabel alloc] initWithFrame:[self cellLabelRect:container]] autorelease];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont systemFontOfSize:13];
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7){
+    if (IOS7){
         label.textColor = [self.view valueForKey:@"tintColor"];
     } else {
         label.textColor = [UIColor grayColor];

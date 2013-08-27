@@ -7,8 +7,7 @@
 //
 
 #import "UVTextView.h"
-
-#define IOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7)
+#import "UVDefines.h"
 
 @implementation UVTextView
 
