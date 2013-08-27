@@ -24,6 +24,7 @@
 #import "UVForum.h"
 #import "UVKeyboardUtils.h"
 #import "UVWelcomeViewController.h"
+#import "UVBabayaga.h"
 
 @implementation UVBaseTicketViewController
 
@@ -76,7 +77,7 @@
     } else {
         [self showActivityIndicator];
         [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:emailField.text andName:nameField.text andCustomFields:selectedCustomFieldValues andDelegate:self];
-        [[UVSession currentSession] trackInteraction:@"pt"];
+        [UVBabayaga track:SUBMIT_TICKET];
     }
 }
 

@@ -46,17 +46,7 @@
     [UVBabayaga track:event props:@{@"id" : @(id)}];
 }
 
-+ (void)track:(NSString *)event searchText:(NSString *)text results:(NSArray *)results {
-    NSMutableArray *ids = [NSMutableArray array];
-    for (id object in results) {
-        if ([object isMemberOfClass:[UVArticle class]]) {
-            UVArticle *article = (UVArticle *)object;
-            [ids addObject:@(article.articleId)];
-        } else if ([object isMemberOfClass:[UVSuggestion class]]) {
-            UVSuggestion *suggestion = (UVSuggestion *)object;
-            [ids addObject:@(suggestion.suggestionId)];
-        }
-    }
++ (void)track:(NSString *)event searchText:(NSString *)text ids:(NSArray *)ids {
     [UVBabayaga track:event props:@{@"text" : text, @"ids" : ids}];
 }
 

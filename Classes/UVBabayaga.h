@@ -34,7 +34,7 @@
 + (void)track:(NSString *)event props:(NSDictionary *)props;
 + (void)track:(NSString *)event;
 + (void)track:(NSString *)event id:(NSInteger)id;
-+ (void)track:(NSString *)event searchText:(NSString *)text results:(NSArray *)results;
++ (void)track:(NSString *)event searchText:(NSString *)text ids:(NSArray *)results;
 + (void)flush;
 
 @property (nonatomic, retain) NSString *uvts;

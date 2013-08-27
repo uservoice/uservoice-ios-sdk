@@ -19,6 +19,7 @@
 #import "UVWelcomeViewController.h"
 #import "UVCategorySelectViewController.h"
 #import "UVCallback.h"
+#import "UVBabayaga.h"
 
 @implementation UVBaseSuggestionViewController {
     
@@ -48,7 +49,7 @@
     }
     return self;
 }
-
+__IPHONE_6_0
 - (id)init {
     if (self = [super init]) {
         self.forum = [UVSession currentSession].forum;
@@ -78,6 +79,7 @@
 - (void)createSuggestion {
     self.title = titleField.text;
     self.text = textView.text;
+    [UVBabayaga track:SUBMIT_IDEA];
     [[UVSession currentSession] trackInteraction:@"pi"];
     
     [UVSuggestion createWithForum:self.forum

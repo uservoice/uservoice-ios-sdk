@@ -11,6 +11,7 @@
 #import "UVSession.h"
 #import "UVNewTicketViewController.h"
 #import "UVStyleSheet.h"
+#import "UVBabayaga.h"
 
 @implementation UVArticleViewController
 
@@ -24,6 +25,7 @@
         self.article = theArticle;
         self.helpfulPrompt = theHelpfulPrompt;
         self.returnMessage = theReturnMessage;
+        [UVBabayaga track:VIEW_ARTICLE id:article.articleId];
     }
     return self;
 }
@@ -88,7 +90,7 @@
 }
 
 - (void)yesButtonTapped {
-    [[UVSession currentSession] trackInteraction:@"u"];
+    [UVBabayaga track:VOTE_ARTICLE id:article.articleId];
     if (helpfulPrompt) {
         // Do you still want to contact us?
         // Yes, go to my message

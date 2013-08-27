@@ -15,6 +15,7 @@
 #import "UVSuggestionDetailsViewController.h"
 #import "UVHighlightingLabel.h"
 #import "UVUtils.h"
+#import "UVBabayaga.h"
 
 @implementation UVBaseInstantAnswersViewController
 
@@ -63,8 +64,6 @@
     if (self.instantAnswersQuery == nil) return;
     [self willLoadInstantAnswers];
     // It's a combined search, remember?
-    [[UVSession currentSession] trackInteraction:@"sf"];
-    [[UVSession currentSession] trackInteraction:@"si"];
     [UVArticle getInstantAnswers:self.instantAnswersQuery delegate:self];
     [self updatePattern];
 }
@@ -80,12 +79,12 @@
     id model = [answers objectAtIndex:index];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
-        [[UVSession currentSession] trackInteraction:@"cf" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:article.articleId], @"id", self.instantAnswersQuery, @"t", nil]];
+        [UVBabayaga track:VIEW_ARTICLE id:article.articleId];
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
-        [[UVSession currentSession] trackInteraction:@"ci" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:suggestion.suggestionId], @"id", self.instantAnswersQuery, @"t", nil]];
+        [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     }
@@ -216,14 +215,13 @@
     loadingInstantAnswers = NO;
     [self didLoadInstantAnswers];
     
-    // This seems like the only way to do justice to tracking the number of results from the combined search
     NSMutableArray *articleIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
     for (id answer in theInstantAnswers) {
         if ([answer isKindOfClass:[UVArticle class]]) {
             [articleIds addObject:[NSNumber numberWithInt:[((UVArticle *)answer) articleId]]];
         }
     }
-    [[UVSession currentSession] trackInteraction:[articleIds count] > 0 ? @"rfp" : @"rfz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[articleIds count]], @"count", articleIds, @"ids", nil]];
+    [UVBabayaga track:SEARCH_ARTICLES searchText:self.instantAnswersQuery ids:articleIds];
     
     NSMutableArray *suggestionIds = [NSMutableArray arrayWithCapacity:[theInstantAnswers count]];
     for (id answer in theInstantAnswers) {
@@ -231,7 +229,7 @@
             [suggestionIds addObject:[NSNumber numberWithInt:[((UVSuggestion *)answer) suggestionId]]];
         }
     }
-    [[UVSession currentSession] trackInteraction:[suggestionIds count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[suggestionIds count]], @"count", suggestionIds, @"ids", nil]];
+    [UVBabayaga track:SEARCH_IDEAS searchText:self.instantAnswersQuery ids:suggestionIds];
 }
 
 - (void)cleanupInstantAnswersTimer {
