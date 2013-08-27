@@ -14,6 +14,7 @@
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVUtils.h"
+#import "UVBabayaga.h"
 #import <stdlib.h>
 
 @implementation UVSession
@@ -78,6 +79,12 @@
             [user identify:identifier withScope:scope delegate:self];
         }
     }
+}
+
+- (void)setClientConfig:(UVClientConfig *)newConfig {
+    [clientConfig release];
+    clientConfig = [newConfig retain];
+    [UVBabayaga flush];
 }
 
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {

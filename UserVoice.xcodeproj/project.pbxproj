@@ -126,6 +126,8 @@
 		D95F23E016EFD8B1003F6850 /* UVRequestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F23DE16EFD8B1003F6850 /* UVRequestContext.m */; };
 		D95F23E5172EFD2A003F6850 /* UVUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D95F23E3172EFD2A003F6850 /* UVUtils.h */; };
 		D95F23E6172EFD2A003F6850 /* UVUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F23E4172EFD2A003F6850 /* UVUtils.m */; };
+		D96CF04C17CD02480055B619 /* UVBabayaga.h in Headers */ = {isa = PBXBuildFile; fileRef = D96CF04A17CD02480055B619 /* UVBabayaga.h */; };
+		D96CF04D17CD02480055B619 /* UVBabayaga.m in Sources */ = {isa = PBXBuildFile; fileRef = D96CF04B17CD02480055B619 /* UVBabayaga.m */; };
 		D96FAE6F1656E63D00A384CC /* UVHelpTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */; };
 		D96FAE701656E63D00A384CC /* UVHelpTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */; };
 		D96FAE741656F50D00A384CC /* UVHelpTopicViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE721656F50D00A384CC /* UVHelpTopicViewController.h */; };
@@ -292,6 +294,8 @@
 		D95F23DE16EFD8B1003F6850 /* UVRequestContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRequestContext.m; sourceTree = "<group>"; };
 		D95F23E3172EFD2A003F6850 /* UVUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVUtils.h; sourceTree = "<group>"; };
 		D95F23E4172EFD2A003F6850 /* UVUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVUtils.m; sourceTree = "<group>"; };
+		D96CF04A17CD02480055B619 /* UVBabayaga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVBabayaga.h; sourceTree = "<group>"; };
+		D96CF04B17CD02480055B619 /* UVBabayaga.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBabayaga.m; sourceTree = "<group>"; };
 		D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVHelpTopic.h; sourceTree = "<group>"; };
 		D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVHelpTopic.m; sourceTree = "<group>"; };
 		D96FAE721656F50D00A384CC /* UVHelpTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVHelpTopicViewController.h; sourceTree = "<group>"; };
@@ -385,6 +389,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D96CF04E17CD1BA10055B619 /* Metrics */,
 				AC3123891090E69200000D5F /* Controllers */,
 				AC312203108FC53600000D5F /* Models */,
 				AC35306711014CB6006FD1C1 /* Views */,
@@ -660,6 +665,15 @@
 			path = HTTPRiot/Vendor/JSON;
 			sourceTree = "<group>";
 		};
+		D96CF04E17CD1BA10055B619 /* Metrics */ = {
+			isa = PBXGroup;
+			children = (
+				D96CF04A17CD02480055B619 /* UVBabayaga.h */,
+				D96CF04B17CD02480055B619 /* UVBabayaga.m */,
+			);
+			name = Metrics;
+			sourceTree = "<group>";
+		};
 		D986ADEB1624C8E5008291AA /* it.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -730,6 +744,7 @@
 				ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */,
 				AC1B9F6E10B318DC002C8712 /* UVNewSuggestionViewController.h in Headers */,
 				AC1BA2EF10BB4931002C8712 /* UVForum.h in Headers */,
+				D96CF04C17CD02480055B619 /* UVBabayaga.h in Headers */,
 				AC1B16CB10D7F586002B03F7 /* UVWelcomeViewController.h in Headers */,
 				AC1B16FE10D80EAE002B03F7 /* UVRootViewController.h in Headers */,
 				AC1B18D410D878D0002B03F7 /* UVCategory.h in Headers */,
@@ -886,6 +901,7 @@
 				D2620F2111B597290053EA4C /* UVJSON.m in Sources */,
 				D2620F2311B597290053EA4C /* UVJsonBase.m in Sources */,
 				D2620F2511B597290053EA4C /* UVJsonParser.m in Sources */,
+				D96CF04D17CD02480055B619 /* UVBabayaga.m in Sources */,
 				D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */,
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextView.m in Sources */,
