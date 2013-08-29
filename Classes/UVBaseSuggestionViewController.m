@@ -49,7 +49,7 @@
     }
     return self;
 }
-__IPHONE_6_0
+
 - (id)init {
     if (self = [super init]) {
         self.forum = [UVSession currentSession].forum;

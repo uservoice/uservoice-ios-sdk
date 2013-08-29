@@ -16,10 +16,11 @@
 #import "UVSuggestionListViewController.h"
 #import "UVNavigationController.h"
 #import "UVUtils.h"
+#import "UVBabayaga.h"
 
 @implementation UserVoice
 
-+ (void) presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
++ (void)presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
     [UVSession currentSession].config = config;
     [UVSession currentSession].isModal = YES;
     UINavigationController *navigationController = [[[UVNavigationController alloc] init] autorelease];
@@ -29,7 +30,7 @@
     [parentViewController presentModalViewController:navigationController animated:YES];
 }
 
-+ (void) presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
++ (void)presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
     [self presentUserVoiceControllers:[NSArray arrayWithObject:viewController] forParentViewController:parentViewController withConfig:config];
 }
 
@@ -70,6 +71,14 @@
 
 + (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {
     [[UVSession currentSession] setExternalId:identifier forScope:scope];
+}
+
++ (void)track:(NSString *)event properties:(NSDictionary *)properties {
+    [UVBabayaga track:event props:properties];
+}
+
++ (void)track:(NSString *)event {
+    [UVBabayaga track:event];
 }
 
 static id<UVDelegate> userVoiceDelegate;

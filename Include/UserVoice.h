@@ -38,6 +38,12 @@
 // For integration with other services
 + (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 
+// Tell UserVoice to track an event
++ (void)track:(NSString *)event;
+
+// Tell UserVoice to track an event with properties
++ (void)track:(NSString *)event properties:(NSDictionary *)properties;
+
 /**
  * @deprecated Use [UserVoice presentUserVoiceModalInterfaceForParentViewController:andConfig:] instead.
  */

@@ -160,13 +160,13 @@
 - (void)didCreateUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
-    [UVBabayaga track:AUTHORIZE];
+    [UVBabayaga track:AUTHENTICATE];
     [self invokeDidSignIn];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
-    [UVBabayaga track:AUTHORIZE];
+    [UVBabayaga track:AUTHENTICATE];
     [self invokeDidSignIn];
 }
 
