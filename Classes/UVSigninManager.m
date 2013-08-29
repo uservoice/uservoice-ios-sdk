@@ -12,6 +12,7 @@
 #import "UVAccessToken.h"
 #import "UVUtils.h"
 #import "UVRequestToken.h"
+#import "UVBabayaga.h"
 
 @implementation UVSigninManager
 
@@ -159,11 +160,13 @@
 - (void)didCreateUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
+    [UVBabayaga track:AUTHORIZE];
     [self invokeDidSignIn];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     [UVSession currentSession].user = theUser;
+    [UVBabayaga track:AUTHORIZE];
     [self invokeDidSignIn];
 }
 

@@ -19,6 +19,7 @@
 #import "UVGradientButton.h"
 #import "UVTruncatingLabel.h"
 #import "UVCallback.h"
+#import "UVBabayaga.h"
 
 #define MARGIN 15
 
@@ -88,6 +89,8 @@
 }
 
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
+    [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
+    [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
@@ -273,7 +276,6 @@
     if (votes == 0) {
         [[UVSession currentSession].user didWithdrawSupportForSuggestion:suggestion];
     } else if (suggestion.votesFor == 0) {
-        [[UVSession currentSession] trackInteraction:@"v"];
         [[UVSession currentSession].user didSupportSuggestion:suggestion];
     }
 
@@ -384,6 +386,7 @@
 
 - (void)loadView {
     [super loadView];
+    [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
     self.navigationItem.title = self.suggestion.title;
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.autoresizesSubviews = YES;

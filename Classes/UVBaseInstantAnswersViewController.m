@@ -79,12 +79,10 @@
     id model = [answers objectAtIndex:index];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
-        [UVBabayaga track:VIEW_ARTICLE id:article.articleId];
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
-        [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     }

@@ -18,6 +18,7 @@
 #import "UVRequestContext.h"
 #import "UVUtils.h"
 #import "UVForum.h"
+#import "UVBabayaga.h"
 
 @implementation UVInitialLoadManager {
     
@@ -113,6 +114,7 @@
     if (dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
+    [UVBabayaga track:IDENTIFY];
     userDone = YES;
     [self checkComplete];
 }

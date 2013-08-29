@@ -19,6 +19,7 @@
 #import "UVSuggestionButton.h"
 #import "UVConfig.h"
 #import "UVUtils.h"
+#import "UVBabayaga.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -74,7 +75,7 @@
     for (UVSuggestion *suggestion in theSuggestions) {
         [ids addObject:[NSNumber numberWithInt:suggestion.suggestionId]];
     }
-    [[UVSession currentSession] trackInteraction:[theSuggestions count] > 0 ? @"rip" : @"riz" details:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:[theSuggestions count]], @"count", ids, @"ids", nil]];
+    [UVBabayaga track:SEARCH_IDEAS searchText:searchController.searchBar.text ids:ids];
     [searchController.searchResultsTableView reloadData];
 }
 
@@ -244,7 +245,6 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self updatePattern];
     [UVSuggestion searchWithForum:self.forum query:searchBar.text delegate:self];
-    [[UVSession currentSession] trackInteraction:@"si"];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -253,6 +253,7 @@
 - (void)loadView {
     [super loadView];
 
+    [UVBabayaga track:VIEW_FORUM id:forum.forumId];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
 
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];

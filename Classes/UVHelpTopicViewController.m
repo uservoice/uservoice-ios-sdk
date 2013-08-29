@@ -15,6 +15,7 @@
 #import "UVGradientButton.h"
 #import "UVSession.h"
 #import "UVConfig.h"
+#import "UVBabayaga.h"
 
 @implementation UVHelpTopicViewController
 
@@ -84,6 +85,7 @@
     }
     if (self.topic) {
         [self showActivityIndicator];
+        [UVBabayaga track:VIEW_TOPIC id:topic.topicId];
         [UVArticle getArticlesWithTopicId:topic.topicId delegate:self];
     } else {
         self.articles = [UVSession currentSession].articles;
