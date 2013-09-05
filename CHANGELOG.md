@@ -1,5 +1,7 @@
 ## master ##
 
+## 2.0.12 ##
+
 * Respect specified order of articles within a topic
 * Speed up initial load slightly
 * Fix a potential crash when the SDK is dismissed during initial load
@@ -10,6 +12,7 @@
 * Add client-side forumId option
 * Add a bunch of translations (thanks to rafaelbaggio)
 * Remove need for client keys
+* A bunch of fixes for iOS 7 (more to come)
 
 ## 2.0.11 ##
 
