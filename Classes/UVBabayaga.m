@@ -74,7 +74,7 @@
 
 - (void)track:(NSString *)event props:(NSDictionary *)props {
     if ([UVSession currentSession].clientConfig) {
-        // kick it off
+        [self sendTrack:event props:props];
     } else {
         [_queue addObject:@{@"event" : event, @"props" : props}];
     }
@@ -89,6 +89,7 @@
 }
 
 - (void)sendTrack:(NSString *)event props:(NSDictionary *)props {
+    NSLog(@"sending track: %@", event);
     NSInteger subdomainId = [UVSession currentSession].clientConfig.subdomain.subdomainId;
     NSString *path = [NSString stringWithFormat:@"%d/%@/%@", subdomainId, CHANNEL, event];
     if (_uvts) {
@@ -111,8 +112,8 @@
         [params setObject:encoded forKey:@"d"];
     }
     NSDictionary *opts = @{
-        kHRClassAttributesBaseURLKey : @"https://by.uservoice.com/t/",
-        kHRClassAttributesDelegateKey : self,
+        kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com/t/"],
+        kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
         @"params" : params
     };
     UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];

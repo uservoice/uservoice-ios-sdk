@@ -11,6 +11,7 @@
 
 #define CHANNEL @"i"
 
+#define VIEW_APP        @"g"
 #define VIEW_FORUM      @"m"
 #define VIEW_TOPIC      @"c"
 #define VIEW_KB         @"k"
