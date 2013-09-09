@@ -14,17 +14,22 @@
 @interface UserVoice : NSObject {
 }
 
+// Initialize UserVoice with a config
+// This should be called on app launch so that UserVoice can provide accurate
+// analytics. You can call it again later if you need to change the config.
++ (void)initialize:(UVConfig *)config;
+
 // Modally present the UserVoice portal view
-+ (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController;
 
 // Modally present the UserVoice contact form
-+ (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController;
 
 // Modally present the UserVoice new idea form
-+ (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController;
 
 // Modally present the UserVoice forum view
-+ (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController;
 
 // Set a <UVDelegate> to receive callbacks
 + (void)setDelegate:(id<UVDelegate>)delegate;
@@ -47,6 +52,10 @@
 /**
  * @deprecated Use [UserVoice presentUserVoiceModalInterfaceForParentViewController:andConfig:] instead.
  */
++ (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
++ (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config;
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController andSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret;
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController andSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andSsoToken:(NSString *)token;
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)viewController andSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andEmail:(NSString *)email andDisplayName:(NSString *)displayName andGUID:(NSString *)guid;

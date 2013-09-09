@@ -14,6 +14,7 @@
 #import "UVSubdomain.h"
 #import "UVUtils.h"
 #import "UVRequestContext.h"
+#import "HRFormatJson.h"
 
 @implementation UVBabayaga {
     NSString *_uvts;
@@ -76,7 +77,7 @@
     if ([UVSession currentSession].clientConfig) {
         [self sendTrack:event props:props];
     } else {
-        [_queue addObject:@{@"event" : event, @"props" : props}];
+        [_queue addObject:props ? @{@"event" : event, @"props" : props} : @{@"event": event}];
     }
 }
 
@@ -108,7 +109,7 @@
         @"c" : @"_"
     }];
     if ([data count] > 0) {
-        NSString *encoded = [UVUtils URLEncode:[UVUtils encode64:[UVUtils encodeJSON:data]]];
+        NSString *encoded = [UVUtils encode64:[UVUtils encodeJSON:data]];
         [params setObject:encoded forKey:@"d"];
     }
     NSDictionary *opts = @{
@@ -126,10 +127,11 @@
     requestContext.statusCode = [response statusCode];
 }
 
-- (void)restConnection:(NSURLConnection *)connection didReturnResource:(id)resource object:(id)object {
+- (void)restConnection:(NSURLConnection *)connection didReceiveParseError:(NSError *)error responseBody:(NSString *)body object:(id)object {
     UVRequestContext *requestContext = (UVRequestContext *)object;
     if (requestContext.statusCode == 200) {
-        NSDictionary *dict = (NSDictionary *)resource;
+        NSString *json = [body substringWithRange:NSMakeRange(2, [body length] - 3)];
+        NSDictionary *dict = [[HRFormatJSON class] decode:[json dataUsingEncoding:NSUTF8StringEncoding] error:nil];
         id uvts = [dict objectForKey:@"uvts"];
         if (![[NSNull null] isEqual:uvts] && (!_uvts || ![_uvts isEqual:uvts])) {
             [self setUvts:uvts];
