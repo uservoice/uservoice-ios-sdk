@@ -26,7 +26,7 @@
 #define SUBMIT_TICKET   @"t"
 #define SUBMIT_IDEA     @"d"
 #define SUBSCRIBE_IDEA  @"b"
-#define IDENTIFY        @"x"
+#define IDENTIFY        @"y"
 #define COMMENT_IDEA    @"h"
 
 @interface UVBabayaga : NSObject <HRResponseDelegate>
