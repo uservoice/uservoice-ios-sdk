@@ -129,7 +129,7 @@
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveParseError:(NSError *)error responseBody:(NSString *)body object:(id)object {
     UVRequestContext *requestContext = (UVRequestContext *)object;
-    if (requestContext.statusCode == 200) {
+    if (requestContext.statusCode == 200 && [body length] > 0) {
         NSString *json = [body substringWithRange:NSMakeRange(2, [body length] - 3)];
         NSDictionary *dict = [[HRFormatJSON class] decode:[json dataUsingEncoding:NSUTF8StringEncoding] error:nil];
         id uvts = [dict objectForKey:@"uvts"];
