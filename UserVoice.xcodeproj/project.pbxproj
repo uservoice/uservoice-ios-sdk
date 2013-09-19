@@ -136,6 +136,8 @@
 		D96FAE79165C3DF100A384CC /* UVSigninManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE77165C3DF100A384CC /* UVSigninManager.m */; };
 		D99AFAA6164AC1A40061F50C /* UVKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */; };
 		D99AFAA7164AC1A40061F50C /* UVKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */; };
+		D99BC43E17EB751500AED65E /* UVDeflection.h in Headers */ = {isa = PBXBuildFile; fileRef = D99BC43C17EB751500AED65E /* UVDeflection.h */; };
+		D99BC43F17EB751500AED65E /* UVDeflection.m in Sources */ = {isa = PBXBuildFile; fileRef = D99BC43D17EB751500AED65E /* UVDeflection.m */; };
 		D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */; };
 		D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */; };
 		D9B907751663FC80001AC6B2 /* UVGradientButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B907731663FC80001AC6B2 /* UVGradientButton.h */; };
@@ -311,6 +313,8 @@
 		D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVKeyboardUtils.m; sourceTree = "<group>"; };
 		D99AFAAF1653F2DE0061F50C /* uv_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_x.png; sourceTree = "<group>"; };
 		D99AFAB01653F2DE0061F50C /* uv_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_x@2x.png"; sourceTree = "<group>"; };
+		D99BC43C17EB751500AED65E /* UVDeflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDeflection.h; sourceTree = "<group>"; };
+		D99BC43D17EB751500AED65E /* UVDeflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVDeflection.m; sourceTree = "<group>"; };
 		D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageCache.h; sourceTree = "<group>"; };
 		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
 		D9B907731663FC80001AC6B2 /* UVGradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVGradientButton.h; sourceTree = "<group>"; };
@@ -670,6 +674,8 @@
 			children = (
 				D96CF04A17CD02480055B619 /* UVBabayaga.h */,
 				D96CF04B17CD02480055B619 /* UVBabayaga.m */,
+				D99BC43C17EB751500AED65E /* UVDeflection.h */,
+				D99BC43D17EB751500AED65E /* UVDeflection.m */,
 			);
 			name = Metrics;
 			sourceTree = "<group>";
@@ -725,6 +731,7 @@
 				AC3121F9108FC46500000D5F /* UVBaseModel.h in Headers */,
 				AC31220F108FC57700000D5F /* UVClientConfig.h in Headers */,
 				AC3123A01090EB3700000D5F /* UVSuggestionListViewController.h in Headers */,
+				D99BC43E17EB751500AED65E /* UVDeflection.h in Headers */,
 				AC31242610911C8600000D5F /* UVSession.h in Headers */,
 				AC31253B109231D800000D5F /* Base64Transcoder.h in Headers */,
 				AC312542109231D800000D5F /* YOAuth.h in Headers */,
@@ -877,6 +884,7 @@
 				AC31259F109263F600000D5F /* UVResponseDelegate.m in Sources */,
 				AC31272A109667CE00000D5F /* UVUser.m in Sources */,
 				AC3127EB10976ED800000D5F /* UVSuggestion.m in Sources */,
+				D99BC43F17EB751500AED65E /* UVDeflection.m in Sources */,
 				AC312B21109914C100000D5F /* UVStyleSheet.m in Sources */,
 				AC04F4F5109A3D4A00551F2D /* UVSuggestionDetailsViewController.m in Sources */,
 				ACEE442F10AB370F003D8751 /* UVComment.m in Sources */,
