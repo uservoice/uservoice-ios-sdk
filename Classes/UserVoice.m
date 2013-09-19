@@ -23,7 +23,7 @@
 
 + (void)initialize:(UVConfig *)config {
     [[UVSession currentSession] clear];
-    // [UVBabayaga instance].userTraits = config.userTraits;
+    [UVBabayaga instance].userTraits = [config traits];
     [UVSession currentSession].config = config;
     [UVBabayaga track:VIEW_APP];
     // preload client config so that babayaga can flush

@@ -17,6 +17,8 @@
     NSString *email;
     NSString *guid;
     NSString *extraTicketInfo;
+    NSDictionary *accountTraits;
+    NSDictionary *userTraits;
     NSInteger topicId;
     NSInteger forumId;
     BOOL showForum;
@@ -47,7 +49,12 @@
 @property (nonatomic, assign) BOOL showContactUs;
 @property (nonatomic, assign) BOOL showKnowledgeBase;
 @property (nonatomic, retain) NSString* extraTicketInfo;
+@property (nonatomic, retain) NSDictionary *accountTraits;
+@property (nonatomic, retain) NSDictionary *userTraits;
 
 - (void)identifyUserWithEmail:(NSString *)email name:(NSString *)name guid:(NSString *)guid;
+
+// merged user and account traits
+- (NSDictionary *)traits;
 
 @end
