@@ -12,6 +12,7 @@
 #import "UVNewTicketViewController.h"
 #import "UVStyleSheet.h"
 #import "UVBabayaga.h"
+#import "UVDeflection.h"
 
 @implementation UVArticleViewController
 
@@ -19,6 +20,7 @@
 @synthesize webView;
 @synthesize helpfulPrompt;
 @synthesize returnMessage;
+@synthesize instantAnswers;
 
 - (id)initWithArticle:(UVArticle *)theArticle helpfulPrompt:(NSString *)theHelpfulPrompt returnMessage:(NSString *)theReturnMessage{
     if (self = [super init]) {
@@ -91,6 +93,9 @@
 
 - (void)yesButtonTapped {
     [UVBabayaga track:VOTE_ARTICLE id:article.articleId];
+    if (instantAnswers) {
+        [UVDeflection trackDeflection:@"helpful" deflector:article];
+    }
     if (helpfulPrompt) {
         // Do you still want to contact us?
         // Yes, go to my message
@@ -106,6 +111,9 @@
 }
 
 - (void)noButtonTapped {
+    if (instantAnswers) {
+        [UVDeflection trackDeflection:@"unhelpful" deflector:article];
+    }
     if (helpfulPrompt) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {

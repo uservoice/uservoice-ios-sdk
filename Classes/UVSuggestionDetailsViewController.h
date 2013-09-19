@@ -26,6 +26,7 @@
     UILabel *responseLabel;
     UIView *buttons;
     UIButton *voteButton;
+    BOOL instantAnswers;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
@@ -40,6 +41,7 @@
 @property (nonatomic, retain) UIView *responseView;
 @property (nonatomic, retain) UIView *buttons;
 @property (nonatomic, retain) UIButton *voteButton;
+@property (nonatomic) BOOL instantAnswers;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 - (void)reloadComments;

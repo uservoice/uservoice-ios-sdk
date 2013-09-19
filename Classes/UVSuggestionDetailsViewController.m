@@ -20,6 +20,7 @@
 #import "UVTruncatingLabel.h"
 #import "UVCallback.h"
 #import "UVBabayaga.h"
+#import "UVDeflection.h"
 
 #define MARGIN 15
 
@@ -47,6 +48,7 @@
 @synthesize responseLabel;
 @synthesize buttons;
 @synthesize voteButton;
+@synthesize instantAnswers;
 
 - (id)init {
     self = [super init];
@@ -96,6 +98,9 @@
     self.suggestion = theSuggestion;
     [self hideActivityIndicator];
     [self updateVotesLabel];
+    if (instantAnswers) {
+        [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
+    }
 }
 
 #pragma mark ===== UITableView Methods =====

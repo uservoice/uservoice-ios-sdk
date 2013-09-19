@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class UVBaseModel;
+
 @interface UVDeflection : NSObject
 
++ (void)setSearchText:(NSString *)query;
++ (void)trackDeflection:(NSString *)kind deflector:(UVBaseModel *)model;
++ (void)trackSearchDeflection:(NSArray *)results;
 @end

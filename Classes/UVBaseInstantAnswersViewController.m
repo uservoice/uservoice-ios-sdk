@@ -16,6 +16,7 @@
 #import "UVHighlightingLabel.h"
 #import "UVUtils.h"
 #import "UVBabayaga.h"
+#import "UVDeflection.h"
 
 @implementation UVBaseInstantAnswersViewController
 
@@ -63,7 +64,7 @@
     self.instantAnswers = [NSArray array];
     if (self.instantAnswersQuery == nil) return;
     [self willLoadInstantAnswers];
-    // It's a combined search, remember?
+    [UVDeflection setSearchText:self.instantAnswersQuery];
     [UVArticle getInstantAnswers:self.instantAnswersQuery delegate:self];
     [self updatePattern];
 }
@@ -77,13 +78,16 @@
     if (index >= [answers count])
         return;
     id model = [answers objectAtIndex:index];
+    [UVDeflection trackDeflection:@"show" deflector:model];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
+        next.instantAnswers = YES;
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        next.instantAnswers = YES;
         [self.navigationController pushViewController:next animated:YES];
     }
 }
@@ -228,6 +232,7 @@
         }
     }
     [UVBabayaga track:SEARCH_IDEAS searchText:self.instantAnswersQuery ids:suggestionIds];
+    [UVDeflection trackSearchDeflection:theInstantAnswers];
 }
 
 - (void)cleanupInstantAnswersTimer {

@@ -28,7 +28,7 @@ static NSInteger interactionIdentifier;
         [params setObject:@"Suggestion" forKey:@"deflector_type"];
         [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:@"deflector_id"];
     }
-    [self sendDeflection:@"/clients/omnibox/deflections/upsert.json" params:params];
+    [self sendDeflection:@"/clients/widgets/omnibox/deflections/upsert.json" params:params];
 }
 
 + (void)trackSearchDeflection:(NSArray *)results {
@@ -47,7 +47,7 @@ static NSInteger interactionIdentifier;
     }
     [params setObject:articleIds forKey:@"faq_ids[]"];
     [params setObject:suggestionIds forKey:@"suggestion_ids[]"];
-    [self sendDeflection:@"/clients/omnibox/deflections/list_view.json" params:params];
+    [self sendDeflection:@"/clients/widgets/omnibox/deflections/list_view.json" params:params];
 }
 
 + (void)setSearchText:(NSString *)query {
