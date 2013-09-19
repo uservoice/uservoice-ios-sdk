@@ -100,6 +100,7 @@
 
 - (void)finish {
     //HRLOG(@"Operation Finished. Releasing...");
+    NSLog(@"finishing");
     [_connection release];
     _connection = nil;
     
@@ -118,6 +119,7 @@
 
 - (void)cancel {
     //HRLOG(@"SHOULD CANCEL");
+    NSLog(@"cancel");
     [self willChangeValueForKey:@"isCancelled"];
     
     [_connection cancel];    
@@ -187,6 +189,7 @@
         results = [[self formatter] decode:_responseData error:&parseError];
                 
         if(parseError) {
+            NSLog(@"parse error");
             NSString *rawString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
             if([_delegate respondsToSelector:@selector(restConnection:didReceiveParseError:responseBody:object:)]) {
                 [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReceiveParseError:responseBody:object:) withObjects:@[connection, parseError, rawString, _object]];
@@ -196,8 +199,10 @@
             [self finish];
             
             return;
-        }  
+        }
     }
+
+    NSLog(@"no error");
 
     if([_delegate respondsToSelector:@selector(restConnection:didReturnResource:object:)]) {        
         [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReturnResource:object:) withObjects:@[connection, results, _object]];
