@@ -1,5 +1,8 @@
 ## master ##
 
+* Add support for new UserVoice metrics
+* Add the ability to control the navbar font
+
 ## 2.0.12 ##
 
 * Respect specified order of articles within a topic
