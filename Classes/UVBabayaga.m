@@ -118,8 +118,7 @@
         @"params" : params
     };
     UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];
-    NSOperation *operation = [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:requestContext];
-    [operation start];
+    [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:requestContext];
 }
 
 - (void)restConnection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response object:(id)object {
@@ -130,11 +129,13 @@
 - (void)restConnection:(NSURLConnection *)connection didReceiveParseError:(NSError *)error responseBody:(NSString *)body object:(id)object {
     UVRequestContext *requestContext = (UVRequestContext *)object;
     if (requestContext.statusCode == 200 && [body length] > 0) {
-        NSString *json = [body substringWithRange:NSMakeRange(2, [body length] - 3)];
+        NSString *json = [body substringWithRange:NSMakeRange(2, [body length] - 4)];
         NSDictionary *dict = [[HRFormatJSON class] decode:[json dataUsingEncoding:NSUTF8StringEncoding] error:nil];
-        id uvts = [dict objectForKey:@"uvts"];
-        if (![[NSNull null] isEqual:uvts] && (!_uvts || ![_uvts isEqual:uvts])) {
-            [self setUvts:uvts];
+        if (dict) {
+            id uvts = [dict objectForKey:@"uvts"];
+            if (![[NSNull null] isEqual:uvts] && (!_uvts || ![_uvts isEqual:uvts])) {
+                [self setUvts:uvts];
+            }
         }
     }
 }

@@ -21,9 +21,7 @@
 #import "UVBabayaga.h"
 
 @implementation UVInitialLoadManager {
-    
     UIAlertView *_errorAlertView;
-    
 }
 
 @synthesize dismissed;
@@ -43,7 +41,11 @@
 }
 
 - (void)beginLoad {
-    [UVClientConfig getWithDelegate:self];
+    if ([UVSession currentSession].clientConfig) {
+        [self didLoadClientConfig];
+    } else {
+        [UVClientConfig getWithDelegate:self];
+    }
     [self loadUser];
 }
 
@@ -82,6 +84,11 @@
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
     if (dismissed) return;
     [UVSession currentSession].clientConfig = clientConfig;
+    [self didLoadClientConfig];
+}
+
+- (void)didLoadClientConfig {
+    UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
     configDone = YES;
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {

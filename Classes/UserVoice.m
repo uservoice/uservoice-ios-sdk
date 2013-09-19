@@ -17,6 +17,7 @@
 #import "UVNavigationController.h"
 #import "UVUtils.h"
 #import "UVBabayaga.h"
+#import "UVClientConfig.h"
 
 @implementation UserVoice
 
@@ -25,7 +26,12 @@
     // [UVBabayaga instance].userTraits = config.userTraits;
     [UVSession currentSession].config = config;
     [UVBabayaga track:VIEW_APP];
-    // load ClientConfig
+    // preload client config so that babayaga can flush
+    [UVClientConfig getWithDelegate:self];
+}
+
++ (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
+    [UVSession currentSession].clientConfig = clientConfig;
 }
 
 + (void)presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController {
