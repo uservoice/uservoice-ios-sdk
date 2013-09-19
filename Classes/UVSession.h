@@ -28,10 +28,6 @@
     UVAccessToken *accessToken;
     UVRequestToken *requestToken;
     UVForum *forum;
-    NSMutableDictionary *interactions;
-    NSMutableArray *interactionSequence;
-    NSMutableArray *interactionDetails;
-    NSUInteger interactionId;
     NSMutableDictionary *externalIds;
     NSArray *topics;
     NSArray *articles;
@@ -47,24 +43,17 @@
 @property (nonatomic, retain) UVForum *forum;
 @property (nonatomic, retain) UVAccessToken *accessToken;
 @property (nonatomic, retain) UVRequestToken *requestToken;
-@property (nonatomic, retain) NSMutableDictionary *interactions;
-@property (nonatomic, retain) NSMutableArray *interactionSequence;
-@property (nonatomic, retain) NSMutableArray *interactionDetails;
 @property (nonatomic, retain) NSMutableDictionary *externalIds;
 @property (nonatomic, retain) NSArray *topics;
 @property (nonatomic, retain) NSArray *articles;
 @property (nonatomic, retain) NSString *flashTitle;
 @property (nonatomic, retain) NSString *flashMessage;
 @property (nonatomic, retain) UVSuggestion *flashSuggestion;
-@property (nonatomic, assign) NSUInteger interactionId;
 
 + (UVSession *)currentSession;
 - (YOAuthConsumer *)yOAuthConsumer;
 
 - (BOOL)loggedIn;
-- (void)trackInteraction:(NSString *)interaction;
-- (void)trackInteraction:(NSString *)interaction details:(NSDictionary *)details;
-- (void)flushInteractions;
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 - (void)clear;
 - (void)clearFlash;

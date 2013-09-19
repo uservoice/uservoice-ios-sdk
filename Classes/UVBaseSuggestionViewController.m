@@ -19,6 +19,7 @@
 #import "UVWelcomeViewController.h"
 #import "UVCategorySelectViewController.h"
 #import "UVCallback.h"
+#import "UVBabayaga.h"
 
 @implementation UVBaseSuggestionViewController {
     
@@ -78,7 +79,6 @@
 - (void)createSuggestion {
     self.title = titleField.text;
     self.text = textView.text;
-    [[UVSession currentSession] trackInteraction:@"pi"];
     
     [UVSuggestion createWithForum:self.forum
                          category:self.category
@@ -114,6 +114,7 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
+    [UVBabayaga track:SUBMIT_IDEA];
 
     // increment the created suggestions and supported suggestions counts
     [[UVSession currentSession].user didCreateSuggestion:theSuggestion];

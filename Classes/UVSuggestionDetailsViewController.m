@@ -19,6 +19,8 @@
 #import "UVGradientButton.h"
 #import "UVTruncatingLabel.h"
 #import "UVCallback.h"
+#import "UVBabayaga.h"
+#import "UVDeflection.h"
 
 #define MARGIN 15
 
@@ -46,6 +48,7 @@
 @synthesize responseLabel;
 @synthesize buttons;
 @synthesize voteButton;
+@synthesize instantAnswers;
 
 - (id)init {
     self = [super init];
@@ -88,11 +91,16 @@
 }
 
 - (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
+    [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
+    [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
     [self hideActivityIndicator];
     [self updateVotesLabel];
+    if (instantAnswers) {
+        [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
+    }
 }
 
 #pragma mark ===== UITableView Methods =====
@@ -273,7 +281,6 @@
     if (votes == 0) {
         [[UVSession currentSession].user didWithdrawSupportForSuggestion:suggestion];
     } else if (suggestion.votesFor == 0) {
-        [[UVSession currentSession] trackInteraction:@"v"];
         [[UVSession currentSession].user didSupportSuggestion:suggestion];
     }
 
@@ -384,6 +391,7 @@
 
 - (void)loadView {
     [super loadView];
+    [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
     self.navigationItem.title = self.suggestion.title;
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.autoresizesSubviews = YES;

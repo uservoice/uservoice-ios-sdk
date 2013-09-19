@@ -24,6 +24,7 @@
 #import "UVConfig.h"
 #import "UVNewSuggestionViewController.h"
 #import "UVGradientButton.h"
+#import "UVBabayaga.h"
 
 #define UV_WELCOME_VIEW_ROW_FEEDBACK 0
 #define UV_WELCOME_VIEW_ROW_SUPPORT 1
@@ -293,6 +294,7 @@
 
 - (void)loadView {
     [super loadView];
+    [UVBabayaga track:VIEW_CHANNEL];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                               style:UIBarButtonItemStylePlain

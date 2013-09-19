@@ -196,7 +196,7 @@
             [self finish];
             
             return;
-        }  
+        }
     }
 
     if([_delegate respondsToSelector:@selector(restConnection:didReturnResource:object:)]) {        

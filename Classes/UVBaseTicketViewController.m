@@ -24,6 +24,7 @@
 #import "UVForum.h"
 #import "UVKeyboardUtils.h"
 #import "UVWelcomeViewController.h"
+#import "UVBabayaga.h"
 
 @implementation UVBaseTicketViewController
 
@@ -76,7 +77,6 @@
     } else {
         [self showActivityIndicator];
         [UVTicket createWithMessage:self.text andEmailIfNotLoggedIn:emailField.text andName:nameField.text andCustomFields:selectedCustomFieldValues andDelegate:self];
-        [[UVSession currentSession] trackInteraction:@"pt"];
     }
 }
 
@@ -84,6 +84,7 @@
     self.text = nil;
     [self hideActivityIndicator];
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your message has been sent.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:nil];
+    [UVBabayaga track:SUBMIT_TICKET];
 
     [self cleanupInstantAnswersTimer];
     dismissed = YES;

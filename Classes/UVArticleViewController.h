@@ -14,12 +14,14 @@
     UIWebView *webView;
     NSString *helpfulPrompt;
     NSString *returnMessage;
+    BOOL instantAnswers;
 }
 
 @property (nonatomic, retain) UVArticle *article;
 @property (nonatomic, retain) UIWebView *webView;
 @property (nonatomic, retain) NSString *helpfulPrompt;
 @property (nonatomic, retain) NSString *returnMessage;
+@property (nonatomic) BOOL instantAnswers;
 
 - (id)initWithArticle:(UVArticle *)article helpfulPrompt:(NSString *)helpfulPrompt returnMessage:(NSString *)returnMessage;
 

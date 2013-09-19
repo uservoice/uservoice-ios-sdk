@@ -27,6 +27,8 @@
 @synthesize showContactUs;
 @synthesize showKnowledgeBase;
 @synthesize extraTicketInfo;
+@synthesize userTraits;
+@synthesize accountTraits;
 
 + (UVConfig *)configWithSite:(NSString *)site {
     return [[[UVConfig alloc] initWithSite:site andKey:nil andSecret:nil] autorelease];
@@ -67,6 +69,17 @@
 
 - (int)forumId {
     return forumId == 0 ? [UVSession currentSession].clientConfig.defaultForumId : forumId;
+}
+
+- (NSDictionary *)traits {
+    NSMutableDictionary *traits = [NSMutableDictionary dictionary];
+    for (NSString *k in userTraits) {
+        [traits setObject:[NSString stringWithFormat:@"%@", [userTraits objectForKey:k]] forKey:k];
+    }
+    for (NSString *k in accountTraits) {
+        [traits setObject:[NSString stringWithFormat:@"%@", [userTraits objectForKey:k]] forKey:[NSString stringWithFormat:@"account_%@", k]];
+    }
+    return traits;
 }
 
 - (BOOL)showForum {

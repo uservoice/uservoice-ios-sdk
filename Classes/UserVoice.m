@@ -16,11 +16,25 @@
 #import "UVSuggestionListViewController.h"
 #import "UVNavigationController.h"
 #import "UVUtils.h"
+#import "UVBabayaga.h"
+#import "UVClientConfig.h"
 
 @implementation UserVoice
 
-+ (void) presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
++ (void)initialize:(UVConfig *)config {
+    [[UVSession currentSession] clear];
+    [UVBabayaga instance].userTraits = [config traits];
     [UVSession currentSession].config = config;
+    [UVBabayaga track:VIEW_APP];
+    // preload client config so that babayaga can flush
+    [UVClientConfig getWithDelegate:self];
+}
+
++ (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
+    [UVSession currentSession].clientConfig = clientConfig;
+}
+
++ (void)presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController {
     [UVSession currentSession].isModal = YES;
     UINavigationController *navigationController = [[[UVNavigationController alloc] init] autorelease];
     [UVUtils applyStylesheetToNavigationController:navigationController];
@@ -29,8 +43,8 @@
     [parentViewController presentModalViewController:navigationController animated:YES];
 }
 
-+ (void) presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController withConfig:(UVConfig *)config {
-    [self presentUserVoiceControllers:[NSArray arrayWithObject:viewController] forParentViewController:parentViewController withConfig:config];
++ (void)presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController {
+    [self presentUserVoiceControllers:[NSArray arrayWithObject:viewController] forParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceModalViewControllerForParent:(UIViewController *)parentViewController andSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
@@ -48,28 +62,56 @@
     [self presentUserVoiceInterfaceForParentViewController:parentViewController andConfig:config];
 }
 
-+ (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
++ (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController {
     UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"welcome"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
+    [self presentUserVoiceController:viewController forParentViewController:parentViewController];
+}
+
++ (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController {
+    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_ticket"] autorelease];
+    [self presentUserVoiceController:viewController forParentViewController:parentViewController];
+}
+
++ (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController {
+    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_suggestion"] autorelease];
+    [self presentUserVoiceController:viewController forParentViewController:parentViewController];
+}
+
++ (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController {
+    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"suggestions"] autorelease];
+    [self presentUserVoiceController:viewController forParentViewController:parentViewController];
+}
+
++ (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
+    [self initialize:config];
+    [self presentUserVoiceInterfaceForParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_ticket"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
+    [self initialize:config];
+    [self presentUserVoiceContactUsFormForParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_suggestion"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
+    [self initialize:config];
+    [self presentUserVoiceNewIdeaFormForParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController andConfig:(UVConfig *)config {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"suggestions"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController withConfig:config];
+    [self initialize:config];
+    [self presentUserVoiceForumForParentViewController:parentViewController];
 }
 
 + (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {
     [[UVSession currentSession] setExternalId:identifier forScope:scope];
+}
+
++ (void)track:(NSString *)event properties:(NSDictionary *)properties {
+    [UVBabayaga track:event props:properties];
+}
+
++ (void)track:(NSString *)event {
+    [UVBabayaga track:event];
 }
 
 static id<UVDelegate> userVoiceDelegate;

@@ -41,7 +41,6 @@
 
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
-    [[UVSession currentSession] flushInteractions];
     [[UVSession currentSession] clear];
     [[UVSession currentSession] clearFlash];
     
