@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class UIColor, UIImage;
 
@@ -35,6 +36,7 @@
 + (UIImage *)navigationBarBackgroundImage;
 + (UIColor *)navigationBarTextColor;
 + (UIColor *)navigationBarTextShadowColor;
++ (UIFont *)navigationBarFont;
 
 /**
  * The background color for all table views, etc.
@@ -140,5 +142,13 @@
  * Default: nil (platform default).
  */
 - (UIColor *)navigationBarTextShadowColor;
+
+
+/**
+ * Set as the font for the navigation bar in the UserVoice popover.
+ *
+ * Default: nil (platform default).
+ */
+- (UIFont *)navigationBarFont;
 
 @end

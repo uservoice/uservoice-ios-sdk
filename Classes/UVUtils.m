@@ -264,6 +264,9 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     if ([UVStyleSheet navigationBarTextShadowColor]) {
         [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextShadowColor] forKey:UITextAttributeTextShadowColor];
     }
+    if ([UVStyleSheet navigationBarFont]) {
+        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarFont] forKey:UITextAttributeFont];
+    }
     [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }
 

@@ -101,6 +101,10 @@ static UVStyleSheet *styleSheet;
     return [[self styleSheet] navigationBarTextShadowColor];
 }
 
++ (UIFont *)navigationBarFont {
+    return [[self styleSheet] navigationBarFont];
+}
+
 + (UIColor *)tableViewHeaderColor {
     return [[self styleSheet] tableViewHeaderColor];
 }
@@ -174,6 +178,10 @@ static UVStyleSheet *styleSheet;
 }
 
 - (UIColor *)navigationBarTextShadowColor {
+    return nil;
+}
+
+- (UIFont *)navigationBarFont {
     return nil;
 }
 
