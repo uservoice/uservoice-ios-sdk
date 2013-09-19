@@ -35,7 +35,7 @@
 
 - (void)setZebraColorFromIndex:(NSInteger)index {
     BOOL darkZebra = index % 2 == 0;
-    if (IOS7) {
+    if (!IOS7) {
         self.backgroundColor = [UVStyleSheet zebraBgColor:darkZebra];
     }
 }
