@@ -128,6 +128,25 @@ There are 4 options for how to launch UserVoice from within your app:
 
     [UserVoice presentUserVoiceNewIdeaFormForParentViewController:self andConfig:config];
 
+
+### Passing user traits
+
+You can optionally pass further information about your users into UserVoice. This
+will allow us to provide you more useful reports about your users.
+
+    config.userTraits = @{
+      @"created_at" : @(1364406966),    // Unix timestamp for the date the user signed up
+      @"type" : @"Owner",               // Optional: segment your users by type
+      @"account" : @{
+        @"id" : @(123),                 // Optional: associate multiple users with a single account
+        @"name" : @"Acme, Co.",         // Account name
+        @"created_at" : @(1364406966),  // Unix timestampe for the date the account was created
+        @"monthly_rate" : @(9.99),      // Decimal; monthly rate of the account
+        @"ltv" : @(1495.00),            // Decimal; lifetime value of the account
+        @"plan" : @"Enhanced"           // Plan name for the account
+      }
+    };
+
 ### Customizing Colors
 
 You can also customize the appearance of the UserVoice user interface by

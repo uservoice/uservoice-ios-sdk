@@ -28,7 +28,6 @@
 @synthesize showKnowledgeBase;
 @synthesize extraTicketInfo;
 @synthesize userTraits;
-@synthesize accountTraits;
 
 + (UVConfig *)configWithSite:(NSString *)site {
     return [[[UVConfig alloc] initWithSite:site andKey:nil andSecret:nil] autorelease];
@@ -73,11 +72,13 @@
 
 - (NSDictionary *)traits {
     NSMutableDictionary *traits = [NSMutableDictionary dictionary];
+    NSDictionary *accountTraits = [userTraits objectForKey:@"account"];
     for (NSString *k in userTraits) {
+        if ([k isEqualToString:@"account"]) continue;
         [traits setObject:[NSString stringWithFormat:@"%@", [userTraits objectForKey:k]] forKey:k];
     }
     for (NSString *k in accountTraits) {
-        [traits setObject:[NSString stringWithFormat:@"%@", [userTraits objectForKey:k]] forKey:[NSString stringWithFormat:@"account_%@", k]];
+        [traits setObject:[NSString stringWithFormat:@"%@", [accountTraits objectForKey:k]] forKey:[NSString stringWithFormat:@"account_%@", k]];
     }
     return traits;
 }

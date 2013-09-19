@@ -17,7 +17,6 @@
     NSString *email;
     NSString *guid;
     NSString *extraTicketInfo;
-    NSDictionary *accountTraits;
     NSDictionary *userTraits;
     NSInteger topicId;
     NSInteger forumId;
@@ -49,7 +48,6 @@
 @property (nonatomic, assign) BOOL showContactUs;
 @property (nonatomic, assign) BOOL showKnowledgeBase;
 @property (nonatomic, retain) NSString* extraTicketInfo;
-@property (nonatomic, retain) NSDictionary *accountTraits;
 @property (nonatomic, retain) NSDictionary *userTraits;
 
 - (void)identifyUserWithEmail:(NSString *)email name:(NSString *)name guid:(NSString *)guid;
