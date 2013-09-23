@@ -93,9 +93,11 @@
 
 // This is used when dismissing UV so that everything gets reloaded
 - (void)clear {
-    self.user = nil;
-    self.clientConfig = nil;
     self.requestToken = nil;
+    [user release];
+    user = nil;
+    [clientConfig release];
+    clientConfig = nil;
 }
 
 - (YOAuthConsumer *)yOAuthConsumer {

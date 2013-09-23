@@ -25,15 +25,15 @@
     NSString *secret;
 }
 
+@property (nonatomic, retain) UVSubdomain *subdomain;
+@property (nonatomic, retain) NSArray *customFields;
+@property (nonatomic, retain) NSString *key;
+@property (nonatomic, retain) NSString *secret;
 @property (nonatomic, assign) BOOL ticketsEnabled;
 @property (nonatomic, assign) BOOL feedbackEnabled;
 @property (nonatomic, assign) BOOL whiteLabel;
-@property (nonatomic, retain) UVSubdomain *subdomain;
-@property (nonatomic, retain) NSArray *customFields;
 @property (nonatomic, assign) NSInteger clientId;
 @property (nonatomic, assign) NSInteger defaultForumId;
-@property (nonatomic, assign) NSString *key;
-@property (nonatomic, assign) NSString *secret;
 
 + (id)getWithDelegate:(id)delegate;
 + (CGFloat)getScreenWidth;

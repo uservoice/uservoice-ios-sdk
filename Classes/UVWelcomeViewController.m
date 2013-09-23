@@ -294,7 +294,7 @@
 
 - (void)loadView {
     [super loadView];
-    [UVBabayaga track:VIEW_CHANNEL];
+    [UVBabayaga track:VIEW_KB];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                               style:UIBarButtonItemStylePlain
