@@ -76,7 +76,7 @@ static NSInteger interactionIdentifier;
 + (NSMutableDictionary *)deflectionParams {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
-    [params setObject:CHANNEL forKey:@"channel"];
+    [params setObject:@"ios" forKey:@"channel"];
     [params setObject:searchText forKey:@"search_term"];
     [params setObject:[NSString stringWithFormat:@"%d", [self interactionIdentifier]] forKey:@"interaction_identifier"];
     return params;
