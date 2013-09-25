@@ -62,7 +62,7 @@
 }
 
 - (void)checkComplete {
-    if (configDone && userDone && topicsDone && articlesDone) {
+    if (configDone && userDone && topicsDone && articlesDone && forumDone) {
         if ([UVSession currentSession].user) {
             [[UVSession currentSession].user updateVotesRemaining];
         }
