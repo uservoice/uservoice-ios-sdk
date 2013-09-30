@@ -124,34 +124,6 @@
     // update the remaining votes
     [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
 
-    // Back out to the welcome screen
-    if ([UVSession currentSession].isModal && firstController) {
-        CATransition* transition = [CATransition animation];
-        transition.duration = 0.3;
-        transition.type = kCATransitionFade;
-        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
-        welcomeView.firstController = YES;
-        NSArray *viewControllers = @[[self.navigationController.viewControllers objectAtIndex:0], welcomeView];
-        [self.navigationController setViewControllers:viewControllers animated:NO];
-    } else {
-        UVSuggestionListViewController *list = (UVSuggestionListViewController *)[((UINavigationController *)self.presentingViewController).viewControllers lastObject];
-        [list.navigationController setNavigationBarHidden:NO animated:NO];
-        if ([UVSession currentSession].isModal && list.firstController) {
-            CATransition* transition = [CATransition animation];
-            transition.duration = 0.3;
-            transition.type = kCATransitionFade;
-            [list.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-            UVWelcomeViewController *welcomeView = [[[UVWelcomeViewController alloc] init] autorelease];
-            welcomeView.firstController = YES;
-            NSArray *viewControllers = @[[list.navigationController.viewControllers objectAtIndex:0], welcomeView];
-            [list.navigationController setViewControllers:viewControllers animated:NO];
-        } else {
-            [list.navigationController popViewControllerAnimated:NO];
-            [(UVWelcomeViewController *)[list.navigationController.viewControllers lastObject] updateLayout];
-        }
-    }
-    
     _isSubmittingSuggestion = NO;
     
     [self hideActivityIndicator];

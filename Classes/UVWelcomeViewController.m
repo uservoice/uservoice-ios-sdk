@@ -26,12 +26,6 @@
 #import "UVGradientButton.h"
 #import "UVBabayaga.h"
 
-#define UV_WELCOME_VIEW_ROW_FEEDBACK 0
-#define UV_WELCOME_VIEW_ROW_SUPPORT 1
-
-#define SEARCH_BAR_BORDER1 1001
-#define SEARCH_BAR_BORDER2 1002
-
 @implementation UVWelcomeViewController
 
 @synthesize scrollView;
@@ -41,13 +35,6 @@
 @synthesize flashView;
 @synthesize buttons;
 @synthesize searchController;
-
-- (id)init {
-    if (self = [super init]) {
-        self.title = NSLocalizedStringFromTable(@"Welcome", @"UserVoice", nil);
-    }
-    return self;
-}
 
 - (BOOL)showArticles {
     return [UVSession currentSession].config.topicId || [[UVSession currentSession].topics count] == 0;
@@ -276,7 +263,7 @@
                 flashView.frame = CGRectMake(0, searchY, scrollView.bounds.size.width, 80);
             }
             [flashTable reloadData];
-            flashTable.frame = CGRectMake(flashTable.frame.origin.x, flashTable.frame.origin.y, flashTable.contentSize.width, flashTable.contentSize.height);
+            flashTable.frame = CGRectMake(flashTable.frame.origin.x, flashTable.frame.origin.y - (IOS7 ? 26 : 0), flashTable.contentSize.width, flashTable.contentSize.height);
             buttons.frame = CGRectMake(IPAD ? 30 : 10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), hasButtons ? 44 : 0);
         } else {
             flashView.hidden = YES;
@@ -349,13 +336,9 @@
     flashTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     flashTable.backgroundColor = [UIColor clearColor];
     [flashView addSubview:flashTable];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 2, flashView.bounds.size.width, 1)] autorelease];
+    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 1, flashView.bounds.size.width, 1)] autorelease];
     border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
-    [flashView addSubview:border];
-    border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 1, flashView.bounds.size.width, 1)] autorelease];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    border.backgroundColor = [UIColor whiteColor];
     [flashView addSubview:border];
     [scrollView addSubview:flashView];
 
