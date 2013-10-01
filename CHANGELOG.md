@@ -1,7 +1,12 @@
 ## master ##
 
+## 2.0.13 ##
+
 * Add support for new UserVoice metrics
 * Add the ability to control the navbar font
+* Fix crash on iOS 7 when posting ideas
+* Stop forcing user to return to the portal view after creating an idea or ticket
+* Add the ability to customize the nav bar font
 
 ## 2.0.12 ##
 

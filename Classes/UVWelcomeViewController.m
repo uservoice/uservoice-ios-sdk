@@ -302,10 +302,6 @@
         if ([UVSession currentSession].config.showForum) {
             searchBar.scopeButtonTitles = @[NSLocalizedStringFromTable(@"All", @"UserVoice", nil), NSLocalizedStringFromTable(@"Articles", @"UserVoice", nil), NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil)];
         }
-        UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, searchBar.bounds.size.height, searchBar.bounds.size.width, 1)] autorelease];
-        border.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        border.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:border];
         [self.view addSubview:searchBar];
 
         self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
