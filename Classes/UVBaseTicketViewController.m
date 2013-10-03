@@ -51,6 +51,10 @@
     return self;
 }
 
+- (NSString *)deflectingType {
+    return @"Ticket";
+}
+
 - (void)dismissKeyboard {
 }
 

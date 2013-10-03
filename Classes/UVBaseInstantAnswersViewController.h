@@ -49,6 +49,11 @@
 - (int)maxInstantAnswerResults;
 
 /**
+ * Return the deflecting type (Ticket or Suggestion) for this controller
+ */
+- (NSString *)deflectingType;
+
+/**
  * Reset the instant answers timer for 0.5 seconds
  */
 - (void)searchInstantAnswers:(NSString *)query;

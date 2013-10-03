@@ -21,6 +21,7 @@
     NSInteger voteCount;
     NSInteger votesFor;
     NSInteger votesRemaining;
+    NSInteger weight;
     NSString *title;
     NSString *abstract;
     NSString *text;
@@ -49,6 +50,7 @@
 @property (assign) NSInteger voteCount;
 @property (assign) NSInteger votesFor;
 @property (assign) NSInteger votesRemaining;
+@property (assign) NSInteger weight;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *abstract;
 @property (nonatomic, retain) NSString *text;

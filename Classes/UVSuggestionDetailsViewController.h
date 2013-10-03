@@ -27,6 +27,7 @@
     UIView *buttons;
     UIButton *voteButton;
     BOOL instantAnswers;
+    NSString *deflectingType;
 }
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
@@ -41,9 +42,11 @@
 @property (nonatomic, retain) UIView *responseView;
 @property (nonatomic, retain) UIView *buttons;
 @property (nonatomic, retain) UIButton *voteButton;
+@property (nonatomic, retain) NSString *deflectingType;
 @property (nonatomic) BOOL instantAnswers;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
+- (id)initWithSuggestion:(UVSuggestion *)theSuggestion deflectingType:(NSString *)deflectingType;
 - (void)reloadComments;
 
 @end

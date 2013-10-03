@@ -25,6 +25,7 @@
     UVTextView *textView;
     UVCategory *category;
     BOOL shouldShowCategories;
+    NSString *deflectingType;
 }
 
 @property (nonatomic, retain) UVForum *forum;
@@ -38,6 +39,7 @@
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UVCategory *category;
 @property (assign) BOOL shouldShowCategories;
+@property (nonatomic, retain) NSString *deflectingType;
 
 - (id)initWithTitle:(NSString *)theTitle;
 - (void)pushCategorySelectView;

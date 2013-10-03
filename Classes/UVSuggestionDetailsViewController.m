@@ -49,6 +49,7 @@
 @synthesize buttons;
 @synthesize voteButton;
 @synthesize instantAnswers;
+@synthesize deflectingType;
 
 - (id)init {
     self = [super init];
@@ -66,6 +67,16 @@
 
     if (self) {
         self.suggestion = theSuggestion;
+    }
+
+    return self;
+}
+
+- (id)initWithSuggestion:(UVSuggestion *)theSuggestion deflectingType:(NSString *)deflectingType {
+    self = [self initWithSuggestion:suggestion];
+
+    if (self) {
+        self.deflectingType = deflectingType;
     }
 
     return self;
@@ -99,7 +110,7 @@
     [self hideActivityIndicator];
     [self updateVotesLabel];
     if (instantAnswers) {
-        [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
+        [UVDeflection trackDeflection:@"subscribed" deflectingType:deflectingType deflector:theSuggestion];
     }
 }
 
@@ -605,6 +616,7 @@
     self.responseLabel = nil;
     self.buttons = nil;
     self.voteButton = nil;
+    self.deflectingType = nil;
     
     [_showVotesCallback invalidate];
     [_showVotesCallback release];

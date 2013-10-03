@@ -14,6 +14,7 @@
     UIWebView *webView;
     NSString *helpfulPrompt;
     NSString *returnMessage;
+    NSString *deflectingType;
     BOOL instantAnswers;
 }
 
@@ -21,8 +22,10 @@
 @property (nonatomic, retain) UIWebView *webView;
 @property (nonatomic, retain) NSString *helpfulPrompt;
 @property (nonatomic, retain) NSString *returnMessage;
+@property (nonatomic, retain) NSString *deflectingType;
 @property (nonatomic) BOOL instantAnswers;
 
-- (id)initWithArticle:(UVArticle *)article helpfulPrompt:(NSString *)helpfulPrompt returnMessage:(NSString *)returnMessage;
+- (id)initWithArticle:(UVArticle *)article;
+- (id)initWithArticle:(UVArticle *)article deflectingType:(NSString *)deflectingType helpfulPrompt:(NSString *)helpfulPrompt returnMessage:(NSString *)returnMessage;
 
 @end

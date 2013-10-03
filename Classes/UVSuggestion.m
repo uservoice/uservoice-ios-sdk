@@ -15,6 +15,7 @@
 #import "UVCategory.h"
 #import "UVSuggestionDetailsViewController.h"
 #import "UVUtils.h"
+#import "UVDeflection.h"
 
 @implementation UVSuggestion
 
@@ -41,6 +42,7 @@
 @synthesize responseUserId;
 @synthesize responseCreatedAt;
 @synthesize category;
+@synthesize weight;
 
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
@@ -81,6 +83,7 @@
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
                             category == nil ? @"" : [[NSNumber numberWithInteger:category.categoryId] stringValue], @"suggestion[category_id]",
+                            [NSString stringWithFormat:@"%d", [UVDeflection interactionIdentifier]], @"interaction_identifier",
                             nil];
     return [[self class] postPath:path
                        withParams:params
@@ -127,6 +130,7 @@
         self.abstract = [self objectOrNilForDict:dict key:@"abstract"];
         self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
         self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+        self.weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
         if (statusDict)
         {

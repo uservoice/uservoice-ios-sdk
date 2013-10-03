@@ -15,4 +15,6 @@
 + (void)setSearchText:(NSString *)query;
 + (void)trackDeflection:(NSString *)kind deflector:(UVBaseModel *)model;
 + (void)trackSearchDeflection:(NSArray *)results;
++ (NSInteger)interactionIdentifier;
+
 @end

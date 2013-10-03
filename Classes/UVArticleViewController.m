@@ -21,13 +21,22 @@
 @synthesize helpfulPrompt;
 @synthesize returnMessage;
 @synthesize instantAnswers;
+@synthesize deflectingType;
 
-- (id)initWithArticle:(UVArticle *)theArticle helpfulPrompt:(NSString *)theHelpfulPrompt returnMessage:(NSString *)theReturnMessage{
+- (id)initWithArticle:(UVArticle *)theArticle {
     if (self = [super init]) {
         self.article = theArticle;
+        [UVBabayaga track:VIEW_ARTICLE id:article.articleId];
+    }
+    return self;
+}
+
+- (id)initWithArticle:(UVArticle *)theArticle deflectingType:(NSString *)theDeflectingType helpfulPrompt:(NSString *)theHelpfulPrompt returnMessage:(NSString *)theReturnMessage {
+    self = [self initWithArticle:theArticle];
+    if (self) {
         self.helpfulPrompt = theHelpfulPrompt;
         self.returnMessage = theReturnMessage;
-        [UVBabayaga track:VIEW_ARTICLE id:article.articleId];
+        self.deflectingType = theDeflectingType;
     }
     return self;
 }
@@ -94,7 +103,7 @@
 - (void)yesButtonTapped {
     [UVBabayaga track:VOTE_ARTICLE id:article.articleId];
     if (instantAnswers) {
-        [UVDeflection trackDeflection:@"helpful" deflector:article];
+        [UVDeflection trackDeflection:@"helpful" deflectingType:deflectingType deflector:article];
     }
     if (helpfulPrompt) {
         // Do you still want to contact us?
@@ -112,7 +121,7 @@
 
 - (void)noButtonTapped {
     if (instantAnswers) {
-        [UVDeflection trackDeflection:@"unhelpful" deflector:article];
+        [UVDeflection trackDeflection:@"unhelpful" deflectingType:deflectingType deflector:article];
     }
     if (helpfulPrompt) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -131,6 +140,7 @@
     self.webView = nil;
     self.helpfulPrompt = nil;
     self.returnMessage = nil;
+    self.deflectingType = nil;
     [super dealloc];
 }
 

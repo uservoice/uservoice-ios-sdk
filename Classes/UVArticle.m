@@ -19,6 +19,7 @@
 @synthesize question;
 @synthesize answerHTML;
 @synthesize articleId;
+@synthesize weight;
 
 + (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topicId]];
@@ -68,6 +69,7 @@
         self.question = [self objectOrNilForDict:dict key:@"question"];
         self.answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
         self.articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
+        self.weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
     }
     return self;
 }

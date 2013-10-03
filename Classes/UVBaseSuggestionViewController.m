@@ -40,6 +40,7 @@
 @synthesize emailField;
 @synthesize category;
 @synthesize shouldShowCategories;
+@synthesize deflectingType;
 
 #define UV_CATEGORY_VALUE 100
 
@@ -61,6 +62,10 @@
         _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];
     }
     return self;
+}
+
+- (NSString *)deflectingType {
+    return @"Suggestion";
 }
 
 - (void)didReceiveError:(NSError *)error {

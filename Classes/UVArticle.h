@@ -14,6 +14,7 @@
     NSString *question;
     NSString *answerHTML;
     NSInteger articleId;
+    NSInteger weight;
 }
 
 + getInstantAnswers:(NSString *)query delegate:(id)delegate;
@@ -23,6 +24,7 @@
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answerHTML;
 @property (assign) NSInteger articleId;
+@property (assign) NSInteger weight;
 
 - (id)initWithDictionary:(NSDictionary *)dict;
 

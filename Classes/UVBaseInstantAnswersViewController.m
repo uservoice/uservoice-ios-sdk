@@ -33,6 +33,10 @@
 - (void)didLoadInstantAnswers {
 }
 
+- (NSString *)deflectingType {
+    return nil;
+}
+
 - (void)updatePattern {
     self.searchPattern = [UVUtils patternForQuery:instantAnswersQuery];
 }
@@ -78,15 +82,15 @@
     if (index >= [answers count])
         return;
     id model = [answers objectAtIndex:index];
-    [UVDeflection trackDeflection:@"show" deflector:model];
+    [UVDeflection trackDeflection:@"show" deflectingType:[self deflectingType] deflector:model];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
+        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article deflectingType:[self deflectingType] helpfulPrompt:articleHelpfulPrompt returnMessage:articleReturnMessage] autorelease];
         next.instantAnswers = YES;
         [self.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)model;
-        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion deflectingType:[self deflectingType]] autorelease];
         next.instantAnswers = YES;
         [self.navigationController pushViewController:next animated:YES];
     }
@@ -232,7 +236,7 @@
         }
     }
     [UVBabayaga track:SEARCH_IDEAS searchText:self.instantAnswersQuery ids:suggestionIds];
-    [UVDeflection trackSearchDeflection:theInstantAnswers];
+    [UVDeflection trackSearchDeflection:self.instantAnswers deflectingType:[self deflectingType]];
 }
 
 - (void)cleanupInstantAnswersTimer {
