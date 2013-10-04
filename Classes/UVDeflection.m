@@ -13,6 +13,7 @@
 #import "UVSession.h"
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
+#import "UVUtils.h"
 
 @implementation UVDeflection
 
@@ -59,7 +60,7 @@ static NSInteger interactionIdentifier;
             }
             [resultHashes addObject:result];
         }
-        [params setObject:resultHashes forKey:@"results[]"];
+        [params setObject:resultHashes forKey:@"results"];
     }
     [self sendDeflection:@"/clients/widgets/omnibox/deflections/list_view.json" params:params];
 }
@@ -75,7 +76,8 @@ static NSInteger interactionIdentifier;
     NSDictionary *opts = @{
         kHRClassAttributesBaseURLKey  : [UVBaseModel baseURL],
         kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
-        @"params" : params
+        @"headers" : @{ @"Content-Type" : @"application/json" },
+        @"body" : [UVUtils encodeJSON:params]
     };
     [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:nil];
 }

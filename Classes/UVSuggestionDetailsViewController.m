@@ -72,11 +72,11 @@
     return self;
 }
 
-- (id)initWithSuggestion:(UVSuggestion *)theSuggestion deflectingType:(NSString *)deflectingType {
-    self = [self initWithSuggestion:suggestion];
+- (id)initWithSuggestion:(UVSuggestion *)theSuggestion deflectingType:(NSString *)theDeflectingType {
+    self = [self initWithSuggestion:theSuggestion];
 
     if (self) {
-        self.deflectingType = deflectingType;
+        self.deflectingType = theDeflectingType;
     }
 
     return self;
