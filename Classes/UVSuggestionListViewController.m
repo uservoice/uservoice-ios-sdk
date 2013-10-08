@@ -29,6 +29,11 @@
 #define UV_SEARCH_TOOLBAR 1000
 #define UV_SEARCH_TOOLBAR_LABEL 1001
 
+#define TITLE 20
+#define SUBSCRIBER_COUNT 21
+#define STATUS 22
+#define STATUS_COLOR 23
+
 @implementation UVSuggestionListViewController
 
 @synthesize forum = _forum;
@@ -91,21 +96,46 @@
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
     heart.frame = CGRectMake(16, 50, 12, 12);
     [cell.contentView addSubview:heart];
-    // cell.textLabel
-    // UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 22)] autorelease];
-    // label.tag = SUGGESTION_TITLE;
-    // UVSuggestionButton *button = [[[UVSuggestionButton alloc] initWithIndex:indexPath.row] autorelease];
-    // button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
-    // [cell.contentView addSubview:button];
-    // cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    UILabel *subs = [[[UILabel alloc] init] autorelease];
+    UILabel *title = [[[UILabel alloc] init] autorelease];
+    UILabel *status = [[[UILabel alloc] init] autorelease];
+    UIView *statusColor = [[[UIView alloc] init] autorelease];
+    title.numberOfLines = 0;
+    subs.tag = SUBSCRIBER_COUNT;
+    title.tag = TITLE;
+    status.tag = STATUS;
+    statusColor.tag = STATUS_COLOR;
+    subs.translatesAutoresizingMaskIntoConstraints = NO;
+    heart.translatesAutoresizingMaskIntoConstraints = NO;
+    title.translatesAutoresizingMaskIntoConstraints = NO;
+    status.translatesAutoresizingMaskIntoConstraints = NO;
+    statusColor.translatesAutoresizingMaskIntoConstraints = NO;
+    [cell.contentView addSubview:subs];
+    [cell.contentView addSubview:title];
+    [cell.contentView addSubview:statusColor];
+    [cell.contentView addSubview:status];
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subs, title, heart, statusColor, status);
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[title]-|" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[heart(==12)]-[subs]-[statusColor(==12)]-[status]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[title]-[heart(==12)]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-[statusColor(==12)]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-4-[status]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-4-[subs]" options:0 metrics:nil views:viewsDictionary]];
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
-    cell.textLabel.text = suggestion.title;
+    UILabel *title = (UILabel *)[cell.contentView viewWithTag:TITLE];
+    UILabel *subs = (UILabel *)[cell.contentView viewWithTag:SUBSCRIBER_COUNT];
+    UILabel *status = (UILabel *)[cell.contentView viewWithTag:STATUS];
+    UIView *statusColor = [cell.contentView viewWithTag:STATUS_COLOR];
+
+    title.text = suggestion.title;
+    subs.text = [NSString stringWithFormat:@"%d", suggestion.subscriberCount];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
