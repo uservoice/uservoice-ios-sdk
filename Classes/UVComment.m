@@ -26,8 +26,8 @@
 
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/comments.json",
-                                    suggestion.forumId,
-                                    suggestion.suggestionId]];
+                                    (int)suggestion.forumId,
+                                    (int)suggestion.suggestionId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:page] stringValue],
                             @"page",
@@ -41,8 +41,8 @@
 
 + (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/comments.json",
-                                    suggestion.forumId,
-                                    suggestion.suggestionId]];
+                                    (int)suggestion.forumId,
+                                    (int)suggestion.suggestionId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             text, @"comment[text]",
                             nil];

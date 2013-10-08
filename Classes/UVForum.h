@@ -15,7 +15,6 @@
     NSString *name;
     NSString *example;
     NSString *prompt;
-    NSInteger votesAllowed;
     NSInteger suggestionsCount;
     NSMutableArray *categories;
     NSMutableArray *suggestions;
@@ -27,7 +26,6 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *example;
 @property (nonatomic, retain) NSString *prompt;
-@property (nonatomic, assign) NSInteger votesAllowed;
 @property (nonatomic, assign) NSInteger suggestionsCount;
 @property (nonatomic, assign) BOOL suggestionsNeedReload;
 @property (nonatomic, retain) NSMutableArray *categories;

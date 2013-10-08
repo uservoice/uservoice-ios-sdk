@@ -16,7 +16,6 @@
 @synthesize name;
 @synthesize example;
 @synthesize prompt;
-@synthesize votesAllowed;
 @synthesize categories;
 @synthesize suggestions;
 @synthesize suggestionsNeedReload;
@@ -40,7 +39,6 @@
         self.suggestionsNeedReload = YES;
         self.example = [topic objectForKey:@"example"];
         self.prompt = [topic objectForKey:@"prompt"];
-        self.votesAllowed = [(NSNumber *)[topic objectForKey:@"votes_allowed"] integerValue];
         self.suggestionsCount = [(NSNumber *)[topic objectForKey:@"open_suggestions_count"] integerValue];
 
         self.categories = [NSMutableArray array];

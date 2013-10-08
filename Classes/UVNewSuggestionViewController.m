@@ -331,7 +331,7 @@
     [self addTopBorder:fieldsTableView];
     UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
     label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 50)] autorelease];
-    label.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to vote and comment on it as well. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
+    label.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe and comment on it as well. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     label.font = [UIFont systemFontOfSize:11];
     label.textAlignment = UITextAlignmentLeft;
     label.numberOfLines = 0;

@@ -60,22 +60,16 @@
 		AC3127EB10976ED800000D5F /* UVSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = AC3127E910976ED800000D5F /* UVSuggestion.m */; };
 		AC312B20109914C100000D5F /* UVStyleSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312B1E109914C100000D5F /* UVStyleSheet.h */; };
 		AC312B21109914C100000D5F /* UVStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312B1F109914C100000D5F /* UVStyleSheet.m */; };
-		AC35308111014D20006FD1C1 /* UVSuggestionChickletView.h in Headers */ = {isa = PBXBuildFile; fileRef = AC35307F11014D20006FD1C1 /* UVSuggestionChickletView.h */; };
-		AC35308211014D20006FD1C1 /* UVSuggestionChickletView.m in Sources */ = {isa = PBXBuildFile; fileRef = AC35308011014D20006FD1C1 /* UVSuggestionChickletView.m */; };
 		AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */; };
 		AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B287112F28EE00D84566 /* UVNewTicketIpadViewController.m */; };
 		AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */; };
 		AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */; };
-		AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */; };
-		AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */; };
 		ACEE442E10AB370F003D8751 /* UVComment.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE442C10AB370F003D8751 /* UVComment.h */; };
 		ACEE442F10AB370F003D8751 /* UVComment.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE442D10AB370F003D8751 /* UVComment.m */; };
 		ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE461510ACC158003D8751 /* UVBaseViewController.h */; };
 		ACEE461810ACC158003D8751 /* UVBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE461610ACC158003D8751 /* UVBaseViewController.m */; };
 		C184F7EA17B5AD7C00DBB38C /* UVCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = C184F7E817B5AD7C00DBB38C /* UVCallback.h */; };
 		C184F7EB17B5AD7C00DBB38C /* UVCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = C184F7E917B5AD7C00DBB38C /* UVCallback.m */; };
-		D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = D20402C911E03B0C00022C44 /* UVSuggestionButton.h */; };
-		D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */; };
 		D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */ = {isa = PBXBuildFile; fileRef = D24540BE11B095AA00C7E4BA /* UVSubdomain.h */; };
 		D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */ = {isa = PBXBuildFile; fileRef = D24540BF11B095AA00C7E4BA /* UVSubdomain.m */; };
 		D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D24A381F11A09121005BC3F3 /* UVAccessToken.h */; };
@@ -216,16 +210,12 @@
 		AC3127E910976ED800000D5F /* UVSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestion.m; sourceTree = "<group>"; };
 		AC312B1E109914C100000D5F /* UVStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVStyleSheet.h; path = Include/UVStyleSheet.h; sourceTree = SOURCE_ROOT; };
 		AC312B1F109914C100000D5F /* UVStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVStyleSheet.m; sourceTree = "<group>"; };
-		AC35307F11014D20006FD1C1 /* UVSuggestionChickletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionChickletView.h; sourceTree = "<group>"; };
-		AC35308011014D20006FD1C1 /* UVSuggestionChickletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionChickletView.m; sourceTree = "<group>"; };
 		AC61BF4B1089119500BCD3F2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AC61BF4E1089119500BCD3F2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketIpadViewController.h; sourceTree = "<group>"; };
 		AC91B287112F28EE00D84566 /* UVNewTicketIpadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewTicketIpadViewController.m; sourceTree = "<group>"; };
 		AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomFieldValueSelectViewController.h; sourceTree = "<group>"; };
 		AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomFieldValueSelectViewController.m; sourceTree = "<group>"; };
-		AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCellViewWithIndex.h; sourceTree = "<group>"; };
-		AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCellViewWithIndex.m; sourceTree = "<group>"; };
 		ACEE442C10AB370F003D8751 /* UVComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVComment.h; sourceTree = "<group>"; };
 		ACEE442D10AB370F003D8751 /* UVComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVComment.m; sourceTree = "<group>"; };
 		ACEE461510ACC158003D8751 /* UVBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVBaseViewController.h; path = Classes/UVBaseViewController.h; sourceTree = SOURCE_ROOT; };
@@ -233,8 +223,6 @@
 		BC1F064216BBF700006E9027 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = UserVoice.strings; sourceTree = "<group>"; };
 		C184F7E817B5AD7C00DBB38C /* UVCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCallback.h; sourceTree = "<group>"; };
 		C184F7E917B5AD7C00DBB38C /* UVCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCallback.m; sourceTree = "<group>"; };
-		D20402C911E03B0C00022C44 /* UVSuggestionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuggestionButton.h; sourceTree = "<group>"; };
-		D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuggestionButton.m; sourceTree = "<group>"; };
 		D24540BE11B095AA00C7E4BA /* UVSubdomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSubdomain.h; sourceTree = "<group>"; };
 		D24540BF11B095AA00C7E4BA /* UVSubdomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSubdomain.m; sourceTree = "<group>"; };
 		D24A381F11A09121005BC3F3 /* UVAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVAccessToken.h; sourceTree = "<group>"; };
@@ -288,6 +276,8 @@
 		D92768011559B0E900E17EF1 /* uv_idea@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_idea@2x.png"; sourceTree = "<group>"; };
 		D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticleViewController.h; sourceTree = "<group>"; };
 		D927680B1559CB4000E17EF1 /* UVArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticleViewController.m; sourceTree = "<group>"; };
+		D94427981804A035002F716B /* uv_heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_heart.png; sourceTree = "<group>"; };
+		D94427991804A035002F716B /* uv_heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_heart@2x.png"; sourceTree = "<group>"; };
 		D952200F163726EE00A7081D /* UVRequestToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRequestToken.h; sourceTree = "<group>"; };
 		D9522010163726EE00A7081D /* UVRequestToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRequestToken.m; sourceTree = "<group>"; };
 		D95B33041655A78900B87A23 /* UVCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCommentViewController.h; sourceTree = "<group>"; };
@@ -566,14 +556,8 @@
 		AC35306711014CB6006FD1C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AC91B4C2113492DD00D84566 /* UVCellViewWithIndex.h */,
-				AC91B4C3113492DD00D84566 /* UVCellViewWithIndex.m */,
 				D24BDE6011DAE3FA00B26012 /* UVImageView.h */,
 				D24BDE6111DAE3FA00B26012 /* UVImageView.m */,
-				D20402C911E03B0C00022C44 /* UVSuggestionButton.h */,
-				D20402CA11E03B0C00022C44 /* UVSuggestionButton.m */,
-				AC35307F11014D20006FD1C1 /* UVSuggestionChickletView.h */,
-				AC35308011014D20006FD1C1 /* UVSuggestionChickletView.m */,
 				D24BE09D11DB1B7C00B26012 /* UVTextView.h */,
 				D24BE09E11DB1B7C00B26012 /* UVTextView.m */,
 				D9B907731663FC80001AC6B2 /* UVGradientButton.h */,
@@ -607,6 +591,7 @@
 				D9CA8FF214F4110800F98763 /* fr.lproj */,
 				D92767FF1559B0E900E17EF1 /* uv_article@2x.png */,
 				D2605D03144662150029F16B /* uv_default_avatar@2x.png */,
+				D94427991804A035002F716B /* uv_heart@2x.png */,
 				D92768011559B0E900E17EF1 /* uv_idea@2x.png */,
 				D99902C6152B881F00AED6A7 /* uv_logo@2x.png */,
 				D9C35BD016697039004FAA89 /* uv_vote_chicklet_empty@2x.png */,
@@ -614,6 +599,7 @@
 				D99AFAB01653F2DE0061F50C /* uv_x@2x.png */,
 				D92767FE1559B0E800E17EF1 /* uv_article.png */,
 				D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */,
+				D94427981804A035002F716B /* uv_heart.png */,
 				D92768001559B0E900E17EF1 /* uv_idea.png */,
 				D99902C5152B881F00AED6A7 /* uv_logo.png */,
 				D2620C6311B586230053EA4C /* uv_vote_chicklet.png */,
@@ -755,11 +741,9 @@
 				AC1B16CB10D7F586002B03F7 /* UVWelcomeViewController.h in Headers */,
 				AC1B16FE10D80EAE002B03F7 /* UVRootViewController.h in Headers */,
 				AC1B18D410D878D0002B03F7 /* UVCategory.h in Headers */,
-				AC35308111014D20006FD1C1 /* UVSuggestionChickletView.h in Headers */,
 				AC1E2F82111E2EB200415C16 /* UVCategorySelectViewController.h in Headers */,
 				AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */,
 				AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */,
-				AC91B4C5113492DD00D84566 /* UVCellViewWithIndex.h in Headers */,
 				D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
@@ -777,7 +761,6 @@
 				D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */,
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextView.h in Headers */,
-				D20402CB11E03B0C00022C44 /* UVSuggestionButton.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
 				D9B1D1DC14ACCBE700D9189F /* UVImageCache.h in Headers */,
@@ -894,11 +877,9 @@
 				AC1B16CC10D7F586002B03F7 /* UVWelcomeViewController.m in Sources */,
 				AC1B16FF10D80EAE002B03F7 /* UVRootViewController.m in Sources */,
 				AC1B18D510D878D0002B03F7 /* UVCategory.m in Sources */,
-				AC35308211014D20006FD1C1 /* UVSuggestionChickletView.m in Sources */,
 				AC1E2F83111E2EB200415C16 /* UVCategorySelectViewController.m in Sources */,
 				AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */,
 				AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */,
-				AC91B4C6113492DD00D84566 /* UVCellViewWithIndex.m in Sources */,
 				D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,
 				D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */,
@@ -913,7 +894,6 @@
 				D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */,
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextView.m in Sources */,
-				D20402CC11E03B0C00022C44 /* UVSuggestionButton.m in Sources */,
 				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
 				80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */,
 				D9B1D1DD14ACCBE700D9189F /* UVImageCache.m in Sources */,
@@ -1095,6 +1075,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
@@ -1114,7 +1095,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -1126,6 +1107,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
@@ -1144,7 +1126,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1155,6 +1137,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
@@ -1173,7 +1156,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

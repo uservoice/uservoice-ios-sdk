@@ -115,17 +115,8 @@
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [[UVSession currentSession] flash:NSLocalizedStringFromTable(@"Your idea has been posted on our forum.", @"UserVoice", nil) title:NSLocalizedStringFromTable(@"Success!", @"UserVoice", nil) suggestion:theSuggestion];
     [UVBabayaga track:SUBMIT_IDEA];
-
-    // increment the created suggestions and supported suggestions counts
-    [[UVSession currentSession].user didCreateSuggestion:theSuggestion];
-
     self.forum.suggestionsNeedReload = YES;
-
-    // update the remaining votes
-    [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
-
     _isSubmittingSuggestion = NO;
-    
     [self hideActivityIndicator];
     [self dismissModalViewControllerAnimated:YES];
 }

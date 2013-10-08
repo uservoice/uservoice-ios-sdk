@@ -21,9 +21,7 @@
 @synthesize suggestionId;
 @synthesize forumId;
 @synthesize commentsCount;
-@synthesize voteCount;
-@synthesize votesFor;
-@synthesize votesRemaining;
+@synthesize subscriberCount;
 @synthesize title;
 @synthesize abstract;
 @synthesize text;
@@ -43,7 +41,7 @@
 @synthesize category;
 
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:page] stringValue], @"page",
                             @"public", @"filter",
@@ -58,7 +56,7 @@
 }
 
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             query, @"query",
                             nil];
@@ -75,7 +73,7 @@
                  text:(NSString *)text
                 votes:(NSInteger)votes
              callback:(UVCallback *)callback {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
                             title, @"suggestion[title]",
@@ -89,19 +87,23 @@
                           rootKey:@"suggestion"];
 }
 
-- (id)vote:(NSInteger)number delegate:(id)delegate {
-    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/votes.json",
-                                            self.forumId,
-                                            self.suggestionId]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [[NSNumber numberWithInt:number] stringValue],
-                            @"to",
-                            nil];
-
+- (id)subscribe:(id)delegate {
+    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/watch.json", (int)self.forumId, (int)self.suggestionId]];
+    NSDictionary *params = @{ @"subscribe" : @"true" };
     return [[self class] postPath:path
                        withParams:params
                            target:delegate
-                         selector:@selector(didVoteForSuggestion:)
+                         selector:@selector(didSubscribe:)
+                          rootKey:@"suggestion"];
+}
+
+- (id)unsubscribe:(id)delegate {
+    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/watch.json", (int)self.forumId, (int)self.suggestionId]];
+    NSDictionary *params = @{ @"subscribe" : @"false" };
+    return [[self class] postPath:path
+                       withParams:params
+                           target:delegate
+                         selector:@selector(didUnsubscribe:)
                           rootKey:@"suggestion"];
 }
 
@@ -121,8 +123,7 @@
     if ((self = [super init])) {
         self.suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
         self.commentsCount = [(NSNumber *)[dict objectForKey:@"comments_count"] integerValue];
-        self.voteCount = [(NSNumber *)[dict objectForKey:@"vote_count"] integerValue];
-        self.votesFor = [(NSNumber *)[dict objectForKey:@"votes_for"] integerValue];
+        self.subscriberCount = [(NSNumber *)[dict objectForKey:@"subscriber_count"] integerValue];
         self.title = [self objectOrNilForDict:dict key:@"title"];
         self.abstract = [self objectOrNilForDict:dict key:@"abstract"];
         self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
@@ -159,8 +160,6 @@
                 self.forumId = [(NSNumber *)[forum objectForKey:@"id"] integerValue];
                 self.forumName = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:forum key:@"name"]];
             }
-
-            self.votesRemaining = [(NSNumber *)[topic objectForKey:@"votes_remaining"] integerValue];
         }
 
         NSDictionary *categoryDict = [self objectOrNilForDict:dict key:@"category"];

@@ -15,8 +15,6 @@
 #import "UVNewSuggestionViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
-#import "UVCellViewWithIndex.h"
-#import "UVSuggestionButton.h"
 #import "UVConfig.h"
 #import "UVUtils.h"
 #import "UVBabayaga.h"
@@ -79,11 +77,6 @@
     [searchController.searchResultsTableView reloadData];
 }
 
-- (void)addSuggestion:(UVCellViewWithIndex *)cellView {
-    UIViewController *next = [UVNewSuggestionViewController viewControllerWithTitle:self.searchController.searchBar.text];
-    [self.navigationController pushViewController:next animated:YES];
-}
-
 - (void)updatePattern {
     self.searchPattern = [UVUtils patternForQuery:searchController.searchBar.text];
 }
@@ -91,64 +84,28 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UINavigationBar *toolbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)] autorelease];
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    toolbar.tintColor = [UIColor colorWithRed:0.77f green:0.78f blue:0.80f alpha:1.0f];
-    toolbar.tag = UV_SEARCH_TOOLBAR;
-    [toolbar addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(composeButtonTapped)] autorelease]];
-    toolbar.layer.masksToBounds = YES;
-
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0, cell.bounds.size.width - 60, cell.bounds.size.height)] autorelease];
-    label.font = [UIFont boldSystemFontOfSize:13];
-    label.textColor = [UIColor colorWithRed:0.20f green:0.31f blue:0.52f alpha:1.0f];
-    label.backgroundColor = [UIColor clearColor];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.tag = UV_SEARCH_TOOLBAR_LABEL;
-    [toolbar addSubview:label];
-
-    UIBarButtonItem *compose = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composeButtonTapped)] autorelease];
-    compose.style = UIBarButtonItemStyleBordered;
-    if ([compose respondsToSelector:@selector(setTintColor:)])
-        compose.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
-    UINavigationItem *navItem = [[[UINavigationItem alloc] initWithTitle:nil] autorelease];
-    navItem.rightBarButtonItem = compose;
-    toolbar.items = @[navItem];
-
-    [cell addSubview:toolbar];
-}
-
-- (void)customizeCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *label = (UILabel *)[[cell viewWithTag:UV_SEARCH_TOOLBAR] viewWithTag:UV_SEARCH_TOOLBAR_LABEL];
-    NSLocale *locale = [NSLocale currentLocale];
-    label.text = [NSString stringWithFormat:@"%@ %@%@%@...", NSLocalizedStringFromTable(@"Post", @"UserVoice", nil), [locale objectForKey:NSLocaleQuotationBeginDelimiterKey], self.searchController.searchBar.text, [locale objectForKey:NSLocaleQuotationEndDelimiterKey]];
-}
-
-- (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestionButton *button = [[[UVSuggestionButton alloc] initWithIndex:indexPath.row] autorelease];
-    button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
-    [cell.contentView addSubview:button];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
-
-- (void)customizeCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestion *suggestion = [searchResults objectAtIndex:indexPath.row - ([UVSession currentSession].config.showPostIdea ? 1 : 0)];
-    UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
-    [button setZebraColorFromIndex:indexPath.row];
-    [button showSuggestion:suggestion withIndex:indexPath.row pattern:searchPattern];
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil);
+    if (IOS7) {
+        cell.textLabel.textColor = cell.textLabel.tintColor;
+    }
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestionButton *button = [[[UVSuggestionButton alloc] initWithIndex:indexPath.row] autorelease];
-    button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
-    [cell.contentView addSubview:button];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
+    heart.frame = CGRectMake(16, 50, 12, 12);
+    [cell.contentView addSubview:heart];
+    // cell.textLabel
+    // UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 22)] autorelease];
+    // label.tag = SUGGESTION_TITLE;
+    // UVSuggestionButton *button = [[[UVSuggestionButton alloc] initWithIndex:indexPath.row] autorelease];
+    // button.tag = UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND;
+    // [cell.contentView addSubview:button];
+    // cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
-    UVSuggestionButton *button = (UVSuggestionButton *)[cell.contentView viewWithTag:UV_BASE_SUGGESTION_LIST_TAG_CELL_BACKGROUND];
-    [button setZebraColorFromIndex:indexPath.row];
-    [button showSuggestion:suggestion withIndex:indexPath.row];
+    cell.textLabel.text = suggestion.title;
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -172,12 +129,7 @@
     NSString *identifier;
     BOOL selectable = YES;
     UITableViewCellStyle style = UITableViewCellStyleDefault;
-
-    if (theTableView == tableView)
-        identifier = (indexPath.row < [suggestions count]) ? @"Suggestion" : @"Load";
-    else
-        identifier = (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : @"Result";
-
+    identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < [suggestions count]) ? @"Suggestion" : @"Load";
     return [self createCellForIdentifier:identifier
                                tableView:theTableView
                                indexPath:indexPath
@@ -186,7 +138,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (theTableView == tableView) {
+    if (section == 0 && [UVSession currentSession].config.showPostIdea) {
+        return 1;
+    } else if (theTableView == tableView) {
         int loadedCount = [self.suggestions count];
         int suggestionsCount = _forum.suggestionsCount;
         return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
@@ -196,16 +150,18 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return [UVSession currentSession].config.showPostIdea ? 2 : 1;
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (theTableView == tableView)
+    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea)
+        return 44;
+    else if (theTableView == tableView)
         return (indexPath.row < [suggestions count]) ? 71 : 44;
     else
-        return (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea) ? 44 : 71;
+        return 71;
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
@@ -219,17 +175,20 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (theTableView == tableView) {
+    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
+        [self composeButtonTapped];
+    } else if (theTableView == tableView) {
         if (indexPath.row < [suggestions count])
             [self showSuggestion:[suggestions objectAtIndex:indexPath.row]];
         else
             [self retrieveMoreSuggestions];
     } else {
-        if (indexPath.row == 0 && [UVSession currentSession].config.showPostIdea)
-            [self composeButtonTapped];
-        else
-            [self showSuggestion:[searchResults objectAtIndex:indexPath.row - ([UVSession currentSession].config.showPostIdea ? 1 : 0)]];
+        [self showSuggestion:[searchResults objectAtIndex:indexPath.row]];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 30;
 }
 
 #pragma mark ===== UISearchBarDelegate Methods =====
@@ -249,7 +208,6 @@
 
 #pragma mark ===== Basic View Methods =====
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     [super loadView];
 
@@ -260,36 +218,21 @@
     self.view.autoresizesSubviews = YES;
     CGFloat screenWidth = [UVClientConfig getScreenWidth];
 
-    UITableView *theTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    UITableView *theTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     theTableView.dataSource = self;
     theTableView.delegate = self;
-    theTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    theTableView.sectionFooterHeight = 0.0;
-    theTableView.sectionHeaderHeight = 0.0;
-    theTableView.backgroundColor = [UVStyleSheet backgroundColor];
     theTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
-    // Add empty footer, to suppress blank cells (with separators) after actual content
-    UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 0)] autorelease];
-    theTableView.tableFooterView = footer;
-    theTableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
-
-    NSInteger headerHeight = 44;
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)];
-    headerView.backgroundColor = [UIColor clearColor];
-
-    UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, headerHeight)] autorelease];
-    searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 44)] autorelease];
+    searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), _forum.name];
     searchBar.delegate = self;
-    [headerView addSubview:searchBar];
 
     self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
     searchController.delegate = self;
     searchController.searchResultsDataSource = self;
     searchController.searchResultsDelegate = self;
-    theTableView.tableHeaderView = headerView;
-    [headerView release];
+    theTableView.tableHeaderView = searchBar;
 
     self.tableView = theTableView;
     [theTableView release];

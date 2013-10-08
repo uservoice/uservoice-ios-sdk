@@ -90,17 +90,19 @@
     [self updateLayout];
 }
 
-- (void)didVoteForSuggestion:(UVSuggestion *)theSuggestion {
+- (void)didSubscribe:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
     [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
-    [UVSession currentSession].user.votesRemaining = theSuggestion.votesRemaining;
     [UVSession currentSession].forum.suggestionsNeedReload = YES;
     self.suggestion = theSuggestion;
     [self hideActivityIndicator];
-    [self updateVotesLabel];
     if (instantAnswers) {
         [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
     }
+}
+
+- (void)didUnsubscribe:(UVSuggestion *)theSuggestion {
+    // TODO
 }
 
 #pragma mark ===== UITableView Methods =====
@@ -244,48 +246,7 @@
 }
 
 - (void)openVoteActionSheet {
-    UIActionSheet *actionSheet = [[[UIActionSheet alloc] init] autorelease];
-    int votesRemaining = [UVSession currentSession].user.votesRemaining;
-    actionSheet.title = [NSString stringWithFormat:@"%@\n(%@)", NSLocalizedStringFromTable(@"How many votes would you like to use?", @"UserVoice", nil), [NSString stringWithFormat:NSLocalizedStringFromTable(@"You have %i votes left", @"UserVoice", nil), votesRemaining]];
-    actionSheet.delegate = self;
-    [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil)];
-    [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil)];
-    [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil)];
-    if (suggestion.votesFor == 0) {
-        [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
-        actionSheet.cancelButtonIndex = 3;
-    } else {
-        [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"Remove votes", @"UserVoice", nil)];
-        [actionSheet addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
-        actionSheet.destructiveButtonIndex = 3;
-        actionSheet.cancelButtonIndex = 4;
-        [self disableButton:(suggestion.votesFor - 1) inActionSheet:actionSheet];
-    }
-    if (votesRemaining < 3)
-        [self disableButton:2 inActionSheet:actionSheet];
-    if (votesRemaining < 2)
-        [self disableButton:1 inActionSheet:actionSheet];
-    if (votesRemaining < 1)
-        [self disableButton:0 inActionSheet:actionSheet];
-    [actionSheet showInView:self.view];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 4 || (suggestion.votesFor == 0 && buttonIndex == 3))
-        return;
-    int votes = (buttonIndex == 3) ? 0 : buttonIndex + 1;
-    if (votes == suggestion.votesFor)
-        return;
-
-    [self showActivityIndicator];
-    if (votes == 0) {
-        [[UVSession currentSession].user didWithdrawSupportForSuggestion:suggestion];
-    } else if (suggestion.votesFor == 0) {
-        [[UVSession currentSession].user didSupportSuggestion:suggestion];
-    }
-
-    suggestion.votesFor = votes;
-    [suggestion vote:votes delegate:self];
+    // TODO subscribe, rather
 }
 
 - (void)commentButtonTapped {
@@ -341,37 +302,6 @@
     tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height);
     scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, tableView.frame.origin.y + tableView.contentSize.height);
     [CATransaction commit];
-}
-
-- (void)updateVotesLabel {
-    NSString *votesString = nil;
-    if (suggestion.voteCount == 0)
-        votesString = NSLocalizedStringFromTable(@"0 votes", @"UserVoice", nil);
-    else if (suggestion.voteCount == 1)
-        votesString = NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil);
-    else
-        votesString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ votes", @"UserVoice", nil), [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:suggestion.voteCount] numberStyle:NSNumberFormatterDecimalStyle]];
-
-    NSString *commentsString = nil;
-    if (suggestion.commentsCount == 0)
-        commentsString = NSLocalizedStringFromTable(@"0 comments", @"UserVoice", nil);
-    else if (suggestion.commentsCount == 1)
-        commentsString = NSLocalizedStringFromTable(@"1 comment", @"UserVoice", nil);
-    else
-        commentsString = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ comments", @"UserVoice", nil), [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:suggestion.commentsCount] numberStyle:NSNumberFormatterDecimalStyle]];
-
-    votesLabel.text = [NSString stringWithFormat:@"%@  •  %@", votesString, commentsString];
-
-    NSString *title;
-    if (suggestion.votesFor == 1)
-        title = NSLocalizedStringFromTable(@"1 vote", @"UserVoice", nil);
-    else if (suggestion.votesFor == 2)
-        title = NSLocalizedStringFromTable(@"2 votes", @"UserVoice", nil);
-    else if (suggestion.votesFor == 3)
-        title = NSLocalizedStringFromTable(@"3 votes", @"UserVoice", nil);
-    else
-        title = NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil);
-    [voteButton setTitle:title forState:UIControlStateNormal];
 }
 
 - (CGRect)nextRectWithHeight:(CGFloat)height space:(CGFloat)space {
@@ -572,7 +502,6 @@
 - (void)reloadComments {
     allCommentsRetrieved = NO;
     self.comments = [NSMutableArray arrayWithCapacity:10];
-    [self updateVotesLabel];
     [self retrieveMoreComments];
 }
 

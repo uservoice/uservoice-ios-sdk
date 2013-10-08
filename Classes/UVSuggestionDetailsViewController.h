@@ -12,7 +12,7 @@
 
 @class UVTruncatingLabel;
 
-@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
+@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
     UVSuggestion *suggestion;
     NSMutableArray *comments;
     UIScrollView *scrollView;

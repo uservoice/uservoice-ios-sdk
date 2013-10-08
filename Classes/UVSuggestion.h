@@ -18,9 +18,7 @@
     NSInteger suggestionId;
     NSInteger forumId;
     NSInteger commentsCount;
-    NSInteger voteCount;
-    NSInteger votesFor;
-    NSInteger votesRemaining;
+    NSInteger subscriberCount;
     NSString *title;
     NSString *abstract;
     NSString *text;
@@ -46,9 +44,7 @@
 @property (assign) NSInteger suggestionId;
 @property (assign) NSInteger forumId;
 @property (assign) NSInteger commentsCount;
-@property (assign) NSInteger voteCount;
-@property (assign) NSInteger votesFor;
-@property (assign) NSInteger votesRemaining;
+@property (assign) NSInteger subscriberCount;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *abstract;
 @property (nonatomic, retain) NSString *text;
@@ -83,8 +79,8 @@
                 votes:(NSInteger)votes
              callback:(UVCallback *)callback;
 
-// Records the specified number of votes for a suggestion.
-- (id)vote:(NSInteger)number delegate:(id)delegate;
+- (id)subscribe:(id)delegate;
+- (id)unsubscribe:(id)delegate;
 
 // Returns the color to use for rendering this suggestion's status.
 - (UIColor *)statusColor;
