@@ -118,9 +118,9 @@
     statusColor.translatesAutoresizingMaskIntoConstraints = NO;
     subs.font = [UIFont systemFontOfSize:14];
     subs.textColor = [UIColor grayColor];
-    status.font = [UIFont systemFontOfSize:14];
+    status.font = [UIFont systemFontOfSize:11];
     CALayer *layer = [CALayer layer];
-    layer.frame = CGRectMake(0, 0, 11, 11);
+    layer.frame = CGRectMake(0, 0, 9, 9);
     [statusColor.layer addSublayer:layer];
     [cell.contentView addSubview:heart];
     [cell.contentView addSubview:subs];
@@ -129,11 +129,11 @@
     [cell.contentView addSubview:status];
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subs, title, heart, statusColor, status);
     [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[title]-|" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[heart(==12)]-[subs]-[statusColor(==11)]-[status]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[title]-[heart(==12)]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-9-[statusColor(==11)]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-6-[status]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-6-[subs]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[title]-6-[heart(==9)]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-6-[statusColor(==9)]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-4-[status]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-2-[subs]" options:0 metrics:nil views:viewsDictionary]];
 
     // template cell
     if (indexPath == nil) {
@@ -211,6 +211,14 @@
         return size.height;
     } else {
         return 44;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0 && [UVSession currentSession].config.showPostIdea) {
+        return nil;
+    } else {
+        return self.forum.prompt;
     }
 }
 
