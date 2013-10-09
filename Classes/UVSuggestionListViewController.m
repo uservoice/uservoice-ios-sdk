@@ -270,7 +270,6 @@
     [super loadView];
 
     [UVBabayaga track:VIEW_FORUM id:_forum.forumId];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
 
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.autoresizesSubviews = YES;
@@ -310,6 +309,17 @@
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(dismissUserVoice)] autorelease];
+    }
+}
+
+- (void)initNavigationItem {
+    self.navigationItem.title = self.forum.name;
+    self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(dismissUserVoice)] autorelease];
+    if ([UVSession currentSession].isModal && firstController) {
+        self.navigationItem.leftBarButtonItem = exitButton;
     }
 }
 

@@ -110,13 +110,22 @@
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
     UITableViewCellStyle style = UITableViewCellStyleDefault;
-    BOOL selectable = YES;
+    BOOL selectable = NO;
 
-    if (indexPath.row < [self.comments count]) {
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        identifier = @"Suggestion";
+    } else if (indexPath.section == 0 && indexPath.row == 1) {
+        identifier = @"Response";
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
+        identifier = @"Subscribe";
+    } else if (indexPath.section == 1 && indexPath.row == 1) {
+        identifier = @"AddComment";
+        selectable = YES;
+    } else if (indexPath.row < [self.comments count]) {
         identifier = @"Comment";
-        selectable = NO;
     } else {
         identifier = @"Load";
+        selectable = YES;
     }
 
     return [self createCellForIdentifier:identifier
@@ -163,11 +172,6 @@
 
 - (void)customizeCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVComment *comment = [self.comments objectAtIndex:indexPath.row];
-    if (!IOS7) {
-        cell.backgroundView.backgroundColor = indexPath.row % 2 == 0 ?
-            [UIColor colorWithRed:0.99f green:1.00f blue:1.00f alpha:1.0f] :
-            [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
-    }
 
     UVImageView *avatar = (UVImageView *)[cell viewWithTag:COMMENT_AVATAR_TAG];
     avatar.URL = comment.avatarUrl;
@@ -193,20 +197,22 @@
     [cell addSubview:label];
 }
 
-- (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    if (!IOS7) {
-        cell.backgroundView.backgroundColor = indexPath.row % 2 == 0 ?
-            [UIColor colorWithRed:0.99f green:1.00f blue:1.00f alpha:1.0f] :
-            [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return self.suggestion.status || self.suggestion.responseText ? 2 : 1;
+    } else if (section == 1) {
+        return 2;
+    } else {
+        return [comments count] + (allCommentsRetrieved || [comments count] == 0 ? 0 : 1);
     }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [comments count] + (allCommentsRetrieved || [comments count] == 0 ? 0 : 1);
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < [self.comments count]) {
+    if (indexPath.section == 2 && indexPath.row < [self.comments count]) {
         UVComment *comment = [self.comments objectAtIndex:indexPath.row];
         CGFloat labelWidth = tableView.bounds.size.width - MARGIN*2 - 50;
         CGSize size = [comment.text sizeWithFont:[UIFont systemFontOfSize:13]
@@ -215,6 +221,18 @@
         return MAX(size.height + MARGIN*2 + 20, MARGIN*2 + 40);
     } else {
         return 44;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 2 && self.suggestion.commentsCount > 0) {
+        if (self.suggestion.commentsCount == 1) {
+            return NSLocalizedStringFromTable(@"1 comment", @"UserVoice", nil);
+        } else {
+            return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d comments", @"UserVoice", nil), self.suggestion.commentsCount];
+        }
+    } else {
+        return nil;
     }
 }
 
@@ -322,7 +340,6 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
-    self.navigationItem.title = self.suggestion.title;
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
     self.view.autoresizesSubviews = YES;
     self.scrollView = [[[UIScrollView alloc] initWithFrame:self.view.bounds] autorelease];
@@ -469,7 +486,7 @@
     votesLabel.textAlignment = UITextAlignmentCenter;
     [scrollView addSubview:votesLabel];
 
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000) style:UITableViewStylePlain] autorelease];
+    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -485,36 +502,12 @@
     [self updateLayout];
 }
 
-- (void)dismiss {
-    [self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)initNavigationItem {
-    [super initNavigationItem];
-    if (self.navigationController.viewControllers.count == 1) {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(dismiss)] autorelease];
-    }
-}
+- (void)initNavigationItem {}
 
 - (void)reloadComments {
     allCommentsRetrieved = NO;
     self.comments = [NSMutableArray arrayWithCapacity:10];
     [self retrieveMoreComments];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    if (!IOS7) {
-        self.navigationController.navigationBar.layer.masksToBounds = YES;
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    if (!IOS7) {
-        self.navigationController.navigationBar.layer.masksToBounds = NO;
-    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
