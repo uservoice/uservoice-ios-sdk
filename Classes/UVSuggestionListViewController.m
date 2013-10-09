@@ -34,7 +34,9 @@
 #define STATUS 22
 #define STATUS_COLOR 23
 
-@implementation UVSuggestionListViewController
+@implementation UVSuggestionListViewController {
+    UITableViewCell *_templateCell;
+}
 
 @synthesize forum = _forum;
 @synthesize suggestions;
@@ -98,13 +100,13 @@
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
-    heart.frame = CGRectMake(16, 50, 12, 12);
-    [cell.contentView addSubview:heart];
     UILabel *subs = [[[UILabel alloc] init] autorelease];
     UILabel *title = [[[UILabel alloc] init] autorelease];
     UILabel *status = [[[UILabel alloc] init] autorelease];
     UIView *statusColor = [[[UIView alloc] init] autorelease];
     title.numberOfLines = 0;
+    // TODO I think I need to change this for iPad
+    title.preferredMaxLayoutWidth = 247;
     subs.tag = SUBSCRIBER_COUNT;
     title.tag = TITLE;
     status.tag = STATUS;
@@ -114,17 +116,29 @@
     title.translatesAutoresizingMaskIntoConstraints = NO;
     status.translatesAutoresizingMaskIntoConstraints = NO;
     statusColor.translatesAutoresizingMaskIntoConstraints = NO;
+    subs.font = [UIFont systemFontOfSize:14];
+    subs.textColor = [UIColor grayColor];
+    status.font = [UIFont systemFontOfSize:14];
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(0, 0, 11, 11);
+    [statusColor.layer addSublayer:layer];
+    [cell.contentView addSubview:heart];
     [cell.contentView addSubview:subs];
     [cell.contentView addSubview:title];
     [cell.contentView addSubview:statusColor];
     [cell.contentView addSubview:status];
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subs, title, heart, statusColor, status);
     [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[title]-|" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[heart(==12)]-[subs]-[statusColor(==12)]-[status]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[heart(==12)]-[subs]-[statusColor(==11)]-[status]" options:0 metrics:nil views:viewsDictionary]];
     [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[title]-[heart(==12)]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-[statusColor(==12)]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-4-[status]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-4-[subs]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-9-[statusColor(==11)]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-6-[status]" options:0 metrics:nil views:viewsDictionary]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-6-[subs]" options:0 metrics:nil views:viewsDictionary]];
+
+    // template cell
+    if (indexPath == nil) {
+        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[heart]-10-|" options:0 metrics:nil views:viewsDictionary]];
+    }
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -136,6 +150,9 @@
 
     title.text = suggestion.title;
     subs.text = [NSString stringWithFormat:@"%d", suggestion.subscriberCount];
+    [statusColor.layer.sublayers.lastObject setBackgroundColor:[suggestion.statusColor CGColor]];
+    status.textColor = suggestion.statusColor;
+    status.text = [suggestion.status uppercaseString];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -147,12 +164,6 @@
     label.font = [UIFont systemFontOfSize:16];
     label.textAlignment = UITextAlignmentCenter;
     [cell addSubview:label];
-}
-
-- (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    if (!IOS7) {
-        cell.backgroundView.backgroundColor = [UVStyleSheet zebraBgColor:(indexPath.row % 2 == 0)];
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -186,12 +197,21 @@
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea)
+    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
         return 44;
-    else if (theTableView == tableView)
-        return (indexPath.row < [suggestions count]) ? 71 : 44;
-    else
-        return 71;
+    } else if (theTableView != tableView || indexPath.row < [suggestions count]) {
+        if (!_templateCell) {
+            _templateCell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:@"Suggestion"];
+            [self initCellForSuggestion:_templateCell indexPath:nil];
+        }
+        [self customizeCellForSuggestion:_templateCell indexPath:indexPath];
+        [_templateCell.contentView setNeedsLayout];
+        [_templateCell.contentView layoutIfNeeded];
+        CGSize size = [_templateCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        return size.height;
+    } else {
+        return 44;
+    }
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
@@ -311,6 +331,8 @@
     self.searchResults = nil;
     self.searchController = nil;
     self.searchPattern = nil;
+    [_templateCell release];
+    _templateCell = nil;
     [super dealloc];
 }
 
