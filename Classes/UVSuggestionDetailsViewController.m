@@ -138,38 +138,39 @@
 }
 
 - (void)initCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-
-    UVImageView *avatar = [[[UVImageView alloc] initWithFrame:CGRectMake(MARGIN, MARGIN, 40, 40)] autorelease];
+    UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
     avatar.tag = COMMENT_AVATAR_TAG;
-    avatar.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
-    [cell addSubview:avatar];
 
-    UILabel *name = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN, cell.bounds.size.width - 100, 15)] autorelease];
+    UILabel *name = [[[UILabel alloc] init] autorelease];
     name.tag = COMMENT_NAME_TAG;
     name.font = [UIFont boldSystemFontOfSize:13];
-    name.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    name.backgroundColor = [UIColor clearColor];
     name.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
-    [cell addSubview:name];
 
-    UILabel *date = [[[UILabel alloc] initWithFrame:CGRectMake(cell.bounds.size.width - MARGIN - 100, MARGIN, 100, 15)] autorelease];
+    UILabel *date = [[[UILabel alloc] init] autorelease];
     date.tag = COMMENT_DATE_TAG;
     date.font = [UIFont systemFontOfSize:12];
-    date.textAlignment = UITextAlignmentRight;
-    date.backgroundColor = [UIColor clearColor];
     date.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
-    date.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    [cell addSubview:date];
 
-    UILabel *text = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN + 50, MARGIN + 20, cell.bounds.size.width - MARGIN * 2 - 50, cell.bounds.size.height - MARGIN * 2 - 20)] autorelease];
+    UILabel *text = [[[UILabel alloc] init] autorelease];
     text.tag = COMMENT_TEXT_TAG;
     text.numberOfLines = 0;
     text.font = [UIFont systemFontOfSize:13];
-    text.backgroundColor = [UIColor clearColor];
     text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    text.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [cell addSubview:text];
+    text.preferredMaxLayoutWidth = 236;
+
+    NSArray *constraints = @[
+        @"|-16-[avatar(==40)]-[name]",
+        @"[date]-|",
+        @"[avatar]-[text]",
+        @"V:|-14-[avatar(==40)]",
+        @"V:|-14-[name]-[text]",
+        @"V:|-14-[date]"
+    ];
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(avatar, name, date, text)
+            constraints:constraints
+         finalCondition:indexPath == nil
+        finalConstraint:@"V:[text]-14-|"];
 }
 
 - (void)customizeCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -221,22 +222,17 @@
     creator.adjustsFontSizeToFitWidth = YES;
     creator.minimumFontSize = 10;
 
-    title.translatesAutoresizingMaskIntoConstraints = NO;
-    desc.translatesAutoresizingMaskIntoConstraints = NO;
-    creator.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [cell.contentView addSubview:title];
-    [cell.contentView addSubview:desc];
-    [cell.contentView addSubview:creator];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(title, desc, creator);
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[title]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[desc]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[creator]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[title]-[desc]-[creator]" options:0 metrics:nil views:views]];
-    if (indexPath == nil) {
-        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[creator]-|" options:0 metrics:nil views:views]];
-    }
+    NSArray *constraints = @[
+        @"|-16-[title]-|",
+        @"|-16-[desc]",
+        @"|-16-[creator]-|",
+        @"V:|-[title]-[desc]-[creator]"
+    ];
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(title, desc, creator)
+            constraints:constraints
+         finalCondition:indexPath == nil
+        finalConstraint:@"V:[creator]-|"];
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -275,49 +271,21 @@
     admin.adjustsFontSizeToFitWidth = YES;
     admin.minimumFontSize = 10;
 
-    // NSArray *constraints = @[
-    //     @"|-16-[statusColor(==10)]-[status]-|",
-    //     @"[date]-|",
-    //     @"|-16-[avatar(==40)]-[text]-|",
-    //     @"[avatar]-[admin]-|",
-    //     @"V:|-14-[statusColor(==10)]",
-    //     @"V:|-12-[status]",
-    //     @"V:|-12-[date]-[avatar(==40)]",
-    //     @"V:[date]-[text]-[admin]"
-    // ];
-    // [self configureView:cell.contentView
-    //            subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
-    //         constraints:constraints
-    //      finalCondition:indexPath == nil
-    //     finalConstraint:@"V:[admin]-|"];
-
-
-    statusColor.translatesAutoresizingMaskIntoConstraints = NO;
-    status.translatesAutoresizingMaskIntoConstraints = NO;
-    date.translatesAutoresizingMaskIntoConstraints = NO;
-    text.translatesAutoresizingMaskIntoConstraints = NO;
-    admin.translatesAutoresizingMaskIntoConstraints = NO;
-    avatar.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [cell.contentView addSubview:statusColor];
-    [cell.contentView addSubview:status];
-    [cell.contentView addSubview:date];
-    [cell.contentView addSubview:text];
-    [cell.contentView addSubview:admin];
-    [cell.contentView addSubview:avatar];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar);
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[statusColor(==10)]-[status]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[date]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[avatar(==40)]-[text]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[avatar]-[admin]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[statusColor(==10)]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-12-[status]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-12-[date]-[avatar(==40)]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[date]-[text]-[admin]" options:0 metrics:nil views:views]];
-    if (indexPath == nil) {
-        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[admin]-|" options:0 metrics:nil views:views]];
-    }
+    NSArray *constraints = @[
+        @"|-16-[statusColor(==10)]-[status]-|",
+        @"[date]-|",
+        @"|-16-[avatar(==40)]-[text]-|",
+        @"[avatar]-[admin]-|",
+        @"V:|-14-[statusColor(==10)]",
+        @"V:|-12-[status]",
+        @"V:|-12-[date]-[avatar(==40)]",
+        @"V:[date]-[text]-[admin]"
+    ];
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
+            constraints:constraints
+         finalCondition:indexPath == nil
+        finalConstraint:@"V:[admin]-|"];
 }
 
 - (void)initCellForSubscribe:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -336,26 +304,19 @@
     UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
     // TODO listeners, check if already subscribed, etc
 
-    want.translatesAutoresizingMaskIntoConstraints = NO;
-    heart.translatesAutoresizingMaskIntoConstraints = NO;
-    count.translatesAutoresizingMaskIntoConstraints = NO;
-    toggle.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [cell.contentView addSubview:want];
-    [cell.contentView addSubview:heart];
-    [cell.contentView addSubview:count];
-    [cell.contentView addSubview:toggle];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(want, heart, count, toggle);
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[want]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[heart(==9)]-4-[count]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[toggle]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-18-[toggle]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[want]-6-[heart(==9)]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[want]-3-[count]" options:0 metrics:nil views:views]];
-    if (indexPath == nil) {
-        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[count]-14-|" options:0 metrics:nil views:views]];
-    }
+    NSArray *constraints = @[
+        @"|-16-[want]",
+        @"|-16-[heart(==9)]-4-[count]",
+        @"[toggle]-|",
+        @"V:|-18-[toggle]",
+        @"V:|-14-[want]-6-[heart(==9)]",
+        @"V:[want]-3-[count]"
+    ];
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(want, heart, count, toggle)
+            constraints:constraints
+         finalCondition:indexPath == nil
+        finalConstraint:@"V:[count]-14-|"];
 }
 
 - (void)initCellForAddComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -381,12 +342,7 @@
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 2 && indexPath.row < [self.comments count]) {
-        UVComment *comment = [self.comments objectAtIndex:indexPath.row];
-        CGFloat labelWidth = tableView.bounds.size.width - MARGIN*2 - 50;
-        CGSize size = [comment.text sizeWithFont:[UIFont systemFontOfSize:13]
-                               constrainedToSize:CGSizeMake(labelWidth, 10000)
-                                   lineBreakMode:UILineBreakModeWordWrap];
-        return MAX(size.height + MARGIN*2 + 20, MARGIN*2 + 40);
+        return [self heightForDynamicRowWithReuseIdentifier:@"Comment" indexPath:indexPath];
     } else if (indexPath.section == 0 && indexPath.row == 0) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else if (indexPath.section == 0 && indexPath.row == 1) {
