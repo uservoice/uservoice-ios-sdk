@@ -200,15 +200,7 @@
     if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
         return 44;
     } else if (theTableView != tableView || indexPath.row < [suggestions count]) {
-        if (!_templateCell) {
-            _templateCell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:@"Suggestion"];
-            [self initCellForSuggestion:_templateCell indexPath:nil];
-        }
-        [self customizeCellForSuggestion:_templateCell indexPath:indexPath];
-        [_templateCell.contentView setNeedsLayout];
-        [_templateCell.contentView layoutIfNeeded];
-        CGSize size = [_templateCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        return size.height;
+        return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else {
         return 44;
     }
@@ -253,8 +245,6 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [searchController setActive:YES animated:YES];
-    searchController.searchResultsTableView.separatorColor = [UVStyleSheet bottomSeparatorColor];
-    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
 }

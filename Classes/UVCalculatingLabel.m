@@ -11,7 +11,7 @@
 @implementation UVCalculatingLabel
 
 - (CGFloat)effectiveWidth {
-    return self.frame.size.width;
+    return self.preferredMaxLayoutWidth;
 }
 
 - (CGRect)rectForLetterAtIndex:(NSUInteger)index {

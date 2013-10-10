@@ -7,72 +7,82 @@
 //
 
 #import "UVTruncatingLabel.h"
+#import "UVDefines.h"
 
 @implementation UVTruncatingLabel
 
 @synthesize fullText;
 @synthesize delegate;
+@synthesize moreLabel;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
-        [self addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expand)] autorelease]];
+        [self addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandAndNotify)] autorelease]];
+        self.moreLabel = [[[UILabel alloc] init] autorelease];
+        moreLabel.text = NSLocalizedStringFromTable(@"more", @"UserVoice", nil);
+        moreLabel.font = [UIFont systemFontOfSize:12];
+        if (IOS7) {
+            moreLabel.textColor = self.tintColor;
+        }
+        // TODO hardcode blue for ios6 ??
+        moreLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:moreLabel];
+        NSDictionary *views = @{@"more":moreLabel};
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[more]|" options:0 metrics:nil views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[more]|" options:0 metrics:nil views:views]];
     }
     return self;
+}
+
+- (void)setPreferredMaxLayoutWidth:(CGFloat)width {
+    [super setPreferredMaxLayoutWidth:width];
+    [self update];
 }
 
 - (void)setFullText:(NSString *)theText {
     [fullText release];
     fullText = [theText retain];
-    [self setNeedsDisplay];
+    [self update];
 }
 
-- (void)sizeToFit {
+- (void)update {
+    if (!fullText) return;
     self.text = fullText;
-    [super sizeToFit];
-    if (!expanded && self.frame.size.height > self.font.lineHeight * 3)
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.font.lineHeight * 3);
-}
-
-- (void)expand {
-    expanded = YES;
-    [self sizeToFit];
-    [self setNeedsDisplay];
-    [delegate performSelector:@selector(labelExpanded:) withObject:self];
-}
-
-- (void)drawRect:(CGRect)rect {
-    self.text = fullText;
-    if (!expanded) {
+    if (expanded) {
+        moreLabel.hidden = YES;
+    } else {
         NSArray *lines = [self breakString];
         if ([lines count] > 3) {
-            UIFont *moreFont = [UIFont boldSystemFontOfSize:self.font.pointSize];
-            NSString *more = NSLocalizedStringFromTable(@"More", @"UserVoice", nil);
-            CGSize moreSize = [more sizeWithFont:moreFont];
+            CGSize moreSize = [moreLabel intrinsicContentSize];
             self.text = [NSString stringWithFormat:@"%@%@%@", [lines objectAtIndex:0], [lines objectAtIndex:1], [lines objectAtIndex:2]];
             int i = [self.text length] - 1;
             CGRect r = [self rectForLetterAtIndex:i];
-            while (self.frame.size.width - r.origin.x - r.size.width < 30 + moreSize.width && i > 0) {
+            while (self.preferredMaxLayoutWidth - r.origin.x - r.size.width < (30 + moreSize.width) && i > 0) {
                 i--;
                 r = [self rectForLetterAtIndex:i];
             }
             self.text = [NSString stringWithFormat:@"%@...", [self.text substringWithRange:NSMakeRange(0, i+1)]];
-            CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), self.textColor.CGColor);
-            [more drawAtPoint:CGPointMake(r.origin.x + r.size.width + 12, self.font.lineHeight * 2) withFont:moreFont];
-            UIBezierPath *path = [UIBezierPath bezierPath];
-            CGPoint start = CGPointMake(r.origin.x + r.size.width + 15 + moreSize.width, self.font.lineHeight * 2.4);
-            [path moveToPoint:start];
-            [path addLineToPoint:CGPointMake(start.x + 10, start.y)];
-            [path addLineToPoint:CGPointMake(start.x + 5, start.y + 7)];
-            [path closePath];
-            [path fill];
+            moreLabel.hidden = NO;
+        } else {
+            moreLabel.hidden = YES;
         }
     }
-    [super drawRect:rect];
+}
+
+- (void)expandAndNotify {
+    [self expand];
+    [delegate performSelector:@selector(labelExpanded:) withObject:self];
+}
+
+- (void)expand {
+    expanded = YES;
+    [self update];
 }
 
 - (void)dealloc {
     self.fullText = nil;
+    self.moreLabel = nil;
     [super dealloc];
 }
 

@@ -35,6 +35,7 @@
     if (self) {
         self.signinManager = [UVSigninManager manager];
         self.signinManager.delegate = self;
+        self.templateCells = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -433,6 +434,25 @@
     textField.placeholder = placeholder;
     textField.delegate = self;
     return textField;
+}
+
+- (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [templateCells objectForKey:reuseIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier];
+        SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", reuseIdentifier]);
+        if ([self respondsToSelector:initCellSelector]) {
+            [self performSelector:initCellSelector withObject:cell withObject:nil];
+        }
+        [templateCells setObject:cell forKey:reuseIdentifier];
+    }
+    SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
+    if ([self respondsToSelector:customizeCellSelector]) {
+        [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
+    }
+    [cell.contentView setNeedsLayout];
+    [cell.contentView layoutIfNeeded];
+    return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
 }
 
 #pragma mark - UVSigninManageDelegate

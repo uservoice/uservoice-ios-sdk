@@ -28,9 +28,11 @@
 #define COMMENT_NAME_TAG 1001
 #define COMMENT_DATE_TAG 1002
 #define COMMENT_TEXT_TAG 1003
+#define SUGGESTION_DESCRIPTION 20
 
 @implementation UVSuggestionDetailsViewController {
     
+    BOOL suggestionExpanded;
     UVCallback *_showVotesCallback;
     UVCallback *_showCommentControllerCallback;
     
@@ -197,6 +199,52 @@
     [cell addSubview:label];
 }
 
+- (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *title = [[[UILabel alloc] init] autorelease];
+    title.font = [UIFont boldSystemFontOfSize:18];
+    title.text = suggestion.title;
+    title.numberOfLines = 0;
+    title.preferredMaxLayoutWidth = 290;
+
+    UVTruncatingLabel *desc = [[[UVTruncatingLabel alloc] init] autorelease];
+    desc.font = [UIFont systemFontOfSize:13];
+    desc.fullText = suggestion.text;
+    desc.numberOfLines = 0;
+    desc.delegate = self;
+    desc.preferredMaxLayoutWidth = 290;
+    desc.tag = SUGGESTION_DESCRIPTION;
+
+    UILabel *creator = [[[UILabel alloc] init] autorelease];
+    creator.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    creator.font = [UIFont systemFontOfSize:13];
+    creator.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Posted by %@ on %@", @"UserVoice", nil), suggestion.creatorName, [NSDateFormatter localizedStringFromDate:suggestion.createdAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle]];
+    creator.adjustsFontSizeToFitWidth = YES;
+    creator.minimumFontSize = 10;
+
+    title.translatesAutoresizingMaskIntoConstraints = NO;
+    desc.translatesAutoresizingMaskIntoConstraints = NO;
+    creator.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [cell.contentView addSubview:title];
+    [cell.contentView addSubview:desc];
+    [cell.contentView addSubview:creator];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(title, desc, creator);
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[title]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[desc]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[creator]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[title]-[desc]-[creator]" options:0 metrics:nil views:views]];
+    if (indexPath == nil) {
+        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[creator]-|" options:0 metrics:nil views:views]];
+    }
+}
+
+- (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVTruncatingLabel *desc = (UVTruncatingLabel *)[cell.contentView viewWithTag:SUGGESTION_DESCRIPTION];
+    if (suggestionExpanded)
+        [desc expand];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return self.suggestion.status || self.suggestion.responseText ? 2 : 1;
@@ -219,6 +267,8 @@
                                constrainedToSize:CGSizeMake(labelWidth, 10000)
                                    lineBreakMode:UILineBreakModeWordWrap];
         return MAX(size.height + MARGIN*2 + 20, MARGIN*2 + 40);
+    } else if (indexPath.section == 0 && indexPath.row == 0) {
+        return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else {
         return 44;
     }
@@ -334,7 +384,8 @@
 }
 
 - (void)labelExpanded:(UVTruncatingLabel *)label {
-    [self updateLayout];
+    suggestionExpanded = YES;
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)loadView {

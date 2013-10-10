@@ -10,11 +10,15 @@
 
 @interface UVTruncatingLabel : UVCalculatingLabel {
     NSString *fullText;
+    UILabel *moreLabel;
     id delegate;
     BOOL expanded;
 }
 
 @property (nonatomic, retain) NSString *fullText;
+@property (nonatomic, retain) UILabel *moreLabel;
 @property (assign) id delegate;
+
+- (void)expand;
 
 @end

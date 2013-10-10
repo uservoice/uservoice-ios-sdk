@@ -26,6 +26,7 @@
     NSString *userName;
     UIView *shade;
     UIActivityIndicatorView *activityIndicatorView;
+    NSMutableDictionary *templateCells;
 }
 
 @property (assign) BOOL needsReload;
@@ -37,6 +38,7 @@
 @property (nonatomic,retain) NSString *userName;
 @property (nonatomic, retain) UIView *shade;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, retain) NSMutableDictionary *templateCells;
 
 - (void)dismissUserVoice;
 
@@ -94,5 +96,6 @@
 - (UILabel *)addCellValueLabel:(UIView *)container;
 - (UITextField *)addCellValueTextField:(UIView *)container;
 - (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder;
+- (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath;
 
 @end

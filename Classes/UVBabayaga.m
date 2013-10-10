@@ -75,7 +75,7 @@
 
 - (void)track:(NSString *)event props:(NSDictionary *)props {
     if ([UVSession currentSession].clientConfig) {
-        [self sendTrack:event props:props];
+//        [self sendTrack:event props:props];
     } else {
         [_queue addObject:props ? @{@"event" : event, @"props" : props} : @{@"event": event}];
     }
