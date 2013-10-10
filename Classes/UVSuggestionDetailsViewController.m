@@ -216,7 +216,7 @@
 
     UILabel *creator = [[[UILabel alloc] init] autorelease];
     creator.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    creator.font = [UIFont systemFontOfSize:13];
+    creator.font = [UIFont systemFontOfSize:14];
     creator.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Posted by %@ on %@", @"UserVoice", nil), suggestion.creatorName, [NSDateFormatter localizedStringFromDate:suggestion.createdAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle]];
     creator.adjustsFontSizeToFitWidth = YES;
     creator.minimumFontSize = 10;
@@ -275,6 +275,23 @@
     admin.adjustsFontSizeToFitWidth = YES;
     admin.minimumFontSize = 10;
 
+    // NSArray *constraints = @[
+    //     @"|-16-[statusColor(==10)]-[status]-|",
+    //     @"[date]-|",
+    //     @"|-16-[avatar(==40)]-[text]-|",
+    //     @"[avatar]-[admin]-|",
+    //     @"V:|-14-[statusColor(==10)]",
+    //     @"V:|-12-[status]",
+    //     @"V:|-12-[date]-[avatar(==40)]",
+    //     @"V:[date]-[text]-[admin]"
+    // ];
+    // [self configureView:cell.contentView
+    //            subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
+    //         constraints:constraints
+    //      finalCondition:indexPath == nil
+    //     finalConstraint:@"V:[admin]-|"];
+
+
     statusColor.translatesAutoresizingMaskIntoConstraints = NO;
     status.translatesAutoresizingMaskIntoConstraints = NO;
     date.translatesAutoresizingMaskIntoConstraints = NO;
@@ -300,6 +317,51 @@
     [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[date]-[text]-[admin]" options:0 metrics:nil views:views]];
     if (indexPath == nil) {
         [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[admin]-|" options:0 metrics:nil views:views]];
+    }
+}
+
+- (void)initCellForSubscribe:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *want = [[[UILabel alloc] init] autorelease]; 
+    want.font = [UIFont systemFontOfSize:18];
+    want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
+
+    UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
+
+    UILabel *count = [[[UILabel alloc] init] autorelease];
+    count.font = [UIFont systemFontOfSize:12];
+    count.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    count.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people want this", @"UserVoice", nil), suggestion.subscriberCount];
+    // TODO hold onto this so we can update it
+
+    UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
+    // TODO listeners, check if already subscribed, etc
+
+    want.translatesAutoresizingMaskIntoConstraints = NO;
+    heart.translatesAutoresizingMaskIntoConstraints = NO;
+    count.translatesAutoresizingMaskIntoConstraints = NO;
+    toggle.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [cell.contentView addSubview:want];
+    [cell.contentView addSubview:heart];
+    [cell.contentView addSubview:count];
+    [cell.contentView addSubview:toggle];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(want, heart, count, toggle);
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[want]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[heart(==9)]-4-[count]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[toggle]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-18-[toggle]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[want]-6-[heart(==9)]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[want]-3-[count]" options:0 metrics:nil views:views]];
+    if (indexPath == nil) {
+        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[count]-14-|" options:0 metrics:nil views:views]];
+    }
+}
+
+- (void)initCellForAddComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Add a comment", @"UserVoice", nil);
+    if (IOS7) {
+        cell.textLabel.textColor = cell.textLabel.tintColor;
     }
 }
 
@@ -329,6 +391,8 @@
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else if (indexPath.section == 0 && indexPath.row == 1) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Response" indexPath:indexPath];
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
+        return [self heightForDynamicRowWithReuseIdentifier:@"Subscribe" indexPath:indexPath];
     } else {
         return 44;
     }
@@ -458,122 +522,6 @@
     scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     scrollView.alwaysBounceVertical = YES;
     [self.view addSubview:scrollView];
-    if (suggestion.status) {
-        self.statusBar = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 27)] autorelease];
-        self.statusBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-        self.statusBar.backgroundColor = [suggestion statusColor];
-        UIColor *light = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.2];
-        UIColor *zero = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.0];
-        UIColor *dark = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
-        UIColor *darkest = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
-        CALayer *top = [CALayer layer];
-        top.frame = CGRectMake(0, 0, scrollView.bounds.size.width, 1);
-        top.backgroundColor = light.CGColor;
-        [self.statusBar.layer addSublayer:top];
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.frame = CGRectMake(0, 1, scrollView.bounds.size.width, 25);
-        gradient.colors = @[(id)dark.CGColor, (id)zero.CGColor, (id)light.CGColor];
-        [self.statusBar.layer addSublayer:gradient];
-        CALayer *bottom = [CALayer layer];
-        bottom.frame = CGRectMake(0, 26, scrollView.bounds.size.width, 1);
-        bottom.backgroundColor = darkest.CGColor;
-        [self.statusBar.layer addSublayer:bottom];
-        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(MARGIN, 4, statusBar.bounds.size.width, 17)] autorelease];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor whiteColor];
-        label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
-        label.shadowOffset = CGSizeMake(0, -1);
-        label.font = [UIFont boldSystemFontOfSize:13];
-        label.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Status: %@", @"UserVoice", nil), suggestion.status];
-        [statusBar addSubview:label];
-        [scrollView addSubview:statusBar];
-    }
-
-    self.titleLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:30 space:10]] autorelease];
-    titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    titleLabel.text = suggestion.title;
-    titleLabel.numberOfLines = 0;
-    [titleLabel sizeToFit];
-    [scrollView addSubview:titleLabel];
-
-    self.descriptionLabel = [[[UVTruncatingLabel alloc] initWithFrame:[self nextRectWithHeight:100 space:10]] autorelease];
-    descriptionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    descriptionLabel.backgroundColor = [UIColor clearColor];
-    descriptionLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
-    descriptionLabel.font = [UIFont systemFontOfSize:13];
-    descriptionLabel.fullText = suggestion.text;
-    descriptionLabel.numberOfLines = 0;
-    descriptionLabel.delegate = self;
-    [descriptionLabel sizeToFit];
-    [scrollView addSubview:descriptionLabel];
-
-    self.creatorLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:15 space:3]] autorelease];
-    creatorLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    creatorLabel.backgroundColor = [UIColor clearColor];
-    creatorLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    creatorLabel.font = [UIFont systemFontOfSize:11];
-    creatorLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Posted by %@ on %@", @"UserVoice", nil), suggestion.creatorName, [NSDateFormatter localizedStringFromDate:suggestion.createdAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle]];
-    [scrollView addSubview:creatorLabel];
-
-    if (suggestion.responseText) {
-        self.responseView = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:100 space:15]] autorelease];
-        responseView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        responseView.backgroundColor = [UIColor whiteColor];
-        responseView.layer.cornerRadius = 2.0;
-        responseView.layer.masksToBounds = YES;
-        CALayer *border = [CALayer layer];
-        border.cornerRadius = 2.0;
-        border.masksToBounds = YES;
-        border.borderColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f].CGColor;
-        border.borderWidth = 1.0;
-        border.frame = responseView.bounds;
-        [responseView.layer addSublayer:border];
-        UIView *header = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, responseView.bounds.size.width, 21)] autorelease];
-        header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        header.backgroundColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-        UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 3, header.bounds.size.width - 20, 15)] autorelease];
-        headerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        headerLabel.backgroundColor = [UIColor clearColor];
-        headerLabel.textColor = [UIColor whiteColor];
-        headerLabel.font = [UIFont boldSystemFontOfSize:9];
-        headerLabel.text = NSLocalizedStringFromTable(@"ADMIN RESPONSE", @"UserVoice", nil);
-        [header addSubview:headerLabel];
-        [responseView addSubview:header];
-        UVImageView *avatarView = [[[UVImageView alloc] initWithFrame:CGRectMake(10, 31, 40, 40)] autorelease];
-        avatarView.URL = suggestion.responseUserAvatarUrl;
-        avatarView.defaultImage = [UIImage imageNamed:@"uv_default_avatar.png"];
-        [responseView addSubview:avatarView];
-        UILabel *adminLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 31, 120, 15)] autorelease];
-        adminLabel.backgroundColor = [UIColor clearColor];
-        adminLabel.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
-        adminLabel.font = [UIFont boldSystemFontOfSize:14];
-        adminLabel.text = suggestion.responseUserName;
-        [responseView addSubview:adminLabel];
-        UILabel *createdAt = [[[UILabel alloc] initWithFrame:CGRectMake(responseView.bounds.size.width - 100, 30, 90, 15)] autorelease];
-        createdAt.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
-        createdAt.backgroundColor = [UIColor clearColor];
-        createdAt.textAlignment = UITextAlignmentRight;
-        createdAt.font = [UIFont systemFontOfSize:12];
-        createdAt.textColor = [UIColor colorWithRed:0.60f green:0.61f blue:0.62f alpha:1.0f];
-        createdAt.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
-        [responseView addSubview:createdAt];
-        self.responseLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 48, responseView.bounds.size.width - 70, 100)] autorelease];
-        responseLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        responseLabel.backgroundColor = [UIColor clearColor];
-        responseLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-        responseLabel.font = [UIFont systemFontOfSize:13];
-        responseLabel.text = suggestion.responseText;
-        responseLabel.numberOfLines = 0;
-        [responseLabel sizeToFit];
-        [responseView addSubview:responseLabel];
-        responseView.frame = CGRectMake(responseView.frame.origin.x, responseView.frame.origin.y, responseView.frame.size.width, responseLabel.frame.origin.y + responseLabel.frame.size.height + 15);
-        border.frame = responseView.bounds;
-        [scrollView addSubview:responseView];
-    }
 
     self.buttons = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:40 space:10]] autorelease];
     buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
