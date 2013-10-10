@@ -34,6 +34,7 @@
     NSInteger creatorId;
     NSString *responseText;
     NSString *responseUserName;
+    NSString *responseUserTitle;
     NSString *responseUserAvatarUrl;
     NSInteger responseUserId;
     NSDate *responseCreatedAt;
@@ -59,6 +60,7 @@
 @property (nonatomic, retain) NSString *responseText;
 @property (nonatomic, retain) NSString *responseUserName;
 @property (nonatomic, retain) NSString *responseUserAvatarUrl;
+@property (nonatomic, retain) NSString *responseUserTitle;
 @property (nonatomic, retain) NSDate *responseCreatedAt;
 @property (assign) NSInteger responseUserId;
 @property (nonatomic, retain) UVCategory *category;
@@ -82,7 +84,7 @@
 - (id)subscribe:(id)delegate;
 - (id)unsubscribe:(id)delegate;
 
-// Returns the color to use for rendering this suggestion's status.
 - (UIColor *)statusColor;
+- (NSString *)responseUserWithTitle;
 
 @end

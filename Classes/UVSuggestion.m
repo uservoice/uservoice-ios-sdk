@@ -37,6 +37,7 @@
 @synthesize responseUserName;
 @synthesize responseUserAvatarUrl;
 @synthesize responseUserId;
+@synthesize responseUserTitle;
 @synthesize responseCreatedAt;
 @synthesize category;
 
@@ -148,6 +149,7 @@
                 self.responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
                 self.responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
                 self.responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
+                self.responseUserTitle = [self objectOrNilForDict:responseCreator key:@"title"];
             }
             self.responseCreatedAt = [self parseJsonDate:[response objectForKey:@"created_at"]];
         }
@@ -170,6 +172,14 @@
     return self;
 }
 
+- (NSString *)responseUserWithTitle {
+    if ([responseUserTitle length] > 0) {
+        return [NSString stringWithFormat:@"%@, %@", self.responseUserName, self.responseUserTitle];
+    } else {
+        return self.responseUserName;
+    }
+}
+
 - (void)dealloc {
     self.title = nil;
     self.abstract = nil;
@@ -184,6 +194,7 @@
     self.responseText = nil;
     self.responseCreatedAt = nil;
     self.responseUserName = nil;
+    self.responseUserTitle = nil;
     self.responseUserAvatarUrl = nil;
     self.category = nil;
     [super dealloc];

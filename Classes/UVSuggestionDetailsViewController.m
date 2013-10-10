@@ -245,6 +245,64 @@
         [desc expand];
 }
 
+- (void)initCellForResponse:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UIView *statusColor = [[[UIView alloc] init] autorelease];
+    statusColor.backgroundColor = suggestion.statusColor;
+
+    UILabel *status = [[[UILabel alloc] init] autorelease]; 
+    status.font = [UIFont systemFontOfSize:12];
+    status.text = suggestion.status.uppercaseString;
+    status.textColor = suggestion.statusColor;
+
+    UILabel *date = [[[UILabel alloc] init] autorelease];
+    date.font = [UIFont systemFontOfSize:12];
+    date.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    date.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
+
+    UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
+    avatar.URL = suggestion.responseUserAvatarUrl;
+
+    UILabel *text = [[[UILabel alloc] init] autorelease];
+    text.font = [UIFont systemFontOfSize:13];
+    text.text = suggestion.responseText;
+    text.numberOfLines = 0;
+    text.preferredMaxLayoutWidth = 236;
+
+    UILabel *admin = [[[UILabel alloc] init] autorelease];
+    admin.font = [UIFont systemFontOfSize:14];
+    admin.text = suggestion.responseUserWithTitle;
+    admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    admin.adjustsFontSizeToFitWidth = YES;
+    admin.minimumFontSize = 10;
+
+    statusColor.translatesAutoresizingMaskIntoConstraints = NO;
+    status.translatesAutoresizingMaskIntoConstraints = NO;
+    date.translatesAutoresizingMaskIntoConstraints = NO;
+    text.translatesAutoresizingMaskIntoConstraints = NO;
+    admin.translatesAutoresizingMaskIntoConstraints = NO;
+    avatar.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [cell.contentView addSubview:statusColor];
+    [cell.contentView addSubview:status];
+    [cell.contentView addSubview:date];
+    [cell.contentView addSubview:text];
+    [cell.contentView addSubview:admin];
+    [cell.contentView addSubview:avatar];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar);
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[statusColor(==10)]-[status]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[date]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[avatar(==40)]-[text]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[avatar]-[admin]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[statusColor(==10)]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-12-[status]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-12-[date]-[avatar(==40)]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[date]-[text]-[admin]" options:0 metrics:nil views:views]];
+    if (indexPath == nil) {
+        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[admin]-|" options:0 metrics:nil views:views]];
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return self.suggestion.status || self.suggestion.responseText ? 2 : 1;
@@ -269,6 +327,8 @@
         return MAX(size.height + MARGIN*2 + 20, MARGIN*2 + 40);
     } else if (indexPath.section == 0 && indexPath.row == 0) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
+    } else if (indexPath.section == 0 && indexPath.row == 1) {
+        return [self heightForDynamicRowWithReuseIdentifier:@"Response" indexPath:indexPath];
     } else {
         return 44;
     }
