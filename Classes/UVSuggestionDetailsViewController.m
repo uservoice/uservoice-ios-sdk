@@ -89,7 +89,7 @@
     } else {
         allCommentsRetrieved = YES;
     }
-    [self updateLayout];
+    [self.tableView reloadData];
 }
 
 - (void)didSubscribe:(UVSuggestion *)theSuggestion {
@@ -230,9 +230,9 @@
     [cell.contentView addSubview:creator];
 
     NSDictionary *views = NSDictionaryOfVariableBindings(title, desc, creator);
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[title]-|" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[desc]" options:0 metrics:nil views:views]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[creator]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[title]-|" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[desc]" options:0 metrics:nil views:views]];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-16-[creator]-|" options:0 metrics:nil views:views]];
     [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[title]-[desc]-[creator]" options:0 metrics:nil views:views]];
     if (indexPath == nil) {
         [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[creator]-|" options:0 metrics:nil views:views]];
@@ -451,62 +451,6 @@
 
 #pragma mark ===== Basic View Methods =====
 
-- (void)sizeToFit:(UIView *)view {
-    CGRect frame = view.frame;
-    frame.size.width = scrollView.frame.size.width - MARGIN * 2;
-    view.frame = frame;
-    [view sizeToFit];
-}
-
-- (void)update:(UIView *)view after:(UIView *)aboveView space:(CGFloat)space {
-    CGRect frame = view.frame;
-    frame.origin.y = aboveView.frame.origin.y + aboveView.frame.size.height + space;
-    view.frame = frame;
-}
-
-- (void)updateLayout {
-    [CATransaction begin];
-    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-    [self sizeToFit:titleLabel];
-    [self update:descriptionLabel after:titleLabel space:10];
-    [self sizeToFit:descriptionLabel];
-    [self update:creatorLabel after:descriptionLabel space:3];
-    if (responseView) {
-        [self update:responseView after:creatorLabel space:15];
-        [self sizeToFit:responseView];
-        responseLabel.frame = CGRectMake(60, 48, responseView.bounds.size.width - 70, 100);
-        [responseLabel sizeToFit];
-        responseView.frame = CGRectMake(responseView.frame.origin.x, responseView.frame.origin.y, responseView.frame.size.width, responseLabel.frame.origin.y + responseLabel.frame.size.height + 15);
-        CALayer *border = (CALayer *)[responseView.layer.sublayers objectAtIndex:0];
-        border.frame = responseView.bounds;
-    }
-    [self update:buttons after:(responseView ? responseView : creatorLabel) space:10];
-    [self update:votesLabel after:buttons space:10];
-
-    tableView.frame = CGRectMake(0, votesLabel.frame.origin.y + votesLabel.frame.size.height + 10, scrollView.frame.size.width, 1000);
-
-    if (statusBar) {
-        for (CALayer *layer in statusBar.layer.sublayers) {
-            layer.frame = CGRectMake(layer.frame.origin.x, layer.frame.origin.y, statusBar.frame.size.width, layer.frame.size.height);
-        }
-    }
-    [tableView reloadData];
-    tableView.frame = CGRectMake(tableView.frame.origin.x, tableView.frame.origin.y, tableView.frame.size.width, tableView.contentSize.height);
-    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, tableView.frame.origin.y + tableView.contentSize.height);
-    [CATransaction commit];
-}
-
-- (CGRect)nextRectWithHeight:(CGFloat)height space:(CGFloat)space {
-    CGFloat offset;
-    if ([scrollView.subviews count] == 0) {
-        offset = 0;
-    } else {
-        UIView *lastView  = (UIView *)[scrollView.subviews lastObject];
-        offset = lastView.frame.origin.y + lastView.frame.size.height;
-    }
-    return CGRectMake(MARGIN, offset + space, scrollView.bounds.size.width - MARGIN*2, height);
-}
-
 - (void)labelExpanded:(UVTruncatingLabel *)label {
     suggestionExpanded = YES;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
@@ -515,50 +459,13 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.view.autoresizesSubviews = YES;
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:self.view.bounds] autorelease];
-    scrollView.backgroundColor = [UIColor colorWithRed:0.95f green:0.98f blue:1.00f alpha:1.0f];
-    scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    scrollView.alwaysBounceVertical = YES;
-    [self.view addSubview:scrollView];
 
-    self.buttons = [[[UIView alloc] initWithFrame:[self nextRectWithHeight:40 space:10]] autorelease];
-    buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.voteButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(0, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)] autorelease];
-    voteButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
-    [voteButton setTitle:NSLocalizedStringFromTable(@"Vote", @"UserVoice", nil) forState:UIControlStateNormal];
-    [voteButton addTarget:self action:@selector(voteButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [buttons addSubview:voteButton];
-    UIButton *commentButton = [[[UVGradientButton alloc] initWithFrame:CGRectMake(buttons.bounds.size.width/2 + 5, 0, buttons.bounds.size.width/2 - 5, buttons.bounds.size.height)] autorelease];
-    commentButton.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
-    [commentButton setTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil) forState:UIControlStateNormal];
-    [commentButton addTarget:self action:@selector(commentButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [buttons addSubview:commentButton];
-    [scrollView addSubview:buttons];
-    
-    self.votesLabel = [[[UILabel alloc] initWithFrame:[self nextRectWithHeight:25 space:10]] autorelease];
-    votesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    votesLabel.backgroundColor = [UIColor clearColor];
-    votesLabel.textColor = [UIColor colorWithRed:0.30f green:0.34f blue:0.42f alpha:1.0f];
-    votesLabel.font = [UIFont boldSystemFontOfSize:13];
-    votesLabel.textAlignment = UITextAlignmentCenter;
-    [scrollView addSubview:votesLabel];
-
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height + 10, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.scrollEnabled = NO;
-    self.tableView.separatorColor = [UIColor colorWithRed:0.76f green:0.78f blue:0.80f alpha:1.0f];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.76f green:0.78f blue:0.80f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [tableView addSubview:border];
-    [scrollView addSubview:tableView];
+    self.view = self.tableView;
 
     [self reloadComments];
-    [self updateLayout];
 }
 
 - (void)initNavigationItem {}
@@ -567,10 +474,6 @@
     allCommentsRetrieved = NO;
     self.comments = [NSMutableArray arrayWithCapacity:10];
     [self retrieveMoreComments];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self updateLayout];
 }
 
 - (void)dealloc {
