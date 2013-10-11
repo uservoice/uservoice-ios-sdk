@@ -446,12 +446,23 @@
         }
         [templateCells setObject:cell forKey:reuseIdentifier];
     }
+    cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
     if ([self respondsToSelector:customizeCellSelector]) {
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
     }
     [cell.contentView setNeedsLayout];
     [cell.contentView layoutIfNeeded];
+
+    // cells are usually flat so I don't bother to iterate recursively
+    for (UIView *view in cell.contentView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            if (label.numberOfLines != 1) {
+                [label setPreferredMaxLayoutWidth:label.frame.size.width];
+            }
+        }
+    }
     return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
 }
 

@@ -13,6 +13,7 @@
     UILabel *moreLabel;
     id delegate;
     BOOL expanded;
+    CGFloat lastWidth;
 }
 
 @property (nonatomic, retain) NSString *fullText;

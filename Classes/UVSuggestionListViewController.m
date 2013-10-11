@@ -105,8 +105,6 @@
     UILabel *status = [[[UILabel alloc] init] autorelease];
     UIView *statusColor = [[[UIView alloc] init] autorelease];
     title.numberOfLines = 0;
-    // TODO I think I need to change this for iPad
-    title.preferredMaxLayoutWidth = 247;
     subs.tag = SUBSCRIBER_COUNT;
     title.tag = TITLE;
     status.tag = STATUS;

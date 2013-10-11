@@ -156,12 +156,11 @@
     text.numberOfLines = 0;
     text.font = [UIFont systemFontOfSize:13];
     text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    text.preferredMaxLayoutWidth = 236;
 
     NSArray *constraints = @[
         @"|-16-[avatar(==40)]-[name]",
         @"[date]-|",
-        @"[avatar]-[text]",
+        @"[avatar]-[text]-|",
         @"V:|-14-[avatar(==40)]",
         @"V:|-14-[name]-[text]",
         @"V:|-14-[date]"
@@ -205,14 +204,12 @@
     title.font = [UIFont boldSystemFontOfSize:18];
     title.text = suggestion.title;
     title.numberOfLines = 0;
-    title.preferredMaxLayoutWidth = 290;
 
     UVTruncatingLabel *desc = [[[UVTruncatingLabel alloc] init] autorelease];
     desc.font = [UIFont systemFontOfSize:13];
     desc.fullText = suggestion.text;
     desc.numberOfLines = 0;
     desc.delegate = self;
-    desc.preferredMaxLayoutWidth = 290;
     desc.tag = SUGGESTION_DESCRIPTION;
 
     UILabel *creator = [[[UILabel alloc] init] autorelease];
@@ -224,7 +221,7 @@
 
     NSArray *constraints = @[
         @"|-16-[title]-|",
-        @"|-16-[desc]",
+        @"|-16-[desc]-|",
         @"|-16-[creator]-|",
         @"V:|-[title]-[desc]-[creator]"
     ];
@@ -262,7 +259,6 @@
     text.font = [UIFont systemFontOfSize:13];
     text.text = suggestion.responseText;
     text.numberOfLines = 0;
-    text.preferredMaxLayoutWidth = 236;
 
     UILabel *admin = [[[UILabel alloc] init] autorelease];
     admin.font = [UIFont systemFontOfSize:14];

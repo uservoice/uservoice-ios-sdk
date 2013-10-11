@@ -35,11 +35,6 @@
     return self;
 }
 
-- (void)setPreferredMaxLayoutWidth:(CGFloat)width {
-    [super setPreferredMaxLayoutWidth:width];
-    [self update];
-}
-
 - (void)setFullText:(NSString *)theText {
     [fullText release];
     fullText = [theText retain];
@@ -48,6 +43,7 @@
 
 - (void)update {
     if (!fullText) return;
+    lastWidth = self.frame.size.width;
     self.text = fullText;
     if (expanded) {
         moreLabel.hidden = YES;
@@ -58,7 +54,7 @@
             self.text = [NSString stringWithFormat:@"%@%@%@", [lines objectAtIndex:0], [lines objectAtIndex:1], [lines objectAtIndex:2]];
             int i = [self.text length] - 1;
             CGRect r = [self rectForLetterAtIndex:i];
-            while (self.preferredMaxLayoutWidth - r.origin.x - r.size.width < (30 + moreSize.width) && i > 0) {
+            while (self.frame.size.width - r.origin.x - r.size.width < (30 + moreSize.width) && i > 0) {
                 i--;
                 r = [self rectForLetterAtIndex:i];
             }
@@ -67,6 +63,22 @@
         } else {
             moreLabel.hidden = YES;
         }
+    }
+}
+
+- (CGSize)intrinsicContentSize {
+    if (expanded) {
+        return [super intrinsicContentSize];
+    } else {
+        return CGSizeMake(self.frame.size.width, 3.1 * self.font.lineHeight);
+    }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    // eek
+    if (lastWidth != self.frame.size.width) {
+        [self update];
     }
 }
 
