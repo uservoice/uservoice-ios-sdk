@@ -29,6 +29,7 @@
 @synthesize signinManager;
 @synthesize shade;
 @synthesize activityIndicatorView;
+@synthesize templateCells;
 
 - (id)init {
     self = [super init];
@@ -464,6 +465,10 @@
         }
     }
     return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+}
+
+- (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings {
+    [self configureView:superview subviews:viewsDict constraints:constraintStrings finalCondition:NO finalConstraint:nil];
 }
 
 - (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint {

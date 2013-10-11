@@ -162,14 +162,12 @@
         @"[date]-|",
         @"[avatar]-[text]-|",
         @"V:|-14-[avatar(==40)]",
-        @"V:|-14-[name]-[text]",
+        @"V:|-14-[name]-[text]-14-|",
         @"V:|-14-[date]"
     ];
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(avatar, name, date, text)
-            constraints:constraints
-         finalCondition:indexPath == nil
-        finalConstraint:@"V:[text]-14-|"];
+            constraints:constraints];
 }
 
 - (void)customizeCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -306,13 +304,11 @@
         @"[toggle]-|",
         @"V:|-18-[toggle]",
         @"V:|-14-[want]-6-[heart(==9)]",
-        @"V:[want]-3-[count]"
+        @"V:[want]-3-[count]-14-|"
     ];
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(want, heart, count, toggle)
-            constraints:constraints
-         finalCondition:indexPath == nil
-        finalConstraint:@"V:[count]-14-|"];
+            constraints:constraints];
 }
 
 - (void)initCellForAddComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

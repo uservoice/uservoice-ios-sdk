@@ -42,9 +42,9 @@
 }
 
 - (void)update {
-    if (!fullText) return;
-    lastWidth = self.frame.size.width;
+    if (!fullText || self.effectiveWidth == 0) return;
     self.text = fullText;
+    lastWidth = self.effectiveWidth;
     if (expanded) {
         moreLabel.hidden = YES;
     } else {
@@ -54,7 +54,7 @@
             self.text = [NSString stringWithFormat:@"%@%@%@", [lines objectAtIndex:0], [lines objectAtIndex:1], [lines objectAtIndex:2]];
             int i = [self.text length] - 1;
             CGRect r = [self rectForLetterAtIndex:i];
-            while (self.frame.size.width - r.origin.x - r.size.width < (30 + moreSize.width) && i > 0) {
+            while (self.effectiveWidth - r.origin.x - r.size.width < (20 + moreSize.width) && i > 0) {
                 i--;
                 r = [self rectForLetterAtIndex:i];
             }
@@ -67,17 +67,17 @@
 }
 
 - (CGSize)intrinsicContentSize {
-    if (expanded) {
-        return [super intrinsicContentSize];
-    } else {
-        return CGSizeMake(self.frame.size.width, 3.1 * self.font.lineHeight);
-    }
+    [self update];
+    return [super intrinsicContentSize];
+}
+
+- (CGFloat)effectiveWidth {
+    return MAX(self.frame.size.width, self.preferredMaxLayoutWidth) - 4;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    // eek
-    if (lastWidth != self.frame.size.width) {
+    if (lastWidth != self.effectiveWidth) {
         [self update];
     }
 }
