@@ -438,16 +438,17 @@
 }
 
 - (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [templateCells objectForKey:reuseIdentifier];
+    NSString *cacheKey = [NSString stringWithFormat:@"%@-%d", reuseIdentifier, (int)self.view.frame.size.width];
+    UITableViewCell *cell = [templateCells objectForKey:cacheKey];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier];
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", reuseIdentifier]);
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
         }
-        [templateCells setObject:cell forKey:reuseIdentifier];
+        cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
+        [templateCells setObject:cell forKey:cacheKey];
     }
-    cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
     if ([self respondsToSelector:customizeCellSelector]) {
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
