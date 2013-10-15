@@ -375,8 +375,11 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == [self.comments count])
+    if (indexPath.section == 1 && indexPath.row == 1) {
+        [self requireUserSignedIn:_showCommentControllerCallback];
+    } else if (indexPath.section == 2 && indexPath.row == [self.comments count]) {
         [self retrieveMoreComments];
+    }
 }
 
 #pragma mark ===== Actions =====
@@ -402,10 +405,6 @@
             index--;
         }
     }
-}
-
-- (void)commentButtonTapped {
-    [self requireUserSignedIn:_showCommentControllerCallback];
 }
 
 - (void)presentCommentController {
