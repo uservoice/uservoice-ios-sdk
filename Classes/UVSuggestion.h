@@ -40,6 +40,7 @@
     NSDate *responseCreatedAt;
 
     UVCategory *category;
+    BOOL subscribed;
 }
 
 @property (assign) NSInteger suggestionId;
@@ -66,6 +67,7 @@
 @property (nonatomic, retain) UVCategory *category;
 @property (nonatomic, readonly) UIColor *statusColor;
 @property (nonatomic, readonly) NSString *categoryString;
+@property (assign) BOOL subscribed;
 
 // Retrieves a page (10 items) of suggestions.
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate;

@@ -249,37 +249,53 @@
     date.font = [UIFont systemFontOfSize:12];
     date.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     date.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
+    
+    if ([suggestion.responseText length] > 0) {
+        UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
+        avatar.URL = suggestion.responseUserAvatarUrl;
 
-    UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
-    avatar.URL = suggestion.responseUserAvatarUrl;
+        UILabel *text = [[[UILabel alloc] init] autorelease];
+        text.font = [UIFont systemFontOfSize:13];
+        text.text = suggestion.responseText;
+        text.numberOfLines = 0;
 
-    UILabel *text = [[[UILabel alloc] init] autorelease];
-    text.font = [UIFont systemFontOfSize:13];
-    text.text = suggestion.responseText;
-    text.numberOfLines = 0;
+        UILabel *admin = [[[UILabel alloc] init] autorelease];
+        admin.font = [UIFont systemFontOfSize:14];
+        admin.text = suggestion.responseUserWithTitle;
+        admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+        admin.adjustsFontSizeToFitWidth = YES;
+        admin.minimumFontSize = 10;
 
-    UILabel *admin = [[[UILabel alloc] init] autorelease];
-    admin.font = [UIFont systemFontOfSize:14];
-    admin.text = suggestion.responseUserWithTitle;
-    admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    admin.adjustsFontSizeToFitWidth = YES;
-    admin.minimumFontSize = 10;
-
-    NSArray *constraints = @[
-        @"|-16-[statusColor(==10)]-[status]-|",
-        @"[date]-|",
-        @"|-16-[avatar(==40)]-[text]-|",
-        @"[avatar]-[admin]-|",
-        @"V:|-14-[statusColor(==10)]",
-        @"V:|-12-[status]",
-        @"V:|-12-[date]-[avatar(==40)]",
-        @"V:[date]-[text]-[admin]"
-    ];
-    [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
-            constraints:constraints
-         finalCondition:indexPath == nil
-        finalConstraint:@"V:[admin]-|"];
+        NSArray *constraints = @[
+            @"|-16-[statusColor(==10)]-[status]-|",
+            @"[date]-|",
+            @"|-16-[avatar(==40)]-[text]-|",
+            @"[avatar]-[admin]-|",
+            @"V:|-14-[statusColor(==10)]",
+            @"V:|-12-[status]",
+            @"V:|-12-[date]-[avatar(==40)]",
+            @"V:[date]-[text]-[admin]",
+            @"V:[avatar]-(>=10)-|"
+        ];
+        [self configureView:cell.contentView
+                   subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
+                constraints:constraints
+             finalCondition:indexPath == nil
+            finalConstraint:@"V:[admin]-|"];
+    } else {
+        NSArray *constraints = @[
+            @"|-16-[statusColor(==10)]-[status]-|",
+            @"[date]-|",
+            @"V:|-14-[statusColor(==10)]",
+            @"V:|-12-[status]",
+            @"V:|-12-[date]",
+        ];
+        [self configureView:cell.contentView
+                   subviews:NSDictionaryOfVariableBindings(statusColor, status, date)
+                constraints:constraints
+             finalCondition:indexPath == nil
+            finalConstraint:@"V:[status]-12-|"];
+    }
 }
 
 - (void)initCellForSubscribe:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -296,6 +312,9 @@
     // TODO hold onto this so we can update it
 
     UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
+    if (self.suggestion.subscribed) {
+        toggle.on = YES;
+    }
     // TODO listeners, check if already subscribed, etc
 
     NSArray *constraints = @[

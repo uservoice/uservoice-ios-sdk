@@ -40,6 +40,7 @@
 @synthesize responseUserTitle;
 @synthesize responseCreatedAt;
 @synthesize category;
+@synthesize subscribed;
 
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
@@ -129,6 +130,7 @@
         self.abstract = [self objectOrNilForDict:dict key:@"abstract"];
         self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
         self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+        self.subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
         if (statusDict)
         {
