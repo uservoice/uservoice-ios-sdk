@@ -446,7 +446,7 @@
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
         }
-        cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 0);
+        cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 1000);
         [templateCells setObject:cell forKey:cacheKey];
     }
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
@@ -462,6 +462,7 @@
             UILabel *label = (UILabel *)view;
             if (label.numberOfLines != 1) {
                 [label setPreferredMaxLayoutWidth:label.frame.size.width];
+                NSLog(@"%@", NSStringFromCGRect([label textRectForBounds:label.frame limitedToNumberOfLines:0]));
             }
         }
     }

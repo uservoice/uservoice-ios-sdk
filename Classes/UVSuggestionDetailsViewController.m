@@ -33,30 +33,21 @@
 @implementation UVSuggestionDetailsViewController {
     
     BOOL suggestionExpanded;
-    UVCallback *_showVotesCallback;
+    UVCallback *_subscribeCallback;
     UVCallback *_showCommentControllerCallback;
     
 }
 
 @synthesize suggestion;
-@synthesize scrollView;
-@synthesize statusBar;
 @synthesize comments;
-@synthesize titleLabel;
-@synthesize votesLabel;
-@synthesize descriptionLabel;
-@synthesize creatorLabel;
-@synthesize responseView;
-@synthesize responseLabel;
-@synthesize buttons;
-@synthesize voteButton;
+@synthesize subscriberCount;
 @synthesize instantAnswers;
 
 - (id)init {
     self = [super init];
     
     if (self) {
-        _showVotesCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(openVoteActionSheet)];
+        _subscribeCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(subscribe)];
         _showCommentControllerCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(presentCommentController)];
     }
     
@@ -95,16 +86,21 @@
 - (void)didSubscribe:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
     [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
-    [UVSession currentSession].forum.suggestionsNeedReload = YES;
-    self.suggestion = theSuggestion;
-    [self hideActivityIndicator];
+    // [UVSession currentSession].forum.suggestionsNeedReload = YES;
     if (instantAnswers) {
         [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
     }
+    [self updateSuggestion:theSuggestion];
 }
 
 - (void)didUnsubscribe:(UVSuggestion *)theSuggestion {
-    // TODO
+    [self updateSuggestion:theSuggestion];
+}
+
+- (void)updateSuggestion:(UVSuggestion *)theSuggestion {
+    self.suggestion.subscribed = theSuggestion.subscribed;
+    self.suggestion.subscriberCount = theSuggestion.subscriberCount;
+    self.subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people want this", @"UserVoice", nil), suggestion.subscriberCount];
 }
 
 #pragma mark ===== UITableView Methods =====
@@ -305,17 +301,17 @@
 
     UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
 
-    UILabel *count = [[[UILabel alloc] init] autorelease];
-    count.font = [UIFont systemFontOfSize:12];
-    count.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    count.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people want this", @"UserVoice", nil), suggestion.subscriberCount];
-    // TODO hold onto this so we can update it
+    self.subscriberCount = [[[UILabel alloc] init] autorelease];
+    subscriberCount.font = [UIFont systemFontOfSize:12];
+    subscriberCount.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people want this", @"UserVoice", nil), suggestion.subscriberCount];
+    UILabel *count = self.subscriberCount;
 
     UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
     if (self.suggestion.subscribed) {
         toggle.on = YES;
     }
-    // TODO listeners, check if already subscribed, etc
+    [toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
 
     NSArray *constraints = @[
         @"|-16-[want]",
@@ -385,6 +381,14 @@
 
 #pragma mark ===== Actions =====
 
+- (void)toggleSubscribed {
+    if (suggestion.subscribed) {
+        [self unsubscribe];
+    } else {
+        [self requireUserSignedIn:_subscribeCallback];
+    }
+}
+
 - (void)disableButton:(int)index inActionSheet:(UIActionSheet *)actionSheet {
     for (UIView *view in actionSheet.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
@@ -400,20 +404,20 @@
     }
 }
 
-- (void)voteButtonTapped {
-    [self requireUserSignedIn:_showVotesCallback];
-}
-
-- (void)openVoteActionSheet {
-    // TODO subscribe, rather
-}
-
 - (void)commentButtonTapped {
     [self requireUserSignedIn:_showCommentControllerCallback];
 }
 
 - (void)presentCommentController {
     [self presentModalViewController:[[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease]];
+}
+
+- (void)subscribe {
+    [suggestion subscribe:self];
+}
+
+- (void)unsubscribe {
+    [suggestion unsubscribe:self];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -445,20 +449,11 @@
 
 - (void)dealloc {
     self.suggestion = nil;
-    self.scrollView = nil;
-    self.statusBar = nil;
     self.comments = nil;
-    self.titleLabel = nil;
-    self.votesLabel = nil;
-    self.descriptionLabel = nil;
-    self.creatorLabel = nil;
-    self.responseView = nil;
-    self.responseLabel = nil;
-    self.buttons = nil;
-    self.voteButton = nil;
+    self.subscriberCount = nil;
     
-    [_showVotesCallback invalidate];
-    [_showVotesCallback release];
+    [_subscribeCallback invalidate];
+    [_subscribeCallback release];
     [_showCommentControllerCallback invalidate];
     [_showCommentControllerCallback release];
     

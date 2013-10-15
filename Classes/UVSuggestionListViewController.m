@@ -107,6 +107,8 @@
     UILabel *title = [[[UILabel alloc] init] autorelease];
     title.numberOfLines = 0;
     title.tag = TITLE;
+    title.font = [UIFont systemFontOfSize:17];
+    title.lineBreakMode = NSLineBreakByCharWrapping;
     UILabel *status = [[[UILabel alloc] init] autorelease];
     status.font = [UIFont systemFontOfSize:11];
     status.tag = STATUS;
