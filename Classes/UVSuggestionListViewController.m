@@ -101,42 +101,33 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
     UILabel *subs = [[[UILabel alloc] init] autorelease];
-    UILabel *title = [[[UILabel alloc] init] autorelease];
-    UILabel *status = [[[UILabel alloc] init] autorelease];
-    UIView *statusColor = [[[UIView alloc] init] autorelease];
-    title.numberOfLines = 0;
-    subs.tag = SUBSCRIBER_COUNT;
-    title.tag = TITLE;
-    status.tag = STATUS;
-    statusColor.tag = STATUS_COLOR;
-    subs.translatesAutoresizingMaskIntoConstraints = NO;
-    heart.translatesAutoresizingMaskIntoConstraints = NO;
-    title.translatesAutoresizingMaskIntoConstraints = NO;
-    status.translatesAutoresizingMaskIntoConstraints = NO;
-    statusColor.translatesAutoresizingMaskIntoConstraints = NO;
     subs.font = [UIFont systemFontOfSize:14];
     subs.textColor = [UIColor grayColor];
+    subs.tag = SUBSCRIBER_COUNT;
+    UILabel *title = [[[UILabel alloc] init] autorelease];
+    title.numberOfLines = 0;
+    title.tag = TITLE;
+    UILabel *status = [[[UILabel alloc] init] autorelease];
     status.font = [UIFont systemFontOfSize:11];
+    status.tag = STATUS;
+    UIView *statusColor = [[[UIView alloc] init] autorelease];
+    statusColor.tag = STATUS_COLOR;
     CALayer *layer = [CALayer layer];
     layer.frame = CGRectMake(0, 0, 9, 9);
     [statusColor.layer addSublayer:layer];
-    [cell.contentView addSubview:heart];
-    [cell.contentView addSubview:subs];
-    [cell.contentView addSubview:title];
-    [cell.contentView addSubview:statusColor];
-    [cell.contentView addSubview:status];
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subs, title, heart, statusColor, status);
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[title]-|" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[title]-6-[heart(==9)]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-6-[statusColor(==9)]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-4-[status]" options:0 metrics:nil views:viewsDictionary]];
-    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[title]-2-[subs]" options:0 metrics:nil views:viewsDictionary]];
-
-    // template cell
-    if (indexPath == nil) {
-        [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[heart]-10-|" options:0 metrics:nil views:viewsDictionary]];
-    }
+    NSArray *constraints = @[
+        @"|-[title]-|",
+        @"|-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]",
+        @"V:|-8-[title]-6-[heart(==9)]",
+        @"V:[title]-6-[statusColor(==9)]",
+        @"V:[title]-4-[status]",
+        @"V:[title]-2-[subs]"
+    ];
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(subs, title, heart, statusColor, status)
+            constraints:constraints
+         finalCondition:indexPath == nil
+        finalConstraint:@"V:[heart]-8-|"];
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
