@@ -48,7 +48,14 @@
 
 #pragma mark ===== table cells =====
 
-- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForContact:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
+    if (IOS7) {
+        cell.textLabel.textColor = cell.textLabel.tintColor;
+    }
+}
+
+- (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.text = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -110,7 +117,9 @@
     } else if (theTableView == searchController.searchResultsTableView) {
         identifier = @"InstantAnswer";
     } else {
-        if (indexPath.section == 0 && [UVSession currentSession].config.showForum)
+        if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs)
+            identifier = @"Contact";
+        else if (indexPath.section == 0)
             identifier = @"Forum";
         else if ([self showArticles])
             identifier = @"Article";
@@ -132,7 +141,7 @@
         if ([UVSession currentSession].config.showKnowledgeBase && ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0))
             sections++;
         
-        if ([UVSession currentSession].config.showForum)
+        if ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs)
             sections++;
 
         return sections;
@@ -145,8 +154,8 @@
     } else if (theTableView == searchController.searchResultsTableView) {
         return [instantAnswers count];
     } else {
-        if (section == 0 && [UVSession currentSession].config.showForum)
-            return 1;
+        if (section == 0 && ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs))
+            return ([UVSession currentSession].config.showForum && [UVSession currentSession].config.showContactUs) ? 2 : 1;
         else if ([self showArticles])
             return [[UVSession currentSession].articles count];
         else
@@ -163,7 +172,10 @@
         [self selectInstantAnswerAtIndex:indexPath.row];
     } else {
         [self clearFlash];
-        if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
+        if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
+            [self clearFlash];
+            [self presentModalViewController:[UVNewTicketViewController viewController]];
+        } else if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
             UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
