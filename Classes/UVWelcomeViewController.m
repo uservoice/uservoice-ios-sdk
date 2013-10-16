@@ -25,6 +25,7 @@
 #import "UVNewSuggestionViewController.h"
 #import "UVGradientButton.h"
 #import "UVBabayaga.h"
+#import "UVUtils.h"
 
 @implementation UVWelcomeViewController
 
@@ -51,15 +52,24 @@
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.text = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    NSString *detail;
+    if ([UVSession currentSession].forum.suggestionsCount == 1) {
+        detail = NSLocalizedStringFromTable(@"2 idea", @"UserVoice", nil);
+    } else {
+        detail = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ ideas", @"UserVoice", nil), [UVUtils formatInteger:[UVSession currentSession].forum.suggestionsCount]];
+    }
+    cell.detailTextLabel.text = detail;
 }
 
 - (void)customizeCellForTopic:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     if (indexPath.row == [[UVSession currentSession].topics count]) {
         cell.textLabel.text = NSLocalizedStringFromTable(@"All Articles", @"UserVoice", nil);
+        cell.detailTextLabel.text = nil;
     } else {
         UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
         cell.textLabel.text = topic.name;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", topic.articleCount];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
@@ -108,7 +118,7 @@
             identifier = @"Topic";
     }
 
-    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
+    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleValue1 selectable:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {

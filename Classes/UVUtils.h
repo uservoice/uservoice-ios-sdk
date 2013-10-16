@@ -31,4 +31,6 @@
 
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController;
 
++ (NSString *)formatInteger:(NSInteger)number;
+
 @end

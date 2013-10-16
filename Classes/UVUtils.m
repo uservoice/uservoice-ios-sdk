@@ -270,4 +270,11 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }
 
++ (NSString *)formatInteger:(NSInteger)number {
+    NSNumberFormatter *fmt = [[NSNumberFormatter new] autorelease];
+    [fmt setNumberStyle:NSNumberFormatterDecimalStyle];
+    [fmt setMaximumFractionDigits:0];
+    return [fmt stringFromNumber:@(number)];
+}
+
 @end
