@@ -311,14 +311,9 @@
 }
 
 - (void)setupGroupedTableView {
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.view.backgroundColor = [UVStyleSheet backgroundColor];
-    self.view.autoresizesSubviews = YES;
-    self.tableView = [[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped] autorelease];
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.tableView];
+    self.view = self.tableView;
 }
 
 - (void)addTopBorder:(UIView *)view {
@@ -446,7 +441,7 @@
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
         }
-        cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, 1000);
+        cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width - (cell.accessoryType == UITableViewCellAccessoryDisclosureIndicator ? 33.0 : 0), 0);
         [templateCells setObject:cell forKey:cacheKey];
     }
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
@@ -462,11 +457,10 @@
             UILabel *label = (UILabel *)view;
             if (label.numberOfLines != 1) {
                 [label setPreferredMaxLayoutWidth:label.frame.size.width];
-                NSLog(@"%@", NSStringFromCGRect([label textRectForBounds:label.frame limitedToNumberOfLines:0]));
             }
         }
     }
-    return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
 }
 
 - (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings {
