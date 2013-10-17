@@ -152,6 +152,8 @@
 		D9D40415164023EF00D9CECA /* UVBaseTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D40413164023EF00D9CECA /* UVBaseTicketViewController.m */; };
 		D9D404821643261400D9CECA /* UVNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D404801643261300D9CECA /* UVNavigationController.h */; };
 		D9D404831643261400D9CECA /* UVNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D404811643261400D9CECA /* UVNavigationController.m */; };
+		D9E8B6A818105CC8003C7E07 /* UVInstantAnswerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E8B6A618105CC8003C7E07 /* UVInstantAnswerManager.h */; };
+		D9E8B6A918105CC9003C7E07 /* UVInstantAnswerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */; };
 		D9F2060414C08A8100F4441E /* UVDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F2060314C08A8100F4441E /* UVDelegate.h */; };
 /* End PBXBuildFile section */
 
@@ -329,6 +331,8 @@
 		D9D40413164023EF00D9CECA /* UVBaseTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVBaseTicketViewController.m; sourceTree = "<group>"; };
 		D9D404801643261300D9CECA /* UVNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNavigationController.h; sourceTree = "<group>"; };
 		D9D404811643261400D9CECA /* UVNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNavigationController.m; sourceTree = "<group>"; };
+		D9E8B6A618105CC8003C7E07 /* UVInstantAnswerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVInstantAnswerManager.h; sourceTree = "<group>"; };
+		D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVInstantAnswerManager.m; sourceTree = "<group>"; };
 		D9F2060314C08A8100F4441E /* UVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -409,6 +413,8 @@
 				D95F23E3172EFD2A003F6850 /* UVUtils.h */,
 				D95F23E4172EFD2A003F6850 /* UVUtils.m */,
 				D909DD4117CD3CAA00ECE395 /* UVDefines.h */,
+				D9E8B6A618105CC8003C7E07 /* UVInstantAnswerManager.h */,
+				D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -750,6 +756,7 @@
 				D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */,
 				D2620F0911B597290053EA4C /* HRGlobal.h in Headers */,
 				D2620F0B11B597290053EA4C /* HROperationQueue.h in Headers */,
+				D9E8B6A818105CC8003C7E07 /* UVInstantAnswerManager.h in Headers */,
 				D2620F0D11B597290053EA4C /* HRRequestOperation.h in Headers */,
 				D2620F0F11B597290053EA4C /* HRResponseDelegate.h in Headers */,
 				D2620F1011B597290053EA4C /* HRRestModel.h in Headers */,
@@ -910,6 +917,7 @@
 				D96FAE79165C3DF100A384CC /* UVSigninManager.m in Sources */,
 				D9B907761663FC80001AC6B2 /* UVGradientButton.m in Sources */,
 				D9B9077C166418D4001AC6B2 /* UVBaseInstantAnswersViewController.m in Sources */,
+				D9E8B6A918105CC9003C7E07 /* UVInstantAnswerManager.m in Sources */,
 				D9B907841667EF4D001AC6B2 /* UVHighlightingLabel.m in Sources */,
 				D900310316690F7B006A27C6 /* UVBaseSuggestionViewController.m in Sources */,
 				D9003107166913A8006A27C6 /* UVNewSuggestionIpadViewController.m in Sources */,
