@@ -198,9 +198,6 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [_searchController setActive:YES animated:YES];
     _searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    _searchController.searchResultsTableView.backgroundView = nil;
-    _searchController.searchResultsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
-    _searchController.searchResultsTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.0f];
     [searchBar setShowsCancelButton:YES animated:YES];
     _filter = IA_FILTER_ALL;
     searchBar.showsScopeBar = YES;
@@ -238,10 +235,6 @@
         default:
             return nil;
     }
-}
-
-- (int)maxInstantAnswerResults {
-    return 10;
 }
 
 #pragma mark ===== Basic View Methods =====
