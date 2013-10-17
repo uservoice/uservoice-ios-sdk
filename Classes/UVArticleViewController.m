@@ -121,7 +121,7 @@
 
 - (void)noButtonTapped {
     if (instantAnswers) {
-        [UVDeflection trackDeflection:@"unhelpful" deflectingType:deflectingType deflector:article];
+        [UVDeflection trackDeflection:@"not_helpful" deflectingType:deflectingType deflector:article];
     }
     if (helpfulPrompt) {
         [self.navigationController popViewControllerAnimated:YES];
