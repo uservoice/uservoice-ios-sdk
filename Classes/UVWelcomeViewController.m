@@ -27,9 +27,9 @@
 #import "UVBabayaga.h"
 #import "UVUtils.h"
 
-@implementation UVWelcomeViewController
-
-@synthesize searchController;
+@implementation UVWelcomeViewController {
+    NSInteger _filter;
+}
 
 - (BOOL)showArticles {
     return [UVSession currentSession].config.topicId || [[UVSession currentSession].topics count] == 0;
@@ -86,23 +86,29 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [super initCellForInstantAnswer:cell indexPath:indexPath];
-    UIView *label = [cell viewWithTag:HIGHLIGHTING_LABEL_TAG];
-    label.frame = CGRectMake(40, 12, cell.bounds.size.width - 80, 20);
-}
-
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForInstantAnswer:cell index:indexPath.row];
-    cell.backgroundColor = [UIColor clearColor];
+    id model = [self.searchResults objectAtIndex:indexPath.row];
+    if ([model isMemberOfClass:[UVArticle class]]) {
+        UVArticle *article = (UVArticle *)model;
+        cell.textLabel.text = article.question;
+        cell.detailTextLabel.text = article.topicName;
+        cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
+    } else {
+        UVSuggestion *suggestion = (UVSuggestion *)model;
+        cell.textLabel.text = suggestion.title;
+        cell.detailTextLabel.text = suggestion.forumName;
+        cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
+    }
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
-    if (theTableView == searchController.searchResultsTableView) {
+    NSInteger style = UITableViewCellStyleValue1;
+    if (theTableView == _searchController.searchResultsTableView) {
         identifier = @"InstantAnswer";
+        style = UITableViewCellStyleSubtitle;
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs)
             identifier = @"Contact";
@@ -114,11 +120,11 @@
             identifier = @"Topic";
     }
 
-    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleValue1 selectable:YES];
+    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:style selectable:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    if (theTableView == searchController.searchResultsTableView) {
+    if (theTableView == _searchController.searchResultsTableView) {
         return 1;
     } else {
         int sections = 0;
@@ -134,8 +140,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (theTableView == searchController.searchResultsTableView) {
-        return [instantAnswers count];
+    if (theTableView == _searchController.searchResultsTableView) {
+        return self.searchResults.count;
     } else {
         if (section == 0 && ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs))
             return ([UVSession currentSession].config.showForum && [UVSession currentSession].config.showContactUs) ? 2 : 1;
@@ -148,8 +154,8 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (theTableView == searchController.searchResultsTableView) {
-        [self selectInstantAnswerAtIndex:indexPath.row];
+    if (theTableView == _searchController.searchResultsTableView) {
+        // [self selectInstantAnswerAtIndex:indexPath.row];
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
             [self presentModalViewController:[UVNewTicketViewController viewController]];
@@ -179,8 +185,8 @@
         return NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+- (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
+    return theTableView == _searchController.searchResultsTableView ? 0 : 30;
 }
 
 - (void)logoTapped {
@@ -190,13 +196,13 @@
 #pragma mark ===== UISearchBarDelegate Methods =====
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    [searchController setActive:YES animated:YES];
-    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    searchController.searchResultsTableView.backgroundView = nil;
-    searchController.searchResultsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
-    searchController.searchResultsTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.0f];
+    [_searchController setActive:YES animated:YES];
+    _searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    _searchController.searchResultsTableView.backgroundView = nil;
+    _searchController.searchResultsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
+    _searchController.searchResultsTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.0f];
     [searchBar setShowsCancelButton:YES animated:YES];
-    filter = IA_FILTER_ALL;
+    _filter = IA_FILTER_ALL;
     searchBar.showsScopeBar = YES;
     searchBar.selectedScopeButtonIndex = 0;
     return YES;
@@ -207,17 +213,31 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    self.filter = searchBar.selectedScopeButtonIndex;
+    _filter = searchBar.selectedScopeButtonIndex;
+    [_searchController.searchResultsTableView reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.instantAnswersQuery = searchBar.text;
-    [self loadInstantAnswers];
+    _instantAnswerManager.searchText = searchBar.text;
+    [_instantAnswerManager search];
 }
 
-- (void)didLoadInstantAnswers {
-    if (searchController.active)
-        [searchController.searchResultsTableView reloadData];
+- (void)didUpdateInstantAnswers {
+    if (_searchController.active)
+        [_searchController.searchResultsTableView reloadData];
+}
+
+- (NSArray *)searchResults {
+    switch (_filter) {
+        case IA_FILTER_ALL:
+            return _instantAnswerManager.instantAnswers;
+        case IA_FILTER_ARTICLES:
+            return _instantAnswerManager.articles;
+        case IA_FILTER_IDEAS:
+            return _instantAnswerManager.ideas;
+        default:
+            return nil;
+    }
 }
 
 - (int)maxInstantAnswerResults {
@@ -229,6 +249,8 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_KB];
+    _instantAnswerManager = [UVInstantAnswerManager new];
+    _instantAnswerManager.delegate = self;
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                               style:UIBarButtonItemStylePlain
@@ -252,9 +274,9 @@
         self.tableView.tableHeaderView = searchBar;
 
         self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
-        searchController.delegate = self;
-        searchController.searchResultsDelegate = self;
-        searchController.searchResultsDataSource = self;
+        _searchController.delegate = self;
+        _searchController.searchResultsDelegate = self;
+        _searchController.searchResultsDataSource = self;
     }
 
 
@@ -289,6 +311,7 @@
 
 - (void)dealloc {
     self.searchController = nil;
+    self.instantAnswerManager = nil;
     [super dealloc];
 }
 

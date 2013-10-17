@@ -7,11 +7,12 @@
 //
 
 #import "UVInstantAnswerManager.h"
+#import "UVArticle.h"
+#import "UVSuggestion.h"
+#import "UVDeflection.h"
+#import "UVBabayaga.h"
 
 @implementation UVInstantAnswerManager
-
-@property (nonatomic,retain) NSTimer *timer;
-@property (nonatomic,retain) NSString *runningQuery;
 
 - (void)setSearchText:(NSString *)newText {
     if ([_searchText.lowercaseString isEqualToString:newText.lowercaseString]) {
@@ -22,7 +23,7 @@
     [self invalidateTimer];
     if (_searchText == nil || _searchText.length == 0) {
         self.instantAnswers = self.ideas = self.articles = [NSArray array];
-        [_delegate didLoadInstantAnswers];
+        [_delegate didUpdateInstantAnswers];
     } else {
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(doSearch:) userInfo:nil repeats:NO];
     }
@@ -50,7 +51,7 @@
     self.ideas = [theInstantAnswers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", [UVSuggestion class]]];
     self.articles = [theInstantAnswers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", [UVArticle class]]];
     _loading = NO;
-    [self didLoadInstantAnswers];
+    [_delegate didUpdateInstantAnswers];
     
     NSMutableArray *articleIds = [NSMutableArray arrayWithCapacity:_articles.count];
     for (id answer in _articles) {

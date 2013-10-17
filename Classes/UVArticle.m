@@ -68,6 +68,7 @@
         self.question = [self objectOrNilForDict:dict key:@"question"];
         self.answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
         self.articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
+        self.topicName = [[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"];
     }
     return self;
 }
@@ -75,6 +76,7 @@
 - (void)dealloc {
     self.question = nil;
     self.answerHTML = nil;
+    self.topicName = nil;
     [super dealloc];
 }
 

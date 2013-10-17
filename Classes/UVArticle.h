@@ -20,6 +20,7 @@
 + (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate;
 + (id)getArticlesWithDelegate:(id)delegate;
 
+@property (nonatomic, retain) NSString *topicName;
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answerHTML;
 @property (assign) NSInteger articleId;

@@ -8,10 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol UVInstantAnswersDelegate
+/*
+ * Called whenever there are new instant answer results
+ */
+- (void)didUpdateInstantAnswers; 
+@end
+
 @interface UVInstantAnswerManager : NSObject
 
 @property (nonatomic,assign) id<UVInstantAnswersDelegate> delegate;
 @property (nonatomic,assign) BOOL loading;
+@property (nonatomic,retain) NSTimer *timer;
+@property (nonatomic,retain) NSString *runningQuery;
 
 /*
  * An array of interleaved ideas and articles
@@ -40,15 +49,6 @@
  * Call this to force the search to execute immediately
  */
 - (void)search;
-
-@end
-
-@protocol UVInstantAnswersDelegate
-
-/*
- * Called whenever there are new instant answer results
- */
-- (void)didUpdateInstantAnswers; 
 
 @end
 
