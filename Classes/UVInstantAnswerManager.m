@@ -13,6 +13,7 @@
 #import "UVBabayaga.h"
 #import "UVArticleViewController.h"
 #import "UVSuggestionDetailsViewController.h"
+#import "UVInstantAnswersViewController.h"
 
 @implementation UVInstantAnswerManager
 
@@ -67,6 +68,22 @@
     }
     [UVBabayaga track:SEARCH_IDEAS searchText:_runningQuery ids:ideaIds];
     // note: UVDeflection should be called later with the actual objects displayed to the user
+}
+
+- (void)skipInstantAnswers {
+    if ([_delegate respondsToSelector:@selector(skipInstantAnswers)])
+        [_delegate skipInstantAnswers];
+}
+
+- (void)pushInstantAnswersViewForParent:(UIViewController *)parent articlesFirst:(BOOL)articlesFirst {
+    if (_instantAnswers.count > 0) {
+        UVInstantAnswersViewController *next = [UVInstantAnswersViewController new];
+        next.instantAnswerManager = self;
+        next.articlesFirst = articlesFirst;
+        [parent.navigationController pushViewController:next animated:YES];
+    } else {
+        [self skipInstantAnswers];
+    }
 }
 
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent {

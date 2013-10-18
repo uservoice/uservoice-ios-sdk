@@ -12,14 +12,22 @@
 
 @implementation UVInstantAnswersViewController
 
+#pragma mark ===== Basic View Methods =====
+
 - (void)loadView {
     self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
     tableView.delegate = self;
     tableView.dataSource = self;
     self.view = tableView;
-    [self.tableView reloadData];
+
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+                                                                               style:UIBarButtonItemStyleDone
+                                                                              target:self
+                                                                              action:@selector(next)] autorelease];
     // TODO send list deflection
 }
+
+#pragma mark ===== UITableViewDataSource Methods =====
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
     return (_instantAnswerManager.ideas.count > 0 && _instantAnswerManager.articles.count > 0) ? 2 : 1;
@@ -35,6 +43,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     return [self sectionIsArticles:section] ? NSLocalizedStringFromTable(@"Related articles", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Related feedback", @"UserVoice", nil);
+}
+
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    id model = [[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
+    [_instantAnswerManager pushViewFor:model parent:self];
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -53,14 +67,14 @@
     }
 }
 
-- (NSArray *)resultsForSection:(NSInteger)section {
-    return [self sectionIsArticles:section] ? _instantAnswerManager.articles : _instantAnswerManager.ideas;
+#pragma mark ===== Misc =====
+
+- (void)next {
+    [_instantAnswerManager skipInstantAnswers];
 }
 
-- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    id model = [[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
-    [_instantAnswerManager pushViewFor:model parent:self];
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+- (NSArray *)resultsForSection:(NSInteger)section {
+    return [self sectionIsArticles:section] ? _instantAnswerManager.articles : _instantAnswerManager.ideas;
 }
 
 - (BOOL)sectionIsArticles:(NSInteger)section {

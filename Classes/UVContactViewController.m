@@ -49,15 +49,12 @@
 
 - (void)didUpdateInstantAnswers {
     if (_proceed) {
-        if (_instantAnswerManager.instantAnswers.count > 0) {
-            UVInstantAnswersViewController *next = [UVInstantAnswersViewController new];
-            next.instantAnswerManager = _instantAnswerManager;
-            next.articlesFirst = YES;
-            [self.navigationController pushViewController:next animated:YES];
-        } else {
-            // push the details view directly
-        }
+        [_instantAnswerManager pushInstantAnswersViewForParent:self articlesFirst:YES];
     }
+}
+
+- (void)skipInstantAnswers {
+    // TODO show details view or send ticket
 }
 
 - (void)next {

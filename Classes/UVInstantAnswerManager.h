@@ -13,6 +13,11 @@
  * Called whenever there are new instant answer results
  */
 - (void)didUpdateInstantAnswers; 
+
+@optional
+
+- (void)skipInstantAnswers;
+
 @end
 
 @interface UVInstantAnswerManager : NSObject
@@ -53,6 +58,8 @@
 - (void)search;
 
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent;
+- (void)pushInstantAnswersViewForParent:(UIViewController *)parent;
+- (void)skipInstantAnswers;
 
 @end
 
