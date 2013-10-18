@@ -11,6 +11,8 @@
 #import "UVSuggestion.h"
 #import "UVDeflection.h"
 #import "UVBabayaga.h"
+#import "UVArticleViewController.h"
+#import "UVSuggestionDetailsViewController.h"
 
 @implementation UVInstantAnswerManager
 
@@ -67,6 +69,21 @@
     // note: UVDeflection should be called later with the actual objects displayed to the user
 }
 
+- (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent {
+    [UVDeflection trackDeflection:@"show" deflector:instantAnswer];
+    if ([instantAnswer isMemberOfClass:[UVArticle class]]) {
+        UVArticle *article = (UVArticle *)instantAnswer;
+        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:_articleHelpfulPrompt returnMessage:_articleReturnMessage] autorelease];
+        next.instantAnswers = YES;
+        [parent.navigationController pushViewController:next animated:YES];
+    } else {
+        UVSuggestion *suggestion = (UVSuggestion *)instantAnswer;
+        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        next.instantAnswers = YES;
+        [parent.navigationController pushViewController:next animated:YES];
+    }
+}
+
 - (void)dealloc {
     [self invalidateTimer];
     self.instantAnswers = nil;
@@ -74,6 +91,8 @@
     self.articles = nil;
     self.searchText = nil;
     self.runningQuery = nil;
+    self.articleHelpfulPrompt = nil;
+    self.articleReturnMessage = nil;
     [super dealloc];
 }
 

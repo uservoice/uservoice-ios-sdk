@@ -17,6 +17,7 @@
 #import "UVTicket.h"
 #import "UVForum.h"
 #import "UVKeyboardUtils.h"
+#import "UVContactViewController.h"
 
 @implementation UVNewTicketViewController
 
@@ -44,11 +45,12 @@
 }
 
 + (UVBaseViewController *)viewControllerWithText:(NSString *)text {
-    if (IPAD) {
-        return [[[UVNewTicketIpadViewController alloc] initWithText:text] autorelease];
-    } else {
-        return [[[UVNewTicketViewController alloc] initWithText:text] autorelease];
-    }
+    return [[UVContactViewController new] autorelease];
+    // if (IPAD) {
+    //     return [[[UVNewTicketIpadViewController alloc] initWithText:text] autorelease];
+    // } else {
+    //     return [[[UVNewTicketViewController alloc] initWithText:text] autorelease];
+    // }
 }
 
 - (void)loadView {

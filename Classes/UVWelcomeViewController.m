@@ -87,6 +87,7 @@
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     id model = [self.searchResults objectAtIndex:indexPath.row];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
@@ -153,9 +154,8 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (theTableView == _searchController.searchResultsTableView) {
-        // [self selectInstantAnswerAtIndex:indexPath.row];
+        [_instantAnswerManager pushViewFor:[self.searchResults objectAtIndex:indexPath.row] parent:self];
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
             [self presentModalViewController:[UVNewTicketViewController viewController]];
@@ -174,6 +174,7 @@
             [self.navigationController pushViewController:next animated:YES];
         }
     }
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 UserVoice Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @protocol UVInstantAnswersDelegate
 /*
@@ -21,6 +21,8 @@
 @property (nonatomic,assign) BOOL loading;
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSString *runningQuery;
+@property (nonatomic,retain) NSString *articleHelpfulPrompt;
+@property (nonatomic,retain) NSString *articleReturnMessage;
 
 /*
  * An array of interleaved ideas and articles
@@ -49,6 +51,8 @@
  * Call this to force the search to execute immediately
  */
 - (void)search;
+
+- (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent;
 
 @end
 

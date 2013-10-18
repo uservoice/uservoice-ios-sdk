@@ -112,6 +112,10 @@
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
 		D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927680B1559CB4000E17EF1 /* UVArticleViewController.m */; };
+		D94427A8181194F6002F716B /* UVContactViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427A6181194F6002F716B /* UVContactViewController.h */; };
+		D94427A9181194F6002F716B /* UVContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427A7181194F6002F716B /* UVContactViewController.m */; };
+		D94427AC1811B90E002F716B /* UVInstantAnswersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */; };
+		D94427AD1811B90E002F716B /* UVInstantAnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */; };
 		D9522011163726EE00A7081D /* UVRequestToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D952200F163726EE00A7081D /* UVRequestToken.h */; };
 		D9522012163726EE00A7081D /* UVRequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D9522010163726EE00A7081D /* UVRequestToken.m */; };
 		D95B33061655A78900B87A23 /* UVCommentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D95B33041655A78900B87A23 /* UVCommentViewController.h */; };
@@ -280,6 +284,10 @@
 		D927680B1559CB4000E17EF1 /* UVArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticleViewController.m; sourceTree = "<group>"; };
 		D94427981804A035002F716B /* uv_heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_heart.png; sourceTree = "<group>"; };
 		D94427991804A035002F716B /* uv_heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_heart@2x.png"; sourceTree = "<group>"; };
+		D94427A6181194F6002F716B /* UVContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVContactViewController.h; sourceTree = "<group>"; };
+		D94427A7181194F6002F716B /* UVContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVContactViewController.m; sourceTree = "<group>"; };
+		D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVInstantAnswersViewController.h; sourceTree = "<group>"; };
+		D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVInstantAnswersViewController.m; sourceTree = "<group>"; };
 		D952200F163726EE00A7081D /* UVRequestToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRequestToken.h; sourceTree = "<group>"; };
 		D9522010163726EE00A7081D /* UVRequestToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRequestToken.m; sourceTree = "<group>"; };
 		D95B33041655A78900B87A23 /* UVCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCommentViewController.h; sourceTree = "<group>"; };
@@ -512,6 +520,10 @@
 				D900310116690F7B006A27C6 /* UVBaseSuggestionViewController.m */,
 				D9003104166913A8006A27C6 /* UVNewSuggestionIpadViewController.h */,
 				D9003105166913A8006A27C6 /* UVNewSuggestionIpadViewController.m */,
+				D94427A6181194F6002F716B /* UVContactViewController.h */,
+				D94427A7181194F6002F716B /* UVContactViewController.m */,
+				D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */,
+				D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -774,6 +786,7 @@
 				6474C33614BB8D5D00F6A2F0 /* UserVoice.h in Headers */,
 				D9F2060414C08A8100F4441E /* UVDelegate.h in Headers */,
 				D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */,
+				D94427A8181194F6002F716B /* UVContactViewController.h in Headers */,
 				D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */,
 				D9522011163726EE00A7081D /* UVRequestToken.h in Headers */,
 				D9D4040F164022DD00D9CECA /* UVNewTicketViewController.h in Headers */,
@@ -790,6 +803,7 @@
 				D900310216690F7B006A27C6 /* UVBaseSuggestionViewController.h in Headers */,
 				D9003106166913A8006A27C6 /* UVNewSuggestionIpadViewController.h in Headers */,
 				D9C35BD5166E7DB0004FAA89 /* UVTruncatingLabel.h in Headers */,
+				D94427AC1811B90E002F716B /* UVInstantAnswersViewController.h in Headers */,
 				D9C35BD9166E7E00004FAA89 /* UVCalculatingLabel.h in Headers */,
 				D9C35BE3167680F2004FAA89 /* UVInitialLoadManager.h in Headers */,
 				D95F23DF16EFD8B1003F6850 /* UVRequestContext.h in Headers */,
@@ -863,6 +877,7 @@
 				AC3121FA108FC46500000D5F /* UVBaseModel.m in Sources */,
 				AC312210108FC57700000D5F /* UVClientConfig.m in Sources */,
 				AC3123A11090EB3700000D5F /* UVSuggestionListViewController.m in Sources */,
+				D94427AD1811B90E002F716B /* UVInstantAnswersViewController.m in Sources */,
 				AC31242710911C8600000D5F /* UVSession.m in Sources */,
 				AC31253A109231D800000D5F /* Base64Transcoder.c in Sources */,
 				AC312544109231D800000D5F /* YOAuthConsumer.m in Sources */,
@@ -886,6 +901,7 @@
 				AC1B18D510D878D0002B03F7 /* UVCategory.m in Sources */,
 				AC1E2F83111E2EB200415C16 /* UVCategorySelectViewController.m in Sources */,
 				AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */,
+				D94427A9181194F6002F716B /* UVContactViewController.m in Sources */,
 				AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */,
 				D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,
