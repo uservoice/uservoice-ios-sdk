@@ -20,7 +20,7 @@
     tableView.dataSource = self;
     self.view = tableView;
 
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Skip", @"UserVoice", nil)
                                                                                style:UIBarButtonItemStyleDone
                                                                               target:self
                                                                               action:@selector(next)] autorelease];

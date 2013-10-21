@@ -22,7 +22,7 @@
 
 @interface UVInstantAnswerManager : NSObject
 
-@property (nonatomic,assign) id<UVInstantAnswersDelegate> delegate;
+@property (nonatomic,assign) id<UVInstantAnswersDelegate,NSObject> delegate;
 @property (nonatomic,assign) BOOL loading;
 @property (nonatomic,retain) NSTimer *timer;
 @property (nonatomic,retain) NSString *runningQuery;
@@ -58,7 +58,7 @@
 - (void)search;
 
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent;
-- (void)pushInstantAnswersViewForParent:(UIViewController *)parent;
+- (void)pushInstantAnswersViewForParent:(UIViewController *)parent articlesFirst:(BOOL)articlesFirst;
 - (void)skipInstantAnswers;
 
 @end

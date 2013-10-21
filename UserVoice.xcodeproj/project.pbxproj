@@ -116,6 +116,8 @@
 		D94427A9181194F6002F716B /* UVContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427A7181194F6002F716B /* UVContactViewController.m */; };
 		D94427AC1811B90E002F716B /* UVInstantAnswersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */; };
 		D94427AD1811B90E002F716B /* UVInstantAnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */; };
+		D94427B01815905D002F716B /* UVDetailsFormViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AE1815905D002F716B /* UVDetailsFormViewController.h */; };
+		D94427B11815905D002F716B /* UVDetailsFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427AF1815905D002F716B /* UVDetailsFormViewController.m */; };
 		D9522011163726EE00A7081D /* UVRequestToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D952200F163726EE00A7081D /* UVRequestToken.h */; };
 		D9522012163726EE00A7081D /* UVRequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D9522010163726EE00A7081D /* UVRequestToken.m */; };
 		D95B33061655A78900B87A23 /* UVCommentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D95B33041655A78900B87A23 /* UVCommentViewController.h */; };
@@ -288,6 +290,8 @@
 		D94427A7181194F6002F716B /* UVContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVContactViewController.m; sourceTree = "<group>"; };
 		D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVInstantAnswersViewController.h; sourceTree = "<group>"; };
 		D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVInstantAnswersViewController.m; sourceTree = "<group>"; };
+		D94427AE1815905D002F716B /* UVDetailsFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDetailsFormViewController.h; sourceTree = "<group>"; };
+		D94427AF1815905D002F716B /* UVDetailsFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVDetailsFormViewController.m; sourceTree = "<group>"; };
 		D952200F163726EE00A7081D /* UVRequestToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVRequestToken.h; sourceTree = "<group>"; };
 		D9522010163726EE00A7081D /* UVRequestToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVRequestToken.m; sourceTree = "<group>"; };
 		D95B33041655A78900B87A23 /* UVCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCommentViewController.h; sourceTree = "<group>"; };
@@ -524,6 +528,8 @@
 				D94427A7181194F6002F716B /* UVContactViewController.m */,
 				D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */,
 				D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */,
+				D94427AE1815905D002F716B /* UVDetailsFormViewController.h */,
+				D94427AF1815905D002F716B /* UVDetailsFormViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -789,6 +795,7 @@
 				D94427A8181194F6002F716B /* UVContactViewController.h in Headers */,
 				D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */,
 				D9522011163726EE00A7081D /* UVRequestToken.h in Headers */,
+				D94427B01815905D002F716B /* UVDetailsFormViewController.h in Headers */,
 				D9D4040F164022DD00D9CECA /* UVNewTicketViewController.h in Headers */,
 				D9D40414164023EF00D9CECA /* UVBaseTicketViewController.h in Headers */,
 				D9D404821643261400D9CECA /* UVNavigationController.h in Headers */,
@@ -924,6 +931,7 @@
 				D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */,
 				D9522012163726EE00A7081D /* UVRequestToken.m in Sources */,
 				D9D40410164022DD00D9CECA /* UVNewTicketViewController.m in Sources */,
+				D94427B11815905D002F716B /* UVDetailsFormViewController.m in Sources */,
 				D9D40415164023EF00D9CECA /* UVBaseTicketViewController.m in Sources */,
 				D9D404831643261400D9CECA /* UVNavigationController.m in Sources */,
 				D99AFAA7164AC1A40061F50C /* UVKeyboardUtils.m in Sources */,

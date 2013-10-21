@@ -8,7 +8,10 @@
 
 #import "UVContactViewController.h"
 #import "UVInstantAnswersViewController.h"
+#import "UVDetailsFormViewController.h"
 #import "UVTextView.h"
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 @implementation UVContactViewController {
     BOOL _proceed;
@@ -54,7 +57,11 @@
 }
 
 - (void)skipInstantAnswers {
-    // TODO show details view or send ticket
+    UVDetailsFormViewController *next = [[UVDetailsFormViewController new] autorelease];
+    next.delegate = self;
+    next.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
+    next.fields = [UVSession currentSession].clientConfig.customFields;
+    [self.navigationController pushViewController:next animated:YES];
 }
 
 - (void)next {
