@@ -7,6 +7,11 @@
 //
 
 #import "UVDetailsFormViewController.h"
+#import "UVCustomField.h"
+
+#define LABEL 100
+#define VALUE 101
+#define TEXT 102
 
 @implementation UVDetailsFormViewController
 
@@ -53,45 +58,78 @@
     return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:selectable];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return (indexPath.section == 0) ? 44 : 60;
+}
+
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // TODO let them select a value
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark ===== Cells =====
 
-// - (void)initCellForField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-//     cell.backgroundColor = [UIColor whiteColor];
-//     UILabel *label = [self addCellLabel:cell];
-//     label.tag = UV_CUSTOM_FIELD_CELL_LABEL_TAG;
-//     UILabel *valueLabel = [self addCellValueLabel:cell];
-//     valueLabel.tag = UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG;
-//     UITextField *textField = [self addCellValueTextField:cell];
-//     textField.tag = UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG;
-//     textField.delegate = self;
-// }
+- (void)initCellForPredefinedField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    UILabel *label = [[UILabel new] autorelease];
+    label.tag = LABEL;
+    label.font = [UIFont systemFontOfSize:13];
+    label.backgroundColor = [UIColor clearColor];
+    if (IOS7) {
+        label.textColor = label.tintColor;
+    }
+    UILabel *value = [[UILabel new] autorelease];
+    value.tag = VALUE;
+    value.font = [UIFont systemFontOfSize:16];
+    value.backgroundColor = [UIColor clearColor];
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(label, value)
+            constraints:@[@"|-16-[label]", @"|-16-[value]", @"V:|-10-[label]-6-[value]"]];
+}
 
-// - (void)customizeCellForField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-//     UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
-//     UILabel *label = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_LABEL_TAG];
-//     UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
-//     UILabel *valueLabel = (UILabel *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_VALUE_LABEL_TAG];
-//     label.text = [field isRequired] ? [NSString stringWithFormat:@"%@*", field.name] : field.name;
-//     cell.accessoryType = [field isPredefined] ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-//     textField.enabled = [field isPredefined] ? NO : YES;
-//     cell.selectionStyle = [field isPredefined] ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
-//     valueLabel.hidden = ![field isPredefined];
-//     textField.hidden = [field isPredefined];
-//     if ([selectedFieldValues objectForKey:field.name]) {
-//         valueLabel.text = [selectedFieldValues objectForKey:field.name];
-//         valueLabel.textColor = [UIColor blackColor];
-//     } else {
-//         valueLabel.text = NSLocalizedStringFromTable(@"select", @"UserVoice", nil);
-//         valueLabel.textColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f];
-//     }
-//     [[NSNotificationCenter defaultCenter] addObserver:self
-//                                              selector:@selector(nonPredefinedValueChanged:)
-//                                                  name:UITextFieldTextDidChangeNotification
-//                                                object:textField];
-// }
+- (void)customizeCellForPredefinedField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVCustomField *field = _fields[indexPath.row];
+    UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
+    UILabel *value = (UILabel *)[cell viewWithTag:VALUE];
+    label.text = field.isRequired ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field.name] : field.name;
+    if (_selectedFieldValues[field.name]) {
+        value.text = _selectedFieldValues[field.name];
+        value.textColor = [UIColor blackColor];
+    } else {
+        value.text = NSLocalizedStringFromTable(@"select", @"UserVoice", nil);
+        value.textColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f];
+    }
+}
+
+- (void)initCellForFreeformField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = [[UILabel new] autorelease];
+    label.tag = LABEL;
+    label.font = [UIFont systemFontOfSize:13];
+    label.backgroundColor = [UIColor clearColor];
+    if (IOS7) {
+        label.textColor = label.tintColor;
+    }
+    UITextField *text = [[UITextField new] autorelease];
+    text.tag = TEXT;
+    text.borderStyle = UITextBorderStyleNone;
+    text.backgroundColor = [UIColor clearColor];
+    text.returnKeyType = UIReturnKeyDone;
+    text.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(label, text)
+            constraints:@[@"|-16-[label]", @"|-16-[text]", @"V:|-8-[label]-[text]"]];
+}
+
+- (void)customizeCellForFreeformField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVCustomField *field = _fields[indexPath.row];
+    UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
+    UITextField *text = (UITextField *)[cell viewWithTag:TEXT];
+    label.text = field.isRequired ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field.name] : field.name;
+    text.text = _selectedFieldValues[field.name];
+    [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:text queue:nil usingBlock:^(NSNotification *note) {
+        _selectedFieldValues[field.name] = text.text;
+    }];
+}
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     self.emailField = [self configureCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
@@ -132,6 +170,7 @@
     self.nameField = nil;
     self.fields = nil;
     self.sendTitle = nil;
+    self.selectedFieldValues = nil;
     [super dealloc];
 }
 

@@ -15,5 +15,6 @@
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, retain) NSMutableDictionary *selectedFieldValues;
 
 @end

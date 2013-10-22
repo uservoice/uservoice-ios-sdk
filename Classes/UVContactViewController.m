@@ -12,6 +12,7 @@
 #import "UVTextView.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
+#import "UVConfig.h"
 
 @implementation UVContactViewController {
     BOOL _proceed;
@@ -61,6 +62,7 @@
     next.delegate = self;
     next.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
     next.fields = [UVSession currentSession].clientConfig.customFields;
+    next.selectedFieldValues = [NSMutableDictionary dictionaryWithDictionary:[UVSession currentSession].config.customFields];
     [self.navigationController pushViewController:next animated:YES];
 }
 
