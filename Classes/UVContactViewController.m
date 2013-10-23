@@ -15,6 +15,7 @@
 #import "UVClientConfig.h"
 #import "UVConfig.h"
 #import "UVTicket.h"
+#import "UVCustomField.h"
 
 @implementation UVContactViewController {
     BOOL _proceed;
@@ -41,7 +42,9 @@
                                                                                style:UIBarButtonItemStyleDone
                                                                               target:self
                                                                               action:@selector(next)] autorelease];
+    self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
     self.view = _textView;
+    [self loadDraft];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -50,6 +53,7 @@
 }
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
+    self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
     _instantAnswerManager.searchText = theTextEditor.text;
 }
 
@@ -76,15 +80,34 @@
     [self.navigationController pushViewController:next animated:YES];
 }
 
+- (BOOL)validateCustomFields:(NSDictionary *)fields {
+    for (UVCustomField *field in [UVSession currentSession].clientConfig.customFields) {
+        if ([field isRequired]) {
+            NSString *value = fields[field.name];
+            if (!value || value.length == 0)
+                return NO;
+        }
+    }
+    return YES;
+}
+
+
 - (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fields {
     [self showActivityIndicator];
     self.userEmail = email;
     self.userName = name;
-    [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:fields andDelegate:self];
+    if (![UVSession currentSession].user && email.length == 0) {
+        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
+    } else if (![self validateCustomFields:fields]) {
+        [self alertError:NSLocalizedStringFromTable(@"Please fill out all required fields.", @"UserVoice", nil)];
+    } else {
+        [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:fields andDelegate:self];
+    }
 }
 
 - (void)didCreateTicket:(UVTicket *)ticket {
     [self hideActivityIndicator];
+    [self clearDraft];
     UVSuccessViewController *next = [[UVSuccessViewController new] autorelease];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);
@@ -96,12 +119,69 @@
     //                 completion:nil];
 }
 
+- (void)showSaveActionSheet {
+    UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
+                                                     otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil] autorelease];
+
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+    } else {
+        [actionSheet showInView:self.view];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            [self clearDraft];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        case 1:
+            [self saveDraft];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)clearDraft {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs removeObjectForKey:@"uv-message-text"];
+    [prefs synchronize];
+}
+
+- (void)loadDraft {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    self.loadedDraft = _textView.text = [prefs stringForKey:@"uv-message-text"];
+}
+
+- (void)saveDraft {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setObject:_textView.text forKey:@"uv-message-text"];
+    [prefs synchronize];
+}
+
+- (BOOL)shouldLeaveViewController {
+    if (_textView.text.length == 0 || [_textView.text isEqualToString:_loadedDraft]) {
+        return YES;
+    } else {
+        [self showSaveActionSheet];
+        return NO;
+    }
+}
+
 - (void)dismiss {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self shouldLeaveViewController])
+        [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)dealloc {
     self.instantAnswerManager = nil;
+    self.loadedDraft = nil;
     [super dealloc];
 }
 
