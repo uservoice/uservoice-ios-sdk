@@ -9,8 +9,11 @@
 #import "UVBaseViewController.h"
 #import "UVInstantAnswerManager.h"
 
+@class UVTextView;
+
 @interface UVContactViewController : UVBaseViewController<UVInstantAnswersDelegate,UITextViewDelegate>
 
 @property (nonatomic,retain) UVInstantAnswerManager *instantAnswerManager;
+@property (nonatomic,retain) UVTextView *textView;
 
 @end

@@ -159,7 +159,7 @@
     field.placeholder = placeholderText;
     [field setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     UILabel *label = [[UILabel new] autorelease];
-    label.text = labelText;
+    label.text = [NSString stringWithFormat:@"%@:", labelText];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor grayColor];
     [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
@@ -170,7 +170,7 @@
 }
 
 - (void)send {
-    [_delegate send];
+    [_delegate sendWithEmail:_emailField.text name:_nameField.text fields:_selectedFieldValues];
 }
 
 - (void)dealloc {
