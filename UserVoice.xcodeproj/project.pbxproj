@@ -62,8 +62,8 @@
 		AC312B21109914C100000D5F /* UVStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312B1F109914C100000D5F /* UVStyleSheet.m */; };
 		AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */; };
 		AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B287112F28EE00D84566 /* UVNewTicketIpadViewController.m */; };
-		AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */; };
-		AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */; };
+		AC91B2CB112F320700D84566 /* UVValueSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVValueSelectViewController.h */; };
+		AC91B2CC112F320700D84566 /* UVValueSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVValueSelectViewController.m */; };
 		ACEE442E10AB370F003D8751 /* UVComment.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE442C10AB370F003D8751 /* UVComment.h */; };
 		ACEE442F10AB370F003D8751 /* UVComment.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE442D10AB370F003D8751 /* UVComment.m */; };
 		ACEE461710ACC158003D8751 /* UVBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE461510ACC158003D8751 /* UVBaseViewController.h */; };
@@ -222,8 +222,8 @@
 		AC61BF4E1089119500BCD3F2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVNewTicketIpadViewController.h; sourceTree = "<group>"; };
 		AC91B287112F28EE00D84566 /* UVNewTicketIpadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVNewTicketIpadViewController.m; sourceTree = "<group>"; };
-		AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomFieldValueSelectViewController.h; sourceTree = "<group>"; };
-		AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomFieldValueSelectViewController.m; sourceTree = "<group>"; };
+		AC91B2C8112F320700D84566 /* UVValueSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVValueSelectViewController.h; sourceTree = "<group>"; };
+		AC91B2C9112F320700D84566 /* UVValueSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVValueSelectViewController.m; sourceTree = "<group>"; };
 		ACEE442C10AB370F003D8751 /* UVComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVComment.h; sourceTree = "<group>"; };
 		ACEE442D10AB370F003D8751 /* UVComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVComment.m; sourceTree = "<group>"; };
 		ACEE461510ACC158003D8751 /* UVBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UVBaseViewController.h; path = Classes/UVBaseViewController.h; sourceTree = SOURCE_ROOT; };
@@ -496,8 +496,8 @@
 				ACEE461610ACC158003D8751 /* UVBaseViewController.m */,
 				AC1E2F7F111E2EB200415C16 /* UVCategorySelectViewController.h */,
 				AC1E2F80111E2EB200415C16 /* UVCategorySelectViewController.m */,
-				AC91B2C8112F320700D84566 /* UVCustomFieldValueSelectViewController.h */,
-				AC91B2C9112F320700D84566 /* UVCustomFieldValueSelectViewController.m */,
+				AC91B2C8112F320700D84566 /* UVValueSelectViewController.h */,
+				AC91B2C9112F320700D84566 /* UVValueSelectViewController.m */,
 				AC1B9F6C10B318DC002C8712 /* UVNewSuggestionViewController.h */,
 				AC1B9F6D10B318DC002C8712 /* UVNewSuggestionViewController.m */,
 				AC91B286112F28EE00D84566 /* UVNewTicketIpadViewController.h */,
@@ -767,7 +767,7 @@
 				AC1B18D410D878D0002B03F7 /* UVCategory.h in Headers */,
 				AC1E2F82111E2EB200415C16 /* UVCategorySelectViewController.h in Headers */,
 				AC91B289112F28EE00D84566 /* UVNewTicketIpadViewController.h in Headers */,
-				AC91B2CB112F320700D84566 /* UVCustomFieldValueSelectViewController.h in Headers */,
+				AC91B2CB112F320700D84566 /* UVValueSelectViewController.h in Headers */,
 				D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
@@ -909,7 +909,7 @@
 				AC1E2F83111E2EB200415C16 /* UVCategorySelectViewController.m in Sources */,
 				AC91B28A112F28EE00D84566 /* UVNewTicketIpadViewController.m in Sources */,
 				D94427A9181194F6002F716B /* UVContactViewController.m in Sources */,
-				AC91B2CC112F320700D84566 /* UVCustomFieldValueSelectViewController.m in Sources */,
+				AC91B2CC112F320700D84566 /* UVValueSelectViewController.m in Sources */,
 				D24A382211A09121005BC3F3 /* UVAccessToken.m in Sources */,
 				D24540C111B095AA00C7E4BA /* UVSubdomain.m in Sources */,
 				D2620F0511B597290053EA4C /* HRFormatJSON.m in Sources */,

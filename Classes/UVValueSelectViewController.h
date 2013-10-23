@@ -1,5 +1,5 @@
 //
-//  UVCustomFieldValueSelectViewController.h
+//  UVValueSelectViewController.h
 //  UserVoice
 //
 //  Created by UserVoice on 6/9/11.
@@ -11,10 +11,7 @@
 
 @class UVCustomField;
 
-@interface UVCustomFieldValueSelectViewController : UVBaseViewController <UITableViewDelegate, UITableViewDataSource>  {
-    UVCustomField *customField;
-    NSMutableDictionary *valueDictionary;
-}
+@interface UVValueSelectViewController : UVBaseViewController<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) NSMutableDictionary *valueDictionary;
 @property (nonatomic, retain) UVCustomField *customField;

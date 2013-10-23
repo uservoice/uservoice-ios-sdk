@@ -7,6 +7,7 @@
 //
 
 #import "UVDetailsFormViewController.h"
+#import "UVValueSelectViewController.h"
 #import "UVCustomField.h"
 
 #define LABEL 100
@@ -27,6 +28,11 @@
                                                                                style:UIBarButtonItemStyleDone
                                                                               target:self
                                                                               action:@selector(send)] autorelease];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [tableView reloadData];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -63,7 +69,9 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO let them select a value
+    UVCustomField *field = _fields[indexPath.row];
+    UVValueSelectViewController *next = [[[UVValueSelectViewController alloc] initWithCustomField:field valueDictionary:_selectedFieldValues] autorelease];
+    [self.navigationController pushViewController:next animated:YES];
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -84,7 +92,7 @@
     value.backgroundColor = [UIColor clearColor];
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(label, value)
-            constraints:@[@"|-16-[label]", @"|-16-[value]", @"V:|-10-[label]-6-[value]"]];
+            constraints:@[@"|-16-[label]-|", @"|-16-[value]-|", @"V:|-10-[label]-6-[value]"]];
 }
 
 - (void)customizeCellForPredefinedField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -117,7 +125,7 @@
     text.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(label, text)
-            constraints:@[@"|-16-[label]", @"|-16-[text]", @"V:|-8-[label]-[text]"]];
+            constraints:@[@"|-16-[label]-|", @"|-16-[text]-|", @"V:|-10-[label]-6-[text]"]];
 }
 
 - (void)customizeCellForFreeformField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

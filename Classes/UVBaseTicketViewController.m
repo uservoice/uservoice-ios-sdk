@@ -14,7 +14,6 @@
 #import "UVArticleViewController.h"
 #import "UVSuggestionDetailsViewController.h"
 #import "UVNewSuggestionViewController.h"
-#import "UVCustomFieldValueSelectViewController.h"
 #import "UVStylesheet.h"
 #import "UVCustomField.h"
 #import "UVUser.h"
@@ -99,10 +98,10 @@
     [emailField resignFirstResponder];
     UVCustomField *field = [[UVSession currentSession].clientConfig.customFields objectAtIndex:indexPath.row];
     if ([field isPredefined]) {
-        UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
-        self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
-        [self dismissKeyboard];
-        [self.navigationController pushViewController:next animated:YES];
+//        UIViewController *next = [[[UVCustomFieldValueSelectViewController alloc] initWithCustomField:field valueDictionary:selectedCustomFieldValues] autorelease];
+//        self.navigationItem.backBarButtonItem.title = NSLocalizedStringFromTable(@"Back", @"UserVoice", nil);
+//        [self dismissKeyboard];
+//        [self.navigationController pushViewController:next animated:YES];
     } else {
         UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
         UITextField *textField = (UITextField *)[cell viewWithTag:UV_CUSTOM_FIELD_CELL_TEXT_FIELD_TAG];
