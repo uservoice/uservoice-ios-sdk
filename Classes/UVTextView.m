@@ -16,26 +16,28 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
         
         self.font = [UIFont systemFontOfSize:15];
-        placeholder = [[UILabel alloc] initWithFrame:CGRectMake(IOS7 ? 4 : 8, 8, self.frame.size.width - 16, self.frame.size.height - 16)];
-        placeholder.font = self.font;
-        placeholder.textColor = IOS7 ? [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f] : [UIColor colorWithWhite:0.702f alpha:1.0f];
-        [self addSubview:placeholder];
+        _placeholderLabel = [UILabel new];
+        _placeholderLabel.font = self.font;
+        _placeholderLabel.textColor = IOS7 ? [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f] : [UIColor colorWithWhite:0.702f alpha:1.0f];
+        _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_placeholderLabel];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[placeholder]" options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:(IOS7 ? @"|-4-[placeholder]" : @"|-8-[placeholder]") options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
     }
     return self;
 }
 
 - (void)setPlaceholder:(NSString *)newPlaceholder {
-    placeholder.text = newPlaceholder;
-    [placeholder sizeToFit];
+    _placeholderLabel.text = newPlaceholder;
     [self updateShouldDrawPlaceholder];
 }
 
 - (NSString *)placeholder {
-    return placeholder.text;
+    return _placeholderLabel.text;
 }
 
 - (void)updateShouldDrawPlaceholder {
-    placeholder.hidden = self.text.length != 0;
+    _placeholderLabel.hidden = self.text.length != 0;
 }
 
 - (void)setText:(NSString *)string {
@@ -49,7 +51,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
-    [placeholder release];
+    self.placeholderLabel = nil;
     [super dealloc];
 }
 

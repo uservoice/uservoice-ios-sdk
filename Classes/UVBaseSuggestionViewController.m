@@ -81,7 +81,7 @@
     self.text = textView.text;
     
     [UVSuggestion createWithForum:self.forum
-                         category:self.category
+                         category:self.category.categoryId
                             title:self.title
                              text:self.text
                             votes:1

@@ -9,15 +9,14 @@
 #import "UVValueSelectViewController.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
-#import "UVCustomField.h"
 #import "UVSubdomain.h"
 #import "UVBaseTicketViewController.h"
 
 @implementation UVValueSelectViewController
 
-- (id)initWithCustomField:(UVCustomField *)field valueDictionary:dictionary {
+- (id)initWithField:(NSDictionary *)theField valueDictionary:dictionary {
     if (self = [super init]) {
-        self.customField = field;
+        self.field = theField;
         self.valueDictionary = dictionary;
     }
     return self;
@@ -26,10 +25,10 @@
 #pragma mark ===== table cells =====
 
 - (void)customizeCellForValue:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    NSString *value = _customField.values[indexPath.row];
-    NSString *selectedValue = _valueDictionary[_customField.name];
-    cell.textLabel.text = value;
-    cell.accessoryType = [value isEqualToString:selectedValue] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    NSDictionary *value = _field[@"values"][indexPath.row];
+    NSDictionary *selectedValue = _valueDictionary[_field[@"name"]];
+    cell.textLabel.text = value[@"label"];
+    cell.accessoryType = [value[@"id"] isEqualToString:selectedValue[@"id"]] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -39,14 +38,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _customField.values.count;
+    return [_field[@"values"] count];
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
-    _valueDictionary[_customField.name] = cell.textLabel.text;
+    _valueDictionary[_field[@"name"]] = _field[@"values"][indexPath.row];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -54,7 +52,7 @@
 
 - (void)loadView {
     [super loadView];
-    self.navigationItem.title = self.customField.name;
+    self.navigationItem.title = _field[@"name"];
     UITableView *theTableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStylePlain] autorelease];
     theTableView.dataSource = self;
     theTableView.delegate = self;
@@ -62,7 +60,7 @@
 }
 
 - (void)dealloc {
-    self.customField = nil;
+    self.field = nil;
     self.valueDictionary = nil;
     [super dealloc];
 }

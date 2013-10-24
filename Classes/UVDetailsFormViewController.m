@@ -8,7 +8,6 @@
 
 #import "UVDetailsFormViewController.h"
 #import "UVValueSelectViewController.h"
-#import "UVCustomField.h"
 
 #define LABEL 100
 #define VALUE 101
@@ -52,8 +51,8 @@
         identifier = (indexPath.row == 0) ? @"Email" : @"Name";
         selectable = NO;
     } else {
-        UVCustomField *field = _fields[indexPath.row];
-        if (field.isPredefined) {
+        NSDictionary *field = _fields[indexPath.row];
+        if ([field[@"values"] count] > 0) {
             identifier = @"PredefinedField";
             selectable = YES;
         } else {
@@ -69,8 +68,8 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UVCustomField *field = _fields[indexPath.row];
-    UVValueSelectViewController *next = [[[UVValueSelectViewController alloc] initWithCustomField:field valueDictionary:_selectedFieldValues] autorelease];
+    NSDictionary *field = _fields[indexPath.row];
+    UVValueSelectViewController *next = [[[UVValueSelectViewController alloc] initWithField:field valueDictionary:_selectedFieldValues] autorelease];
     [self.navigationController pushViewController:next animated:YES];
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -96,12 +95,12 @@
 }
 
 - (void)customizeCellForPredefinedField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVCustomField *field = _fields[indexPath.row];
+    NSDictionary *field = _fields[indexPath.row];
     UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
     UILabel *value = (UILabel *)[cell viewWithTag:VALUE];
-    label.text = field.isRequired ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field.name] : field.name;
-    if (_selectedFieldValues[field.name]) {
-        value.text = _selectedFieldValues[field.name];
+    label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field[@"name"]] : field[@"name"];
+    if (_selectedFieldValues[field[@"name"]]) {
+        value.text = _selectedFieldValues[field[@"name"]][@"label"];
         value.textColor = [UIColor blackColor];
     } else {
         value.text = NSLocalizedStringFromTable(@"select", @"UserVoice", nil);
@@ -129,18 +128,18 @@
 }
 
 - (void)customizeCellForFreeformField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVCustomField *field = _fields[indexPath.row];
+    NSDictionary *field = _fields[indexPath.row];
     UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
     UITextField *text = (UITextField *)[cell viewWithTag:TEXT];
-    label.text = field.isRequired ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field.name] : field.name;
-    text.text = _selectedFieldValues[field.name];
+    label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field[@"name"]] : field[@"name"];
+    text.text = _selectedFieldValues[field[@"name"]][@"label"];
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:text queue:nil usingBlock:^(NSNotification *note) {
-        _selectedFieldValues[field.name] = text.text;
+        _selectedFieldValues[field[@"name"]] = @{ @"id" : text.text, @"label" : text.text};
     }];
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.emailField = [self configureCell:cell label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
+    self.emailField = [self configureView:cell.contentView label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
     _emailField.keyboardType = UIKeyboardTypeEmailAddress;
     _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -148,26 +147,11 @@
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.nameField = [self configureCell:cell label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
+    self.nameField = [self configureView:cell.contentView label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
     _nameField.text = self.userName;
 }
 
 #pragma mark ===== Misc =====
-
-- (UITextField *)configureCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholderText {
-    UITextField *field = [[UITextField new] autorelease];
-    field.placeholder = placeholderText;
-    [field setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
-    UILabel *label = [[UILabel new] autorelease];
-    label.text = [NSString stringWithFormat:@"%@:", labelText];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor grayColor];
-    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-    [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(field, label)
-            constraints:@[@"|-16-[label]-[field]-|", @"V:|-12-[label]", @"V:|-12-[field]"]];
-    return field;
-}
 
 - (void)send {
     [_delegate sendWithEmail:_emailField.text name:_nameField.text fields:_selectedFieldValues];

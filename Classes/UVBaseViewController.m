@@ -481,6 +481,21 @@
     }
 }
 
+- (UITextField *)configureView:(UIView *)view label:(NSString *)labelText placeholder:(NSString *)placeholderText {
+    UITextField *field = [[UITextField new] autorelease];
+    field.placeholder = placeholderText;
+    [field setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    UILabel *label = [[UILabel new] autorelease];
+    label.text = [NSString stringWithFormat:@"%@:", labelText];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor grayColor];
+    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [self configureView:view
+               subviews:NSDictionaryOfVariableBindings(field, label)
+            constraints:@[@"|-16-[label]-[field]-|", @"V:|-12-[label]", @"V:|-12-[field]"]];
+    return field;
+}
+
 #pragma mark - UVSigninManageDelegate
 
 - (void)signinManagerDidSignIn:(UVUser *)user {

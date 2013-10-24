@@ -24,6 +24,7 @@
 #import "UVUser.h"
 #import "UVKeyboardUtils.h"
 #import "UVNewSuggestionIpadViewController.h"
+#import "UVPostIdeaViewController.h"
 
 #define UV_NEW_SUGGESTION_SECTION_PROFILE 0
 #define UV_NEW_SUGGESTION_SECTION_CATEGORY 1
@@ -50,11 +51,12 @@
 }
 
 + (UVBaseViewController *)viewControllerWithTitle:(NSString *)text {
-    if (IPAD) {
-        return [[[UVNewSuggestionIpadViewController alloc] initWithTitle:text] autorelease];
-    } else {
-        return [[[UVNewSuggestionViewController alloc] initWithTitle:text] autorelease];
-    }
+    return [[UVPostIdeaViewController new] autorelease];
+    // if (IPAD) {
+    //     return [[[UVNewSuggestionIpadViewController alloc] initWithTitle:text] autorelease];
+    // } else {
+    //     return [[[UVNewSuggestionViewController alloc] initWithTitle:text] autorelease];
+    // }
 }
 
 #pragma mark ===== UITextFieldDelegate Methods =====

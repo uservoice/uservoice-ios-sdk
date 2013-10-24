@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "UVBaseViewController.h"
 
-@class UVCustomField;
-
 @interface UVValueSelectViewController : UVBaseViewController<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) NSMutableDictionary *valueDictionary;
-@property (nonatomic, retain) UVCustomField *customField;
+@property (nonatomic, retain) NSDictionary *field;
 
-- (id)initWithCustomField:(UVCustomField *)customField valueDictionary:(NSMutableDictionary *)valueDictionary;
+- (id)initWithField:(NSDictionary *)theField valueDictionary:(NSMutableDictionary *)valueDictionary;
 
 @end

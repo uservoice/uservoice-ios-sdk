@@ -75,8 +75,23 @@
     UVDetailsFormViewController *next = [[UVDetailsFormViewController new] autorelease];
     next.delegate = self;
     next.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
-    next.fields = [UVSession currentSession].clientConfig.customFields;
-    next.selectedFieldValues = [NSMutableDictionary dictionaryWithDictionary:[UVSession currentSession].config.customFields];
+    NSMutableArray *fields = [NSMutableArray array];
+    for (UVCustomField *field in [UVSession currentSession].clientConfig.customFields) {
+        NSMutableArray *values = [NSMutableArray array];
+        for (NSString *value in field.values) {
+            [values addObject:@{@"id" : value, @"label" : value}];
+        }
+        if (field.isRequired)
+            [fields addObject:@{ @"name" : field.name, @"values" : values, @"required" : @(1) }];
+        else
+            [fields addObject:@{ @"name" : field.name, @"values" : values }];
+    }
+    next.fields = fields;
+    next.selectedFieldValues = [NSMutableDictionary dictionary];
+    for (NSString *key in [UVSession currentSession].config.customFields.allKeys) {
+        NSString *value = [UVSession currentSession].config.customFields[key];
+        next.selectedFieldValues[key] = @{ @"id" : value, @"label" : value };
+    }
     [self.navigationController pushViewController:next animated:YES];
 }
 
@@ -94,20 +109,25 @@
 
 - (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fields {
     [self showActivityIndicator];
+    NSMutableDictionary *customFields = [NSMutableDictionary dictionary];
+    for (NSString *key in fields.allKeys) {
+        customFields[key] = fields[key][@"label"];
+    }
     self.userEmail = email;
     self.userName = name;
     if (![UVSession currentSession].user && email.length == 0) {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
-    } else if (![self validateCustomFields:fields]) {
+    } else if (![self validateCustomFields:customFields]) {
         [self alertError:NSLocalizedStringFromTable(@"Please fill out all required fields.", @"UserVoice", nil)];
     } else {
-        [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:fields andDelegate:self];
+        [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:customFields andDelegate:self];
     }
 }
 
 - (void)didCreateTicket:(UVTicket *)ticket {
     [self hideActivityIndicator];
     [self clearDraft];
+    // TODO babayaga, deflection?
     UVSuccessViewController *next = [[UVSuccessViewController new] autorelease];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);

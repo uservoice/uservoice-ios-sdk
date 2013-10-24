@@ -77,7 +77,7 @@
 
 // Creates a new suggestion with the specified title and text.
 + (id)createWithForum:(UVForum *)forum
-             category:(UVCategory *)category
+             category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
                 votes:(NSInteger)votes

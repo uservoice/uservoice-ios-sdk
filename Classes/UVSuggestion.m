@@ -70,7 +70,7 @@
 }
 
 + (id)createWithForum:(UVForum *)forum
-             category:(UVCategory *)category
+             category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
                 votes:(NSInteger)votes
@@ -80,7 +80,7 @@
                             [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
-                            category == nil ? @"" : [[NSNumber numberWithInteger:category.categoryId] stringValue], @"suggestion[category_id]",
+                            categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", categoryId], @"suggestion[category_id]",
                             nil];
     return [[self class] postPath:path
                        withParams:params
