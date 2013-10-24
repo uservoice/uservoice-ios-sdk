@@ -80,7 +80,7 @@
                             [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
-                            categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", categoryId], @"suggestion[category_id]",
+                            categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", (int)categoryId], @"suggestion[category_id]",
                             nil];
     return [[self class] postPath:path
                        withParams:params

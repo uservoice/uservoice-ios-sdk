@@ -24,7 +24,12 @@
                                                                                style:UIBarButtonItemStyleDone
                                                                               target:self
                                                                               action:@selector(next)] autorelease];
-    // TODO send list deflection
+
+
+
+    NSArray *visibleIdeas = [_instantAnswerManager.ideas subarrayWithRange:NSMakeRange(0, MIN(3, _instantAnswerManager.ideas.count))];
+    NSArray *visibleArticles = [_instantAnswerManager.articles subarrayWithRange:NSMakeRange(0, MIN(3, _instantAnswerManager.articles.count))];
+    [UVDeflection trackSearchDeflection:[visibleIdeas arrayByAddingObjectsFromArray:visibleArticles]];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====

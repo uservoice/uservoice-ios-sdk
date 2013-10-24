@@ -65,7 +65,7 @@
     } else {
         UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
         cell.textLabel.text = topic.name;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", topic.articleCount];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)topic.articleCount];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }

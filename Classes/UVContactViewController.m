@@ -16,6 +16,7 @@
 #import "UVConfig.h"
 #import "UVTicket.h"
 #import "UVCustomField.h"
+#import "UVBabayaga.h"
 
 @implementation UVContactViewController {
     BOOL _proceed;
@@ -127,7 +128,7 @@
 - (void)didCreateTicket:(UVTicket *)ticket {
     [self hideActivityIndicator];
     [self clearDraft];
-    // TODO babayaga, deflection?
+    [UVBabayaga track:SUBMIT_TICKET];
     UVSuccessViewController *next = [[UVSuccessViewController new] autorelease];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);

@@ -16,7 +16,6 @@
 #import "UVUtils.h"
 #import "UVSuggestion.h"
 #import "UVBabayaga.h"
-#import "UVDeflection.h"
 
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
@@ -138,7 +137,7 @@
     if (forum.categories && forum.categories.count > 0) {
         NSMutableArray *values = [NSMutableArray array];
         for (UVCategory *category in forum.categories) {
-            [values addObject:@{ @"id" : [NSString stringWithFormat:@"%d", category.categoryId], @"label" : category.name }];
+            [values addObject:@{ @"id" : [NSString stringWithFormat:@"%d", (int)category.categoryId], @"label" : category.name }];
         }
         next.fields = @[ @{
             @"name" : NSLocalizedStringFromTable(@"Category", @"UserVoice", nil),
@@ -189,7 +188,6 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:SUBMIT_IDEA];
-    // TODO deflection?
     [self hideActivityIndicator];
     UVSuccessViewController *next = [[UVSuccessViewController new] autorelease];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
