@@ -43,9 +43,9 @@
                                                                                style:UIBarButtonItemStyleDone
                                                                               target:self
                                                                               action:@selector(next)] autorelease];
+    [self loadDraft];
     self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
     self.view = _textView;
-    [self loadDraft];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -177,7 +177,7 @@
 
 - (void)loadDraft {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    self.loadedDraft = _textView.text = [prefs stringForKey:@"uv-message-text"];
+    self.loadedDraft = _instantAnswerManager.searchText = _textView.text = [prefs stringForKey:@"uv-message-text"];
 }
 
 - (void)saveDraft {
