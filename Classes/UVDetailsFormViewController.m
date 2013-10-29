@@ -46,10 +46,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
-    BOOL selectable;
+    BOOL selectable = NO;
     if (indexPath.section == 0) {
         identifier = (indexPath.row == 0) ? @"Email" : @"Name";
-        selectable = NO;
     } else {
         NSDictionary *field = _fields[indexPath.row];
         if ([field[@"values"] count] > 0) {
@@ -57,7 +56,6 @@
             selectable = YES;
         } else {
             identifier = @"FreeformField";
-            selectable = NO;
         }
     }
     return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:selectable];
@@ -69,9 +67,14 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *field = _fields[indexPath.row];
-    UVValueSelectViewController *next = [[[UVValueSelectViewController alloc] initWithField:field valueDictionary:_selectedFieldValues] autorelease];
-    [self.navigationController pushViewController:next animated:YES];
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([field[@"values"] count] > 0) {
+        UVValueSelectViewController *next = [[[UVValueSelectViewController alloc] initWithField:field valueDictionary:_selectedFieldValues] autorelease];
+        [self.navigationController pushViewController:next animated:YES];
+        [theTableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else {
+        UITableViewCell *cell = [theTableView cellForRowAtIndexPath:indexPath];
+        [[cell viewWithTag:TEXT] becomeFirstResponder];
+    }
 }
 
 #pragma mark ===== Cells =====
