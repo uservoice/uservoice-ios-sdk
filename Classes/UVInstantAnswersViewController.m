@@ -9,6 +9,7 @@
 #import "UVInstantAnswersViewController.h"
 #import "UVArticle.h"
 #import "UVSuggestion.h"
+#import "UVDeflection.h"
 
 @implementation UVInstantAnswersViewController
 

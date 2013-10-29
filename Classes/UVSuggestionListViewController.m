@@ -132,17 +132,15 @@
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVSuggestion *suggestion = [suggestions objectAtIndex:indexPath.row];
-    UILabel *title = (UILabel *)[cell.contentView viewWithTag:TITLE];
-    UILabel *subs = (UILabel *)[cell.contentView viewWithTag:SUBSCRIBER_COUNT];
-    UILabel *status = (UILabel *)[cell.contentView viewWithTag:STATUS];
-    UIView *statusColor = [cell.contentView viewWithTag:STATUS_COLOR];
+    [self customizeCellForSuggestion:[suggestions objectAtIndex:indexPath.row] cell:cell];
+}
 
-    title.text = suggestion.title;
-    subs.text = [NSString stringWithFormat:@"%d", (int)suggestion.subscriberCount];
-    [statusColor.layer.sublayers.lastObject setBackgroundColor:[suggestion.statusColor CGColor]];
-    status.textColor = suggestion.statusColor;
-    status.text = [suggestion.status uppercaseString];
+- (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self initCellForSuggestion:cell indexPath:indexPath];
+}
+
+- (void)customizeCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self customizeCellForSuggestion:[searchResults objectAtIndex:indexPath.row] cell:cell];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -156,16 +154,30 @@
     [cell addSubview:label];
 }
 
+- (void)customizeCellForSuggestion:(UVSuggestion *)suggestion cell:(UITableViewCell *)cell {
+    UILabel *title = (UILabel *)[cell.contentView viewWithTag:TITLE];
+    UILabel *subs = (UILabel *)[cell.contentView viewWithTag:SUBSCRIBER_COUNT];
+    UILabel *status = (UILabel *)[cell.contentView viewWithTag:STATUS];
+    UIView *statusColor = [cell.contentView viewWithTag:STATUS_COLOR];
+    title.text = suggestion.title;
+    subs.text = [NSString stringWithFormat:@"%d", (int)suggestion.subscriberCount];
+    [statusColor.layer.sublayers.lastObject setBackgroundColor:suggestion.statusColor.CGColor];
+    status.textColor = suggestion.statusColor;
+    status.text = [suggestion.status uppercaseString];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
-    BOOL selectable = YES;
-    UITableViewCellStyle style = UITableViewCellStyleDefault;
-    identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < [suggestions count]) ? @"Suggestion" : @"Load";
+    if (theTableView == tableView) {
+        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < [suggestions count]) ? @"Suggestion" : @"Load";
+    } else {
+        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : @"Result";
+    }
     return [self createCellForIdentifier:identifier
                                tableView:theTableView
                                indexPath:indexPath
-                                   style:style
-                              selectable:selectable];
+                                   style:UITableViewCellStyleDefault
+                              selectable:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
@@ -176,7 +188,7 @@
         int suggestionsCount = _forum.suggestionsCount;
         return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
     } else {
-        return [searchResults count] + ([UVSession currentSession].config.showPostIdea ? 1 : 0);
+        return [searchResults count];
     }
 }
 
