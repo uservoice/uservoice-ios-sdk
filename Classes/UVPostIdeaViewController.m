@@ -52,6 +52,7 @@
     bg.backgroundColor = [UIColor colorWithRed:0.937f green:0.937f blue:0.957f alpha:1.f];
 
     UILabel *desc = [[UILabel new] autorelease];
+    desc.backgroundColor = [UIColor clearColor];
     desc.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     desc.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
     desc.numberOfLines = 0;
