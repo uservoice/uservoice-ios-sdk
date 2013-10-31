@@ -158,7 +158,6 @@
 - (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     UVHighlightingLabel *label = [[[UVHighlightingLabel alloc] initWithFrame:CGRectMake(IPAD && !IOS7 ? 75 : 50, 12, cell.bounds.size.width - (IPAD ? 130 : 80), 20)] autorelease];
-    label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 2;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont boldSystemFontOfSize:13.0];

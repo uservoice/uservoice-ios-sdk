@@ -80,14 +80,12 @@
     UILabel *label = [[UILabel new] autorelease];
     label.tag = LABEL;
     label.font = [UIFont systemFontOfSize:13];
-    label.backgroundColor = [UIColor clearColor];
     if (IOS7) {
         label.textColor = label.tintColor;
     }
     UILabel *value = [[UILabel new] autorelease];
     value.tag = VALUE;
     value.font = [UIFont systemFontOfSize:16];
-    value.backgroundColor = [UIColor clearColor];
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(label, value)
             constraints:@[@"|-16-[label]-|", @"|-16-[value]-|", @"V:|-10-[label]-6-[value]"]];
@@ -111,14 +109,12 @@
     UILabel *label = [[UILabel new] autorelease];
     label.tag = LABEL;
     label.font = [UIFont systemFontOfSize:13];
-    label.backgroundColor = [UIColor clearColor];
     if (IOS7) {
         label.textColor = label.tintColor;
     }
     UITextField *text = [[UITextField new] autorelease];
     text.tag = TEXT;
     text.borderStyle = UITextBorderStyleNone;
-    text.backgroundColor = [UIColor clearColor];
     text.returnKeyType = UIReturnKeyDone;
     text.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
     [self configureView:cell.contentView

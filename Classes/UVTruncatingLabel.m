@@ -22,6 +22,7 @@
         self.moreLabel = [[[UILabel alloc] init] autorelease];
         moreLabel.text = NSLocalizedStringFromTable(@"more", @"UserVoice", nil);
         moreLabel.font = [UIFont systemFontOfSize:12];
+        moreLabel.backgroundColor = [UIColor clearColor];
         if (IOS7) {
             moreLabel.textColor = self.tintColor;
         }

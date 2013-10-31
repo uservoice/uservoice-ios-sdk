@@ -256,6 +256,7 @@
                 if (label.numberOfLines != 1) {
                     [label setPreferredMaxLayoutWidth:label.frame.size.width];
                 }
+                [label setBackgroundColor:[UIColor clearColor]];
             }
         }
     }
