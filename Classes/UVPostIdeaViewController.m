@@ -17,6 +17,8 @@
 #import "UVSuggestion.h"
 #import "UVBabayaga.h"
 
+#define DESC 100
+
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
 }
@@ -53,10 +55,12 @@
 
     UILabel *desc = [[UILabel new] autorelease];
     desc.backgroundColor = [UIColor clearColor];
+    desc.tag = DESC;
     desc.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     desc.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
     desc.numberOfLines = 0;
     desc.font = [UIFont systemFontOfSize:12];
+    self.desc = desc;
 
     NSArray *constraints = @[
         @"|[title]|",
@@ -65,12 +69,9 @@
         @"|[sep1]|",
         @"|-[desc]-|",
         @"|[bg]|",
-        @"V:|-64-[title(==44)][sep0(==1)]-4-[_textView(>=10)]-4-[sep1(==1)]-[desc(>=10)]",
-        @"V:[sep1][bg(>=10)]|"
+        @"V:[title(==44)][sep0(==1)]-4-[_textView(>=10)]-4-[sep1(==1)]-[desc]",
+        @"V:[sep1][bg]|"
     ];
-    // TODO things that need to change in landscape:
-    // - the 64 offset needs to be something different
-    // - hide the description
 
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(title, sep0, _textView, sep1, desc, bg)
@@ -84,6 +85,23 @@
                                                           multiplier:1.0
                                                             constant:-kbHeight-10];
     [view addConstraint:_keyboardConstraint];
+    self.topConstraint = [NSLayoutConstraint constraintWithItem:title
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:view
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:64];
+    [view addConstraint:_topConstraint];
+
+    self.descConstraint = [NSLayoutConstraint constraintWithItem:desc
+                                                       attribute:NSLayoutAttributeHeight
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:nil
+                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                      multiplier:1
+                                                       constant:0];
+
     self.view = view;
 
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
@@ -99,10 +117,36 @@
     [self registerForKeyboardNotifications];
     _didCreateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(didCreateSuggestion:)];
     _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];
+    [self updateLayout];
+}
+
+- (void)updateLayout {
+    _topConstraint.constant = (IOS7 ? (IPAD ? 44 : (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 64 : 52)) : 0);
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
+        _desc.hidden = NO;
+        [self.view removeConstraint:_descConstraint];
+    } else {
+        _desc.hidden = YES;
+        [self.view addConstraint:_descConstraint];
+    }
+    if (!IOS7) {
+        _desc.preferredMaxLayoutWidth = 0;
+        [self.view layoutIfNeeded];
+        _desc.preferredMaxLayoutWidth = _desc.frame.size.width;
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self updateLayout];
 }
 
 - (void)keyboardDidShow:(NSNotification *)note {
-    _keyboardConstraint.constant = -kbHeight-10;
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
+        _keyboardConstraint.constant = -kbHeight-10;
+    } else {
+        _keyboardConstraint.constant = -kbHeight+10;
+    }
     [self.view layoutIfNeeded];
 }
 
@@ -207,6 +251,9 @@
     self.titleField = nil;
     self.textView = nil;
     self.keyboardConstraint = nil;
+    self.topConstraint = nil;
+    self.descConstraint = nil;
+    self.desc = nil;
     [_didCreateCallback release];
     [_didAuthenticateCallback release];
     [super dealloc];
