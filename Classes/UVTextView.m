@@ -9,7 +9,9 @@
 #import "UVTextView.h"
 #import "UVDefines.h"
 
-@implementation UVTextView
+@implementation UVTextView {
+    BOOL _constraintsAdded;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -21,10 +23,17 @@
         _placeholderLabel.textColor = IOS7 ? [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f] : [UIColor colorWithWhite:0.702f alpha:1.0f];
         _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_placeholderLabel];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[placeholder]" options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:(IOS7 ? @"|-4-[placeholder]" : @"|-8-[placeholder]") options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    if (!_constraintsAdded) {
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[placeholder]" options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:(IOS7 ? @"|-4-[placeholder]" : @"|-8-[placeholder]") options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
+        _constraintsAdded = YES;
+    }
+    [super layoutSubviews];
 }
 
 - (void)setPlaceholder:(NSString *)newPlaceholder {

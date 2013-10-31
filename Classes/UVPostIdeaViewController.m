@@ -159,6 +159,7 @@
 
 - (void)didUpdateInstantAnswers {
     if (_proceed) {
+        _proceed = NO;
         [_instantAnswerManager pushInstantAnswersViewForParent:self articlesFirst:YES];
     }
 }
