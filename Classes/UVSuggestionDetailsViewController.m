@@ -429,12 +429,7 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
-
-    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.view = self.tableView;
-
+    [self setupGroupedTableView];
     [self reloadComments];
 }
 

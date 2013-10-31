@@ -147,7 +147,6 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
     UILabel *label = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
     label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -263,20 +262,10 @@
 
 - (void)loadView {
     [super loadView];
-
     [UVBabayaga track:VIEW_FORUM id:_forum.forumId];
+    [self setupGroupedTableView];
 
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.view.autoresizesSubviews = YES;
-    CGFloat screenWidth = [UVClientConfig getScreenWidth];
-
-    UITableView *theTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    theTableView.dataSource = self;
-    theTableView.delegate = self;
-    theTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-
-    UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 44)] autorelease];
-    searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
+    UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)] autorelease];
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), _forum.name];
     searchBar.delegate = self;
 
@@ -284,12 +273,7 @@
     searchController.delegate = self;
     searchController.searchResultsDataSource = self;
     searchController.searchResultsDelegate = self;
-    theTableView.tableHeaderView = searchBar;
-
-    self.tableView = theTableView;
-    [theTableView release];
-    [self.view addSubview:tableView];
-
+    self.tableView.tableHeaderView = searchBar;
 
     if ([UVSession currentSession].config.showPostIdea) {
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose

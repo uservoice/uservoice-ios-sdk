@@ -251,10 +251,7 @@
                                                                              target:self
                                                                              action:@selector(dismissUserVoice)] autorelease];
 
-    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.view = self.tableView;
+    [self setupGroupedTableView];
 
     if ([UVSession currentSession].config.showKnowledgeBase) {
         UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)] autorelease];

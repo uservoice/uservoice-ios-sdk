@@ -16,11 +16,7 @@
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
-    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    self.view = tableView;
-
+    [self setupGroupedTableView];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Skip", @"UserVoice", nil)
                                                                                style:UIBarButtonItemStyleDone
                                                                               target:self

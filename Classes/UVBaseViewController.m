@@ -189,7 +189,7 @@
             parent.view.superview.frame = parent.presentedViewController.view.superview.frame;
         }
     }
-
+    
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
@@ -216,6 +216,10 @@
             parent.view.superview.hidden = NO;
         }
     }
+    
+    if (!IOS7 && self.tableView) {
+        [self.tableView reloadData];
+    }
 
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
@@ -241,6 +245,19 @@
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", identifier]);
     if ([self respondsToSelector:customizeCellSelector]) {
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
+    }
+    if (!IOS7) {
+        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:self.tableView.style accessoryType:cell.accessoryType], 0);
+        [cell.contentView setNeedsLayout];
+        [cell.contentView layoutIfNeeded];
+        for (UIView *view in cell.contentView.subviews) {
+            if ([view isKindOfClass:[UILabel class]]) {
+                UILabel *label = (UILabel *)view;
+                if (label.numberOfLines != 1) {
+                    [label setPreferredMaxLayoutWidth:label.frame.size.width];
+                }
+            }
+        }
     }
     return cell;
 }
@@ -312,7 +329,13 @@
 
 - (void)setupGroupedTableView {
     self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    if (!IOS7) {
+        UIView *bg = [[UIView new] autorelease];
+        bg.backgroundColor = [UVStyleSheet backgroundColor];
+        self.tableView.backgroundView = bg;
+    }
     self.view = self.tableView;
 }
 
@@ -441,7 +464,7 @@
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
         }
-        cell.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width - (cell.accessoryType == UITableViewCellAccessoryDisclosureIndicator ? 33.0 : 0), 0);
+        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:self.tableView.style accessoryType:cell.accessoryType], 0);
         [templateCells setObject:cell forKey:cacheKey];
     }
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
@@ -461,6 +484,31 @@
         }
     }
     return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+}
+
+- (CGFloat)cellWidthForStyle:(UITableViewStyle)style accessoryType:(UITableViewCellAccessoryType)accessoryType {
+    CGFloat width = self.view.frame.size.width;
+    CGFloat accessoryWidth = 0;
+    CGFloat margin = 0;
+    if (IOS7) {
+        if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+            accessoryWidth = 33;
+        }
+    } else {
+        if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+            accessoryWidth = 20;
+        }
+        if (width > 20) {
+            if (width < 400) {
+                margin = 10;
+            } else {
+                margin = MAX(31, MIN(45, width*0.06));
+            }
+        } else {
+            margin = width - 10;
+        }
+    }
+    return width - (style == UITableViewStyleGrouped ? margin * 2 : 0) - accessoryWidth;
 }
 
 - (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings {
