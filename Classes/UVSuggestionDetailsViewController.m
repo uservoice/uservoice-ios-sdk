@@ -66,12 +66,10 @@
 
 - (void)retrieveMoreComments {
     NSInteger page = ([self.comments count] / 10) + 1;
-    [self showActivityIndicator];
     [UVComment getWithSuggestion:self.suggestion page:page delegate:self];
 }
 
 - (void)didRetrieveComments:(NSArray *)theComments {
-    [self hideActivityIndicator];
     if ([theComments count] > 0) {
         [self.comments addObjectsFromArray:theComments];
         if ([self.comments count] >= self.suggestion.commentsCount) {

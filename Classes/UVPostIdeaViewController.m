@@ -17,8 +17,6 @@
 #import "UVSuggestion.h"
 #import "UVBabayaga.h"
 
-#define DESC 100
-
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
 }
@@ -55,7 +53,6 @@
 
     UILabel *desc = [[UILabel new] autorelease];
     desc.backgroundColor = [UIColor clearColor];
-    desc.tag = DESC;
     desc.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     desc.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
     desc.numberOfLines = 0;
