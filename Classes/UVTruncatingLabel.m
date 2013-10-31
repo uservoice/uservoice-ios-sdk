@@ -76,10 +76,10 @@
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
     if (lastWidth != self.effectiveWidth) {
         [self update];
     }
+    [super layoutSubviews];
 }
 
 - (void)expandAndNotify {
