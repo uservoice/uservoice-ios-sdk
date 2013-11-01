@@ -34,9 +34,10 @@
 
 - (void)loadView {
     [super loadView];
+    CGFloat barHeight = IOS7 ? 32 : 40;
     self.navigationItem.title = NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
     self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 40)] autorelease];
+    self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - barHeight)] autorelease];
     NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: sans-serif; margin: 1em\"><h3>%@</h3>%@</body></html>", article.question, article.answerHTML];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     if ([self.webView respondsToSelector:@selector(scrollView)]) {
@@ -50,13 +51,15 @@
     [self.webView loadHTMLString:html baseURL:nil];
     [self.view addSubview:webView];
 
-    UIToolbar *helpfulBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 40)] autorelease];
+    UIToolbar *helpfulBar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - barHeight, self.view.bounds.size.width, barHeight)] autorelease];
     helpfulBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    if (!IOS7) {
+    if (IOS7) {
+        helpfulBar.translucent = NO;
+    } else {
         helpfulBar.barStyle = UIBarStyleBlack;
         helpfulBar.tintColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
     }
-    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, helpfulBar.bounds.size.width - 100, 40)] autorelease];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, helpfulBar.bounds.size.width - 100, barHeight)] autorelease];
     label.text = NSLocalizedStringFromTable(@"Was this article helpful?", @"UserVoice", nil);
     label.font = IOS7 ? [UIFont systemFontOfSize:13] : [UIFont boldSystemFontOfSize:13];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
