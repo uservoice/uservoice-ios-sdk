@@ -12,7 +12,7 @@
 
 #import <CommonCrypto/CommonHMAC.h>
 
-#include "Base64Transcoder.h"
+#include "Crypto/Base64Transcoder.h"
 
 @implementation YOAuthSignatureMethod_HMAC_SHA1
 
