@@ -18,6 +18,7 @@
 
 - (void)skipInstantAnswers;
 - (void)didReceiveError:(NSError *)error;
+- (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fieldValues;
 
 @end
 

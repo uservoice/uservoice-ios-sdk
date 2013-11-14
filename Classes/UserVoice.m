@@ -12,7 +12,6 @@
 #import "UVWelcomeViewController.h"
 #import "UVRootViewController.h"
 #import "UVSession.h"
-#import "UVNewTicketViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVNavigationController.h"
 #import "UVUtils.h"

@@ -10,7 +10,6 @@
 #import "UVSession.h"
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
-#import "UVBaseTicketViewController.h"
 
 @implementation UVValueSelectViewController
 

@@ -35,6 +35,9 @@
 
     UIView *title = [[UIView new] autorelease];
     self.titleField = [self configureView:title label:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil) placeholder:nil];
+    if (_initialText) {
+        self.titleField.text = _initialText;
+    }
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:_titleField queue:nil usingBlock:^(NSNotification *note) {
         _instantAnswerManager.searchText = _titleField.text;
         self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
@@ -256,6 +259,7 @@
     self.topConstraint = nil;
     self.descConstraint = nil;
     self.desc = nil;
+    self.initialText = nil;
     [_didCreateCallback release];
     [_didAuthenticateCallback release];
     [super dealloc];

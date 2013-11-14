@@ -13,7 +13,7 @@
 #import "UVForum.h"
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
-#import "UVNewTicketViewController.h"
+#import "UVContactViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVSuggestion.h"
 #import "UVArticle.h"
@@ -22,8 +22,7 @@
 #import "UVHelpTopic.h"
 #import "UVHelpTopicViewController.h"
 #import "UVConfig.h"
-#import "UVNewSuggestionViewController.h"
-#import "UVGradientButton.h"
+#import "UVPostIdeaViewController.h"
 #import "UVBabayaga.h"
 #import "UVUtils.h"
 
@@ -158,7 +157,7 @@
         [_instantAnswerManager pushViewFor:[self.searchResults objectAtIndex:indexPath.row] parent:self];
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
-            [self presentModalViewController:[UVNewTicketViewController viewController]];
+            [self presentModalViewController:[[UVContactViewController new] autorelease]];
         } else if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
             UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
             [self.navigationController pushViewController:next animated:YES];

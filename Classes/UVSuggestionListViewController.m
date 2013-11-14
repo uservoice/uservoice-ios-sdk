@@ -12,12 +12,12 @@
 #import "UVSession.h"
 #import "UVSuggestion.h"
 #import "UVSuggestionDetailsViewController.h"
-#import "UVNewSuggestionViewController.h"
 #import "UVStyleSheet.h"
 #import "UVUser.h"
 #import "UVConfig.h"
 #import "UVUtils.h"
 #import "UVBabayaga.h"
+#import "UVPostIdeaViewController.h"
 
 #define SUGGESTIONS_PAGE_SIZE 10
 #define UV_SEARCH_TEXTBAR 1
@@ -220,7 +220,9 @@
 }
 
 - (void)composeButtonTapped {
-    [self presentModalViewController:[UVNewSuggestionViewController viewControllerWithTitle:self.searchController.searchBar.text]];
+    UVPostIdeaViewController *next = [[UVPostIdeaViewController new] autorelease];
+    next.initialText = self.searchController.searchBar.text;
+    [self presentModalViewController:next];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

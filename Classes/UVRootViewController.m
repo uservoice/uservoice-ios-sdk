@@ -15,11 +15,11 @@
 #import "UVUser.h"
 #import "UVWelcomeViewController.h"
 #import "UVSuggestionListViewController.h"
-#import "UVNewTicketViewController.h"
 #import "UVConfig.h"
 #import "UVStyleSheet.h"
-#import "UVNewSuggestionViewController.h"
 #import "UVInitialLoadManager.h"
+#import "UVPostIdeaViewController.h"
+#import "UVContactViewController.h"
 
 @implementation UVRootViewController
 
@@ -58,9 +58,9 @@
         else if ([self.viewToLoad isEqualToString:@"suggestions"])
             next = [[[UVSuggestionListViewController alloc] init] autorelease];
         else if ([self.viewToLoad isEqualToString:@"new_suggestion"])
-            next = [UVNewSuggestionViewController viewController];
+            next = [[UVPostIdeaViewController new] autorelease];
         else if ([self.viewToLoad isEqualToString:@"new_ticket"])
-            next = [UVNewTicketViewController viewController];
+            next = [[UVContactViewController new] autorelease];
 
         next.firstController = YES;
         [self.navigationController pushViewController:next animated:NO];

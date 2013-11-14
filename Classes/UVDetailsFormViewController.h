@@ -7,6 +7,7 @@
 //
 
 #import "UVBaseViewController.h"
+#import "UVInstantAnswerManager.h"
 
 @interface UVDetailsFormViewController : UVBaseViewController<UITableViewDataSource, UITableViewDelegate>
 
@@ -14,7 +15,7 @@
 @property (nonatomic, retain) NSArray *fields;
 @property (nonatomic, retain) UITextField *emailField;
 @property (nonatomic, retain) UITextField *nameField;
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) id<UVInstantAnswersDelegate> delegate;
 @property (nonatomic, retain) NSMutableDictionary *selectedFieldValues;
 
 @end

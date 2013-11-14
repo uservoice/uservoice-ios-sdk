@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UVArticleViewController.h"
 #import "UVSession.h"
-#import "UVNewTicketViewController.h"
+#import "UVContactViewController.h"
 #import "UVStyleSheet.h"
 #import "UVBabayaga.h"
 #import "UVDeflection.h"
@@ -88,7 +88,7 @@
         }
     } else {
         if (buttonIndex == 0) {
-            [self presentModalViewController:[UVNewTicketViewController viewController]];
+            [self presentModalViewController:[[UVContactViewController new] autorelease]];
         }
     }
 }

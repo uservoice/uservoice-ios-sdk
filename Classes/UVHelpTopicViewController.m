@@ -10,9 +10,8 @@
 #import "UVHelpTopic.h"
 #import "UVArticle.h"
 #import "UVArticleViewController.h"
-#import "UVNewTicketViewController.h"
+#import "UVContactViewController.h"
 #import "UVStyleSheet.h"
-#import "UVGradientButton.h"
 #import "UVSession.h"
 #import "UVConfig.h"
 #import "UVBabayaga.h"
@@ -46,7 +45,7 @@
         UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
         [self.navigationController pushViewController:next animated:YES];
     } else {
-        [self presentModalViewController:[UVNewTicketViewController viewController]];
+        [self presentModalViewController:[[UVContactViewController new] autorelease]];
     }
 }
 
