@@ -49,7 +49,7 @@
     self = [super init];
     
     if (self) {
-        _subscribeCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(subscribe)];
+        _subscribeCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(doSubscribe)];
         _showCommentControllerCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(presentCommentController)];
     }
     
@@ -86,9 +86,14 @@
 - (void)didSubscribe:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
     [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
-    // [UVSession currentSession].forum.suggestionsNeedReload = YES;
     if (instantAnswers) {
         [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
+        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:_helpfulPrompt
+                                                                  delegate:self
+                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                    destructiveButtonTitle:nil
+                                                         otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil] autorelease];
+        [actionSheet showInView:self.view];
     }
     [self updateSuggestion:theSuggestion];
 }
@@ -108,6 +113,14 @@
         self.subscriberCount.text = NSLocalizedStringFromTable(@"1 person", @"UserVoice", nil);
     } else {
         self.subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people", @"UserVoice", nil), self.suggestion.subscriberCount];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else if (buttonIndex == 1) {
+        [self dismissUserVoice];
     }
 }
 
@@ -357,30 +370,19 @@
     if (suggestion.subscribed) {
         [self unsubscribe];
     } else {
-        [self requireUserSignedIn:_subscribeCallback];
+        [self subscribe];
     }
 }
 
-- (void)disableButton:(int)index inActionSheet:(UIActionSheet *)actionSheet {
-    for (UIView *view in actionSheet.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            if (index == 0) {
-                if ([view respondsToSelector:@selector(setEnabled:)]) {
-                    UIButton* button = (UIButton*)view;
-                    button.enabled = NO;
-                    button.layer.opacity = 0.8;
-                }
-            }
-            index--;
-        }
-    }
+- (void)subscribe {
+    [self requireUserSignedIn:_subscribeCallback];
 }
 
 - (void)presentCommentController {
     [self presentModalViewController:[[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease]];
 }
 
-- (void)subscribe {
+- (void)doSubscribe {
     [suggestion subscribe:self];
 }
 
@@ -419,7 +421,31 @@
     UIView *border = [[UIView new] autorelease];
     border.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
     if (instantAnswers) {
-        // TODO IA footer is different
+        UILabel *people = [[UILabel new] autorelease];
+        people.font = [UIFont systemFontOfSize:14];
+        people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+        self.subscriberCount = people;
+
+        UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
+
+        UILabel *this = [[UILabel new] autorelease];
+        this.text = NSLocalizedStringFromTable(@"this idea", @"UserVoice", nil);
+        this.font = people.font;
+        this.textColor = people.textColor;
+
+        UIButton *want = [[UIButton new] autorelease];
+        [want setTitle:NSLocalizedStringFromTable(@"I want this", @"UserVoice", nil) forState:UIControlStateNormal];
+        [want setTitleColor:want.tintColor forState:UIControlStateNormal];
+        [want addTarget:self action:@selector(subscribe) forControlEvents:UIControlEventTouchUpInside];
+
+        NSArray *constraints = @[
+            @"|[border]|", @"V:|[border(==1)]",
+            @"|-[people]-4-[heart(==12)]-4-[this]", @"[want]-|",
+            @"V:|-14-[people]", @"V:|-18-[heart(==11)]", @"V:|-14-[this]", @"V:|-6-[want]"
+        ];
+        [self configureView:footer
+                   subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this)
+                constraints:constraints];
     } else {
         UILabel *want = [[UILabel new] autorelease];
         want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
@@ -474,6 +500,8 @@
     self.suggestion = nil;
     self.comments = nil;
     self.subscriberCount = nil;
+    self.helpfulPrompt = nil;
+    self.returnMessage = nil;
     
     [_subscribeCallback invalidate];
     [_subscribeCallback release];

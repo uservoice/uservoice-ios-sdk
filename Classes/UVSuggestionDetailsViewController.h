@@ -12,7 +12,7 @@
 
 @class UVTruncatingLabel;
 
-@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     UVSuggestion *suggestion;
     NSMutableArray *comments;
     BOOL allCommentsRetrieved;
@@ -24,6 +24,8 @@
 @property (nonatomic, retain) NSMutableArray *comments;
 @property (nonatomic, retain) UILabel *subscriberCount;
 @property (nonatomic) BOOL instantAnswers;
+@property (nonatomic, retain) NSString *helpfulPrompt;
+@property (nonatomic, retain) NSString *returnMessage;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 - (void)reloadComments;

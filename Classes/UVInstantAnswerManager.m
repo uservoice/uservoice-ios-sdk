@@ -96,6 +96,8 @@
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)instantAnswer;
         UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        next.helpfulPrompt = _articleHelpfulPrompt;
+        next.returnMessage = _articleReturnMessage;
         next.instantAnswers = YES;
         [parent.navigationController pushViewController:next animated:YES];
     }
