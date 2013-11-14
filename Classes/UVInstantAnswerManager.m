@@ -77,7 +77,7 @@
 
 - (void)pushInstantAnswersViewForParent:(UIViewController *)parent articlesFirst:(BOOL)articlesFirst {
     if (_instantAnswers.count > 0) {
-        UVInstantAnswersViewController *next = [UVInstantAnswersViewController new];
+        UVInstantAnswersViewController *next = [[UVInstantAnswersViewController new] autorelease];
         next.instantAnswerManager = self;
         next.articlesFirst = articlesFirst;
         [parent.navigationController pushViewController:next animated:YES];

@@ -40,7 +40,7 @@
     [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = viewControllers;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [parentViewController presentModalViewController:navigationController animated:YES];
+    [parentViewController presentViewController:navigationController animated:YES completion:nil];
 }
 
 + (void)presentUserVoiceController:(UIViewController *)viewController forParentViewController:(UIViewController *)parentViewController {

@@ -46,7 +46,7 @@
     [[UVSession currentSession] clear];
     [[UVSession currentSession] clearFlash];
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
         [[UserVoice delegate] userVoiceWasDismissed];
 }
@@ -325,7 +325,7 @@
     navigationController.viewControllers = @[viewController];
     if (IPAD)
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)setupGroupedTableView {
@@ -392,7 +392,7 @@
     NSString *cacheKey = [NSString stringWithFormat:@"%@-%d", reuseIdentifier, (int)self.view.frame.size.width];
     UITableViewCell *cell = [templateCells objectForKey:cacheKey];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier] autorelease];
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", reuseIdentifier]);
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
