@@ -20,6 +20,7 @@
 
 @implementation UVContactViewController {
     BOOL _proceed;
+    BOOL _sending;
 }
 
 - (void)loadView {
@@ -110,6 +111,7 @@
 
 
 - (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fields {
+    if (_sending) return;
     [self showActivityIndicator];
     NSMutableDictionary *customFields = [NSMutableDictionary dictionary];
     for (NSString *key in fields.allKeys) {
@@ -122,6 +124,7 @@
     } else if (![self validateCustomFields:customFields]) {
         [self alertError:NSLocalizedStringFromTable(@"Please fill out all required fields.", @"UserVoice", nil)];
     } else {
+        _sending = YES;
         [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:customFields andDelegate:self];
     }
 }
@@ -139,6 +142,11 @@
     //                   duration:0.5
     //                    options:UIViewAnimationOptionTransitionFlipFromRight
     //                 completion:nil];
+}
+
+- (void)didReceiveError:(NSError *)error {
+    _sending = NO;
+    [super didReceiveError:error];
 }
 
 - (void)showSaveActionSheet {

@@ -17,6 +17,7 @@
 @optional
 
 - (void)skipInstantAnswers;
+- (void)didReceiveError:(NSError *)error;
 
 @end
 

@@ -103,6 +103,12 @@
     }
 }
 
+- (void)didReceiveError:(NSError *)error {
+    if ([_delegate respondsToSelector:@selector(didReceiveError:)]) {
+        [_delegate didReceiveError:error];
+    }
+}
+
 - (void)dealloc {
     [self invalidateTimer];
     self.instantAnswers = nil;

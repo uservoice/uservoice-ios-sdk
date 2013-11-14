@@ -19,6 +19,7 @@
 
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
+    BOOL _sending;
 }
 
 - (void)loadView {
@@ -165,6 +166,7 @@
 }
 
 - (void)next {
+    if (_proceed) return;
     _proceed = YES;
     [_instantAnswerManager search];
     if (!_instantAnswerManager.loading) {
@@ -196,6 +198,7 @@
 }
 
 - (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fields {
+    if (_sending) return;
     self.userEmail = email;
     self.userName = name;
     if (![UVSession currentSession].user && email.length == 0) {
@@ -208,8 +211,7 @@
 }
 
 - (void)didReceiveError:(NSError *)error {
-    // TODO enable submit button
-    
+    _sending = NO;
     if ([UVUtils isNotFoundError:error]) {
         [self hideActivityIndicator];
     } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
@@ -221,6 +223,7 @@
 }
 
 - (void)createSuggestion {
+    _sending = YES;
     [UVSuggestion createWithForum:[UVSession currentSession].forum
                          category:_selectedCategoryId
                             title:_titleField.text
@@ -241,6 +244,7 @@
     //                   duration:0.5
     //                    options:UIViewAnimationOptionTransitionFlipFromRight
     //                 completion:nil];
+    _sending = NO;
 }
 
 

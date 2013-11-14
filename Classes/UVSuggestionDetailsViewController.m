@@ -35,6 +35,7 @@
     
     BOOL suggestionExpanded;
     BOOL responseExpanded;
+    BOOL _subscribing;
     UVCallback *_subscribeCallback;
     UVCallback *_showCommentControllerCallback;
     
@@ -96,6 +97,7 @@
         [actionSheet showInView:self.view];
     }
     [self updateSuggestion:theSuggestion];
+    _subscribing = NO;
 }
 
 - (void)didUnsubscribe:(UVSuggestion *)theSuggestion {
@@ -375,6 +377,8 @@
 }
 
 - (void)subscribe {
+    if (_subscribing) return;
+    _subscribing = YES;
     [self requireUserSignedIn:_subscribeCallback];
 }
 
