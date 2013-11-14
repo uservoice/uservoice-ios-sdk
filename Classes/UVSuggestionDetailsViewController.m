@@ -363,18 +363,6 @@
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 2 && self.suggestion.commentsCount > 0) {
-        if (self.suggestion.commentsCount == 1) {
-            return NSLocalizedStringFromTable(@"1 comment", @"UserVoice", nil);
-        } else {
-            return [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d comments", @"UserVoice", nil), self.suggestion.commentsCount];
-        }
-    } else {
-        return nil;
-    }
-}
-
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1 && indexPath.row == 1) {
@@ -432,6 +420,7 @@
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
     [self setupPlainTableView];
+    self.tableView.tableFooterView = [[UIView new] autorelease];
     [self reloadComments];
 }
 
