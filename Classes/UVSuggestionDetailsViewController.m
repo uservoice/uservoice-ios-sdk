@@ -100,7 +100,15 @@
 - (void)updateSuggestion:(UVSuggestion *)theSuggestion {
     self.suggestion.subscribed = theSuggestion.subscribed;
     self.suggestion.subscriberCount = theSuggestion.subscriberCount;
-    self.subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people want this", @"UserVoice", nil), suggestion.subscriberCount];
+    [self updateSubscriberCount];
+}
+
+- (void)updateSubscriberCount {
+    if (self.suggestion.subscriberCount == 1) {
+        self.subscriberCount.text = NSLocalizedStringFromTable(@"1 person", @"UserVoice", nil);
+    } else {
+        self.subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people", @"UserVoice", nil), self.suggestion.subscriberCount];
+    }
 }
 
 #pragma mark ===== UITableView Methods =====
@@ -114,9 +122,7 @@
         identifier = @"Suggestion";
     } else if (indexPath.section == 0 && indexPath.row == 1) {
         identifier = @"Response";
-    } else if (indexPath.section == 1 && indexPath.row == 0) {
-        identifier = @"Subscribe";
-    } else if (indexPath.section == 1 && indexPath.row == 1) {
+    } else if (indexPath.section == 1) {
         identifier = @"AddComment";
         selectable = YES;
     } else if (indexPath.row < [self.comments count]) {
@@ -303,40 +309,6 @@
         [text expand];
 }
 
-- (void)initCellForSubscribe:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *want = [[[UILabel alloc] init] autorelease]; 
-    want.font = [UIFont systemFontOfSize:18];
-    want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
-
-    UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
-
-    self.subscriberCount = [[[UILabel alloc] init] autorelease];
-    subscriberCount.font = [UIFont systemFontOfSize:12];
-    subscriberCount.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people want this", @"UserVoice", nil), suggestion.subscriberCount];
-    UILabel *count = self.subscriberCount;
-
-    UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
-    if (self.suggestion.subscribed) {
-        toggle.on = YES;
-    }
-    [toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
-
-    NSArray *constraints = @[
-        @"|-16-[want]",
-        @"|-16-[heart(==9)]-4-[count]",
-        @"[toggle]-|",
-        @"V:|-18-[toggle]",
-        @"V:|-14-[want]-6-[heart(==9)]",
-        @"V:[want]-3-[count]"
-    ];
-    [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(want, heart, count, toggle)
-            constraints:constraints
-         finalCondition:indexPath == nil
-        finalConstraint:@"V:[count]-14-|"];
-}
-
 - (void)initCellForAddComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTable(@"Add a comment", @"UserVoice", nil);
     if (IOS7) {
@@ -348,14 +320,14 @@
     if (section == 0) {
         return self.suggestion.status || self.suggestion.responseText ? 2 : 1;
     } else if (section == 1) {
-        return 2;
+        return 1;
     } else {
         return [comments count] + (allCommentsRetrieved || [comments count] == 0 ? 0 : 1);
     }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return instantAnswers ? 1 : 3;
 }
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -365,8 +337,6 @@
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else if (indexPath.section == 0 && indexPath.row == 1) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Response" indexPath:indexPath];
-    } else if (indexPath.section == 1 && indexPath.row == 0) {
-        return [self heightForDynamicRowWithReuseIdentifier:@"Subscribe" indexPath:indexPath];
     } else {
         return 44;
     }
@@ -374,7 +344,7 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 1 && indexPath.row == 1) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         [self requireUserSignedIn:_showCommentControllerCallback];
     } else if (indexPath.section == 2 && indexPath.row == [self.comments count]) {
         [self retrieveMoreComments];
@@ -433,9 +403,63 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
-    [self setupPlainTableView];
-    self.tableView.tableFooterView = [[UIView new] autorelease];
+    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+
+    CGFloat footerHeight = instantAnswers ? 46 : 66;
+    UITableView *table = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain] autorelease];
+    table.delegate = self;
+    table.dataSource = self;
+    table.tableFooterView = [[UIView new] autorelease];
+    table.contentInset = UIEdgeInsetsMake(0, 0, footerHeight, 0);
+    table.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerHeight, 0);
+    self.tableView = table;
+
+    UIView *footer = [[UIView new] autorelease];
+    footer.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1.0];
+    UIView *border = [[UIView new] autorelease];
+    border.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
+    if (instantAnswers) {
+        // TODO IA footer is different
+    } else {
+        UILabel *want = [[UILabel new] autorelease];
+        want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
+        want.font = [UIFont systemFontOfSize:16];
+
+        UILabel *people = [[UILabel new] autorelease];
+        people.font = [UIFont systemFontOfSize:13];
+        people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+        self.subscriberCount = people;
+
+        UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
+
+        UILabel *this = [[UILabel new] autorelease];
+        this.text = NSLocalizedStringFromTable(@"this", @"UserVoice", nil);
+        this.font = people.font;
+        this.textColor = people.textColor;
+
+        UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
+        if (self.suggestion.subscribed) {
+            toggle.on = YES;
+        }
+        [toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
+
+        NSArray *constraints = @[
+            @"|[border]|", @"V:|[border(==1)]",
+            @"|-[want]", @"|-[people]-4-[heart(==12)]-4-[this]", @"[toggle]-|",
+            @"V:|-14-[want]-2-[people]", @"V:[want]-6-[heart(==11)]", @"V:[want]-2-[this]", @"V:|-16-[toggle]"
+        ];
+        [self configureView:footer
+                   subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this, toggle)
+                constraints:constraints];
+    }
+
+    [self configureView:self.view
+               subviews:NSDictionaryOfVariableBindings(table, footer)
+            constraints:@[@"V:|[table]|", @"V:[footer]|", @"|[table]|", @"|[footer]|"]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:footerHeight]];
+    [self.view bringSubviewToFront:footer];
     [self reloadComments];
+    [self updateSubscriberCount];
 }
 
 - (void)initNavigationItem {}
