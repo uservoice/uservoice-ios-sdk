@@ -113,14 +113,6 @@
     return self.statusHexColor ? [UVUtils parseHexColor:self.statusHexColor] : [UIColor clearColor];
 }
 
-- (NSString *)categoryString {
-    if (self.category) {
-        return [NSString stringWithFormat:@"%@ » %@", self.forumName, self.category.name];
-    } else {
-        return self.forumName;
-    }
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
         self.suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];

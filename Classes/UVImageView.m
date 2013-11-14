@@ -15,6 +15,8 @@
 @synthesize URL = _URL, image = _image, defaultImage = _defaultImage, payload = _payload, connection = _connection;
 
 - (void)drawRect:(CGRect)rect {
+    self.layer.cornerRadius = self.frame.size.width / 2;
+    self.layer.masksToBounds = YES;
     if (_image) {
         [_image drawInRect:rect];
     } else {

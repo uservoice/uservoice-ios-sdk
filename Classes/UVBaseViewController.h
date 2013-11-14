@@ -88,6 +88,7 @@
 
 - (void)alertError:(NSString *)message;
 - (void)setupGroupedTableView;
+- (void)setupPlainTableView;
 - (UIScrollView *)scrollView;
 
 - (CGRect)cellValueRect:(UIView *)container;

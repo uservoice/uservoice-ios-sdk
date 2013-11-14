@@ -16,11 +16,11 @@
 #import "UVImageView.h"
 #import "UVComment.h"
 #import "UVCommentViewController.h"
-#import "UVGradientButton.h"
 #import "UVTruncatingLabel.h"
 #import "UVCallback.h"
 #import "UVBabayaga.h"
 #import "UVDeflection.h"
+#import "UVCategory.h"
 
 #define MARGIN 15
 
@@ -29,10 +29,12 @@
 #define COMMENT_DATE_TAG 1002
 #define COMMENT_TEXT_TAG 1003
 #define SUGGESTION_DESCRIPTION 20
+#define ADMIN_RESPONSE 30
 
 @implementation UVSuggestionDetailsViewController {
     
     BOOL suggestionExpanded;
+    BOOL responseExpanded;
     UVCallback *_subscribeCallback;
     UVCallback *_showCommentControllerCallback;
     
@@ -194,36 +196,36 @@
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *category = [[UILabel new] autorelease];
+    category.font = [UIFont systemFontOfSize:13];
+    category.text = suggestion.category.name;
+    category.adjustsFontSizeToFitWidth = YES;
+    category.minimumFontSize = 10;
+    category.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+
     UILabel *title = [[[UILabel alloc] init] autorelease];
-    title.font = [UIFont boldSystemFontOfSize:18];
+    title.font = [UIFont boldSystemFontOfSize:17];
     title.text = suggestion.title;
     title.numberOfLines = 0;
 
     UVTruncatingLabel *desc = [[[UVTruncatingLabel alloc] init] autorelease];
-    desc.font = [UIFont systemFontOfSize:13];
+    desc.font = [UIFont systemFontOfSize:14];
     desc.fullText = suggestion.text;
     desc.numberOfLines = 0;
     desc.delegate = self;
     desc.tag = SUGGESTION_DESCRIPTION;
 
-    UILabel *creator = [[[UILabel alloc] init] autorelease];
-    creator.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    creator.font = [UIFont systemFontOfSize:14];
-    creator.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Posted by %@ on %@", @"UserVoice", nil), suggestion.creatorName, [NSDateFormatter localizedStringFromDate:suggestion.createdAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle]];
-    creator.adjustsFontSizeToFitWidth = YES;
-    creator.minimumFontSize = 10;
-
     NSArray *constraints = @[
+        @"|-16-[category]-|",
         @"|-16-[title]-|",
         @"|-16-[desc]-|",
-        @"|-16-[creator]-|",
-        @"V:|-[title]-[desc]-[creator]"
+        @"V:|-12-[category]-8-[title]-[desc]"
     ];
     [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(title, desc, creator)
+               subviews:NSDictionaryOfVariableBindings(category, title, desc)
             constraints:constraints
          finalCondition:indexPath == nil
-        finalConstraint:@"V:[creator]-|"];
+        finalConstraint:@"V:[desc]-|"];
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -250,13 +252,15 @@
         UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
         avatar.URL = suggestion.responseUserAvatarUrl;
 
-        UILabel *text = [[[UILabel alloc] init] autorelease];
+        UVTruncatingLabel *text = [[UVTruncatingLabel new] autorelease];
         text.font = [UIFont systemFontOfSize:13];
-        text.text = suggestion.responseText;
+        text.fullText = suggestion.responseText;
         text.numberOfLines = 0;
+        text.delegate = self;
+        text.tag = ADMIN_RESPONSE;
 
         UILabel *admin = [[[UILabel alloc] init] autorelease];
-        admin.font = [UIFont systemFontOfSize:14];
+        admin.font = [UIFont systemFontOfSize:12];
         admin.text = suggestion.responseUserWithTitle;
         admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
         admin.adjustsFontSizeToFitWidth = YES;
@@ -265,19 +269,18 @@
         NSArray *constraints = @[
             @"|-16-[statusColor(==10)]-[status]-|",
             @"[date]-|",
-            @"|-16-[avatar(==40)]-[text]-|",
-            @"[avatar]-[admin]-|",
+            @"|-16-[text]-[avatar(==40)]-|",
+            @"|-16-[admin]-|",
             @"V:|-14-[statusColor(==10)]",
             @"V:|-12-[status]",
             @"V:|-12-[date]-[avatar(==40)]",
-            @"V:[date]-[text]-[admin]",
-            @"V:[avatar]-(>=10)-|"
+            @"V:[date]-[text]-[admin]"
         ];
         [self configureView:cell.contentView
                    subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
                 constraints:constraints
              finalCondition:indexPath == nil
-            finalConstraint:@"V:[admin]-|"];
+            finalConstraint:@"V:[admin]-12-|"];
     } else {
         NSArray *constraints = @[
             @"|-16-[statusColor(==10)]-[status]-|",
@@ -292,6 +295,12 @@
              finalCondition:indexPath == nil
             finalConstraint:@"V:[status]-12-|"];
     }
+}
+
+- (void)customizeCellForResponse:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVTruncatingLabel *text = (UVTruncatingLabel *)[cell.contentView viewWithTag:ADMIN_RESPONSE];
+    if (responseExpanded)
+        [text expand];
 }
 
 - (void)initCellForSubscribe:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -412,8 +421,13 @@
 #pragma mark ===== Basic View Methods =====
 
 - (void)labelExpanded:(UVTruncatingLabel *)label {
-    suggestionExpanded = YES;
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    if (label.tag == SUGGESTION_DESCRIPTION) {
+        suggestionExpanded = YES;
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        responseExpanded = YES;
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 - (void)loadView {
