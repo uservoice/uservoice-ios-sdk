@@ -112,8 +112,16 @@
 
 - (void)nonPredefinedValueChanged:(NSNotification *)notification {
     UITextField *textField = (UITextField *)[notification object];
-    UITableViewCell *cell = (UITableViewCell *)[textField superview];
-    UITableView *table = (UITableView *)[cell superview];
+    UIView *view = textField;
+    while (view != nil && ![view isKindOfClass:[UITableViewCell class]]) {
+        view = view.superview;
+    }
+    UITableViewCell *cell = (UITableViewCell *)view;
+    view = cell;
+    while (view != nil && ![view isKindOfClass:[UITableView class]]) {
+        view = view.superview;
+    }
+    UITableView *table = (UITableView *)view;
     NSIndexPath *path = [table indexPathForCell:cell];
     UVCustomField *field = (UVCustomField *)[[UVSession currentSession].clientConfig.customFields objectAtIndex:path.row];
     [selectedCustomFieldValues setObject:textField.text forKey:field.name];
