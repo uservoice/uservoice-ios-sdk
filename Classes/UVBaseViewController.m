@@ -340,21 +340,6 @@
     self.view = self.tableView;
 }
 
-- (void)addTopBorder:(UIView *)view {
-    [self addTopBorder:view alpha:1.0];
-}
-
-- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha {
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.86f green:0.88f blue:0.89f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [view addSubview:border];
-    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 1, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [view addSubview:border];
-}
-
 - (void)requireUserSignedIn:(UVCallback *)callback {
     [signinManager signInWithCallback:callback];
 }
@@ -401,59 +386,6 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     userEmail = [[prefs stringForKey:@"uv-user-email"] retain];
     return userEmail;
-}
-
-- (CGRect)cellLabelRect:(UIView *)container {
-    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
-    return CGRectMake(offset, 12, container.frame.size.width - offset - (IOS7 ? 2 : offset), 16);
-}
-
-- (CGRect)cellValueRect:(UIView *)container {
-    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
-    return CGRectMake(offset, 28, container.frame.size.width - offset - (IOS7 ? 2 : offset), 30);
-}
-
-- (UILabel *)addCellLabel:(UIView *)container {
-    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellLabelRect:container]] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.font = [UIFont systemFontOfSize:13];
-    if (IOS7){
-        label.textColor = [self.view valueForKey:@"tintColor"];
-    } else {
-        label.textColor = [UIColor grayColor];
-    }
-    label.backgroundColor = [UIColor clearColor];
-    [container addSubview:label];
-    return label;
-}
-
-- (UILabel *)addCellValueLabel:(UIView *)container {
-    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellValueRect:container]] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.font = [UIFont systemFontOfSize:16];
-    label.backgroundColor = [UIColor clearColor];
-    [container addSubview:label];
-    return label;
-}
-
-- (UITextField *)addCellValueTextField:(UIView *)container {
-    UITextField *textField = [[[UITextField alloc] initWithFrame:[self cellValueRect:container]] autorelease];
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.backgroundColor = [UIColor clearColor];
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
-    [container addSubview:textField];
-    return textField;
-}
-
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder {
-    UILabel *label = [self addCellLabel:cell];
-    label.text = labelText;
-    UITextField *textField = [self addCellValueTextField:cell];
-    textField.placeholder = placeholder;
-    textField.delegate = self;
-    return textField;
 }
 
 - (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {

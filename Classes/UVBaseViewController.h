@@ -56,9 +56,6 @@
 - (void)enableSubmitButtonForce:(BOOL)force;
 - (BOOL)shouldEnableSubmitButton;
 
-- (void)addTopBorder:(UIView *)view;
-- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
-
 - (void)initNavigationItem;
 - (void)presentModalViewController:(UIViewController *)viewController;
 
@@ -90,12 +87,6 @@
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;
 
-- (CGRect)cellValueRect:(UIView *)container;
-- (CGRect)cellLabelRect:(UIView *)container;
-- (UILabel *)addCellLabel:(UIView *)container;
-- (UILabel *)addCellValueLabel:(UIView *)container;
-- (UITextField *)addCellValueTextField:(UIView *)container;
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder;
 - (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath;
 - (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings;
 - (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint;
