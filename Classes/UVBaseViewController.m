@@ -328,6 +328,13 @@
     [self presentModalViewController:navigationController animated:YES];
 }
 
+- (void)setupPlainTableView {
+    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStylePlain] autorelease];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.view = self.tableView;
+}
+
 - (void)setupGroupedTableView {
     self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
     self.tableView.delegate = self;

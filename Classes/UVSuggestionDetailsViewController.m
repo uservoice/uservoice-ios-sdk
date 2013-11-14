@@ -431,7 +431,7 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
-    [self setupGroupedTableView];
+    [self setupPlainTableView];
     [self reloadComments];
 }
 
