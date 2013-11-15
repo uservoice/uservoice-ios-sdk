@@ -29,8 +29,8 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
 @property (nonatomic, retain) UVSigninManager *signinManager;
-@property (nonatomic,retain) NSString *userEmail;
-@property (nonatomic,retain) NSString *userName;
+@property (nonatomic, retain) NSString *userEmail;
+@property (nonatomic, retain) NSString *userName;
 @property (nonatomic, retain) UIView *shade;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, retain) NSMutableDictionary *templateCells;

@@ -10,7 +10,7 @@
 
 @interface UVTextView : UITextView
 
-@property(nonatomic,retain) NSString* placeholder;
-@property(nonatomic,retain) UILabel* placeholderLabel;
+@property (nonatomic, retain) NSString *placeholder;
+@property (nonatomic, retain) UILabel *placeholderLabel;
 
 @end
