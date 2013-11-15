@@ -53,7 +53,7 @@
     if ([UVSession currentSession].config.ssoToken != nil || [UVSession currentSession].config.email != nil) {
         [UVRequestToken getRequestTokenWithDelegate:self];
     } else if ([UVAccessToken exists]) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
+        [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithExisting];
         [UVUser retrieveCurrentUser:self];
     } else {
         userDone = YES;
@@ -188,7 +188,6 @@
                                                 delegate:self
                                        cancelButtonTitle:nil
                                        otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil];
-    [_errorAlertView autorelease];
     [_errorAlertView show];
 }
 
@@ -196,8 +195,6 @@
     if (_errorAlertView) {
         _errorAlertView.delegate = nil;
     }
-    
-    [super dealloc];
 }
 
 

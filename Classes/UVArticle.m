@@ -73,11 +73,4 @@
     return self;
 }
 
-- (void)dealloc {
-    self.question = nil;
-    self.answerHTML = nil;
-    self.topicName = nil;
-    [super dealloc];
-}
-
 @end

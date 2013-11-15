@@ -42,10 +42,10 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         UVArticle *article = (UVArticle *)[articles objectAtIndex:indexPath.row];
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
+        UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil];
         [self.navigationController pushViewController:next animated:YES];
     } else {
-        [self presentModalViewController:[[UVContactViewController new] autorelease]];
+        [self presentModalViewController:[UVContactViewController new]];
     }
 }
 
@@ -67,7 +67,7 @@
 - (void)initCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UILabel *label = [[UILabel new] autorelease];
+    UILabel *label = [UILabel new];
     label.numberOfLines = 0;
     label.tag = LABEL;
     [self configureView:cell.contentView
@@ -109,12 +109,6 @@
         self.articles = [UVSession currentSession].articles;
         [tableView reloadData];
     }
-}
-
-- (void)dealloc {
-    self.topic = nil;
-    self.articles = nil;
-    [super dealloc];
 }
 
 @end

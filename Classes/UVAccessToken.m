@@ -79,9 +79,4 @@
     return self;
 }
 
-- (void)dealloc {
-    self.oauthToken = nil;
-    [super dealloc];
-}
-
 @end

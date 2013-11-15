@@ -157,19 +157,19 @@
         [_instantAnswerManager pushViewFor:[self.searchResults objectAtIndex:indexPath.row] parent:self];
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
-            [self presentModalViewController:[[UVContactViewController new] autorelease]];
+            [self presentModalViewController:[UVContactViewController new]];
         } else if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
-            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
+            UVSuggestionListViewController *next = [UVSuggestionListViewController new];
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
             UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
-            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
+            UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil];
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UVHelpTopic *topic = nil;
             if (indexPath.row < [[UVSession currentSession].topics count])
                 topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
-            UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+            UVHelpTopicViewController *next = [[UVHelpTopicViewController alloc] initWithTopic:topic];
             [self.navigationController pushViewController:next animated:YES];
         }
     }
@@ -197,7 +197,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     [_searchController setActive:YES animated:YES];
-    _searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    _searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [searchBar setShowsCancelButton:YES animated:YES];
     _filter = IA_FILTER_ALL;
     searchBar.showsScopeBar = YES;
@@ -245,15 +245,15 @@
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismissUserVoice)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismissUserVoice)];
 
     [self setupGroupedTableView];
 
     if ([UVSession currentSession].config.showKnowledgeBase) {
-        UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)] autorelease];
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
         searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"UserVoice", nil);
         searchBar.delegate = self;
@@ -263,7 +263,7 @@
         }
         self.tableView.tableHeaderView = searchBar;
 
-        self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
+        self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
         _searchController.delegate = self;
         _searchController.searchResultsDelegate = self;
         _searchController.searchResultsDataSource = self;
@@ -271,10 +271,10 @@
 
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
-        UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)] autorelease];
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)];
         footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)] autorelease];
+        UIView *logo = [[UIView alloc] initWithFrame:CGRectZero];
+        UILabel *poweredBy = [[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)];
         // tweak for retina
         if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
             poweredBy.frame = CGRectMake(0, 8, 0, 0);
@@ -285,24 +285,18 @@
         poweredBy.text = NSLocalizedStringFromTable(@"powered by", @"UserVoice", nil);
         [poweredBy sizeToFit];
         [logo addSubview:poweredBy];
-        UIImageView *image = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]] autorelease];
+        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]];
         image.frame = CGRectMake(poweredBy.bounds.size.width + 7, 0, image.bounds.size.width * 0.8, image.bounds.size.height * 0.8);
         [logo addSubview:image];
         logo.frame = CGRectMake(0, 0, image.frame.origin.x + image.frame.size.width, image.frame.size.height);
         logo.center = CGPointMake(footer.bounds.size.width / 2, footer.bounds.size.height - logo.bounds.size.height / 2 - 15);
         logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
-        [logo addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)] autorelease]];
+        [logo addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)]];
         [footer addSubview:logo];
         tableView.tableFooterView = footer;
     }
 
     [tableView reloadData];
-}
-
-- (void)dealloc {
-    self.searchController = nil;
-    self.instantAnswerManager = nil;
-    [super dealloc];
 }
 
 @end

@@ -60,8 +60,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
-    self.placeholderLabel = nil;
-    [super dealloc];
 }
 
 @end

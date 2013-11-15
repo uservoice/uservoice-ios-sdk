@@ -57,7 +57,7 @@
  * The HRResponseDelegate responsible for handling the success and failure of 
  * a request.
  */
-@property (nonatomic, readonly, assign) NSObject <HRResponseDelegate>*delegate;
+@property (nonatomic, readonly) NSObject <HRResponseDelegate>*delegate;
  
 /// The lenght of time in seconds before the request times out.
 /**

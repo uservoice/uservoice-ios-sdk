@@ -160,7 +160,7 @@
 
         NSDictionary *categoryDict = [self objectOrNilForDict:dict key:@"category"];
         if (categoryDict) {
-            self.category = [[[UVCategory alloc] initWithDictionary:categoryDict] autorelease];
+            self.category = [[UVCategory alloc] initWithDictionary:categoryDict];
         }
     }
     return self;
@@ -172,26 +172,6 @@
     } else {
         return self.responseUserName;
     }
-}
-
-- (void)dealloc {
-    self.title = nil;
-    self.abstract = nil;
-    self.text = nil;
-    self.status = nil;
-    self.statusHexColor = nil;
-    self.forumName = nil;
-    self.createdAt = nil;
-    self.updatedAt = nil;
-    self.closedAt = nil;
-    self.creatorName = nil;
-    self.responseText = nil;
-    self.responseCreatedAt = nil;
-    self.responseUserName = nil;
-    self.responseUserTitle = nil;
-    self.responseUserAvatarUrl = nil;
-    self.category = nil;
-    [super dealloc];
 }
 
 @end

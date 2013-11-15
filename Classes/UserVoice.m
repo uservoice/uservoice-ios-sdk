@@ -36,7 +36,7 @@
 + (void)presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController {
     [UVBabayaga track:VIEW_CHANNEL];
     [UVSession currentSession].isModal = YES;
-    UINavigationController *navigationController = [[[UVNavigationController alloc] init] autorelease];
+    UINavigationController *navigationController = [UVNavigationController new];
     [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = viewControllers;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -63,22 +63,22 @@
 }
 
 + (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"welcome"] autorelease];
+    UIViewController *viewController = [[UVRootViewController alloc] initWithViewToLoad:@"welcome"];
     [self presentUserVoiceController:viewController forParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_ticket"] autorelease];
+    UIViewController *viewController = [[UVRootViewController alloc] initWithViewToLoad:@"new_ticket"];
     [self presentUserVoiceController:viewController forParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_suggestion"] autorelease];
+    UIViewController *viewController = [[UVRootViewController alloc] initWithViewToLoad:@"new_suggestion"];
     [self presentUserVoiceController:viewController forParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"suggestions"] autorelease];
+    UIViewController *viewController = [[UVRootViewController alloc] initWithViewToLoad:@"suggestions"];
     [self presentUserVoiceController:viewController forParentViewController:parentViewController];
 }
 

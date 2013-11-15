@@ -23,7 +23,7 @@
 }
 
 - (void)loadView {
-    UIView *view = [[UIView new] autorelease];
+    UIView *view = [UIView new];
     view.backgroundColor = [UIColor whiteColor];
     view.frame = [self contentFrame];
     _instantAnswerManager = [UVInstantAnswerManager new];
@@ -33,7 +33,7 @@
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil);
 
-    UIView *title = [[UIView new] autorelease];
+    UIView *title = [UIView new];
     self.titleField = [self configureView:title label:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil) placeholder:nil];
     if (_initialText) {
         self.titleField.text = _initialText;
@@ -43,19 +43,19 @@
         self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
     }];
 
-    UIView *sep0 = [[UIView new] autorelease];
+    UIView *sep0 = [UIView new];
     sep0.backgroundColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.f];
 
-    self.textView = [[UVTextView new] autorelease];
+    self.textView = [UVTextView new];
     _textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
 
-    UIView *sep1 = [[UIView new] autorelease];
+    UIView *sep1 = [UIView new];
     sep1.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.f];
 
-    UIView *bg = [[UIView new] autorelease];
+    UIView *bg = [UIView new];
     bg.backgroundColor = [UIColor colorWithRed:0.937f green:0.937f blue:0.957f alpha:1.f];
 
-    UILabel *desc = [[UILabel new] autorelease];
+    UILabel *desc = [UILabel new];
     desc.backgroundColor = [UIColor clearColor];
     desc.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     desc.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
@@ -105,15 +105,15 @@
 
     self.view = view;
 
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismiss)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismiss)];
 
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
-                                                                               style:UIBarButtonItemStyleDone
-                                                                              target:self
-                                                                              action:@selector(next)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStyleDone
+                                                                             target:self
+                                                                             action:@selector(next)];
     self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
     [self registerForKeyboardNotifications];
     _didCreateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(didCreateSuggestion:)];
@@ -178,7 +178,7 @@
 }
 
 - (void)skipInstantAnswers {
-    UVDetailsFormViewController *next = [[UVDetailsFormViewController new] autorelease];
+    UVDetailsFormViewController *next = [UVDetailsFormViewController new];
     next.delegate = self;
     next.sendTitle = NSLocalizedStringFromTable(@"Post", @"UserVoice", nil);
     UVForum *forum = [UVSession currentSession].forum;
@@ -238,7 +238,7 @@
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:SUBMIT_IDEA];
     [self hideActivityIndicator];
-    UVSuccessViewController *next = [[UVSuccessViewController new] autorelease];
+    UVSuccessViewController *next = [UVSuccessViewController new];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);
     [self.navigationController pushViewController:next animated:YES];
@@ -249,21 +249,5 @@
     //                 completion:nil];
     _sending = NO;
 }
-
-
-- (void)dealloc {
-    self.instantAnswerManager = nil;
-    self.titleField = nil;
-    self.textView = nil;
-    self.keyboardConstraint = nil;
-    self.topConstraint = nil;
-    self.descConstraint = nil;
-    self.desc = nil;
-    self.initialText = nil;
-    [_didCreateCallback release];
-    [_didAuthenticateCallback release];
-    [super dealloc];
-}
-
 
 @end

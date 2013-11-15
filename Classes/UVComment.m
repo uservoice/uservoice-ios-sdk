@@ -69,12 +69,4 @@
     return self;
 }
 
-- (void)dealloc {
-    self.text = nil;
-    self.userName = nil;
-    self.avatarUrl = nil;
-    self.createdAt = nil;
-    [super dealloc];
-}
-
 @end

@@ -21,8 +21,7 @@
     if ([_searchText.lowercaseString isEqualToString:newText.lowercaseString]) {
         return;
     }
-    [_searchText release];
-    _searchText = [newText retain];
+    _searchText = newText;
     [self invalidateTimer];
     if (_searchText == nil || _searchText.length == 0) {
         self.instantAnswers = self.ideas = self.articles = [NSArray array];
@@ -77,7 +76,7 @@
 
 - (void)pushInstantAnswersViewForParent:(UIViewController *)parent articlesFirst:(BOOL)articlesFirst {
     if (_instantAnswers.count > 0) {
-        UVInstantAnswersViewController *next = [[UVInstantAnswersViewController new] autorelease];
+        UVInstantAnswersViewController *next = [UVInstantAnswersViewController new];
         next.instantAnswerManager = self;
         next.articlesFirst = articlesFirst;
         [parent.navigationController pushViewController:next animated:YES];
@@ -90,12 +89,12 @@
     [UVDeflection trackDeflection:@"show" deflector:instantAnswer];
     if ([instantAnswer isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)instantAnswer;
-        UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:_articleHelpfulPrompt returnMessage:_articleReturnMessage] autorelease];
+        UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:_articleHelpfulPrompt returnMessage:_articleReturnMessage];
         next.instantAnswers = YES;
         [parent.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)instantAnswer;
-        UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+        UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion];
         next.helpfulPrompt = _articleHelpfulPrompt;
         next.returnMessage = _articleReturnMessage;
         next.instantAnswers = YES;
@@ -111,14 +110,6 @@
 
 - (void)dealloc {
     [self invalidateTimer];
-    self.instantAnswers = nil;
-    self.ideas = nil;
-    self.articles = nil;
-    self.searchText = nil;
-    self.runningQuery = nil;
-    self.articleHelpfulPrompt = nil;
-    self.articleReturnMessage = nil;
-    [super dealloc];
 }
 
 @end

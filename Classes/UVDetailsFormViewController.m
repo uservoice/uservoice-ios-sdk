@@ -19,10 +19,10 @@
 
 - (void)loadView {
     [self setupGroupedTableView];
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(_sendTitle, @"UserVoice", nil)
-                                                                               style:UIBarButtonItemStyleDone
-                                                                              target:self
-                                                                              action:@selector(send)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(_sendTitle, @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStyleDone
+                                                                             target:self
+                                                                             action:@selector(send)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -64,7 +64,7 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *field = _fields[indexPath.row];
     if ([field[@"values"] count] > 0) {
-        UVValueSelectViewController *next = [[[UVValueSelectViewController alloc] initWithField:field valueDictionary:_selectedFieldValues] autorelease];
+        UVValueSelectViewController *next = [[UVValueSelectViewController alloc] initWithField:field valueDictionary:_selectedFieldValues];
         [self.navigationController pushViewController:next animated:YES];
         [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
@@ -77,13 +77,13 @@
 
 - (void)initCellForPredefinedField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UILabel *label = [[UILabel new] autorelease];
+    UILabel *label = [UILabel new];
     label.tag = LABEL;
     label.font = [UIFont systemFontOfSize:13];
     if (IOS7) {
         label.textColor = label.tintColor;
     }
-    UILabel *value = [[UILabel new] autorelease];
+    UILabel *value = [UILabel new];
     value.tag = VALUE;
     value.font = [UIFont systemFontOfSize:16];
     [self configureView:cell.contentView
@@ -106,13 +106,13 @@
 }
 
 - (void)initCellForFreeformField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *label = [[UILabel new] autorelease];
+    UILabel *label = [UILabel new];
     label.tag = LABEL;
     label.font = [UIFont systemFontOfSize:13];
     if (IOS7) {
         label.textColor = label.tintColor;
     }
-    UITextField *text = [[UITextField new] autorelease];
+    UITextField *text = [UITextField new];
     text.tag = TEXT;
     text.borderStyle = UITextBorderStyleNone;
     text.returnKeyType = UIReturnKeyDone;
@@ -150,15 +150,6 @@
 
 - (void)send {
     [_delegate sendWithEmail:_emailField.text name:_nameField.text fields:_selectedFieldValues];
-}
-
-- (void)dealloc {
-    self.emailField = nil;
-    self.nameField = nil;
-    self.fields = nil;
-    self.sendTitle = nil;
-    self.selectedFieldValues = nil;
-    [super dealloc];
 }
 
 @end

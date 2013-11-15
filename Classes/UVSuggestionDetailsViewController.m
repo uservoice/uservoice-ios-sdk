@@ -89,11 +89,11 @@
     [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
     if (instantAnswers) {
         [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
-        UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:_helpfulPrompt
-                                                                  delegate:self
-                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                    destructiveButtonTitle:nil
-                                                         otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil] autorelease];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_helpfulPrompt
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil];
         [actionSheet showInView:self.view];
     }
     [self updateSuggestion:theSuggestion];
@@ -155,20 +155,20 @@
 }
 
 - (void)initCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
+    UVImageView *avatar = [UVImageView new];
     avatar.tag = COMMENT_AVATAR_TAG;
 
-    UILabel *name = [[[UILabel alloc] init] autorelease];
+    UILabel *name = [UILabel new];
     name.tag = COMMENT_NAME_TAG;
     name.font = [UIFont boldSystemFontOfSize:13];
     name.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
 
-    UILabel *date = [[[UILabel alloc] init] autorelease];
+    UILabel *date = [UILabel new];
     date.tag = COMMENT_DATE_TAG;
     date.font = [UIFont systemFontOfSize:12];
     date.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
 
-    UILabel *text = [[[UILabel alloc] init] autorelease];
+    UILabel *text = [UILabel new];
     text.tag = COMMENT_TEXT_TAG;
     text.numberOfLines = 0;
     text.font = [UIFont systemFontOfSize:13];
@@ -206,30 +206,30 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundView = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-    UILabel *label = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
+    cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
     label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
-    label.textAlignment = UITextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentCenter;
     [cell addSubview:label];
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *category = [[UILabel new] autorelease];
+    UILabel *category = [UILabel new];
     category.font = [UIFont systemFontOfSize:13];
     category.text = suggestion.category.name;
     category.adjustsFontSizeToFitWidth = YES;
-    category.minimumFontSize = 10;
+    category.minimumScaleFactor = 0.5;
     category.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
 
-    UILabel *title = [[[UILabel alloc] init] autorelease];
+    UILabel *title = [UILabel new];
     title.font = [UIFont boldSystemFontOfSize:17];
     title.text = suggestion.title;
     title.numberOfLines = 0;
 
-    UVTruncatingLabel *desc = [[[UVTruncatingLabel alloc] init] autorelease];
+    UVTruncatingLabel *desc = [UVTruncatingLabel new];
     desc.font = [UIFont systemFontOfSize:14];
     desc.fullText = suggestion.text;
     desc.numberOfLines = 0;
@@ -256,36 +256,36 @@
 }
 
 - (void)initCellForResponse:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UIView *statusColor = [[[UIView alloc] init] autorelease];
+    UIView *statusColor = [UIView new];
     statusColor.backgroundColor = suggestion.statusColor;
 
-    UILabel *status = [[[UILabel alloc] init] autorelease]; 
+    UILabel *status = [UILabel new]; 
     status.font = [UIFont systemFontOfSize:12];
     status.text = suggestion.status.uppercaseString;
     status.textColor = suggestion.statusColor;
 
-    UILabel *date = [[[UILabel alloc] init] autorelease];
+    UILabel *date = [UILabel new];
     date.font = [UIFont systemFontOfSize:12];
     date.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     date.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
     
     if ([suggestion.responseText length] > 0) {
-        UVImageView *avatar = [[[UVImageView alloc] init] autorelease];
+        UVImageView *avatar = [UVImageView new];
         avatar.URL = suggestion.responseUserAvatarUrl;
 
-        UVTruncatingLabel *text = [[UVTruncatingLabel new] autorelease];
+        UVTruncatingLabel *text = [UVTruncatingLabel new];
         text.font = [UIFont systemFontOfSize:13];
         text.fullText = suggestion.responseText;
         text.numberOfLines = 0;
         text.delegate = self;
         text.tag = ADMIN_RESPONSE;
 
-        UILabel *admin = [[[UILabel alloc] init] autorelease];
+        UILabel *admin = [UILabel new];
         admin.font = [UIFont systemFontOfSize:12];
         admin.text = suggestion.responseUserWithTitle;
         admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
         admin.adjustsFontSizeToFitWidth = YES;
-        admin.minimumFontSize = 10;
+        admin.minimumScaleFactor = 0.5;
 
         NSArray *constraints = @[
             @"|-16-[statusColor(==10)]-[status]-|",
@@ -383,7 +383,7 @@
 }
 
 - (void)presentCommentController {
-    [self presentModalViewController:[[[UVCommentViewController alloc] initWithSuggestion:suggestion] autorelease]];
+    [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:suggestion]];
 }
 
 - (void)doSubscribe {
@@ -409,35 +409,35 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
+    self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
 
     CGFloat footerHeight = instantAnswers ? 46 : 66;
-    UITableView *table = [[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain] autorelease];
+    UITableView *table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     table.delegate = self;
     table.dataSource = self;
-    table.tableFooterView = [[UIView new] autorelease];
+    table.tableFooterView = [UIView new];
     table.contentInset = UIEdgeInsetsMake(0, 0, footerHeight, 0);
     table.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerHeight, 0);
     self.tableView = table;
 
-    UIView *footer = [[UIView new] autorelease];
+    UIView *footer = [UIView new];
     footer.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1.0];
-    UIView *border = [[UIView new] autorelease];
+    UIView *border = [UIView new];
     border.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
     if (instantAnswers) {
-        UILabel *people = [[UILabel new] autorelease];
+        UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:14];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
         self.subscriberCount = people;
 
-        UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
+        UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
 
-        UILabel *this = [[UILabel new] autorelease];
+        UILabel *this = [UILabel new];
         this.text = NSLocalizedStringFromTable(@"this idea", @"UserVoice", nil);
         this.font = people.font;
         this.textColor = people.textColor;
 
-        UIButton *want = [[UIButton new] autorelease];
+        UIButton *want = [UIButton new];
         [want setTitle:NSLocalizedStringFromTable(@"I want this", @"UserVoice", nil) forState:UIControlStateNormal];
         [want setTitleColor:want.tintColor forState:UIControlStateNormal];
         [want addTarget:self action:@selector(subscribe) forControlEvents:UIControlEventTouchUpInside];
@@ -451,23 +451,23 @@
                    subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this)
                 constraints:constraints];
     } else {
-        UILabel *want = [[UILabel new] autorelease];
+        UILabel *want = [UILabel new];
         want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
         want.font = [UIFont systemFontOfSize:16];
 
-        UILabel *people = [[UILabel new] autorelease];
+        UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:13];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
         self.subscriberCount = people;
 
-        UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
+        UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
 
-        UILabel *this = [[UILabel new] autorelease];
+        UILabel *this = [UILabel new];
         this.text = NSLocalizedStringFromTable(@"this", @"UserVoice", nil);
         this.font = people.font;
         this.textColor = people.textColor;
 
-        UISwitch *toggle = [[[UISwitch alloc] init] autorelease];
+        UISwitch *toggle = [UISwitch new];
         if (self.suggestion.subscribed) {
             toggle.on = YES;
         }
@@ -501,18 +501,8 @@
 }
 
 - (void)dealloc {
-    self.suggestion = nil;
-    self.comments = nil;
-    self.subscriberCount = nil;
-    self.helpfulPrompt = nil;
-    self.returnMessage = nil;
-    
     [_subscribeCallback invalidate];
-    [_subscribeCallback release];
     [_showCommentControllerCallback invalidate];
-    [_showCommentControllerCallback release];
-    
-    [super dealloc];
 }
 
 @end

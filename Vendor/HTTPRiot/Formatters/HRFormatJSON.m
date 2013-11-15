@@ -7,7 +7,6 @@
 //
 
 #import "HRFormatJSON.h"
-#import "UVJSON.h"
 #import "UVUtils.h"
 
 @implementation HRFormatJSON
@@ -20,25 +19,7 @@
 }
 
 + (id)decode:(NSData *)data error:(NSError **)error {
-    NSString *rawString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    // If we failed to decode the data using UTF8 attempt to use ASCII encoding.
-    if(rawString == nil && ([data length] > 0)) {
-        rawString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    }
-    
-    NSError *parseError = nil;
-    UVJSON *parser = [[UVJSON alloc] init];
-    id results = [parser objectWithString:rawString error:&parseError];
-    [parser release];
-    [rawString release];
-    
-    if(parseError && !results) {  
-        if(error != nil)      
-            *error = parseError;
-        return nil;
-    }
-    
-    return results;
+    return [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
 }
 
 + (NSString *)encode:(id)data error:(NSError **)error {

@@ -35,12 +35,4 @@
         return @"votes";
 }
 
-- (void)dealloc {
-    self.name = nil;
-    self.key = nil;
-    self.host = nil;
-    self.defaultSort = nil;
-    [super dealloc];
-}
-
 @end

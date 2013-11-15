@@ -62,14 +62,14 @@
 
 - (void)showActivityIndicator {
     if (!shade) {
-        self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+        self.shade = [[UIView alloc] initWithFrame:self.view.bounds];
         self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.shade.backgroundColor = [UIColor blackColor];
         self.shade.alpha = 0.5;
         [self.view addSubview:shade];
     }
     if (!activityIndicatorView) {
-        self.activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+        self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
         self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
         [self.view addSubview:activityIndicatorView];
@@ -118,11 +118,11 @@
 }
 
 - (void)alertError:(NSString *)message {
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
                                 message:message
                                delegate:nil
                       cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                      otherButtonTitles:nil] autorelease] show];
+                      otherButtonTitles:nil] show];
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -156,15 +156,15 @@
 - (void)initNavigationItem {
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
 
-    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:nil
-                                                                             action:nil] autorelease];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
 
-    self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(dismissUserVoice)] autorelease];
+    self.exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                       style:UIBarButtonItemStylePlain
+                                                      target:self
+                                                      action:@selector(dismissUserVoice)];
     if ([UVSession currentSession].isModal && firstController) {
         self.navigationItem.leftBarButtonItem = exitButton;
     }
@@ -233,7 +233,7 @@
                                   selectable:(BOOL)selectable {
     UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier];
         cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
 
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", identifier]);
@@ -320,7 +320,7 @@
 }
 
 - (void)presentModalViewController:(UIViewController *)viewController {
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    UINavigationController *navigationController = [UINavigationController new];
     [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = @[viewController];
     if (IPAD)
@@ -329,11 +329,11 @@
 }
 
 - (void)setupGroupedTableView {
-    self.tableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped] autorelease];
+    self.tableView = [[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped];
     self.tableView.delegate = (id<UITableViewDelegate>)self;
     self.tableView.dataSource = (id<UITableViewDataSource>)self;
     if (!IOS7) {
-        UIView *bg = [[UIView new] autorelease];
+        UIView *bg = [UIView new];
         bg.backgroundColor = [UVStyleSheet backgroundColor];
         self.tableView.backgroundView = bg;
     }
@@ -349,8 +349,6 @@
 }
 
 - (void)setUserName:(NSString *)theName {
-    [theName retain];
-    [userName release];
     userName = theName;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -364,13 +362,11 @@
     if (userName)
         return userName;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userName = [[prefs stringForKey:@"uv-user-name"] retain];
+    userName = [prefs stringForKey:@"uv-user-name"];
     return userName;
 }
 
 - (void)setUserEmail:(NSString *)theEmail {
-    [theEmail retain];
-    [userEmail release];
     userEmail = theEmail;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -384,7 +380,7 @@
     if (userEmail)
         return userEmail;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userEmail = [[prefs stringForKey:@"uv-user-email"] retain];
+    userEmail = [prefs stringForKey:@"uv-user-email"];
     return userEmail;
 }
 
@@ -392,7 +388,7 @@
     NSString *cacheKey = [NSString stringWithFormat:@"%@-%d", reuseIdentifier, (int)self.view.frame.size.width];
     UITableViewCell *cell = [templateCells objectForKey:cacheKey];
     if (!cell) {
-        cell = [[[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier];
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", reuseIdentifier]);
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
@@ -463,10 +459,10 @@
 }
 
 - (UITextField *)configureView:(UIView *)view label:(NSString *)labelText placeholder:(NSString *)placeholderText {
-    UITextField *field = [[UITextField new] autorelease];
+    UITextField *field = [UITextField new];
     field.placeholder = placeholderText;
     [field setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
-    UILabel *label = [[UILabel new] autorelease];
+    UILabel *label = [UILabel new];
     label.text = [NSString stringWithFormat:@"%@:", labelText];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor grayColor];
@@ -497,17 +493,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.tableView = nil;
-    self.exitButton = nil;
-    self.signinManager.delegate = nil;
-    self.signinManager = nil;
-    self.shade = nil;
-    self.activityIndicatorView = nil;
-    [userEmail release];
-    userEmail = nil;
-    [userName release];
-    userName = nil;
-    [super dealloc];
 }
 
 @end

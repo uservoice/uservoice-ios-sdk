@@ -52,16 +52,10 @@
 - (void)loadView {
     [super loadView];
     self.navigationItem.title = _field[@"name"];
-    UITableView *theTableView = [[[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStylePlain] autorelease];
+    UITableView *theTableView = [[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStylePlain];
     theTableView.dataSource = self;
     theTableView.delegate = self;
     self.view = theTableView;
-}
-
-- (void)dealloc {
-    self.field = nil;
-    self.valueDictionary = nil;
-    [super dealloc];
 }
 
 @end

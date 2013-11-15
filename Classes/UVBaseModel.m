@@ -20,7 +20,7 @@
 @implementation UVBaseModel
 
 + (void)initialize {
-    [self setDelegate:[[[UVResponseDelegate alloc] init] autorelease]];
+    [self setDelegate:[UVResponseDelegate new]];
 }
 
 + (NSURL *)siteURLWithHTTPS:(BOOL)https {
@@ -79,7 +79,6 @@
         [yReq prepareRequest];
         NSString *authHeader = [yReq buildAuthorizationHeaderValue];
         [headers setObject:authHeader forKey:@"Authorization"];
-        [yReq release];
     }
 
     return headers;
@@ -121,7 +120,7 @@
 }
 
 + (UVRequestContext *)requestContextWithTarget:(id)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
-    UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];
+    UVRequestContext *requestContext = [UVRequestContext new];
     requestContext.modelClass = self;
     requestContext.rootKey = rootKey;
     requestContext.context = context;
@@ -170,7 +169,7 @@
 }
 
 + (UVBaseModel *)modelForDictionary:(NSDictionary *)dict {
-    return [[[self alloc] initWithDictionary:dict] autorelease];
+    return [[self alloc] initWithDictionary:dict];
 }
 
 + (void)didReturnModel:(id)model context:(UVRequestContext *)context {
@@ -217,7 +216,7 @@
     @synchronized(self) {
         static NSDateFormatter* jsonDateFormatter = nil;
         if (!jsonDateFormatter) {
-            jsonDateFormatter = [[NSDateFormatter alloc] init];
+            jsonDateFormatter = [NSDateFormatter new];
             [jsonDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss zzzzz"];
         }
         date = [jsonDateFormatter dateFromString:str];
@@ -229,7 +228,7 @@
 - (NSArray *)arrayForJSONArray:(NSArray *)array withClass:(Class)klass {
     NSMutableArray *outArray = [NSMutableArray arrayWithCapacity:[array count]];
     for (NSDictionary *dict in array) {
-        [outArray addObject:[[[klass alloc] initWithDictionary:dict] autorelease]];
+        [outArray addObject:[[klass alloc] initWithDictionary:dict]];
     }
     return [NSArray arrayWithArray:outArray];
 }

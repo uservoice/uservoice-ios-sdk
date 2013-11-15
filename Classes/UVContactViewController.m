@@ -35,15 +35,15 @@
     _textView.placeholder = NSLocalizedStringFromTable(@"Give feedback or ask for help...", @"UserVoice", nil);
     _textView.delegate = self;
 
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismiss)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismiss)];
 
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
-                                                                               style:UIBarButtonItemStyleDone
-                                                                              target:self
-                                                                              action:@selector(next)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+                                                                              style:UIBarButtonItemStyleDone
+                                                                             target:self
+                                                                             action:@selector(next)];
     [self loadDraft];
     self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
     self.view = _textView;
@@ -75,7 +75,7 @@
 }
 
 - (void)skipInstantAnswers {
-    UVDetailsFormViewController *next = [[UVDetailsFormViewController new] autorelease];
+    UVDetailsFormViewController *next = [UVDetailsFormViewController new];
     next.delegate = self;
     next.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
     NSMutableArray *fields = [NSMutableArray array];
@@ -132,7 +132,7 @@
     [self hideActivityIndicator];
     [self clearDraft];
     [UVBabayaga track:SUBMIT_TICKET];
-    UVSuccessViewController *next = [[UVSuccessViewController new] autorelease];
+    UVSuccessViewController *next = [UVSuccessViewController new];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);
     [self.navigationController pushViewController:next animated:YES];
@@ -149,11 +149,11 @@
 }
 
 - (void)showSaveActionSheet {
-    UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:nil
-                                                              delegate:self
-                                                     cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
-                                                     otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil] autorelease];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                               destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
+                                                    otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
@@ -206,12 +206,6 @@
 - (void)dismiss {
     if ([self shouldLeaveViewController])
         [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)dealloc {
-    self.instantAnswerManager = nil;
-    self.loadedDraft = nil;
-    [super dealloc];
 }
 
 @end

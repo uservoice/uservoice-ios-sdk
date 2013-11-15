@@ -62,7 +62,6 @@
         NSDictionary *subdomainDict = [self objectOrNilForDict:dict key:@"subdomain"];
         UVSubdomain *theSubdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];
         self.subdomain = theSubdomain;
-        [theSubdomain release];
 
         self.defaultForumId = [[[self objectOrNilForDict:dict key:@"forum"] objectForKey:@"id"] intValue];
         self.customFields = [self arrayForJSONArray:[self objectOrNilForDict:dict key:@"custom_fields"] withClass:[UVCustomField class]];
@@ -72,14 +71,6 @@
         self.secret = [self objectOrNilForDict:dict key:@"secret"];
     }
     return self;
-}
-
-- (void)dealloc {
-    self.subdomain = nil;
-    self.customFields = nil;
-    self.key = nil;
-    self.secret = nil;
-    [super dealloc];
 }
 
 @end

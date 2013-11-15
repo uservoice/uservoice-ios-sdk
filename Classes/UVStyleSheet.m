@@ -15,14 +15,13 @@ static UVStyleSheet *styleSheet;
 
 + (UVStyleSheet *)styleSheet {
     if (styleSheet == nil) {
-        styleSheet = [[UVStyleSheet alloc] init];
+        styleSheet = [UVStyleSheet new];
     }
     return styleSheet;
 }
 
 + (void)setStyleSheet:(UVStyleSheet *)aStyleSheet {
-    [styleSheet release];
-    styleSheet = [aStyleSheet retain];
+    styleSheet = aStyleSheet;
 }
 
 + (UIColor *)primaryTextColor {

@@ -12,20 +12,20 @@
 
 - (void)loadView {
     [super loadView];
-    self.view = [[UIView new] autorelease];
+    self.view = [UIView new];
     self.view.frame = [self contentFrame];
     self.view.backgroundColor = [UIColor colorWithRed:0.26f green:0.31f blue:0.35f alpha:1.0f];
-    UILabel *title = [[UILabel new] autorelease];
+    UILabel *title = [UILabel new];
     title.text = _titleText;
     title.textColor = [UIColor whiteColor];
     title.font = [UIFont systemFontOfSize:26];
     title.textAlignment = NSTextAlignmentCenter;
-    UILabel *text = [[UILabel new] autorelease];
+    UILabel *text = [UILabel new];
     text.text = _text;
     text.textColor = [UIColor whiteColor];
     text.font = [UIFont systemFontOfSize:15];
     text.textAlignment = NSTextAlignmentCenter;
-    UIButton *button = [[UIButton new] autorelease];
+    UIButton *button = [UIButton new];
     button.layer.borderWidth = 1.0;
     button.layer.borderColor = [UIColor whiteColor].CGColor;
     button.layer.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.3f].CGColor;
@@ -41,12 +41,6 @@
 
 - (void)dismiss {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)dealloc {
-    self.titleText = nil;
-    self.text = nil;
-    [super dealloc];
 }
 
 @end

@@ -52,8 +52,7 @@ static NSInteger interactionIdentifier;
 
 + (void)setSearchText:(NSString *)query {
     if ([query isEqualToString:searchText]) return;
-    [searchText release];
-    searchText = [query retain];
+    searchText = query;
     interactionIdentifier = [self interactionIdentifier] + 1;
 }
 

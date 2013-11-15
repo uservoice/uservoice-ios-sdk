@@ -126,10 +126,4 @@
     return self;
 }
 
-- (void)dealloc {
-    self.name = nil;
-    self.email = nil;
-    [super dealloc];
-}
-
 @end

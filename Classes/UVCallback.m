@@ -34,9 +34,4 @@
     self.selector = nil;
 }
 
-- (void)dealloc {
-    [self invalidate];
-    [super dealloc];
-}
-
 @end

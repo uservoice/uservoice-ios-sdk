@@ -30,19 +30,19 @@
 @synthesize userTraits;
 
 + (UVConfig *)configWithSite:(NSString *)site {
-    return [[[UVConfig alloc] initWithSite:site andKey:nil andSecret:nil] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:nil andSecret:nil];
 }
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret {
-    return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret];
 }
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andSSOToken:(NSString *)token {
-    return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andSSOToken:token] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andSSOToken:token];
 }
 
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andEmail:(NSString *)email andDisplayName:(NSString *)displayName andGUID:(NSString *)guid {
-    return [[[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andEmail:email andDisplayName:displayName andGUID:guid] autorelease];
+    return [[UVConfig alloc] initWithSite:site andKey:key andSecret:secret andEmail:email andDisplayName:displayName andGUID:guid];
 }
 
 - (id)initWithSite:(NSString *)theSite andKey:(NSString *)theKey andSecret:(NSString *)theSecret {
@@ -131,17 +131,6 @@
         self.guid = theGuid;
     }
     return self;
-}
-
-- (void)dealloc {
-    self.site = nil;
-    self.key = nil;
-    self.site = nil;
-    self.ssoToken = nil;
-    self.email = nil;
-    self.displayName = nil;
-    self.guid = nil;
-    [super dealloc];
 }
 
 @end

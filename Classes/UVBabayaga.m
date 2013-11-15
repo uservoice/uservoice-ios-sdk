@@ -29,7 +29,7 @@
     static UVBabayaga *_instance;
     @synchronized(self) {
         if (!_instance) {
-            _instance = [[UVBabayaga alloc] init];
+            _instance = [UVBabayaga new];
         }
     }
     return _instance;
@@ -58,16 +58,15 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _queue = [[NSMutableArray alloc] init];
+        _queue = [NSMutableArray new];
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        _uvts = [[prefs stringForKey:@"uv-uvts"] retain];
+        _uvts = [prefs stringForKey:@"uv-uvts"];
     }
     return self;
 }
 
 - (void)setUvts:(NSString *)uvts {
-    [_uvts release];
-    _uvts = [uvts retain];
+    _uvts = uvts;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:_uvts forKey:@"uv-uvts"];
     [prefs synchronize];
@@ -85,8 +84,7 @@
     for (NSDictionary *dict in _queue) {
         [self track:[dict objectForKey:@"event"] props:[dict objectForKey:@"props"]];
     }
-    [_queue release];
-    _queue = [[NSMutableArray alloc] init];
+    _queue = [NSMutableArray new];
 }
 
 - (void)sendTrack:(NSString *)event props:(NSDictionary *)props {
@@ -117,7 +115,7 @@
         kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
         @"params" : params
     };
-    UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];
+    UVRequestContext *requestContext = [UVRequestContext new];
     [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:requestContext];
 }
 

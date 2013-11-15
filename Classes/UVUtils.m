@@ -7,7 +7,6 @@
 //
 
 #import "UVUtils.h"
-#import "UVJSON.h"
 #import "UVStyleSheet.h"
 
 @implementation UVUtils
@@ -15,7 +14,7 @@
 + (NSString *)toQueryString:(NSDictionary *)dict {
     if (dict == nil)
         return nil;
-    NSMutableArray *pairs = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *pairs = [NSMutableArray new];
     for (id key in [dict allKeys]) {
         id value = [dict objectForKey:key];
         if ([value isKindOfClass:[NSArray class]]) {
@@ -32,22 +31,14 @@
 + (NSString *)URLEncode:(NSString *)str {
     if (str == nil)
         return nil;
-    NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                           (CFStringRef)str,
-                                                                           NULL, CFSTR("!*'();:@&=+$,/?%#[]"),
-                                                                           kCFStringEncodingUTF8);
-    [result autorelease];
+    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8);
     return result;
 }
 
 + (NSString *)URLDecode:(NSString *)str {
     if (str == nil)
         return nil;
-    NSString *result = (NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-                                                                                           (CFStringRef)str,
-                                                                                           CFSTR(""),
-                                                                                           kCFStringEncodingUTF8);
-    [result autorelease];
+    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR(""), kCFStringEncodingUTF8);
     return result;
 }
 
@@ -70,14 +61,13 @@
 }
 
 + (NSString *)encodeJSON:(id)obj {
-    if (obj == nil)
+    NSError *error;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
+    if (error) {
+        NSLog(@"+encodeJSON failed. Error: %@", error);
         return nil;
-    UVJsonWriter *jsonWriter = [UVJsonWriter new];
-    NSString *json = [jsonWriter stringWithObject:obj];
-    if (!json)
-        NSLog(@"+encodeJSON failed. Error trace is: %@", [jsonWriter errorTrace]);
-    [jsonWriter release];
-    return json;
+    }
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 + (UIColor *)parseHexColor:(NSString *)str {
@@ -197,7 +187,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		else characters[length++] = '=';
 	}
 	
-	NSString *str = [[[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
+	NSString *str = [[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES];
     return [str stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 }
 
@@ -257,7 +247,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
-    NSMutableDictionary *navbarTitleTextAttributes = [[[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes] autorelease];
+    NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes];
     if ([UVStyleSheet navigationBarTextColor]) {
         [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextColor] forKey:UITextAttributeTextColor];
     }
@@ -271,7 +261,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 }
 
 + (NSString *)formatInteger:(NSInteger)number {
-    NSNumberFormatter *fmt = [[NSNumberFormatter new] autorelease];
+    NSNumberFormatter *fmt = [NSNumberFormatter new];
     [fmt setNumberStyle:NSNumberFormatterDecimalStyle];
     [fmt setMaximumFractionDigits:0];
     return [fmt stringFromNumber:@(number)];

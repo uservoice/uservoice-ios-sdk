@@ -87,14 +87,6 @@
 		D2620F1111B597290053EA4C /* HRRestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EC311B597290053EA4C /* HRRestModel.m */; };
 		D2620F1211B597290053EA4C /* HTTPRiot.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC411B597290053EA4C /* HTTPRiot.h */; };
 		D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */; };
-		D2620F2011B597290053EA4C /* UVJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED711B597290053EA4C /* UVJSON.h */; };
-		D2620F2111B597290053EA4C /* UVJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620ED811B597290053EA4C /* UVJSON.m */; };
-		D2620F2211B597290053EA4C /* UVJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620ED911B597290053EA4C /* UVJsonBase.h */; };
-		D2620F2311B597290053EA4C /* UVJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDA11B597290053EA4C /* UVJsonBase.m */; };
-		D2620F2411B597290053EA4C /* UVJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDB11B597290053EA4C /* UVJsonParser.h */; };
-		D2620F2511B597290053EA4C /* UVJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDC11B597290053EA4C /* UVJsonParser.m */; };
-		D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EDD11B597290053EA4C /* UVJsonWriter.h */; };
-		D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EDE11B597290053EA4C /* UVJsonWriter.m */; };
 		D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
 		D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BEEBB81367436D00EBC307 /* UVTicket.m */; };
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
@@ -235,15 +227,6 @@
 		D2620EC311B597290053EA4C /* HRRestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRestModel.m; sourceTree = "<group>"; };
 		D2620EC411B597290053EA4C /* HTTPRiot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPRiot.h; sourceTree = "<group>"; };
 		D2620EC511B597290053EA4C /* HTTPRiot_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPRiot_Prefix.pch; sourceTree = "<group>"; };
-		D2620ED111B597290053EA4C /* CREDITS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS; sourceTree = "<group>"; };
-		D2620ED711B597290053EA4C /* UVJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJSON.h; sourceTree = "<group>"; };
-		D2620ED811B597290053EA4C /* UVJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJSON.m; sourceTree = "<group>"; };
-		D2620ED911B597290053EA4C /* UVJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonBase.h; sourceTree = "<group>"; };
-		D2620EDA11B597290053EA4C /* UVJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonBase.m; sourceTree = "<group>"; };
-		D2620EDB11B597290053EA4C /* UVJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonParser.h; sourceTree = "<group>"; };
-		D2620EDC11B597290053EA4C /* UVJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonParser.m; sourceTree = "<group>"; };
-		D2620EDD11B597290053EA4C /* UVJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVJsonWriter.h; sourceTree = "<group>"; };
-		D2620EDE11B597290053EA4C /* UVJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVJsonWriter.m; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libUserVoice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUserVoice.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2BEEBB71367436D00EBC307 /* UVTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTicket.h; sourceTree = "<group>"; };
 		D2BEEBB81367436D00EBC307 /* UVTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTicket.m; sourceTree = "<group>"; };
@@ -494,7 +477,6 @@
 			isa = PBXGroup;
 			children = (
 				D2620EAD11B597290053EA4C /* HTTPRiot */,
-				D2620ED011B597290053EA4C /* JSON */,
 				AC312518109231D800000D5F /* YOAuth */,
 			);
 			path = Vendor;
@@ -614,23 +596,6 @@
 			path = Formatters;
 			sourceTree = "<group>";
 		};
-		D2620ED011B597290053EA4C /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				D2620ED111B597290053EA4C /* CREDITS */,
-				D2620ED711B597290053EA4C /* UVJSON.h */,
-				D2620ED811B597290053EA4C /* UVJSON.m */,
-				D2620ED911B597290053EA4C /* UVJsonBase.h */,
-				D2620EDA11B597290053EA4C /* UVJsonBase.m */,
-				D2620EDB11B597290053EA4C /* UVJsonParser.h */,
-				D2620EDC11B597290053EA4C /* UVJsonParser.m */,
-				D2620EDD11B597290053EA4C /* UVJsonWriter.h */,
-				D2620EDE11B597290053EA4C /* UVJsonWriter.m */,
-			);
-			name = JSON;
-			path = HTTPRiot/Vendor/JSON;
-			sourceTree = "<group>";
-		};
 		D96CF04E17CD1BA10055B619 /* Metrics */ = {
 			isa = PBXGroup;
 			children = (
@@ -731,10 +696,6 @@
 				D2620F1011B597290053EA4C /* HRRestModel.h in Headers */,
 				D2620F1211B597290053EA4C /* HTTPRiot.h in Headers */,
 				D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */,
-				D2620F2011B597290053EA4C /* UVJSON.h in Headers */,
-				D2620F2211B597290053EA4C /* UVJsonBase.h in Headers */,
-				D2620F2411B597290053EA4C /* UVJsonParser.h in Headers */,
-				D2620F2611B597290053EA4C /* UVJsonWriter.h in Headers */,
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextView.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
@@ -858,11 +819,7 @@
 				D2620F0C11B597290053EA4C /* HROperationQueue.m in Sources */,
 				D2620F0E11B597290053EA4C /* HRRequestOperation.m in Sources */,
 				D2620F1111B597290053EA4C /* HRRestModel.m in Sources */,
-				D2620F2111B597290053EA4C /* UVJSON.m in Sources */,
-				D2620F2311B597290053EA4C /* UVJsonBase.m in Sources */,
-				D2620F2511B597290053EA4C /* UVJsonParser.m in Sources */,
 				D96CF04D17CD02480055B619 /* UVBabayaga.m in Sources */,
-				D2620F2711B597290053EA4C /* UVJsonWriter.m in Sources */,
 				D24BDE6311DAE3FA00B26012 /* UVImageView.m in Sources */,
 				D24BE0A011DB1B7C00B26012 /* UVTextView.m in Sources */,
 				D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */,
@@ -949,6 +906,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
@@ -977,7 +935,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = Include;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",
@@ -998,6 +956,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
@@ -1023,7 +982,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = Include;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",
@@ -1136,6 +1095,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
@@ -1161,7 +1121,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = Include;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Vendor/HTTPRiot/Vendor/gh-unit-iphone\"",

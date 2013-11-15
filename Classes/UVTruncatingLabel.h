@@ -11,14 +11,14 @@
 @interface UVTruncatingLabel : UVCalculatingLabel {
     NSString *fullText;
     UILabel *moreLabel;
-    id delegate;
+    __weak id delegate;
     BOOL expanded;
     CGFloat lastWidth;
 }
 
 @property (nonatomic, retain) NSString *fullText;
 @property (nonatomic, retain) UILabel *moreLabel;
-@property (assign) id delegate;
+@property (nonatomic, weak) id delegate;
 
 - (void)expand;
 

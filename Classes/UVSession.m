@@ -36,7 +36,7 @@
     static UVSession *currentSession;
     @synchronized(self) {
         if (!currentSession) {
-            currentSession = [[UVSession alloc] init];
+            currentSession = [UVSession new];
         }
     }
 
@@ -64,8 +64,6 @@
 }
 
 - (void)setUser:(UVUser *)newUser {
-    [newUser retain];
-    [user release];
     user = newUser;
     if (user && externalIds) {
         for (NSString *scope in externalIds) {
@@ -76,8 +74,7 @@
 }
 
 - (void)setClientConfig:(UVClientConfig *)newConfig {
-    [clientConfig release];
-    clientConfig = [newConfig retain];
+    clientConfig = newConfig;
     [UVBabayaga flush];
 }
 
@@ -94,9 +91,7 @@
 // This is used when dismissing UV so that everything gets reloaded
 - (void)clear {
     self.requestToken = nil;
-    [user release];
     user = nil;
-    [clientConfig release];
     clientConfig = nil;
 }
 

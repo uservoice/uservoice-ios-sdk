@@ -167,7 +167,7 @@ creating a custom stylesheet.
 
     @end
 
-    [UVStyleSheet setStyleSheet:[[MyStyleSheet alloc] init]];
+    [UVStyleSheet setStyleSheet:[MyStyleSheet new]];
 ```
 
 ### User Language

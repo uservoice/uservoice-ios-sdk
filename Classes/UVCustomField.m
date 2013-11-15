@@ -39,10 +39,4 @@
     return required;
 }
 
-- (void)dealloc {
-    self.name = nil;
-    self.values = nil;
-    [super dealloc];
-}
-
 @end

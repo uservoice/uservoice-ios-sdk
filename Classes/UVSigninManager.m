@@ -22,7 +22,7 @@
 @synthesize alertView;
 
 + (UVSigninManager *)manager {
-    return [[[self alloc] init] autorelease];
+    return [self new];
 }
 
 - (void)showEmailAlertView {
@@ -30,7 +30,7 @@
     
     state = STATE_EMAIL;
 
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [UIAlertView new];
     alertView.title = NSLocalizedStringFromTable(@"Enter your email", @"UserVoice", nil);
     alertView.delegate = self;
     if ([alertView respondsToSelector:@selector(setAlertViewStyle:)])
@@ -55,7 +55,7 @@
     
     state = STATE_PASSWORD;
     
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [UIAlertView new];
     alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Enter UserVoice password for %@", @"UserVoice", nil), email];
     alertView.delegate = self;
     
@@ -77,7 +77,7 @@
     
     state = STATE_FAILED;
     
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [UIAlertView new];
     if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
         alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in.", @"UserVoice", @"shorter version for landscpae");
     } else {
@@ -100,10 +100,7 @@
         if (storedEmail && [storedEmail length] > 0) {
             [self signInWithEmail:storedEmail name:storedName callback:callback];
         } else {
-            if (_callback) {
-                [_callback release];
-            }
-            _callback = [callback retain];
+            _callback = callback;
             [self showEmailAlertView];
         }
     }
@@ -116,10 +113,7 @@
         state = STATE_EMAIL;
         self.email = theEmail;
         self.name = theName;
-        if (_callback) {
-            [_callback release];
-        }
-        _callback = [callback retain];
+        _callback = callback;
         [UVUser discoverWithEmail:email delegate:self];
     }
 }
@@ -133,7 +127,6 @@
 - (void)invokeDidSignIn {
     if (_callback) {
         [_callback invokeCallback:[self user]];
-        [_callback release];
         _callback = nil;
     }
 
@@ -177,7 +170,7 @@
 - (void)didSendForgotPassword:(id)obj {
     [self clearAlertViewDelegate];
 
-    self.alertView = [[[UIAlertView alloc] init] autorelease];
+    self.alertView = [UIAlertView new];
     alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to %@", @"UserVoice", nil), email];
     [alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
     [alertView show];
@@ -246,13 +239,7 @@
 }
 
 - (void)dealloc {
-    self.email = nil;
-    self.name = nil;
-
     [self clearAlertViewDelegate];
-    self.alertView = nil;
-
-    [super dealloc];
 }
 
 @end

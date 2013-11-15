@@ -99,19 +99,19 @@
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UIImageView *heart = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]] autorelease];
-    UILabel *subs = [[[UILabel alloc] init] autorelease];
+    UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
+    UILabel *subs = [UILabel new];
     subs.font = [UIFont systemFontOfSize:14];
     subs.textColor = [UIColor grayColor];
     subs.tag = SUBSCRIBER_COUNT;
-    UILabel *title = [[[UILabel alloc] init] autorelease];
+    UILabel *title = [UILabel new];
     title.numberOfLines = 0;
     title.tag = TITLE;
     title.font = [UIFont systemFontOfSize:17];
-    UILabel *status = [[[UILabel alloc] init] autorelease];
+    UILabel *status = [UILabel new];
     status.font = [UIFont systemFontOfSize:11];
     status.tag = STATUS;
-    UIView *statusColor = [[[UIView alloc] init] autorelease];
+    UIView *statusColor = [UIView new];
     statusColor.tag = STATUS_COLOR;
     CALayer *layer = [CALayer layer];
     layer.frame = CGRectMake(0, 0, 9, 9);
@@ -144,11 +144,11 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UILabel *label = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
+    UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
     label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont systemFontOfSize:16];
-    label.textAlignment = UITextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentCenter;
     [cell addSubview:label];
 }
 
@@ -215,12 +215,12 @@
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
-    UVSuggestionDetailsViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion] autorelease];
+    UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion];
     [self.navigationController pushViewController:next animated:YES];
 }
 
 - (void)composeButtonTapped {
-    UVPostIdeaViewController *next = [[UVPostIdeaViewController new] autorelease];
+    UVPostIdeaViewController *next = [UVPostIdeaViewController new];
     next.initialText = self.searchController.searchBar.text;
     [self presentModalViewController:next];
 }
@@ -263,38 +263,38 @@
     [UVBabayaga track:VIEW_FORUM id:_forum.forumId];
     [self setupGroupedTableView];
 
-    UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)] autorelease];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), _forum.name];
     searchBar.delegate = self;
 
-    self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
+    self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
     searchController.delegate = self;
     searchController.searchResultsDataSource = self;
     searchController.searchResultsDelegate = self;
     self.tableView.tableHeaderView = searchBar;
 
     if ([UVSession currentSession].config.showPostIdea) {
-        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
-                                                                                                target:self
-                                                                                                action:@selector(composeButtonTapped)] autorelease];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                                               target:self
+                                                                                               action:@selector(composeButtonTapped)];
         if ([self.navigationItem.rightBarButtonItem respondsToSelector:@selector(setTintColor:)])
             self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
     }
 
     if ([UVSession currentSession].isModal && firstController) {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(dismissUserVoice)] autorelease];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
+                                                                                action:@selector(dismissUserVoice)];
     }
 }
 
 - (void)initNavigationItem {
     self.navigationItem.title = self.forum.name;
-    self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(dismissUserVoice)] autorelease];
+    self.exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                       style:UIBarButtonItemStylePlain
+                                                      target:self
+                                                      action:@selector(dismissUserVoice)];
     if ([UVSession currentSession].isModal && firstController) {
         self.navigationItem.leftBarButtonItem = exitButton;
     }
@@ -318,17 +318,6 @@
         }
     }
     [self.tableView reloadData];
-}
-
-- (void)dealloc {
-    self.forum = nil;
-    self.suggestions = nil;
-    self.searchResults = nil;
-    self.searchController = nil;
-    self.searchPattern = nil;
-    [_templateCell release];
-    _templateCell = nil;
-    [super dealloc];
 }
 
 @end

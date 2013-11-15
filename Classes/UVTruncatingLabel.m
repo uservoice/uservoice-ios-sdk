@@ -18,8 +18,8 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
-        [self addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandAndNotify)] autorelease]];
-        self.moreLabel = [[[UILabel alloc] init] autorelease];
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandAndNotify)]];
+        self.moreLabel = [UILabel new];
         moreLabel.text = NSLocalizedStringFromTable(@"more", @"UserVoice", nil);
         moreLabel.font = [UIFont systemFontOfSize:12];
         moreLabel.backgroundColor = [UIColor clearColor];
@@ -37,8 +37,7 @@
 }
 
 - (void)setFullText:(NSString *)theText {
-    [fullText release];
-    fullText = [theText retain];
+    fullText = theText;
     [self update];
 }
 
@@ -91,12 +90,6 @@
 - (void)expand {
     expanded = YES;
     [self update];
-}
-
-- (void)dealloc {
-    self.fullText = nil;
-    self.moreLabel = nil;
-    [super dealloc];
 }
 
 @end
