@@ -8,23 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UVConfig : NSObject {
-    NSString *site;
-    NSString *key;
-    NSString *secret;
-    NSString *ssoToken;
-    NSString *displayName;
-    NSString *email;
-    NSString *guid;
-    NSString *extraTicketInfo;
-    NSDictionary *userTraits;
-    NSInteger topicId;
-    NSInteger forumId;
-    BOOL showForum;
-    BOOL showPostIdea;
-    BOOL showContactUs;
-    BOOL showKnowledgeBase;
-}
+@interface UVConfig : NSObject
 
 + (UVConfig *)configWithSite:(NSString *)site;
 

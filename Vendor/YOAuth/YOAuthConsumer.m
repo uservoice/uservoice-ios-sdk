@@ -13,26 +13,20 @@
 
 @implementation YOAuthConsumer
 
-@synthesize key;
-@synthesize secret;
-
 #pragma mark init
 
-+ (YOAuthConsumer *)consumerWithKey:(NSString *)aKey andSecret:(NSString *)aSecret
-{
-	YOAuthConsumer *consumer = [[YOAuthConsumer alloc] initWithKey:aKey andSecret:aSecret];
-	
-	return consumer;
++ (YOAuthConsumer *)consumerWithKey:(NSString *)aKey andSecret:(NSString *)aSecret {
+    YOAuthConsumer *consumer = [[YOAuthConsumer alloc] initWithKey:aKey andSecret:aSecret];
+    return consumer;
 }
 
-- (id)initWithKey:(NSString *)aKey andSecret:(NSString *)aSecret
-{
-	if(self = [super init]) {
-		[self setKey:aKey];
-		[self setSecret:aSecret];
-	}
-	
-	return self;
+- (id)initWithKey:(NSString *)aKey andSecret:(NSString *)aSecret {
+    if ((self = [super init])) {
+        [self setKey:aKey];
+        [self setSecret:aSecret];
+    }
+
+    return self;
 }
 
 @end

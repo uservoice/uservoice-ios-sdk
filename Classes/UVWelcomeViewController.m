@@ -163,7 +163,8 @@
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
             UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
-            UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil];
+            UVArticleViewController *next = [UVArticleViewController new];
+            next.article = article;
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UVHelpTopic *topic = nil;
@@ -261,9 +262,9 @@
         if ([UVSession currentSession].config.showForum) {
             searchBar.scopeButtonTitles = @[NSLocalizedStringFromTable(@"All", @"UserVoice", nil), NSLocalizedStringFromTable(@"Articles", @"UserVoice", nil), NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil)];
         }
-        self.tableView.tableHeaderView = searchBar;
+        _tableView.tableHeaderView = searchBar;
 
-        self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+        _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
         _searchController.delegate = self;
         _searchController.searchResultsDelegate = self;
         _searchController.searchResultsDataSource = self;
@@ -271,7 +272,7 @@
 
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)];
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _tableView.bounds.size.width, 50)];
         footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         UIView *logo = [[UIView alloc] initWithFrame:CGRectZero];
         UILabel *poweredBy = [[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)];
@@ -293,10 +294,10 @@
         logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
         [logo addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)]];
         [footer addSubview:logo];
-        tableView.tableFooterView = footer;
+        _tableView.tableFooterView = footer;
     }
 
-    [tableView reloadData];
+    [_tableView reloadData];
 }
 
 @end

@@ -23,25 +23,15 @@
 
 @implementation UVRootViewController
 
-@synthesize viewToLoad;
-@synthesize loader;
-
-- (id)init {
-    if (self = [super init]) {
-        self.viewToLoad = @"welcome";
-    }
-    return self;
-}
-
 - (id)initWithViewToLoad:(NSString *)theViewToLoad {
     if (self = [super init]) {
-        self.viewToLoad = theViewToLoad;
+        _viewToLoad = theViewToLoad;
     }
     return self;
 }
 
 - (void)dismissUserVoice {
-    loader.dismissed = YES;
+    _loader.dismissed = YES;
     [super dismissUserVoice];
 }
 
@@ -53,13 +43,13 @@
         transition.type = kCATransitionFade;
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         UVBaseViewController *next = nil;
-        if ([self.viewToLoad isEqualToString:@"welcome"])
+        if ([_viewToLoad isEqualToString:@"welcome"])
             next = [UVWelcomeViewController new];
-        else if ([self.viewToLoad isEqualToString:@"suggestions"])
+        else if ([_viewToLoad isEqualToString:@"suggestions"])
             next = [UVSuggestionListViewController new];
-        else if ([self.viewToLoad isEqualToString:@"new_suggestion"])
+        else if ([_viewToLoad isEqualToString:@"new_suggestion"])
             next = [UVPostIdeaViewController new];
-        else if ([self.viewToLoad isEqualToString:@"new_ticket"])
+        else if ([_viewToLoad isEqualToString:@"new_ticket"])
             next = [UVContactViewController new];
 
         next.firstController = YES;
@@ -107,7 +97,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.loader = [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
+    _loader = [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
 }
 
 @end

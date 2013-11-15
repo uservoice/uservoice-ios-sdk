@@ -14,39 +14,12 @@
 @class UVCategory;
 @class UVUser;
 
-@interface UVSuggestion : UVBaseModel {
-    NSInteger suggestionId;
-    NSInteger forumId;
-    NSInteger commentsCount;
-    NSInteger subscriberCount;
-    NSString *title;
-    NSString *abstract;
-    NSString *text;
-    NSString *status;
-    NSString *statusHexColor;
-    NSString *forumName;
+@interface UVSuggestion : UVBaseModel
 
-    NSDate *createdAt;
-    NSDate *updatedAt;
-    NSDate *closedAt;
-
-    NSString *creatorName;
-    NSInteger creatorId;
-    NSString *responseText;
-    NSString *responseUserName;
-    NSString *responseUserTitle;
-    NSString *responseUserAvatarUrl;
-    NSInteger responseUserId;
-    NSDate *responseCreatedAt;
-
-    UVCategory *category;
-    BOOL subscribed;
-}
-
-@property (assign) NSInteger suggestionId;
-@property (assign) NSInteger forumId;
-@property (assign) NSInteger commentsCount;
-@property (assign) NSInteger subscriberCount;
+@property (nonatomic, assign) NSInteger suggestionId;
+@property (nonatomic, assign) NSInteger forumId;
+@property (nonatomic, assign) NSInteger commentsCount;
+@property (nonatomic, assign) NSInteger subscriberCount;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *abstract;
 @property (nonatomic, retain) NSString *text;
@@ -57,17 +30,17 @@
 @property (nonatomic, retain) NSDate *updatedAt;
 @property (nonatomic, retain) NSDate *closedAt;
 @property (nonatomic, retain) NSString *creatorName;
-@property (assign) NSInteger creatorId;
+@property (nonatomic, assign) NSInteger creatorId;
 @property (nonatomic, retain) NSString *responseText;
 @property (nonatomic, retain) NSString *responseUserName;
 @property (nonatomic, retain) NSString *responseUserAvatarUrl;
 @property (nonatomic, retain) NSString *responseUserTitle;
 @property (nonatomic, retain) NSDate *responseCreatedAt;
-@property (assign) NSInteger responseUserId;
+@property (nonatomic, assign) NSInteger responseUserId;
 @property (nonatomic, retain) UVCategory *category;
 @property (nonatomic, readonly) UIColor *statusColor;
 @property (nonatomic, readonly) NSString *categoryString;
-@property (assign) BOOL subscribed;
+@property (nonatomic, assign) BOOL subscribed;
 
 // Retrieves a page (10 items) of suggestions.
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate;

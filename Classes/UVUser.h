@@ -13,13 +13,9 @@
 
 @protocol UVUserDelegate;
 
-@interface UVUser : UVBaseModel {
-    NSInteger userId;
-    NSString *name;
-    NSString *email;
-}
+@interface UVUser : UVBaseModel
 
-@property (assign) NSInteger userId;
+@property (nonatomic, assign) NSInteger userId;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *email;
 

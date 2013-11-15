@@ -10,10 +10,4 @@
 
 @implementation UVRequestContext
 
-@synthesize modelClass;
-@synthesize statusCode;
-@synthesize context;
-@synthesize callback;
-@synthesize rootKey;
-
 @end

@@ -88,8 +88,10 @@
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent {
     [UVDeflection trackDeflection:@"show" deflector:instantAnswer];
     if ([instantAnswer isMemberOfClass:[UVArticle class]]) {
-        UVArticle *article = (UVArticle *)instantAnswer;
-        UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:_articleHelpfulPrompt returnMessage:_articleReturnMessage];
+        UVArticleViewController *next = [UVArticleViewController new];
+        next.article = (UVArticle *)instantAnswer;
+        next.helpfulPrompt = _articleHelpfulPrompt;
+        next.returnMessage = _articleReturnMessage;
         next.instantAnswers = YES;
         [parent.navigationController pushViewController:next animated:YES];
     } else {

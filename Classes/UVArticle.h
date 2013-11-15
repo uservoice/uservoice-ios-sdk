@@ -10,11 +10,7 @@
 
 @class UVHelpTopic;
 
-@interface UVArticle : UVBaseModel {
-    NSString *question;
-    NSString *answerHTML;
-    NSInteger articleId;
-}
+@interface UVArticle : UVBaseModel
 
 + getInstantAnswers:(NSString *)query delegate:(id)delegate;
 + (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate;
@@ -23,7 +19,7 @@
 @property (nonatomic, retain) NSString *topicName;
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answerHTML;
-@property (assign) NSInteger articleId;
+@property (nonatomic, assign) NSInteger articleId;
 
 - (id)initWithDictionary:(NSDictionary *)dict;
 

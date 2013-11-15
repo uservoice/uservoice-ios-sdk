@@ -16,12 +16,9 @@
 
 @implementation UVCommentViewController
 
-@synthesize suggestion;
-@synthesize textView;
-
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
     if ((self = [super init])) {
-        self.suggestion = theSuggestion;
+        _suggestion = theSuggestion;
     }
     return self;
 }
@@ -31,19 +28,19 @@
 }
 
 - (void)commentButtonTapped {
-    if (textView.text.length == 0) {
+    if (_textView.text.length == 0) {
         [self dismiss];
     } else {
         [self disableSubmitButton];
         [self showActivityIndicator];
-        [UVComment createWithSuggestion:suggestion text:textView.text delegate:self];
+        [UVComment createWithSuggestion:_suggestion text:_textView.text delegate:self];
     }
 }
 
 - (void)didCreateComment:(UVComment *)comment {
     [self hideActivityIndicator];
-    [UVBabayaga track:COMMENT_IDEA id:self.suggestion.suggestionId];
-    self.suggestion.commentsCount += 1;
+    [UVBabayaga track:COMMENT_IDEA id:_suggestion.suggestionId];
+    _suggestion.commentsCount += 1;
     UINavigationController *navController = (UINavigationController *)self.presentingViewController;
     UVSuggestionDetailsViewController *previous = (UVSuggestionDetailsViewController *)[navController.viewControllers lastObject];
     [previous reloadComments];
@@ -52,14 +49,14 @@
 
 - (void)loadView {
     [super loadView];
-    self.navigationItem.title = suggestion.title;
+    self.navigationItem.title = _suggestion.title;
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
 
-    self.textView = [[UVTextView alloc] initWithFrame:self.view.bounds];
-    self.textView.placeholder = NSLocalizedStringFromTable(@"Write a comment...", @"UserVoice", nil);
-    self.textView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:textView];
+    _textView = [[UVTextView alloc] initWithFrame:self.view.bounds];
+    _textView.placeholder = NSLocalizedStringFromTable(@"Write a comment...", @"UserVoice", nil);
+    _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_textView];
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
@@ -70,11 +67,11 @@
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(commentButtonTapped)];
-    [self.textView becomeFirstResponder];
+    [_textView becomeFirstResponder];
 }
 
 - (UIScrollView *)scrollView {
-    return self.textView;
+    return _textView;
 }
 
 @end

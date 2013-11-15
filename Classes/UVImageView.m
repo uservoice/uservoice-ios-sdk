@@ -12,8 +12,6 @@
 
 @implementation UVImageView
 
-@synthesize URL = _URL, image = _image, defaultImage = _defaultImage, payload = _payload, connection = _connection;
-
 - (void)drawRect:(CGRect)rect {
     self.layer.cornerRadius = self.frame.size.width / 2;
     self.layer.masksToBounds = YES;
@@ -32,31 +30,31 @@
     UIImage *anImage = [UIImage imageWithData:_payload];
 
     if (anImage) {
-        self.image = anImage;
+        _image = anImage;
         [self setNeedsDisplay];
-        [[UVImageCache sharedInstance] setImage:self.image forURL:_URL];
+        [[UVImageCache sharedInstance] setImage:_image forURL:_URL];
     }
 
-    self.connection = nil;
-    self.payload = nil;
+    _connection = nil;
+    _payload = nil;
 }
 
 - (void)connection:(NSURLConnection *)conn didFailWithError:(NSError *)error {
-    self.payload = nil;
-    self.connection = nil;
+    _payload = nil;
+    _connection = nil;
 }
 
 - (void)setURL:(NSString*)URL {
-    if (self.image && _URL && [URL isEqualToString:_URL])
+    if (_image && _URL && [URL isEqualToString:_URL])
         return;
 
     [self stopLoading];
     _URL = URL;
 
     if (_URL && _URL.length) {
-        self.image = [[UVImageCache sharedInstance] imageForURL:_URL];
+        _image = [[UVImageCache sharedInstance] imageForURL:_URL];
         [self setNeedsDisplay];
-        if (!self.image)
+        if (!_image)
             [self reload];
     }
 }
@@ -71,11 +69,11 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
 
         [self stopLoading];
-        self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+        _connection = [NSURLConnection connectionWithRequest:request delegate:self];
 
         if (_connection) {
-            self.payload = [NSMutableData data];
-            self.image = nil;
+            _payload = [NSMutableData data];
+            _image = nil;
         } else {
             NSLog(@"Unable to start download.");
         }
@@ -83,9 +81,9 @@
 }
 
 - (void)stopLoading {
-    [self.connection cancel];
-    self.connection = nil;
-    self.payload = nil;
+    [_connection cancel];
+    _connection = nil;
+    _payload = nil;
 }
 
 - (void)dealloc {

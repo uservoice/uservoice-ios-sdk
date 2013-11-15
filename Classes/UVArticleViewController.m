@@ -16,39 +16,24 @@
 
 @implementation UVArticleViewController
 
-@synthesize article;
-@synthesize webView;
-@synthesize helpfulPrompt;
-@synthesize returnMessage;
-@synthesize instantAnswers;
-
-- (id)initWithArticle:(UVArticle *)theArticle helpfulPrompt:(NSString *)theHelpfulPrompt returnMessage:(NSString *)theReturnMessage{
-    if (self = [super init]) {
-        self.article = theArticle;
-        self.helpfulPrompt = theHelpfulPrompt;
-        self.returnMessage = theReturnMessage;
-        [UVBabayaga track:VIEW_ARTICLE id:article.articleId];
-    }
-    return self;
-}
-
 - (void)loadView {
     [super loadView];
+    [UVBabayaga track:VIEW_ARTICLE id:_article.articleId];
     CGFloat barHeight = IOS7 ? 32 : 40;
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - barHeight)];
-    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: sans-serif; margin: 1em\"><h3>%@</h3>%@</body></html>", article.question, article.answerHTML];
-    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    if ([self.webView respondsToSelector:@selector(scrollView)]) {
-        self.webView.backgroundColor = [UIColor whiteColor];
-        for (UIView* shadowView in [[self.webView scrollView] subviews]) {
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - barHeight)];
+    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: sans-serif; margin: 1em\"><h3>%@</h3>%@</body></html>", _article.question, _article.answerHTML];
+    _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    if ([_webView respondsToSelector:@selector(scrollView)]) {
+        _webView.backgroundColor = [UIColor whiteColor];
+        for (UIView* shadowView in [[_webView scrollView] subviews]) {
             if ([shadowView isKindOfClass:[UIImageView class]]) {
                 [shadowView setHidden:YES];
             }
         }
     }
-    [self.webView loadHTMLString:html baseURL:nil];
-    [self.view addSubview:webView];
+    [_webView loadHTMLString:html baseURL:nil];
+    [self.view addSubview:_webView];
 
     UIToolbar *helpfulBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - barHeight, self.view.bounds.size.width, barHeight)];
     helpfulBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
@@ -80,7 +65,7 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (helpfulPrompt) {
+    if (_helpfulPrompt) {
         if (buttonIndex == 0) {
             [self.navigationController popViewControllerAnimated:YES];
         } else if (buttonIndex == 1) {
@@ -94,18 +79,18 @@
 }
 
 - (void)yesButtonTapped {
-    [UVBabayaga track:VOTE_ARTICLE id:article.articleId];
-    if (instantAnswers) {
-        [UVDeflection trackDeflection:@"helpful" deflector:article];
+    [UVBabayaga track:VOTE_ARTICLE id:_article.articleId];
+    if (_instantAnswers) {
+        [UVDeflection trackDeflection:@"helpful" deflector:_article];
     }
-    if (helpfulPrompt) {
+    if (_helpfulPrompt) {
         // Do you still want to contact us?
         // Yes, go to my message
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:helpfulPrompt
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_helpfulPrompt
                                                                  delegate:self
                                                         cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                    destructiveButtonTitle:nil
-                                                        otherButtonTitles:returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil];
+                                                        otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil];
         [actionSheet showInView:self.view];
     } else {
         [self.navigationController popViewControllerAnimated:YES];
@@ -113,10 +98,10 @@
 }
 
 - (void)noButtonTapped {
-    if (instantAnswers) {
-        [UVDeflection trackDeflection:@"unhelpful" deflector:article];
+    if (_instantAnswers) {
+        [UVDeflection trackDeflection:@"unhelpful" deflector:_article];
     }
-    if (helpfulPrompt) {
+    if (_helpfulPrompt) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"Would you like to contact us?", @"UserVoice", nil)

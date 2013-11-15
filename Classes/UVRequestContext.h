@@ -8,16 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UVRequestContext : NSObject {
-  Class modelClass;
-  NSString *context;
-  NSInvocation *callback;
-  NSInteger statusCode;
-  NSString *rootKey;
-}
+@interface UVRequestContext : NSObject
 
-@property (assign) Class modelClass;
-@property (assign) NSInteger statusCode;
+@property (nonatomic, assign) Class modelClass;
+@property (nonatomic, assign) NSInteger statusCode;
 @property (nonatomic, retain) NSString *context;
 @property (nonatomic, retain) NSInvocation *callback;
 @property (nonatomic, retain) NSString *rootKey;

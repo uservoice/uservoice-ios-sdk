@@ -18,10 +18,6 @@
 
 @implementation UVUser
 
-@synthesize userId;
-@synthesize name;
-@synthesize email;
-
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
     NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];
@@ -104,7 +100,7 @@
         @"upsert" : [NSNumber numberWithBool:TRUE],
         @"identifications" : @[
             @{
-                @"id" : [NSString stringWithFormat:@"%d", (int)self.userId],
+                @"id" : [NSString stringWithFormat:@"%d", (int)_userId],
                 @"external_id" : externalId
             }
         ]
@@ -119,9 +115,9 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
-        self.email = [self objectOrNilForDict:dict key:@"email"];
+        _userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
+        _email = [self objectOrNilForDict:dict key:@"email"];
     }
     return self;
 }

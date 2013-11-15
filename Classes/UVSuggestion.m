@@ -13,34 +13,9 @@
 #import "UVUser.h"
 #import "UVForum.h"
 #import "UVCategory.h"
-#import "UVSuggestionDetailsViewController.h"
 #import "UVUtils.h"
 
 @implementation UVSuggestion
-
-@synthesize suggestionId;
-@synthesize forumId;
-@synthesize commentsCount;
-@synthesize subscriberCount;
-@synthesize title;
-@synthesize abstract;
-@synthesize text;
-@synthesize status;
-@synthesize statusHexColor;
-@synthesize forumName;
-@synthesize createdAt;
-@synthesize updatedAt;
-@synthesize closedAt;
-@synthesize creatorName;
-@synthesize creatorId;
-@synthesize responseText;
-@synthesize responseUserName;
-@synthesize responseUserAvatarUrl;
-@synthesize responseUserId;
-@synthesize responseUserTitle;
-@synthesize responseCreatedAt;
-@synthesize category;
-@synthesize subscribed;
 
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
@@ -115,62 +90,59 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
-        self.suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.commentsCount = [(NSNumber *)[dict objectForKey:@"comments_count"] integerValue];
-        self.subscriberCount = [(NSNumber *)[dict objectForKey:@"subscriber_count"] integerValue];
-        self.title = [self objectOrNilForDict:dict key:@"title"];
-        self.abstract = [self objectOrNilForDict:dict key:@"abstract"];
-        self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
-        self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
-        self.subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
+        _suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _commentsCount = [(NSNumber *)[dict objectForKey:@"comments_count"] integerValue];
+        _subscriberCount = [(NSNumber *)[dict objectForKey:@"subscriber_count"] integerValue];
+        _title = [self objectOrNilForDict:dict key:@"title"];
+        _abstract = [self objectOrNilForDict:dict key:@"abstract"];
+        _text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
+        _createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+        _subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
-        if (statusDict)
-        {
-            self.status = [statusDict objectForKey:@"name"];
-            self.statusHexColor = [statusDict objectForKey:@"hex_color"];
+        if (statusDict) {
+            _status = [statusDict objectForKey:@"name"];
+            _statusHexColor = [statusDict objectForKey:@"hex_color"];
         }
         NSDictionary *creator = [self objectOrNilForDict:dict key:@"creator"];
-        if (creator)
-        {
-            self.creatorName = [creator objectForKey:@"name"];
-            self.creatorId = [(NSNumber *)[creator objectForKey:@"id"] integerValue];
+        if (creator) {
+            _creatorName = [creator objectForKey:@"name"];
+            _creatorId = [(NSNumber *)[creator objectForKey:@"id"] integerValue];
         }
         NSDictionary *response = [self objectOrNilForDict:dict key:@"response"];
         if (response) {
-            self.responseText = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:response key:@"text"]];
+            _responseText = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:response key:@"text"]];
             NSDictionary *responseCreator = [self objectOrNilForDict:response key:@"creator"];
             if (responseCreator) {
-                self.responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
-                self.responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
-                self.responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
-                self.responseUserTitle = [self objectOrNilForDict:responseCreator key:@"title"];
+                _responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
+                _responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
+                _responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
+                _responseUserTitle = [self objectOrNilForDict:responseCreator key:@"title"];
             }
-            self.responseCreatedAt = [self parseJsonDate:[response objectForKey:@"created_at"]];
+            _responseCreatedAt = [self parseJsonDate:[response objectForKey:@"created_at"]];
         }
 
         NSDictionary *topic = [self objectOrNilForDict:dict key:@"topic"];
-        if (topic)
-        {
+        if (topic) {
             NSDictionary *forum = [self objectOrNilForDict:topic key:@"forum"];
             if (forum) {
-                self.forumId = [(NSNumber *)[forum objectForKey:@"id"] integerValue];
-                self.forumName = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:forum key:@"name"]];
+                _forumId = [(NSNumber *)[forum objectForKey:@"id"] integerValue];
+                _forumName = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:forum key:@"name"]];
             }
         }
 
         NSDictionary *categoryDict = [self objectOrNilForDict:dict key:@"category"];
         if (categoryDict) {
-            self.category = [[UVCategory alloc] initWithDictionary:categoryDict];
+            _category = [[UVCategory alloc] initWithDictionary:categoryDict];
         }
     }
     return self;
 }
 
 - (NSString *)responseUserWithTitle {
-    if ([responseUserTitle length] > 0) {
-        return [NSString stringWithFormat:@"%@, %@", self.responseUserName, self.responseUserTitle];
+    if ([_responseUserTitle length] > 0) {
+        return [NSString stringWithFormat:@"%@, %@", _responseUserName, _responseUserTitle];
     } else {
-        return self.responseUserName;
+        return _responseUserName;
     }
 }
 

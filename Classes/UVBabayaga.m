@@ -17,13 +17,8 @@
 #import "HRFormatJson.h"
 
 @implementation UVBabayaga {
-    NSString *_uvts;
-    NSDictionary *_userTraits;
     NSMutableArray *_queue;
 }
-
-@synthesize userTraits = _userTraits;
-@synthesize uvts = _uvts;
 
 + (UVBabayaga *)instance {
     static UVBabayaga *_instance;

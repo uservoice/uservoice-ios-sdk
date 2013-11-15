@@ -27,7 +27,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [tableView reloadData];
+    [_tableView reloadData];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====

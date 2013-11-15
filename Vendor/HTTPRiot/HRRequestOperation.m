@@ -24,12 +24,6 @@
 @end
 
 @implementation HRRequestOperation
-@synthesize timeout         = _timeout;
-@synthesize requestMethod   = _requestMethod;
-@synthesize path            = _path;
-@synthesize options         = _options;
-@synthesize formatter       = _formatter;
-@synthesize delegate        = _delegate;
 
 - (id)initWithMethod:(HRRequestMethod)method path:(NSString*)urlPath options:(NSDictionary*)opts object:(id)obj {
                  

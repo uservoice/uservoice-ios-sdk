@@ -13,11 +13,9 @@
 
 @implementation UVRequestToken
 
-@synthesize oauthToken;
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.oauthToken = [YOAuthToken tokenWithDictionary:dict];
+        _oauthToken = [YOAuthToken tokenWithDictionary:dict];
     }
     return self;
 }

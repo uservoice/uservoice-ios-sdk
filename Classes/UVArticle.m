@@ -16,10 +16,6 @@
 
 @implementation UVArticle
 
-@synthesize question;
-@synthesize answerHTML;
-@synthesize articleId;
-
 + (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topicId]];
     NSDictionary *params = @{ @"sort" : @"ordered" };
@@ -65,10 +61,10 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
-        self.question = [self objectOrNilForDict:dict key:@"question"];
-        self.answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
-        self.articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
-        self.topicName = [[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"];
+        _question = [self objectOrNilForDict:dict key:@"question"];
+        _answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
+        _articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
+        _topicName = [[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"];
     }
     return self;
 }

@@ -84,7 +84,7 @@
                                                               toItem:view
                                                            attribute:NSLayoutAttributeBottom
                                                           multiplier:1.0
-                                                            constant:-kbHeight-10];
+                                                            constant:-_kbHeight-10];
     [view addConstraint:_keyboardConstraint];
     self.topConstraint = [NSLayoutConstraint constraintWithItem:title
                                                       attribute:NSLayoutAttributeTop
@@ -144,9 +144,9 @@
 
 - (void)keyboardDidShow:(NSNotification *)note {
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
-        _keyboardConstraint.constant = -kbHeight-10;
+        _keyboardConstraint.constant = -_kbHeight-10;
     } else {
-        _keyboardConstraint.constant = -kbHeight+10;
+        _keyboardConstraint.constant = -_kbHeight+10;
     }
     [self.view layoutIfNeeded];
 }

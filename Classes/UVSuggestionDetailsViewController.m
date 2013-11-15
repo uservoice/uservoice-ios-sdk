@@ -32,19 +32,13 @@
 #define ADMIN_RESPONSE 30
 
 @implementation UVSuggestionDetailsViewController {
-    
-    BOOL suggestionExpanded;
-    BOOL responseExpanded;
+    BOOL _allCommentsRetrieved;
+    BOOL _suggestionExpanded;
+    BOOL _responseExpanded;
     BOOL _subscribing;
     UVCallback *_subscribeCallback;
     UVCallback *_showCommentControllerCallback;
-    
 }
-
-@synthesize suggestion;
-@synthesize comments;
-@synthesize subscriberCount;
-@synthesize instantAnswers;
 
 - (id)init {
     self = [super init];
@@ -61,33 +55,33 @@
     self = [self init];
 
     if (self) {
-        self.suggestion = theSuggestion;
+        _suggestion = theSuggestion;
     }
 
     return self;
 }
 
 - (void)retrieveMoreComments {
-    NSInteger page = ([self.comments count] / 10) + 1;
-    [UVComment getWithSuggestion:self.suggestion page:page delegate:self];
+    NSInteger page = (_comments.count / 10) + 1;
+    [UVComment getWithSuggestion:_suggestion page:page delegate:self];
 }
 
 - (void)didRetrieveComments:(NSArray *)theComments {
-    if ([theComments count] > 0) {
-        [self.comments addObjectsFromArray:theComments];
-        if ([self.comments count] >= self.suggestion.commentsCount) {
-            allCommentsRetrieved = YES;
+    if (theComments.count > 0) {
+        [_comments addObjectsFromArray:theComments];
+        if (_comments.count >= _suggestion.commentsCount) {
+            _allCommentsRetrieved = YES;
         }
     } else {
-        allCommentsRetrieved = YES;
+        _allCommentsRetrieved = YES;
     }
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 - (void)didSubscribe:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
     [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
-    if (instantAnswers) {
+    if (_instantAnswers) {
         [UVDeflection trackDeflection:@"subscribed" deflector:theSuggestion];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_helpfulPrompt
                                                                  delegate:self
@@ -105,16 +99,16 @@
 }
 
 - (void)updateSuggestion:(UVSuggestion *)theSuggestion {
-    self.suggestion.subscribed = theSuggestion.subscribed;
-    self.suggestion.subscriberCount = theSuggestion.subscriberCount;
+    _suggestion.subscribed = theSuggestion.subscribed;
+    _suggestion.subscriberCount = theSuggestion.subscriberCount;
     [self updateSubscriberCount];
 }
 
 - (void)updateSubscriberCount {
-    if (self.suggestion.subscriberCount == 1) {
-        self.subscriberCount.text = NSLocalizedStringFromTable(@"1 person", @"UserVoice", nil);
+    if (_suggestion.subscriberCount == 1) {
+        _subscriberCount.text = NSLocalizedStringFromTable(@"1 person", @"UserVoice", nil);
     } else {
-        self.subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people", @"UserVoice", nil), self.suggestion.subscriberCount];
+        _subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people", @"UserVoice", nil), _suggestion.subscriberCount];
     }
 }
 
@@ -140,7 +134,7 @@
     } else if (indexPath.section == 1) {
         identifier = @"AddComment";
         selectable = YES;
-    } else if (indexPath.row < [self.comments count]) {
+    } else if (indexPath.row < _comments.count) {
         identifier = @"Comment";
     } else {
         identifier = @"Load";
@@ -190,7 +184,7 @@
 }
 
 - (void)customizeCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVComment *comment = [self.comments objectAtIndex:indexPath.row];
+    UVComment *comment = [_comments objectAtIndex:indexPath.row];
 
     UVImageView *avatar = (UVImageView *)[cell viewWithTag:COMMENT_AVATAR_TAG];
     avatar.URL = comment.avatarUrl;
@@ -219,19 +213,19 @@
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UILabel *category = [UILabel new];
     category.font = [UIFont systemFontOfSize:13];
-    category.text = suggestion.category.name;
+    category.text = _suggestion.category.name;
     category.adjustsFontSizeToFitWidth = YES;
     category.minimumScaleFactor = 0.5;
     category.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
 
     UILabel *title = [UILabel new];
     title.font = [UIFont boldSystemFontOfSize:17];
-    title.text = suggestion.title;
+    title.text = _suggestion.title;
     title.numberOfLines = 0;
 
     UVTruncatingLabel *desc = [UVTruncatingLabel new];
     desc.font = [UIFont systemFontOfSize:14];
-    desc.fullText = suggestion.text;
+    desc.fullText = _suggestion.text;
     desc.numberOfLines = 0;
     desc.delegate = self;
     desc.tag = SUGGESTION_DESCRIPTION;
@@ -251,38 +245,38 @@
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVTruncatingLabel *desc = (UVTruncatingLabel *)[cell.contentView viewWithTag:SUGGESTION_DESCRIPTION];
-    if (suggestionExpanded)
+    if (_suggestionExpanded)
         [desc expand];
 }
 
 - (void)initCellForResponse:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UIView *statusColor = [UIView new];
-    statusColor.backgroundColor = suggestion.statusColor;
+    statusColor.backgroundColor = _suggestion.statusColor;
 
     UILabel *status = [UILabel new]; 
     status.font = [UIFont systemFontOfSize:12];
-    status.text = suggestion.status.uppercaseString;
-    status.textColor = suggestion.statusColor;
+    status.text = _suggestion.status.uppercaseString;
+    status.textColor = _suggestion.statusColor;
 
     UILabel *date = [UILabel new];
     date.font = [UIFont systemFontOfSize:12];
     date.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    date.text = [NSDateFormatter localizedStringFromDate:suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
+    date.text = [NSDateFormatter localizedStringFromDate:_suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
     
-    if ([suggestion.responseText length] > 0) {
+    if ([_suggestion.responseText length] > 0) {
         UVImageView *avatar = [UVImageView new];
-        avatar.URL = suggestion.responseUserAvatarUrl;
+        avatar.URL = _suggestion.responseUserAvatarUrl;
 
         UVTruncatingLabel *text = [UVTruncatingLabel new];
         text.font = [UIFont systemFontOfSize:13];
-        text.fullText = suggestion.responseText;
+        text.fullText = _suggestion.responseText;
         text.numberOfLines = 0;
         text.delegate = self;
         text.tag = ADMIN_RESPONSE;
 
         UILabel *admin = [UILabel new];
         admin.font = [UIFont systemFontOfSize:12];
-        admin.text = suggestion.responseUserWithTitle;
+        admin.text = _suggestion.responseUserWithTitle;
         admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
         admin.adjustsFontSizeToFitWidth = YES;
         admin.minimumScaleFactor = 0.5;
@@ -320,7 +314,7 @@
 
 - (void)customizeCellForResponse:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVTruncatingLabel *text = (UVTruncatingLabel *)[cell.contentView viewWithTag:ADMIN_RESPONSE];
-    if (responseExpanded)
+    if (_responseExpanded)
         [text expand];
 }
 
@@ -333,20 +327,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return self.suggestion.status || self.suggestion.responseText ? 2 : 1;
+        return _suggestion.status || _suggestion.responseText ? 2 : 1;
     } else if (section == 1) {
         return 1;
     } else {
-        return [comments count] + (allCommentsRetrieved || [comments count] == 0 ? 0 : 1);
+        return _comments.count + (_allCommentsRetrieved || _comments.count == 0 ? 0 : 1);
     }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return instantAnswers ? 1 : 3;
+    return _instantAnswers ? 1 : 3;
 }
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 2 && indexPath.row < [self.comments count]) {
+    if (indexPath.section == 2 && indexPath.row < _comments.count) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Comment" indexPath:indexPath];
     } else if (indexPath.section == 0 && indexPath.row == 0) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
@@ -361,7 +355,7 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1 && indexPath.row == 0) {
         [self requireUserSignedIn:_showCommentControllerCallback];
-    } else if (indexPath.section == 2 && indexPath.row == [self.comments count]) {
+    } else if (indexPath.section == 2 && indexPath.row == _comments.count) {
         [self retrieveMoreComments];
     }
 }
@@ -369,7 +363,7 @@
 #pragma mark ===== Actions =====
 
 - (void)toggleSubscribed {
-    if (suggestion.subscribed) {
+    if (_suggestion.subscribed) {
         [self unsubscribe];
     } else {
         [self subscribe];
@@ -383,52 +377,52 @@
 }
 
 - (void)presentCommentController {
-    [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:suggestion]];
+    [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:_suggestion]];
 }
 
 - (void)doSubscribe {
-    [suggestion subscribe:self];
+    [_suggestion subscribe:self];
 }
 
 - (void)unsubscribe {
-    [suggestion unsubscribe:self];
+    [_suggestion unsubscribe:self];
 }
 
 #pragma mark ===== Basic View Methods =====
 
 - (void)labelExpanded:(UVTruncatingLabel *)label {
     if (label.tag == SUGGESTION_DESCRIPTION) {
-        suggestionExpanded = YES;
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        _suggestionExpanded = YES;
+        [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     } else {
-        responseExpanded = YES;
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        _responseExpanded = YES;
+        [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
 - (void)loadView {
     [super loadView];
-    [UVBabayaga track:VIEW_IDEA id:suggestion.suggestionId];
+    [UVBabayaga track:VIEW_IDEA id:_suggestion.suggestionId];
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
 
-    CGFloat footerHeight = instantAnswers ? 46 : 66;
+    CGFloat footerHeight = _instantAnswers ? 46 : 66;
     UITableView *table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     table.delegate = self;
     table.dataSource = self;
     table.tableFooterView = [UIView new];
     table.contentInset = UIEdgeInsetsMake(0, 0, footerHeight, 0);
     table.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerHeight, 0);
-    self.tableView = table;
+    _tableView = table;
 
     UIView *footer = [UIView new];
     footer.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1.0];
     UIView *border = [UIView new];
     border.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
-    if (instantAnswers) {
+    if (_instantAnswers) {
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:14];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
-        self.subscriberCount = people;
+        _subscriberCount = people;
 
         UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
 
@@ -458,7 +452,7 @@
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:13];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
-        self.subscriberCount = people;
+        _subscriberCount = people;
 
         UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
 
@@ -468,7 +462,7 @@
         this.textColor = people.textColor;
 
         UISwitch *toggle = [UISwitch new];
-        if (self.suggestion.subscribed) {
+        if (_suggestion.subscribed) {
             toggle.on = YES;
         }
         [toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
@@ -495,8 +489,8 @@
 - (void)initNavigationItem {}
 
 - (void)reloadComments {
-    allCommentsRetrieved = NO;
-    self.comments = [NSMutableArray arrayWithCapacity:10];
+    _allCommentsRetrieved = NO;
+    _comments = [NSMutableArray arrayWithCapacity:10];
     [self retrieveMoreComments];
 }
 

@@ -11,22 +11,14 @@
 
 @class UVSuggestion;
 
-@interface UVComment : UVBaseModel {
-    NSInteger commentId;
-    NSString *text;
-    NSString *userName;
-    NSInteger userId;
-    NSString *avatarUrl;
-    NSInteger karmaScore;
-    NSDate *createdAt;
-}
+@interface UVComment : UVBaseModel
 
-@property (assign) NSInteger commentId;
+@property (nonatomic, assign) NSInteger commentId;
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSString *userName;
-@property (assign) NSInteger userId;
+@property (nonatomic, assign) NSInteger userId;
 @property (nonatomic, retain) NSString *avatarUrl;
-@property (assign) NSInteger karmaScore;
+@property (nonatomic, assign) NSInteger karmaScore;
 @property (nonatomic, retain) NSDate *createdAt;
 
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate;

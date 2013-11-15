@@ -24,8 +24,6 @@
     UIAlertView *_errorAlertView;
 }
 
-@synthesize dismissed;
-
 + (UVInitialLoadManager *)loadWithDelegate:(id)delegate action:(SEL)action {
     UVInitialLoadManager *manager = [[UVInitialLoadManager alloc] initWithDelegate:delegate action:action];
     [manager beginLoad];
@@ -34,8 +32,8 @@
 
 - (id)initWithDelegate:(id)theDelegate action:(SEL)theAction {
     if (self = [super init]) {
-        delegate = theDelegate;
-        action = theAction;
+        _delegate = theDelegate;
+        _action = theAction;
     }
     return self;
 }
@@ -56,20 +54,20 @@
         [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithExisting];
         [UVUser retrieveCurrentUser:self];
     } else {
-        userDone = YES;
+        _userDone = YES;
     }
     [self checkComplete];
 }
 
 - (void)checkComplete {
-    if (configDone && userDone && topicsDone && articlesDone && forumDone) {
-        if (dismissed) return;
-        [delegate performSelector:action];
+    if (_configDone && _userDone && _topicsDone && _articlesDone && _forumDone) {
+        if (_dismissed) return;
+        [_delegate performSelector:_action];
     }
 }
 
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].requestToken = token;
     if ([UVSession currentSession].config.ssoToken != nil) {
         [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
@@ -79,14 +77,14 @@
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].clientConfig = clientConfig;
     [self didLoadClientConfig];
 }
 
 - (void)didLoadClientConfig {
     UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
-    configDone = YES;
+    _configDone = YES;
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
@@ -96,73 +94,73 @@
             [UVArticle getArticlesWithDelegate:self];
         }
     } else {
-        topicsDone = YES;
-        articlesDone = YES;
+        _topicsDone = YES;
+        _articlesDone = YES;
     }
     if (clientConfig.feedbackEnabled) {
         [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
     } else {
-        forumDone = YES;
+        _forumDone = YES;
     }
     [self checkComplete];
 }
 
 - (void)didRetrieveForum:(UVForum *)forum {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].forum = forum;
-    forumDone = YES;
+    _forumDone = YES;
     [self checkComplete];
 }
 
 - (void)didCreateUser:(UVUser *)theUser {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     [UVBabayaga track:IDENTIFY];
-    userDone = YES;
+    _userDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
-    userDone = YES;
+    _userDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveHelpTopic:(UVHelpTopic *)topic {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].topics = @[topic];
-    topicsDone = YES;
+    _topicsDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveHelpTopics:(NSArray *)topics {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].topics = [topics filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"articleCount > 0"]];
-    topicsDone = YES;
+    _topicsDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveArticles:(NSArray *)articles {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].articles = articles;
-    articlesDone = YES;
+    _articlesDone = YES;
     [self checkComplete];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [delegate performSelector:@selector(dismissUserVoice)];
+    [_delegate performSelector:@selector(dismissUserVoice)];
 }
 
 - (void)didReceiveError:(NSError *)error context:(UVRequestContext *)requestContext {
-    if (dismissed) return;
+    if (_dismissed) return;
     NSString *message = nil;
     if ([UVUtils isAuthError:error]) {
         if ([requestContext.context isEqualToString:@"sso"] || [requestContext.context isEqualToString:@"local-sso"]) {
           // SSO and local SSO can fail with regard to admins. It's ok to proceed without a user.
-          userDone = YES;
+          _userDone = YES;
           return;
         }
         if ([UVAccessToken exists]) {

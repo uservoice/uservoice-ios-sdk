@@ -9,20 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface UVImageView : UIView {
-    NSString* _URL;
-    UIImage* _image;
-    UIImage* _defaultImage;
+@interface UVImageView : UIView
 
-    NSURLConnection *_connection;
-    NSMutableData *_payload;
-}
-
-@property(nonatomic,retain) NSString* URL;
-@property(nonatomic,retain) UIImage* image;
-@property(nonatomic,retain) UIImage* defaultImage;
-@property(nonatomic,retain) NSMutableData* payload;
-@property(nonatomic,retain) NSURLConnection* connection;
+@property (nonatomic, retain) NSString* URL;
+@property (nonatomic, retain) UIImage* image;
+@property (nonatomic, retain) UIImage* defaultImage;
+@property (nonatomic, retain) NSMutableData* payload;
+@property (nonatomic, retain) NSURLConnection* connection;
 
 - (void)reload;
 - (void)stopLoading;

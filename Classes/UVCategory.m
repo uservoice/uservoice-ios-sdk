@@ -12,13 +12,10 @@
 
 @implementation UVCategory
 
-@synthesize categoryId;
-@synthesize name;
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.categoryId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
+        _categoryId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
     }
     return self;
 }

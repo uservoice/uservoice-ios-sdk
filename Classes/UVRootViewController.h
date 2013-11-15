@@ -11,10 +11,7 @@
 
 @class UVInitialLoadManager;
 
-@interface UVRootViewController : UVBaseViewController {
-    NSString *viewToLoad;
-    UVInitialLoadManager *loader;
-}
+@interface UVRootViewController : UVBaseViewController
 
 @property (nonatomic, retain) NSString *viewToLoad;
 @property (nonatomic, retain) UVInitialLoadManager *loader;

@@ -224,26 +224,6 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     return [error code] == 404;
 }
 
-+ (NSRegularExpression *)patternForQuery:(NSString *)query {
-    NSRegularExpression *termPattern = [NSRegularExpression regularExpressionWithPattern:@"\\b\\w+\\b" options:0 error:nil];
-    NSMutableString *pattern = [NSMutableString stringWithString:@"\\b("];
-    __block NSString *lastTerm = nil;
-    [termPattern enumerateMatchesInString:query options:0 range:NSMakeRange(0, [query length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
-        if (lastTerm) {
-            [pattern appendString:lastTerm];
-            [pattern appendString:@"|"];
-        }
-        lastTerm = [query substringWithRange:[match range]];
-    }];
-    if (lastTerm) {
-        [pattern appendString:lastTerm];
-        [pattern appendString:@")"];
-        return [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
-    } else {
-        return nil;
-    }
-}
-
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
     navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
     [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];

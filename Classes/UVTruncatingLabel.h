@@ -8,13 +8,7 @@
 
 #import "UVCalculatingLabel.h"
 
-@interface UVTruncatingLabel : UVCalculatingLabel {
-    NSString *fullText;
-    UILabel *moreLabel;
-    __weak id delegate;
-    BOOL expanded;
-    CGFloat lastWidth;
-}
+@interface UVTruncatingLabel : UVCalculatingLabel
 
 @property (nonatomic, retain) NSString *fullText;
 @property (nonatomic, retain) UILabel *moreLabel;

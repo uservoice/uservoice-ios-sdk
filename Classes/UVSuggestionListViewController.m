@@ -38,54 +38,43 @@
     UITableViewCell *_templateCell;
 }
 
-@synthesize forum = _forum;
-@synthesize suggestions;
-@synthesize searchResults;
-@synthesize searchController;
-@synthesize searchPattern;
-
 - (id)init {
     if ((self = [super init])) {
-        self.forum = [UVSession currentSession].forum;
+        _forum = [UVSession currentSession].forum;
     }
     return self;
 }
 
 - (void)retrieveMoreSuggestions {
-    NSInteger page = ([self.suggestions count] / SUGGESTIONS_PAGE_SIZE) + 1;
+    NSInteger page = (_suggestions.count / SUGGESTIONS_PAGE_SIZE) + 1;
     [self showActivityIndicator];
-    [UVSuggestion getWithForum:self.forum page:page delegate:self];
+    [UVSuggestion getWithForum:_forum page:page delegate:self];
 }
 
 - (void)populateSuggestions {
-    self.suggestions = [NSMutableArray arrayWithCapacity:10];
+    _suggestions = [NSMutableArray arrayWithCapacity:10];
     _forum.suggestions = [NSMutableArray arrayWithCapacity:10];
-    _forum.suggestionsNeedReload = NO;
     [self retrieveMoreSuggestions];
 }
 
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
     [self hideActivityIndicator];
-    if ([theSuggestions count] > 0) {
-        [self.suggestions addObjectsFromArray:theSuggestions];
+    if (theSuggestions.count > 0) {
+        [_suggestions addObjectsFromArray:theSuggestions];
     }
 
     [_forum.suggestions addObjectsFromArray:theSuggestions];
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 - (void)didSearchSuggestions:(NSArray *)theSuggestions {
-    self.searchResults = theSuggestions;
+    _searchResults = theSuggestions;
     NSMutableArray *ids = [NSMutableArray arrayWithCapacity:[theSuggestions count]];
     for (UVSuggestion *suggestion in theSuggestions) {
         [ids addObject:[NSNumber numberWithInt:suggestion.suggestionId]];
     }
-    [UVBabayaga track:SEARCH_IDEAS searchText:searchController.searchBar.text ids:ids];
-    [searchController.searchResultsTableView reloadData];
-}
-
-- (void)updatePattern {
-    self.searchPattern = [UVUtils patternForQuery:searchController.searchBar.text];
+    [UVBabayaga track:SEARCH_IDEAS searchText:_searchController.searchBar.text ids:ids];
+    [_searchController.searchResultsTableView reloadData];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -132,7 +121,7 @@
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForSuggestion:[suggestions objectAtIndex:indexPath.row] cell:cell];
+    [self customizeCellForSuggestion:[_suggestions objectAtIndex:indexPath.row] cell:cell];
 }
 
 - (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -140,7 +129,7 @@
 }
 
 - (void)customizeCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForSuggestion:[searchResults objectAtIndex:indexPath.row] cell:cell];
+    [self customizeCellForSuggestion:[_searchResults objectAtIndex:indexPath.row] cell:cell];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -166,8 +155,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
-    if (theTableView == tableView) {
-        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < [suggestions count]) ? @"Suggestion" : @"Load";
+    if (theTableView == _tableView) {
+        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < _suggestions.count) ? @"Suggestion" : @"Load";
     } else {
         identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : @"Result";
     }
@@ -181,12 +170,12 @@
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0 && [UVSession currentSession].config.showPostIdea) {
         return 1;
-    } else if (theTableView == tableView) {
-        int loadedCount = [self.suggestions count];
+    } else if (theTableView == _tableView) {
+        int loadedCount = _suggestions.count;
         int suggestionsCount = _forum.suggestionsCount;
         return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
     } else {
-        return [searchResults count];
+        return _searchResults.count;
     }
 }
 
@@ -199,7 +188,7 @@
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
         return 44;
-    } else if (theTableView != tableView || indexPath.row < [suggestions count]) {
+    } else if (theTableView != _tableView || indexPath.row < _suggestions.count) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else {
         return 44;
@@ -210,7 +199,7 @@
     if (section == 0 && [UVSession currentSession].config.showPostIdea) {
         return nil;
     } else {
-        return self.forum.prompt;
+        return _forum.prompt;
     }
 }
 
@@ -221,7 +210,7 @@
 
 - (void)composeButtonTapped {
     UVPostIdeaViewController *next = [UVPostIdeaViewController new];
-    next.initialText = self.searchController.searchBar.text;
+    next.initialText = _searchController.searchBar.text;
     [self presentModalViewController:next];
 }
 
@@ -229,13 +218,13 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
         [self composeButtonTapped];
-    } else if (theTableView == tableView) {
-        if (indexPath.row < [suggestions count])
-            [self showSuggestion:[suggestions objectAtIndex:indexPath.row]];
+    } else if (theTableView == _tableView) {
+        if (indexPath.row < _suggestions.count)
+            [self showSuggestion:[_suggestions objectAtIndex:indexPath.row]];
         else
             [self retrieveMoreSuggestions];
     } else {
-        [self showSuggestion:[searchResults objectAtIndex:indexPath.row]];
+        [self showSuggestion:[_searchResults objectAtIndex:indexPath.row]];
     }
 }
 
@@ -246,14 +235,13 @@
 #pragma mark ===== UISearchBarDelegate Methods =====
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    [searchController setActive:YES animated:YES];
+    [_searchController setActive:YES animated:YES];
     [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self updatePattern];
-    [UVSuggestion searchWithForum:self.forum query:searchBar.text delegate:self];
+    [UVSuggestion searchWithForum:_forum query:searchBar.text delegate:self];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -267,11 +255,11 @@
     searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), _forum.name];
     searchBar.delegate = self;
 
-    self.searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-    searchController.delegate = self;
-    searchController.searchResultsDataSource = self;
-    searchController.searchResultsDelegate = self;
-    self.tableView.tableHeaderView = searchBar;
+    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    _searchController.delegate = self;
+    _searchController.searchResultsDataSource = self;
+    _searchController.searchResultsDelegate = self;
+    _tableView.tableHeaderView = searchBar;
 
     if ([UVSession currentSession].config.showPostIdea) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
@@ -281,7 +269,7 @@
             self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.95f alpha:1.0f];
     }
 
-    if ([UVSession currentSession].isModal && firstController) {
+    if ([UVSession currentSession].isModal && _firstController) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
@@ -290,34 +278,30 @@
 }
 
 - (void)initNavigationItem {
-    self.navigationItem.title = self.forum.name;
+    self.navigationItem.title = _forum.name;
     self.exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                        style:UIBarButtonItemStylePlain
                                                       target:self
                                                       action:@selector(dismissUserVoice)];
-    if ([UVSession currentSession].isModal && firstController) {
-        self.navigationItem.leftBarButtonItem = exitButton;
+    if ([UVSession currentSession].isModal && _firstController) {
+        self.navigationItem.leftBarButtonItem = _exitButton;
     }
 }
 
 - (void)reloadTableData {
-    self.suggestions = _forum.suggestions;
-    [self.tableView reloadData];
+    _suggestions = _forum.suggestions;
+    [_tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     if (_forum) {
-        if (_forum.suggestionsNeedReload) {
-            self.suggestions = nil;
-        }
-
-        if (!self.suggestions) {
+        if (!_suggestions) {
             [self populateSuggestions];
         }
     }
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 @end

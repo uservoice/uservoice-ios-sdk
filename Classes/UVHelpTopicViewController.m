@@ -20,12 +20,9 @@
 
 @implementation UVHelpTopicViewController
 
-@synthesize topic;
-@synthesize articles;
-
 - (id)initWithTopic:(UVHelpTopic *)theTopic {
     if (self = [super init]) {
-        self.topic = theTopic;
+        _topic = theTopic;
     }
     return self;
 }
@@ -35,14 +32,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return section == 0 ? [articles count] : 1;
+    return section == 0 ? [_articles count] : 1;
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        UVArticle *article = (UVArticle *)[articles objectAtIndex:indexPath.row];
-        UVArticleViewController *next = [[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil];
+        UVArticle *article = (UVArticle *)[_articles objectAtIndex:indexPath.row];
+        UVArticleViewController *next = [UVArticleViewController new];
+        next.article = article;
         [self.navigationController pushViewController:next animated:YES];
     } else {
         [self presentModalViewController:[UVContactViewController new]];
@@ -76,15 +74,15 @@
 }
 
 - (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    UVArticle *article = [articles objectAtIndex:indexPath.row];
+    UVArticle *article = [_articles objectAtIndex:indexPath.row];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:LABEL];
     label.text = article.question;
 }
 
 - (void)didRetrieveArticles:(NSArray *)theArticles {
     [self hideActivityIndicator];
-    self.articles = theArticles;
-    [tableView reloadData];
+    _articles = theArticles;
+    [_tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,17 +95,15 @@
 
 - (void)loadView {
     [self setupGroupedTableView];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    if (self.topic) {
-        self.navigationItem.title = topic.name;
+    if (_topic) {
+        self.navigationItem.title = _topic.name;
         [self showActivityIndicator];
-        [UVBabayaga track:VIEW_TOPIC id:topic.topicId];
-        [UVArticle getArticlesWithTopicId:topic.topicId delegate:self];
+        [UVBabayaga track:VIEW_TOPIC id:_topic.topicId];
+        [UVArticle getArticlesWithTopicId:_topic.topicId delegate:self];
     } else {
         self.navigationItem.title = NSLocalizedStringFromTable(@"All Articles", @"UserVoice", nil);
-        self.articles = [UVSession currentSession].articles;
-        [tableView reloadData];
+        _articles = [UVSession currentSession].articles;
+        [_tableView reloadData];
     }
 }
 

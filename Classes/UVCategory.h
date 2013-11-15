@@ -10,12 +10,9 @@
 #import "UVBaseModel.h"
 
 
-@interface UVCategory : UVBaseModel {
-    NSInteger categoryId;
-    NSString *name;
-}
+@interface UVCategory : UVBaseModel
 
-@property (assign) NSInteger categoryId;
+@property (nonatomic, assign) NSInteger categoryId;
 @property (nonatomic, retain) NSString *name;
 
 - (id)initWithDictionary:(NSDictionary *)dict;

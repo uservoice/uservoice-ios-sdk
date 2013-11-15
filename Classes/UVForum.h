@@ -9,17 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
 
-@interface UVForum : UVBaseModel {
-    NSInteger forumId;
-    BOOL isPrivate;
-    NSString *name;
-    NSString *example;
-    NSString *prompt;
-    NSInteger suggestionsCount;
-    NSMutableArray *categories;
-    NSMutableArray *suggestions;
-    BOOL suggestionsNeedReload;
-}
+@interface UVForum : UVBaseModel
 
 @property (nonatomic, assign) NSInteger forumId;
 @property (nonatomic, assign) BOOL isPrivate;
@@ -27,7 +17,6 @@
 @property (nonatomic, retain) NSString *example;
 @property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, assign) NSInteger suggestionsCount;
-@property (nonatomic, assign) BOOL suggestionsNeedReload;
 @property (nonatomic, retain) NSMutableArray *categories;
 @property (nonatomic, retain) NSMutableArray *suggestions;
 

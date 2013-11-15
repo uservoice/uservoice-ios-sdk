@@ -20,20 +20,8 @@
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
 @interface UVSession : NSObject<UVUserDelegate> {
-    BOOL isModal;
-    UVConfig *config;
-    UVClientConfig *clientConfig;
-    UVUser *user;
-    YOAuthConsumer *yOAuthConsumer;
-    UVAccessToken *accessToken;
-    UVRequestToken *requestToken;
-    UVForum *forum;
-    NSMutableDictionary *externalIds;
-    NSArray *topics;
-    NSArray *articles;
-    NSString *flashTitle;
-    NSString *flashMessage;
-    UVSuggestion *flashSuggestion;
+    UVUser *_user;
+    YOAuthConsumer *_yOAuthConsumer;
 }
 
 @property (nonatomic, assign) BOOL isModal;
@@ -53,10 +41,7 @@
 + (UVSession *)currentSession;
 - (YOAuthConsumer *)yOAuthConsumer;
 
-- (BOOL)loggedIn;
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 - (void)clear;
-- (void)clearFlash;
-- (void)flash:(NSString *)message title:(NSString *)title suggestion:(UVSuggestion *)suggestion;
 
 @end

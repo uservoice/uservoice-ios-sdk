@@ -16,21 +16,16 @@
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
 @interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate, UVSigninManagerDelegate> {
-    BOOL needsReload;
-    BOOL firstController;
-    UITableView *tableView;
-    NSInteger kbHeight;
-    UIBarButtonItem *exitButton;
-    UVSigninManager *signinManager;
-    NSString *userEmail;
-    NSString *userName;
-    UIView *shade;
-    UIActivityIndicatorView *activityIndicatorView;
-    NSMutableDictionary *templateCells;
+    BOOL _firstController;
+    UITableView *_tableView;
+    NSInteger _kbHeight;
+    UIBarButtonItem *_exitButton;
+    UVSigninManager *_signinManager;
+    NSString *_userName;
+    NSString *_userEmail;
 }
 
-@property (assign) BOOL needsReload;
-@property (assign) BOOL firstController;
+@property (nonatomic, assign) BOOL firstController;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
 @property (nonatomic, retain) UVSigninManager *signinManager;

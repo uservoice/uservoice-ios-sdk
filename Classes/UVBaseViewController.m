@@ -22,21 +22,12 @@
 
 @implementation UVBaseViewController
 
-@synthesize needsReload;
-@synthesize firstController;
-@synthesize tableView;
-@synthesize exitButton;
-@synthesize signinManager;
-@synthesize shade;
-@synthesize activityIndicatorView;
-@synthesize templateCells;
-
 - (id)init {
     self = [super init];
     if (self) {
-        self.signinManager = [UVSigninManager manager];
-        self.signinManager.delegate = self;
-        self.templateCells = [NSMutableDictionary dictionary];
+        _signinManager = [UVSigninManager manager];
+        _signinManager.delegate = self;
+        _templateCells = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -44,7 +35,6 @@
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] clear];
-    [[UVSession currentSession] clearFlash];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
@@ -61,30 +51,30 @@
 }
 
 - (void)showActivityIndicator {
-    if (!shade) {
-        self.shade = [[UIView alloc] initWithFrame:self.view.bounds];
-        self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.shade.backgroundColor = [UIColor blackColor];
-        self.shade.alpha = 0.5;
-        [self.view addSubview:shade];
+    if (!_shade) {
+        _shade = [[UIView alloc] initWithFrame:self.view.bounds];
+        _shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _shade.backgroundColor = [UIColor blackColor];
+        _shade.alpha = 0.5;
+        [self.view addSubview:_shade];
     }
-    if (!activityIndicatorView) {
-        self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
-        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
-        [self.view addSubview:activityIndicatorView];
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
+        _activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
+        [self.view addSubview:_activityIndicatorView];
     }
-    shade.hidden = NO;
-    activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/([UVKeyboardUtils visible] ? 4 : 2));
-    activityIndicatorView.hidden = NO;
-    [activityIndicatorView startAnimating];
+    _shade.hidden = NO;
+    _activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/([UVKeyboardUtils visible] ? 4 : 2));
+    _activityIndicatorView.hidden = NO;
+    [_activityIndicatorView startAnimating];
 }
 
 - (void)hideActivityIndicator {
     [self enableSubmitButton];
-    [activityIndicatorView stopAnimating];
-    activityIndicatorView.hidden = YES;
-    shade.hidden = YES;
+    [_activityIndicatorView stopAnimating];
+    _activityIndicatorView.hidden = YES;
+    _shade.hidden = YES;
 }
 
 - (void)setSubmitButtonEnabled:(BOOL)enabled {
@@ -161,12 +151,12 @@
                                                                             target:nil
                                                                             action:nil];
 
-    self.exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                       style:UIBarButtonItemStylePlain
-                                                      target:self
-                                                      action:@selector(dismissUserVoice)];
-    if ([UVSession currentSession].isModal && firstController) {
-        self.navigationItem.leftBarButtonItem = exitButton;
+    _exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                   style:UIBarButtonItemStylePlain
+                                                  target:self
+                                                  action:@selector(dismissUserVoice)];
+    if ([UVSession currentSession].isModal && _firstController) {
+        self.navigationItem.leftBarButtonItem = _exitButton;
     }
 }
 
@@ -217,8 +207,8 @@
         }
     }
     
-    if (!IOS7 && self.tableView) {
-        [self.tableView reloadData];
+    if (!IOS7 && _tableView) {
+        [_tableView reloadData];
     }
 
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
@@ -247,7 +237,7 @@
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
     }
     if (!IOS7) {
-        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:self.tableView.style accessoryType:cell.accessoryType], 0);
+        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:_tableView.style accessoryType:cell.accessoryType], 0);
         [cell.contentView setNeedsLayout];
         [cell.contentView layoutIfNeeded];
         for (UIView *view in cell.contentView.subviews) {
@@ -288,24 +278,24 @@
     if (IPAD) {
         CGFloat formSheetHeight = 576;
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-            kbHeight = formSheetHeight - 352;
+            _kbHeight = formSheetHeight - 352;
         } else {
-            kbHeight = formSheetHeight - 504;
+            _kbHeight = formSheetHeight - 504;
         }
     } else {
         NSDictionary* info = [notification userInfo];
         CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
         // Convert from window space to view space to account for orientation
-        kbHeight = [self.view convertRect:rect fromView:nil].size.height;
+        _kbHeight = [self.view convertRect:rect fromView:nil].size.height;
     }
 }
 
 - (UIScrollView *)scrollView {
-    return tableView;
+    return _tableView;
 }
 
 - (void)keyboardDidShow:(NSNotification*)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake([self scrollView].contentInset.top, 0.0, kbHeight, 0.0);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake([self scrollView].contentInset.top, 0.0, _kbHeight, 0.0);
     [self scrollView].contentInset = contentInsets;
     [self scrollView].scrollIndicatorInsets = contentInsets;
 }
@@ -329,72 +319,72 @@
 }
 
 - (void)setupGroupedTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped];
-    self.tableView.delegate = (id<UITableViewDelegate>)self;
-    self.tableView.dataSource = (id<UITableViewDataSource>)self;
+    _tableView = [[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped];
+    _tableView.delegate = (id<UITableViewDelegate>)self;
+    _tableView.dataSource = (id<UITableViewDataSource>)self;
     if (!IOS7) {
         UIView *bg = [UIView new];
         bg.backgroundColor = [UVStyleSheet backgroundColor];
-        self.tableView.backgroundView = bg;
+        _tableView.backgroundView = bg;
     }
-    self.view = self.tableView;
+    self.view = _tableView;
 }
 
 - (void)requireUserSignedIn:(UVCallback *)callback {
-    [signinManager signInWithCallback:callback];
+    [_signinManager signInWithCallback:callback];
 }
 
 - (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name callback:(UVCallback *)callback {
-    [self.signinManager signInWithEmail:email name:name callback:callback];
+    [_signinManager signInWithEmail:email name:name callback:callback];
 }
 
 - (void)setUserName:(NSString *)theName {
-    userName = theName;
+    _userName = theName;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:userName forKey:@"uv-user-name"];
+    [prefs setObject:_userName forKey:@"uv-user-name"];
     [prefs synchronize];
 }
 
 - (NSString *)userName {
     if ([UVSession currentSession].user)
         return [UVSession currentSession].user.name;
-    if (userName)
-        return userName;
+    if (_userName)
+        return _userName;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userName = [prefs stringForKey:@"uv-user-name"];
-    return userName;
+    _userName = [prefs stringForKey:@"uv-user-name"];
+    return _userName;
 }
 
 - (void)setUserEmail:(NSString *)theEmail {
-    userEmail = theEmail;
+    _userEmail = theEmail;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:userEmail forKey:@"uv-user-email"];
+    [prefs setObject:_userEmail forKey:@"uv-user-email"];
     [prefs synchronize];
 }
 
 - (NSString *)userEmail {
     if ([UVSession currentSession].user)
         return [UVSession currentSession].user.email;
-    if (userEmail)
-        return userEmail;
+    if (_userEmail)
+        return _userEmail;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userEmail = [prefs stringForKey:@"uv-user-email"];
-    return userEmail;
+    _userEmail = [prefs stringForKey:@"uv-user-email"];
+    return _userEmail;
 }
 
 - (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
     NSString *cacheKey = [NSString stringWithFormat:@"%@-%d", reuseIdentifier, (int)self.view.frame.size.width];
-    UITableViewCell *cell = [templateCells objectForKey:cacheKey];
+    UITableViewCell *cell = [_templateCells objectForKey:cacheKey];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier];
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", reuseIdentifier]);
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
         }
-        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:self.tableView.style accessoryType:cell.accessoryType], 0);
-        [templateCells setObject:cell forKey:cacheKey];
+        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:_tableView.style accessoryType:cell.accessoryType], 0);
+        [_templateCells setObject:cell forKey:cacheKey];
     }
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
     if ([self respondsToSelector:customizeCellSelector]) {

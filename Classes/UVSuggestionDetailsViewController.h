@@ -12,18 +12,12 @@
 
 @class UVTruncatingLabel;
 
-@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
-    UVSuggestion *suggestion;
-    NSMutableArray *comments;
-    BOOL allCommentsRetrieved;
-    UILabel *subscriberCount;
-    BOOL instantAnswers;
-}
+@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
 @property (nonatomic, retain) NSMutableArray *comments;
 @property (nonatomic, retain) UILabel *subscriberCount;
-@property (nonatomic) BOOL instantAnswers;
+@property (nonatomic, assign) BOOL instantAnswers;
 @property (nonatomic, retain) NSString *helpfulPrompt;
 @property (nonatomic, retain) NSString *returnMessage;
 

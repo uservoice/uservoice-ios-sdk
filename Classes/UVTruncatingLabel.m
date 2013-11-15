@@ -9,27 +9,26 @@
 #import "UVTruncatingLabel.h"
 #import "UVDefines.h"
 
-@implementation UVTruncatingLabel
-
-@synthesize fullText;
-@synthesize delegate;
-@synthesize moreLabel;
+@implementation UVTruncatingLabel {
+    BOOL _expanded;
+    CGFloat _lastWidth;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandAndNotify)]];
-        self.moreLabel = [UILabel new];
-        moreLabel.text = NSLocalizedStringFromTable(@"more", @"UserVoice", nil);
-        moreLabel.font = [UIFont systemFontOfSize:12];
-        moreLabel.backgroundColor = [UIColor clearColor];
+        _moreLabel = [UILabel new];
+        _moreLabel.text = NSLocalizedStringFromTable(@"more", @"UserVoice", nil);
+        _moreLabel.font = [UIFont systemFontOfSize:12];
+        _moreLabel.backgroundColor = [UIColor clearColor];
         if (IOS7) {
-            moreLabel.textColor = self.tintColor;
+            _moreLabel.textColor = self.tintColor;
         }
         // TODO hardcode blue for ios6 ??
-        moreLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:moreLabel];
-        NSDictionary *views = @{@"more":moreLabel};
+        _moreLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_moreLabel];
+        NSDictionary *views = @{@"more":_moreLabel};
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[more]|" options:0 metrics:nil views:views]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[more]|" options:0 metrics:nil views:views]];
     }
@@ -37,20 +36,20 @@
 }
 
 - (void)setFullText:(NSString *)theText {
-    fullText = theText;
+    _fullText = theText;
     [self update];
 }
 
 - (void)update {
-    if (!fullText || self.effectiveWidth == 0) return;
-    self.text = fullText;
-    lastWidth = self.effectiveWidth;
-    if (expanded) {
-        moreLabel.hidden = YES;
+    if (!_fullText || self.effectiveWidth == 0) return;
+    self.text = _fullText;
+    _lastWidth = self.effectiveWidth;
+    if (_expanded) {
+        _moreLabel.hidden = YES;
     } else {
         NSArray *lines = [self breakString];
         if ([lines count] > 3) {
-            CGSize moreSize = [moreLabel intrinsicContentSize];
+            CGSize moreSize = [_moreLabel intrinsicContentSize];
             self.text = [NSString stringWithFormat:@"%@%@%@", [lines objectAtIndex:0], [lines objectAtIndex:1], [lines objectAtIndex:2]];
             int i = [self.text length] - 1;
             CGRect r = [self rectForLetterAtIndex:i];
@@ -59,9 +58,9 @@
                 r = [self rectForLetterAtIndex:i];
             }
             self.text = [NSString stringWithFormat:@"%@...", [self.text substringWithRange:NSMakeRange(0, i+1)]];
-            moreLabel.hidden = NO;
+            _moreLabel.hidden = NO;
         } else {
-            moreLabel.hidden = YES;
+            _moreLabel.hidden = YES;
         }
     }
 }
@@ -76,7 +75,7 @@
 }
 
 - (void)layoutSubviews {
-    if (lastWidth != self.effectiveWidth) {
+    if (_lastWidth != self.effectiveWidth) {
         [self update];
     }
     [super layoutSubviews];
@@ -84,11 +83,11 @@
 
 - (void)expandAndNotify {
     [self expand];
-    [delegate performSelector:@selector(labelExpanded:) withObject:self];
+    [_delegate performSelector:@selector(labelExpanded:) withObject:self];
 }
 
 - (void)expand {
-    expanded = YES;
+    _expanded = YES;
     [self update];
 }
 
