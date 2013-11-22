@@ -11,6 +11,7 @@
 
 @implementation UVTextView {
     BOOL _constraintsAdded;
+    BOOL _added;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -22,7 +23,6 @@
         _placeholderLabel.font = self.font;
         _placeholderLabel.textColor = IOS7 ? [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f] : [UIColor colorWithWhite:0.702f alpha:1.0f];
         _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_placeholderLabel];
     }
     return self;
 }
@@ -46,7 +46,13 @@
 }
 
 - (void)updateShouldDrawPlaceholder {
-    _placeholderLabel.hidden = self.text.length != 0;
+    if (_added && self.text.length != 0) {
+        [_placeholderLabel removeFromSuperview];
+        _added = NO;
+    } else if (!_added && self.text.length == 0) {
+        [self addSubview:_placeholderLabel];
+        _added = YES;
+    }
 }
 
 - (void)setText:(NSString *)string {
@@ -54,7 +60,7 @@
     [self updateShouldDrawPlaceholder];
 }
 
-- (void)textChanged:(NSNotification *)notificaiton {
+- (void)textChanged:(NSNotification *)notification {
     [self updateShouldDrawPlaceholder];
 }
 

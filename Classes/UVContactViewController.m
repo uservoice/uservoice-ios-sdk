@@ -24,6 +24,7 @@
 }
 
 - (void)loadView {
+    [self registerForKeyboardNotifications];
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
     _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to contact us?", @"UserVoice", nil);
@@ -73,6 +74,10 @@
     if (!_instantAnswerManager.loading) {
         [self didUpdateInstantAnswers];
     }
+}
+
+- (UIScrollView *)scrollView {
+    return _textView;
 }
 
 - (void)skipInstantAnswers {
