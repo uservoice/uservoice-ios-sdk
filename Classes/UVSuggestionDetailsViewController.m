@@ -149,6 +149,9 @@
 }
 
 - (void)initCellForComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    if (IOS7) {
+        cell.separatorInset = UIEdgeInsetsMake(0, 64, 0, 0);
+    }
     UVImageView *avatar = [UVImageView new];
     avatar.tag = COMMENT_AVATAR_TAG;
 

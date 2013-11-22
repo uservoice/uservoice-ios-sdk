@@ -256,7 +256,7 @@
     [self setupGroupedTableView];
 
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
-    searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedStringFromTable(@"Search", @"UserVoice", nil), _forum.name];
+    searchBar.placeholder = NSLocalizedStringFromTable(@"Search forum", @"UserVoice", nil);
     searchBar.delegate = self;
 
     _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
