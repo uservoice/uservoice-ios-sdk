@@ -36,6 +36,7 @@
 
 @implementation UVSuggestionListViewController {
     UITableViewCell *_templateCell;
+    UILabel *_loadingLabel;
 }
 
 - (id)init {
@@ -142,6 +143,7 @@
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.font = [UIFont systemFontOfSize:16];
     label.textAlignment = NSTextAlignmentCenter;
+    _loadingLabel = label;
     [cell addSubview:label];
 }
 
@@ -283,6 +285,14 @@
                                                                                 target:self
                                                                                 action:@selector(dismissUserVoice)];
     }
+}
+
+- (void)showActivityIndicator {
+    _loadingLabel.text = NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil);
+}
+
+- (void)hideActivityIndicator {
+    _loadingLabel.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
 }
 
 - (void)initNavigationItem {
