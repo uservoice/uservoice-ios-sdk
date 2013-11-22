@@ -110,7 +110,7 @@
     NSArray *constraints = @[
         @"|-[title]-|",
         @"|-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]",
-        @"V:|-8-[title]-6-[heart(==9)]",
+        @"V:|-12-[title]-6-[heart(==9)]",
         @"V:[title]-6-[statusColor(==9)]",
         @"V:[title]-4-[status]",
         @"V:[title]-2-[subs]"
@@ -119,7 +119,7 @@
                subviews:NSDictionaryOfVariableBindings(subs, title, heart, statusColor, status)
             constraints:constraints
          finalCondition:indexPath == nil
-        finalConstraint:@"V:[heart]-8-|"];
+        finalConstraint:@"V:[heart]-14-|"];
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
