@@ -19,50 +19,52 @@
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_ARTICLE id:_article.articleId];
-    CGFloat barHeight = IOS7 ? 32 : 40;
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
+
+    CGFloat footerHeight = 46;
+    _webView = [UIWebView new];
     NSString *section = [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil), _article.topicName];
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - barHeight)];
     NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: HelveticaNeue; margin: 1em; font-size: 15px\"><h5 style='font-weight: normal; color: #999; font-size: 15px'>%@</h5><h3 style='margin-top: 10px; margin-bottom: 20px; font-size: 18px; font-family: HelveticaNeue-Medium; font-weight: normal; line-height: 1.3'>%@</h3>%@</body></html>", section, _article.question, _article.answerHTML];
-    _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    if ([_webView respondsToSelector:@selector(scrollView)]) {
-        _webView.backgroundColor = [UIColor whiteColor];
-        for (UIView* shadowView in [[_webView scrollView] subviews]) {
-            if ([shadowView isKindOfClass:[UIImageView class]]) {
-                [shadowView setHidden:YES];
-            }
+    _webView.backgroundColor = [UIColor whiteColor];
+    for (UIView* shadowView in [[_webView scrollView] subviews]) {
+        if ([shadowView isKindOfClass:[UIImageView class]]) {
+            [shadowView setHidden:YES];
         }
     }
     [_webView loadHTMLString:html baseURL:nil];
-    [self.view addSubview:_webView];
+    _webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, footerHeight, 0);
+    _webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerHeight, 0);
 
-    UIToolbar *helpfulBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - barHeight, self.view.bounds.size.width, barHeight)];
-    helpfulBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    if (IOS7) {
-        helpfulBar.translucent = NO;
-    } else {
-        helpfulBar.barStyle = UIBarStyleBlack;
-        helpfulBar.tintColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
-    }
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, helpfulBar.bounds.size.width - 100, barHeight)];
+    UIView *footer = [UIView new];
+    footer.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1.0];
+    UIView *border = [UIView new];
+    border.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
+    UILabel *label = [UILabel new];
     label.text = NSLocalizedStringFromTable(@"Was this article helpful?", @"UserVoice", nil);
-    label.font = IOS7 ? [UIFont systemFontOfSize:13] : [UIFont boldSystemFontOfSize:13];
+    label.font = [UIFont systemFontOfSize:13];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     label.backgroundColor = [UIColor clearColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [helpfulBar addSubview:label];
-    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *yesItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Yes!", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(yesButtonTapped)];
-    yesItem.width = 50;
-    if ([yesItem respondsToSelector:@selector(setTintColor:)])
-        yesItem.tintColor = [UIColor colorWithRed:0.42f green:0.64f blue:0.85f alpha:1.0f];
-    UIBarButtonItem *noItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(noButtonTapped)];
-    noItem.width = 50;
-    if ([noItem respondsToSelector:@selector(setTintColor:)])
-        noItem.tintColor = [UIColor colorWithRed:0.46f green:0.55f blue:0.66f alpha:1.0f];
-    helpfulBar.items = @[space, yesItem, noItem];
-    [self.view addSubview:helpfulBar];
+    UIButton *yes = [UIButton new];
+    [yes setTitle:NSLocalizedStringFromTable(@"Yes!", @"UserVoice", nil) forState:UIControlStateNormal];
+    [yes setTitleColor:yes.tintColor forState:UIControlStateNormal];
+    [yes addTarget:self action:@selector(yesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *no = [UIButton new];
+    [no setTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil) forState:UIControlStateNormal];
+    [no setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [no addTarget:self action:@selector(noButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    NSArray *constraints = @[
+        @"|[border]|", @"|-[label]-(>=10)-[yes]-30-[no]-30-|",
+        @"V:|[border(==1)]", @"V:|-15-[label]", @"V:|-6-[yes]", @"V:|-6-[no]"
+    ];
+    [self configureView:footer
+               subviews:NSDictionaryOfVariableBindings(border, label, yes, no)
+            constraints:constraints];
+
+    [self configureView:self.view
+               subviews:NSDictionaryOfVariableBindings(_webView, footer)
+            constraints:@[@"V:|[_webView]|", @"V:[footer]|", @"|[_webView]|", @"|[footer]|"]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:footerHeight]];
+    [self.view bringSubviewToFront:footer];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
