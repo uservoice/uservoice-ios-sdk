@@ -160,6 +160,25 @@
     }
 }
 
+- (UIView *)poweredByView {
+    UIView *power = [UIView new];
+    power.frame = CGRectMake(0, 0, 0, 80);
+    UILabel *uv = [UILabel new];
+    uv.text = NSLocalizedStringFromTable(@"Powered by UserVoice", @"UserVoice", nil);
+    uv.font = [UIFont systemFontOfSize:13];
+    uv.textColor = [UIColor grayColor];
+    uv.textAlignment = NSTextAlignmentCenter;
+    UILabel *version = [UILabel new];
+    version.text = [NSString stringWithFormat:@"iOS SDK v%@", [UserVoice version]];
+    version.font = [UIFont systemFontOfSize:13];
+    version.textColor = [UIColor lightGrayColor];
+    version.textAlignment = NSTextAlignmentCenter;
+    [self configureView:power
+               subviews:NSDictionaryOfVariableBindings(uv, version)
+            constraints:@[@"V:|-[uv]-[version]", @"|[uv]|", @"|[version]|"]];
+    return power;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }

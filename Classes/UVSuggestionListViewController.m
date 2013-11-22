@@ -265,6 +265,10 @@
     _searchController.searchResultsDelegate = self;
     _tableView.tableHeaderView = searchBar;
 
+    if (![UVSession currentSession].clientConfig.whiteLabel) {
+        _tableView.tableFooterView = self.poweredByView;
+    }
+
     if ([UVSession currentSession].config.showPostIdea) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                                target:self

@@ -7,6 +7,8 @@
 //
 
 #import "UVSuccessViewController.h"
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 @implementation UVSuccessViewController
 
@@ -39,6 +41,9 @@
     power.textColor = [UIColor grayColor];
     power.font = [UIFont systemFontOfSize:13];
     power.textAlignment = NSTextAlignmentCenter;
+    if ([UVSession currentSession].clientConfig.whiteLabel) {
+        power.hidden = YES;
+    }
     [self configureView:self.view
                subviews:NSDictionaryOfVariableBindings(title, text, button, power)
             constraints:@[@"|-[title]-|", @"|-40-[text]-40-|", @"[button(>=90)]", @"|-[power]-|", @"V:|-160-[title]-16-[text]-60-[button(==28)]", @"V:[power]-20-|"]];

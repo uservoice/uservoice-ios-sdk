@@ -271,31 +271,8 @@
         _searchController.searchResultsDataSource = self;
     }
 
-
     if (![UVSession currentSession].clientConfig.whiteLabel) {
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _tableView.bounds.size.width, 50)];
-        footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        UIView *logo = [[UIView alloc] initWithFrame:CGRectZero];
-        UILabel *poweredBy = [[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)];
-        // tweak for retina
-        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
-            poweredBy.frame = CGRectMake(0, 8, 0, 0);
-        poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        poweredBy.backgroundColor = [UIColor clearColor];
-        poweredBy.textColor = [UIColor grayColor];
-        poweredBy.font = [UIFont systemFontOfSize:11];
-        poweredBy.text = NSLocalizedStringFromTable(@"powered by", @"UserVoice", nil);
-        [poweredBy sizeToFit];
-        [logo addSubview:poweredBy];
-        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]];
-        image.frame = CGRectMake(poweredBy.bounds.size.width + 7, 0, image.bounds.size.width * 0.8, image.bounds.size.height * 0.8);
-        [logo addSubview:image];
-        logo.frame = CGRectMake(0, 0, image.frame.origin.x + image.frame.size.width, image.frame.size.height);
-        logo.center = CGPointMake(footer.bounds.size.width / 2, footer.bounds.size.height - logo.bounds.size.height / 2 - 15);
-        logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
-        [logo addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)]];
-        [footer addSubview:logo];
-        _tableView.tableFooterView = footer;
+        _tableView.tableFooterView = self.poweredByView;
     }
 
     [_tableView reloadData];

@@ -15,6 +15,7 @@
 #import "UVSession.h"
 #import "UVConfig.h"
 #import "UVBabayaga.h"
+#import "UVClientConfig.h"
 
 #define LABEL 100
 
@@ -95,6 +96,9 @@
 
 - (void)loadView {
     [self setupGroupedTableView];
+    if (![UVSession currentSession].clientConfig.whiteLabel) {
+        _tableView.tableFooterView = self.poweredByView;
+    }
     if (_topic) {
         self.navigationItem.title = _topic.name;
         [self showActivityIndicator];
