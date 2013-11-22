@@ -31,4 +31,6 @@
 
 + (NSString *)formatInteger:(NSInteger)number;
 
++ (NSString *)colorToCSS:(UIColor *)color;
+
 @end

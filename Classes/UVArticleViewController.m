@@ -13,6 +13,7 @@
 #import "UVStyleSheet.h"
 #import "UVBabayaga.h"
 #import "UVDeflection.h"
+#import "UVUtils.h"
 
 @implementation UVArticleViewController
 
@@ -24,7 +25,13 @@
     CGFloat footerHeight = 46;
     _webView = [UIWebView new];
     NSString *section = [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil), _article.topicName];
-    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: HelveticaNeue; margin: 1em; font-size: 15px\"><h5 style='font-weight: normal; color: #999; font-size: 15px'>%@</h5><h3 style='margin-top: 10px; margin-bottom: 20px; font-size: 18px; font-family: HelveticaNeue-Medium; font-weight: normal; line-height: 1.3'>%@</h3>%@</body></html>", section, _article.question, _article.answerHTML];
+    NSString *linkColor;
+    if (IOS7) {
+        linkColor = [UVUtils colorToCSS:self.view.tintColor];
+    } else {
+        linkColor = @"default";
+    }
+    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/><style>a { color: %@; }</style></head><body class=\"typeset\" style=\"font-family: HelveticaNeue; margin: 1em; font-size: 15px\"><h5 style='font-weight: normal; color: #999; font-size: 15px'>%@</h5><h3 style='margin-top: 10px; margin-bottom: 20px; font-size: 18px; font-family: HelveticaNeue-Medium; font-weight: normal; line-height: 1.3'>%@</h3>%@</body></html>", linkColor, section, _article.question, _article.answerHTML];
     _webView.backgroundColor = [UIColor whiteColor];
     for (UIView* shadowView in [[_webView scrollView] subviews]) {
         if ([shadowView isKindOfClass:[UIImageView class]]) {
@@ -46,7 +53,7 @@
     label.backgroundColor = [UIColor clearColor];
     UIButton *yes = [UIButton new];
     [yes setTitle:NSLocalizedStringFromTable(@"Yes!", @"UserVoice", nil) forState:UIControlStateNormal];
-    [yes setTitleColor:yes.tintColor forState:UIControlStateNormal];
+    [yes setTitleColor:(IOS7 ? yes.tintColor : [UIColor colorWithRed:0.0 green:0.5 blue:1.0 alpha:1.0]) forState:UIControlStateNormal];
     [yes addTarget:self action:@selector(yesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     UIButton *no = [UIButton new];
     [no setTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil) forState:UIControlStateNormal];
@@ -54,7 +61,7 @@
     [no addTarget:self action:@selector(noButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     NSArray *constraints = @[
         @"|[border]|", @"|-[label]-(>=10)-[yes]-30-[no]-30-|",
-        @"V:|[border(==1)]", @"V:|-15-[label]", @"V:|-6-[yes]", @"V:|-6-[no]"
+        @"V:|[border(==1)]", @"V:|-15-[label]", (IOS7 ? @"V:|-6-[yes]" : @"V:|-12-[yes]"), (IOS7 ? @"V:|-6-[no]" : @"V:|-12-[no]")
     ];
     [self configureView:footer
                subviews:NSDictionaryOfVariableBindings(border, label, yes, no)

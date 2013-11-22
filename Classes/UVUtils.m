@@ -247,4 +247,10 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     return [fmt stringFromNumber:@(number)];
 }
 
++ (NSString *)colorToCSS:(UIColor *)color {
+    CGFloat r, g, b, a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return [NSString stringWithFormat:@"#%02X%02X%02X", (unsigned)round(MAX(0, MIN(r, 1)) * 255), (unsigned)round(MAX(0, MIN(g, 1)) * 255), (unsigned)round(MAX(0, MIN(b, 1)) * 255)];
+}
+
 @end
