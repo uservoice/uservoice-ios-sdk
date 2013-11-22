@@ -38,6 +38,7 @@
     BOOL _subscribing;
     UVCallback *_subscribeCallback;
     UVCallback *_showCommentControllerCallback;
+    UILabel *_loadingLabel;
 }
 
 - (id)init {
@@ -210,6 +211,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
     label.textAlignment = NSTextAlignmentCenter;
+    _loadingLabel = label;
     [cell addSubview:label];
 }
 
@@ -502,6 +504,14 @@
     _allCommentsRetrieved = NO;
     _comments = [NSMutableArray arrayWithCapacity:10];
     [self retrieveMoreComments];
+}
+
+- (void)showActivityIndicator {
+    _loadingLabel.text = NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil);
+}
+
+- (void)hideActivityIndicator {
+    _loadingLabel.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
 }
 
 - (void)dealloc {
