@@ -50,8 +50,8 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     id model = [[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
-    NSString *back = [self tableView:theTableView titleForHeaderInSection:indexPath.section];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"InstantAnswers", @"UserVoice", nil) style:UIBarButtonItemStylePlain target:nil action:nil];
+//    NSString *back = [self tableView:theTableView titleForHeaderInSection:indexPath.section];
+//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"InstantAnswers", @"UserVoice", nil) style:UIBarButtonItemStylePlain target:nil action:nil];
     [_instantAnswerManager pushViewFor:model parent:self];
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }

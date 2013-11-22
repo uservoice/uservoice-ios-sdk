@@ -34,9 +34,14 @@
     button.titleLabel.font = [UIFont systemFontOfSize:14];
     [button setTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil) forState:UIControlStateNormal];
     [button addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *power = [UILabel new];
+    power.text = NSLocalizedStringFromTable(@"Powered by UserVoice", @"UserVoice", nil);
+    power.textColor = [UIColor grayColor];
+    power.font = [UIFont systemFontOfSize:13];
+    power.textAlignment = NSTextAlignmentCenter;
     [self configureView:self.view
-               subviews:NSDictionaryOfVariableBindings(title, text, button)
-            constraints:@[@"|-[title]-|", @"|-40-[text]-40-|", @"[button(>=90)]", @"V:|-160-[title]-16-[text]-60-[button(==28)]"]];
+               subviews:NSDictionaryOfVariableBindings(title, text, button, power)
+            constraints:@[@"|-[title]-|", @"|-40-[text]-40-|", @"[button(>=90)]", @"|-[power]-|", @"V:|-160-[title]-16-[text]-60-[button(==28)]", @"V:[power]-20-|"]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
 }
 
