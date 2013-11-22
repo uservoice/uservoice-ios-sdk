@@ -21,8 +21,9 @@
     [UVBabayaga track:VIEW_ARTICLE id:_article.articleId];
     CGFloat barHeight = IOS7 ? 32 : 40;
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
+    NSString *section = [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil), _article.topicName];
     _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - barHeight)];
-    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: sans-serif; margin: 1em\"><h3>%@</h3>%@</body></html>", _article.question, _article.answerHTML];
+    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/></head><body class=\"typeset\" style=\"font-family: HelveticaNeue; margin: 1em; font-size: 15px\"><h5 style='font-weight: normal; color: #999; font-size: 15px'>%@</h5><h3 style='margin-top: 10px; margin-bottom: 20px; font-size: 18px; font-family: HelveticaNeue-Medium; font-weight: normal; line-height: 1.3'>%@</h3>%@</body></html>", section, _article.question, _article.answerHTML];
     _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     if ([_webView respondsToSelector:@selector(scrollView)]) {
         _webView.backgroundColor = [UIColor whiteColor];
