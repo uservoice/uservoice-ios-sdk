@@ -260,7 +260,7 @@
 
     UILabel *date = [UILabel new];
     date.font = [UIFont systemFontOfSize:12];
-    date.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    date.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
     date.text = [NSDateFormatter localizedStringFromDate:_suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
     
     if ([_suggestion.responseText length] > 0) {
@@ -269,6 +269,7 @@
 
         UVTruncatingLabel *text = [UVTruncatingLabel new];
         text.font = [UIFont systemFontOfSize:13];
+        text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
         text.fullText = _suggestion.responseText;
         text.numberOfLines = 0;
         text.delegate = self;
@@ -280,6 +281,7 @@
         admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
         admin.adjustsFontSizeToFitWidth = YES;
         admin.minimumScaleFactor = 0.5;
+        admin.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
 
         NSArray *constraints = @[
             @"|-16-[statusColor(==10)]-[status]-|",
