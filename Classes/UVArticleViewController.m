@@ -15,7 +15,11 @@
 #import "UVDeflection.h"
 #import "UVUtils.h"
 
-@implementation UVArticleViewController
+@implementation UVArticleViewController {
+    UILabel *_footerLabel;
+    UIButton *_yes;
+    UIButton *_no;
+}
 
 - (void)loadView {
     [super loadView];
@@ -52,14 +56,17 @@
     label.font = [UIFont systemFontOfSize:13];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     label.backgroundColor = [UIColor clearColor];
+    _footerLabel = label;
     UIButton *yes = [UIButton new];
     [yes setTitle:NSLocalizedStringFromTable(@"Yes!", @"UserVoice", nil) forState:UIControlStateNormal];
     [yes setTitleColor:(IOS7 ? yes.tintColor : [UIColor colorWithRed:0.0 green:0.5 blue:1.0 alpha:1.0]) forState:UIControlStateNormal];
     [yes addTarget:self action:@selector(yesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    _yes = yes;
     UIButton *no = [UIButton new];
     [no setTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil) forState:UIControlStateNormal];
     [no setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [no addTarget:self action:@selector(noButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    _no = no;
     NSArray *constraints = @[
         @"|[border]|", @"|-[label]-(>=10)-[yes]-30-[no]-30-|",
         @"V:|[border(==1)]", @"V:|-15-[label]", (IOS7 ? @"V:|-6-[yes]" : @"V:|-12-[yes]"), (IOS7 ? @"V:|-6-[no]" : @"V:|-12-[no]")
@@ -104,7 +111,9 @@
                                                         otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil];
         [actionSheet showInView:self.view];
     } else {
-        [self.navigationController popViewControllerAnimated:YES];
+        _yes.hidden = YES;
+        _no.hidden = YES;
+        _footerLabel.text = NSLocalizedStringFromTable(@"Great! Glad we could help.", @"UserVoice", nil);
     }
 }
 
