@@ -82,6 +82,8 @@
     NSMutableArray *fields = [NSMutableArray array];
     for (UVCustomField *field in [UVSession currentSession].clientConfig.customFields) {
         NSMutableArray *values = [NSMutableArray array];
+        if (!field.isRequired && field.isPredefined)
+            [values addObject:@{@"id" : @"", @"label" : NSLocalizedStringFromTable(@"(none)", @"UserVoice", nil)}];
         for (NSString *value in field.values) {
             [values addObject:@{@"id" : value, @"label" : value}];
         }
