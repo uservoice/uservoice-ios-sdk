@@ -24,6 +24,18 @@
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(send)];
+    if (_helpText) {
+        UIView *help = [UIView new];
+        help.frame = CGRectMake(0, 0, 0, 80);
+        UILabel *label = [UILabel new];
+        label.text = _helpText;
+        label.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
+        label.numberOfLines = 0;
+        label.font = [UIFont systemFontOfSize:12];
+        label.backgroundColor = [UIColor clearColor];
+        [self configureView:help subviews:@{@"label":label} constraints:@[@"|-[label]-|", @"V:|[label]"]];
+        _tableView.tableFooterView = help;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

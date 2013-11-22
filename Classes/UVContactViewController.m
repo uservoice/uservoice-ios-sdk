@@ -143,12 +143,7 @@
     UVSuccessViewController *next = [UVSuccessViewController new];
     next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);
-    [self.navigationController pushViewController:next animated:YES];
-    // [UIView transitionFromView:self.navigationController.view
-    //                     toView:next.view
-    //                   duration:0.5
-    //                    options:UIViewAnimationOptionTransitionFlipFromRight
-    //                 completion:nil];
+    [self.navigationController setViewControllers:@[next] animated:YES];
 }
 
 - (void)didReceiveError:(NSError *)error {

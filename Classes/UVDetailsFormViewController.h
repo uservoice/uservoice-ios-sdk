@@ -17,5 +17,6 @@
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, assign) id<UVInstantAnswersDelegate> delegate;
 @property (nonatomic, retain) NSMutableDictionary *selectedFieldValues;
+@property (nonatomic, retain) NSString *helpText;
 
 @end

@@ -181,6 +181,7 @@
 - (void)skipInstantAnswers {
     UVDetailsFormViewController *next = [UVDetailsFormViewController new];
     next.delegate = self;
+    next.helpText = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
     next.sendTitle = NSLocalizedStringFromTable(@"Post", @"UserVoice", nil);
     UVForum *forum = [UVSession currentSession].forum;
     if (forum.categories && forum.categories.count > 0) {
@@ -242,12 +243,7 @@
     UVSuccessViewController *next = [UVSuccessViewController new];
     next.titleText = NSLocalizedStringFromTable(@"Thank you!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"Your feedback has been posted to our feedback forum.", @"UserVoice", nil);
-    [self.navigationController pushViewController:next animated:YES];
-    // [UIView transitionFromView:self.navigationController.view
-    //                     toView:next.view
-    //                   duration:0.5
-    //                    options:UIViewAnimationOptionTransitionFlipFromRight
-    //                 completion:nil];
+    [self.navigationController setViewControllers:@[next] animated:YES];
     _sending = NO;
 }
 

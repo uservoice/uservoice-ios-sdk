@@ -14,6 +14,7 @@
 
 - (void)loadView {
     [super loadView];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     self.view = [UIView new];
     self.view.frame = [self contentFrame];
     self.view.backgroundColor = [UIColor colorWithRed:0.26f green:0.31f blue:0.35f alpha:1.0f];
