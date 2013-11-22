@@ -24,7 +24,7 @@
 
     CGFloat footerHeight = 46;
     _webView = [UIWebView new];
-    NSString *section = [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil), _article.topicName];
+    NSString *section = _article.topicName ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil), _article.topicName] : NSLocalizedStringFromTable(@"Knowledge base", @"UserVoice", nil);
     NSString *linkColor;
     if (IOS7) {
         linkColor = [UVUtils colorToCSS:self.view.tintColor];

@@ -213,7 +213,7 @@
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UILabel *category = [UILabel new];
     category.font = [UIFont systemFontOfSize:13];
-    category.text = _suggestion.category.name;
+    category.text = _suggestion.category.name ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil), _suggestion.category.name] : NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
     category.adjustsFontSizeToFitWidth = YES;
     category.minimumScaleFactor = 0.5;
     category.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
@@ -422,6 +422,7 @@
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:14];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+        people.backgroundColor = [UIColor clearColor];
         _subscriberCount = people;
 
         UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
@@ -429,6 +430,7 @@
         UILabel *this = [UILabel new];
         this.text = NSLocalizedStringFromTable(@"this idea", @"UserVoice", nil);
         this.font = people.font;
+        this.backgroundColor = [UIColor clearColor];
         this.textColor = people.textColor;
 
         UIButton *want = [UIButton new];
@@ -448,10 +450,12 @@
         UILabel *want = [UILabel new];
         want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
         want.font = [UIFont systemFontOfSize:16];
+        want.backgroundColor = [UIColor clearColor];
 
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:13];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+        people.backgroundColor = [UIColor clearColor];
         _subscriberCount = people;
 
         UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
@@ -459,6 +463,7 @@
         UILabel *this = [UILabel new];
         this.text = NSLocalizedStringFromTable(@"this", @"UserVoice", nil);
         this.font = people.font;
+        this.backgroundColor = [UIColor clearColor];
         this.textColor = people.textColor;
 
         UISwitch *toggle = [UISwitch new];
