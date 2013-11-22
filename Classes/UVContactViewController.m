@@ -30,6 +30,7 @@
     _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my message", @"UserVoice", nil);
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
     _textView = [[UVTextView alloc] initWithFrame:[self contentFrame]];
     _textView.placeholder = NSLocalizedStringFromTable(@"Give feedback or ask for help...", @"UserVoice", nil);

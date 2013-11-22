@@ -32,6 +32,7 @@
     _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, I want to post my idea", @"UserVoice", nil);
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil);
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
     UIView *title = [UIView new];
     self.titleField = [self configureView:title label:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil) placeholder:nil];
@@ -164,7 +165,7 @@
 - (void)didUpdateInstantAnswers {
     if (_proceed) {
         _proceed = NO;
-        [_instantAnswerManager pushInstantAnswersViewForParent:self articlesFirst:YES];
+        [_instantAnswerManager pushInstantAnswersViewForParent:self articlesFirst:NO];
     }
 }
 
@@ -239,8 +240,8 @@
     [UVBabayaga track:SUBMIT_IDEA];
     [self hideActivityIndicator];
     UVSuccessViewController *next = [UVSuccessViewController new];
-    next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
-    next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);
+    next.titleText = NSLocalizedStringFromTable(@"Thank you!", @"UserVoice", nil);
+    next.text = NSLocalizedStringFromTable(@"Your feedback has been posted to our feedback forum.", @"UserVoice", nil);
     [self.navigationController pushViewController:next animated:YES];
     // [UIView transitionFromView:self.navigationController.view
     //                     toView:next.view

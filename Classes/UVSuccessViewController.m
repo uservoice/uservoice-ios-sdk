@@ -24,6 +24,7 @@
     text.text = _text;
     text.textColor = [UIColor whiteColor];
     text.font = [UIFont systemFontOfSize:15];
+    text.numberOfLines = 0;
     text.textAlignment = NSTextAlignmentCenter;
     UIButton *button = [UIButton new];
     button.layer.borderWidth = 1.0;
@@ -35,7 +36,7 @@
     [button addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [self configureView:self.view
                subviews:NSDictionaryOfVariableBindings(title, text, button)
-            constraints:@[@"|-[title]-|", @"|-[text]-|", @"[button(>=90)]", @"V:|-160-[title]-16-[text]-60-[button(==28)]"]];
+            constraints:@[@"|-[title]-|", @"|-40-[text]-40-|", @"[button(>=90)]", @"V:|-160-[title]-16-[text]-60-[button(==28)]"]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
 }
 

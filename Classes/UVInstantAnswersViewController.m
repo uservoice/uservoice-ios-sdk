@@ -17,12 +17,13 @@
 
 - (void)loadView {
     [self setupGroupedTableView];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Are any of these helpful?", @"UserVoice", nil);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Skip", @"UserVoice", nil)
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(next)];
 
-
+    _tableView.rowHeight = 60;
 
     NSArray *visibleIdeas = [_instantAnswerManager.ideas subarrayWithRange:NSMakeRange(0, MIN(3, _instantAnswerManager.ideas.count))];
     NSArray *visibleArticles = [_instantAnswerManager.articles subarrayWithRange:NSMakeRange(0, MIN(3, _instantAnswerManager.articles.count))];
@@ -49,12 +50,15 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     id model = [[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
+    NSString *back = [self tableView:theTableView titleForHeaderInSection:indexPath.section];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"InstantAnswers", @"UserVoice", nil) style:UIBarButtonItemStylePlain target:nil action:nil];
     [_instantAnswerManager pushViewFor:model parent:self];
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.detailTextLabel.textColor = [UIColor grayColor];
     id model = [[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
     if ([model isMemberOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
@@ -72,6 +76,7 @@
 #pragma mark ===== Misc =====
 
 - (void)next {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [_instantAnswerManager skipInstantAnswers];
 }
 

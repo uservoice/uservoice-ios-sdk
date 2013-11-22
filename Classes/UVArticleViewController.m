@@ -21,6 +21,7 @@
     [super loadView];
     [UVBabayaga track:VIEW_ARTICLE id:_article.articleId];
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
+    self.navigationItem.title = @"";
 
     CGFloat footerHeight = 46;
     _webView = [UIWebView new];
