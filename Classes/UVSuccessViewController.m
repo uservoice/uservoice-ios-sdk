@@ -47,8 +47,15 @@
     }
     [self configureView:self.view
                subviews:NSDictionaryOfVariableBindings(title, text, button, power)
-            constraints:@[@"|-[title]-|", @"|-40-[text]-40-|", @"[button(>=90)]", @"|-[power]-|", @"V:|-160-[title]-16-[text]-60-[button(==28)]", @"V:[power]-20-|"]];
+            constraints:@[@"|-[title]-|", @"|-40-[text]-40-|", @"[button(>=90)]", @"|-[power]-|", @"V:|-(>=20)-[title]-16-[text]-40-[button(==28)]-(>=40)-[power]-20-|"]];
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:title attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:160];
+    constraint.priority = UILayoutPriorityDefaultLow;
+    [self.view addConstraint:constraint];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)dismiss {
