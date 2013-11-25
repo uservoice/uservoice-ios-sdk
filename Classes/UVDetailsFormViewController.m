@@ -71,7 +71,16 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.section == 0) ? 44 : 60;
+    if (indexPath.section == 0) {
+        return 44;
+    } else {
+        NSDictionary *field = _fields[indexPath.row];
+        if ([field[@"values"] count] > 0) {
+            return [self heightForDynamicRowWithReuseIdentifier:@"PredefinedField" indexPath:indexPath];
+        } else {
+            return 60;
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,10 +107,13 @@
     }
     UILabel *value = [UILabel new];
     value.tag = VALUE;
+    value.numberOfLines = 0;
     value.font = [UIFont systemFontOfSize:16];
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(label, value)
-            constraints:@[@"|-16-[label]-|", @"|-16-[value]-|", @"V:|-10-[label]-6-[value]"]];
+            constraints:@[@"|-16-[label]-|", @"|-16-[value]-|", @"V:|-10-[label]-6-[value]"]
+         finalCondition:(indexPath == nil)
+        finalConstraint:@"V:[value]-8-|"];
 }
 
 - (void)customizeCellForPredefinedField:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {

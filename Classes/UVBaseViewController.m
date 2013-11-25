@@ -402,13 +402,13 @@
         if ([self respondsToSelector:initCellSelector]) {
             [self performSelector:initCellSelector withObject:cell withObject:nil];
         }
-        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:_tableView.style accessoryType:cell.accessoryType], 0);
         [_templateCells setObject:cell forKey:cacheKey];
     }
     SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
     if ([self respondsToSelector:customizeCellSelector]) {
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
     }
+    cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:_tableView.style accessoryType:cell.accessoryType], 0);
     [cell.contentView setNeedsLayout];
     [cell.contentView layoutIfNeeded];
 
@@ -431,9 +431,11 @@
     if (IOS7) {
         if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
             accessoryWidth = 33;
+        } else if (accessoryType == UITableViewCellAccessoryCheckmark) {
+            accessoryWidth = 38.5;
         }
     } else {
-        if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+        if (accessoryType == UITableViewCellAccessoryDisclosureIndicator || accessoryType == UITableViewCellAccessoryCheckmark) {
             accessoryWidth = 20;
         }
         if (width > 20) {

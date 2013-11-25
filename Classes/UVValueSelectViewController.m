@@ -11,6 +11,8 @@
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
 
+#define LABEL 100
+
 @implementation UVValueSelectViewController
 
 - (id)initWithField:(NSDictionary *)theField valueDictionary:dictionary {
@@ -23,10 +25,22 @@
 
 #pragma mark ===== table cells =====
 
+- (void)initCellForValue:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = [UILabel new];
+    label.numberOfLines = 0;
+    label.tag = LABEL;
+    [self configureView:cell.contentView
+               subviews:NSDictionaryOfVariableBindings(label)
+            constraints:@[@"|-10-[label]-|", @"V:|-10-[label]"]
+         finalCondition:(indexPath == nil)
+        finalConstraint:@"V:[label]-10-|"];
+}
+
 - (void)customizeCellForValue:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
     NSDictionary *value = _field[@"values"][indexPath.row];
     NSDictionary *selectedValue = _valueDictionary[_field[@"name"]];
-    cell.textLabel.text = value[@"label"];
+    label.text = value[@"label"];
     cell.accessoryType = [value[@"id"] isEqualToString:selectedValue[@"id"]] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 }
 
@@ -45,6 +59,10 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _valueDictionary[_field[@"name"]] = _field[@"values"][indexPath.row];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self heightForDynamicRowWithReuseIdentifier:@"Value" indexPath:indexPath];
 }
 
 #pragma mark ===== Basic View Methods =====
