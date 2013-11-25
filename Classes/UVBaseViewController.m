@@ -43,10 +43,15 @@
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] clear];
     [[UVSession currentSession] clearFlash];
-    
-    [self dismissModalViewControllerAnimated:YES];
-    if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
-        [[UserVoice delegate] userVoiceWasDismissed];
+  
+  
+    if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
+        [[UserVoice delegate] userVoiceRequestsDismissal];
+    } else {
+        [self dismissModalViewControllerAnimated:YES];
+        if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
+            [[UserVoice delegate] userVoiceWasDismissed];
+    }
 }
 
 - (CGRect)contentFrame {

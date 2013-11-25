@@ -34,13 +34,18 @@
     [UVSession currentSession].clientConfig = clientConfig;
 }
 
-+ (void)presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController {
++ (UINavigationController *)getNavigationControllerForUserVoiceControllers:(NSArray *)viewControllers {
     [UVBabayaga track:VIEW_CHANNEL];
     [UVSession currentSession].isModal = YES;
     UINavigationController *navigationController = [[[UVNavigationController alloc] init] autorelease];
     [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = viewControllers;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    return navigationController;
+}
+
++ (void)presentUserVoiceControllers:(NSArray *)viewControllers forParentViewController:(UIViewController *)parentViewController {
+    UINavigationController *navigationController = [self getNavigationControllerForUserVoiceControllers:viewControllers];
     [parentViewController presentModalViewController:navigationController animated:YES];
 }
 
@@ -63,14 +68,24 @@
     [self presentUserVoiceInterfaceForParentViewController:parentViewController andConfig:config];
 }
 
++ (UIViewController *)getUserVoiceInterface {
+    return [[[UVRootViewController alloc] initWithViewToLoad:@"welcome"] autorelease];
+}
+
 + (void)presentUserVoiceInterfaceForParentViewController:(UIViewController *)parentViewController {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"welcome"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController];
+    [self presentUserVoiceController:[self getUserVoiceInterface] forParentViewController:parentViewController];
+}
+
++ (UIViewController *)getUserVoiceContactUsForm {
+    return [[[UVRootViewController alloc] initWithViewToLoad:@"new_ticket"] autorelease];
+}
+
++ (UIViewController *)getUserVoiceContactUsFormForModalDisplay {
+    return [self getNavigationControllerForUserVoiceControllers:@[[self getUserVoiceContactUsForm]]];
 }
 
 + (void)presentUserVoiceContactUsFormForParentViewController:(UIViewController *)parentViewController {
-    UIViewController *viewController = [[[UVRootViewController alloc] initWithViewToLoad:@"new_ticket"] autorelease];
-    [self presentUserVoiceController:viewController forParentViewController:parentViewController];
+    [self presentUserVoiceController:[self getUserVoiceContactUsForm] forParentViewController:parentViewController];
 }
 
 + (void)presentUserVoiceNewIdeaFormForParentViewController:(UIViewController *)parentViewController {
