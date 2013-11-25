@@ -61,10 +61,10 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
-        _question = [self objectOrNilForDict:dict key:@"question"];
-        _answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
+        _question = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"title"]];
+        _answerHTML = [self objectOrNilForDict:dict key:@"formatted_text"];
         _articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
-        _topicName = [[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"];
+        _topicName = [UVUtils decodeHTMLEntities:[[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"]];
     }
     return self;
 }
