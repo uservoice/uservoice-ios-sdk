@@ -13,6 +13,7 @@
 #import "UVForum.h"
 #import "UVHelpTopic.h"
 #import "UVConfig.h"
+#import "UVUtils.h"
 
 @implementation UVArticle
 
