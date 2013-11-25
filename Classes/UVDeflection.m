@@ -22,11 +22,11 @@ static NSInteger interactionIdentifier;
     if ([model isKindOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         [params setObject:@"Faq" forKey:@"deflector_type"];
-        [params setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:@"deflector_id"];
+        [params setObject:[NSString stringWithFormat:@"%ld", (long)article.articleId] forKey:@"deflector_id"];
     } else if ([model isKindOfClass:[UVSuggestion class]]) {
         UVSuggestion *suggestion = (UVSuggestion *)model;
         [params setObject:@"Suggestion" forKey:@"deflector_type"];
-        [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:@"deflector_id"];
+        [params setObject:[NSString stringWithFormat:@"%ld", (long)suggestion.suggestionId] forKey:@"deflector_id"];
     }
     [self sendDeflection:@"/clients/widgets/omnibox/deflections/upsert.json" params:params];
 }
@@ -39,10 +39,10 @@ static NSInteger interactionIdentifier;
     for (id model in results) {
         if ([model isKindOfClass:[UVArticle class]]) {
             UVArticle *article = (UVArticle *)model;
-            [articleIds addObject:[NSString stringWithFormat:@"%d", article.articleId]];
+            [articleIds addObject:[NSString stringWithFormat:@"%ld", (long)article.articleId]];
         } else if ([model isKindOfClass:[UVSuggestion class]]) {
             UVSuggestion *suggestion = (UVSuggestion *)model;
-            [suggestionIds addObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId]];
+            [suggestionIds addObject:[NSString stringWithFormat:@"%ld", (long)suggestion.suggestionId]];
         }
     }
     [params setObject:articleIds forKey:@"faq_ids[]"];
@@ -78,7 +78,7 @@ static NSInteger interactionIdentifier;
     [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
     [params setObject:@"ios" forKey:@"channel"];
     [params setObject:searchText forKey:@"search_term"];
-    [params setObject:[NSString stringWithFormat:@"%d", [self interactionIdentifier]] forKey:@"interaction_identifier"];
+    [params setObject:[NSString stringWithFormat:@"%ld", (long)[self interactionIdentifier]] forKey:@"interaction_identifier"];
     return params;
 }
 

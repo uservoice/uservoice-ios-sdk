@@ -323,7 +323,7 @@
 
     if(error != nil) {
         NSDictionary *headers = [response allHeaderFields];
-        NSString *errorReason = [NSString stringWithFormat:@"%d Error: ", code];
+        NSString *errorReason = [NSString stringWithFormat:@"%ld Error: ", (long)code];
         NSString *errorDescription = [NSHTTPURLResponse localizedStringForStatusCode:code];
         NSDictionary *userInfo = [[[NSDictionary dictionaryWithObjectsAndKeys:
                                    errorReason, NSLocalizedFailureReasonErrorKey,

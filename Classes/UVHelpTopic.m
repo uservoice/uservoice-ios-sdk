@@ -25,7 +25,7 @@
 }
 
 + (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%i.json", topicId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%li.json", (long)topicId]];
     return [self getPath:path
               withParams:nil
                   target:delegate
