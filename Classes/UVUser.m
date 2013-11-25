@@ -116,7 +116,7 @@
         @"upsert" : [NSNumber numberWithBool:TRUE],
         @"identifications" : @[
             @{
-                @"id" : [NSString stringWithFormat:@"%d", self.userId],
+                @"id" : [NSString stringWithFormat:@"%ld", (long)self.userId],
                 @"external_id" : externalId
             }
         ]

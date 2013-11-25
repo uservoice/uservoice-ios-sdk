@@ -43,7 +43,7 @@
 @synthesize category;
 
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions.json", (long)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:page] stringValue], @"page",
                             @"public", @"filter",
@@ -58,7 +58,7 @@
 }
 
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions/search.json", (long)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             query, @"query",
                             nil];
@@ -75,7 +75,7 @@
                  text:(NSString *)text
                 votes:(NSInteger)votes
              callback:(UVCallback *)callback {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions.json", (long)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
                             title, @"suggestion[title]",
@@ -90,9 +90,9 @@
 }
 
 - (id)vote:(NSInteger)number delegate:(id)delegate {
-    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/votes.json",
-                                            self.forumId,
-                                            self.suggestionId]];
+    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions/%ld/votes.json",
+                                            (long)self.forumId,
+                                            (long)self.suggestionId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:number] stringValue],
                             @"to",

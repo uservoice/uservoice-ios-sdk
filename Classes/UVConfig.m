@@ -66,7 +66,7 @@
     return self;
 }
 
-- (int)forumId {
+- (NSInteger)forumId {
     return forumId == 0 ? [UVSession currentSession].clientConfig.defaultForumId : forumId;
 }
 
