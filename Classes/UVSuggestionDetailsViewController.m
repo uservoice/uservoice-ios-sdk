@@ -281,12 +281,11 @@
         text.tag = ADMIN_RESPONSE;
 
         UILabel *admin = [UILabel new];
-        admin.font = [UIFont systemFontOfSize:12];
+        admin.font = [UIFont systemFontOfSize:11];
         admin.text = _suggestion.responseUserWithTitle;
-        admin.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+        admin.textColor = [UIColor colorWithRed:0.69f green:0.69f blue:0.72f alpha:1.0f];
         admin.adjustsFontSizeToFitWidth = YES;
         admin.minimumScaleFactor = 0.5;
-        admin.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
 
         NSArray *constraints = @[
             @"|-16-[statusColor(==10)]-[status]-|",

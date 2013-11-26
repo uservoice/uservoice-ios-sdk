@@ -18,7 +18,12 @@
     if (_image) {
         [_image drawInRect:rect];
     } else {
-        [_defaultImage drawInRect:rect];
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        if (ctx) {
+            CGContextSetFillColorWithColor(ctx, [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.f].CGColor);
+            CGContextFillRect(ctx, self.bounds);
+            CGContextFlush(ctx);
+        }
     }
 }
 
