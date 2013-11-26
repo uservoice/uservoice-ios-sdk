@@ -186,6 +186,7 @@
     UVForum *forum = [UVSession currentSession].forum;
     if (forum.categories && forum.categories.count > 0) {
         NSMutableArray *values = [NSMutableArray array];
+        [values addObject:@{ @"id" : @"", @"label" : NSLocalizedStringFromTable(@"(none)", @"UserVoice", nil) }];
         for (UVCategory *category in forum.categories) {
             [values addObject:@{ @"id" : [NSString stringWithFormat:@"%d", (int)category.categoryId], @"label" : category.name }];
         }
