@@ -30,7 +30,7 @@
 - (void)layoutSubviews {
     if (!_constraintsAdded) {
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[placeholder]" options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:(@"|-12-[placeholder]") options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:(@"|-4-[placeholder]") options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
         _constraintsAdded = YES;
     }
     [super layoutSubviews];

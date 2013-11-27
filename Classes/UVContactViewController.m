@@ -21,9 +21,14 @@
 @implementation UVContactViewController {
     BOOL _proceed;
     BOOL _sending;
+    NSLayoutConstraint *_keyboardConstraint;
 }
 
 - (void)loadView {
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor whiteColor];
+    view.frame = [self contentFrame];
+
     [self registerForKeyboardNotifications];
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
@@ -33,9 +38,25 @@
     self.navigationItem.title = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
-    _textView = [[UVTextView alloc] initWithFrame:[self contentFrame]];
+    _textView = [UVTextView new];
     _textView.placeholder = NSLocalizedStringFromTable(@"Give feedback or ask for help...", @"UserVoice", nil);
     _textView.delegate = self;
+
+    NSArray *constraints = @[
+        @"|-4-[_textView]-4-|", @"V:|[_textView]"
+    ];
+    [self configureView:view
+               subviews:NSDictionaryOfVariableBindings(_textView)
+            constraints:constraints];
+    _keyboardConstraint = [NSLayoutConstraint constraintWithItem:_textView
+                                                       attribute:NSLayoutAttributeBottom
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:view
+                                                       attribute:NSLayoutAttributeBottom
+                                                      multiplier:1.0
+                                                        constant:-_kbHeight];
+    [view addConstraint:_keyboardConstraint];
+
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
@@ -48,7 +69,17 @@
                                                                              action:@selector(next)];
     [self loadDraft];
     self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
-    self.view = _textView;
+    self.view = view;
+}
+
+- (void)keyboardDidShow:(NSNotification *)note {
+    _keyboardConstraint.constant = -_kbHeight;
+    [self.view layoutIfNeeded];
+}
+
+- (void)keyboardDidHide:(NSNotification *)note {
+    _keyboardConstraint.constant = 0;
+    [self.view layoutIfNeeded];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

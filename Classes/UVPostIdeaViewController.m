@@ -67,7 +67,7 @@
     NSArray *constraints = @[
         @"|[title]|",
         @"|-16-[sep0]|",
-        @"|-16-[_textView]-|",
+        @"|-12-[_textView]-|",
         @"|[sep1]|",
         @"|-[desc]-|",
         @"|[bg]|",
