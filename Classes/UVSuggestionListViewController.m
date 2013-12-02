@@ -333,6 +333,8 @@
 }
 
 - (void)dealloc {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     self.forum = nil;
     self.suggestions = nil;
     self.searchResults = nil;
