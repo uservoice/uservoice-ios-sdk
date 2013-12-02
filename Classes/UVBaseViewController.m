@@ -43,12 +43,16 @@
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] clear];
     [[UVSession currentSession] clearFlash];
-  
-  
+    
+    [self dismissUserVoiceWithoutFlush:YES];
+}
+
+- (void)dismissUserVoiceWithoutFlush:(BOOL)animated
+{
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
         [[UserVoice delegate] userVoiceRequestsDismissal];
     } else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissModalViewControllerAnimated:animated];
         if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
             [[UserVoice delegate] userVoiceWasDismissed];
     }

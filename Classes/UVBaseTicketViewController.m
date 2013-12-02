@@ -88,7 +88,7 @@
 
     [self cleanupInstantAnswersTimer];
     dismissed = YES;
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissUserVoiceWithoutFlush:YES];
 }
 
 - (void)reloadCustomFieldsTable {
@@ -226,7 +226,7 @@
         if ([UVSession currentSession].isModal && firstController)
             [self dismissUserVoice];
         else
-            [self dismissModalViewControllerAnimated:YES];
+            [self dismissUserVoiceWithoutFlush:YES];
     }
 }
 

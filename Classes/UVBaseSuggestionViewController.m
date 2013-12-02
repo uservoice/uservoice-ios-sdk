@@ -127,7 +127,8 @@
     _isSubmittingSuggestion = NO;
     
     [self hideActivityIndicator];
-    [self dismissModalViewControllerAnimated:YES];
+    
+    [self dismissUserVoiceWithoutFlush:YES];
 }
 
 - (void)initCellForCategory:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -184,7 +185,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0)
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissUserVoiceWithoutFlush:YES];
 }
 
 - (void)dismiss {
@@ -200,7 +201,7 @@
             [actionSheet showInView:self.view];
         }
     } else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissUserVoiceWithoutFlush:YES];
     }
 }
 

@@ -556,7 +556,7 @@
 }
 
 - (void)dismiss {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissUserVoiceWithoutFlush:YES];
 }
 
 - (void)initNavigationItem {
