@@ -46,7 +46,6 @@
     } else {
         [UVClientConfig getWithDelegate:self];
     }
-    [self loadUser];
 }
 
 - (void)loadUser {
@@ -90,6 +89,7 @@
 - (void)didLoadClientConfig {
     UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
     configDone = YES;
+    [self loadUser];
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
