@@ -59,7 +59,7 @@ static NSInteger interactionIdentifier;
 + (void)sendDeflection:(NSString *)path params:(NSDictionary *)params {
     NSDictionary *opts = @{
         kHRClassAttributesBaseURLKey  : [UVBaseModel baseURL],
-        kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
+        kHRClassAttributesDelegateKey : self,
         @"params" : params
     };
     [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:nil];
@@ -74,7 +74,10 @@ static NSInteger interactionIdentifier;
 
 + (NSMutableDictionary *)deflectionParams {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
+    if ([UVBabayaga instance].uvts) {
+        // there should be one, but don't crash if there isn't!
+        [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
+    }
     [params setObject:@"ios" forKey:@"channel"];
     [params setObject:searchText forKey:@"search_term"];
     [params setObject:[NSString stringWithFormat:@"%d", (int)[self interactionIdentifier]] forKey:@"interaction_identifier"];
