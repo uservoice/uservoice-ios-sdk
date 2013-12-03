@@ -109,7 +109,7 @@
     }
     NSDictionary *opts = @{
         kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com/t/"],
-        kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
+        kHRClassAttributesDelegateKey : self,
         @"params" : params
     };
     UVRequestContext *requestContext = [UVRequestContext new];
