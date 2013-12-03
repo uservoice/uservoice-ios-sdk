@@ -64,7 +64,9 @@
 - (void)initCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
+    if (IOS7) {
+        cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
+    }
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_article.png"]];
     UILabel *title = [UILabel new];
     title.font = [UIFont systemFontOfSize:18];
@@ -98,7 +100,9 @@
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
+    if (IOS7) {
+        cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
+    }
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_idea.png"]];
     UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
     UILabel *subs = [UILabel new];

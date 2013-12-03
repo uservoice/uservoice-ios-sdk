@@ -61,10 +61,12 @@
 }
 
 - (void)setUvts:(NSString *)uvts {
-    _uvts = uvts;
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:_uvts forKey:@"uv-uvts"];
-    [prefs synchronize];
+    if (uvts) {
+        _uvts = uvts;
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setObject:_uvts forKey:@"uv-uvts"];
+        [prefs synchronize];
+    }
 }
 
 - (void)track:(NSString *)event props:(NSDictionary *)props {
