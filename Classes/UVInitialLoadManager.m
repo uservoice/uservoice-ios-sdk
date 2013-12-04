@@ -55,9 +55,8 @@
         [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
         [UVUser retrieveCurrentUser:self];
     } else {
-        userDone = YES;
+        [self didLoadUser];
     }
-    [self checkComplete];
 }
 
 - (void)checkComplete {
@@ -102,11 +101,6 @@
         topicsDone = YES;
         articlesDone = YES;
     }
-    if (clientConfig.feedbackEnabled) {
-        [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
-    } else {
-        forumDone = YES;
-    }
     [self checkComplete];
 }
 
@@ -122,15 +116,23 @@
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     [UVBabayaga track:IDENTIFY];
-    userDone = YES;
-    [self checkComplete];
+    [self didLoadUser];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     if (dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
+    [self didLoadUser];
+}
+
+- (void)didLoadUser {
     userDone = YES;
+    if ([UVSession currentSession].clientConfig.feedbackEnabled) {
+        [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
+    } else {
+        forumDone = YES;
+    }
     [self checkComplete];
 }
 
@@ -165,7 +167,7 @@
     if ([UVUtils isAuthError:error]) {
         if ([requestContext.context isEqualToString:@"sso"] || [requestContext.context isEqualToString:@"local-sso"]) {
           // SSO and local SSO can fail with regard to admins. It's ok to proceed without a user.
-          userDone = YES;
+          [self didLoadUser];
           return;
         }
         if ([UVAccessToken exists]) {
