@@ -20,6 +20,7 @@
 #import "UVCustomField.h"
 #import "UVSession.h"
 #import "UVConfig.h"
+#import "UVBabayaga.h"
 
 @implementation UVTicket
 
@@ -52,6 +53,10 @@
     if ([UVSession currentSession].config.extraTicketInfo != nil) {
         NSString *messageText = [NSString stringWithFormat:@"%@\n\n%@", message, [UVSession currentSession].config.extraTicketInfo];
         [params setObject:messageText forKey:@"ticket[message]"];
+    }
+
+    if ([UVBabayaga instance].uvts) {
+        [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
     }
 
     return [[self class] postPath:path
