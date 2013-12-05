@@ -1,5 +1,11 @@
 ## master ##
 
+## 2.0.14 ##
+
+* Fix potential header collision
+* Fix iOS 7 crash related to custom fields
+* Fix an issue where SDK launch would fail if a user identity was passed and a key pair was not passed
+
 ## 2.0.13 ##
 
 * Add support for new UserVoice metrics

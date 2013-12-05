@@ -44,7 +44,6 @@
     } else {
         [UVClientConfig getWithDelegate:self];
     }
-    [self loadUser];
 }
 
 - (void)loadUser {
@@ -54,9 +53,8 @@
         [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithExisting];
         [UVUser retrieveCurrentUser:self];
     } else {
-        _userDone = YES;
+        [self didLoadUser];
     }
-    [self checkComplete];
 }
 
 - (void)checkComplete {
@@ -85,6 +83,7 @@
 - (void)didLoadClientConfig {
     UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
     _configDone = YES;
+    [self loadUser];
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
@@ -96,11 +95,6 @@
     } else {
         _topicsDone = YES;
         _articlesDone = YES;
-    }
-    if (clientConfig.feedbackEnabled) {
-        [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
-    } else {
-        _forumDone = YES;
     }
     [self checkComplete];
 }
@@ -117,15 +111,23 @@
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     [UVBabayaga track:IDENTIFY];
-    _userDone = YES;
-    [self checkComplete];
+    [self didLoadUser];
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
     if (_dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
+    [self didLoadUser];
+}
+
+- (void)didLoadUser {
     _userDone = YES;
+    if ([UVSession currentSession].clientConfig.feedbackEnabled) {
+        [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
+    } else {
+        _forumDone = YES;
+    }
     [self checkComplete];
 }
 
@@ -160,7 +162,7 @@
     if ([UVUtils isAuthError:error]) {
         if ([requestContext.context isEqualToString:@"sso"] || [requestContext.context isEqualToString:@"local-sso"]) {
           // SSO and local SSO can fail with regard to admins. It's ok to proceed without a user.
-          _userDone = YES;
+          [self didLoadUser];
           return;
         }
         if ([UVAccessToken exists]) {
