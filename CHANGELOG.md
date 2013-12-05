@@ -1,5 +1,10 @@
 ## master ##
 
+## 2.0.15 ##
+
+* Fix a bug in the initialization code related to private forums
+* Fix a bug that prevented user traits from being associated with tickets
+
 ## 2.0.14 ##
 
 * Fix potential header collision
