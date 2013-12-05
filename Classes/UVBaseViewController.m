@@ -456,17 +456,7 @@
 }
 
 - (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint {
-    for (NSString *key in [viewsDict keyEnumerator]) {
-        UIView *view = viewsDict[key];
-        view.translatesAutoresizingMaskIntoConstraints = NO;
-        [superview addSubview:view];
-    }
-    for (NSString *constraintString in constraintStrings) {
-        [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:constraintString options:0 metrics:nil views:viewsDict]];
-    }
-    if (includeFinalConstraint) {
-        [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:finalConstraint options:0 metrics:nil views:viewsDict]];
-    }
+    [UVUtils configureView:superview subviews:viewsDict constraints:constraintStrings finalCondition:includeFinalConstraint finalConstraint:finalConstraint];
 }
 
 - (UITextField *)configureView:(UIView *)view label:(NSString *)labelText placeholder:(NSString *)placeholderText {

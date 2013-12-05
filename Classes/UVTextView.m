@@ -28,7 +28,7 @@
 }
 
 - (void)layoutSubviews {
-    if (!_constraintsAdded) {
+    if (!_constraintsAdded && _placeholderLabel.superview) {
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[placeholder]" options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:(IOS7 ? @"|-4-[placeholder]" : @"|-8-[placeholder]") options:0 metrics:nil views:@{@"placeholder":_placeholderLabel}]];
         _constraintsAdded = YES;

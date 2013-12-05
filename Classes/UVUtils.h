@@ -33,4 +33,6 @@
 
 + (NSString *)colorToCSS:(UIColor *)color;
 
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint;
+
 @end

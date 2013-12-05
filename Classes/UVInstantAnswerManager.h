@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class UVArticle;
+@class UVSuggestion;
+
 @protocol UVInstantAnswersDelegate
 /*
  * Called whenever there are new instant answer results
@@ -62,6 +65,14 @@
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent;
 - (void)pushInstantAnswersViewForParent:(UIViewController *)parent articlesFirst:(BOOL)articlesFirst;
 - (void)skipInstantAnswers;
+
+/*
+ * Cell layout helpers
+ */
+- (void)initCellForSuggestion:(UITableViewCell *)cell finalCondition:(BOOL)final;
+- (void)customizeCell:(UITableViewCell *)cell forSuggestion:(UVSuggestion *)suggestion;
+- (void)initCellForArticle:(UITableViewCell *)cell finalCondition:(BOOL)final;
+- (void)customizeCell:(UITableViewCell *)cell forArticle:(UVArticle *)article;
 
 @end
 

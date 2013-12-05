@@ -6,17 +6,10 @@
 //  Copyright (c) 2013 UserVoice Inc. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
 #import "UVInstantAnswersViewController.h"
 #import "UVArticle.h"
 #import "UVSuggestion.h"
 #import "UVDeflection.h"
-
-#define TITLE 20
-#define SUBSCRIBER_COUNT 21
-#define STATUS 22
-#define STATUS_COLOR 23
-#define SECTION 24
 
 @implementation UVInstantAnswersViewController
 
@@ -62,92 +55,21 @@
 }
 
 - (void)initCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (IOS7) {
-        cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
-    }
-    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_article.png"]];
-    UILabel *title = [UILabel new];
-    title.font = [UIFont systemFontOfSize:18];
-    title.numberOfLines = 0;
-    title.tag = TITLE;
-    UILabel *section = [UILabel new];
-    section.font = [UIFont systemFontOfSize:12];
-    section.textColor = [UIColor grayColor];
-    section.tag = SECTION;
-    NSArray *constraints = @[
-        @"|-15-[icon(==28)]-15-[title]-|",
-        @"|-58-[section]",
-        @"V:|-15-[icon(==28)]",
-        @"V:|-12-[title]-6-[section]"
-    ];
-    [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(icon, title, section)
-            constraints:constraints
-         finalCondition:indexPath == nil
-        finalConstraint:@"V:[section]-14-|"];
+    [_instantAnswerManager initCellForArticle:cell finalCondition:indexPath == nil];
 }
 
 - (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVArticle *article = (UVArticle *)[[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
-    UILabel *title = (UILabel *)[cell.contentView viewWithTag:TITLE];
-    UILabel *section = (UILabel *)[cell.contentView viewWithTag:SECTION];
-    title.text = article.question;
-    section.text = article.topicName;
+    [_instantAnswerManager customizeCell:cell forArticle:article];
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (IOS7) {
-        cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
-    }
-    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_idea.png"]];
-    UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
-    UILabel *subs = [UILabel new];
-    subs.font = [UIFont systemFontOfSize:14];
-    subs.textColor = [UIColor grayColor];
-    subs.tag = SUBSCRIBER_COUNT;
-    UILabel *title = [UILabel new];
-    title.numberOfLines = 0;
-    title.tag = TITLE;
-    title.font = [UIFont systemFontOfSize:17];
-    UILabel *status = [UILabel new];
-    status.font = [UIFont systemFontOfSize:11];
-    status.tag = STATUS;
-    UIView *statusColor = [UIView new];
-    statusColor.tag = STATUS_COLOR;
-    CALayer *layer = [CALayer layer];
-    layer.frame = CGRectMake(0, 0, 9, 9);
-    [statusColor.layer addSublayer:layer];
-    NSArray *constraints = @[
-        @"|-15-[icon(==28)]-15-[title]-|",
-        @"|-58-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]",
-        @"V:|-15-[icon(==28)]",
-        @"V:|-12-[title]-6-[heart(==9)]",
-        @"V:[title]-6-[statusColor(==9)]",
-        @"V:[title]-4-[status]",
-        @"V:[title]-2-[subs]"
-    ];
-    [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(icon, subs, title, heart, statusColor, status)
-            constraints:constraints
-         finalCondition:indexPath == nil
-        finalConstraint:@"V:[heart]-14-|"];
+    [_instantAnswerManager initCellForSuggestion:cell finalCondition:indexPath == nil];
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVSuggestion *suggestion = (UVSuggestion *)[[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
-    UILabel *title = (UILabel *)[cell.contentView viewWithTag:TITLE];
-    UILabel *subs = (UILabel *)[cell.contentView viewWithTag:SUBSCRIBER_COUNT];
-    UILabel *status = (UILabel *)[cell.contentView viewWithTag:STATUS];
-    UIView *statusColor = [cell.contentView viewWithTag:STATUS_COLOR];
-    title.text = suggestion.title;
-    subs.text = [NSString stringWithFormat:@"%d", (int)suggestion.subscriberCount];
-    [statusColor.layer.sublayers.lastObject setBackgroundColor:suggestion.statusColor.CGColor];
-    status.textColor = suggestion.statusColor;
-    status.text = [suggestion.status uppercaseString];
+    [_instantAnswerManager customizeCell:cell forSuggestion:suggestion];
 }
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
