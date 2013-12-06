@@ -85,6 +85,9 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section != 1) {
+        return;
+    }
     NSDictionary *field = _fields[indexPath.row];
     if ([field[@"values"] count] > 0) {
         UVValueSelectViewController *next = [[UVValueSelectViewController alloc] initWithField:field valueDictionary:_selectedFieldValues];
@@ -177,5 +180,17 @@
 - (void)send {
     [_delegate sendWithEmail:_emailField.text name:_nameField.text fields:_selectedFieldValues];
 }
+
+- (void)showActivityIndicator {
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityView startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+}
+
+- (void)hideActivityIndicator {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(_sendTitle, @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(send)];
+}
+
+
 
 @end

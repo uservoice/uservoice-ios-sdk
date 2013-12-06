@@ -22,6 +22,7 @@
     BOOL _proceed;
     BOOL _sending;
     NSLayoutConstraint *_keyboardConstraint;
+    UVDetailsFormViewController *_detailsController;
 }
 
 - (void)loadView {
@@ -95,12 +96,14 @@
 - (void)didUpdateInstantAnswers {
     if (_proceed) {
         _proceed = NO;
+        [self hideActivityIndicator];
         [_instantAnswerManager pushInstantAnswersViewForParent:self articlesFirst:YES];
     }
 }
 
 - (void)next {
     _proceed = YES;
+    [self showActivityIndicator];
     [_instantAnswerManager search];
     if (!_instantAnswerManager.loading) {
         [self didUpdateInstantAnswers];
@@ -111,10 +114,20 @@
     return _textView;
 }
 
+- (void)showActivityIndicator {
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityView startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+}
+
+- (void)hideActivityIndicator {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(next)];
+}
+
 - (void)skipInstantAnswers {
-    UVDetailsFormViewController *next = [UVDetailsFormViewController new];
-    next.delegate = self;
-    next.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
+    _detailsController = [UVDetailsFormViewController new];
+    _detailsController.delegate = self;
+    _detailsController.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
     NSMutableArray *fields = [NSMutableArray array];
     for (UVCustomField *field in [UVSession currentSession].clientConfig.customFields) {
         NSMutableArray *values = [NSMutableArray array];
@@ -128,13 +141,13 @@
         else
             [fields addObject:@{ @"name" : field.name, @"values" : values }];
     }
-    next.fields = fields;
-    next.selectedFieldValues = [NSMutableDictionary dictionary];
+    _detailsController.fields = fields;
+    _detailsController.selectedFieldValues = [NSMutableDictionary dictionary];
     for (NSString *key in [UVSession currentSession].config.customFields.allKeys) {
         NSString *value = [UVSession currentSession].config.customFields[key];
-        next.selectedFieldValues[key] = @{ @"id" : value, @"label" : value };
+        _detailsController.selectedFieldValues[key] = @{ @"id" : value, @"label" : value };
     }
-    [self.navigationController pushViewController:next animated:YES];
+    [self.navigationController pushViewController:_detailsController animated:YES];
 }
 
 - (BOOL)validateCustomFields:(NSDictionary *)fields {
@@ -150,7 +163,6 @@
 
 - (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fields {
     if (_sending) return;
-    [self showActivityIndicator];
     NSMutableDictionary *customFields = [NSMutableDictionary dictionary];
     for (NSString *key in fields.allKeys) {
         customFields[key] = fields[key][@"label"];
@@ -162,13 +174,13 @@
     } else if (![self validateCustomFields:customFields]) {
         [self alertError:NSLocalizedStringFromTable(@"Please fill out all required fields.", @"UserVoice", nil)];
     } else {
+        [_detailsController showActivityIndicator];
         _sending = YES;
         [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:customFields andDelegate:self];
     }
 }
 
 - (void)didCreateTicket:(UVTicket *)ticket {
-    [self hideActivityIndicator];
     [self clearDraft];
     [UVBabayaga track:SUBMIT_TICKET];
     UVSuccessViewController *next = [UVSuccessViewController new];
@@ -179,6 +191,7 @@
 
 - (void)didReceiveError:(NSError *)error {
     _sending = NO;
+    [_detailsController hideActivityIndicator];
     [super didReceiveError:error];
 }
 

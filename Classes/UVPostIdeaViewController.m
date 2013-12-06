@@ -20,6 +20,7 @@
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
     BOOL _sending;
+    UVDetailsFormViewController *_detailsController;
 }
 
 - (void)loadView {
@@ -165,12 +166,14 @@
 - (void)didUpdateInstantAnswers {
     if (_proceed) {
         _proceed = NO;
+        [self hideActivityIndicator];
         [_instantAnswerManager pushInstantAnswersViewForParent:self articlesFirst:NO];
     }
 }
 
 - (void)next {
     if (_proceed) return;
+    [self showActivityIndicator];
     _proceed = YES;
     [_instantAnswerManager search];
     if (!_instantAnswerManager.loading) {
@@ -178,11 +181,21 @@
     }
 }
 
+- (void)showActivityIndicator {
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityView startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+}
+
+- (void)hideActivityIndicator {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(next)];
+}
+
 - (void)skipInstantAnswers {
-    UVDetailsFormViewController *next = [UVDetailsFormViewController new];
-    next.delegate = self;
-    next.helpText = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
-    next.sendTitle = NSLocalizedStringFromTable(@"Post", @"UserVoice", nil);
+    _detailsController = [UVDetailsFormViewController new];
+    _detailsController.delegate = self;
+    _detailsController.helpText = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
+    _detailsController.sendTitle = NSLocalizedStringFromTable(@"Post", @"UserVoice", nil);
     UVForum *forum = [UVSession currentSession].forum;
     if (forum.categories && forum.categories.count > 0) {
         NSMutableArray *values = [NSMutableArray array];
@@ -190,13 +203,13 @@
         for (UVCategory *category in forum.categories) {
             [values addObject:@{ @"id" : [NSString stringWithFormat:@"%d", (int)category.categoryId], @"label" : category.name }];
         }
-        next.fields = @[ @{
+        _detailsController.fields = @[ @{
             @"name" : NSLocalizedStringFromTable(@"Category", @"UserVoice", nil),
             @"values" : values
         } ];
-        next.selectedFieldValues = [NSMutableDictionary dictionary];
+        _detailsController.selectedFieldValues = [NSMutableDictionary dictionary];
     }
-    [self.navigationController pushViewController:next animated:YES];
+    [self.navigationController pushViewController:_detailsController animated:YES];
 }
 
 - (void)dismiss {
@@ -207,10 +220,10 @@
     if (_sending) return;
     self.userEmail = email;
     self.userName = name;
-    if (![UVSession currentSession].user && email.length == 0) {
+    if (email.length == 0) {
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
     } else {
-        [self showActivityIndicator];
+        [_detailsController showActivityIndicator];
         _selectedCategoryId = [fields[@"category"][@"id"] intValue];
         [self requireUserAuthenticated:email name:name callback:_didAuthenticateCallback];
     }
@@ -219,9 +232,9 @@
 - (void)didReceiveError:(NSError *)error {
     _sending = NO;
     if ([UVUtils isNotFoundError:error]) {
-        [self hideActivityIndicator];
+        [_detailsController hideActivityIndicator];
     } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
-        [self hideActivityIndicator];
+        [_detailsController hideActivityIndicator];
         [self alertError:NSLocalizedStringFromTable(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", nil)];
     } else {
         [super didReceiveError:error];
@@ -240,7 +253,6 @@
 
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:SUBMIT_IDEA];
-    [self hideActivityIndicator];
     UVSuccessViewController *next = [UVSuccessViewController new];
     next.titleText = NSLocalizedStringFromTable(@"Thank you!", @"UserVoice", nil);
     next.text = NSLocalizedStringFromTable(@"Your feedback has been posted to our feedback forum.", @"UserVoice", nil);
