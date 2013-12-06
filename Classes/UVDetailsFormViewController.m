@@ -18,6 +18,7 @@
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {
+    [self registerForKeyboardNotifications];
     [self setupGroupedTableView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Additional Details", @"UserVoice", nil);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(_sendTitle, @"UserVoice", nil)
