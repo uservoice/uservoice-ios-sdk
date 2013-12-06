@@ -35,9 +35,8 @@
 #define STATUS_COLOR 23
 
 @implementation UVSuggestionListViewController {
+    UITableViewCell *_templateCell;
     UILabel *_loadingLabel;
-    UIView *_footerView;
-    BOOL _searching;
 }
 
 - (id)init {
@@ -75,12 +74,8 @@
     for (UVSuggestion *suggestion in theSuggestions) {
         [ids addObject:[NSNumber numberWithInt:suggestion.suggestionId]];
     }
-    [UVBabayaga track:SEARCH_IDEAS searchText:_searchBar.text ids:ids];
-    [_tableView reloadData];
-}
-
-- (NSArray *)visibleSuggestions {
-    return _searching ? _searchResults : _suggestions;
+    [UVBabayaga track:SEARCH_IDEAS searchText:_searchController.searchBar.text ids:ids];
+    [_searchController.searchResultsTableView reloadData];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -129,7 +124,15 @@
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForSuggestion:[self.visibleSuggestions objectAtIndex:indexPath.row] cell:cell];
+    [self customizeCellForSuggestion:[_suggestions objectAtIndex:indexPath.row] cell:cell];
+}
+
+- (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self initCellForSuggestion:cell indexPath:indexPath];
+}
+
+- (void)customizeCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [self customizeCellForSuggestion:[_searchResults objectAtIndex:indexPath.row] cell:cell];
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -157,7 +160,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < self.visibleSuggestions.count) ? @"Suggestion" : @"Load";
+    NSString *identifier;
+    if (theTableView == _tableView) {
+        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < _suggestions.count) ? @"Suggestion" : @"Load";
+    } else {
+        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : @"Result";
+    }
     return [self createCellForIdentifier:identifier
                                tableView:theTableView
                                indexPath:indexPath
@@ -168,12 +176,12 @@
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0 && [UVSession currentSession].config.showPostIdea) {
         return 1;
-    } else if (_searching) {
-        return _searchResults.count;
-    } else {
+    } else if (theTableView == _tableView) {
         int loadedCount = _suggestions.count;
         int suggestionsCount = _forum.suggestionsCount;
-        return loadedCount + (loadedCount >= suggestionsCount ? 0 : 1);
+        return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
+    } else {
+        return _searchResults.count;
     }
 }
 
@@ -186,7 +194,7 @@
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
         return 44;
-    } else if (indexPath.row < self.visibleSuggestions.count) {
+    } else if (theTableView != _tableView || indexPath.row < _suggestions.count) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else {
         return 44;
@@ -208,7 +216,7 @@
 
 - (void)composeButtonTapped {
     UVPostIdeaViewController *next = [UVPostIdeaViewController new];
-    next.initialText = _searchBar.text;
+    next.initialText = _searchController.searchBar.text;
     [self presentModalViewController:next];
 }
 
@@ -216,10 +224,13 @@
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
         [self composeButtonTapped];
-    } else if (indexPath.row < self.visibleSuggestions.count) {
-        [self showSuggestion:[self.visibleSuggestions objectAtIndex:indexPath.row]];
+    } else if (theTableView == _tableView) {
+        if (indexPath.row < _suggestions.count)
+            [self showSuggestion:[_suggestions objectAtIndex:indexPath.row]];
+        else
+            [self retrieveMoreSuggestions];
     } else {
-        [self retrieveMoreSuggestions];
+        [self showSuggestion:[_searchResults objectAtIndex:indexPath.row]];
     }
 }
 
@@ -230,24 +241,13 @@
 #pragma mark ===== UISearchBarDelegate Methods =====
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    [_searchBar setShowsCancelButton:YES animated:YES];
-    _searching = YES;
-    _tableView.tableFooterView = nil;
-    [_tableView reloadData];
+    [_searchController setActive:YES animated:YES];
+    [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    _searchBar.text = @"";
-    [_searchBar setShowsCancelButton:NO animated:YES];
-    [_searchBar resignFirstResponder];
-    _searching = NO;
-    _tableView.tableFooterView = _footerView;
-    [_tableView reloadData];
-}
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [UVSuggestion searchWithForum:_forum query:_searchBar.text delegate:self];
+    [UVSuggestion searchWithForum:_forum query:searchBar.text delegate:self];
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -257,14 +257,18 @@
     [UVBabayaga track:VIEW_FORUM id:_forum.forumId];
     [self setupGroupedTableView];
 
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
-    _searchBar.placeholder = NSLocalizedStringFromTable(@"Search forum", @"UserVoice", nil);
-    _searchBar.delegate = self;
-    _tableView.tableHeaderView = _searchBar;
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+    searchBar.placeholder = NSLocalizedStringFromTable(@"Search forum", @"UserVoice", nil);
+    searchBar.delegate = self;
+
+    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    _searchController.delegate = self;
+    _searchController.searchResultsDataSource = self;
+    _searchController.searchResultsDelegate = self;
+    _tableView.tableHeaderView = searchBar;
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
-        _footerView = self.poweredByView;
-        _tableView.tableFooterView = _footerView;
+        _tableView.tableFooterView = self.poweredByView;
     }
 
     if ([UVSession currentSession].config.showPostIdea) {
@@ -300,6 +304,11 @@
     if ([UVSession currentSession].isModal && _firstController) {
         self.navigationItem.leftBarButtonItem = _exitButton;
     }
+}
+
+- (void)reloadTableData {
+    _suggestions = _forum.suggestions;
+    [_tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

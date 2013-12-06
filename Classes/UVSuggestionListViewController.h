@@ -11,11 +11,14 @@
 
 @class UVForum;
 
-@interface UVSuggestionListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface UVSuggestionListViewController : UVBaseViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, retain) UVForum *forum;
+@property (nonatomic, retain) UITextField *textEditor;
 @property (nonatomic, retain) NSMutableArray *suggestions;
 @property (nonatomic, retain) NSArray *searchResults;
-@property (nonatomic, retain) UISearchBar *searchBar;
+@property (nonatomic, retain) UISearchDisplayController *searchController;
+
+- (void)reloadTableData;
 
 @end
