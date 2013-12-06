@@ -31,7 +31,7 @@
     label.tag = LABEL;
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(label)
-            constraints:@[@"|-10-[label]-|", @"V:|-10-[label]"]
+            constraints:@[@"|-16-[label]-|", @"V:|-10-[label]"]
          finalCondition:(indexPath == nil)
         finalConstraint:@"V:[label]-10-|"];
 }

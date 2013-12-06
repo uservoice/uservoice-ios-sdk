@@ -421,6 +421,9 @@
             }
         }
     }
+    [cell.contentView setNeedsLayout];
+    [cell.contentView layoutIfNeeded];
+
     return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
 }
 
