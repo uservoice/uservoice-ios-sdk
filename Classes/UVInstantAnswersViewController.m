@@ -18,7 +18,6 @@
 - (void)loadView {
     [self setupGroupedTableView];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Are any of these helpful?", @"UserVoice", nil);
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Skip", @"UserVoice", nil)
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
@@ -49,6 +48,7 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     id model = [[self resultsForSection:indexPath.section] objectAtIndex:indexPath.row];
     [_instantAnswerManager pushViewFor:model parent:self];
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -83,6 +83,7 @@
 #pragma mark ===== Misc =====
 
 - (void)next {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [_instantAnswerManager skipInstantAnswers];
 }
 
