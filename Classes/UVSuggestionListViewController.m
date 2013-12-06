@@ -164,7 +164,7 @@
     if (theTableView == _tableView) {
         identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < _suggestions.count) ? @"Suggestion" : @"Load";
     } else {
-        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : @"Result";
+        identifier = @"Result";
     }
     return [self createCellForIdentifier:identifier
                                tableView:theTableView
@@ -174,7 +174,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 && [UVSession currentSession].config.showPostIdea) {
+    if (section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView) {
         return 1;
     } else if (theTableView == _tableView) {
         int loadedCount = _suggestions.count;
@@ -186,23 +186,25 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [UVSession currentSession].config.showPostIdea ? 2 : 1;
+    return [UVSession currentSession].config.showPostIdea && tableView == _tableView ? 2 : 1;
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
+    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView) {
         return 44;
-    } else if (theTableView != _tableView || indexPath.row < _suggestions.count) {
+    } else if (theTableView == _tableView && indexPath.row < _suggestions.count) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
+    } else if (theTableView != _tableView) {
+        return [self heightForDynamicRowWithReuseIdentifier:@"Result" indexPath:indexPath];
     } else {
         return 44;
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0 && [UVSession currentSession].config.showPostIdea) {
+    if ((section == 0 && [UVSession currentSession].config.showPostIdea) || tableView != _tableView) {
         return nil;
     } else {
         return _forum.prompt;
@@ -235,7 +237,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+    return tableView == _tableView ? 30 : 0;
 }
 
 #pragma mark ===== UISearchBarDelegate Methods =====
