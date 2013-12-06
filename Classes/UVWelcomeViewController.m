@@ -86,20 +86,22 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+- (void)initCellForArticleResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [_instantAnswerManager initCellForArticle:cell finalCondition:indexPath == nil];
+}
+
+- (void)customizeCellForArticleResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     id model = [self.searchResults objectAtIndex:indexPath.row];
-    if ([model isMemberOfClass:[UVArticle class]]) {
-        UVArticle *article = (UVArticle *)model;
-        cell.textLabel.text = article.question;
-        cell.detailTextLabel.text = article.topicName;
-        cell.imageView.image = [UIImage imageNamed:@"uv_article.png"];
-    } else {
-        UVSuggestion *suggestion = (UVSuggestion *)model;
-        cell.textLabel.text = suggestion.title;
-        cell.detailTextLabel.text = suggestion.forumName;
-        cell.imageView.image = [UIImage imageNamed:@"uv_idea.png"];
-    }
+    [_instantAnswerManager customizeCell:cell forArticle:(UVArticle *)model];
+}
+
+- (void)initCellForSuggestionResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [_instantAnswerManager initCellForSuggestion:cell finalCondition:indexPath == nil];
+}
+
+- (void)customizeCellForSuggestionResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    id model = [self.searchResults objectAtIndex:indexPath.row];
+    [_instantAnswerManager customizeCell:cell forSuggestion:(UVSuggestion *)model];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -108,8 +110,13 @@
     NSString *identifier = @"";
     NSInteger style = UITableViewCellStyleValue1;
     if (theTableView == _searchController.searchResultsTableView) {
-        identifier = @"InstantAnswer";
-        style = UITableViewCellStyleSubtitle;
+        id model = [self.searchResults objectAtIndex:indexPath.row];
+        if ([model isMemberOfClass:[UVArticle class]]) {
+            identifier = @"ArticleResult";
+        } else {
+            identifier = @"SuggestionResult";
+        }
+        style = UITableViewCellStyleDefault;
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs)
             identifier = @"Contact";
@@ -122,6 +129,21 @@
     }
 
     return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:style selectable:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == _searchController.searchResultsTableView) {
+        NSString *identifier;
+        id model = [self.searchResults objectAtIndex:indexPath.row];
+        if ([model isMemberOfClass:[UVArticle class]]) {
+            identifier = @"ArticleResult";
+        } else {
+            identifier = @"SuggestionResult";
+        }
+        return [self heightForDynamicRowWithReuseIdentifier:identifier indexPath:indexPath];
+    } else {
+        return 44;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
