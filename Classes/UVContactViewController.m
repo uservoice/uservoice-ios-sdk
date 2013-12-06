@@ -207,6 +207,7 @@
     } else {
         [actionSheet showInView:self.view];
     }
+    [_textView resignFirstResponder];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -220,6 +221,7 @@
             [self dismissViewControllerAnimated:YES completion:nil];
             break;
         default:
+            [_textView becomeFirstResponder];
             break;
     }
 }
