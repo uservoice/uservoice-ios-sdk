@@ -253,6 +253,10 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     return [NSString stringWithFormat:@"#%02X%02X%02X", (unsigned)round(MAX(0, MIN(r, 1)) * 255), (unsigned)round(MAX(0, MIN(g, 1)) * 255), (unsigned)round(MAX(0, MIN(b, 1)) * 255)];
 }
 
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings {
+    [self configureView:superview subviews:viewsDict constraints:constraintStrings finalCondition:NO finalConstraint:nil];
+}
+
 + (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint {
     for (NSString *key in [viewsDict keyEnumerator]) {
         UIView *view = viewsDict[key];

@@ -10,12 +10,10 @@
 #import "UVBaseViewController.h"
 
 @class UVSuggestion;
-@class UVTextView;
 
 @interface UVCommentViewController : UVBaseViewController<UITextViewDelegate>
 
 @property (nonatomic,retain) UVSuggestion *suggestion;
-@property (nonatomic,retain) UVTextView *textView;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 

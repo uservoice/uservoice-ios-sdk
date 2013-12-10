@@ -28,11 +28,9 @@
 + (BOOL)isNotFoundError:(NSError *)error;
 
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController;
-
 + (NSString *)formatInteger:(NSInteger)number;
-
 + (NSString *)colorToCSS:(UIColor *)color;
-
 + (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint;
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings;
 
 @end

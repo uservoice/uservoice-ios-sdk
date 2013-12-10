@@ -90,6 +90,8 @@
 		D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
 		D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BEEBB81367436D00EBC307 /* UVTicket.m */; };
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
+		D90A608A1857972A00D028DE /* UVTextWithFieldsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D90A60881857972A00D028DE /* UVTextWithFieldsView.h */; };
+		D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A60891857972A00D028DE /* UVTextWithFieldsView.m */; };
 		D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = D92767F915597F3700E17EF1 /* UVArticle.h */; };
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
@@ -232,6 +234,8 @@
 		D2BEEBB81367436D00EBC307 /* UVTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTicket.m; sourceTree = "<group>"; };
 		D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D909DD4117CD3CAA00ECE395 /* UVDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDefines.h; sourceTree = "<group>"; };
+		D90A60881857972A00D028DE /* UVTextWithFieldsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextWithFieldsView.h; sourceTree = "<group>"; };
+		D90A60891857972A00D028DE /* UVTextWithFieldsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextWithFieldsView.m; sourceTree = "<group>"; };
 		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
 		D92767F915597F3700E17EF1 /* UVArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticle.h; sourceTree = "<group>"; };
 		D92767FA15597F3800E17EF1 /* UVArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticle.m; sourceTree = "<group>"; };
@@ -526,6 +530,8 @@
 				D9C35BD4166E7DB0004FAA89 /* UVTruncatingLabel.m */,
 				D9C35BD7166E7E00004FAA89 /* UVCalculatingLabel.h */,
 				D9C35BD8166E7E00004FAA89 /* UVCalculatingLabel.m */,
+				D90A60881857972A00D028DE /* UVTextWithFieldsView.h */,
+				D90A60891857972A00D028DE /* UVTextWithFieldsView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -684,6 +690,7 @@
 				AC1B18D410D878D0002B03F7 /* UVCategory.h in Headers */,
 				AC91B2CB112F320700D84566 /* UVValueSelectViewController.h in Headers */,
 				D24A382111A09121005BC3F3 /* UVAccessToken.h in Headers */,
+				D90A608A1857972A00D028DE /* UVTextWithFieldsView.h in Headers */,
 				D24540C011B095AA00C7E4BA /* UVSubdomain.h in Headers */,
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
 				D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */,
@@ -790,6 +797,7 @@
 				AC312210108FC57700000D5F /* UVClientConfig.m in Sources */,
 				AC3123A11090EB3700000D5F /* UVSuggestionListViewController.m in Sources */,
 				D94427AD1811B90E002F716B /* UVInstantAnswersViewController.m in Sources */,
+				D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */,
 				AC31242710911C8600000D5F /* UVSession.m in Sources */,
 				AC31253A109231D800000D5F /* Base64Transcoder.c in Sources */,
 				AC312544109231D800000D5F /* YOAuthConsumer.m in Sources */,
