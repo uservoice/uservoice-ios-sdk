@@ -12,7 +12,7 @@
 
 @class UVTextView;
 
-@interface UVPostIdeaViewController : UVBaseViewController<UVInstantAnswersDelegate> {
+@interface UVPostIdeaViewController : UVBaseViewController<UVInstantAnswersDelegate, UITextViewDelegate> {
     UVCallback *_didCreateCallback;
     UVCallback *_didAuthenticateCallback;
     NSInteger _selectedCategoryId;
@@ -26,5 +26,6 @@
 @property (nonatomic, retain) NSLayoutConstraint *topConstraint;
 @property (nonatomic, retain) NSLayoutConstraint *descConstraint;
 @property (nonatomic, retain) UILabel *desc;
+@property (nonatomic, retain) UIScrollView *scrollView;
 
 @end

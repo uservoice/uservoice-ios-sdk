@@ -21,12 +21,16 @@
     BOOL _proceed;
     BOOL _sending;
     UVDetailsFormViewController *_detailsController;
+    NSLayoutConstraint *_textViewConstraint;
+    UIScrollView *_scrollView;
 }
 
 - (void)loadView {
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor whiteColor];
     view.frame = [self contentFrame];
+    UIScrollView *scrollView = [UIScrollView new];
+    UIView *container = [UIView new];
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
     _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post your own idea?", @"UserVoice", nil);
@@ -50,6 +54,8 @@
 
     self.textView = [UVTextView new];
     _textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
+    _textView.scrollEnabled = NO;
+    _textView.delegate = self;
 
     UIView *sep1 = [UIView new];
     sep1.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.f];
@@ -65,20 +71,46 @@
     desc.font = [UIFont systemFontOfSize:12];
     self.desc = desc;
 
-    NSArray *constraints = @[
+    NSArray *scrollConstraints = @[
         @"|[title]|",
         @"|-16-[sep0]|",
         @"|-12-[_textView]-|",
+        @"V:|[title(==44)][sep0(==1)]-4-[_textView(>=10)]-4-|",
+    ];
+
+    [self configureView:container
+               subviews:NSDictionaryOfVariableBindings(title, sep0, _textView)
+            constraints:scrollConstraints];
+
+    [self configureView:scrollView
+               subviews:NSDictionaryOfVariableBindings(container)
+            constraints:@[@"|[container]", @"V:|[container]"]];
+
+    NSArray *constraints = @[
+        @"|[scrollView]|",
         @"|[sep1]|",
         @"|-[desc]-|",
         @"|[bg]|",
-        @"V:[title(==44)][sep0(==1)]-4-[_textView(>=10)]-4-[sep1(==1)]-[desc]",
+        @"V:[scrollView][sep1(==1)]-[desc]",
         @"V:[sep1][bg]|"
     ];
 
     [self configureView:view
-               subviews:NSDictionaryOfVariableBindings(title, sep0, _textView, sep1, desc, bg)
+               subviews:NSDictionaryOfVariableBindings(scrollView, sep1, desc, bg)
             constraints:constraints];
+    [view bringSubviewToFront:desc];
+
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:container attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+
+    _textViewConstraint = [NSLayoutConstraint constraintWithItem:_textView
+                                                       attribute:NSLayoutAttributeHeight
+                                                       relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                          toItem:nil
+                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                      multiplier:1.0
+                                                        constant:500];
+    _textViewConstraint.priority = UILayoutPriorityDefaultHigh;
+    [view addConstraint:_textViewConstraint];
 
     self.keyboardConstraint = [NSLayoutConstraint constraintWithItem:desc
                                                            attribute:NSLayoutAttributeBottom
@@ -88,7 +120,7 @@
                                                           multiplier:1.0
                                                             constant:-_kbHeight-10];
     [view addConstraint:_keyboardConstraint];
-    self.topConstraint = [NSLayoutConstraint constraintWithItem:title
+    self.topConstraint = [NSLayoutConstraint constraintWithItem:scrollView
                                                       attribute:NSLayoutAttributeTop
                                                       relatedBy:NSLayoutRelationEqual
                                                          toItem:view
@@ -96,7 +128,6 @@
                                                      multiplier:1.0
                                                        constant:64];
     [view addConstraint:_topConstraint];
-
     self.descConstraint = [NSLayoutConstraint constraintWithItem:desc
                                                        attribute:NSLayoutAttributeHeight
                                                        relatedBy:NSLayoutRelationEqual
@@ -104,8 +135,8 @@
                                                        attribute:NSLayoutAttributeNotAnAttribute
                                                       multiplier:1
                                                        constant:0];
-
     self.view = view;
+    _scrollView = scrollView;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
@@ -139,9 +170,31 @@
     }
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+    if (!IOS7) {
+        [self textViewDidChangeSelection:textView];
+    }
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView {
+    CGSize contentSize = [_textView sizeThatFits:CGSizeMake(_textView.frame.size.width, MAXFLOAT)];
+    _textViewConstraint.constant = MAX(contentSize.height, _scrollView.bounds.size.height - _textView.frame.origin.y);
+    _scrollView.contentSize = CGSizeMake(0, _textView.frame.origin.y + _textView.contentSize.height);
+    CGRect rect = [_textView caretRectForPosition:_textView.selectedTextRange.end];
+    if (rect.origin.x == INFINITY) return;
+    CGFloat top = rect.origin.y + _textView.frame.origin.y;
+    CGFloat bottom = top + rect.size.height;
+    if (top < _scrollView.contentOffset.y) {
+        [_scrollView setContentOffset:CGPointMake(0, top) animated:NO];
+    } else if (bottom > _scrollView.contentOffset.y + _scrollView.bounds.size.height) {
+        [_scrollView setContentOffset:CGPointMake(0, bottom - _scrollView.bounds.size.height) animated:NO];
+    }
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self updateLayout];
+    [self performSelector:@selector(textViewDidChangeSelection:) withObject:_textView afterDelay:0];
 }
 
 - (void)keyboardDidShow:(NSNotification *)note {
