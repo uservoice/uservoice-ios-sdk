@@ -12,7 +12,7 @@
 @class UVSuggestion;
 @class UVTextView;
 
-@interface UVCommentViewController : UVBaseViewController
+@interface UVCommentViewController : UVBaseViewController<UITextViewDelegate>
 
 @property (nonatomic,retain) UVSuggestion *suggestion;
 @property (nonatomic,retain) UVTextView *textView;

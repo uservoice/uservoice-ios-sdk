@@ -37,7 +37,6 @@
     BOOL _responseExpanded;
     BOOL _subscribing;
     UVCallback *_subscribeCallback;
-    UVCallback *_showCommentControllerCallback;
     UILabel *_loadingLabel;
 }
 
@@ -46,7 +45,6 @@
     
     if (self) {
         _subscribeCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(doSubscribe)];
-        _showCommentControllerCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(presentCommentController)];
     }
     
     return self;
@@ -360,7 +358,7 @@
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [theTableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1 && indexPath.row == 0) {
-        [self requireUserSignedIn:_showCommentControllerCallback];
+        [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:_suggestion]];
     } else if (indexPath.section == 2 && indexPath.row == _comments.count) {
         [self retrieveMoreComments];
     }
@@ -380,10 +378,6 @@
     if (_subscribing) return;
     _subscribing = YES;
     [self requireUserSignedIn:_subscribeCallback];
-}
-
-- (void)presentCommentController {
-    [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:_suggestion]];
 }
 
 - (void)doSubscribe {
@@ -515,7 +509,6 @@
 
 - (void)dealloc {
     [_subscribeCallback invalidate];
-    [_showCommentControllerCallback invalidate];
 }
 
 @end
