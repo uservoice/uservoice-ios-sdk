@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answerHTML;
 @property (nonatomic, assign) NSInteger articleId;
+@property (nonatomic, assign) NSInteger weight;
 
 - (id)initWithDictionary:(NSDictionary *)dict;
 

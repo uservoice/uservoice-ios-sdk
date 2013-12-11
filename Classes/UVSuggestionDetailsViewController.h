@@ -20,6 +20,7 @@
 @property (nonatomic, assign) BOOL instantAnswers;
 @property (nonatomic, retain) NSString *helpfulPrompt;
 @property (nonatomic, retain) NSString *returnMessage;
+@property (nonatomic, retain) NSString *deflectingType;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 - (void)reloadComments;

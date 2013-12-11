@@ -41,6 +41,7 @@
 @property (nonatomic, readonly) UIColor *statusColor;
 @property (nonatomic, readonly) NSString *categoryString;
 @property (nonatomic, assign) BOOL subscribed;
+@property (nonatomic, assign) NSInteger weight;
 
 // Retrieves a page (10 items) of suggestions.
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate;

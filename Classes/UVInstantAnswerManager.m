@@ -94,12 +94,13 @@
 }
 
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent {
-    [UVDeflection trackDeflection:@"show" deflector:instantAnswer];
+    [UVDeflection trackDeflection:@"show" deflectingType:_deflectingType deflector:instantAnswer];
     if ([instantAnswer isMemberOfClass:[UVArticle class]]) {
         UVArticleViewController *next = [UVArticleViewController new];
         next.article = (UVArticle *)instantAnswer;
         next.helpfulPrompt = _articleHelpfulPrompt;
         next.returnMessage = _articleReturnMessage;
+        next.deflectingType = _deflectingType;
         next.instantAnswers = YES;
         [parent.navigationController pushViewController:next animated:YES];
     } else {
@@ -107,6 +108,7 @@
         UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion];
         next.helpfulPrompt = _articleHelpfulPrompt;
         next.returnMessage = _articleReturnMessage;
+        next.deflectingType = _deflectingType;
         next.instantAnswers = YES;
         [parent.navigationController pushViewController:next animated:YES];
     }

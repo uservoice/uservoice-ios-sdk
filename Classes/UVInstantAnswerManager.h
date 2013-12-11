@@ -27,12 +27,13 @@
 
 @interface UVInstantAnswerManager : NSObject
 
-@property (nonatomic,assign) id<UVInstantAnswersDelegate,NSObject> delegate;
-@property (nonatomic,assign) BOOL loading;
-@property (nonatomic,retain) NSTimer *timer;
-@property (nonatomic,retain) NSString *runningQuery;
-@property (nonatomic,retain) NSString *articleHelpfulPrompt;
-@property (nonatomic,retain) NSString *articleReturnMessage;
+@property (nonatomic, assign) id<UVInstantAnswersDelegate,NSObject> delegate;
+@property (nonatomic, assign) BOOL loading;
+@property (nonatomic, retain) NSTimer *timer;
+@property (nonatomic, retain) NSString *runningQuery;
+@property (nonatomic, retain) NSString *articleHelpfulPrompt;
+@property (nonatomic, retain) NSString *articleReturnMessage;
+@property (nonatomic, retain) NSString *deflectingType;
 
 /*
  * An array of interleaved ideas and articles

@@ -14,6 +14,7 @@
 #import "UVForum.h"
 #import "UVCategory.h"
 #import "UVUtils.h"
+#import "UVDeflection.h"
 
 @implementation UVSuggestion
 
@@ -56,6 +57,7 @@
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
                             categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", (int)categoryId], @"suggestion[category_id]",
+                            [NSString stringWithFormat:@"%d", [UVDeflection interactionIdentifier]], @"interaction_identifier",
                             nil];
     return [[self class] postPath:path
                        withParams:params
@@ -98,6 +100,7 @@
         _text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
         _createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
         _subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
+        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
         if (statusDict) {
             _status = [statusDict objectForKey:@"name"];

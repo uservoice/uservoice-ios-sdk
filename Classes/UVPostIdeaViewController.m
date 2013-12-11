@@ -33,6 +33,7 @@
     _instantAnswerManager.delegate = self;
     _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post your own idea?", @"UserVoice", nil);
     _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, I want to post my idea", @"UserVoice", nil);
+    _instantAnswerManager.deflectingType = @"Suggestion";
 
     self.navigationItem.title = NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];

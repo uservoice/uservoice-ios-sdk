@@ -99,7 +99,7 @@
 - (void)yesButtonTapped {
     [UVBabayaga track:VOTE_ARTICLE id:_article.articleId];
     if (_instantAnswers) {
-        [UVDeflection trackDeflection:@"helpful" deflector:_article];
+        [UVDeflection trackDeflection:@"helpful" deflectingType:_deflectingType deflector:_article];
     }
     if (_helpfulPrompt) {
         // Do you still want to contact us?
@@ -119,7 +119,7 @@
 
 - (void)noButtonTapped {
     if (_instantAnswers) {
-        [UVDeflection trackDeflection:@"unhelpful" deflector:_article];
+        [UVDeflection trackDeflection:@"not_helpful" deflectingType:_deflectingType deflector:_article];
     }
     if (_helpfulPrompt) {
         [self.navigationController popViewControllerAnimated:YES];
