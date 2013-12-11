@@ -41,13 +41,14 @@
         [self dismiss];
     } else {
         [self disableSubmitButton];
-        [self showActivityIndicator];
         if (![UVSession currentSession].user) {
             if (_emailField.text.length > 0) {
-                // TODO save email & name
+                self.userEmail = _emailField.text;
+                self.userName = _nameField.text;
+                [self showActivityIndicator];
                 [[UVSigninManager manager] signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
             } else {
-                // TODO alert
+                [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your comment.", @"UserVoice", nil)];
             }
         } else {
             [self doComment];
@@ -56,6 +57,7 @@
 }
 
 - (void)doCommment {
+    [self showActivityIndicator];
     [UVComment createWithSuggestion:_suggestion text:_fieldsView.textView.text delegate:self];
 }
 
@@ -78,16 +80,17 @@
 
     _fieldsView = [UVTextWithFieldsView new];
     _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Write a comment...", @"UserVoice", nil);
-    // TODO what if we have a locally stored email / name??
     if (![UVSession currentSession].user) {
         _emailField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil)];
         _emailField.placeholder = NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil);
         _emailField.keyboardType = UIKeyboardTypeEmailAddress;
         _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
         _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _emailField.text = self.userEmail;
 
         _nameField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil)];
         _nameField.placeholder = NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil);
+        _nameField.text = self.userName;
     }
 
     [self configureView:view
