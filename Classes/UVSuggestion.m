@@ -49,11 +49,10 @@
              category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
-                votes:(NSInteger)votes
              callback:(UVCallback *)callback {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
+                            @"true", @"subscribe",
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
                             categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", (int)categoryId], @"suggestion[category_id]",

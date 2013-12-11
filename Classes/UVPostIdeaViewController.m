@@ -245,7 +245,6 @@
                          category:_selectedCategoryId
                             title:_titleField.text
                              text:_textView.text
-                            votes:1
                          callback:_didCreateCallback];
 }
 

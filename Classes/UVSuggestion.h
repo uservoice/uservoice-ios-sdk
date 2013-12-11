@@ -54,7 +54,6 @@
              category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
-                votes:(NSInteger)votes
              callback:(UVCallback *)callback;
 
 - (id)subscribe:(id)delegate;
