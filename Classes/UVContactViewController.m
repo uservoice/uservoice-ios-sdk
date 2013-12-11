@@ -17,12 +17,13 @@
 #import "UVTicket.h"
 #import "UVCustomField.h"
 #import "UVBabayaga.h"
+#import "UVTextWithFieldsView.h"
 
 @implementation UVContactViewController {
     BOOL _proceed;
     BOOL _sending;
-    NSLayoutConstraint *_keyboardConstraint;
     UVDetailsFormViewController *_detailsController;
+    UVTextWithFieldsView *_fieldsView;
 }
 
 - (void)loadView {
@@ -39,25 +40,13 @@
     self.navigationItem.title = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
-    _textView = [UVTextView new];
-    _textView.placeholder = NSLocalizedStringFromTable(@"Give feedback or ask for help...", @"UserVoice", nil);
-    _textView.delegate = self;
-
-    NSArray *constraints = @[
-        @"|-4-[_textView]-4-|", @"V:|[_textView]"
-    ];
+    // using a fields view with no fields extra still gives us better scroll handling
+    _fieldsView = [UVTextWithFieldsView new];
+    _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Give feedback or ask for help...", @"UserVoice", nil);
+    _fieldsView.textViewDelegate = self;
     [self configureView:view
-               subviews:NSDictionaryOfVariableBindings(_textView)
-            constraints:constraints];
-    _keyboardConstraint = [NSLayoutConstraint constraintWithItem:_textView
-                                                       attribute:NSLayoutAttributeBottom
-                                                       relatedBy:NSLayoutRelationEqual
-                                                          toItem:view
-                                                       attribute:NSLayoutAttributeBottom
-                                                      multiplier:1.0
-                                                        constant:-_kbHeight];
-    [view addConstraint:_keyboardConstraint];
-
+               subviews:NSDictionaryOfVariableBindings(_fieldsView)
+            constraints:@[@"|[_fieldsView]|", @"V:|[_fieldsView]|"]];
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
@@ -69,27 +58,17 @@
                                                                              target:self
                                                                              action:@selector(next)];
     [self loadDraft];
-    self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
+    self.navigationItem.rightBarButtonItem.enabled = (_fieldsView.textView.text.length > 0);
     self.view = view;
 }
 
-- (void)keyboardDidShow:(NSNotification *)note {
-    _keyboardConstraint.constant = -_kbHeight;
-    [self.view layoutIfNeeded];
-}
-
-- (void)keyboardDidHide:(NSNotification *)note {
-    _keyboardConstraint.constant = 0;
-    [self.view layoutIfNeeded];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
-    [_textView becomeFirstResponder];
+    [_fieldsView.textView becomeFirstResponder];
     [super viewWillAppear:animated];
 }
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
-    self.navigationItem.rightBarButtonItem.enabled = (_textView.text.length > 0);
+    self.navigationItem.rightBarButtonItem.enabled = (_fieldsView.textView.text.length > 0);
     _instantAnswerManager.searchText = theTextEditor.text;
 }
 
@@ -111,7 +90,7 @@
 }
 
 - (UIScrollView *)scrollView {
-    return _textView;
+    return _fieldsView;
 }
 
 - (void)showActivityIndicator {
@@ -176,7 +155,7 @@
     } else {
         [_detailsController showActivityIndicator];
         _sending = YES;
-        [UVTicket createWithMessage:_textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:customFields andDelegate:self];
+        [UVTicket createWithMessage:_fieldsView.textView.text andEmailIfNotLoggedIn:email andName:name andCustomFields:customFields andDelegate:self];
     }
 }
 
@@ -207,7 +186,7 @@
     } else {
         [actionSheet showInView:self.view];
     }
-    [_textView resignFirstResponder];
+    [_fieldsView.textView resignFirstResponder];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -221,7 +200,7 @@
             [self dismissViewControllerAnimated:YES completion:nil];
             break;
         default:
-            [_textView becomeFirstResponder];
+            [_fieldsView.textView becomeFirstResponder];
             break;
     }
 }
@@ -234,17 +213,17 @@
 
 - (void)loadDraft {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    self.loadedDraft = _instantAnswerManager.searchText = _textView.text = [prefs stringForKey:@"uv-message-text"];
+    self.loadedDraft = _instantAnswerManager.searchText = _fieldsView.textView.text = [prefs stringForKey:@"uv-message-text"];
 }
 
 - (void)saveDraft {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:_textView.text forKey:@"uv-message-text"];
+    [prefs setObject:_fieldsView.textView.text forKey:@"uv-message-text"];
     [prefs synchronize];
 }
 
 - (BOOL)shouldLeaveViewController {
-    if (_textView.text.length == 0 || [_textView.text isEqualToString:_loadedDraft]) {
+    if (_fieldsView.textView.text.length == 0 || [_fieldsView.textView.text isEqualToString:_loadedDraft]) {
         return YES;
     } else {
         [self showSaveActionSheet];

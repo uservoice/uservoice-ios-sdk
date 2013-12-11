@@ -44,6 +44,7 @@
     if (!IOS7) {
         [self updateLayout];
     }
+    [_textViewDelegate textViewDidChange:textView];
 }
 
 - (void)textViewDidChangeSelection:(UITextView *)textView {

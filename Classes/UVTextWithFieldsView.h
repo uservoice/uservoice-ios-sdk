@@ -13,6 +13,7 @@
 @interface UVTextWithFieldsView : UIScrollView<UITextViewDelegate>
 
 @property (nonatomic, retain) UVTextView *textView;
+@property (nonatomic, retain) id<UITextViewDelegate>textViewDelegate;
 
 - (UITextField *)addFieldWithLabel:(NSString *)label;
 - (void)updateLayout;
