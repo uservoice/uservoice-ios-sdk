@@ -26,6 +26,5 @@
 @property (nonatomic, retain) NSLayoutConstraint *topConstraint;
 @property (nonatomic, retain) NSLayoutConstraint *descConstraint;
 @property (nonatomic, retain) UILabel *desc;
-@property (nonatomic, retain) UIScrollView *scrollView;
 
 @end

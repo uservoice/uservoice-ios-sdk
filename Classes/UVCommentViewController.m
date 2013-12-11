@@ -14,16 +14,20 @@
 #import "UVBabayaga.h"
 #import "UVTextWithFieldsView.h"
 #import "UVSession.h"
+#import "UVCallback.h"
+#import "UVSigninManager.h"
 
 @implementation UVCommentViewController {
     UVTextWithFieldsView *_fieldsView;
     UITextField *_emailField;
     UITextField *_nameField;
+    UVCallback *_signInCallback;
 }
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
     if ((self = [super init])) {
         _suggestion = theSuggestion;
+        _signInCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(doComment)];
     }
     return self;
 }
@@ -38,9 +42,21 @@
     } else {
         [self disableSubmitButton];
         [self showActivityIndicator];
-        // TODO if needed sign the user in
-        [UVComment createWithSuggestion:_suggestion text:_fieldsView.textView.text delegate:self];
+        if (![UVSession currentSession].user) {
+            if (_emailField.text.length > 0) {
+                // TODO save email & name
+                [[UVSigninManager manager] signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
+            } else {
+                // TODO alert
+            }
+        } else {
+            [self doComment];
+        }
     }
+}
+
+- (void)doCommment {
+    [UVComment createWithSuggestion:_suggestion text:_fieldsView.textView.text delegate:self];
 }
 
 - (void)didCreateComment:(UVComment *)comment {
@@ -62,7 +78,8 @@
 
     _fieldsView = [UVTextWithFieldsView new];
     _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Write a comment...", @"UserVoice", nil);
-    if ([UVSession currentSession].user) {
+    // TODO what if we have a locally stored email / name??
+    if (![UVSession currentSession].user) {
         _emailField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil)];
         _emailField.placeholder = NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil);
         _emailField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -97,6 +114,10 @@
 
 - (UIScrollView *)scrollView {
     return _fieldsView;
+}
+
+- (void)dealloc {
+    [_signInCallback invalidate];
 }
 
 @end

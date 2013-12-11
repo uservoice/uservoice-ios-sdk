@@ -16,5 +16,6 @@
 @property (nonatomic,retain) UVSuggestion *suggestion;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
+- (void)doComment;
 
 @end

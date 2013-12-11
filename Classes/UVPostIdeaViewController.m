@@ -16,21 +16,19 @@
 #import "UVUtils.h"
 #import "UVSuggestion.h"
 #import "UVBabayaga.h"
+#import "UVTextWithFieldsView.h"
 
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
     BOOL _sending;
     UVDetailsFormViewController *_detailsController;
-    NSLayoutConstraint *_textViewConstraint;
-    UIScrollView *_scrollView;
+    UVTextWithFieldsView *_fieldsView;
 }
 
 - (void)loadView {
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor whiteColor];
     view.frame = [self contentFrame];
-    UIScrollView *scrollView = [UIScrollView new];
-    UIView *container = [UIView new];
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
     _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post your own idea?", @"UserVoice", nil);
@@ -39,26 +37,20 @@
     self.navigationItem.title = NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
-    UIView *title = [UIView new];
-    self.titleField = [self configureView:title label:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil) placeholder:nil];
+    _fieldsView = [UVTextWithFieldsView new];
+    _titleField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil)];
     if (_initialText) {
-        self.titleField.text = _initialText;
+        _titleField.text = _initialText;
     }
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:_titleField queue:nil usingBlock:^(NSNotification *note) {
         _instantAnswerManager.searchText = _titleField.text;
         self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
     }];
 
-    UIView *sep0 = [UIView new];
-    sep0.backgroundColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.f];
+    _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
 
-    self.textView = [UVTextView new];
-    _textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
-    _textView.scrollEnabled = NO;
-    _textView.delegate = self;
-
-    UIView *sep1 = [UIView new];
-    sep1.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.f];
+    UIView *sep = [UIView new];
+    sep.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.f];
 
     UIView *bg = [UIView new];
     bg.backgroundColor = [UIColor colorWithRed:0.937f green:0.937f blue:0.957f alpha:1.f];
@@ -71,46 +63,19 @@
     desc.font = [UIFont systemFontOfSize:12];
     self.desc = desc;
 
-    NSArray *scrollConstraints = @[
-        @"|[title]|",
-        @"|-16-[sep0]|",
-        @"|-12-[_textView]-|",
-        @"V:|[title(==44)][sep0(==1)]-4-[_textView(>=10)]-4-|",
-    ];
-
-    [self configureView:container
-               subviews:NSDictionaryOfVariableBindings(title, sep0, _textView)
-            constraints:scrollConstraints];
-
-    [self configureView:scrollView
-               subviews:NSDictionaryOfVariableBindings(container)
-            constraints:@[@"|[container]", @"V:|[container]"]];
-
     NSArray *constraints = @[
-        @"|[scrollView]|",
-        @"|[sep1]|",
+        @"|[_fieldsView]|",
+        @"|[sep]|",
         @"|-[desc]-|",
         @"|[bg]|",
-        @"V:[scrollView][sep1(==1)]-[desc]",
-        @"V:[sep1][bg]|"
+        @"V:[_fieldsView][sep(==1)]-[desc]",
+        @"V:[sep][bg]|"
     ];
 
     [self configureView:view
-               subviews:NSDictionaryOfVariableBindings(scrollView, sep1, desc, bg)
+               subviews:NSDictionaryOfVariableBindings(_fieldsView, sep, desc, bg)
             constraints:constraints];
     [view bringSubviewToFront:desc];
-
-    [view addConstraint:[NSLayoutConstraint constraintWithItem:container attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-
-    _textViewConstraint = [NSLayoutConstraint constraintWithItem:_textView
-                                                       attribute:NSLayoutAttributeHeight
-                                                       relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                                          toItem:nil
-                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                      multiplier:1.0
-                                                        constant:500];
-    _textViewConstraint.priority = UILayoutPriorityDefaultHigh;
-    [view addConstraint:_textViewConstraint];
 
     self.keyboardConstraint = [NSLayoutConstraint constraintWithItem:desc
                                                            attribute:NSLayoutAttributeBottom
@@ -120,7 +85,7 @@
                                                           multiplier:1.0
                                                             constant:-_kbHeight-10];
     [view addConstraint:_keyboardConstraint];
-    self.topConstraint = [NSLayoutConstraint constraintWithItem:scrollView
+    self.topConstraint = [NSLayoutConstraint constraintWithItem:_fieldsView
                                                       attribute:NSLayoutAttributeTop
                                                       relatedBy:NSLayoutRelationEqual
                                                          toItem:view
@@ -136,7 +101,6 @@
                                                       multiplier:1
                                                        constant:0];
     self.view = view;
-    _scrollView = scrollView;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
@@ -170,31 +134,10 @@
     }
 }
 
-- (void)textViewDidChange:(UITextView *)textView {
-    if (!IOS7) {
-        [self textViewDidChangeSelection:textView];
-    }
-}
-
-- (void)textViewDidChangeSelection:(UITextView *)textView {
-    CGSize contentSize = [_textView sizeThatFits:CGSizeMake(_textView.frame.size.width, MAXFLOAT)];
-    _textViewConstraint.constant = MAX(contentSize.height, _scrollView.bounds.size.height - _textView.frame.origin.y);
-    _scrollView.contentSize = CGSizeMake(0, _textView.frame.origin.y + _textView.contentSize.height);
-    CGRect rect = [_textView caretRectForPosition:_textView.selectedTextRange.end];
-    if (rect.origin.x == INFINITY) return;
-    CGFloat top = rect.origin.y + _textView.frame.origin.y;
-    CGFloat bottom = top + rect.size.height;
-    if (top < _scrollView.contentOffset.y) {
-        [_scrollView setContentOffset:CGPointMake(0, top) animated:NO];
-    } else if (bottom > _scrollView.contentOffset.y + _scrollView.bounds.size.height) {
-        [_scrollView setContentOffset:CGPointMake(0, bottom - _scrollView.bounds.size.height) animated:NO];
-    }
-}
-
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self updateLayout];
-    [self performSelector:@selector(textViewDidChangeSelection:) withObject:_textView afterDelay:0];
+    [_fieldsView performSelector:@selector(updateLayout) withObject:nil afterDelay:0];
 }
 
 - (void)keyboardDidShow:(NSNotification *)note {
@@ -204,6 +147,7 @@
         _keyboardConstraint.constant = -_kbHeight+10;
     }
     [self.view layoutIfNeeded];
+    [_fieldsView updateLayout];
 }
 
 - (void)keyboardDidHide:(NSNotification *)note {
