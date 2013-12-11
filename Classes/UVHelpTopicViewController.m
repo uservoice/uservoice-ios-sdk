@@ -18,6 +18,7 @@
 #import "UVClientConfig.h"
 
 #define LABEL 100
+#define TOPIC 101
 
 @implementation UVHelpTopicViewController
 
@@ -69,15 +70,31 @@
     UILabel *label = [UILabel new];
     label.numberOfLines = 0;
     label.tag = LABEL;
-    [self configureView:cell.contentView
-               subviews:NSDictionaryOfVariableBindings(label)
-            constraints:@[@"|-16-[label]-|", @"V:|-10-[label]-10-|"]];
+    if (_topic) {
+        [self configureView:cell.contentView
+                   subviews:NSDictionaryOfVariableBindings(label)
+                constraints:@[@"|-16-[label]-|", @"V:|-12-[label]-12-|"]];
+    } else {
+        UILabel *topic = [UILabel new];
+        topic.font = [UIFont systemFontOfSize:12];
+        topic.textColor = [UIColor grayColor];
+        topic.tag = TOPIC;
+        [self configureView:cell.contentView
+                   subviews:NSDictionaryOfVariableBindings(label, topic)
+                constraints:@[@"|-16-[label]-|", @"|-16-[topic]-|", @"V:|-12-[label]-6-[topic]"]
+             finalCondition:indexPath == nil
+            finalConstraint:@"V:[topic]-12-|"];
+    }
 }
 
 - (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UVArticle *article = [_articles objectAtIndex:indexPath.row];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:LABEL];
     label.text = article.question;
+    if (!_topic) {
+        UILabel *topic = (UILabel *)[cell.contentView viewWithTag:TOPIC];
+        topic.text = article.topicName;
+    }
 }
 
 - (void)didRetrieveArticles:(NSArray *)theArticles {
@@ -88,7 +105,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return [self heightForDynamicRowWithReuseIdentifier:@"Article" indexPath:indexPath];
+        CGFloat height = [self heightForDynamicRowWithReuseIdentifier:@"Article" indexPath:indexPath];
+        UVArticle *article = [_articles objectAtIndex:indexPath.row];
+        if (!_topic && article.topicName.length == 0) {
+            height -= 6;
+        }
+        return height;
     } else {
         return 44;
     }
