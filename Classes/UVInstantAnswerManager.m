@@ -87,6 +87,7 @@
         UVInstantAnswersViewController *next = [UVInstantAnswersViewController new];
         next.instantAnswerManager = self;
         next.articlesFirst = articlesFirst;
+        next.deflectingType = _deflectingType;
         [parent.navigationController pushViewController:next animated:YES];
     } else {
         [self skipInstantAnswers];
