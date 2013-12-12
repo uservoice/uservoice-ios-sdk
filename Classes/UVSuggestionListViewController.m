@@ -33,10 +33,12 @@
 #define SUBSCRIBER_COUNT 21
 #define STATUS 22
 #define STATUS_COLOR 23
+#define LOADING 30
 
 @implementation UVSuggestionListViewController {
     UITableViewCell *_templateCell;
     UILabel *_loadingLabel;
+    BOOL _loading;
 }
 
 - (id)init {
@@ -59,12 +61,12 @@
 }
 
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
-    [self hideActivityIndicator];
     if (theSuggestions.count > 0) {
         [_suggestions addObjectsFromArray:theSuggestions];
     }
 
     [_forum.suggestions addObjectsFromArray:theSuggestions];
+    [self hideActivityIndicator];
     [_tableView reloadData];
 }
 
@@ -136,15 +138,19 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
     UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
-    label.backgroundColor = [UIColor clearColor];
-    label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
     label.textAlignment = NSTextAlignmentCenter;
-    _loadingLabel = label;
+    label.tag = LOADING;
     [cell addSubview:label];
+}
+
+- (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = (UILabel *)[cell viewWithTag:LOADING];
+    label.text = _loading ? NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
 }
 
 - (void)customizeCellForSuggestion:(UVSuggestion *)suggestion cell:(UITableViewCell *)cell {
@@ -290,11 +296,12 @@
 }
 
 - (void)showActivityIndicator {
-    _loadingLabel.text = NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil);
+    _loading = YES;
+    [_tableView reloadData];
 }
 
 - (void)hideActivityIndicator {
-    _loadingLabel.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
+    _loading = NO;
 }
 
 - (void)initNavigationItem {
@@ -306,11 +313,6 @@
     if ([UVSession currentSession].isModal && _firstController) {
         self.navigationItem.leftBarButtonItem = _exitButton;
     }
-}
-
-- (void)reloadTableData {
-    _suggestions = _forum.suggestions;
-    [_tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

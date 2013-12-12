@@ -19,6 +19,4 @@
 @property (nonatomic, retain) NSArray *searchResults;
 @property (nonatomic, retain) UISearchDisplayController *searchController;
 
-- (void)reloadTableData;
-
 @end

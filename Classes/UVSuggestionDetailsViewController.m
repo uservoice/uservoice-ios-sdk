@@ -30,6 +30,7 @@
 #define COMMENT_TEXT_TAG 1003
 #define SUGGESTION_DESCRIPTION 20
 #define ADMIN_RESPONSE 30
+#define LOADING 40
 
 @implementation UVSuggestionDetailsViewController {
     CGFloat _footerHeight;
@@ -37,8 +38,8 @@
     BOOL _suggestionExpanded;
     BOOL _responseExpanded;
     BOOL _subscribing;
+    BOOL _loading;
     UVCallback *_subscribeCallback;
-    UILabel *_loadingLabel;
 }
 
 - (id)init {
@@ -63,6 +64,7 @@
 
 - (void)retrieveMoreComments {
     NSInteger page = (_comments.count / 10) + 1;
+    [self showActivityIndicator];
     [UVComment getWithSuggestion:_suggestion page:page delegate:self];
 }
 
@@ -75,6 +77,7 @@
     } else {
         _allCommentsRetrieved = YES;
     }
+    [self hideActivityIndicator];
     [_tableView reloadData];
 }
 
@@ -205,13 +208,17 @@
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
     UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
-    label.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
     label.textAlignment = NSTextAlignmentCenter;
-    _loadingLabel = label;
+    label.tag = LOADING;
     [cell addSubview:label];
+}
+
+- (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = (UILabel *)[cell viewWithTag:LOADING];
+    label.text = _loading ? NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -336,7 +343,7 @@
     } else if (section == 1) {
         return 1;
     } else {
-        return _comments.count + (_allCommentsRetrieved || _comments.count == 0 ? 0 : 1);
+        return _comments.count + (_allCommentsRetrieved ? 0 : 1);
     }
 }
 
@@ -507,11 +514,12 @@
 }
 
 - (void)showActivityIndicator {
-    _loadingLabel.text = NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil);
+    _loading = YES;
+    [_tableView reloadData];
 }
 
 - (void)hideActivityIndicator {
-    _loadingLabel.text = NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
+    _loading = NO;
 }
 
 - (void)dealloc {
