@@ -11,7 +11,7 @@
 
 @class UVSuggestion;
 
-@interface UVCommentViewController : UVBaseViewController<UITextViewDelegate>
+@interface UVCommentViewController : UVBaseViewController<UITextViewDelegate, UVSigninManagerDelegate>
 
 @property (nonatomic,retain) UVSuggestion *suggestion;
 

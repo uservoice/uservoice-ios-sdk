@@ -30,6 +30,7 @@
         _suggestion = theSuggestion;
         _signInCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(doComment)];
         _signinManager = [UVSigninManager manager];
+        _signinManager.delegate = self;
     }
     return self;
 }
@@ -58,13 +59,26 @@
     }
 }
 
+- (void)signinManagerDidFail {
+    [self hideActivityIndicator];
+}
+
+- (void)showActivityIndicator {
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [activityView startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+}
+
+- (void)hideActivityIndicator {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(commentButtonTapped)];
+}
+
 - (void)doComment {
     [self showActivityIndicator];
     [UVComment createWithSuggestion:_suggestion text:_fieldsView.textView.text delegate:self];
 }
 
 - (void)didCreateComment:(UVComment *)comment {
-    [self hideActivityIndicator];
     [UVBabayaga track:COMMENT_IDEA id:_suggestion.suggestionId];
     _suggestion.commentsCount = comment.updatedCommentCount;
     UINavigationController *navController = (UINavigationController *)self.presentingViewController;
