@@ -23,12 +23,14 @@
     title.textColor = [UIColor whiteColor];
     title.font = [UIFont systemFontOfSize:26];
     title.textAlignment = NSTextAlignmentCenter;
+    title.backgroundColor = [UIColor clearColor];
     UILabel *text = [UILabel new];
     text.text = _text;
     text.textColor = [UIColor whiteColor];
     text.font = [UIFont systemFontOfSize:15];
     text.numberOfLines = 0;
     text.textAlignment = NSTextAlignmentCenter;
+    text.backgroundColor = [UIColor clearColor];
     UIButton *button = [UIButton new];
     button.layer.borderWidth = 1.0;
     button.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -42,6 +44,7 @@
     power.textColor = [UIColor grayColor];
     power.font = [UIFont systemFontOfSize:13];
     power.textAlignment = NSTextAlignmentCenter;
+    power.backgroundColor = [UIColor clearColor];
     if ([UVSession currentSession].clientConfig.whiteLabel) {
         power.hidden = YES;
     }

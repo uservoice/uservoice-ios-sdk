@@ -167,12 +167,14 @@
     uv.text = NSLocalizedStringFromTable(@"Powered by UserVoice", @"UserVoice", nil);
     uv.font = [UIFont systemFontOfSize:13];
     uv.textColor = [UIColor grayColor];
+    uv.backgroundColor = [UIColor clearColor];
     uv.textAlignment = NSTextAlignmentCenter;
     UILabel *version = [UILabel new];
     version.text = [NSString stringWithFormat:@"iOS SDK v%@", [UserVoice version]];
     version.font = [UIFont systemFontOfSize:13];
     version.textColor = [UIColor lightGrayColor];
     version.textAlignment = NSTextAlignmentCenter;
+    version.backgroundColor = [UIColor clearColor];
     [self configureView:power
                subviews:NSDictionaryOfVariableBindings(uv, version)
             constraints:@[@"V:|-[uv]-[version]", @"|[uv]|", @"|[version]|"]];
