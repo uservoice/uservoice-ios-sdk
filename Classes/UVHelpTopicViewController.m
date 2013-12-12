@@ -21,7 +21,7 @@
 #define TOPIC 101
 #define LOADING 200
 
-#define PAGE_SIZE 10
+#define ARTICLE_PAGE_SIZE 10
 
 @implementation UVHelpTopicViewController {
     BOOL _allArticlesLoaded;
@@ -137,7 +137,7 @@
 - (void)didRetrieveArticles:(NSArray *)theArticles {
     [self hideActivityIndicator];
     [_articles addObjectsFromArray:theArticles];
-    if (theArticles.count < PAGE_SIZE || (_topic && _articles.count >= _topic.articleCount)) {
+    if (theArticles.count < ARTICLE_PAGE_SIZE || (_topic && _articles.count >= _topic.articleCount)) {
         _allArticlesLoaded = YES;
     }
     [_tableView reloadData];

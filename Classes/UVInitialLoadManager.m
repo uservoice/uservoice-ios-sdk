@@ -57,13 +57,16 @@
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (void)checkComplete {
     if (_configDone && _userDone && _topicsDone && _articlesDone && _forumDone) {
         if (_dismissed) return;
         [_delegate performSelector:_action];
     }
 }
-
+#pragma clang diagnostic pop
+ 
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
     if (_dismissed) return;
     [UVSession currentSession].requestToken = token;
