@@ -346,12 +346,22 @@
     _tableView = [[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped];
     _tableView.delegate = (id<UITableViewDelegate>)self;
     _tableView.dataSource = (id<UITableViewDataSource>)self;
-    if (!IOS7) {
-        UIView *bg = [UIView new];
-        bg.backgroundColor = [UVStyleSheet backgroundColor];
-        _tableView.backgroundView = bg;
+    if ([UVStyleSheet instance].tableViewBackgroundColor) {
+        if (!IOS7) {
+            UIView *bg = [UIView new];
+            bg.backgroundColor = [UVStyleSheet instance].tableViewBackgroundColor;
+            _tableView.backgroundView = bg;
+        }
+        _tableView.backgroundColor = [UVStyleSheet instance].tableViewBackgroundColor;
     }
     self.view = _tableView;
+}
+
+- (void)setView:(UIView *)view {
+    [super setView:view];
+    if (IOS7) {
+        view.tintColor = [UVStyleSheet instance].tintColor;
+    }
 }
 
 - (void)requireUserSignedIn:(UVCallback *)callback {

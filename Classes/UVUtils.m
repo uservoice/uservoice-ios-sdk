@@ -7,6 +7,7 @@
 //
 
 #import "UVUtils.h"
+#import "UVDefines.h"
 #import "UVStyleSheet.h"
 
 @implementation UVUtils
@@ -225,17 +226,23 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 }
 
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
+    UVStyleSheet *styles = [UVStyleSheet instance];
+    if (IOS7) {
+        navigationController.navigationBar.tintColor = styles.tintColor;
+        navigationController.navigationBar.backgroundColor = styles.navigationBarBackgroundColor;
+    } else {
+        navigationController.navigationBar.tintColor = styles.navigationBarBackgroundColor;
+    }
+    [navigationController.navigationBar setBackgroundImage:styles.navigationBarBackgroundImage forBarMetrics:UIBarMetricsDefault];
     NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes];
-    if ([UVStyleSheet navigationBarTextColor]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextColor] forKey:UITextAttributeTextColor];
+    if (styles.navigationBarTextColor) {
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextColor forKey:UITextAttributeTextColor];
     }
-    if ([UVStyleSheet navigationBarTextShadowColor]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextShadowColor] forKey:UITextAttributeTextShadowColor];
+    if (styles.navigationBarTextShadowColor) {
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextShadowColor forKey:UITextAttributeTextShadowColor];
     }
-    if ([UVStyleSheet navigationBarFont]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarFont] forKey:UITextAttributeFont];
+    if (styles.navigationBarFont) {
+        [navbarTitleTextAttributes setObject:styles.navigationBarFont forKey:UITextAttributeFont];
     }
     [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }

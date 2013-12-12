@@ -70,7 +70,7 @@
                                                                             action:@selector(dismissUserVoice)];
 
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
-    self.view.backgroundColor = [UVStyleSheet backgroundColor];
+    self.view.backgroundColor = [UVStyleSheet instance].loadingViewBackgroundColor;
 
     UIView *loading = [[UIView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, 100)];
     loading.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
