@@ -32,6 +32,7 @@
 #define ADMIN_RESPONSE 30
 
 @implementation UVSuggestionDetailsViewController {
+    CGFloat _footerHeight;
     BOOL _allCommentsRetrieved;
     BOOL _suggestionExpanded;
     BOOL _responseExpanded;
@@ -390,6 +391,12 @@
 
 #pragma mark ===== Basic View Methods =====
 
+- (void)keyboardDidHide:(NSNotification*)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake([self scrollView].contentInset.top, 0.0, _footerHeight, 0.0);
+    [self scrollView].contentInset = contentInsets;
+    [self scrollView].scrollIndicatorInsets = contentInsets;
+}
+
 - (void)labelExpanded:(UVTruncatingLabel *)label {
     if (label.tag == SUGGESTION_DESCRIPTION) {
         _suggestionExpanded = YES;
@@ -405,13 +412,13 @@
     [UVBabayaga track:VIEW_IDEA id:_suggestion.suggestionId];
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
 
-    CGFloat footerHeight = _instantAnswers ? 46 : 66;
+    _footerHeight = _instantAnswers ? 46 : 66;
     UITableView *table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     table.delegate = self;
     table.dataSource = self;
     table.tableFooterView = [UIView new];
-    table.contentInset = UIEdgeInsetsMake(0, 0, footerHeight, 0);
-    table.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerHeight, 0);
+    table.contentInset = UIEdgeInsetsMake(0, 0, _footerHeight, 0);
+    table.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, _footerHeight, 0);
     _tableView = table;
 
     UIView *footer = [UIView new];
@@ -485,7 +492,7 @@
     [self configureView:self.view
                subviews:NSDictionaryOfVariableBindings(table, footer)
             constraints:@[@"V:|[table]|", @"V:[footer]|", @"|[table]|", @"|[footer]|"]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:footerHeight]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:_footerHeight]];
     [self.view bringSubviewToFront:footer];
     [self reloadComments];
     [self updateSubscriberCount];
