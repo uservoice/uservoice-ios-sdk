@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString *avatarUrl;
 @property (nonatomic, assign) NSInteger karmaScore;
 @property (nonatomic, retain) NSDate *createdAt;
+@property (nonatomic, assign) NSInteger updatedCommentCount;
 
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate;
 + (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id)delegate;

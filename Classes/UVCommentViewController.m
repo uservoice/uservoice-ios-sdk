@@ -22,12 +22,14 @@
     UITextField *_emailField;
     UITextField *_nameField;
     UVCallback *_signInCallback;
+    UVSigninManager *_signinManager;
 }
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion {
     if ((self = [super init])) {
         _suggestion = theSuggestion;
         _signInCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(doComment)];
+        _signinManager = [UVSigninManager manager];
     }
     return self;
 }
@@ -46,7 +48,7 @@
                 self.userEmail = _emailField.text;
                 self.userName = _nameField.text;
                 [self showActivityIndicator];
-                [[UVSigninManager manager] signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
+                [_signinManager signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
             } else {
                 [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your comment.", @"UserVoice", nil)];
             }
@@ -56,7 +58,7 @@
     }
 }
 
-- (void)doCommment {
+- (void)doComment {
     [self showActivityIndicator];
     [UVComment createWithSuggestion:_suggestion text:_fieldsView.textView.text delegate:self];
 }
@@ -64,7 +66,7 @@
 - (void)didCreateComment:(UVComment *)comment {
     [self hideActivityIndicator];
     [UVBabayaga track:COMMENT_IDEA id:_suggestion.suggestionId];
-    _suggestion.commentsCount += 1;
+    _suggestion.commentsCount = comment.updatedCommentCount;
     UINavigationController *navController = (UINavigationController *)self.presentingViewController;
     UVSuggestionDetailsViewController *previous = (UVSuggestionDetailsViewController *)[navController.viewControllers lastObject];
     [previous reloadComments];

@@ -49,6 +49,7 @@
     if (self = [super init]) {
         _commentId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
         _text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
+        _updatedCommentCount = [dict[@"suggestion"][@"comments_count"] integerValue];
         NSDictionary *user = [dict objectForKey:@"creator"];
         if (user && ![[NSNull null] isEqual:user]) {
             _userName = [UVUtils decodeHTMLEntities:[user objectForKey:@"name"]];
