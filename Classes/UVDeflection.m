@@ -44,21 +44,21 @@ static NSInteger interactionIdentifier;
         [params setObject:@"true" forKey:@"no_results"];
     } else {
         NSMutableArray *resultHashes = [NSMutableArray array];
-        int index = 0;
+        NSInteger index = 0;
         for (id model in results) {
-            NSMutableDictionary *result = [NSMutableDictionary dictionary];
-            [result setObject:[NSString stringWithFormat:@"%d", index++] forKey:@"position"];
-            [result setObject:[NSString stringWithFormat:@"%d", [model weight]] forKey:@"weight"];
+            NSString *prefix = [NSString stringWithFormat:@"results[%d]", index];
+            [params setObject:[NSString stringWithFormat:@"%d", index++] forKey:[prefix stringByAppendingString:@"[position]"]];
+            [params setObject:[NSString stringWithFormat:@"%d", [model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
             if ([model isKindOfClass:[UVArticle class]]) {
                 UVArticle *article = (UVArticle *)model;
-                [result setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:@"deflector_id"];
-                [result setObject:@"Faq" forKey:@"deflector_type"];
+                [params setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+                [params setObject:@"Faq" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
             } else if ([model isKindOfClass:[UVSuggestion class]]) {
                 UVSuggestion *suggestion = (UVSuggestion *)model;
-                [result setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:@"deflector_id"];
-                [result setObject:@"Suggestion" forKey:@"deflector_type"];
+                [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+                [params setObject:@"Suggestion" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
             }
-            [resultHashes addObject:result];
+            index += 1;
         }
         [params setObject:resultHashes forKey:@"results"];
     }
@@ -76,7 +76,7 @@ static NSInteger interactionIdentifier;
         kHRClassAttributesBaseURLKey  : [UVBaseModel baseURL],
         kHRClassAttributesDelegateKey : self,
         @"headers" : @{ @"Content-Type" : @"application/json" },
-        @"body" : [UVUtils encodeJSON:params]
+        @"params" : params
     };
     [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:nil];
 }
