@@ -13,7 +13,6 @@
 @interface UVHelpTopicViewController : UVBaseViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, retain) UVHelpTopic *topic;
-@property (nonatomic, retain) NSArray *articles;
 
 - (id)initWithTopic:(UVHelpTopic *)theTopic;
 

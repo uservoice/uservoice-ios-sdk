@@ -87,10 +87,10 @@
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
-            [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId delegate:self];
+            [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId page:1 delegate:self];
         } else {
             [UVHelpTopic getAllWithDelegate:self];
-            [UVArticle getArticlesWithDelegate:self];
+            [UVArticle getArticlesWithPage:1 delegate:self];
         }
     } else {
         _topicsDone = YES;

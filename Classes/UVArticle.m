@@ -17,9 +17,9 @@
 
 @implementation UVArticle
 
-+ (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {
++ (id)getArticlesWithTopicId:(NSInteger)topicId page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topicId]];
-    NSDictionary *params = @{ @"sort" : @"ordered" };
+    NSDictionary *params = @{ @"sort" : @"ordered", @"page" : [NSString stringWithFormat:@"%d", page] };
     return [self getPath:path
               withParams:params
                   target:delegate
@@ -27,9 +27,9 @@
                  rootKey:@"articles"];
 }
 
-+ (id)getArticlesWithDelegate:(id)delegate {
++ (id)getArticlesWithPage:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:@"/articles.json"];
-    NSDictionary *params = @{ @"sort" : @"ordered" };
+    NSDictionary *params = @{ @"sort" : @"ordered", @"page" : [NSString stringWithFormat:@"%d", page] };
     return [self getPath:path
               withParams:params
                   target:delegate

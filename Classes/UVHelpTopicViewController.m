@@ -19,8 +19,16 @@
 
 #define LABEL 100
 #define TOPIC 101
+#define LOADING 200
 
-@implementation UVHelpTopicViewController
+#define PAGE_SIZE 10
+
+@implementation UVHelpTopicViewController {
+    BOOL _allArticlesLoaded;
+    BOOL _loading;
+    NSInteger _page;
+    NSMutableArray *_articles;
+}
 
 - (id)initWithTopic:(UVHelpTopic *)theTopic {
     if (self = [super init]) {
@@ -34,24 +42,28 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return section == 0 ? [_articles count] : 1;
+    return section == 0 ? ([_articles count] + (_allArticlesLoaded ? 0 : 1)) : 1;
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && indexPath.row < _articles.count) {
         UVArticle *article = (UVArticle *)[_articles objectAtIndex:indexPath.row];
         UVArticleViewController *next = [UVArticleViewController new];
         next.article = article;
         [self.navigationController pushViewController:next animated:YES];
+    } else if (indexPath.section == 0) {
+        [self retrieveMoreArticles];
     } else {
         [self presentModalViewController:[UVContactViewController new]];
     }
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && indexPath.row < _articles.count) {
         return [self createCellForIdentifier:@"Article" tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
+    } else if (indexPath.section == 0) {
+        return [self createCellForIdentifier:@"Load" tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
     } else {
         return [self createCellForIdentifier:@"Contact" tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
     }
@@ -97,14 +109,52 @@
     }
 }
 
-- (void)didRetrieveArticles:(NSArray *)theArticles {
-    [self hideActivityIndicator];
-    _articles = theArticles;
+- (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:16];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.tag = LOADING;
+    [cell addSubview:label];
+}
+
+- (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = (UILabel *)[cell viewWithTag:LOADING];
+    label.text = _loading ? NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
+}
+
+- (void)showActivityIndicator {
+    _loading = YES;
     [_tableView reloadData];
 }
 
+- (void)hideActivityIndicator {
+    _loading = NO;
+}
+
+- (void)didRetrieveArticles:(NSArray *)theArticles {
+    [self hideActivityIndicator];
+    [_articles addObjectsFromArray:theArticles];
+    if (theArticles.count < PAGE_SIZE || (_topic && _articles.count >= _topic.articleCount)) {
+        _allArticlesLoaded = YES;
+    }
+    [_tableView reloadData];
+}
+
+- (void)retrieveMoreArticles {
+    _page += 1;
+    [self showActivityIndicator];
+    if (_topic) {
+        [UVArticle getArticlesWithTopicId:_topic.topicId page:_page delegate:self];
+    } else {
+        [UVArticle getArticlesWithPage:_page delegate:self];
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && indexPath.row < _articles.count) {
         CGFloat height = [self heightForDynamicRowWithReuseIdentifier:@"Article" indexPath:indexPath];
         UVArticle *article = [_articles objectAtIndex:indexPath.row];
         if (!_topic && article.topicName.length == 0) {
@@ -121,14 +171,16 @@
     if (![UVSession currentSession].clientConfig.whiteLabel) {
         _tableView.tableFooterView = self.poweredByView;
     }
+    _page = 1;
     if (_topic) {
         self.navigationItem.title = _topic.name;
         [self showActivityIndicator];
         [UVBabayaga track:VIEW_TOPIC id:_topic.topicId];
-        [UVArticle getArticlesWithTopicId:_topic.topicId delegate:self];
+        [UVArticle getArticlesWithTopicId:_topic.topicId page:1 delegate:self];
+        _articles = [NSMutableArray new];
     } else {
         self.navigationItem.title = NSLocalizedStringFromTable(@"All Articles", @"UserVoice", nil);
-        _articles = [UVSession currentSession].articles;
+        _articles = [[UVSession currentSession].articles mutableCopy];
         [_tableView reloadData];
     }
 }
