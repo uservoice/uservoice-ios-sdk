@@ -222,7 +222,7 @@
         [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
     } else {
         [_detailsController showActivityIndicator];
-        _selectedCategoryId = [fields[@"category"][@"id"] intValue];
+        _selectedCategoryId = [fields[@"Category"][@"id"] integerValue];
         [self requireUserAuthenticated:email name:name callback:_didAuthenticateCallback];
     }
 }
@@ -244,7 +244,7 @@
     [UVSuggestion createWithForum:[UVSession currentSession].forum
                          category:_selectedCategoryId
                             title:_titleField.text
-                             text:_textView.text
+                             text:_fieldsView.textView.text
                          callback:_didCreateCallback];
 }
 

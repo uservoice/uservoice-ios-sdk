@@ -21,7 +21,6 @@
 @property (nonatomic, retain) NSString *initialText;
 @property (nonatomic, retain) UVInstantAnswerManager *instantAnswerManager;
 @property (nonatomic, retain) UITextField *titleField;
-@property (nonatomic, retain) UVTextView *textView;
 @property (nonatomic, retain) NSLayoutConstraint *keyboardConstraint;
 @property (nonatomic, retain) NSLayoutConstraint *topConstraint;
 @property (nonatomic, retain) NSLayoutConstraint *descConstraint;
