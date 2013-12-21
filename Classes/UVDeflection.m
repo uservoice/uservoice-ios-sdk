@@ -40,28 +40,28 @@ static NSInteger interactionIdentifier;
     NSMutableDictionary *params = [self deflectionParams];
     [params setObject:@"list" forKey:@"kind"];
     [params setObject:deflectingType forKey:@"deflecting_type"];
-    if ([results count] == 0) {
-        [params setObject:@"true" forKey:@"no_results"];
-    } else {
-        NSMutableArray *resultHashes = [NSMutableArray array];
-        NSInteger index = 0;
-        for (id model in results) {
-            NSString *prefix = [NSString stringWithFormat:@"results[%d]", index];
-            [params setObject:[NSString stringWithFormat:@"%d", index++] forKey:[prefix stringByAppendingString:@"[position]"]];
-            [params setObject:[NSString stringWithFormat:@"%d", [model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
-            if ([model isKindOfClass:[UVArticle class]]) {
-                UVArticle *article = (UVArticle *)model;
-                [params setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
-                [params setObject:@"Faq" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
-            } else if ([model isKindOfClass:[UVSuggestion class]]) {
-                UVSuggestion *suggestion = (UVSuggestion *)model;
-                [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
-                [params setObject:@"Suggestion" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
-            }
-            index += 1;
+    NSInteger articleResults = 0;
+    NSInteger suggestionResults = 0;
+    NSInteger index = 0;
+    for (id model in results) {
+        NSString *prefix = [NSString stringWithFormat:@"results[%d]", index];
+        [params setObject:[NSString stringWithFormat:@"%d", index++] forKey:[prefix stringByAppendingString:@"[position]"]];
+        [params setObject:[NSString stringWithFormat:@"%d", [model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
+        if ([model isKindOfClass:[UVArticle class]]) {
+            articleResults += 1;
+            UVArticle *article = (UVArticle *)model;
+            [params setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+            [params setObject:@"Faq" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
+        } else if ([model isKindOfClass:[UVSuggestion class]]) {
+            suggestionResults += 1;
+            UVSuggestion *suggestion = (UVSuggestion *)model;
+            [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+            [params setObject:@"Suggestion" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
         }
-        [params setObject:resultHashes forKey:@"results"];
+        index += 1;
     }
+    [params setObject:[NSString stringWithFormat:@"%d", articleResults] forKey:@"faq_results"];
+    [params setObject:[NSString stringWithFormat:@"%d", suggestionResults] forKey:@"suggestion_results"];
     [self sendDeflection:@"/clients/widgets/omnibox/deflections/list_view.json" params:params];
 }
 
