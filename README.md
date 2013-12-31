@@ -1,14 +1,13 @@
 Overview
 --------
 
-UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
+UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
 
-![Tour](https://www.uservoice.com/assets/img/ios/ios-animation.gif)
+To get started, you will need to have a free UserVoice account to connect to. Go to [uservoice.com/mobile/](https://uservoice.com/mobile/) to sign up for free.
 
-You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
-
-Binary builds of the SDK are available for download.
-* Current release: [3.0.0](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-3.0.0.tar.gz)
+Binary builds of the SDK are available for download:
+* Current release: [3.0.0](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-3.0.0.tar.gz) (updated 2013-12-31)
+* See [CHANGELOG.md](https://github.com/uservoice/uservoice-ios-sdk/blob/master/CHANGELOG.md) for release notes and previous versions
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
@@ -26,9 +25,7 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 API
 ---
 
-Once you have completed these steps, you are ready to launch the UserVoice UI
-from your code. Import `UserVoice.h` and create a `UVConfig` using one of the
-following options.
+Once you have completed these steps, you are ready to launch the UserVoice UI from your code. Import `UserVoice.h` and create a `UVConfig` using one of the following options.
 
 ### Configuration
 
