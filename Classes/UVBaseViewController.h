@@ -16,27 +16,24 @@
 // Base class for UserVoice content view controllers. Will handle things like
 // the search box, help bar, etc.
 @interface UVBaseViewController : UIViewController<UIAlertViewDelegate, UITextFieldDelegate, UVSigninManagerDelegate> {
-    BOOL needsReload;
-    BOOL firstController;
-    UITableView *tableView;
-    NSInteger kbHeight;
-    UIBarButtonItem *exitButton;
-    UVSigninManager *signinManager;
-    NSString *userEmail;
-    NSString *userName;
-    UIView *shade;
-    UIActivityIndicatorView *activityIndicatorView;
+    BOOL _firstController;
+    UITableView *_tableView;
+    NSInteger _kbHeight;
+    UIBarButtonItem *_exitButton;
+    UVSigninManager *_signinManager;
+    NSString *_userName;
+    NSString *_userEmail;
 }
 
-@property (assign) BOOL needsReload;
-@property (assign) BOOL firstController;
+@property (nonatomic, assign) BOOL firstController;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIBarButtonItem *exitButton;
 @property (nonatomic, retain) UVSigninManager *signinManager;
-@property (nonatomic,retain) NSString *userEmail;
-@property (nonatomic,retain) NSString *userName;
+@property (nonatomic, retain) NSString *userEmail;
+@property (nonatomic, retain) NSString *userName;
 @property (nonatomic, retain) UIView *shade;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, retain) NSMutableDictionary *templateCells;
 
 - (void)dismissUserVoice;
 
@@ -53,9 +50,6 @@
 - (void)enableSubmitButton;
 - (void)enableSubmitButtonForce:(BOOL)force;
 - (BOOL)shouldEnableSubmitButton;
-
-- (void)addTopBorder:(UIView *)view;
-- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha;
 
 - (void)initNavigationItem;
 - (void)presentModalViewController:(UIViewController *)viewController;
@@ -88,11 +82,10 @@
 - (void)setupGroupedTableView;
 - (UIScrollView *)scrollView;
 
-- (CGRect)cellValueRect:(UIView *)container;
-- (CGRect)cellLabelRect:(UIView *)container;
-- (UILabel *)addCellLabel:(UIView *)container;
-- (UILabel *)addCellValueLabel:(UIView *)container;
-- (UITextField *)addCellValueTextField:(UIView *)container;
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder;
+- (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath;
+- (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings;
+- (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint;
+- (UITextField *)configureView:(UIView *)view label:(NSString *)labelText placeholder:(NSString *)placeholderText;
+- (UIView *)poweredByView;
 
 @end

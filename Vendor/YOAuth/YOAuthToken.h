@@ -14,18 +14,7 @@
  * Contains an OAuth token key and secret provided by the service provider for an application to access private information.
  * <p>This class should be extended to add any additional token information returned by the service provider.</p>
  */
-@interface YOAuthToken : NSObject {
-@protected
-	/**
-	 * The token key.
-	 */
-	NSString		*key;
-	
-	/**
-	 * The token secret.
-	 */
-	NSString		*secret;
-}
+@interface YOAuthToken : NSObject
 
 @property(nonatomic, readwrite, retain) NSString *key;
 @property(nonatomic, readwrite, retain) NSString *secret;

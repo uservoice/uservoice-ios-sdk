@@ -24,20 +24,6 @@
 @end
 
 @implementation HRRequestOperation
-@synthesize timeout         = _timeout;
-@synthesize requestMethod   = _requestMethod;
-@synthesize path            = _path;
-@synthesize options         = _options;
-@synthesize formatter       = _formatter;
-@synthesize delegate        = _delegate;
-
-- (void)dealloc {
-    [_path release];
-    [_options release];
-    [_formatter release];
-    [_object release];
-    [super dealloc];
-}
 
 - (id)initWithMethod:(HRRequestMethod)method path:(NSString*)urlPath options:(NSDictionary*)opts object:(id)obj {
                  
@@ -47,11 +33,11 @@
         _isCancelled    = NO;
         _requestMethod  = method;
         _path           = [urlPath copy];
-        _options        = [opts retain];
-        _object         = [obj retain];
+        _options        = opts;
+        _object         = obj;
         _timeout        = 120.0;
-        _delegate       = [[opts valueForKey:kHRClassAttributesDelegateKey] nonretainedObjectValue];
-        _formatter      = [[HRFormatJSON class] retain];
+        _delegate       = [opts valueForKey:kHRClassAttributesDelegateKey];
+        _formatter      = [HRFormatJSON class];
     }
 
     return self;
@@ -92,18 +78,14 @@
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     
     if(_connection) {
-        _responseData = [[NSMutableData alloc] init];        
+        _responseData = [NSMutableData new];        
     } else {
         [self finish];
     }    
 }
 
 - (void)finish {
-    //HRLOG(@"Operation Finished. Releasing...");
-    [_connection release];
     _connection = nil;
-    
-    [_responseData release];
     _responseData = nil;
 
     [self willChangeValueForKey:@"isExecuting"];
@@ -191,10 +173,7 @@
             if([_delegate respondsToSelector:@selector(restConnection:didReceiveParseError:responseBody:object:)]) {
                 [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReceiveParseError:responseBody:object:) withObjects:@[connection, parseError, rawString, _object]];
             }
-            
-            [rawString release];
             [self finish];
-            
             return;
         }
     }
@@ -240,7 +219,7 @@
 }
 
 - (NSMutableURLRequest *)configuredRequest {
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+    NSMutableURLRequest *request = [NSMutableURLRequest new];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [request setTimeoutInterval:_timeout];
     [request setHTTPShouldHandleCookies:YES];
@@ -309,7 +288,7 @@
 + (HRRequestOperation *)requestWithMethod:(HRRequestMethod)method path:(NSString*)urlPath options:(NSDictionary*)requestOptions object:(id)obj {
     id operation = [[self alloc] initWithMethod:method path:urlPath options:requestOptions object:obj];
     [[HROperationQueue sharedOperationQueue] addOperation:operation];
-    return [operation autorelease];
+    return operation;
 }
 
 + (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError **)error {
@@ -323,13 +302,13 @@
 
     if(error != nil) {
         NSDictionary *headers = [response allHeaderFields];
-        NSString *errorReason = [NSString stringWithFormat:@"%d Error: ", code];
+        NSString *errorReason = [NSString stringWithFormat:@"%d Error: ", (int)code];
         NSString *errorDescription = [NSHTTPURLResponse localizedStringForStatusCode:code];
-        NSDictionary *userInfo = [[[NSDictionary dictionaryWithObjectsAndKeys:
-                                   errorReason, NSLocalizedFailureReasonErrorKey,
-                                   errorDescription, NSLocalizedDescriptionKey, 
-                                   headers, kHRClassAttributesHeadersKey, 
-                                   [[response URL] absoluteString], @"url", nil] retain] autorelease];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+            errorReason, NSLocalizedFailureReasonErrorKey,
+            errorDescription, NSLocalizedDescriptionKey, 
+            headers, kHRClassAttributesHeadersKey, 
+            [[response URL] absoluteString], @"url", nil];
         *error = [NSError errorWithDomain:HTTPRiotErrorDomain code:code userInfo:userInfo];
     }
 

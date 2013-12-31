@@ -17,19 +17,14 @@
 #import "HRFormatJson.h"
 
 @implementation UVBabayaga {
-    NSString *_uvts;
-    NSDictionary *_userTraits;
     NSMutableArray *_queue;
 }
-
-@synthesize userTraits = _userTraits;
-@synthesize uvts = _uvts;
 
 + (UVBabayaga *)instance {
     static UVBabayaga *_instance;
     @synchronized(self) {
         if (!_instance) {
-            _instance = [[UVBabayaga alloc] init];
+            _instance = [UVBabayaga new];
         }
     }
     return _instance;
@@ -58,24 +53,25 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _queue = [[NSMutableArray alloc] init];
+        _queue = [NSMutableArray new];
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        _uvts = [[prefs stringForKey:@"uv-uvts"] retain];
+        _uvts = [prefs stringForKey:@"uv-uvts"];
     }
     return self;
 }
 
 - (void)setUvts:(NSString *)uvts {
-    [_uvts release];
-    _uvts = [uvts retain];
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:_uvts forKey:@"uv-uvts"];
-    [prefs synchronize];
+    if (uvts) {
+        _uvts = uvts;
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setObject:_uvts forKey:@"uv-uvts"];
+        [prefs synchronize];
+    }
 }
 
 - (void)track:(NSString *)event props:(NSDictionary *)props {
     if ([UVSession currentSession].clientConfig) {
-        [self sendTrack:event props:props];
+       [self sendTrack:event props:props];
     } else {
         [_queue addObject:props ? @{@"event" : event, @"props" : props} : @{@"event": event}];
     }
@@ -85,14 +81,13 @@
     for (NSDictionary *dict in _queue) {
         [self track:[dict objectForKey:@"event"] props:[dict objectForKey:@"props"]];
     }
-    [_queue release];
-    _queue = [[NSMutableArray alloc] init];
+    _queue = [NSMutableArray new];
 }
 
 - (void)sendTrack:(NSString *)event props:(NSDictionary *)props {
     // NSLog(@"sending track: %@", event);
     NSInteger subdomainId = [UVSession currentSession].clientConfig.subdomain.subdomainId;
-    NSString *path = [NSString stringWithFormat:@"%d/%@/%@", subdomainId, CHANNEL, event];
+    NSString *path = [NSString stringWithFormat:@"%d/%@/%@", (int)subdomainId, CHANNEL, event];
     if (_uvts) {
         path = [NSString stringWithFormat:@"%@/%@", path, _uvts];
     }
@@ -114,10 +109,10 @@
     }
     NSDictionary *opts = @{
         kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com/t/"],
-        kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
+        kHRClassAttributesDelegateKey : self,
         @"params" : params
     };
-    UVRequestContext *requestContext = [[[UVRequestContext alloc] init] autorelease];
+    UVRequestContext *requestContext = [UVRequestContext new];
     [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:requestContext];
 }
 

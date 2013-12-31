@@ -14,7 +14,7 @@
     static UVImageCache *instance;
     @synchronized(self) {
         if (!instance) {
-            instance = [[UVImageCache alloc] init];
+            instance = [UVImageCache new];
         }
     }
     return instance;
@@ -58,14 +58,6 @@
 - (void)flush {
     [cache removeAllObjects];
     [mostRecentlyUsed removeAllObjects];
-}
-
-- (void)dealloc {
-    [cache release];
-    cache = nil;
-    [mostRecentlyUsed release];
-    mostRecentlyUsed = nil;
-    [super dealloc];
 }
 
 @end

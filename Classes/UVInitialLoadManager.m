@@ -24,8 +24,6 @@
     UIAlertView *_errorAlertView;
 }
 
-@synthesize dismissed;
-
 + (UVInitialLoadManager *)loadWithDelegate:(id)delegate action:(SEL)action {
     UVInitialLoadManager *manager = [[UVInitialLoadManager alloc] initWithDelegate:delegate action:action];
     [manager beginLoad];
@@ -34,8 +32,8 @@
 
 - (id)initWithDelegate:(id)theDelegate action:(SEL)theAction {
     if (self = [super init]) {
-        delegate = theDelegate;
-        action = theAction;
+        _delegate = theDelegate;
+        _action = theAction;
     }
     return self;
 }
@@ -52,25 +50,25 @@
     if ([UVSession currentSession].config.ssoToken != nil || [UVSession currentSession].config.email != nil) {
         [UVRequestToken getRequestTokenWithDelegate:self];
     } else if ([UVAccessToken exists]) {
-        [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithExisting] autorelease];
+        [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithExisting];
         [UVUser retrieveCurrentUser:self];
     } else {
         [self didLoadUser];
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (void)checkComplete {
-    if (configDone && userDone && topicsDone && articlesDone && forumDone) {
-        if ([UVSession currentSession].user) {
-            [[UVSession currentSession].user updateVotesRemaining];
-        }
-        if (dismissed) return;
-        [delegate performSelector:action];
+    if (_configDone && _userDone && _topicsDone && _articlesDone && _forumDone) {
+        if (_dismissed) return;
+        [_delegate performSelector:_action];
     }
 }
-
+#pragma clang diagnostic pop
+ 
 - (void)didRetrieveRequestToken:(UVRequestToken *)token {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].requestToken = token;
     if ([UVSession currentSession].config.ssoToken != nil) {
         [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
@@ -80,39 +78,39 @@
 }
 
 - (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].clientConfig = clientConfig;
     [self didLoadClientConfig];
 }
 
 - (void)didLoadClientConfig {
     UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
-    configDone = YES;
+    _configDone = YES;
     [self loadUser];
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
-            [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId delegate:self];
+            [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId page:1 delegate:self];
         } else {
             [UVHelpTopic getAllWithDelegate:self];
-            [UVArticle getArticlesWithDelegate:self];
+            [UVArticle getArticlesWithPage:1 delegate:self];
         }
     } else {
-        topicsDone = YES;
-        articlesDone = YES;
+        _topicsDone = YES;
+        _articlesDone = YES;
     }
     [self checkComplete];
 }
 
 - (void)didRetrieveForum:(UVForum *)forum {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].forum = forum;
-    forumDone = YES;
+    _forumDone = YES;
     [self checkComplete];
 }
 
 - (void)didCreateUser:(UVUser *)theUser {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     [UVBabayaga track:IDENTIFY];
@@ -120,49 +118,49 @@
 }
 
 - (void)didRetrieveCurrentUser:(UVUser *)theUser {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].user = theUser;
     [[UVSession currentSession].accessToken persist];
     [self didLoadUser];
 }
 
 - (void)didLoadUser {
-    userDone = YES;
+    _userDone = YES;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
         [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
     } else {
-        forumDone = YES;
+        _forumDone = YES;
     }
     [self checkComplete];
 }
 
 - (void)didRetrieveHelpTopic:(UVHelpTopic *)topic {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].topics = @[topic];
-    topicsDone = YES;
+    _topicsDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveHelpTopics:(NSArray *)topics {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].topics = [topics filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"articleCount > 0"]];
-    topicsDone = YES;
+    _topicsDone = YES;
     [self checkComplete];
 }
 
 - (void)didRetrieveArticles:(NSArray *)articles {
-    if (dismissed) return;
+    if (_dismissed) return;
     [UVSession currentSession].articles = articles;
-    articlesDone = YES;
+    _articlesDone = YES;
     [self checkComplete];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [delegate performSelector:@selector(dismissUserVoice)];
+    [_delegate performSelector:@selector(dismissUserVoice)];
 }
 
 - (void)didReceiveError:(NSError *)error context:(UVRequestContext *)requestContext {
-    if (dismissed) return;
+    if (_dismissed) return;
     NSString *message = nil;
     if ([UVUtils isAuthError:error]) {
         if ([requestContext.context isEqualToString:@"sso"] || [requestContext.context isEqualToString:@"local-sso"]) {
@@ -193,7 +191,6 @@
                                                 delegate:self
                                        cancelButtonTitle:nil
                                        otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil];
-    [_errorAlertView autorelease];
     [_errorAlertView show];
 }
 
@@ -201,8 +198,6 @@
     if (_errorAlertView) {
         _errorAlertView.delegate = nil;
     }
-    
-    [super dealloc];
 }
 
 

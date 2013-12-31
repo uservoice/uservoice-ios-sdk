@@ -9,15 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "UVBaseModel.h"
 
-@interface UVSubdomain : UVBaseModel {
-    NSString *name;
-    NSString *host;
-    NSString *key;
-    NSInteger subdomainId;
-    NSString *defaultSort;
-}
+@interface UVSubdomain : UVBaseModel
 
-@property (assign) NSInteger subdomainId;
+@property (nonatomic, assign) NSInteger subdomainId;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *key;

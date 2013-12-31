@@ -11,10 +11,6 @@
 
 @implementation UVHelpTopic
 
-@synthesize name;
-@synthesize topicId;
-@synthesize articleCount;
-
 + (id)getAllWithDelegate:(id)delegate {
     NSString *path = [self apiPath:@"/topics.json"];
     return [self getPath:path
@@ -25,7 +21,7 @@
 }
 
 + (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%i.json", topicId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d.json", (int)topicId]];
     return [self getPath:path
               withParams:nil
                   target:delegate
@@ -36,17 +32,11 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
-        self.topicId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
-        self.articleCount = [(NSNumber *)[dict objectForKey:@"article_count"] integerValue];
-        // position, url
+        _topicId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
+        _articleCount = [(NSNumber *)[dict objectForKey:@"article_count"] integerValue];
     }
     return self;
-}
-
-- (void)dealloc {
-    self.name = nil;
-    [super dealloc];
 }
 
 @end

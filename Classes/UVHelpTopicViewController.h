@@ -10,13 +10,9 @@
 
 @class UVHelpTopic;
 
-@interface UVHelpTopicViewController : UVBaseViewController<UITableViewDataSource,UITableViewDelegate> {
-    UVHelpTopic *topic;
-    NSArray *articles;
-}
+@interface UVHelpTopicViewController : UVBaseViewController<UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic,retain) UVHelpTopic *topic;
-@property (nonatomic,retain) NSArray *articles;
+@property (nonatomic, retain) UVHelpTopic *topic;
 
 - (id)initWithTopic:(UVHelpTopic *)theTopic;
 

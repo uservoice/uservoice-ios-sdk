@@ -18,22 +18,6 @@
 
 @implementation UVUser
 
-@synthesize userId;
-@synthesize name;
-@synthesize displayName;
-@synthesize email;
-@synthesize ideaScore;
-@synthesize activityScore;
-@synthesize karmaScore;
-@synthesize url;
-@synthesize avatarUrl;
-@synthesize supportedSuggestions;
-@synthesize createdSuggestions;
-@synthesize createdAt;
-@synthesize suggestionsNeedReload;
-@synthesize votesRemaining;
-@synthesize visibleForumsDict;
-
 + (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
     NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];
@@ -116,7 +100,7 @@
         @"upsert" : [NSNumber numberWithBool:TRUE],
         @"identifications" : @[
             @{
-                @"id" : [NSString stringWithFormat:@"%d", self.userId],
+                @"id" : [NSString stringWithFormat:@"%d", (int)_userId],
                 @"external_id" : externalId
             }
         ]
@@ -131,120 +115,11 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
-        self.displayName = [self objectOrNilForDict:dict key:@"name"];
-        self.email = [self objectOrNilForDict:dict key:@"email"];
-        self.ideaScore = [(NSNumber *)[dict objectForKey:@"idea_score"] integerValue];
-        self.activityScore = [(NSNumber *)[dict objectForKey:@"activity_score"] integerValue];
-        self.karmaScore = [(NSNumber *)[dict objectForKey:@"karma_score"] integerValue];
-        self.url = [self objectOrNilForDict:dict key:@"url"];
-        self.avatarUrl = [self objectOrNilForDict:dict key:@"avatar_url"];
-        self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
-        createdSuggestionsCount = [(NSNumber *)[dict objectForKey:@"created_suggestions_count"] integerValue];
-        supportedSuggestionsCount = [(NSNumber *)[dict objectForKey:@"supported_suggestions_count"] integerValue];
-
-        if (createdSuggestionsCount+supportedSuggestionsCount==0) {
-            // no point checking if nothing to get
-            self.suggestionsNeedReload = NO;
-        } else {
-            // otherwise load suggestions if profile is visited
-            self.suggestionsNeedReload = YES;
-        }
-        self.createdSuggestions = [NSMutableArray array];
-        self.supportedSuggestions = [NSMutableArray array];
-        
-        self.visibleForumsDict = [self objectOrNilForDict:dict key:@"visible_forums"];
-        if ([UVSession currentSession].forum)
-          [self updateVotesRemaining];
+        _userId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
+        _email = [self objectOrNilForDict:dict key:@"email"];
     }
     return self;
-}
-
-- (void)updateVotesRemaining {
-    for (NSDictionary *forum in self.visibleForumsDict) {
-        if ([(NSNumber *)[forum valueForKey:@"id"] integerValue] == [UVSession currentSession].forum.forumId) {
-            NSDictionary *activity = [self objectOrNilForDict:forum key:@"forum_activity"];
-            self.votesRemaining = [(NSNumber *)[activity valueForKey:@"votes_available"] integerValue];
-        }
-    }
-}
-
-- (NSInteger)supportedSuggestionsCount {
-    return suggestionsNeedReload ? supportedSuggestionsCount : [supportedSuggestions count];
-}
-
-- (NSInteger)createdSuggestionsCount {
-    return suggestionsNeedReload ? createdSuggestionsCount : [createdSuggestions count];
-}
-
-- (void)didWithdrawSupportForSuggestion:(UVSuggestion *)suggestion {
-    if (suggestionsNeedReload == NO) {
-        int i = 0;
-        int indexToRemove = -1;
-        for (UVSuggestion *it in supportedSuggestions) {
-            if (it.suggestionId == suggestion.suggestionId)
-                indexToRemove = i;
-            i++;
-        }
-        if (indexToRemove != -1)
-            [supportedSuggestions removeObjectAtIndex:indexToRemove];
-    } else {
-        supportedSuggestionsCount -= 1;
-    }
-}
-
-- (void)didSupportSuggestion:(UVSuggestion *)suggestion {
-    if (suggestionsNeedReload == NO) {
-        [supportedSuggestions addObject:suggestion];
-    } else {
-        supportedSuggestionsCount += 1;
-    }
-}
-
-- (void)didCreateSuggestion:(UVSuggestion *)suggestion {
-    if (suggestionsNeedReload == NO) {
-        [supportedSuggestions addObject:suggestion];
-        [createdSuggestions addObject:suggestion];
-    } else {
-        createdSuggestionsCount += 1;
-        supportedSuggestionsCount += 1;
-    }
-}
-
-- (void)didLoadSuggestions:(NSArray *)suggestions {
-    [supportedSuggestions removeAllObjects];
-    [createdSuggestions removeAllObjects];
-    if (suggestions && ![[NSNull null] isEqual:suggestions]) {
-        for (UVSuggestion *suggestion in suggestions) {
-            [supportedSuggestions addObject:suggestion];
-            if (suggestion.creatorId == userId) {
-                [createdSuggestions addObject:suggestion];
-            }
-        }
-    }
-    suggestionsNeedReload = NO;
-}
-
-- (BOOL)hasEmail {
-    return self.email != nil && [self.email length] > 0;
-}
-
-- (NSString *)nameOrAnonymous {
-    return self.displayName ? self.displayName : NSLocalizedStringFromTable(@"Anonymous", @"UserVoice", nil);
-}
-
-- (void)dealloc {
-    self.name = nil;
-    self.displayName = nil;
-    self.email = nil;
-    self.url = nil;
-    self.avatarUrl = nil;
-    self.supportedSuggestions = nil;
-    self.createdSuggestions = nil;
-    self.createdAt = nil;
-    self.visibleForumsDict = nil;
-    [super dealloc];
 }
 
 @end

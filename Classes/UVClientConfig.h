@@ -13,17 +13,7 @@
 
 @class UVSubdomain;
 
-@interface UVClientConfig : UVBaseModel {
-    BOOL ticketsEnabled;
-    BOOL feedbackEnabled;
-    BOOL whiteLabel;
-    UVSubdomain *subdomain;
-    NSArray *customFields;
-    NSInteger clientId;
-    NSInteger defaultForumId;
-    NSString *key;
-    NSString *secret;
-}
+@interface UVClientConfig : UVBaseModel
 
 @property (nonatomic, retain) UVSubdomain *subdomain;
 @property (nonatomic, retain) NSArray *customFields;

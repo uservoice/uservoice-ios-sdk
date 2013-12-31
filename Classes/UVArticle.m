@@ -13,16 +13,13 @@
 #import "UVForum.h"
 #import "UVHelpTopic.h"
 #import "UVConfig.h"
+#import "UVUtils.h"
 
 @implementation UVArticle
 
-@synthesize question;
-@synthesize answerHTML;
-@synthesize articleId;
-
-+ (id)getArticlesWithTopicId:(int)topicId delegate:(id)delegate {
++ (id)getArticlesWithTopicId:(NSInteger)topicId page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", topicId]];
-    NSDictionary *params = @{ @"sort" : @"ordered" };
+    NSDictionary *params = @{ @"sort" : @"ordered", @"page" : [NSString stringWithFormat:@"%d", page] };
     return [self getPath:path
               withParams:params
                   target:delegate
@@ -30,9 +27,9 @@
                  rootKey:@"articles"];
 }
 
-+ (id)getArticlesWithDelegate:(id)delegate {
++ (id)getArticlesWithPage:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:@"/articles.json"];
-    NSDictionary *params = @{ @"sort" : @"ordered" };
+    NSDictionary *params = @{ @"sort" : @"ordered", @"page" : [NSString stringWithFormat:@"%d", page] };
     return [self getPath:path
               withParams:params
                   target:delegate
@@ -43,12 +40,12 @@
 + (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{
         @"per_page" : @"3",
-        @"forum_id" : [NSString stringWithFormat:@"%d", [UVSession currentSession].forum.forumId],
+        @"forum_id" : [NSString stringWithFormat:@"%d", (int)[UVSession currentSession].forum.forumId],
            @"query" : query
     }];
 
     if ([UVSession currentSession].config.topicId)
-        [params setObject:[NSString stringWithFormat:@"%d", [UVSession currentSession].config.topicId] forKey:@"topic_id"];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)[UVSession currentSession].config.topicId] forKey:@"topic_id"];
 
     return [self getPath:[self apiPath:@"/instant_answers/search.json"]
               withParams:params
@@ -65,17 +62,13 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
-        self.question = [self objectOrNilForDict:dict key:@"question"];
-        self.answerHTML = [self objectOrNilForDict:dict key:@"answer_html"];
-        self.articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
+        _question = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"title"]];
+        _answerHTML = [self objectOrNilForDict:dict key:@"formatted_text"];
+        _articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
+        _topicName = [UVUtils decodeHTMLEntities:[[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"]];
+        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
     }
     return self;
-}
-
-- (void)dealloc {
-    self.question = nil;
-    self.answerHTML = nil;
-    [super dealloc];
 }
 
 @end

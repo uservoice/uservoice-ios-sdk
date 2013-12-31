@@ -13,6 +13,8 @@
 @interface UVDeflection : NSObject
 
 + (void)setSearchText:(NSString *)query;
-+ (void)trackDeflection:(NSString *)kind deflector:(UVBaseModel *)model;
-+ (void)trackSearchDeflection:(NSArray *)results;
++ (void)trackDeflection:(NSString *)kind deflectingType:(NSString *)deflectingType deflector:(UVBaseModel *)model;
++ (void)trackSearchDeflection:(NSArray *)results deflectingType:(NSString *)deflectingType;
++ (NSInteger)interactionIdentifier;
+
 @end

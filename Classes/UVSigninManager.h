@@ -16,18 +16,7 @@
 
 @protocol UVSigninManagerDelegate;
 
-
-@interface UVSigninManager : NSObject<UITextFieldDelegate, UIAlertViewDelegate, UVUserDelegate> {
-
-    NSString *email;
-    NSString *name;
-    UIAlertView *alertView;
-    NSInteger state;
-    NSString *password;
-
-    UVCallback *_callback;
-
-}
+@interface UVSigninManager : NSObject<UITextFieldDelegate, UIAlertViewDelegate, UVUserDelegate>
 
 + (UVSigninManager *)manager;
 
@@ -35,10 +24,10 @@
 - (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName callback:(UVCallback *)callback;
 
 @property (nonatomic, assign) id<UVSigninManagerDelegate> delegate;
-@property (nonatomic,retain) NSString *email;
-@property (nonatomic,retain) NSString *name;
-@property (nonatomic,retain) NSString *password;
-@property (nonatomic,retain) UIAlertView *alertView;
+@property (nonatomic, retain) NSString *email;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) UIAlertView *alertView;
 
 @end
 

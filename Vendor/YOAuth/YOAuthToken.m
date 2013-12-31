@@ -10,44 +10,30 @@
 
 #import "YOAuthToken.h"
 
-
 @implementation YOAuthToken
-
-@synthesize key;
-@synthesize secret;
 
 #pragma mark init
 
-+ (YOAuthToken *)tokenWithKey:(NSString *)aKey andSecret:(NSString *)aSecret
-{
-	YOAuthToken *token = [[YOAuthToken alloc] initWithKey:aKey andSecret:aSecret];
-	
-	return [token autorelease];
++ (YOAuthToken *)tokenWithKey:(NSString *)aKey andSecret:(NSString *)aSecret {
+    YOAuthToken *token = [[YOAuthToken alloc] initWithKey:aKey andSecret:aSecret];
+    return token;
 }
 
-+ (YOAuthToken *)tokenWithDictionary:(NSDictionary *)aDictionary
-{
-	YOAuthToken *token = [YOAuthToken tokenWithKey:[aDictionary valueForKey:@"oauth_token"] 
-										 andSecret:[aDictionary valueForKey:@"oauth_token_secret"]];
++ (YOAuthToken *)tokenWithDictionary:(NSDictionary *)aDictionary {
+    YOAuthToken *token = [YOAuthToken tokenWithKey:[aDictionary valueForKey:@"oauth_token"] 
+                                         andSecret:[aDictionary valueForKey:@"oauth_token_secret"]];
 
-	//NSLog(@"Created token key: %@ secret: %@", token.key, token.secret);
-	return token;
+    //NSLog(@"Created token key: %@ secret: %@", token.key, token.secret);
+    return token;
 }
 
-- (id)initWithKey:(NSString *)aKey andSecret:(NSString *)aSecret
-{
-	if(self = [super init]) {
-		[self setKey:aKey];
-		[self setSecret:aSecret];
-	}
-	
-	return self;
-}
+- (id)initWithKey:(NSString *)aKey andSecret:(NSString *)aSecret {
+    if ((self = [super init])) {
+        [self setKey:aKey];
+        [self setSecret:aSecret];
+    }
 
-- (void)dealloc {
-    self.key = nil;
-    self.secret = nil;
-    [super dealloc];
+    return self;
 }
 
 @end

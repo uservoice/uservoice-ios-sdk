@@ -14,8 +14,6 @@
 
 @implementation UVAccessToken
 
-@synthesize oauthToken;
-
 + (BOOL)exists {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     return [prefs stringForKey:@"uv-iphone-k"] != nil;
@@ -67,21 +65,16 @@
 - (void)persist {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 
-    [prefs setObject:self.oauthToken.key forKey:@"uv-iphone-k"];
-    [prefs setObject:self.oauthToken.secret forKey:@"uv-iphone-s"];
+    [prefs setObject:_oauthToken.key forKey:@"uv-iphone-k"];
+    [prefs setObject:_oauthToken.secret forKey:@"uv-iphone-s"];
     [prefs synchronize];
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.oauthToken = [YOAuthToken tokenWithDictionary:dict];
+        _oauthToken = [YOAuthToken tokenWithDictionary:dict];
     }
     return self;
-}
-
-- (void)dealloc {
-    self.oauthToken = nil;
-    [super dealloc];
 }
 
 @end

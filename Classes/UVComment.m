@@ -16,18 +16,10 @@
 
 @implementation UVComment
 
-@synthesize commentId;
-@synthesize text;
-@synthesize userName;
-@synthesize userId;
-@synthesize avatarUrl;
-@synthesize karmaScore;
-@synthesize createdAt;
-
 + (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/comments.json",
-                                    suggestion.forumId,
-                                    suggestion.suggestionId]];
+                                    (int)suggestion.forumId,
+                                    (int)suggestion.suggestionId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:page] stringValue],
                             @"page",
@@ -41,8 +33,8 @@
 
 + (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/comments.json",
-                                    suggestion.forumId,
-                                    suggestion.suggestionId]];
+                                    (int)suggestion.forumId,
+                                    (int)suggestion.suggestionId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             text, @"comment[text]",
                             nil];
@@ -55,26 +47,19 @@
 
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.commentId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
+        _commentId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
+        _updatedCommentCount = [dict[@"suggestion"][@"comments_count"] integerValue];
         NSDictionary *user = [dict objectForKey:@"creator"];
         if (user && ![[NSNull null] isEqual:user]) {
-            self.userName = [UVUtils decodeHTMLEntities:[user objectForKey:@"name"]];
-            self.userId = [(NSNumber *)[user objectForKey:@"id"] integerValue];
-            self.avatarUrl = [self objectOrNilForDict:user key:@"avatar_url"];
-            self.karmaScore = [(NSNumber *)[user objectForKey:@"karma_score"] integerValue];
-            self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+            _userName = [UVUtils decodeHTMLEntities:[user objectForKey:@"name"]];
+            _userId = [(NSNumber *)[user objectForKey:@"id"] integerValue];
+            _avatarUrl = [self objectOrNilForDict:user key:@"avatar_url"];
+            _karmaScore = [(NSNumber *)[user objectForKey:@"karma_score"] integerValue];
+            _createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
         }
     }
     return self;
-}
-
-- (void)dealloc {
-    self.text = nil;
-    self.userName = nil;
-    self.avatarUrl = nil;
-    self.createdAt = nil;
-    [super dealloc];
 }
 
 @end

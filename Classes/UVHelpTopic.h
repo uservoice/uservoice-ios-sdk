@@ -8,15 +8,11 @@
 
 #import "UVBaseModel.h"
 
-@interface UVHelpTopic : UVBaseModel {
-    NSString *name;
-    NSInteger topicId;
-    NSInteger articleCount;
-}
+@interface UVHelpTopic : UVBaseModel
 
-@property (nonatomic,retain) NSString *name;
-@property (assign) NSInteger topicId;
-@property (assign) NSInteger articleCount;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, assign) NSInteger topicId;
+@property (nonatomic, assign) NSInteger articleCount;
 
 + (id)getAllWithDelegate:(id)delegate;
 + (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate;

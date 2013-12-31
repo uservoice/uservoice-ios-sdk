@@ -7,7 +7,7 @@
 //
 
 #import "UVUtils.h"
-#import "UVJSON.h"
+#import "UVDefines.h"
 #import "UVStyleSheet.h"
 
 @implementation UVUtils
@@ -15,7 +15,7 @@
 + (NSString *)toQueryString:(NSDictionary *)dict {
     if (dict == nil)
         return nil;
-    NSMutableArray *pairs = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *pairs = [NSMutableArray new];
     for (id key in [dict allKeys]) {
         id value = [dict objectForKey:key];
         if ([value isKindOfClass:[NSArray class]]) {
@@ -32,22 +32,14 @@
 + (NSString *)URLEncode:(NSString *)str {
     if (str == nil)
         return nil;
-    NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                           (CFStringRef)str,
-                                                                           NULL, CFSTR("!*'();:@&=+$,/?%#[]"),
-                                                                           kCFStringEncodingUTF8);
-    [result autorelease];
+    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)str, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8);
     return result;
 }
 
 + (NSString *)URLDecode:(NSString *)str {
     if (str == nil)
         return nil;
-    NSString *result = (NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-                                                                                           (CFStringRef)str,
-                                                                                           CFSTR(""),
-                                                                                           kCFStringEncodingUTF8);
-    [result autorelease];
+    NSString *result = (__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (__bridge CFStringRef)str, CFSTR(""), kCFStringEncodingUTF8);
     return result;
 }
 
@@ -70,14 +62,13 @@
 }
 
 + (NSString *)encodeJSON:(id)obj {
-    if (obj == nil)
+    NSError *error;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
+    if (error) {
+        NSLog(@"+encodeJSON failed. Error: %@", error);
         return nil;
-    UVJsonWriter *jsonWriter = [UVJsonWriter new];
-    NSString *json = [jsonWriter stringWithObject:obj];
-    if (!json)
-        NSLog(@"+encodeJSON failed. Error trace is: %@", [jsonWriter errorTrace]);
-    [jsonWriter release];
-    return json;
+    }
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 + (UIColor *)parseHexColor:(NSString *)str {
@@ -197,7 +188,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		else characters[length++] = '=';
 	}
 	
-	NSString *str = [[[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
+	NSString *str = [[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES];
     return [str stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 }
 
@@ -234,40 +225,58 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     return [error code] == 404;
 }
 
-+ (NSRegularExpression *)patternForQuery:(NSString *)query {
-    NSRegularExpression *termPattern = [NSRegularExpression regularExpressionWithPattern:@"\\b\\w+\\b" options:0 error:nil];
-    NSMutableString *pattern = [NSMutableString stringWithString:@"\\b("];
-    __block NSString *lastTerm = nil;
-    [termPattern enumerateMatchesInString:query options:0 range:NSMakeRange(0, [query length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop){
-        if (lastTerm) {
-            [pattern appendString:lastTerm];
-            [pattern appendString:@"|"];
-        }
-        lastTerm = [query substringWithRange:[match range]];
-    }];
-    if (lastTerm) {
-        [pattern appendString:lastTerm];
-        [pattern appendString:@")"];
-        return [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
-    } else {
-        return nil;
-    }
-}
-
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
-    navigationController.navigationBar.tintColor = [UVStyleSheet navigationBarTintColor];
-    [navigationController.navigationBar setBackgroundImage:[UVStyleSheet navigationBarBackgroundImage] forBarMetrics:UIBarMetricsDefault];
-    NSMutableDictionary *navbarTitleTextAttributes = [[[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes] autorelease];
-    if ([UVStyleSheet navigationBarTextColor]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextColor] forKey:UITextAttributeTextColor];
+    UVStyleSheet *styles = [UVStyleSheet instance];
+    if (IOS7) {
+        navigationController.navigationBar.tintColor = styles.tintColor;
+        navigationController.navigationBar.backgroundColor = styles.navigationBarBackgroundColor;
+    } else {
+        navigationController.navigationBar.tintColor = styles.navigationBarBackgroundColor;
     }
-    if ([UVStyleSheet navigationBarTextShadowColor]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarTextShadowColor] forKey:UITextAttributeTextShadowColor];
+    [navigationController.navigationBar setBackgroundImage:styles.navigationBarBackgroundImage forBarMetrics:UIBarMetricsDefault];
+    NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes];
+    if (styles.navigationBarTextColor) {
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextColor forKey:UITextAttributeTextColor];
     }
-    if ([UVStyleSheet navigationBarFont]) {
-        [navbarTitleTextAttributes setObject:[UVStyleSheet navigationBarFont] forKey:UITextAttributeFont];
+    if (styles.navigationBarTextShadowColor) {
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextShadowColor forKey:UITextAttributeTextShadowColor];
+    }
+    if (styles.navigationBarFont) {
+        [navbarTitleTextAttributes setObject:styles.navigationBarFont forKey:UITextAttributeFont];
     }
     [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }
+
++ (NSString *)formatInteger:(NSInteger)number {
+    NSNumberFormatter *fmt = [NSNumberFormatter new];
+    [fmt setNumberStyle:NSNumberFormatterDecimalStyle];
+    [fmt setMaximumFractionDigits:0];
+    return [fmt stringFromNumber:@(number)];
+}
+
++ (NSString *)colorToCSS:(UIColor *)color {
+    CGFloat r, g, b, a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return [NSString stringWithFormat:@"#%02X%02X%02X", (unsigned)round(MAX(0, MIN(r, 1)) * 255), (unsigned)round(MAX(0, MIN(g, 1)) * 255), (unsigned)round(MAX(0, MIN(b, 1)) * 255)];
+}
+
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings {
+    [self configureView:superview subviews:viewsDict constraints:constraintStrings finalCondition:NO finalConstraint:nil];
+}
+
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint {
+    for (NSString *key in [viewsDict keyEnumerator]) {
+        UIView *view = viewsDict[key];
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [superview addSubview:view];
+    }
+    for (NSString *constraintString in constraintStrings) {
+        [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:constraintString options:0 metrics:nil views:viewsDict]];
+    }
+    if (includeFinalConstraint) {
+        [superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:finalConstraint options:0 metrics:nil views:viewsDict]];
+    }
+}
+
 
 @end

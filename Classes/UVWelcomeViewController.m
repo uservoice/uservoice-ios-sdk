@@ -13,7 +13,7 @@
 #import "UVForum.h"
 #import "UVClientConfig.h"
 #import "UVSubdomain.h"
-#import "UVNewTicketViewController.h"
+#import "UVContactViewController.h"
 #import "UVSuggestionListViewController.h"
 #import "UVSuggestion.h"
 #import "UVArticle.h"
@@ -22,44 +22,50 @@
 #import "UVHelpTopic.h"
 #import "UVHelpTopicViewController.h"
 #import "UVConfig.h"
-#import "UVNewSuggestionViewController.h"
-#import "UVGradientButton.h"
+#import "UVPostIdeaViewController.h"
 #import "UVBabayaga.h"
+#import "UVUtils.h"
 
-@implementation UVWelcomeViewController
-
-@synthesize scrollView;
-@synthesize flashTable;
-@synthesize flashMessageLabel;
-@synthesize flashTitleLabel;
-@synthesize flashView;
-@synthesize buttons;
-@synthesize searchController;
+@implementation UVWelcomeViewController {
+    NSInteger _filter;
+}
 
 - (BOOL)showArticles {
     return [UVSession currentSession].config.topicId || [[UVSession currentSession].topics count] == 0;
 }
 
-- (void)clearFlash {
-    [[UVSession currentSession] clearFlash];
-    [self performSelector:@selector(updateLayout) withObject:nil afterDelay:1];
-}
-
 #pragma mark ===== table cells =====
 
-- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+- (void)initCellForContact:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.text = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
+    if (IOS7) {
+        cell.textLabel.textColor = cell.textLabel.tintColor;
+    }
+}
+
+- (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.text = NSLocalizedStringFromTable(@"Feedback Forum", @"UserVoice", nil);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    NSString *detail;
+    if ([UVSession currentSession].forum.suggestionsCount == 1) {
+        detail = NSLocalizedStringFromTable(@"2 idea", @"UserVoice", nil);
+    } else {
+        detail = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ ideas", @"UserVoice", nil), [UVUtils formatInteger:[UVSession currentSession].forum.suggestionsCount]];
+    }
+    cell.detailTextLabel.text = detail;
 }
 
 - (void)customizeCellForTopic:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [UIColor whiteColor];
     if (indexPath.row == [[UVSession currentSession].topics count]) {
         cell.textLabel.text = NSLocalizedStringFromTable(@"All Articles", @"UserVoice", nil);
+        cell.detailTextLabel.text = nil;
     } else {
         UVHelpTopic *topic = [[UVSession currentSession].topics objectAtIndex:indexPath.row];
         cell.textLabel.text = topic.name;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)topic.articleCount];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
@@ -80,27 +86,41 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)initCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [super initCellForInstantAnswer:cell indexPath:indexPath];
-    UIView *label = [cell viewWithTag:HIGHLIGHTING_LABEL_TAG];
-    label.frame = CGRectMake(40, 12, cell.bounds.size.width - 80, 20);
+- (void)initCellForArticleResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [_instantAnswerManager initCellForArticle:cell finalCondition:indexPath == nil];
 }
 
-- (void)customizeCellForInstantAnswer:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForInstantAnswer:cell index:indexPath.row];
-    cell.backgroundColor = [UIColor clearColor];
+- (void)customizeCellForArticleResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    id model = [self.searchResults objectAtIndex:indexPath.row];
+    [_instantAnswerManager customizeCell:cell forArticle:(UVArticle *)model];
+}
+
+- (void)initCellForSuggestionResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    [_instantAnswerManager initCellForSuggestion:cell finalCondition:indexPath == nil];
+}
+
+- (void)customizeCellForSuggestionResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    id model = [self.searchResults objectAtIndex:indexPath.row];
+    [_instantAnswerManager customizeCell:cell forSuggestion:(UVSuggestion *)model];
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
-    if (theTableView == flashTable) {
-        identifier = @"Flash";
-    } else if (theTableView == searchController.searchResultsTableView) {
-        identifier = @"InstantAnswer";
+    NSInteger style = UITableViewCellStyleValue1;
+    if (theTableView == _searchController.searchResultsTableView) {
+        id model = [self.searchResults objectAtIndex:indexPath.row];
+        if ([model isMemberOfClass:[UVArticle class]]) {
+            identifier = @"ArticleResult";
+        } else {
+            identifier = @"SuggestionResult";
+        }
+        style = UITableViewCellStyleDefault;
     } else {
-        if (indexPath.section == 0 && [UVSession currentSession].config.showForum)
+        if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs)
+            identifier = @"Contact";
+        else if (indexPath.section == 0)
             identifier = @"Forum";
         else if ([self showArticles])
             identifier = @"Article";
@@ -108,13 +128,26 @@
             identifier = @"Topic";
     }
 
-    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:UITableViewCellStyleDefault selectable:YES];
+    return [self createCellForIdentifier:identifier tableView:theTableView indexPath:indexPath style:style selectable:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == _searchController.searchResultsTableView) {
+        NSString *identifier;
+        id model = [self.searchResults objectAtIndex:indexPath.row];
+        if ([model isMemberOfClass:[UVArticle class]]) {
+            identifier = @"ArticleResult";
+        } else {
+            identifier = @"SuggestionResult";
+        }
+        return [self heightForDynamicRowWithReuseIdentifier:identifier indexPath:indexPath];
+    } else {
+        return 44;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
-    if (theTableView == flashTable) {
-        return [UVSession currentSession].flashSuggestion ? 1 : 0;
-    } else if (theTableView == searchController.searchResultsTableView) {
+    if (theTableView == _searchController.searchResultsTableView) {
         return 1;
     } else {
         int sections = 0;
@@ -122,7 +155,7 @@
         if ([UVSession currentSession].config.showKnowledgeBase && ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0))
             sections++;
         
-        if ([UVSession currentSession].config.showForum)
+        if ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs)
             sections++;
 
         return sections;
@@ -130,13 +163,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (theTableView == flashTable) {
-        return 1;
-    } else if (theTableView == searchController.searchResultsTableView) {
-        return [instantAnswers count];
+    if (theTableView == _searchController.searchResultsTableView) {
+        return self.searchResults.count;
     } else {
-        if (section == 0 && [UVSession currentSession].config.showForum)
-            return 1;
+        if (section == 0 && ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs))
+            return ([UVSession currentSession].config.showForum && [UVSession currentSession].config.showContactUs) ? 2 : 1;
         else if ([self showArticles])
             return [[UVSession currentSession].articles count];
         else
@@ -145,35 +176,32 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (theTableView == flashTable) {
-        UIViewController *next = [[[UVSuggestionDetailsViewController alloc] initWithSuggestion:[UVSession currentSession].flashSuggestion] autorelease];
-        [self.navigationController pushViewController:next animated:YES];
-    } else if (theTableView == searchController.searchResultsTableView) {
-        [self selectInstantAnswerAtIndex:indexPath.row];
+    if (theTableView == _searchController.searchResultsTableView) {
+        [_instantAnswerManager pushViewFor:[self.searchResults objectAtIndex:indexPath.row] parent:self];
     } else {
-        [self clearFlash];
-        if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
-            UVSuggestionListViewController *next = [[[UVSuggestionListViewController alloc] init] autorelease];
+        if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
+            [self presentModalViewController:[UVContactViewController new]];
+        } else if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
+            UVSuggestionListViewController *next = [UVSuggestionListViewController new];
             [self.navigationController pushViewController:next animated:YES];
         } else if ([self showArticles]) {
             UVArticle *article = (UVArticle *)[[UVSession currentSession].articles objectAtIndex:indexPath.row];
-            UVArticleViewController *next = [[[UVArticleViewController alloc] initWithArticle:article helpfulPrompt:nil returnMessage:nil] autorelease];
+            UVArticleViewController *next = [UVArticleViewController new];
+            next.article = article;
             [self.navigationController pushViewController:next animated:YES];
         } else {
             UVHelpTopic *topic = nil;
             if (indexPath.row < [[UVSession currentSession].topics count])
                 topic = (UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:indexPath.row];
-            UVHelpTopicViewController *next = [[[UVHelpTopicViewController alloc] initWithTopic:topic] autorelease];
+            UVHelpTopicViewController *next = [[UVHelpTopicViewController alloc] initWithTopic:topic];
             [self.navigationController pushViewController:next animated:YES];
         }
     }
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {
-    if (theTableView == flashTable)
-        return nil;
-    else if (section == 0 && [UVSession currentSession].config.showForum)
+    if (section == 0 && [UVSession currentSession].config.showForum)
         return nil;
     else if ([UVSession currentSession].config.topicId)
         return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
@@ -181,14 +209,8 @@
         return NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil);
 }
 
-- (void)postIdeaTapped {
-    [self clearFlash];
-    [self presentModalViewController:[UVNewSuggestionViewController viewController]];
-}
-
-- (void)contactUsTapped {
-    [self clearFlash];
-    [self presentModalViewController:[UVNewTicketViewController viewController]];
+- (CGFloat)tableView:(UITableView *)theTableView heightForHeaderInSection:(NSInteger)section {
+    return theTableView == _searchController.searchResultsTableView ? 0 : 30;
 }
 
 - (void)logoTapped {
@@ -198,14 +220,10 @@
 #pragma mark ===== UISearchBarDelegate Methods =====
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    [searchController setActive:YES animated:YES];
-    [self updateLayoutAnimated:YES];
-    searchController.searchResultsTableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-    searchController.searchResultsTableView.backgroundView = nil;
-    searchController.searchResultsTableView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
-    searchController.searchResultsTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.0f];
+    [_searchController setActive:YES animated:YES];
+    _searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [searchBar setShowsCancelButton:YES animated:YES];
-    filter = IA_FILTER_ALL;
+    _filter = IA_FILTER_ALL;
     searchBar.showsScopeBar = YES;
     searchBar.selectedScopeButtonIndex = 0;
     return YES;
@@ -213,88 +231,53 @@
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     controller.searchBar.showsScopeBar = NO;
-    [self updateLayoutAnimated:YES];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    self.filter = searchBar.selectedScopeButtonIndex;
+    _filter = searchBar.selectedScopeButtonIndex;
+    [_searchController.searchResultsTableView reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    self.instantAnswersQuery = searchBar.text;
-    [self loadInstantAnswers];
+    _instantAnswerManager.searchText = searchBar.text;
+    [_instantAnswerManager search];
 }
 
-- (void)didLoadInstantAnswers {
-    if (searchController.active)
-        [searchController.searchResultsTableView reloadData];
+- (void)didUpdateInstantAnswers {
+    if (_searchController.active)
+        [_searchController.searchResultsTableView reloadData];
 }
 
-- (int)maxInstantAnswerResults {
-    return 10;
+- (NSArray *)searchResults {
+    switch (_filter) {
+        case IA_FILTER_ALL:
+            return _instantAnswerManager.instantAnswers;
+        case IA_FILTER_ARTICLES:
+            return _instantAnswerManager.articles;
+        case IA_FILTER_IDEAS:
+            return _instantAnswerManager.ideas;
+        default:
+            return nil;
+    }
 }
 
 #pragma mark ===== Basic View Methods =====
 
-- (void)addButton:(NSString *)title frame:(CGRect)frame action:(SEL)selector autoresizingMask:(int)mask {
-    UVGradientButton *button = [[[UVGradientButton alloc] initWithFrame:frame] autorelease];
-    [button setTitle:title forState:UIControlStateNormal];
-    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-    button.autoresizingMask = mask;
-    [buttons addSubview:button];
-}
-
-- (void)updateLayout {
-    [self updateLayoutAnimated:NO];
-}
-
-- (void)updateLayoutAnimated:(BOOL)animated {
-    CGFloat searchY = [UVSession currentSession].config.showKnowledgeBase ? (searchController.active && searchController.searchBar.showsScopeBar ? 80 : 44) : 0;
-    BOOL hasButtons = [UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea;
-    
-    void (^update)() = ^{
-        if ([UVSession currentSession].flashMessage) {
-            flashView.hidden = NO;
-            flashTitleLabel.text = [UVSession currentSession].flashTitle;
-            flashMessageLabel.text = [UVSession currentSession].flashMessage;
-            if ([UVSession currentSession].flashSuggestion) {
-                flashView.frame = CGRectMake(0, searchY, scrollView.bounds.size.width, 140);
-            } else {
-                flashView.frame = CGRectMake(0, searchY, scrollView.bounds.size.width, 80);
-            }
-            [flashTable reloadData];
-            flashTable.frame = CGRectMake(flashTable.frame.origin.x, flashTable.frame.origin.y - (IOS7 ? 26 : 0), flashTable.contentSize.width, flashTable.contentSize.height);
-            buttons.frame = CGRectMake(IPAD ? 30 : 10, flashView.frame.origin.y + flashView.frame.size.height + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), hasButtons ? 44 : 0);
-        } else {
-            flashView.hidden = YES;
-            buttons.frame = CGRectMake(IPAD ? 30 : 10, searchY + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), hasButtons ? 44 : 0);
-        }
-        tableView.frame = CGRectMake(tableView.frame.origin.x, buttons.frame.origin.y + buttons.frame.size.height + (IPAD ? 0 : 10) - (hasButtons ? 0 : 20), tableView.frame.size.width, tableView.contentSize.height);
-        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, tableView.frame.origin.y + tableView.contentSize.height);
-    };
-    if (animated) {
-        [UIView animateWithDuration:0.25 delay:0 options:0 animations:update completion:nil];
-    } else {
-        update();
-    }
-}
-
 - (void)loadView {
     [super loadView];
     [UVBabayaga track:VIEW_KB];
+    _instantAnswerManager = [UVInstantAnswerManager new];
+    _instantAnswerManager.delegate = self;
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback & Support", @"UserVoice", nil);
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(dismissUserVoice)] autorelease];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(dismissUserVoice)];
 
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.view = scrollView;
-    scrollView.backgroundColor = [UIColor colorWithRed:0.94f green:0.95f blue:0.95f alpha:1.0f];
-    scrollView.alwaysBounceVertical = YES;
+    [self setupGroupedTableView];
 
     if ([UVSession currentSession].config.showKnowledgeBase) {
-        UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)] autorelease];
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
         searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         searchBar.placeholder = NSLocalizedStringFromTable(@"Search", @"UserVoice", nil);
         searchBar.delegate = self;
@@ -302,110 +285,19 @@
         if ([UVSession currentSession].config.showForum) {
             searchBar.scopeButtonTitles = @[NSLocalizedStringFromTable(@"All", @"UserVoice", nil), NSLocalizedStringFromTable(@"Articles", @"UserVoice", nil), NSLocalizedStringFromTable(@"Ideas", @"UserVoice", nil)];
         }
-        [self.view addSubview:searchBar];
+        _tableView.tableHeaderView = searchBar;
 
-        self.searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
-        searchController.delegate = self;
-        searchController.searchResultsDelegate = self;
-        searchController.searchResultsDataSource = self;
+        _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+        _searchController.delegate = self;
+        _searchController.searchResultsDelegate = self;
+        _searchController.searchResultsDataSource = self;
     }
-
-    self.flashView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, scrollView.bounds.size.width, 100)] autorelease];
-    flashView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    flashView.backgroundColor = [UIColor colorWithRed:1.00f green:0.99f blue:0.90f alpha:1.0f];
-    self.flashTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 20, flashView.bounds.size.width - 40, 20)] autorelease];
-    flashTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    flashTitleLabel.backgroundColor = [UIColor clearColor];
-    flashTitleLabel.textColor = [UIColor colorWithRed:0.30f green:0.34f blue:0.42f alpha:1.0f];
-    flashTitleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [flashView addSubview:flashTitleLabel];
-    self.flashMessageLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 40, flashView.bounds.size.width - 40, 20)] autorelease];
-    flashMessageLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    flashMessageLabel.backgroundColor = [UIColor clearColor];
-    flashMessageLabel.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
-    flashMessageLabel.font = [UIFont systemFontOfSize:14];
-    [flashView addSubview:flashMessageLabel];
-    self.flashTable = [[[UITableView alloc] initWithFrame:CGRectMake(0, IPAD ? 50 : 70, flashView.bounds.size.width, 40) style:UITableViewStyleGrouped] autorelease];
-    flashTable.delegate = self;
-    flashTable.dataSource = self;
-    flashTable.backgroundView = nil;
-    flashTable.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    flashTable.backgroundColor = [UIColor clearColor];
-    [flashView addSubview:flashTable];
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, flashView.bounds.size.height - 1, flashView.bounds.size.width, 1)] autorelease];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    border.backgroundColor = [UIColor colorWithRed:0.82f green:0.84f blue:0.86f alpha:1.0f];
-    [flashView addSubview:border];
-    [scrollView addSubview:flashView];
-
-    self.buttons = [[[UIView alloc] initWithFrame:CGRectMake(IPAD ? 30 : 10, 44 + 20, scrollView.bounds.size.width - (IPAD ? 60 : 20), 44)] autorelease];
-    buttons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    if ([UVSession currentSession].config.showContactUs && [UVSession currentSession].config.showPostIdea) {
-        [self addButton:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) frame:CGRectMake(0, 0, buttons.bounds.size.width / 2 - (IPAD ? 10 : 5), buttons.bounds.size.height) action:@selector(postIdeaTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin];
-        [self addButton:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) frame:CGRectMake(buttons.bounds.size.width / 2 + (IPAD ? 10 : 5), 0, buttons.bounds.size.width / 2 - (IPAD ? 10 : 5), buttons.bounds.size.height) action:@selector(contactUsTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin];
-    } else if ([UVSession currentSession].config.showPostIdea) {
-        [self addButton:NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil) frame:buttons.bounds action:@selector(postIdeaTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth];
-    } else if ([UVSession currentSession].config.showContactUs) {
-        [self addButton:NSLocalizedStringFromTable(@"Contact us", @"UserVoice", nil) frame:buttons.bounds action:@selector(contactUsTapped) autoresizingMask:UIViewAutoresizingFlexibleWidth];
-    }
-    [scrollView addSubview:buttons];
-
-    self.tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, buttons.frame.origin.y + buttons.frame.size.height, scrollView.frame.size.width, 1000) style:UITableViewStyleGrouped] autorelease];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.tableView.scrollEnabled = NO;
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    [scrollView addSubview:tableView];
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
-        UIView *footer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 50)] autorelease];
-        footer.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        UIView *logo = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        UILabel *poweredBy = [[[UILabel alloc] initWithFrame:CGRectMake(0, 6, 0, 0)] autorelease];
-        // tweak for retina
-        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale == 2.0))
-            poweredBy.frame = CGRectMake(0, 8, 0, 0);
-        poweredBy.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        poweredBy.backgroundColor = [UIColor clearColor];
-        poweredBy.textColor = [UIColor grayColor];
-        poweredBy.font = [UIFont systemFontOfSize:11];
-        poweredBy.text = NSLocalizedStringFromTable(@"powered by", @"UserVoice", nil);
-        [poweredBy sizeToFit];
-        [logo addSubview:poweredBy];
-        UIImageView *image = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_logo.png"]] autorelease];
-        image.frame = CGRectMake(poweredBy.bounds.size.width + 7, 0, image.bounds.size.width * 0.8, image.bounds.size.height * 0.8);
-        [logo addSubview:image];
-        logo.frame = CGRectMake(0, 0, image.frame.origin.x + image.frame.size.width, image.frame.size.height);
-        logo.center = CGPointMake(footer.bounds.size.width / 2, footer.bounds.size.height - logo.bounds.size.height / 2 - 15);
-        logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin;
-        [logo addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoTapped)] autorelease]];
-        [footer addSubview:logo];
-        tableView.tableFooterView = footer;
+        _tableView.tableFooterView = self.poweredByView;
     }
 
-    [tableView reloadData];
-    [self updateLayout];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self updateLayout];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self updateLayout];
-}
-
-- (void)dealloc {
-    self.scrollView = nil;
-    self.flashTable = nil;
-    self.flashMessageLabel = nil;
-    self.flashTitleLabel = nil;
-    self.flashView = nil;
-    self.buttons = nil;
-    self.searchController = nil;
-    [super dealloc];
+    [_tableView reloadData];
 }
 
 @end

@@ -1,5 +1,14 @@
 ## master ##
 
+## 3.0.0 ##
+
+* Revamp UI for iOS 7
+* Replace idea voting mechanism with subscribing
+* Redesign stylesheet API
+* Update metric reporting
+* New success screens
+* Numerous bug fixes
+
 ## 2.0.15 ##
 
 * Fix a bug in the initialization code related to private forums
