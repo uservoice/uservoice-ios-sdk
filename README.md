@@ -154,9 +154,9 @@ You can also customize the appearance of the UserVoice user interface by
 setting certain key colors.
 
 ```
-    #import "UVStyleSheet.h"
-    [UVStyleSheet instance].tintColor = [UIColor redColor];
-    [UVStyleSheet instance].tableViewBackgroundColor = [UIColor whiteColor];
+#import "UVStyleSheet.h"
+[UVStyleSheet instance].tintColor = [UIColor redColor];
+[UVStyleSheet instance].tableViewBackgroundColor = [UIColor whiteColor];
 ```
 
 See `UVStyleSheet.h` for a complete list of the visual properties you can modify.
@@ -170,8 +170,8 @@ The library will detect and display in the language the device is set to provide
 The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the mobile settings section of the UserVoice admin console.
 
 ```
-    UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"CLIENT_KEY" andSecret:@"CLIENT_SECRET"];
-    [UserVoice initialize:config];
+UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"CLIENT_KEY" andSecret:@"CLIENT_SECRET"];
+[UserVoice initialize:config];
 ```
 
 Feedback
