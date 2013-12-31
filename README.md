@@ -1,5 +1,4 @@
-Overview
---------
+## Overview
 
 UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
 
@@ -11,8 +10,14 @@ Binary builds of the SDK are available for download:
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
-Installation
-------------
+## Upgrading from 2.0.x
+
+* You should pass your `UVConfig` to `+[UserVoice initialize:]` shortly after app launch so that we can provide you with accurate usage reports.
+* If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.
+* You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.
+* We are dropping support for versions of iOS prior to 6.0.
+
+## Installation
 
 * Download the latest build.
 * Drag `UVHeaders`, `UVResources`, and `libUserVoice.a` into your project.
@@ -22,8 +27,8 @@ Installation
 
 See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
 
-API
----
+## API
+
 
 Once you have completed these steps, you are ready to launch the UserVoice UI from your code. Import `UserVoice.h` and create a `UVConfig` using one of the following options.
 
