@@ -171,10 +171,10 @@ UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"C
 [UserVoice initialize:config];
 ```
 
-Feedback
+Give us feedback!
 --------
 
-You can share feedback on the [UserVoice for iOS forum](http://feedback.uservoice.com/forums/64519-iphone-sdk-feedback).
+You can share feedback on our [Mobile SDKs forum](http://feedback.uservoice.com/forums/64519-mobile-sdks).
 
 FAQs
 --------
