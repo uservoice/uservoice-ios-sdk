@@ -29,7 +29,7 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 
 ## CocoaPods
 
-Alternatively, if you are using CocoaPods just add the following to your Podspec.
+Alternatively, if you are using CocoaPods just add the following to your Podfile.
 
     pod 'uservoice-iphone-sdk', '~> 3.0'
 
