@@ -27,6 +27,13 @@ We also have an [example app](https://github.com/uservoice/uservoice-iphone-exam
 
 See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
 
+## CocoaPods
+
+If you are using CocoaPods, just add the following to your Podspec.
+
+    pod 'uservoice-iphone-sdk', '~> 3.0'
+
+
 ## API
 
 
