@@ -37,6 +37,8 @@
 
 - (void)dismissUserVoice;
 
+- (void)dismissUserVoiceWithoutFlush:(BOOL)animated;
+
 // Calculates the content view frame, based on the size and position of the
 // navigation bar.
 - (CGRect)contentFrame;

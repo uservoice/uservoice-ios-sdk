@@ -31,6 +31,9 @@
 // Modally present the UserVoice forum view
 + (void)presentUserVoiceForumForParentViewController:(UIViewController *)parentViewController;
 
+// Returns the UserVoice contact form which can then be presented modally
++ (UIViewController *)getUserVoiceContactUsFormForModalDisplay;
+
 // Set a <UVDelegate> to receive callbacks
 + (void)setDelegate:(id<UVDelegate>)delegate;
 

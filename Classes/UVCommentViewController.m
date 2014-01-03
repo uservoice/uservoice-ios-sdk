@@ -36,7 +36,7 @@
 }
 
 - (void)dismiss {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissUserVoiceWithoutFlush:YES];
 }
 
 - (void)commentButtonTapped {
