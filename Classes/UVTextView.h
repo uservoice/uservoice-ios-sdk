@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UVTextView : UITextView {
-    UILabel *placeholder;
-}
+@interface UVTextView : UITextView
 
-@property(nonatomic,retain) NSString* placeholder;
+@property (nonatomic, retain) NSString *placeholder;
+@property (nonatomic, retain) UILabel *placeholderLabel;
 
 @end

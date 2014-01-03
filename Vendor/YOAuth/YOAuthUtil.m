@@ -14,24 +14,20 @@ static NSString *const kOAuthVersion= @"1.0";
 
 @implementation YOAuthUtil
 
-+ (NSString *)oauth_nonce
-{	
-	NSString *nonce = nil;
-	CFUUIDRef generatedUUID = CFUUIDCreate(kCFAllocatorDefault);
-	nonce = (NSString*)CFUUIDCreateString(kCFAllocatorDefault, generatedUUID);
-	CFRelease(generatedUUID);
-	
-	return [nonce autorelease];
++ (NSString *)oauth_nonce {
+    NSString *nonce = nil;
+    CFUUIDRef generatedUUID = CFUUIDCreate(kCFAllocatorDefault);
+    nonce = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, generatedUUID);
+    CFRelease(generatedUUID);
+    return nonce;
 }
 
-+ (NSString *)oauth_timestamp
-{
-	return [NSString stringWithFormat:@"%ld", time(NULL)];
++ (NSString *)oauth_timestamp {
+    return [NSString stringWithFormat:@"%ld", time(NULL)];
 }
 
-+ (NSString *)oauth_version
-{
-	return kOAuthVersion;
++ (NSString *)oauth_version {
+    return kOAuthVersion;
 }
 
 @end

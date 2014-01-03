@@ -19,24 +19,11 @@
 
 @implementation UVSession
 
-@synthesize isModal;
-@synthesize config;
-@synthesize clientConfig;
-@synthesize forum;
-@synthesize accessToken;
-@synthesize requestToken;
-@synthesize externalIds;
-@synthesize topics;
-@synthesize articles;
-@synthesize flashTitle;
-@synthesize flashMessage;
-@synthesize flashSuggestion;
-
 + (UVSession *)currentSession {
     static UVSession *currentSession;
     @synchronized(self) {
         if (!currentSession) {
-            currentSession = [[UVSession alloc] init];
+            currentSession = [UVSession new];
         }
     }
 
@@ -44,73 +31,54 @@
 }
 
 - (BOOL)loggedIn {
-    return self.user != nil;
-}
-
-- (void)clearFlash {
-    self.flashTitle = nil;
-    self.flashMessage = nil;
-    self.flashSuggestion = nil;
-}
-
-- (void)flash:(NSString *)message title:(NSString *)title suggestion:(UVSuggestion *)suggestion {
-    self.flashTitle = title;
-    self.flashMessage = message;
-    self.flashSuggestion = suggestion;
+    return _user != nil;
 }
 
 - (UVUser *)user {
-    return user;
+    return _user;
 }
 
 - (void)setUser:(UVUser *)newUser {
-    [newUser retain];
-    [user release];
-    user = newUser;
-    if (user && externalIds) {
-        for (NSString *scope in externalIds) {
-            NSString *identifier = [externalIds valueForKey:scope];
-            [user identify:identifier withScope:scope delegate:self];
+    _user = newUser;
+    if (_user && _externalIds) {
+        for (NSString *scope in _externalIds) {
+            NSString *identifier = [_externalIds valueForKey:scope];
+            [_user identify:identifier withScope:scope delegate:self];
         }
     }
 }
 
 - (void)setClientConfig:(UVClientConfig *)newConfig {
-    [clientConfig release];
-    clientConfig = [newConfig retain];
+    _clientConfig = newConfig;
     [UVBabayaga flush];
 }
 
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {
-    if (externalIds == nil) {
-        self.externalIds = [NSMutableDictionary dictionary];
+    if (_externalIds == nil) {
+        _externalIds = [NSMutableDictionary dictionary];
     }
-    [externalIds setObject:identifier forKey:scope];
-    if (user) {
-        [user identify:identifier withScope:scope delegate:self];
+    [_externalIds setObject:identifier forKey:scope];
+    if (_user) {
+        [_user identify:identifier withScope:scope delegate:self];
     }
 }
 
 // This is used when dismissing UV so that everything gets reloaded
 - (void)clear {
-    self.requestToken = nil;
-    [user release];
-    user = nil;
-    [clientConfig release];
-    clientConfig = nil;
+    _requestToken = nil;
+    _user = nil;
+    _clientConfig = nil;
 }
 
 - (YOAuthConsumer *)yOAuthConsumer {
-    if (!yOAuthConsumer) {
-        if (config.key != nil) {
-            yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:self.config.key
-                                                       andSecret:self.config.secret];
-        } else if (clientConfig != nil) {
-            yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:clientConfig.key
-                                                       andSecret:clientConfig.secret];
+    if (!_yOAuthConsumer) {
+        if (_config.key != nil) {
+            _yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:_config.key andSecret:_config.secret];
+        } else if (_clientConfig != nil) {
+            _yOAuthConsumer = [[YOAuthConsumer alloc] initWithKey:_clientConfig.key andSecret:_clientConfig.secret];
         }
     }
-    return yOAuthConsumer;
+    return _yOAuthConsumer;
 }
 
 @end

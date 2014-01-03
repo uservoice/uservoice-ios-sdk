@@ -14,18 +14,7 @@
  * Contains the consumer key and secret for an application to identify itself back to the service provider.
  * @see http://oauth.net/core/1.0#anchor9
  */
-@interface YOAuthConsumer : NSObject {
-@protected
-	/**
-	 * Return the receiver's OAuth consumer key.
-	 */
-	NSString		*key;
-	
-	/**
-	 * Return the receiver's OAuth consumer secret.
-	 */
-	NSString		*secret;
-}
+@interface YOAuthConsumer : NSObject
 
 @property(nonatomic, readwrite, retain) NSString *key;
 @property(nonatomic, readwrite, retain) NSString *secret;

@@ -43,7 +43,7 @@
                 // we will not persist them here though leave that to the calling controller
                 // only really useful for user creation and this SUCKS, refactor
                 NSDictionary *token = [dict objectForKey:@"token"];
-                [UVSession currentSession].accessToken = [[[UVAccessToken alloc] initWithDictionary:token] autorelease];
+                [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithDictionary:token];
             }
 
             id root = [dict objectForKey:requestContext.rootKey];

@@ -10,37 +10,23 @@
 
 @implementation UVSubdomain
 
-@synthesize subdomainId;
-@synthesize name;
-@synthesize host;
-@synthesize key;
-@synthesize defaultSort;
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.name = [self objectOrNilForDict:dict key:@"name"];
-        self.host = [self objectOrNilForDict:dict key:@"host"];
-        self.defaultSort = [self objectOrNilForDict:dict key:@"default_sort"];
+        _subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _name = [self objectOrNilForDict:dict key:@"name"];
+        _host = [self objectOrNilForDict:dict key:@"host"];
+        _defaultSort = [self objectOrNilForDict:dict key:@"default_sort"];
     }
     return self;
 }
 
 - (NSString *)suggestionSort {
-    if ([defaultSort isEqualToString:@"new"])
+    if ([_defaultSort isEqualToString:@"new"])
         return @"newest";
-    else if ([defaultSort isEqualToString:@"hot"])
+    else if ([_defaultSort isEqualToString:@"hot"])
         return @"hot";
     else
         return @"votes";
-}
-
-- (void)dealloc {
-    self.name = nil;
-    self.key = nil;
-    self.host = nil;
-    self.defaultSort = nil;
-    [super dealloc];
 }
 
 @end

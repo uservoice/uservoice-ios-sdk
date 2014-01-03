@@ -20,6 +20,8 @@
 #import "UVCustomField.h"
 #import "UVSession.h"
 #import "UVConfig.h"
+#import "UVBabayaga.h"
+#import "UVDeflection.h"
 
 @implementation UVTicket
 
@@ -33,6 +35,7 @@
         message == nil ? @"" : message, @"ticket[message]",
         email   == nil ? @"" : email,   @"email",
         name    == nil ? @"" : name,    @"display_name",
+        [NSString stringWithFormat:@"%d", [UVDeflection interactionIdentifier]], @"interaction_identifier",
         nil];
     
     for (NSString *scope in [UVSession currentSession].externalIds) {
@@ -52,6 +55,10 @@
     if ([UVSession currentSession].config.extraTicketInfo != nil) {
         NSString *messageText = [NSString stringWithFormat:@"%@\n\n%@", message, [UVSession currentSession].config.extraTicketInfo];
         [params setObject:messageText forKey:@"ticket[message]"];
+    }
+
+    if ([UVBabayaga instance].uvts) {
+        [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
     }
 
     return [[self class] postPath:path

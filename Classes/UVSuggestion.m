@@ -13,37 +13,13 @@
 #import "UVUser.h"
 #import "UVForum.h"
 #import "UVCategory.h"
-#import "UVSuggestionDetailsViewController.h"
 #import "UVUtils.h"
+#import "UVDeflection.h"
 
 @implementation UVSuggestion
 
-@synthesize suggestionId;
-@synthesize forumId;
-@synthesize commentsCount;
-@synthesize voteCount;
-@synthesize votesFor;
-@synthesize votesRemaining;
-@synthesize title;
-@synthesize abstract;
-@synthesize text;
-@synthesize status;
-@synthesize statusHexColor;
-@synthesize forumName;
-@synthesize createdAt;
-@synthesize updatedAt;
-@synthesize closedAt;
-@synthesize creatorName;
-@synthesize creatorId;
-@synthesize responseText;
-@synthesize responseUserName;
-@synthesize responseUserAvatarUrl;
-@synthesize responseUserId;
-@synthesize responseCreatedAt;
-@synthesize category;
-
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions.json", (long)forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:page] stringValue], @"page",
                             @"public", @"filter",
@@ -58,7 +34,7 @@
 }
 
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions/search.json", (long)forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             query, @"query",
                             nil];
@@ -70,17 +46,17 @@
 }
 
 + (id)createWithForum:(UVForum *)forum
-             category:(UVCategory *)category
+             category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
-                votes:(NSInteger)votes
              callback:(UVCallback *)callback {
-    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions.json", (long)forum.forumId]];
+    NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [[NSNumber numberWithInteger:votes] stringValue], @"suggestion[votes]",
+                            @"true", @"subscribe",
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
-                            category == nil ? @"" : [[NSNumber numberWithInteger:category.categoryId] stringValue], @"suggestion[category_id]",
+                            categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", (int)categoryId], @"suggestion[category_id]",
+                            [NSString stringWithFormat:@"%d", [UVDeflection interactionIdentifier]], @"interaction_identifier",
                             nil];
     return [[self class] postPath:path
                        withParams:params
@@ -89,19 +65,23 @@
                           rootKey:@"suggestion"];
 }
 
-- (id)vote:(NSInteger)number delegate:(id)delegate {
-    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%ld/suggestions/%ld/votes.json",
-                                            (long)self.forumId,
-                                            (long)self.suggestionId]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [[NSNumber numberWithInt:number] stringValue],
-                            @"to",
-                            nil];
-
+- (id)subscribe:(id)delegate {
+    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/watch.json", (int)self.forumId, (int)self.suggestionId]];
+    NSDictionary *params = @{ @"subscribe" : @"true" };
     return [[self class] postPath:path
                        withParams:params
                            target:delegate
-                         selector:@selector(didVoteForSuggestion:)
+                         selector:@selector(didSubscribe:)
+                          rootKey:@"suggestion"];
+}
+
+- (id)unsubscribe:(id)delegate {
+    NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/watch.json", (int)self.forumId, (int)self.suggestionId]];
+    NSDictionary *params = @{ @"subscribe" : @"false" };
+    return [[self class] postPath:path
+                       withParams:params
+                           target:delegate
+                         selector:@selector(didUnsubscribe:)
                           rootKey:@"suggestion"];
 }
 
@@ -109,85 +89,63 @@
     return self.statusHexColor ? [UVUtils parseHexColor:self.statusHexColor] : [UIColor clearColor];
 }
 
-- (NSString *)categoryString {
-    if (self.category) {
-        return [NSString stringWithFormat:@"%@ » %@", self.forumName, self.category.name];
-    } else {
-        return self.forumName;
-    }
-}
-
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
-        self.suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        self.commentsCount = [(NSNumber *)[dict objectForKey:@"comments_count"] integerValue];
-        self.voteCount = [(NSNumber *)[dict objectForKey:@"vote_count"] integerValue];
-        self.votesFor = [(NSNumber *)[dict objectForKey:@"votes_for"] integerValue];
-        self.title = [self objectOrNilForDict:dict key:@"title"];
-        self.abstract = [self objectOrNilForDict:dict key:@"abstract"];
-        self.text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
-        self.createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+        _suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
+        _commentsCount = [(NSNumber *)[dict objectForKey:@"comments_count"] integerValue];
+        _subscriberCount = [(NSNumber *)[dict objectForKey:@"subscriber_count"] integerValue];
+        _title = [self objectOrNilForDict:dict key:@"title"];
+        _abstract = [self objectOrNilForDict:dict key:@"abstract"];
+        _text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
+        _createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
+        _subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
+        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
-        if (statusDict)
-        {
-            self.status = [statusDict objectForKey:@"name"];
-            self.statusHexColor = [statusDict objectForKey:@"hex_color"];
+        if (statusDict) {
+            _status = [statusDict objectForKey:@"name"];
+            _statusHexColor = [statusDict objectForKey:@"hex_color"];
         }
         NSDictionary *creator = [self objectOrNilForDict:dict key:@"creator"];
-        if (creator)
-        {
-            self.creatorName = [creator objectForKey:@"name"];
-            self.creatorId = [(NSNumber *)[creator objectForKey:@"id"] integerValue];
+        if (creator) {
+            _creatorName = [creator objectForKey:@"name"];
+            _creatorId = [(NSNumber *)[creator objectForKey:@"id"] integerValue];
         }
         NSDictionary *response = [self objectOrNilForDict:dict key:@"response"];
         if (response) {
-            self.responseText = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:response key:@"text"]];
+            _responseText = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:response key:@"text"]];
             NSDictionary *responseCreator = [self objectOrNilForDict:response key:@"creator"];
             if (responseCreator) {
-                self.responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
-                self.responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
-                self.responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
+                _responseUserName = [self objectOrNilForDict:responseCreator key:@"name"];
+                _responseUserAvatarUrl = [self objectOrNilForDict:responseCreator key:@"avatar_url"];
+                _responseUserId = [(NSNumber *)[self objectOrNilForDict:responseCreator key:@"id"] integerValue];
+                _responseUserTitle = [self objectOrNilForDict:responseCreator key:@"title"];
             }
-            self.responseCreatedAt = [self parseJsonDate:[response objectForKey:@"created_at"]];
+            _responseCreatedAt = [self parseJsonDate:[response objectForKey:@"created_at"]];
         }
 
         NSDictionary *topic = [self objectOrNilForDict:dict key:@"topic"];
-        if (topic)
-        {
+        if (topic) {
             NSDictionary *forum = [self objectOrNilForDict:topic key:@"forum"];
             if (forum) {
-                self.forumId = [(NSNumber *)[forum objectForKey:@"id"] integerValue];
-                self.forumName = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:forum key:@"name"]];
+                _forumId = [(NSNumber *)[forum objectForKey:@"id"] integerValue];
+                _forumName = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:forum key:@"name"]];
             }
-
-            self.votesRemaining = [(NSNumber *)[topic objectForKey:@"votes_remaining"] integerValue];
         }
 
         NSDictionary *categoryDict = [self objectOrNilForDict:dict key:@"category"];
         if (categoryDict) {
-            self.category = [[[UVCategory alloc] initWithDictionary:categoryDict] autorelease];
+            _category = [[UVCategory alloc] initWithDictionary:categoryDict];
         }
     }
     return self;
 }
 
-- (void)dealloc {
-    self.title = nil;
-    self.abstract = nil;
-    self.text = nil;
-    self.status = nil;
-    self.statusHexColor = nil;
-    self.forumName = nil;
-    self.createdAt = nil;
-    self.updatedAt = nil;
-    self.closedAt = nil;
-    self.creatorName = nil;
-    self.responseText = nil;
-    self.responseCreatedAt = nil;
-    self.responseUserName = nil;
-    self.responseUserAvatarUrl = nil;
-    self.category = nil;
-    [super dealloc];
+- (NSString *)responseUserWithTitle {
+    if ([_responseUserTitle length] > 0) {
+        return [NSString stringWithFormat:@"%@, %@", _responseUserName, _responseUserTitle];
+    } else {
+        return _responseUserName;
+    }
 }
 
 @end

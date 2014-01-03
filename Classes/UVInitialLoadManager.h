@@ -10,18 +10,17 @@
 #import "UVUser.h"
 
 @interface UVInitialLoadManager : NSObject<UIAlertViewDelegate, UVUserDelegate> {
-    id delegate;
-    SEL action;
-    BOOL userDone;
-    BOOL topicsDone;
-    BOOL articlesDone;
-    BOOL configDone;
-    BOOL forumDone;
-    BOOL dismissed;
+    id _delegate;
+    SEL _action;
+    BOOL _userDone;
+    BOOL _topicsDone;
+    BOOL _articlesDone;
+    BOOL _configDone;
+    BOOL _forumDone;
 }
 
 + (UVInitialLoadManager *)loadWithDelegate:(id)delegate action:(SEL)action;
 
-@property (assign) BOOL dismissed;
+@property (nonatomic, assign) BOOL dismissed;
 
 @end

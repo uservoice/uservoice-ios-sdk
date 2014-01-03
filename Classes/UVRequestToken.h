@@ -10,9 +10,7 @@
 
 @class YOAuthToken;
 
-@interface UVRequestToken : UVBaseModel {
-    YOAuthToken *oauthToken;
-}
+@interface UVRequestToken : UVBaseModel
 
 @property (nonatomic, retain) YOAuthToken *oauthToken;
 

@@ -45,9 +45,9 @@
     CGFloat x = [[targetLine substringWithRange:NSMakeRange(0, targetColumnNumber)] sizeWithFont:self.font].width;
     CGFloat y = self.frame.size.height/2 - (linesDisplayed*self.font.lineHeight)/2 + self.font.lineHeight*targetLineNumber;
     
-    if (self.textAlignment == UITextAlignmentCenter)
+    if (self.textAlignment == NSTextAlignmentCenter)
         x = x + (frameWidth-targetLineWidth)/2;
-    else if (self.textAlignment == UITextAlignmentRight)
+    else if (self.textAlignment == NSTextAlignmentCenter)
         x = frameWidth-(targetLineWidth-x);
     
     return CGRectMake(x, y, letterSize.width, letterSize.height);
@@ -71,7 +71,7 @@
         
         // TODO: Add support for hard breaks (\n)
         if (currentSize.height > self.font.lineHeight) {
-            if (lastBreakChar == -1 || self.lineBreakMode == UILineBreakModeCharacterWrap) {
+            if (lastBreakChar == -1 || self.lineBreakMode == NSLineBreakByCharWrapping) {
                 currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength)];
                 lineStartOffset = i;
                 i--;

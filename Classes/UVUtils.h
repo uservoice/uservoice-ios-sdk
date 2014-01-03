@@ -21,8 +21,6 @@
 + (NSString *)encode64:(NSString *)data;
 + (UIColor *)parseHexColor:(NSString *)str;
 
-+ (NSRegularExpression *)patternForQuery:(NSString *)query;
-
 + (BOOL)isConnectionError:(NSError *)error;
 + (BOOL)isUVRecordInvalid:(NSError *)error;
 + (BOOL)isUVRecordInvalid:(NSError *)error forField:(NSString *)field withMessage:(NSString *)message;
@@ -30,5 +28,9 @@
 + (BOOL)isNotFoundError:(NSError *)error;
 
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController;
++ (NSString *)formatInteger:(NSInteger)number;
++ (NSString *)colorToCSS:(UIColor *)color;
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint;
++ (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings;
 
 @end

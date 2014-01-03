@@ -15,29 +15,11 @@
  * of this class neatly.
  */
 @interface HRRequestOperation : NSOperation {
-    /// HRResponse Delegate
-    NSObject        <HRResponseDelegate>*_delegate;
-    
     /// Connection object
     NSURLConnection *_connection;
     
     /// Data received from response
     NSMutableData   *_responseData;
-    
-    /// The path or URL to use in REST methods
-    NSString        *_path;
-    
-    /// Contains all options used by the request.
-    NSDictionary    *_options;
-    
-    /// How long before the request will timeout 
-    NSTimeInterval  _timeout;
-    
-    /// The request method to use
-    HRRequestMethod _requestMethod;
-    
-    /// The HRFormatter object
-    id              _formatter;
     
     /// The object passed to all delegate methods
     id              _object;
@@ -57,7 +39,7 @@
  * The HRResponseDelegate responsible for handling the success and failure of 
  * a request.
  */
-@property (nonatomic, readonly, assign) NSObject <HRResponseDelegate>*delegate;
+@property (nonatomic, readonly) NSObject <HRResponseDelegate>*delegate;
  
 /// The lenght of time in seconds before the request times out.
 /**

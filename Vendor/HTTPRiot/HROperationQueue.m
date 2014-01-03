@@ -16,7 +16,7 @@ static HROperationQueue *sharedOperationQueue = nil;
 + (HROperationQueue *)sharedOperationQueue {
     @synchronized(self) {
         if (sharedOperationQueue == nil) {
-                sharedOperationQueue = [[HROperationQueue alloc] init];
+                sharedOperationQueue = [HROperationQueue new];
                 sharedOperationQueue.maxConcurrentOperationCount = 3;
         }
     }

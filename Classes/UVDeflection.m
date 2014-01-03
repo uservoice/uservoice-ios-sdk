@@ -10,57 +10,72 @@
 #import "UVArticle.h"
 #import "UVSuggestion.h"
 #import "UVBabayaga.h"
+#import "UVSession.h"
+#import "UVClientConfig.h"
+#import "UVSubdomain.h"
+#import "UVUtils.h"
 
 @implementation UVDeflection
 
 static NSString *searchText;
 static NSInteger interactionIdentifier;
 
-+ (void)trackDeflection:(NSString *)kind deflector:(UVBaseModel *)model {
++ (void)trackDeflection:(NSString *)kind deflectingType:(NSString *)deflectingType deflector:(UVBaseModel *)model {
     NSMutableDictionary *params = [self deflectionParams];
     [params setObject:kind forKey:@"kind"];
+    [params setObject:deflectingType forKey:@"deflecting_type"];
     if ([model isKindOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         [params setObject:@"Faq" forKey:@"deflector_type"];
-        [params setObject:[NSString stringWithFormat:@"%ld", (long)article.articleId] forKey:@"deflector_id"];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)article.articleId] forKey:@"deflector_id"];
     } else if ([model isKindOfClass:[UVSuggestion class]]) {
         UVSuggestion *suggestion = (UVSuggestion *)model;
         [params setObject:@"Suggestion" forKey:@"deflector_type"];
-        [params setObject:[NSString stringWithFormat:@"%ld", (long)suggestion.suggestionId] forKey:@"deflector_id"];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)suggestion.suggestionId] forKey:@"deflector_id"];
     }
     [self sendDeflection:@"/clients/widgets/omnibox/deflections/upsert.json" params:params];
 }
 
-+ (void)trackSearchDeflection:(NSArray *)results {
++ (void)trackSearchDeflection:(NSArray *)results deflectingType:(NSString *)deflectingType {
     NSMutableDictionary *params = [self deflectionParams];
     [params setObject:@"list" forKey:@"kind"];
-    NSMutableArray *articleIds = [NSMutableArray array];
-    NSMutableArray *suggestionIds = [NSMutableArray array];
+    [params setObject:deflectingType forKey:@"deflecting_type"];
+    NSInteger articleResults = 0;
+    NSInteger suggestionResults = 0;
+    NSInteger index = 0;
     for (id model in results) {
+        NSString *prefix = [NSString stringWithFormat:@"results[%d]", index];
+        [params setObject:[NSString stringWithFormat:@"%d", index++] forKey:[prefix stringByAppendingString:@"[position]"]];
+        [params setObject:[NSString stringWithFormat:@"%d", [model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
         if ([model isKindOfClass:[UVArticle class]]) {
+            articleResults += 1;
             UVArticle *article = (UVArticle *)model;
-            [articleIds addObject:[NSString stringWithFormat:@"%ld", (long)article.articleId]];
+            [params setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+            [params setObject:@"Faq" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
         } else if ([model isKindOfClass:[UVSuggestion class]]) {
+            suggestionResults += 1;
             UVSuggestion *suggestion = (UVSuggestion *)model;
-            [suggestionIds addObject:[NSString stringWithFormat:@"%ld", (long)suggestion.suggestionId]];
+            [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+            [params setObject:@"Suggestion" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
         }
+        index += 1;
     }
-    [params setObject:articleIds forKey:@"faq_ids[]"];
-    [params setObject:suggestionIds forKey:@"suggestion_ids[]"];
+    [params setObject:[NSString stringWithFormat:@"%d", articleResults] forKey:@"faq_results"];
+    [params setObject:[NSString stringWithFormat:@"%d", suggestionResults] forKey:@"suggestion_results"];
     [self sendDeflection:@"/clients/widgets/omnibox/deflections/list_view.json" params:params];
 }
 
 + (void)setSearchText:(NSString *)query {
     if ([query isEqualToString:searchText]) return;
-    [searchText release];
-    searchText = [query retain];
+    searchText = query;
     interactionIdentifier = [self interactionIdentifier] + 1;
 }
 
 + (void)sendDeflection:(NSString *)path params:(NSDictionary *)params {
     NSDictionary *opts = @{
         kHRClassAttributesBaseURLKey  : [UVBaseModel baseURL],
-        kHRClassAttributesDelegateKey : [NSValue valueWithNonretainedObject:self],
+        kHRClassAttributesDelegateKey : self,
+        @"headers" : @{ @"Content-Type" : @"application/json" },
         @"params" : params
     };
     [HRRequestOperation requestWithMethod:HRRequestMethodGet path:path options:opts object:nil];
@@ -75,10 +90,14 @@ static NSInteger interactionIdentifier;
 
 + (NSMutableDictionary *)deflectionParams {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
+    if ([UVBabayaga instance].uvts) {
+        // there should be one, but don't crash if there isn't!
+        [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
+    }
     [params setObject:@"ios" forKey:@"channel"];
     [params setObject:searchText forKey:@"search_term"];
-    [params setObject:[NSString stringWithFormat:@"%ld", (long)[self interactionIdentifier]] forKey:@"interaction_identifier"];
+    [params setObject:[NSString stringWithFormat:@"%d", (int)[self interactionIdentifier]] forKey:@"interaction_identifier"];
+    [params setObject:[NSString stringWithFormat:@"%d", [UVSession currentSession].clientConfig.subdomain.subdomainId] forKey:@"subdomain_id"];
     return params;
 }
 

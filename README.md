@@ -1,19 +1,23 @@
-Overview
---------
+## Overview
 
-UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app.
+UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
 
-![Tour](https://www.uservoice.com/assets/img/ios/ios-animation.gif)
+To get started, you will need to have a free UserVoice account to connect to. Go to [uservoice.com/mobile/](https://uservoice.com/mobile/) to sign up for free.
 
-You will need to have a UserVoice account (free) for it to connect to. Go to [uservoice.com/ios](http://uservoice.com/ios) to sign up.
-
-Binary builds of the SDK are available for download.
-* Current release: [2.0.13](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-2.0.13.tar.gz)
+Binary builds of the SDK are available for download:
+* Current release: [3.0.0](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-3.0.0.tar.gz) (updated 2013-12-31)
+* See [CHANGELOG.md](https://github.com/uservoice/uservoice-ios-sdk/blob/master/CHANGELOG.md) for release notes and previous versions
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
-Installation
-------------
+## Upgrading from 2.0.x
+
+* You should pass your `UVConfig` to `+[UserVoice initialize:]` shortly after app launch so that we can provide you with accurate usage reports.
+* If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.
+* You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.
+* We are dropping support for versions of iOS prior to 6.0.
+
+## Installation
 
 * Download the latest build.
 * Drag `UVHeaders`, `UVResources`, and `libUserVoice.a` into your project.
@@ -23,14 +27,17 @@ Installation
 
 See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
 
-Note: If you opt to compile pull the UserVoice source into your application rather than using `libUserVoice.a`, and your project uses ARC, you will need to set `-fno-objc-arc` for all of the UserVoice source files. We are not currently using ARC, although we are planning to migrate to it eventually.
+## CocoaPods
 
-API
----
+Alternatively, if you are using CocoaPods just add the following to your Podfile.
 
-Once you have completed these steps, you are ready to launch the UserVoice UI
-from your code. Import `UserVoice.h` and create a `UVConfig` using one of the
-following options.
+    pod 'uservoice-iphone-sdk', '~> 3.0'
+
+
+## API
+
+
+Once you have completed these steps, you are ready to launch the UserVoice UI from your code. Import `UserVoice.h` and create a `UVConfig` using one of the following options.
 
 ### Configuration
 
@@ -38,8 +45,11 @@ Start by creating a `UVConfig` object like this:
 
     UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com"];
 
-All other configuration settings are optional. If you want, you can jump
-straight to Invocation.
+Once you've set up your config the way you want it, you should go ahead and pass it to initialize:
+
+    [UserVoice initialize:config];
+
+This should be called when your app starts up so that we can provide accurate metrics in your UserVoice admin console.
 
 ### User identification
 
@@ -114,19 +124,19 @@ There are 4 options for how to launch UserVoice from within your app:
 
 **1. Standard UserVoice Interface:** This launches the UserVoice for iOS portal page where the user can browse suggestions, contact you or browse the knowledgebase. This is the full experience of everything the SDK can do.
     
-    [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceInterfaceForParentViewController:self];
 
 **2. Direct link to contact form:** Launches user directly into the contact form, with Instant Answers, experience. Useful to link to from error or setup pages in your app.
 
-    [UserVoice presentUserVoiceContactUsFormForParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceContactUsFormForParentViewController:self];
     
 **3. Direct link to feedback forum:** Launches the user directly into the feedback forum where they can browse, vote on or give their own feedback. Useful for linking from a "Give us your ideas?" prompt from within your app.
 
-    [UserVoice presentUserVoiceForumForParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceForumForParentViewController:self];
 
 **4. Direct link to idea form:** Launches user directly into the idea form, with Instant Answers, experience.
 
-    [UserVoice presentUserVoiceNewIdeaFormForParentViewController:self andConfig:config];
+    [UserVoice presentUserVoiceNewIdeaFormForParentViewController:self];
 
 
 ### Passing user traits
@@ -150,34 +160,33 @@ will allow us to provide you more useful reports about your users.
 ### Customizing Colors
 
 You can also customize the appearance of the UserVoice user interface by
-creating a custom stylesheet.
+setting certain key colors.
 
 ```
-    #import "UVStyleSheet.h"
-
-    @interface MyStyleSheet : UVStyleSheet
-
-    @end
-
-    @implementation MyStyleSheet
-    
-    - (UIColor *)backgroundColor {
-        return [UIColor colorWithRed:0.15f green:0.15f blue:0.15f alpha:1.0f];
-    }
-
-    @end
-
-    [UVStyleSheet setStyleSheet:[[MyStyleSheet alloc] init]];
+#import "UVStyleSheet.h"
+[UVStyleSheet instance].tintColor = [UIColor redColor];
+[UVStyleSheet instance].tableViewBackgroundColor = [UIColor whiteColor];
 ```
+
+See `UVStyleSheet.h` for a complete list of the visual properties you can modify.
 
 ### User Language
 
 The library will detect and display in the language the device is set to provided that language is supported by the SDK ([see currently supported languages](https://github.com/uservoice/uservoice-iphone-sdk#translations).).
 
-Feedback
+### Private Sites
+
+The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the mobile settings section of the UserVoice admin console.
+
+```
+UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"CLIENT_KEY" andSecret:@"CLIENT_SECRET"];
+[UserVoice initialize:config];
+```
+
+Give us feedback!
 --------
 
-You can share feedback on the [UserVoice for iOS forum](http://feedback.uservoice.com/forums/64519-iphone-sdk-feedback).
+You can share feedback on our [Mobile SDKs forum](http://feedback.uservoice.com/forums/64519-mobile-sdks).
 
 FAQs
 --------
@@ -227,11 +236,8 @@ site](http://translate.uservoice.com/).
 iOS Versions
 ------------
 
-* Full support for iOS 5.0+
-* For iOS 4.3 we accept patches, but don't guarantee support
-* Earlier versions of iOS are not supported
-* Builds are provided for armv7--there is no armv6 device that runs a supported version of iOS
-* In general, the plan is to keep in step with public releases of Xcode
+* UserVoice for iOS 3.0 is designed for iOS 7 with backwards compatibility for iOS 6
+* To support earlier versions you would have to go back to UserVoice for iOS 2.0
 
 Contributors
 ------------

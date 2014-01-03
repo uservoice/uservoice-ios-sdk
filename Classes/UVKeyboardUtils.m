@@ -18,9 +18,9 @@ static UVKeyboardUtils *sharedInstance;
 }
 
 + (void)load {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    sharedInstance = [[self alloc] init];
-    [pool release];
+    @autoreleasepool {
+        sharedInstance = [self new];
+    }
 }
 
 + (BOOL)visible {

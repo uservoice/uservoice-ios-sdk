@@ -12,36 +12,15 @@
 
 @class UVTruncatingLabel;
 
-@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
-    UVSuggestion *suggestion;
-    NSMutableArray *comments;
-    UIScrollView *scrollView;
-    UIView *statusBar;
-    BOOL allCommentsRetrieved;
-    UILabel *titleLabel;
-    UILabel *votesLabel;
-    UVTruncatingLabel *descriptionLabel;
-    UILabel *creatorLabel;
-    UIView *responseView;
-    UILabel *responseLabel;
-    UIView *buttons;
-    UIButton *voteButton;
-    BOOL instantAnswers;
-}
+@interface UVSuggestionDetailsViewController : UVBaseViewController <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) UVSuggestion *suggestion;
 @property (nonatomic, retain) NSMutableArray *comments;
-@property (nonatomic, retain) UIScrollView *scrollView;
-@property (nonatomic, retain) UIView *statusBar;
-@property (nonatomic, retain) UILabel *titleLabel;
-@property (nonatomic, retain) UILabel *votesLabel;
-@property (nonatomic, retain) UVTruncatingLabel *descriptionLabel;
-@property (nonatomic, retain) UILabel *creatorLabel;
-@property (nonatomic, retain) UILabel *responseLabel;
-@property (nonatomic, retain) UIView *responseView;
-@property (nonatomic, retain) UIView *buttons;
-@property (nonatomic, retain) UIButton *voteButton;
-@property (nonatomic) BOOL instantAnswers;
+@property (nonatomic, retain) UILabel *subscriberCount;
+@property (nonatomic, assign) BOOL instantAnswers;
+@property (nonatomic, retain) NSString *helpfulPrompt;
+@property (nonatomic, retain) NSString *returnMessage;
+@property (nonatomic, retain) NSString *deflectingType;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
 - (void)reloadComments;

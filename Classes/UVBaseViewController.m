@@ -22,19 +22,12 @@
 
 @implementation UVBaseViewController
 
-@synthesize needsReload;
-@synthesize firstController;
-@synthesize tableView;
-@synthesize exitButton;
-@synthesize signinManager;
-@synthesize shade;
-@synthesize activityIndicatorView;
-
 - (id)init {
     self = [super init];
     if (self) {
-        self.signinManager = [UVSigninManager manager];
-        self.signinManager.delegate = self;
+        _signinManager = [UVSigninManager manager];
+        _signinManager.delegate = self;
+        _templateCells = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -42,7 +35,6 @@
 - (void)dismissUserVoice {
     [[UVImageCache sharedInstance] flush];
     [[UVSession currentSession] clear];
-    [[UVSession currentSession] clearFlash];
     
     [self dismissUserVoiceWithoutFlush:YES];
 }
@@ -52,9 +44,9 @@
     if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
         [[UserVoice delegate] userVoiceRequestsDismissal];
     } else {
-        [self dismissModalViewControllerAnimated:animated];
-        if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
-            [[UserVoice delegate] userVoiceWasDismissed];
+    	[self dismissViewControllerAnimated:YES completion:nil];
+    	if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
+        	[[UserVoice delegate] userVoiceWasDismissed];
     }
 }
 
@@ -68,30 +60,30 @@
 }
 
 - (void)showActivityIndicator {
-    if (!shade) {
-        self.shade = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
-        self.shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        self.shade.backgroundColor = [UIColor blackColor];
-        self.shade.alpha = 0.5;
-        [self.view addSubview:shade];
+    if (!_shade) {
+        _shade = [[UIView alloc] initWithFrame:self.view.bounds];
+        _shade.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _shade.backgroundColor = [UIColor blackColor];
+        _shade.alpha = 0.5;
+        [self.view addSubview:_shade];
     }
-    if (!activityIndicatorView) {
-        self.activityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
-        self.activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
-        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
-        [self.view addSubview:activityIndicatorView];
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/4);
+        _activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
+        [self.view addSubview:_activityIndicatorView];
     }
-    shade.hidden = NO;
-    activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/([UVKeyboardUtils visible] ? 4 : 2));
-    activityIndicatorView.hidden = NO;
-    [activityIndicatorView startAnimating];
+    _shade.hidden = NO;
+    _activityIndicatorView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/([UVKeyboardUtils visible] ? 4 : 2));
+    _activityIndicatorView.hidden = NO;
+    [_activityIndicatorView startAnimating];
 }
 
 - (void)hideActivityIndicator {
     [self enableSubmitButton];
-    [activityIndicatorView stopAnimating];
-    activityIndicatorView.hidden = YES;
-    shade.hidden = YES;
+    [_activityIndicatorView stopAnimating];
+    _activityIndicatorView.hidden = YES;
+    _shade.hidden = YES;
 }
 
 - (void)setSubmitButtonEnabled:(BOOL)enabled {
@@ -125,11 +117,11 @@
 }
 
 - (void)alertError:(NSString *)message {
-    [[[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
                                 message:message
                                delegate:nil
                       cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
-                      otherButtonTitles:nil] autorelease] show];
+                      otherButtonTitles:nil] show];
 }
 
 - (void)didReceiveError:(NSError *)error {
@@ -163,18 +155,39 @@
 - (void)initNavigationItem {
     self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
 
-    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:nil
-                                                                             action:nil] autorelease];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
 
-    self.exitButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                                        style:UIBarButtonItemStylePlain
-                                                       target:self
-                                                       action:@selector(dismissUserVoice)] autorelease];
-    if ([UVSession currentSession].isModal && firstController) {
-        self.navigationItem.leftBarButtonItem = exitButton;
+    _exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                   style:UIBarButtonItemStylePlain
+                                                  target:self
+                                                  action:@selector(dismissUserVoice)];
+    if ([UVSession currentSession].isModal && _firstController) {
+        self.navigationItem.leftBarButtonItem = _exitButton;
     }
+}
+
+- (UIView *)poweredByView {
+    UIView *power = [UIView new];
+    power.frame = CGRectMake(0, 0, 0, 80);
+    UILabel *uv = [UILabel new];
+    uv.text = NSLocalizedStringFromTable(@"Powered by UserVoice", @"UserVoice", nil);
+    uv.font = [UIFont systemFontOfSize:13];
+    uv.textColor = [UIColor grayColor];
+    uv.backgroundColor = [UIColor clearColor];
+    uv.textAlignment = NSTextAlignmentCenter;
+    UILabel *version = [UILabel new];
+    version.text = [NSString stringWithFormat:@"iOS SDK v%@", [UserVoice version]];
+    version.font = [UIFont systemFontOfSize:13];
+    version.textColor = [UIColor lightGrayColor];
+    version.textAlignment = NSTextAlignmentCenter;
+    version.backgroundColor = [UIColor clearColor];
+    [self configureView:power
+               subviews:NSDictionaryOfVariableBindings(uv, version)
+            constraints:@[@"V:|-[uv]-[version]", @"|[uv]|", @"|[version]|"]];
+    return power;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -196,7 +209,7 @@
             parent.view.superview.frame = parent.presentedViewController.view.superview.frame;
         }
     }
-
+    
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
@@ -223,12 +236,18 @@
             parent.view.superview.hidden = NO;
         }
     }
+    
+    if (!IOS7 && _tableView) {
+        [_tableView reloadData];
+    }
 
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 #pragma mark ===== helper methods for table views =====
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (UITableViewCell *)createCellForIdentifier:(NSString *)identifier
                                    tableView:(UITableView *)theTableView
                                    indexPath:(NSIndexPath *)indexPath
@@ -236,7 +255,7 @@
                                   selectable:(BOOL)selectable {
     UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier];
         cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
 
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", identifier]);
@@ -249,8 +268,23 @@
     if ([self respondsToSelector:customizeCellSelector]) {
         [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
     }
+    if (!IOS7) {
+        cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:_tableView.style accessoryType:cell.accessoryType], 0);
+        [cell.contentView setNeedsLayout];
+        [cell.contentView layoutIfNeeded];
+        for (UIView *view in cell.contentView.subviews) {
+            if ([view isKindOfClass:[UILabel class]]) {
+                UILabel *label = (UILabel *)view;
+                if (label.numberOfLines != 1) {
+                    [label setPreferredMaxLayoutWidth:label.frame.size.width];
+                }
+                [label setBackgroundColor:[UIColor clearColor]];
+            }
+        }
+    }
     return cell;
 }
+#pragma clang diagnostic pop
 
 #pragma mark ===== Keyboard Notifications =====
 
@@ -277,24 +311,24 @@
     if (IPAD) {
         CGFloat formSheetHeight = 576;
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-            kbHeight = formSheetHeight - 352;
+            _kbHeight = formSheetHeight - 352;
         } else {
-            kbHeight = formSheetHeight - 504;
+            _kbHeight = formSheetHeight - 504;
         }
     } else {
         NSDictionary* info = [notification userInfo];
         CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
         // Convert from window space to view space to account for orientation
-        kbHeight = [self.view convertRect:rect fromView:nil].size.height;
+        _kbHeight = [self.view convertRect:rect fromView:nil].size.height;
     }
 }
 
 - (UIScrollView *)scrollView {
-    return tableView;
+    return _tableView;
 }
 
 - (void)keyboardDidShow:(NSNotification*)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake([self scrollView].contentInset.top, 0.0, kbHeight, 0.0);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake([self scrollView].contentInset.top, 0.0, _kbHeight, 0.0);
     [self scrollView].contentInset = contentInsets;
     [self scrollView].scrollIndicatorInsets = contentInsets;
 }
@@ -309,139 +343,165 @@
 }
 
 - (void)presentModalViewController:(UIViewController *)viewController {
-    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    UINavigationController *navigationController = [UINavigationController new];
     [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = @[viewController];
     if (IPAD)
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentModalViewController:navigationController animated:YES];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)setupGroupedTableView {
-    self.view = [[[UIView alloc] initWithFrame:[self contentFrame]] autorelease];
-    self.view.backgroundColor = [UVStyleSheet backgroundColor];
-    self.view.autoresizesSubviews = YES;
-    self.tableView = [[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped] autorelease];
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.tableView];
+    _tableView = [[UITableView alloc] initWithFrame:[self contentFrame] style:UITableViewStyleGrouped];
+    _tableView.delegate = (id<UITableViewDelegate>)self;
+    _tableView.dataSource = (id<UITableViewDataSource>)self;
+    if ([UVStyleSheet instance].tableViewBackgroundColor) {
+        if (!IOS7) {
+            UIView *bg = [UIView new];
+            bg.backgroundColor = [UVStyleSheet instance].tableViewBackgroundColor;
+            _tableView.backgroundView = bg;
+        }
+        _tableView.backgroundColor = [UVStyleSheet instance].tableViewBackgroundColor;
+    }
+    self.view = _tableView;
 }
 
-- (void)addTopBorder:(UIView *)view {
-    [self addTopBorder:view alpha:1.0];
-}
-
-- (void)addTopBorder:(UIView *)view alpha:(CGFloat)alpha {
-    UIView *border = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:0.86f green:0.88f blue:0.89f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [view addSubview:border];
-    border = [[[UIView alloc] initWithFrame:CGRectMake(0, 1, 320, 1)] autorelease];
-    border.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-    border.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin;
-    [view addSubview:border];
+- (void)setView:(UIView *)view {
+    [super setView:view];
+    if (IOS7) {
+        view.tintColor = [UVStyleSheet instance].tintColor;
+    }
 }
 
 - (void)requireUserSignedIn:(UVCallback *)callback {
-    [signinManager signInWithCallback:callback];
+    [_signinManager signInWithCallback:callback];
 }
 
 - (void)requireUserAuthenticated:(NSString *)email name:(NSString *)name callback:(UVCallback *)callback {
-    [self.signinManager signInWithEmail:email name:name callback:callback];
+    [_signinManager signInWithEmail:email name:name callback:callback];
 }
 
 - (void)setUserName:(NSString *)theName {
-    [theName retain];
-    [userName release];
-    userName = theName;
+    _userName = theName;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:userName forKey:@"uv-user-name"];
+    [prefs setObject:_userName forKey:@"uv-user-name"];
     [prefs synchronize];
 }
 
 - (NSString *)userName {
     if ([UVSession currentSession].user)
         return [UVSession currentSession].user.name;
-    if (userName)
-        return userName;
+    if (_userName)
+        return _userName;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userName = [[prefs stringForKey:@"uv-user-name"] retain];
-    return userName;
+    _userName = [prefs stringForKey:@"uv-user-name"];
+    return _userName;
 }
 
 - (void)setUserEmail:(NSString *)theEmail {
-    [theEmail retain];
-    [userEmail release];
-    userEmail = theEmail;
+    _userEmail = theEmail;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:userEmail forKey:@"uv-user-email"];
+    [prefs setObject:_userEmail forKey:@"uv-user-email"];
     [prefs synchronize];
 }
 
 - (NSString *)userEmail {
     if ([UVSession currentSession].user)
         return [UVSession currentSession].user.email;
-    if (userEmail)
-        return userEmail;
+    if (_userEmail)
+        return _userEmail;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    userEmail = [[prefs stringForKey:@"uv-user-email"] retain];
-    return userEmail;
+    _userEmail = [prefs stringForKey:@"uv-user-email"];
+    return _userEmail;
 }
 
-- (CGRect)cellLabelRect:(UIView *)container {
-    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
-    return CGRectMake(offset, 12, container.frame.size.width - offset - (IOS7 ? 2 : offset), 16);
-}
-
-- (CGRect)cellValueRect:(UIView *)container {
-    CGFloat offset = 14 + (IOS7 ? 0 : (IPAD ? 27 : 2));
-    return CGRectMake(offset, 28, container.frame.size.width - offset - (IOS7 ? 2 : offset), 30);
-}
-
-- (UILabel *)addCellLabel:(UIView *)container {
-    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellLabelRect:container]] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.font = [UIFont systemFontOfSize:13];
-    if (IOS7){
-        label.textColor = [self.view valueForKey:@"tintColor"];
-    } else {
-        label.textColor = [UIColor grayColor];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+- (CGFloat)heightForDynamicRowWithReuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
+    NSString *cacheKey = [NSString stringWithFormat:@"%@-%d", reuseIdentifier, (int)self.view.frame.size.width];
+    UITableViewCell *cell = [_templateCells objectForKey:cacheKey];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:reuseIdentifier];
+        SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", reuseIdentifier]);
+        if ([self respondsToSelector:initCellSelector]) {
+            [self performSelector:initCellSelector withObject:cell withObject:nil];
+        }
+        [_templateCells setObject:cell forKey:cacheKey];
     }
+    SEL customizeCellSelector = NSSelectorFromString([NSString stringWithFormat:@"customizeCellFor%@:indexPath:", reuseIdentifier]);
+    if ([self respondsToSelector:customizeCellSelector]) {
+        [self performSelector:customizeCellSelector withObject:cell withObject:indexPath];
+    }
+    cell.contentView.frame = CGRectMake(0, 0, [self cellWidthForStyle:_tableView.style accessoryType:cell.accessoryType], 0);
+    [cell.contentView setNeedsLayout];
+    [cell.contentView layoutIfNeeded];
+
+    // cells are usually flat so I don't bother to iterate recursively
+    for (UIView *view in cell.contentView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            if (label.numberOfLines != 1) {
+                [label setPreferredMaxLayoutWidth:label.frame.size.width];
+            }
+        }
+    }
+    [cell.contentView setNeedsLayout];
+    [cell.contentView layoutIfNeeded];
+
+    return [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + 1;
+}
+#pragma clang diagnostic pop
+
+- (CGFloat)cellWidthForStyle:(UITableViewStyle)style accessoryType:(UITableViewCellAccessoryType)accessoryType {
+    CGFloat width = self.view.frame.size.width;
+    CGFloat accessoryWidth = 0;
+    CGFloat margin = 0;
+    if (IOS7) {
+        if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+            accessoryWidth = 33;
+        } else if (accessoryType == UITableViewCellAccessoryCheckmark) {
+            accessoryWidth = 38.5;
+        }
+    } else {
+        if (accessoryType == UITableViewCellAccessoryDisclosureIndicator || accessoryType == UITableViewCellAccessoryCheckmark) {
+            accessoryWidth = 20;
+        }
+        if (width > 20) {
+            if (width < 400) {
+                margin = 10;
+            } else {
+                margin = MAX(31, MIN(45, width*0.06));
+            }
+        } else {
+            margin = width - 10;
+        }
+    }
+    return width - (style == UITableViewStyleGrouped ? margin * 2 : 0) - accessoryWidth;
+}
+
+- (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings {
+    [self configureView:superview subviews:viewsDict constraints:constraintStrings finalCondition:NO finalConstraint:nil];
+}
+
+- (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint {
+    [UVUtils configureView:superview subviews:viewsDict constraints:constraintStrings finalCondition:includeFinalConstraint finalConstraint:finalConstraint];
+}
+
+- (UITextField *)configureView:(UIView *)view label:(NSString *)labelText placeholder:(NSString *)placeholderText {
+    UITextField *field = [UITextField new];
+    field.placeholder = placeholderText;
+    [field setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    UILabel *label = [UILabel new];
+    label.text = [NSString stringWithFormat:@"%@:", labelText];
     label.backgroundColor = [UIColor clearColor];
-    [container addSubview:label];
-    return label;
-}
-
-- (UILabel *)addCellValueLabel:(UIView *)container {
-    UILabel *label = [[[UILabel alloc] initWithFrame:[self cellValueRect:container]] autorelease];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    label.font = [UIFont systemFontOfSize:16];
-    label.backgroundColor = [UIColor clearColor];
-    [container addSubview:label];
-    return label;
-}
-
-- (UITextField *)addCellValueTextField:(UIView *)container {
-    UITextField *textField = [[[UITextField alloc] initWithFrame:[self cellValueRect:container]] autorelease];
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.backgroundColor = [UIColor clearColor];
-    textField.returnKeyType = UIReturnKeyDone;
-    textField.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
-    [container addSubview:textField];
-    return textField;
-}
-
-- (UITextField *)customizeTextFieldCell:(UITableViewCell *)cell label:(NSString *)labelText placeholder:(NSString *)placeholder {
-    UILabel *label = [self addCellLabel:cell];
-    label.text = labelText;
-    UITextField *textField = [self addCellValueTextField:cell];
-    textField.placeholder = placeholder;
-    textField.delegate = self;
-    return textField;
+    label.textColor = [UIColor grayColor];
+    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [self configureView:view
+               subviews:NSDictionaryOfVariableBindings(field, label)
+            constraints:@[@"|-16-[label]-[field]-|", @"V:|-12-[label]", @"V:|-12-[field]"]];
+    return field;
 }
 
 #pragma mark - UVSigninManageDelegate
@@ -464,17 +524,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.tableView = nil;
-    self.exitButton = nil;
-    self.signinManager.delegate = nil;
-    self.signinManager = nil;
-    self.shade = nil;
-    self.activityIndicatorView = nil;
-    [userEmail release];
-    userEmail = nil;
-    [userName release];
-    userName = nil;
-    [super dealloc];
 }
 
 @end
