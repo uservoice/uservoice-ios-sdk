@@ -229,17 +229,18 @@
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
-        [self composeButtonTapped];
-    } else if (theTableView == _tableView) {
-        if (indexPath.row < _suggestions.count)
+    if (theTableView == _tableView) {
+        if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
+            [self composeButtonTapped];
+        } else if (indexPath.row < _suggestions.count) {
             [self showSuggestion:[_suggestions objectAtIndex:indexPath.row]];
-        else
+        } else {
             [self retrieveMoreSuggestions];
+        }
     } else {
         [self showSuggestion:[_searchResults objectAtIndex:indexPath.row]];
     }
+    [theTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

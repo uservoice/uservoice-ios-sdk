@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug related to forum search
+
 ## 3.0.0 (2013-12-31) ##
 
 * Revamp UI for iOS 7
