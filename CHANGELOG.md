@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug with overlapping text on a dialog in landscape mode
+* Clean up some inconsistencies related to dismissal behavior
 * Fix a bug related to forum search
 
 ## 3.0.0 (2013-12-31) ##
