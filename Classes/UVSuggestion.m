@@ -56,7 +56,7 @@
                             title, @"suggestion[title]",
                             text == nil ? @"" : text, @"suggestion[text]",
                             categoryId == 0 ? @"" : [NSString stringWithFormat:@"%d", (int)categoryId], @"suggestion[category_id]",
-                            [NSString stringWithFormat:@"%d", [UVDeflection interactionIdentifier]], @"interaction_identifier",
+                            [NSString stringWithFormat:@"%d", (int)[UVDeflection interactionIdentifier]], @"interaction_identifier",
                             nil];
     return [[self class] postPath:path
                        withParams:params

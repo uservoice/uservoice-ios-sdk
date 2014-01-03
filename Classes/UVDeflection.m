@@ -44,24 +44,24 @@ static NSInteger interactionIdentifier;
     NSInteger suggestionResults = 0;
     NSInteger index = 0;
     for (id model in results) {
-        NSString *prefix = [NSString stringWithFormat:@"results[%d]", index];
-        [params setObject:[NSString stringWithFormat:@"%d", index++] forKey:[prefix stringByAppendingString:@"[position]"]];
-        [params setObject:[NSString stringWithFormat:@"%d", [model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
+        NSString *prefix = [NSString stringWithFormat:@"results[%d]", (int)index];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)index++] forKey:[prefix stringByAppendingString:@"[position]"]];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)[model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
         if ([model isKindOfClass:[UVArticle class]]) {
             articleResults += 1;
             UVArticle *article = (UVArticle *)model;
-            [params setObject:[NSString stringWithFormat:@"%d", article.articleId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+            [params setObject:[NSString stringWithFormat:@"%d", (int)article.articleId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
             [params setObject:@"Faq" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
         } else if ([model isKindOfClass:[UVSuggestion class]]) {
             suggestionResults += 1;
             UVSuggestion *suggestion = (UVSuggestion *)model;
-            [params setObject:[NSString stringWithFormat:@"%d", suggestion.suggestionId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
+            [params setObject:[NSString stringWithFormat:@"%d", (int)suggestion.suggestionId] forKey:[prefix stringByAppendingString:@"[deflector_id]"]];
             [params setObject:@"Suggestion" forKey:[prefix stringByAppendingString:@"[deflector_type]"]];
         }
         index += 1;
     }
-    [params setObject:[NSString stringWithFormat:@"%d", articleResults] forKey:@"faq_results"];
-    [params setObject:[NSString stringWithFormat:@"%d", suggestionResults] forKey:@"suggestion_results"];
+    [params setObject:[NSString stringWithFormat:@"%d", (int)articleResults] forKey:@"faq_results"];
+    [params setObject:[NSString stringWithFormat:@"%d", (int)suggestionResults] forKey:@"suggestion_results"];
     [self sendDeflection:@"/clients/widgets/omnibox/deflections/list_view.json" params:params];
 }
 
@@ -97,7 +97,7 @@ static NSInteger interactionIdentifier;
     [params setObject:@"ios" forKey:@"channel"];
     [params setObject:searchText forKey:@"search_term"];
     [params setObject:[NSString stringWithFormat:@"%d", (int)[self interactionIdentifier]] forKey:@"interaction_identifier"];
-    [params setObject:[NSString stringWithFormat:@"%d", [UVSession currentSession].clientConfig.subdomain.subdomainId] forKey:@"subdomain_id"];
+    [params setObject:[NSString stringWithFormat:@"%d", (int)[UVSession currentSession].clientConfig.subdomain.subdomainId] forKey:@"subdomain_id"];
     return params;
 }
 

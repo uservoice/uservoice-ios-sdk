@@ -35,7 +35,7 @@
         message == nil ? @"" : message, @"ticket[message]",
         email   == nil ? @"" : email,   @"email",
         name    == nil ? @"" : name,    @"display_name",
-        [NSString stringWithFormat:@"%d", [UVDeflection interactionIdentifier]], @"interaction_identifier",
+        [NSString stringWithFormat:@"%d", (int)[UVDeflection interactionIdentifier]], @"interaction_identifier",
         nil];
     
     for (NSString *scope in [UVSession currentSession].externalIds) {
