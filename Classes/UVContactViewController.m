@@ -52,7 +52,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
-                                                                            action:@selector(dismiss)];
+                                                                            action:@selector(requestDismissal)];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
                                                                               style:UIBarButtonItemStyleDone
@@ -194,11 +194,11 @@
     switch (buttonIndex) {
         case 0:
             [self clearDraft];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismiss];
             break;
         case 1:
             [self saveDraft];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismiss];
             break;
         default:
             [_fieldsView.textView becomeFirstResponder];
@@ -223,18 +223,12 @@
     [prefs synchronize];
 }
 
-- (BOOL)shouldLeaveViewController {
+- (void)requestDismissal {
     if (_fieldsView.textView.text.length == 0 || [_fieldsView.textView.text isEqualToString:_loadedDraft]) {
-        return YES;
+        [self dismiss];
     } else {
         [self showSaveActionSheet];
-        return NO;
     }
-}
-
-- (void)dismiss {
-    if ([self shouldLeaveViewController])
-        [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

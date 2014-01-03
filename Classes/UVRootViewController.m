@@ -30,9 +30,9 @@
     return self;
 }
 
-- (void)dismissUserVoice {
+- (void)dismiss {
     _loader.dismissed = YES;
-    [super dismissUserVoice];
+    [super dismiss];
 }
 
 - (void)pushNextView {
@@ -67,7 +67,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
-                                                                            action:@selector(dismissUserVoice)];
+                                                                            action:@selector(dismiss)];
 
     self.view = [[UIView alloc] initWithFrame:[self contentFrame]];
     self.view.backgroundColor = [UVStyleSheet instance].loadingViewBackgroundColor;

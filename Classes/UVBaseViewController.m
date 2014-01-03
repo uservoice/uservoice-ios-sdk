@@ -32,21 +32,14 @@
     return self;
 }
 
-- (void)dismissUserVoice {
-    [[UVImageCache sharedInstance] flush];
-    [[UVSession currentSession] clear];
-    
-    [self dismissUserVoiceWithoutFlush:YES];
-}
-
-- (void)dismissUserVoiceWithoutFlush:(BOOL)animated
-{
-    if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
-        [[UserVoice delegate] userVoiceRequestsDismissal];
-    } else {
-    	[self dismissViewControllerAnimated:YES completion:nil];
-    	if ([[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)])
-        	[[UserVoice delegate] userVoiceWasDismissed];
+- (void)dismiss {
+    if (_firstController) {
+        [[UVImageCache sharedInstance] flush];
+        [[UVSession currentSession] clear];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
+        [[UserVoice delegate] userVoiceWasDismissed];
     }
 }
 
@@ -163,7 +156,7 @@
     _exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
-                                                  action:@selector(dismissUserVoice)];
+                                                  action:@selector(dismiss)];
     if ([UVSession currentSession].isModal && _firstController) {
         self.navigationItem.leftBarButtonItem = _exitButton;
     }

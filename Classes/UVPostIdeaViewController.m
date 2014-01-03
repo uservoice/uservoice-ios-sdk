@@ -210,10 +210,6 @@
     [self.navigationController pushViewController:_detailsController animated:YES];
 }
 
-- (void)dismiss {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void)sendWithEmail:(NSString *)email name:(NSString *)name fields:(NSDictionary *)fields {
     if (_sending) return;
     self.userEmail = email;

@@ -61,8 +61,4 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (void)dismiss {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 @end

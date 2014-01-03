@@ -11,5 +11,4 @@
 @protocol UVDelegate <NSObject>
 @optional
 - (void)userVoiceWasDismissed;
-- (void)userVoiceRequestsDismissal;
 @end

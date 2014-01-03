@@ -119,7 +119,7 @@
     if (buttonIndex == 0) {
         [self.navigationController popViewControllerAnimated:YES];
     } else if (buttonIndex == 1) {
-        [self dismissUserVoice];
+        [self dismiss];
     }
 }
 

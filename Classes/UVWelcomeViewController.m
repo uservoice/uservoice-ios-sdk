@@ -272,7 +272,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
-                                                                            action:@selector(dismissUserVoice)];
+                                                                            action:@selector(dismiss)];
 
     [self setupGroupedTableView];
 

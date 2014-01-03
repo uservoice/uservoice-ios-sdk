@@ -35,10 +35,6 @@
     return self;
 }
 
-- (void)dismiss {
-    [self dismissUserVoiceWithoutFlush:YES];
-}
-
 - (void)commentButtonTapped {
     if (_fieldsView.textView.text.length == 0) {
         [self dismiss];

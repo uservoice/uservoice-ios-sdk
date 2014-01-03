@@ -292,7 +292,7 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil)
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
-                                                                                action:@selector(dismissUserVoice)];
+                                                                                action:@selector(dismiss)];
     }
 }
 
@@ -310,7 +310,7 @@
     self.exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
                                                        style:UIBarButtonItemStylePlain
                                                       target:self
-                                                      action:@selector(dismissUserVoice)];
+                                                      action:@selector(dismiss)];
     if ([UVSession currentSession].isModal && _firstController) {
         self.navigationItem.leftBarButtonItem = _exitButton;
     }

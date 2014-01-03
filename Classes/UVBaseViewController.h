@@ -35,9 +35,7 @@
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, retain) NSMutableDictionary *templateCells;
 
-- (void)dismissUserVoice;
-
-- (void)dismissUserVoiceWithoutFlush:(BOOL)animated;
+- (void)dismiss;
 
 // Calculates the content view frame, based on the size and position of the
 // navigation bar.
