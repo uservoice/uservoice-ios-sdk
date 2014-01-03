@@ -18,6 +18,7 @@
     if ((self = [super initWithFrame:frame])) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
         
+        self.contentSize = CGSizeMake(0, 20);
         self.font = [UIFont systemFontOfSize:15];
         _placeholderLabel = [UILabel new];
         _placeholderLabel.font = self.font;
