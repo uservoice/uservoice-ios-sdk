@@ -5,7 +5,7 @@ UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad 
 To get started, you will need to have a free UserVoice account to connect to. Go to [uservoice.com/mobile/](https://uservoice.com/mobile/) to sign up for free.
 
 Binary builds of the SDK are available for download:
-* Current release: [3.0.0](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-3.0.0.tar.gz) (updated 2013-12-31)
+* Current release: [3.0.1](http://sdk-downloads.uservoice.com/ios/UserVoiceSDK-3.0.1.tar.gz) (updated 2014-01-08)
 * See [CHANGELOG.md](https://github.com/uservoice/uservoice-ios-sdk/blob/master/CHANGELOG.md) for release notes and previous versions
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.

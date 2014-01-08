@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DIST=dist/UserVoiceSDK-3.0.0
+DIST=dist/UserVoiceSDK-3.0.1
 
 echo "==== Building for iOS devices ===="
 echo ""

@@ -1,9 +1,12 @@
 ## master ##
 
+## 3.0.1 (2014-01-08) ##
+
 * Fix an autolayout error related to textviews
 * Fix a bug with overlapping text on a dialog in landscape mode
 * Clean up some inconsistencies related to dismissal behavior
 * Fix a bug related to forum search
+* Fix a problem with deflection reporting
 
 ## 3.0.0 (2013-12-31) ##
 
