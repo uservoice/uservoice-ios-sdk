@@ -10,5 +10,17 @@
 
 @protocol UVDelegate <NSObject>
 @optional
+
+/*
+ * Called after the user dismisses the UserVoice interface.
+ */
 - (void)userVoiceWasDismissed;
+
+/*
+ * If this is defined, UserVoice will not dismiss itself. You will receive this
+ * message and can remove the UserVoice UI yourself. For use with
+ * +[UserVoice getUserVoiceContactUsFormForModalDisplay].
+ */
+- (void)userVoiceRequestsDismissal;
+
 @end

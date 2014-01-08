@@ -37,9 +37,13 @@
         [[UVImageCache sharedInstance] flush];
         [[UVSession currentSession] clear];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
-    if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
-        [[UserVoice delegate] userVoiceWasDismissed];
+    if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
+        [[UserVoice delegate] userVoiceRequestsDismissal];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
+            [[UserVoice delegate] userVoiceWasDismissed];
+        }
     }
 }
 
