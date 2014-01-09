@@ -66,7 +66,7 @@
         _answerHTML = [self objectOrNilForDict:dict key:@"formatted_text"];
         _articleId = [(NSNumber *)[self objectOrNilForDict:dict key:@"id"] integerValue];
         _topicName = [UVUtils decodeHTMLEntities:[[self objectOrNilForDict:dict key:@"topic"] objectForKey:@"name"]];
-        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
+        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"normalized_weight"] integerValue];
     }
     return self;
 }

@@ -43,14 +43,10 @@ static NSInteger interactionIdentifier;
     NSInteger articleResults = 0;
     NSInteger suggestionResults = 0;
     NSInteger index = 0;
-    NSInteger maxWeight = 0;
-    for (id model in results) {
-        maxWeight = MAX(maxWeight, [model weight]);
-    }
     for (id model in results) {
         NSString *prefix = [NSString stringWithFormat:@"results[%d]", (int)index];
         [params setObject:[NSString stringWithFormat:@"%d", (int)index++] forKey:[prefix stringByAppendingString:@"[position]"]];
-        [params setObject:[NSString stringWithFormat:@"%d", (int)(100 * [model weight] / maxWeight)] forKey:[prefix stringByAppendingString:@"[weight]"]];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)[model weight]] forKey:[prefix stringByAppendingString:@"[weight]"]];
         if ([model isKindOfClass:[UVArticle class]]) {
             articleResults += 1;
             UVArticle *article = (UVArticle *)model;

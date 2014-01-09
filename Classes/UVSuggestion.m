@@ -99,7 +99,7 @@
         _text = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"text"]];
         _createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
         _subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
-        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"weight"] integerValue];
+        _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"normalized_weight"] integerValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
         if (statusDict) {
             _status = [statusDict objectForKey:@"name"];
