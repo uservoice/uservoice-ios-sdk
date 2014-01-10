@@ -156,7 +156,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [_delegate performSelector:@selector(dismissUserVoice)];
+    [_delegate performSelector:@selector(dismiss)];
 }
 
 - (void)didReceiveError:(NSError *)error context:(UVRequestContext *)requestContext {

@@ -1,5 +1,8 @@
 ## master ##
 
+* Fix a bug in the metrics code
+* Fix a crash related to launching the sdk without a network connection
+
 ## 3.0.1 (2014-01-08) ##
 
 * Fix an autolayout error related to textviews
