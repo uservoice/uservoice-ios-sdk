@@ -10,6 +10,8 @@ Binary builds of the SDK are available for download:
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
+![InstantAnswers](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-instant-answers-3.0.gif) &nbsp; ![Subscribe to ideas](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-subscribe-3.0.gif)
+
 ## Upgrading from 2.0.x
 
 * You should pass your `UVConfig` to `+[UserVoice initialize:]` shortly after app launch so that we can provide you with accurate usage reports.
