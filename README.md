@@ -1,6 +1,6 @@
-## Overview
+## UserVoice iOS SDK
 
-UserVoice for iOS allows you to embed UserVoice directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
+The UserVoice iOS SDK allows you to integrate a native UserVoice experience directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
 
 To get started, you will need to have a free UserVoice account to connect to. Go to [uservoice.com/mobile/](https://uservoice.com/mobile/) to sign up for free.
 
