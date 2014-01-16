@@ -1,5 +1,7 @@
 ## master ##
 
+# 3.0.2 (2014-01-16) ##
+
 * Fix a crash caused by selecting a search result on the portal screen
 * Fix a bug in the metrics code
 * Fix a crash related to launching the sdk without a network connection
