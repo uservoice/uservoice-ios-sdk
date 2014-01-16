@@ -52,7 +52,9 @@
 - (void)doSearch:(NSTimer *)timer {
     _loading = YES;
     self.runningQuery = _searchText;
-    [UVDeflection setSearchText:_searchText];
+    if (_deflectingType) {
+        [UVDeflection setSearchText:_searchText];
+    }
     [UVArticle getInstantAnswers:_searchText delegate:self];
 }
 
@@ -95,14 +97,15 @@
 }
 
 - (void)pushViewFor:(id)instantAnswer parent:(UIViewController *)parent {
-    [UVDeflection trackDeflection:@"show" deflectingType:_deflectingType deflector:instantAnswer];
+    if (_deflectingType) {
+        [UVDeflection trackDeflection:@"show" deflectingType:_deflectingType deflector:instantAnswer];
+    }
     if ([instantAnswer isMemberOfClass:[UVArticle class]]) {
         UVArticleViewController *next = [UVArticleViewController new];
         next.article = (UVArticle *)instantAnswer;
         next.helpfulPrompt = _articleHelpfulPrompt;
         next.returnMessage = _articleReturnMessage;
         next.deflectingType = _deflectingType;
-        next.instantAnswers = YES;
         [parent.navigationController pushViewController:next animated:YES];
     } else {
         UVSuggestion *suggestion = (UVSuggestion *)instantAnswer;
@@ -110,7 +113,7 @@
         next.helpfulPrompt = _articleHelpfulPrompt;
         next.returnMessage = _articleReturnMessage;
         next.deflectingType = _deflectingType;
-        next.instantAnswers = YES;
+        next.instantAnswers = (_deflectingType != nil);
         [parent.navigationController pushViewController:next animated:YES];
     }
 }

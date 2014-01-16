@@ -84,7 +84,7 @@
 - (void)didSubscribe:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:VOTE_IDEA id:theSuggestion.suggestionId];
     [UVBabayaga track:SUBSCRIBE_IDEA id:theSuggestion.suggestionId];
-    if (_instantAnswers) {
+    if (_deflectingType) {
         [UVDeflection trackDeflection:@"subscribed" deflectingType:_deflectingType deflector:theSuggestion];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_helpfulPrompt
                                                                  delegate:self

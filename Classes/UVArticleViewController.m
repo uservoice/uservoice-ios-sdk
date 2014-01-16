@@ -98,7 +98,7 @@
 
 - (void)yesButtonTapped {
     [UVBabayaga track:VOTE_ARTICLE id:_article.articleId];
-    if (_instantAnswers) {
+    if (_deflectingType) {
         [UVDeflection trackDeflection:@"helpful" deflectingType:_deflectingType deflector:_article];
     }
     if (_helpfulPrompt) {
@@ -118,7 +118,7 @@
 }
 
 - (void)noButtonTapped {
-    if (_instantAnswers) {
+    if (_deflectingType) {
         [UVDeflection trackDeflection:@"not_helpful" deflectingType:_deflectingType deflector:_article];
     }
     if (_helpfulPrompt) {

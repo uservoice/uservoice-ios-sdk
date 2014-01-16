@@ -1,5 +1,6 @@
 ## master ##
 
+* Fix a crash caused by selecting a search result on the portal screen
 * Fix a bug in the metrics code
 * Fix a crash related to launching the sdk without a network connection
 
