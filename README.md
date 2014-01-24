@@ -194,7 +194,7 @@ FAQs
 --------
 
 **What if I only want to collect feedback? What if I only want a contact form?**
-Don’t worry. UserVoice is a modular system and you can link to only the parts of the SDK you want to use. Check out how you can configure [invocation](https://github.com/uservoice/uservoice-iphone-sdk#invocation).
+Don’t worry. UserVoice is a modular system and you can link to only the parts of the SDK you want to use. Check out how you can configure [invocation](#invocation-deep-linking).
 
 **Why would I use this over a Mail link?**
 There are a lot of reasons why UserVoice for iOS is superior to a Mail link:
@@ -216,7 +216,7 @@ UserVoice can handle that as well. Simply setup your existing support email forw
 Nope. UserVoice for iOS follows all of Apple’s policies to make sure you can confidently include our SDK in your app.
 
 **Can I customize the look and feel to match my app?**
-Yes. You can customize the colors of the UserVoice modal dialogs by creating your own stylesheet. Check out the [customization ] (https://github.com/uservoice/uservoice-iphone-sdk#customizing-colors) for more info.
+Yes. You can customize the colors of the UserVoice modal dialogs by creating your own stylesheet. Check out the [customization](#customizing-colors) for more info.
 
 If you have any other questions please contact support@uservoice.com.
 
