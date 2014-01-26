@@ -228,7 +228,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 + (void)applyStylesheetToNavigationController:(UINavigationController *)navigationController {
     UVStyleSheet *styles = [UVStyleSheet instance];
     if (IOS7) {
-        navigationController.navigationBar.tintColor = styles.tintColor;
+        navigationController.navigationBar.tintColor = styles.navigationBarTintColor;
         navigationController.navigationBar.backgroundColor = styles.navigationBarBackgroundColor;
     } else {
         navigationController.navigationBar.tintColor = styles.navigationBarBackgroundColor;
