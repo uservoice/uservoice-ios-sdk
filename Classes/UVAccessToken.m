@@ -43,7 +43,7 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     return [self initWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
                                      [prefs stringForKey:KEY], @"oauth_token",
-                                     [prefs stringForKey:EMAIL], @"oauth_token_secret", nil]];
+                                     [prefs stringForKey:SECRET], @"oauth_token_secret", nil]];
 }
 
 + (id)getAccessTokenWithDelegate:(id)delegate andEmail:(NSString *)email andPassword:(NSString *)password {
