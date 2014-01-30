@@ -22,6 +22,7 @@
 
 @implementation UVInitialLoadManager {
     UIAlertView *_errorAlertView;
+    BOOL _complete;
 }
 
 + (UVInitialLoadManager *)loadWithDelegate:(id)delegate action:(SEL)action {
@@ -47,7 +48,7 @@
 }
 
 - (void)loadUser {
-    if ([UVSession currentSession].config.ssoToken != nil || [UVSession currentSession].config.email != nil) {
+    if ([UVSession currentSession].config.ssoToken != nil || ([UVSession currentSession].config.guid != nil && ![UVAccessToken existsForGuid:[UVSession currentSession].config.guid])) {
         [UVRequestToken getRequestTokenWithDelegate:self];
     } else if ([UVAccessToken exists]) {
         [UVSession currentSession].accessToken = [[UVAccessToken alloc] initWithExisting];
@@ -60,9 +61,12 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 - (void)checkComplete {
-    if (_configDone && _userDone && _topicsDone && _articlesDone && _forumDone) {
-        if (_dismissed) return;
-        [_delegate performSelector:_action];
+    @synchronized(self) {
+        if (_configDone && _userDone && _topicsDone && _articlesDone && _forumDone) {
+            if (_dismissed || _complete) return;
+            _complete = YES;
+            [_delegate performSelector:_action];
+        }
     }
 }
 #pragma clang diagnostic pop
@@ -72,8 +76,11 @@
     [UVSession currentSession].requestToken = token;
     if ([UVSession currentSession].config.ssoToken != nil) {
         [UVUser findOrCreateWithSsoToken:[UVSession currentSession].config.ssoToken delegate:self];
-    } else if ([UVSession currentSession].config.email != nil) {
+    } else if ([UVSession currentSession].config.guid != nil) {
         [UVUser findOrCreateWithGUID:[UVSession currentSession].config.guid andEmail:[UVSession currentSession].config.email andName:[UVSession currentSession].config.displayName andDelegate:self];
+    } else {
+        // this should never happen
+        [self didLoadUser];
     }
 }
 

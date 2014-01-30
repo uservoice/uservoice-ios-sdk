@@ -12,40 +12,38 @@
 #import "UVSession.h"
 #import "UVConfig.h"
 
+#define KEY    @"uv-iphone-k"
+#define SECRET @"uv-iphone-s"
+#define GUID   @"uv-accesstoken-guid"
+
 @implementation UVAccessToken
 
 + (BOOL)exists {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    return [prefs stringForKey:@"uv-iphone-k"] != nil;
+    return [prefs stringForKey:KEY] != nil;
+}
+
++ (BOOL)existsForGuid:(NSString *)guid {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    return [guid isEqualToString:[prefs stringForKey:GUID]] && [prefs stringForKey:KEY] != nil;
 }
 
 - (void)remove {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs removeObjectForKey:@"uv-iphone-k"];
-    [prefs removeObjectForKey:@"uv-iphone-s"];
+    [prefs removeObjectForKey:KEY];
+    [prefs removeObjectForKey:SECRET];
+    [prefs removeObjectForKey:GUID];
     [prefs synchronize];
 }
 
-- (id)revoke:(id) delegate {
-    NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/revoke.json"]];
-
-    id returnValue = [[self class] getPath:path
-                                withParams:nil
-                                    target:delegate
-                                  selector:@selector(didRevokeToken:)
-                                   rootKey:@"token"];
-    [self remove];
-    [UVSession currentSession].user = nil;
-    return returnValue;
-}
 
 // check to see if a token exists on the device and if so load it
 // if not get a request token from the api
 - (id)initWithExisting {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     return [self initWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
-                                     [prefs stringForKey:@"uv-iphone-k"], @"oauth_token",
-                                     [prefs stringForKey:@"uv-iphone-s"], @"oauth_token_secret", nil]];
+                                     [prefs stringForKey:KEY], @"oauth_token",
+                                     [prefs stringForKey:EMAIL], @"oauth_token_secret", nil]];
 }
 
 + (id)getAccessTokenWithDelegate:(id)delegate andEmail:(NSString *)email andPassword:(NSString *)password {
@@ -64,9 +62,12 @@
 
 - (void)persist {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-
-    [prefs setObject:_oauthToken.key forKey:@"uv-iphone-k"];
-    [prefs setObject:_oauthToken.secret forKey:@"uv-iphone-s"];
+    [prefs setObject:_oauthToken.key forKey:KEY];
+    [prefs setObject:_oauthToken.secret forKey:SECRET];
+    // if we were given a guid, use this access token until the guid changes
+    if ([UVSession currentSession].config.guid) {
+        [prefs setObject:[UVSession currentSession].config.guid forKey:GUID];
+    }
     [prefs synchronize];
 }
 
