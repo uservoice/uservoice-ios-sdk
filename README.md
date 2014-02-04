@@ -17,7 +17,7 @@ We also have an [example app](https://github.com/uservoice/uservoice-iphone-exam
 * You should pass your `UVConfig` to `+[UserVoice initialize:]` shortly after app launch so that we can provide you with accurate usage reports.
 * If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.
 * You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.
-* We are dropping support for versions of iOS prior to 6.0.
+* We are dropping support for versions of iOS prior to 6.0. (See note about [iOS versions](#ios-versions))
 
 ## Installation
 
@@ -240,6 +240,20 @@ iOS Versions
 
 * UserVoice for iOS 3.0 is designed for iOS 7 with backwards compatibility for iOS 6
 * To support earlier versions you would have to go back to UserVoice for iOS 2.0
+
+If you want to use UserVoice for iOS 3.0 in your app, but your app also supports iOS 5 or earlier, you will need to tweak your build settings to prevent your app from crashing on launch on old versions of iOS. This is because UserVoice for iOS is typically installed as a static library, and it references classes that are not available on iOS 5. There are 2 options:
+
+* Go into Build Settings for your target and change the Foundation and UIKit frameworks from "Required" to "Optional". This means that every class in those frameworks will be resolved when it is first used rather than on app launch.
+* Alternatively, pull the UserVoice code into a Vendor directly in your project rather than referencing it as a static library.
+
+In either case, you will also need to prevent your users from launching UserVoice on an unsupported version of iOS. Something like this should suffice:
+
+```
+if ([UIDevice currentDevice].systemVersion.floatValue < 6) {
+    // hide button that invokes UserVoice
+}
+```
+
 
 Contributors
 ------------
