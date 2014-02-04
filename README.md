@@ -244,7 +244,7 @@ iOS Versions
 If you want to use UserVoice for iOS 3.0 in your app, but your app also supports iOS 5 or earlier, you will need to tweak your build settings to prevent your app from crashing on launch on old versions of iOS. This is because UserVoice for iOS is typically installed as a static library, and it references classes that are not available on iOS 5. There are 2 options:
 
 * Go into Build Settings for your target and change the Foundation and UIKit frameworks from "Required" to "Optional". This means that every class in those frameworks will be resolved when it is first used rather than on app launch.
-* Alternatively, pull the UserVoice code into a Vendor directly in your project rather than referencing it as a static library.
+* Alternatively, pull the UserVoice code into a Vendor directly in your project rather than referencing it as a static library. This is only an option if your project uses ARC.
 
 In either case, you will also need to prevent your users from launching UserVoice on an unsupported version of iOS. Something like this should suffice:
 
