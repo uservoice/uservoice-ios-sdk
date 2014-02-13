@@ -211,9 +211,6 @@
 		D24BDE6111DAE3FA00B26012 /* UVImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageView.m; sourceTree = "<group>"; };
 		D24BE09D11DB1B7C00B26012 /* UVTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextView.h; sourceTree = "<group>"; };
 		D24BE09E11DB1B7C00B26012 /* UVTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextView.m; sourceTree = "<group>"; };
-		D2605D03144662150029F16B /* uv_default_avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_default_avatar@2x.png"; sourceTree = "<group>"; };
-		D2620C6311B586230053EA4C /* uv_vote_chicklet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_vote_chicklet.png; sourceTree = "<group>"; };
-		D2620C6411B586230053EA4C /* uv_vote_chicklet_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_vote_chicklet_empty.png; sourceTree = "<group>"; };
 		D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D2620EB611B597290053EA4C /* HRFormatJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRFormatJSON.h; sourceTree = "<group>"; };
 		D2620EB711B597290053EA4C /* HRFormatJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRFormatJSON.m; sourceTree = "<group>"; };
@@ -236,7 +233,6 @@
 		D909DD4117CD3CAA00ECE395 /* UVDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDefines.h; sourceTree = "<group>"; };
 		D90A60881857972A00D028DE /* UVTextWithFieldsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextWithFieldsView.h; sourceTree = "<group>"; };
 		D90A60891857972A00D028DE /* UVTextWithFieldsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextWithFieldsView.m; sourceTree = "<group>"; };
-		D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_default_avatar.png; sourceTree = "<group>"; };
 		D92767F915597F3700E17EF1 /* UVArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticle.h; sourceTree = "<group>"; };
 		D92767FA15597F3800E17EF1 /* UVArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticle.m; sourceTree = "<group>"; };
 		D92767FE1559B0E800E17EF1 /* uv_article.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_article.png; sourceTree = "<group>"; };
@@ -272,20 +268,14 @@
 		D986ADED1624C8E5008291AA /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = UserVoice.strings; sourceTree = "<group>"; };
 		D986ADF01624C8E5008291AA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = UserVoice.strings; sourceTree = "<group>"; };
 		D986ADF31624C8E5008291AA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = UserVoice.strings; sourceTree = "<group>"; };
-		D99902C5152B881F00AED6A7 /* uv_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_logo.png; sourceTree = "<group>"; };
-		D99902C6152B881F00AED6A7 /* uv_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_logo@2x.png"; sourceTree = "<group>"; };
 		D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVKeyboardUtils.h; sourceTree = "<group>"; };
 		D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVKeyboardUtils.m; sourceTree = "<group>"; };
-		D99AFAAF1653F2DE0061F50C /* uv_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_x.png; sourceTree = "<group>"; };
-		D99AFAB01653F2DE0061F50C /* uv_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_x@2x.png"; sourceTree = "<group>"; };
 		D99BC43C17EB751500AED65E /* UVDeflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDeflection.h; sourceTree = "<group>"; };
 		D99BC43D17EB751500AED65E /* UVDeflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVDeflection.m; sourceTree = "<group>"; };
 		D9A7A66218185F7500EBF41E /* UVSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVSuccessViewController.h; sourceTree = "<group>"; };
 		D9A7A66318185F7500EBF41E /* UVSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVSuccessViewController.m; sourceTree = "<group>"; };
 		D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVImageCache.h; sourceTree = "<group>"; };
 		D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVImageCache.m; sourceTree = "<group>"; };
-		D9C35BD016697039004FAA89 /* uv_vote_chicklet_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_vote_chicklet_empty@2x.png"; sourceTree = "<group>"; };
-		D9C35BD116697039004FAA89 /* uv_vote_chicklet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_vote_chicklet@2x.png"; sourceTree = "<group>"; };
 		D9C35BD3166E7DB0004FAA89 /* UVTruncatingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTruncatingLabel.h; sourceTree = "<group>"; };
 		D9C35BD4166E7DB0004FAA89 /* UVTruncatingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTruncatingLabel.m; sourceTree = "<group>"; };
 		D9C35BD7166E7E00004FAA89 /* UVCalculatingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCalculatingLabel.h; sourceTree = "<group>"; };
@@ -554,21 +544,11 @@
 				D9CA8FEF14F4110800F98763 /* en.lproj */,
 				D9CA8FF214F4110800F98763 /* fr.lproj */,
 				D92767FF1559B0E900E17EF1 /* uv_article@2x.png */,
-				D2605D03144662150029F16B /* uv_default_avatar@2x.png */,
 				D94427991804A035002F716B /* uv_heart@2x.png */,
 				D92768011559B0E900E17EF1 /* uv_idea@2x.png */,
-				D99902C6152B881F00AED6A7 /* uv_logo@2x.png */,
-				D9C35BD016697039004FAA89 /* uv_vote_chicklet_empty@2x.png */,
-				D9C35BD116697039004FAA89 /* uv_vote_chicklet@2x.png */,
-				D99AFAB01653F2DE0061F50C /* uv_x@2x.png */,
 				D92767FE1559B0E800E17EF1 /* uv_article.png */,
-				D91274AA14ABD9E8003ADF5B /* uv_default_avatar.png */,
 				D94427981804A035002F716B /* uv_heart.png */,
 				D92768001559B0E900E17EF1 /* uv_idea.png */,
-				D99902C5152B881F00AED6A7 /* uv_logo.png */,
-				D2620C6311B586230053EA4C /* uv_vote_chicklet.png */,
-				D2620C6411B586230053EA4C /* uv_vote_chicklet_empty.png */,
-				D99AFAAF1653F2DE0061F50C /* uv_x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -914,8 +894,8 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
@@ -966,8 +946,8 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
@@ -1106,8 +1086,8 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = NO;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
