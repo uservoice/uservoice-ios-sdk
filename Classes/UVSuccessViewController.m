@@ -37,10 +37,10 @@
     button.layer.backgroundColor = [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.3f].CGColor;
     button.layer.cornerRadius = 14.0;
     button.titleLabel.font = [UIFont systemFontOfSize:14];
-    [button setTitle:NSLocalizedStringFromTable(@"Close", @"UserVoice", nil) forState:UIControlStateNormal];
+    [button setTitle:NSLocalizedStringFromTableInBundle(@"Close", @"UserVoice", [UserVoice bundle], nil) forState:UIControlStateNormal];
     [button addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     UILabel *power = [UILabel new];
-    power.text = NSLocalizedStringFromTable(@"Powered by UserVoice", @"UserVoice", nil);
+    power.text = NSLocalizedStringFromTableInBundle(@"Powered by UserVoice", @"UserVoice", [UserVoice bundle], nil);
     power.textColor = [UIColor grayColor];
     power.font = [UIFont systemFontOfSize:13];
     power.textAlignment = NSTextAlignmentCenter;

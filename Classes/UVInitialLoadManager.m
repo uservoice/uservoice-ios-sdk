@@ -7,6 +7,7 @@
 //
 
 #import "UVInitialLoadManager.h"
+#import "UserVoice.h"
 #import "UVHelpTopic.h"
 #import "UVArticle.h"
 #import "UVAccessToken.h"
@@ -181,23 +182,23 @@
             [self loadUser];
             return;
         } else {
-            message = NSLocalizedStringFromTable(@"This application didn't configure UserVoice properly", @"UserVoice", nil);
+            message = NSLocalizedStringFromTableInBundle(@"This application didn't configure UserVoice properly", @"UserVoice", [UserVoice bundle], nil);
         }
     } else if ([UVUtils isConnectionError:error]) {
-        message = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
+        message = NSLocalizedStringFromTableInBundle(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", [UserVoice bundle], nil);
     } else {
-        message = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
+        message = NSLocalizedStringFromTableInBundle(@"Sorry, there was an error in the application.", @"UserVoice", [UserVoice bundle], nil);
     }
     
     if (_errorAlertView) {
         return;
     }
     
-    _errorAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+    _errorAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Error", @"UserVoice", [UserVoice bundle], nil)
                                                  message:message
                                                 delegate:self
                                        cancelButtonTitle:nil
-                                       otherButtonTitles:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil), nil];
+                                       otherButtonTitles:NSLocalizedStringFromTableInBundle(@"OK", @"UserVoice", [UserVoice bundle], nil), nil];
     [_errorAlertView show];
 }
 

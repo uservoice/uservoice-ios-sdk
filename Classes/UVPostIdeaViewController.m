@@ -31,15 +31,15 @@
     view.frame = [self contentFrame];
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
-    _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to post your own idea?", @"UserVoice", nil);
-    _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, I want to post my idea", @"UserVoice", nil);
+    _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTableInBundle(@"Do you still want to post your own idea?", @"UserVoice", [UserVoice bundle], nil);
+    _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTableInBundle(@"Yes, I want to post my idea", @"UserVoice", [UserVoice bundle], nil);
     _instantAnswerManager.deflectingType = @"Suggestion";
 
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Post an idea", @"UserVoice", nil);
+    self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Post an idea", @"UserVoice", [UserVoice bundle], nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
     _fieldsView = [UVTextWithFieldsView new];
-    _titleField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Title", @"UserVoice", nil)];
+    _titleField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Title", @"UserVoice", [UserVoice bundle], nil)];
     if (_initialText) {
         _titleField.text = _initialText;
     }
@@ -48,7 +48,7 @@
         self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
     }];
 
-    _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Description (optional)", @"UserVoice", nil);
+    _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Description (optional)", @"UserVoice", [UserVoice bundle], nil);
 
     UIView *sep = [UIView new];
     sep.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.f];
@@ -58,7 +58,7 @@
 
     UILabel *desc = [UILabel new];
     desc.backgroundColor = [UIColor clearColor];
-    desc.text = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
+    desc.text = NSLocalizedStringFromTableInBundle(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", [UserVoice bundle], nil);
     desc.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
     desc.numberOfLines = 0;
     desc.font = [UIFont systemFontOfSize:12];
@@ -103,12 +103,12 @@
                                                        constant:0];
     self.view = view;
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(dismiss)];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Next", @"UserVoice", [UserVoice bundle], nil)
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(next)];
@@ -186,23 +186,23 @@
 }
 
 - (void)hideActivityIndicator {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(next)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Next", @"UserVoice", [UserVoice bundle], nil) style:UIBarButtonItemStyleDone target:self action:@selector(next)];
 }
 
 - (void)skipInstantAnswers {
     _detailsController = [UVDetailsFormViewController new];
     _detailsController.delegate = self;
-    _detailsController.helpText = NSLocalizedStringFromTable(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", nil);
-    _detailsController.sendTitle = NSLocalizedStringFromTable(@"Post", @"UserVoice", nil);
+    _detailsController.helpText = NSLocalizedStringFromTableInBundle(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", [UserVoice bundle], nil);
+    _detailsController.sendTitle = NSLocalizedStringFromTableInBundle(@"Post", @"UserVoice", [UserVoice bundle], nil);
     UVForum *forum = [UVSession currentSession].forum;
     if (forum.categories && forum.categories.count > 0) {
         NSMutableArray *values = [NSMutableArray array];
-        [values addObject:@{ @"id" : @"", @"label" : NSLocalizedStringFromTable(@"(none)", @"UserVoice", nil) }];
+        [values addObject:@{ @"id" : @"", @"label" : NSLocalizedStringFromTableInBundle(@"(none)", @"UserVoice", [UserVoice bundle], nil) }];
         for (UVCategory *category in forum.categories) {
             [values addObject:@{ @"id" : [NSString stringWithFormat:@"%d", (int)category.categoryId], @"label" : category.name }];
         }
         _detailsController.fields = @[ @{
-            @"name" : NSLocalizedStringFromTable(@"Category", @"UserVoice", nil),
+            @"name" : NSLocalizedStringFromTableInBundle(@"Category", @"UserVoice", [UserVoice bundle], nil),
             @"values" : values
         } ];
         _detailsController.selectedFieldValues = [NSMutableDictionary dictionary];
@@ -215,7 +215,7 @@
     self.userEmail = email;
     self.userName = name;
     if (email.length == 0) {
-        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
+        [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter your email address before submitting your ticket.", @"UserVoice", [UserVoice bundle], nil)];
     } else {
         [_detailsController showActivityIndicator];
         _selectedCategoryId = [fields[@"Category"][@"id"] integerValue];
@@ -229,7 +229,7 @@
         [_detailsController hideActivityIndicator];
     } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
         [_detailsController hideActivityIndicator];
-        [self alertError:NSLocalizedStringFromTable(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", nil)];
+        [self alertError:NSLocalizedStringFromTableInBundle(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", [UserVoice bundle], nil)];
     } else {
         [super didReceiveError:error];
     }
@@ -247,8 +247,8 @@
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:SUBMIT_IDEA];
     UVSuccessViewController *next = [UVSuccessViewController new];
-    next.titleText = NSLocalizedStringFromTable(@"Thank you!", @"UserVoice", nil);
-    next.text = NSLocalizedStringFromTable(@"Your feedback has been posted to our feedback forum.", @"UserVoice", nil);
+    next.titleText = NSLocalizedStringFromTableInBundle(@"Thank you!", @"UserVoice", [UserVoice bundle], nil);
+    next.text = NSLocalizedStringFromTableInBundle(@"Your feedback has been posted to our feedback forum.", @"UserVoice", [UserVoice bundle], nil);
     [self.navigationController setViewControllers:@[next] animated:YES];
     _sending = NO;
 }

@@ -40,6 +40,9 @@
 // Get the current <UVDelegate>
 + (id<UVDelegate>)delegate;
 
+// Get the UserVoice resource bundle
++ (NSBundle *)bundle;
+
 // Get the current version number of the iOS SDK
 + (NSString *)version;
 

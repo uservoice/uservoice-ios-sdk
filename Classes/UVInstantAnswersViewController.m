@@ -17,8 +17,8 @@
 
 - (void)loadView {
     [self setupGroupedTableView];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Are any of these helpful?", @"UserVoice", nil);
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Skip", @"UserVoice", nil)
+    self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Are any of these helpful?", @"UserVoice", [UserVoice bundle], nil);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Skip", @"UserVoice", [UserVoice bundle], nil)
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(next)];
@@ -44,7 +44,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [self sectionIsArticles:section] ? NSLocalizedStringFromTable(@"Related articles", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Related feedback", @"UserVoice", nil);
+    return [self sectionIsArticles:section] ? NSLocalizedStringFromTableInBundle(@"Related articles", @"UserVoice", [UserVoice bundle], nil) : NSLocalizedStringFromTableInBundle(@"Related feedback", @"UserVoice", [UserVoice bundle], nil);
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

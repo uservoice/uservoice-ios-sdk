@@ -7,6 +7,7 @@
 //
 
 #import "UVSigninManager.h"
+#import "UserVoice.h"
 #import "UVSession.h"
 #import "UVUser.h"
 #import "UVAccessToken.h"
@@ -29,12 +30,12 @@
     _state = STATE_EMAIL;
 
     _alertView = [UIAlertView new];
-    _alertView.title = NSLocalizedStringFromTable(@"Enter your email", @"UserVoice", nil);
+    _alertView.title = NSLocalizedStringFromTableInBundle(@"Enter your email", @"UserVoice", [UserVoice bundle], nil);
     _alertView.delegate = self;
     if ([_alertView respondsToSelector:@selector(setAlertViewStyle:)])
         _alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Done", @"UserVoice", nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Done", @"UserVoice", [UserVoice bundle], nil)];
     UITextField *textField = [_alertView textFieldAtIndex:0];
     textField.keyboardType = UIKeyboardTypeEmailAddress;
     textField.returnKeyType = UIReturnKeyDone;
@@ -54,14 +55,14 @@
     _state = STATE_PASSWORD;
     
     _alertView = [UIAlertView new];
-    _alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Enter UserVoice password for %@", @"UserVoice", nil), _email];
+    _alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Enter UserVoice password for %@", @"UserVoice", [UserVoice bundle], nil), _email];
     _alertView.delegate = self;
     
     if ([_alertView respondsToSelector:@selector(setAlertViewStyle:)])
         _alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
     
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Sign in", @"UserVoice", nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Sign in", @"UserVoice", [UserVoice bundle], nil)];
     
     UITextField *textField = [_alertView textFieldAtIndex:0];
     textField.returnKeyType = UIReturnKeyDone;
@@ -76,11 +77,11 @@
     _state = STATE_FAILED;
     
     _alertView = [UIAlertView new];
-    _alertView.title = NSLocalizedStringFromTable(@"There was a problem logging you in.", @"UserVoice", nil);
+    _alertView.title = NSLocalizedStringFromTableInBundle(@"There was a problem logging you in.", @"UserVoice", [UserVoice bundle], nil);
     _alertView.delegate = self;
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Try again", @"UserVoice", nil)];
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Forgot password", @"UserVoice", nil)];
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Try again", @"UserVoice", [UserVoice bundle], nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Forgot password", @"UserVoice", [UserVoice bundle], nil)];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)];
     [_alertView show];
 }
 
@@ -165,8 +166,8 @@
     [self clearAlertViewDelegate];
 
     _alertView = [UIAlertView new];
-    _alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Password reset email sent to %@", @"UserVoice", nil), _email];
-    [_alertView addButtonWithTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)];
+    _alertView.title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Password reset email sent to %@", @"UserVoice", [UserVoice bundle], nil), _email];
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"OK", @"UserVoice", [UserVoice bundle], nil)];
     [_alertView show];
     
     [self invokeDidFail];

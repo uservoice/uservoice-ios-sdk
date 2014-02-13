@@ -14,7 +14,6 @@
 #import "UVUser.h"
 #import "UVStyleSheet.h"
 #import "UVImageCache.h"
-#import "UserVoice.h"
 #import "UVAccessToken.h"
 #import "UVSigninManager.h"
 #import "UVKeyboardUtils.h"
@@ -114,10 +113,10 @@
 }
 
 - (void)alertError:(NSString *)message {
-    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"UserVoice", nil)
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Error", @"UserVoice", [UserVoice bundle], nil)
                                 message:message
                                delegate:nil
-                      cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"UserVoice", nil)
+                      cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"OK", @"UserVoice", [UserVoice bundle], nil)
                       otherButtonTitles:nil] show];
 }
 
@@ -125,7 +124,7 @@
     NSString *msg = nil;
     [self hideActivityIndicator];
     if ([UVUtils isConnectionError:error]) {
-        msg = NSLocalizedStringFromTable(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", nil);
+        msg = NSLocalizedStringFromTableInBundle(@"There appears to be a problem with your network connection, please check your connectivity and try again.", @"UserVoice", [UserVoice bundle], nil);
     } else {
         NSDictionary *userInfo = [error userInfo];
         for (NSString *key in [userInfo allKeys]) {
@@ -133,7 +132,7 @@
                 continue;
             NSString *displayKey = nil;
             if ([key isEqualToString:@"display_name"])
-                displayKey = NSLocalizedStringFromTable(@"User name", @"UserVoice", nil);
+                displayKey = NSLocalizedStringFromTableInBundle(@"User name", @"UserVoice", [UserVoice bundle], nil);
             else
                 displayKey = [[key stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
 
@@ -144,20 +143,20 @@
                 msg = [NSString stringWithFormat:@"%@ %@", displayKey, [userInfo valueForKey:key]];
         }
         if (!msg)
-            msg = NSLocalizedStringFromTable(@"Sorry, there was an error in the application.", @"UserVoice", nil);
+            msg = NSLocalizedStringFromTableInBundle(@"Sorry, there was an error in the application.", @"UserVoice", [UserVoice bundle], nil);
     }
     [self alertError:msg];
 }
 
 - (void)initNavigationItem {
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
+    self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Feedback", @"UserVoice", [UserVoice bundle], nil);
 
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Back", @"UserVoice", nil)
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Back", @"UserVoice", [UserVoice bundle], nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
 
-    _exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+    _exitButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
                                                    style:UIBarButtonItemStylePlain
                                                   target:self
                                                   action:@selector(dismiss)];
@@ -170,7 +169,7 @@
     UIView *power = [UIView new];
     power.frame = CGRectMake(0, 0, 0, 80);
     UILabel *uv = [UILabel new];
-    uv.text = NSLocalizedStringFromTable(@"Powered by UserVoice", @"UserVoice", nil);
+    uv.text = NSLocalizedStringFromTableInBundle(@"Powered by UserVoice", @"UserVoice", [UserVoice bundle], nil);
     uv.font = [UIFont systemFontOfSize:13];
     uv.textColor = [UIColor grayColor];
     uv.backgroundColor = [UIColor clearColor];

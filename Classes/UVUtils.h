@@ -32,5 +32,7 @@
 + (NSString *)colorToCSS:(UIColor *)color;
 + (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings finalCondition:(BOOL)includeFinalConstraint finalConstraint:(NSString *)finalConstraint;
 + (void)configureView:(UIView *)superview subviews:(NSDictionary *)viewsDict constraints:(NSArray *)constraintStrings;
++ (UIImage *)imageNamed:(NSString *)name;
++ (UIImageView *)imageViewWithImageNamed:(NSString *)name;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "UVTruncatingLabel.h"
+#import "UserVoice.h"
 #import "UVDefines.h"
 
 @implementation UVTruncatingLabel {
@@ -19,7 +20,7 @@
         self.userInteractionEnabled = YES;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandAndNotify)]];
         _moreLabel = [UILabel new];
-        _moreLabel.text = NSLocalizedStringFromTable(@"more", @"UserVoice", nil);
+        _moreLabel.text = NSLocalizedStringFromTableInBundle(@"more", @"UserVoice", [UserVoice bundle], nil);
         _moreLabel.font = [UIFont systemFontOfSize:12];
         _moreLabel.backgroundColor = [UIColor clearColor];
         if (IOS7) {

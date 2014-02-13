@@ -29,7 +29,7 @@
 
     CGFloat footerHeight = 46;
     _webView = [UIWebView new];
-    NSString *section = _article.topicName ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Knowledge Base", @"UserVoice", nil), _article.topicName] : NSLocalizedStringFromTable(@"Knowledge base", @"UserVoice", nil);
+    NSString *section = _article.topicName ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTableInBundle(@"Knowledge Base", @"UserVoice", [UserVoice bundle], nil), _article.topicName] : NSLocalizedStringFromTableInBundle(@"Knowledge base", @"UserVoice", [UserVoice bundle], nil);
     NSString *linkColor;
     if (IOS7) {
         linkColor = [UVUtils colorToCSS:self.view.tintColor];
@@ -52,18 +52,18 @@
     UIView *border = [UIView new];
     border.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
     UILabel *label = [UILabel new];
-    label.text = NSLocalizedStringFromTable(@"Was this article helpful?", @"UserVoice", nil);
+    label.text = NSLocalizedStringFromTableInBundle(@"Was this article helpful?", @"UserVoice", [UserVoice bundle], nil);
     label.font = [UIFont systemFontOfSize:13];
     label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
     label.backgroundColor = [UIColor clearColor];
     _footerLabel = label;
     UIButton *yes = [UIButton new];
-    [yes setTitle:NSLocalizedStringFromTable(@"Yes!", @"UserVoice", nil) forState:UIControlStateNormal];
+    [yes setTitle:NSLocalizedStringFromTableInBundle(@"Yes!", @"UserVoice", [UserVoice bundle], nil) forState:UIControlStateNormal];
     [yes setTitleColor:(IOS7 ? yes.tintColor : [UIColor colorWithRed:0.0 green:0.5 blue:1.0 alpha:1.0]) forState:UIControlStateNormal];
     [yes addTarget:self action:@selector(yesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     _yes = yes;
     UIButton *no = [UIButton new];
-    [no setTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil) forState:UIControlStateNormal];
+    [no setTitle:NSLocalizedStringFromTableInBundle(@"No", @"UserVoice", [UserVoice bundle], nil) forState:UIControlStateNormal];
     [no setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [no addTarget:self action:@selector(noButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     _no = no;
@@ -106,14 +106,14 @@
         // Yes, go to my message
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_helpfulPrompt
                                                                  delegate:self
-                                                        cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                        cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
                                                    destructiveButtonTitle:nil
-                                                        otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil];
+                                                        otherButtonTitles:_returnMessage, NSLocalizedStringFromTableInBundle(@"No, I'm done", @"UserVoice", [UserVoice bundle], nil), nil];
         [actionSheet showInView:self.view];
     } else {
         _yes.hidden = YES;
         _no.hidden = YES;
-        _footerLabel.text = NSLocalizedStringFromTable(@"Great! Glad we could help.", @"UserVoice", nil);
+        _footerLabel.text = NSLocalizedStringFromTableInBundle(@"Great! Glad we could help.", @"UserVoice", [UserVoice bundle], nil);
     }
 }
 
@@ -124,11 +124,11 @@
     if (_helpfulPrompt) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTable(@"Would you like to contact us?", @"UserVoice", nil)
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Would you like to contact us?", @"UserVoice", [UserVoice bundle], nil)
                                                                  delegate:self
-                                                        cancelButtonTitle:NSLocalizedStringFromTable(@"No", @"UserVoice", nil)
+                                                        cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"No", @"UserVoice", [UserVoice bundle], nil)
                                                    destructiveButtonTitle:nil
-                                                        otherButtonTitles:NSLocalizedStringFromTable(@"Yes", @"UserVoice", nil), nil];
+                                                        otherButtonTitles:NSLocalizedStringFromTableInBundle(@"Yes", @"UserVoice", [UserVoice bundle], nil), nil];
         [actionSheet showInView:self.view];
     }
 }

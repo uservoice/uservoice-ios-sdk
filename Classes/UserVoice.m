@@ -20,6 +20,9 @@
 
 @implementation UserVoice
 
+static id<UVDelegate> userVoiceDelegate;
+static NSBundle *userVoiceBundle;
+
 + (void)initialize:(UVConfig *)config {
     [[UVSession currentSession] clear];
     [UVBabayaga instance].userTraits = [config traits];
@@ -31,6 +34,19 @@
 
 + (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
     [UVSession currentSession].clientConfig = clientConfig;
+}
+
++ (NSBundle *)bundle {
+    if (!userVoiceBundle) {
+        NSURL *url = [[NSBundle mainBundle] URLForResource:@"UserVoice" withExtension:@"bundle"];
+        if (url) {
+            userVoiceBundle = [NSBundle bundleWithURL:url];
+        }
+    }
+    if (!userVoiceBundle) {
+        userVoiceBundle = [NSBundle mainBundle];
+    }
+    return userVoiceBundle;
 }
 
 + (UINavigationController *)getNavigationControllerForUserVoiceControllers:(NSArray *)viewControllers {
@@ -129,7 +145,6 @@
     [UVBabayaga track:event];
 }
 
-static id<UVDelegate> userVoiceDelegate;
 + (void)setDelegate:(id<UVDelegate>)delegate {
     userVoiceDelegate = delegate;
 }

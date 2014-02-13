@@ -20,8 +20,8 @@
 - (void)loadView {
     [self registerForKeyboardNotifications];
     [self setupGroupedTableView];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Additional Details", @"UserVoice", nil);
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(_sendTitle, @"UserVoice", nil)
+    self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Additional Details", @"UserVoice", [UserVoice bundle], nil);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:_sendTitle
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(send)];
@@ -124,12 +124,12 @@
     NSDictionary *field = _fields[indexPath.row];
     UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
     UILabel *value = (UILabel *)[cell viewWithTag:VALUE];
-    label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field[@"name"]] : field[@"name"];
+    label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ (required)", @"UserVoice", [UserVoice bundle], nil), field[@"name"]] : field[@"name"];
     if (_selectedFieldValues[field[@"name"]]) {
         value.text = _selectedFieldValues[field[@"name"]][@"label"];
         value.textColor = [UIColor blackColor];
     } else {
-        value.text = NSLocalizedStringFromTable(@"select", @"UserVoice", nil);
+        value.text = NSLocalizedStringFromTableInBundle(@"select", @"UserVoice", [UserVoice bundle], nil);
         value.textColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f];
     }
 }
@@ -145,7 +145,7 @@
     text.tag = TEXT;
     text.borderStyle = UITextBorderStyleNone;
     text.returnKeyType = UIReturnKeyDone;
-    text.placeholder = NSLocalizedStringFromTable(@"enter value", @"UserVoice", nil);
+    text.placeholder = NSLocalizedStringFromTableInBundle(@"enter value", @"UserVoice", [UserVoice bundle], nil);
     [self configureView:cell.contentView
                subviews:NSDictionaryOfVariableBindings(label, text)
             constraints:@[@"|-16-[label]-|", @"|-16-[text]-|", @"V:|-10-[label]-6-[text]"]];
@@ -155,7 +155,7 @@
     NSDictionary *field = _fields[indexPath.row];
     UILabel *label = (UILabel *)[cell viewWithTag:LABEL];
     UITextField *text = (UITextField *)[cell viewWithTag:TEXT];
-    label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ (required)", @"UserVoice", nil), field[@"name"]] : field[@"name"];
+    label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ (required)", @"UserVoice", [UserVoice bundle], nil), field[@"name"]] : field[@"name"];
     text.text = _selectedFieldValues[field[@"name"]][@"label"];
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:text queue:nil usingBlock:^(NSNotification *note) {
         _selectedFieldValues[field[@"name"]] = @{ @"id" : text.text, @"label" : text.text};
@@ -163,7 +163,7 @@
 }
 
 - (void)initCellForEmail:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.emailField = [self configureView:cell.contentView label:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil)];
+    self.emailField = [self configureView:cell.contentView label:NSLocalizedStringFromTableInBundle(@"Email", @"UserVoice", [UserVoice bundle], nil) placeholder:NSLocalizedStringFromTableInBundle(@"(required)", @"UserVoice", [UserVoice bundle], nil)];
     _emailField.keyboardType = UIKeyboardTypeEmailAddress;
     _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -171,7 +171,7 @@
 }
 
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    self.nameField = [self configureView:cell.contentView label:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil) placeholder:NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil)];
+    self.nameField = [self configureView:cell.contentView label:NSLocalizedStringFromTableInBundle(@"Name", @"UserVoice", [UserVoice bundle], nil) placeholder:NSLocalizedStringFromTableInBundle(@"“Anonymous”", @"UserVoice", [UserVoice bundle], nil)];
     _nameField.text = self.userName;
 }
 
@@ -188,7 +188,7 @@
 }
 
 - (void)hideActivityIndicator {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(_sendTitle, @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(send)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:_sendTitle style:UIBarButtonItemStyleDone target:self action:@selector(send)];
 }
 
 

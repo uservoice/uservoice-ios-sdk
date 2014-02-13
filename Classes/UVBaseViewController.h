@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserVoice.h"
 #import "UVCallback.h"
 #import "UVSigninManager.h"
 #import "UVDefines.h"

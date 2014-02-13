@@ -47,7 +47,7 @@
                 [self showActivityIndicator];
                 [_signinManager signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
             } else {
-                [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your comment.", @"UserVoice", nil)];
+                [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter your email address before submitting your comment.", @"UserVoice", [UserVoice bundle], nil)];
             }
         } else {
             [self doComment];
@@ -66,7 +66,7 @@
 }
 
 - (void)hideActivityIndicator {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(commentButtonTapped)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Comment", @"UserVoice", [UserVoice bundle], nil) style:UIBarButtonItemStyleDone target:self action:@selector(commentButtonTapped)];
 }
 
 - (void)doComment {
@@ -85,23 +85,23 @@
 
 - (void)loadView {
     [super loadView];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Add a comment", @"UserVoice", nil);
+    self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Add a comment", @"UserVoice", [UserVoice bundle], nil);
     UIView *view = [UIView new];
     view.frame = [self contentFrame];
     view.backgroundColor = [UIColor whiteColor];
 
     _fieldsView = [UVTextWithFieldsView new];
-    _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Write a comment...", @"UserVoice", nil);
+    _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Write a comment...", @"UserVoice", [UserVoice bundle], nil);
     if (![UVSession currentSession].user) {
-        _emailField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Email", @"UserVoice", nil)];
-        _emailField.placeholder = NSLocalizedStringFromTable(@"(required)", @"UserVoice", nil);
+        _emailField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Email", @"UserVoice", [UserVoice bundle], nil)];
+        _emailField.placeholder = NSLocalizedStringFromTableInBundle(@"(required)", @"UserVoice", [UserVoice bundle], nil);
         _emailField.keyboardType = UIKeyboardTypeEmailAddress;
         _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
         _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _emailField.text = self.userEmail;
 
-        _nameField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTable(@"Name", @"UserVoice", nil)];
-        _nameField.placeholder = NSLocalizedStringFromTable(@"“Anonymous”", @"UserVoice", nil);
+        _nameField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Name", @"UserVoice", [UserVoice bundle], nil)];
+        _nameField.placeholder = NSLocalizedStringFromTableInBundle(@"“Anonymous”", @"UserVoice", [UserVoice bundle], nil);
         _nameField.text = self.userName;
     }
 
@@ -110,12 +110,12 @@
             constraints:@[@"|[_fieldsView]|", @"V:|[_fieldsView]|"]];
 
     self.view = view;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(dismiss)];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Comment", @"UserVoice", nil)
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Comment", @"UserVoice", [UserVoice bundle], nil)
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(commentButtonTapped)];

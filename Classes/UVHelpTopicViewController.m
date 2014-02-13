@@ -70,7 +70,7 @@
 }
 
 - (void)initCellForContact:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
+    cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Send us a message", @"UserVoice", [UserVoice bundle], nil);
     if (IOS7) {
         cell.textLabel.textColor = cell.textLabel.tintColor;
     }
@@ -122,7 +122,7 @@
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UILabel *label = (UILabel *)[cell viewWithTag:LOADING];
-    label.text = _loading ? NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
+    label.text = _loading ? NSLocalizedStringFromTableInBundle(@"Loading...", @"UserVoice", [UserVoice bundle], nil) : NSLocalizedStringFromTableInBundle(@"Load more", @"UserVoice", [UserVoice bundle], nil);
 }
 
 - (void)showActivityIndicator {
@@ -179,7 +179,7 @@
         [UVArticle getArticlesWithTopicId:_topic.topicId page:1 delegate:self];
         _articles = [NSMutableArray new];
     } else {
-        self.navigationItem.title = NSLocalizedStringFromTable(@"All Articles", @"UserVoice", nil);
+        self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"All Articles", @"UserVoice", [UserVoice bundle], nil);
         _articles = [[UVSession currentSession].articles mutableCopy];
         [_tableView reloadData];
     }

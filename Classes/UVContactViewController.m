@@ -34,27 +34,27 @@
     [self registerForKeyboardNotifications];
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
-    _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTable(@"Do you still want to contact us?", @"UserVoice", nil);
-    _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTable(@"Yes, go to my message", @"UserVoice", nil);
+    _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTableInBundle(@"Do you still want to contact us?", @"UserVoice", [UserVoice bundle], nil);
+    _instantAnswerManager.articleReturnMessage = NSLocalizedStringFromTableInBundle(@"Yes, go to my message", @"UserVoice", [UserVoice bundle], nil);
     _instantAnswerManager.deflectingType = @"Ticket";
 
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Send us a message", @"UserVoice", nil);
+    self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Send us a message", @"UserVoice", [UserVoice bundle], nil);
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
     // using a fields view with no fields extra still gives us better scroll handling
     _fieldsView = [UVTextWithFieldsView new];
-    _fieldsView.textView.placeholder = NSLocalizedStringFromTable(@"Give feedback or ask for help...", @"UserVoice", nil);
+    _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Give feedback or ask for help...", @"UserVoice", [UserVoice bundle], nil);
     _fieldsView.textViewDelegate = self;
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(_fieldsView)
             constraints:@[@"|[_fieldsView]|", @"V:|[_fieldsView]|"]];
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(requestDismissal)];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil)
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Next", @"UserVoice", [UserVoice bundle], nil)
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(next)];
@@ -101,18 +101,18 @@
 }
 
 - (void)hideActivityIndicator {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Next", @"UserVoice", nil) style:UIBarButtonItemStyleDone target:self action:@selector(next)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Next", @"UserVoice", [UserVoice bundle], nil) style:UIBarButtonItemStyleDone target:self action:@selector(next)];
 }
 
 - (void)skipInstantAnswers {
     _detailsController = [UVDetailsFormViewController new];
     _detailsController.delegate = self;
-    _detailsController.sendTitle = NSLocalizedStringFromTable(@"Send", @"UserVoice", nil);
+    _detailsController.sendTitle = NSLocalizedStringFromTableInBundle(@"Send", @"UserVoice", [UserVoice bundle], nil);
     NSMutableArray *fields = [NSMutableArray array];
     for (UVCustomField *field in [UVSession currentSession].clientConfig.customFields) {
         NSMutableArray *values = [NSMutableArray array];
         if (!field.isRequired && field.isPredefined)
-            [values addObject:@{@"id" : @"", @"label" : NSLocalizedStringFromTable(@"(none)", @"UserVoice", nil)}];
+            [values addObject:@{@"id" : @"", @"label" : NSLocalizedStringFromTableInBundle(@"(none)", @"UserVoice", [UserVoice bundle], nil)}];
         for (NSString *value in field.values) {
             [values addObject:@{@"id" : value, @"label" : value}];
         }
@@ -150,9 +150,9 @@
     self.userEmail = email;
     self.userName = name;
     if (![UVSession currentSession].user && email.length == 0) {
-        [self alertError:NSLocalizedStringFromTable(@"Please enter your email address before submitting your ticket.", @"UserVoice", nil)];
+        [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter your email address before submitting your ticket.", @"UserVoice", [UserVoice bundle], nil)];
     } else if (![self validateCustomFields:customFields]) {
-        [self alertError:NSLocalizedStringFromTable(@"Please fill out all required fields.", @"UserVoice", nil)];
+        [self alertError:NSLocalizedStringFromTableInBundle(@"Please fill out all required fields.", @"UserVoice", [UserVoice bundle], nil)];
     } else {
         [_detailsController showActivityIndicator];
         _sending = YES;
@@ -164,8 +164,8 @@
     [self clearDraft];
     [UVBabayaga track:SUBMIT_TICKET];
     UVSuccessViewController *next = [UVSuccessViewController new];
-    next.titleText = NSLocalizedStringFromTable(@"Message sent!", @"UserVoice", nil);
-    next.text = NSLocalizedStringFromTable(@"We'll be in touch.", @"UserVoice", nil);
+    next.titleText = NSLocalizedStringFromTableInBundle(@"Message sent!", @"UserVoice", [UserVoice bundle], nil);
+    next.text = NSLocalizedStringFromTableInBundle(@"We'll be in touch.", @"UserVoice", [UserVoice bundle], nil);
     [self.navigationController setViewControllers:@[next] animated:YES];
 }
 
@@ -178,9 +178,9 @@
 - (void)showSaveActionSheet {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
-                                                    cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
-                                               destructiveButtonTitle:NSLocalizedStringFromTable(@"Don't save", @"UserVoice", nil)
-                                                    otherButtonTitles:NSLocalizedStringFromTable(@"Save draft", @"UserVoice", nil), nil];
+                                                    cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
+                                               destructiveButtonTitle:NSLocalizedStringFromTableInBundle(@"Don't save", @"UserVoice", [UserVoice bundle], nil)
+                                                    otherButtonTitles:NSLocalizedStringFromTableInBundle(@"Save draft", @"UserVoice", [UserVoice bundle], nil), nil];
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];

@@ -21,6 +21,7 @@
 #import "UVBabayaga.h"
 #import "UVDeflection.h"
 #import "UVCategory.h"
+#import "UVUtils.h"
 
 #define MARGIN 15
 
@@ -88,9 +89,9 @@
         [UVDeflection trackDeflection:@"subscribed" deflectingType:_deflectingType deflector:theSuggestion];
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_helpfulPrompt
                                                                  delegate:self
-                                                        cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"UserVoice", nil)
+                                                        cancelButtonTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
                                                    destructiveButtonTitle:nil
-                                                        otherButtonTitles:_returnMessage, NSLocalizedStringFromTable(@"No, I'm done", @"UserVoice", nil), nil];
+                                                        otherButtonTitles:_returnMessage, NSLocalizedStringFromTableInBundle(@"No, I'm done", @"UserVoice", [UserVoice bundle], nil), nil];
         [actionSheet showInView:self.view];
     }
     [self updateSuggestion:theSuggestion];
@@ -109,9 +110,9 @@
 
 - (void)updateSubscriberCount {
     if (_suggestion.subscriberCount == 1) {
-        _subscriberCount.text = NSLocalizedStringFromTable(@"1 person", @"UserVoice", nil);
+        _subscriberCount.text = NSLocalizedStringFromTableInBundle(@"1 person", @"UserVoice", [UserVoice bundle], nil);
     } else {
-        _subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%d people", @"UserVoice", nil), _suggestion.subscriberCount];
+        _subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%d people", @"UserVoice", [UserVoice bundle], nil), _suggestion.subscriberCount];
     }
 }
 
@@ -218,13 +219,13 @@
 
 - (void)customizeCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UILabel *label = (UILabel *)[cell viewWithTag:LOADING];
-    label.text = _loading ? NSLocalizedStringFromTable(@"Loading...", @"UserVoice", nil) : NSLocalizedStringFromTable(@"Load more", @"UserVoice", nil);
+    label.text = _loading ? NSLocalizedStringFromTableInBundle(@"Loading...", @"UserVoice", [UserVoice bundle], nil) : NSLocalizedStringFromTableInBundle(@"Load more", @"UserVoice", [UserVoice bundle], nil);
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     UILabel *category = [UILabel new];
     category.font = [UIFont systemFontOfSize:13];
-    category.text = _suggestion.category.name ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil), _suggestion.category.name] : NSLocalizedStringFromTable(@"Feedback", @"UserVoice", nil);
+    category.text = _suggestion.category.name ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTableInBundle(@"Feedback", @"UserVoice", [UserVoice bundle], nil), _suggestion.category.name] : NSLocalizedStringFromTableInBundle(@"Feedback", @"UserVoice", [UserVoice bundle], nil);
     category.adjustsFontSizeToFitWidth = YES;
     category.minimumScaleFactor = 0.5;
     category.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
@@ -331,7 +332,7 @@
 }
 
 - (void)initCellForAddComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.textLabel.text = NSLocalizedStringFromTable(@"Add a comment", @"UserVoice", nil);
+    cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Add a comment", @"UserVoice", [UserVoice bundle], nil);
     if (IOS7) {
         cell.textLabel.textColor = cell.textLabel.tintColor;
     }
@@ -439,16 +440,16 @@
         people.backgroundColor = [UIColor clearColor];
         _subscriberCount = people;
 
-        UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
+        UIImageView *heart = [UVUtils imageViewWithImageNamed:@"uv_heart.png"];
 
         UILabel *this = [UILabel new];
-        this.text = NSLocalizedStringFromTable(@"this idea", @"UserVoice", nil);
+        this.text = NSLocalizedStringFromTableInBundle(@"this idea", @"UserVoice", [UserVoice bundle], nil);
         this.font = people.font;
         this.backgroundColor = [UIColor clearColor];
         this.textColor = people.textColor;
 
         UIButton *want = [UIButton new];
-        [want setTitle:NSLocalizedStringFromTable(@"I want this", @"UserVoice", nil) forState:UIControlStateNormal];
+        [want setTitle:NSLocalizedStringFromTableInBundle(@"I want this", @"UserVoice", [UserVoice bundle], nil) forState:UIControlStateNormal];
         [want setTitleColor:want.tintColor forState:UIControlStateNormal];
         [want addTarget:self action:@selector(subscribe) forControlEvents:UIControlEventTouchUpInside];
 
@@ -462,7 +463,7 @@
                 constraints:constraints];
     } else {
         UILabel *want = [UILabel new];
-        want.text = NSLocalizedStringFromTable(@"I want this!", @"UserVoice", nil);
+        want.text = NSLocalizedStringFromTableInBundle(@"I want this!", @"UserVoice", [UserVoice bundle], nil);
         want.font = [UIFont systemFontOfSize:16];
         want.backgroundColor = [UIColor clearColor];
 
@@ -472,10 +473,10 @@
         people.backgroundColor = [UIColor clearColor];
         _subscriberCount = people;
 
-        UIImageView *heart = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"uv_heart.png"]];
+        UIImageView *heart = [UVUtils imageViewWithImageNamed:@"uv_heart.png"];
 
         UILabel *this = [UILabel new];
-        this.text = NSLocalizedStringFromTable(@"this", @"UserVoice", nil);
+        this.text = NSLocalizedStringFromTableInBundle(@"this", @"UserVoice", [UserVoice bundle], nil);
         this.font = people.font;
         this.backgroundColor = [UIColor clearColor];
         this.textColor = people.textColor;
