@@ -1,5 +1,7 @@
 ## master ##
 
+* Fix a bug where kb-only portal view would not display topic names
+
 # 3.0.2 (2014-01-16) ##
 
 * Fix a crash caused by selecting a search result on the portal screen

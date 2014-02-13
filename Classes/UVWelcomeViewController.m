@@ -120,7 +120,7 @@
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs)
             identifier = @"Contact";
-        else if (indexPath.section == 0)
+        else if (indexPath.section == 0 && [UVSession currentSession].config.showForum)
             identifier = @"Forum";
         else if ([self showArticles])
             identifier = @"Article";
