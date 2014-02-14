@@ -46,7 +46,7 @@
                                      [prefs stringForKey:SECRET], @"oauth_token_secret", nil]];
 }
 
-+ (id)getAccessTokenWithDelegate:(id)delegate andEmail:(NSString *)email andPassword:(NSString *)password {
++ (id)getAccessTokenWithDelegate:(id<UVModelDelegate>)delegate andEmail:(NSString *)email andPassword:(NSString *)password {
     NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/authorize.json"]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             password, @"password",

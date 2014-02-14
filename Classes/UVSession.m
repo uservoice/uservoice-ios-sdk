@@ -15,6 +15,7 @@
 #import "UVSubdomain.h"
 #import "UVUtils.h"
 #import "UVBabayaga.h"
+#import "UVUser.h"
 #import <stdlib.h>
 
 @implementation UVSession
@@ -28,6 +29,14 @@
     }
 
     return currentSession;
+}
+
+- (void)preloadClientConfig {
+    [UVClientConfig getWithDelegate:self];
+}
+
+- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
+    self.clientConfig = clientConfig;
 }
 
 - (BOOL)loggedIn {

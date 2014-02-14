@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HTTPRiot.h"
+#import "UVModelDelegate.h"
 
 @class UVRequestContext;
 

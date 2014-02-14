@@ -18,7 +18,7 @@
 
 @implementation UVUser
 
-+ (id)discoverWithEmail:(NSString *)email delegate:(id)delegate {
++ (id)discoverWithEmail:(NSString *)email delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/users/discover.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys: email, @"email", nil];
     return [self getPath:path
@@ -28,7 +28,7 @@
                  rootKey:@"user"];
 }
 
-+ (id)retrieveCurrentUser:(id)delegate {
++ (id)retrieveCurrentUser:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/users/current.json"];
     return [self getPath:path
               withParams:nil
@@ -38,7 +38,7 @@
 }
 
 // only called when instigated by the user, creates a global user
-+ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
++ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/users.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aName == nil ? @"" : aName, @"user[display_name]",
@@ -53,7 +53,7 @@
 }
 
 // two methods for creating with the client, create local users
-+ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id)delegate {
++ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/users/find_or_create.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aGUID, @"user[guid]",
@@ -69,7 +69,7 @@
                  context:@"local-sso"];
 }
 
-+ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id)delegate {
++ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/users/find_or_create.json"];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             aToken, @"sso",
@@ -83,7 +83,7 @@
                   context:@"sso"];
 }
 
-+ (id)forgotPassword:(NSString *)email delegate:(id)delegate {
++ (id)forgotPassword:(NSString *)email delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/users/forgot_password.json"];
     NSDictionary *params = @{@"user[email]" : email};
     return [self getPath:path
@@ -93,7 +93,7 @@
                  rootKey:@"user"];
 }
 
-- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id)delegate {
+- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [UVUser apiPath:@"/users/identify.json"];
     NSDictionary *payload = @{
         @"external_scope" : externalScope,

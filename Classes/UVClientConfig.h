@@ -25,7 +25,7 @@
 @property (nonatomic, assign) NSInteger clientId;
 @property (nonatomic, assign) NSInteger defaultForumId;
 
-+ (id)getWithDelegate:(id)delegate;
++ (id)getWithDelegate:(id<UVModelDelegate>)delegate;
 + (CGFloat)getScreenWidth;
 + (CGFloat)getScreenHeight;
 

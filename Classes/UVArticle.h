@@ -12,9 +12,9 @@
 
 @interface UVArticle : UVBaseModel
 
-+ getInstantAnswers:(NSString *)query delegate:(id)delegate;
-+ (id)getArticlesWithTopicId:(NSInteger)topicId page:(NSInteger)page delegate:(id)delegate;
-+ (id)getArticlesWithPage:(NSInteger)page delegate:(id)delegate;
++ getInstantAnswers:(NSString *)query delegate:(id<UVModelDelegate>)delegate;
++ (id)getArticlesWithTopicId:(NSInteger)topicId page:(NSInteger)page delegate:(id<UVModelDelegate>)delegate;
++ (id)getArticlesWithPage:(NSInteger)page delegate:(id<UVModelDelegate>)delegate;
 
 @property (nonatomic, retain) NSString *topicName;
 @property (nonatomic, retain) NSString *question;

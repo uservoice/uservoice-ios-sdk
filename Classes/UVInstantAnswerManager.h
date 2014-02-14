@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UVModelDelegate.h"
 
 @class UVArticle;
 @class UVSuggestion;
@@ -25,7 +26,7 @@
 
 @end
 
-@interface UVInstantAnswerManager : NSObject
+@interface UVInstantAnswerManager : NSObject<UVModelDelegate>
 
 @property (nonatomic, assign) id<UVInstantAnswersDelegate,NSObject> delegate;
 @property (nonatomic, assign) BOOL loading;

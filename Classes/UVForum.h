@@ -20,6 +20,6 @@
 @property (nonatomic, retain) NSMutableArray *categories;
 @property (nonatomic, retain) NSMutableArray *suggestions;
 
-+ (id)getWithId:(int)forumId delegate:(id)delegate;
++ (id)getWithId:(int)forumId delegate:(id<UVModelDelegate>)delegate;
 
 @end

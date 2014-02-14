@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "UVUser.h"
+#import "UVModelDelegate.h"
 
-@interface UVInitialLoadManager : NSObject<UIAlertViewDelegate, UVUserDelegate> {
-    id _delegate;
+@class UVBaseViewController;
+
+@interface UVInitialLoadManager : NSObject<UIAlertViewDelegate, UVModelDelegate> {
+    UVBaseViewController *_delegate;
     SEL _action;
     BOOL _userDone;
     BOOL _topicsDone;
@@ -19,7 +22,7 @@
     BOOL _forumDone;
 }
 
-+ (UVInitialLoadManager *)loadWithDelegate:(id)delegate action:(SEL)action;
++ (UVInitialLoadManager *)loadWithDelegate:(UVBaseViewController *)delegate action:(SEL)action;
 
 @property (nonatomic, assign) BOOL dismissed;
 

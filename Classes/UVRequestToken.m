@@ -20,7 +20,7 @@
     return self;
 }
 
-+ (id)getRequestTokenWithDelegate:(id)delegate {
++ (id)getRequestTokenWithDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = [[self class] apiPath:[NSString stringWithFormat:@"/oauth/request_token.json"]];
     
     return [self getPath:path

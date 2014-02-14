@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UVUser.h"
+#import "UVModelDelegate.h"
 
 @class UVConfig;
 @class UVClientConfig;
@@ -19,7 +19,7 @@
 
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
-@interface UVSession : NSObject<UVUserDelegate> {
+@interface UVSession : NSObject<UVModelDelegate> {
     UVUser *_user;
     YOAuthConsumer *_yOAuthConsumer;
 }
@@ -43,5 +43,6 @@
 
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 - (void)clear;
+- (void)preloadClientConfig;
 
 @end

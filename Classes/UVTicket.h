@@ -18,6 +18,6 @@
   andEmailIfNotLoggedIn:(NSString *)email
                 andName:(NSString *)name
         andCustomFields:(NSDictionary *)customFields
-            andDelegate:(id)delegate;
+            andDelegate:(id<UVModelDelegate>)delegate;
 
 @end

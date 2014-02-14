@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSDate *createdAt;
 @property (nonatomic, assign) NSInteger updatedCommentCount;
 
-+ (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id)delegate;
-+ (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id)delegate;
++ (id)getWithSuggestion:(UVSuggestion *)suggestion page:(NSInteger)page delegate:(id<UVModelDelegate>)delegate;
++ (id)createWithSuggestion:(UVSuggestion *)suggestion text:(NSString *)text delegate:(id<UVModelDelegate>)delegate;
 
 @end

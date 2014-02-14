@@ -18,7 +18,7 @@
 
 @implementation UVClientConfig
 
-+ (id)getWithDelegate:(id)delegate {
++ (id)getWithDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = ([UVSession currentSession].config.key == nil) ? @"/clients/default.json" : @"/client.json";
     return [self getPath:[self apiPath:path]
               withParams:nil

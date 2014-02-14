@@ -11,7 +11,7 @@
 
 @implementation UVHelpTopic
 
-+ (id)getAllWithDelegate:(id)delegate {
++ (id)getAllWithDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/topics.json"];
     return [self getPath:path
               withParams:nil
@@ -20,7 +20,7 @@
                  rootKey:@"topics"];
 }
 
-+ (id)getTopicWithId:(NSInteger)topicId delegate:(id)delegate {
++ (id)getTopicWithId:(NSInteger)topicId delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d.json", (int)topicId]];
     return [self getPath:path
               withParams:nil

@@ -18,7 +18,7 @@
 
 @implementation UVSuggestion
 
-+ (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate {
++ (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             [[NSNumber numberWithInt:page] stringValue], @"page",
@@ -33,7 +33,7 @@
                  rootKey:@"suggestions"];
 }
 
-+ (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate {
++ (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/search.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             query, @"query",
@@ -65,7 +65,7 @@
                           rootKey:@"suggestion"];
 }
 
-- (id)subscribe:(id)delegate {
+- (id)subscribe:(id<UVModelDelegate>)delegate {
     NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/watch.json", (int)self.forumId, (int)self.suggestionId]];
     NSDictionary *params = @{ @"subscribe" : @"true" };
     return [[self class] postPath:path
@@ -75,7 +75,7 @@
                           rootKey:@"suggestion"];
 }
 
-- (id)unsubscribe:(id)delegate {
+- (id)unsubscribe:(id<UVModelDelegate>)delegate {
     NSString *path = [UVSuggestion apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions/%d/watch.json", (int)self.forumId, (int)self.suggestionId]];
     NSDictionary *params = @{ @"subscribe" : @"false" };
     return [[self class] postPath:path

@@ -29,7 +29,7 @@
   andEmailIfNotLoggedIn:(NSString *)email
                 andName:(NSString *)name
         andCustomFields:(NSDictionary *)fields
-            andDelegate:(id)delegate {
+            andDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/tickets.json"];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         message == nil ? @"" : message, @"ticket[message]",

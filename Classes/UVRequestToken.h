@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) YOAuthToken *oauthToken;
 
-+ (id)getRequestTokenWithDelegate:(id)delegate;
++ (id)getRequestTokenWithDelegate:(id<UVModelDelegate>)delegate;
 - (id)initWithDictionary:(NSDictionary *)dict;
 
 @end

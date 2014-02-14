@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UVCallback.h"
-#import "UVUser.h"
+#import "UVModelDelegate.h"
 
 #define STATE_EMAIL 1
 #define STATE_PASSWORD 2
@@ -16,7 +16,7 @@
 
 @protocol UVSigninManagerDelegate;
 
-@interface UVSigninManager : NSObject<UITextFieldDelegate, UIAlertViewDelegate, UVUserDelegate>
+@interface UVSigninManager : NSObject<UITextFieldDelegate, UIAlertViewDelegate, UVModelDelegate>
 
 + (UVSigninManager *)manager;
 

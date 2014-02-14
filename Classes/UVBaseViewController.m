@@ -186,10 +186,6 @@
     return power;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-
 - (BOOL)needNestedModalHack {
     return [UIDevice currentDevice].systemVersion.floatValue >= 6;
 }

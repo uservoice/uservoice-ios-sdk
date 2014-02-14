@@ -19,31 +19,19 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *email;
 
-+ (id)forgotPassword:(NSString *)email delegate:(id<UVUserDelegate>)delegate;
++ (id)forgotPassword:(NSString *)email delegate:(id<UVModelDelegate>)delegate;
 
 // discover
-+ (id)discoverWithEmail:(NSString *)email delegate:(id<UVUserDelegate>)delegate;
++ (id)discoverWithEmail:(NSString *)email delegate:(id<UVModelDelegate>)delegate;
 
 // create
-+ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVUserDelegate>)delegate;
-+ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVUserDelegate>)delegate;
-+ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id<UVUserDelegate>)delegate;
-+ (id)retrieveCurrentUser:(id<UVUserDelegate>)delegate;
++ (id)findOrCreateWithEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVModelDelegate>)delegate;
++ (id)findOrCreateWithGUID:(NSString *)aGUID andEmail:(NSString *)anEmail andName:(NSString *)aName andDelegate:(id<UVModelDelegate>)delegate;
++ (id)findOrCreateWithSsoToken:(NSString *)aToken delegate:(id<UVModelDelegate>)delegate;
++ (id)retrieveCurrentUser:(id<UVModelDelegate>)delegate;
 
 // update
-- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id<UVUserDelegate>)delegate;
+- (id)identify:(NSString *)externalId withScope:(NSString *)externalScope delegate:(id<UVModelDelegate>)delegate;
 
 @end
 
-
-@protocol UVUserDelegate <NSObject>
-
-@optional
-
-- (void)didCreateUser:(UVUser *)user;
-- (void)didDiscoverUser:(UVUser *)user;
-- (void)didIdentifyUser:(UVUser *)user;
-- (void)didRetrieveCurrentUser:(UVUser *)user;
-- (void)didSendForgotPassword:(id)obj;
-
-@end

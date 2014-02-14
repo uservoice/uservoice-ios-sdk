@@ -20,6 +20,7 @@
 #import "UVUtils.h"
 #import "UVForum.h"
 #import "UVBabayaga.h"
+#import "UVBaseViewController.h"
 
 @implementation UVInitialLoadManager {
     UIAlertView *_errorAlertView;

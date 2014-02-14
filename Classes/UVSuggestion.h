@@ -44,10 +44,10 @@
 @property (nonatomic, assign) NSInteger weight;
 
 // Retrieves a page (10 items) of suggestions.
-+ (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id)delegate;
++ (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id<UVModelDelegate>)delegate;
 
 // Retrieves the suggestions for the specified query.
-+ (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id)delegate;
++ (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id<UVModelDelegate>)delegate;
 
 // Creates a new suggestion with the specified title and text.
 + (id)createWithForum:(UVForum *)forum
@@ -56,8 +56,8 @@
                  text:(NSString *)text
              callback:(UVCallback *)callback;
 
-- (id)subscribe:(id)delegate;
-- (id)unsubscribe:(id)delegate;
+- (id)subscribe:(id<UVModelDelegate>)delegate;
+- (id)unsubscribe:(id<UVModelDelegate>)delegate;
 
 - (UIColor *)statusColor;
 - (NSString *)responseUserWithTitle;

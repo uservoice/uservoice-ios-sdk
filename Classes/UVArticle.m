@@ -17,7 +17,7 @@
 
 @implementation UVArticle
 
-+ (id)getArticlesWithTopicId:(NSInteger)topicId page:(NSInteger)page delegate:(id)delegate {
++ (id)getArticlesWithTopicId:(NSInteger)topicId page:(NSInteger)page delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/topics/%d/articles.json", (int)topicId]];
     NSDictionary *params = @{ @"sort" : @"ordered", @"page" : [NSString stringWithFormat:@"%d", (int)page] };
     return [self getPath:path
@@ -27,7 +27,7 @@
                  rootKey:@"articles"];
 }
 
-+ (id)getArticlesWithPage:(NSInteger)page delegate:(id)delegate {
++ (id)getArticlesWithPage:(NSInteger)page delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/articles.json"];
     NSDictionary *params = @{ @"sort" : @"ordered", @"page" : [NSString stringWithFormat:@"%d", (int)page] };
     return [self getPath:path
@@ -37,7 +37,7 @@
                  rootKey:@"articles"];
 }
 
-+ (NSArray *)getInstantAnswers:(NSString *)query delegate:(id)delegate {
++ (NSArray *)getInstantAnswers:(NSString *)query delegate:(id<UVModelDelegate>)delegate {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{
         @"per_page" : @"3",
         @"forum_id" : [NSString stringWithFormat:@"%d", (int)[UVSession currentSession].forum.forumId],

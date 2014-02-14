@@ -11,7 +11,7 @@
 
 @implementation UVForum
 
-+ (id)getWithId:(int)forumId delegate:(id)delegate {
++ (id)getWithId:(int)forumId delegate:(id<UVModelDelegate>)delegate {
     return [self getPath:[self apiPath:[NSString stringWithFormat:@"/forums/%d.json", forumId]]
               withParams:nil
                   target:delegate

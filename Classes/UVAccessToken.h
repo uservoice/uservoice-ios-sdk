@@ -17,7 +17,7 @@
 
 + (BOOL)exists;
 + (BOOL)existsForGuid:(NSString *)guid;
-+ (id)getAccessTokenWithDelegate:(id)delegate andEmail:(NSString *)email andPassword:(NSString *)password;
++ (id)getAccessTokenWithDelegate:(id<UVModelDelegate>)delegate andEmail:(NSString *)email andPassword:(NSString *)password;
 
 - (id)initWithExisting;
 - (id)initWithDictionary:(NSDictionary *)dict;
