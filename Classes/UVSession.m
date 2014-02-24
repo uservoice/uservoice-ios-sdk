@@ -72,6 +72,10 @@
     }
 }
 
+- (void)didIdentifyUser:(UVUser *)user {
+    // nothing to do
+}
+
 // This is used when dismissing UV so that everything gets reloaded
 - (void)clear {
     _requestToken = nil;
