@@ -1,8 +1,12 @@
 ## master ##
 
+# 3.0.3 (2014-02-25)
+
 * Fix a bug where kb-only portal view would not display topic names
 * Add resource bundle support for cocoapods
 * Fix some pedantic Xcode warnings
+* Remove some unused resources
+* Fix a crash related to saving external ids
 
 # 3.0.2 (2014-01-16) ##
 
