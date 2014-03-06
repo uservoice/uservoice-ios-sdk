@@ -2,6 +2,8 @@
 
 * Fix a bug where the comment form submit button would be incorrectly disabled
 * Show an error message when the user tries to submit a comment with no text
+* Fix a bug where the post idea form submit button would be incorrectly hidden
+* Add `navigationBarActivityIndicatorColor` customization option
 
 ## 3.0.3 (2014-02-25) ##
 
