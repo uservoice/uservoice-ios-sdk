@@ -302,7 +302,8 @@
             @"V:|-14-[statusColor(==10)]",
             @"V:|-12-[status]",
             @"V:|-12-[date]-[avatar(==40)]",
-            @"V:[status]-[text]-[admin]"
+            @"V:[status]-(>=10)-[text]-[admin]",
+            @"V:[date]-(>=10)-[text]"
         ];
         [self configureView:cell.contentView
                    subviews:NSDictionaryOfVariableBindings(statusColor, status, date, text, admin, avatar)
