@@ -4,6 +4,7 @@
 * Show an error message when the user tries to submit a comment with no text
 * Fix a bug where the post idea form submit button would be incorrectly hidden
 * Add `navigationBarActivityIndicatorColor` customization option
+* Show cancel button rather than back button while user is submitting an idea or ticket
 
 ## 3.0.3 (2014-02-25) ##
 

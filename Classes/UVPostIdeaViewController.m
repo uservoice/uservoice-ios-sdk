@@ -230,10 +230,8 @@
 
 - (void)didReceiveError:(NSError *)error {
     _sending = NO;
-    if ([UVUtils isNotFoundError:error]) {
-        [_detailsController hideActivityIndicator];
-    } else if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
-        [_detailsController hideActivityIndicator];
+    [_detailsController hideActivityIndicator];
+    if ([UVUtils isUVRecordInvalid:error forField:@"title" withMessage:@"is not allowed."]) {
         [self alertError:NSLocalizedStringFromTableInBundle(@"A suggestion with this title already exists. Please change the title.", @"UserVoice", [UserVoice bundle], nil)];
     } else {
         [super didReceiveError:error];

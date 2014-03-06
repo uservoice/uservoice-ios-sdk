@@ -187,10 +187,14 @@
     activityView.color = [UVStyleSheet instance].navigationBarActivityIndicatorColor;
     [activityView startAnimating];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil) style:UIBarButtonItemStylePlain target:self action:@selector(dismiss)];
+    self.navigationItem.hidesBackButton = YES;
 }
 
 - (void)hideActivityIndicator {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:_sendTitle style:UIBarButtonItemStyleDone target:self action:@selector(send)];
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.hidesBackButton = NO;
 }
 
 
