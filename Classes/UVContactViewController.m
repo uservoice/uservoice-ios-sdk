@@ -96,6 +96,7 @@
 
 - (void)showActivityIndicator {
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityView.color = [UVStyleSheet instance].navigationBarActivityIndicatorColor;
     [activityView startAnimating];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
 }

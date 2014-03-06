@@ -181,6 +181,7 @@
 
 - (void)showActivityIndicator {
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityView.color = [UVStyleSheet instance].navigationBarActivityIndicatorColor;
     [activityView startAnimating];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
 }
@@ -221,6 +222,10 @@
         _selectedCategoryId = [fields[@"Category"][@"id"] integerValue];
         [self requireUserAuthenticated:email name:name callback:_didAuthenticateCallback];
     }
+}
+
+- (void)signinManagerDidFail {
+    [_detailsController hideActivityIndicator];
 }
 
 - (void)didReceiveError:(NSError *)error {

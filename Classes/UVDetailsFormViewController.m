@@ -8,6 +8,7 @@
 
 #import "UVDetailsFormViewController.h"
 #import "UVValueSelectViewController.h"
+#import "UVStyleSheet.h"
 
 #define LABEL 100
 #define VALUE 101
@@ -183,6 +184,7 @@
 
 - (void)showActivityIndicator {
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityView.color = [UVStyleSheet instance].navigationBarActivityIndicatorColor;
     [activityView startAnimating];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
 }
