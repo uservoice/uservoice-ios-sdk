@@ -106,6 +106,8 @@
 
 "Password reset email sent to %@" = "Password reset email sent to %@";
 
+"Please enter some text before submitting your comment." = "Please enter some text before submitting your comment.";
+
 "Please enter your email address before submitting your comment." = "Please enter your email address before submitting your comment.";
 
 "Please enter your email address before submitting your ticket." = "Molimo upišite adresu e-pošte prije slanja ulaznice.";

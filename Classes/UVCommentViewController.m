@@ -37,20 +37,20 @@
 
 - (void)commentButtonTapped {
     if (_fieldsView.textView.text.length == 0) {
-        [self dismiss];
+        [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter some text before submitting your comment.", @"UserVoice", [UserVoice bundle], nil)];
     } else {
-        [self disableSubmitButton];
         if (![UVSession currentSession].user) {
             if (_emailField.text.length > 0) {
+                [self disableSubmitButton];
                 self.userEmail = _emailField.text;
                 self.userName = _nameField.text;
                 [self showActivityIndicator];
                 [_signinManager signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
             } else {
                 [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter your email address before submitting your comment.", @"UserVoice", [UserVoice bundle], nil)];
-                [self enableSubmitButton];
             }
         } else {
+            [self disableSubmitButton];
             [self doComment];
         }
     }
@@ -74,6 +74,12 @@
 - (void)doComment {
     [self showActivityIndicator];
     [UVComment createWithSuggestion:_suggestion text:_fieldsView.textView.text delegate:self];
+}
+
+- (void)didReceiveError:(NSError *)error {
+    [self hideActivityIndicator];
+    [self enableSubmitButton];
+    [super didReceiveError:error];
 }
 
 - (void)didCreateComment:(UVComment *)comment {
