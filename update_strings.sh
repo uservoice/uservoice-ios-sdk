@@ -4,7 +4,7 @@ for file in Resources/*.lproj/UserVoice.strings; do
 done
 
 # Regenerate English strings from the source code
-genstrings Resources/en.lproj/UserVoice.strings
+genstrings -o Resources/en.lproj Classes/*
 
 # Clear strings.txt
 > strings.txt
