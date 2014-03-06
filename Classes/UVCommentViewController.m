@@ -48,6 +48,7 @@
                 [_signinManager signInWithEmail:_emailField.text name:_nameField.text callback:_signInCallback];
             } else {
                 [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter your email address before submitting your comment.", @"UserVoice", [UserVoice bundle], nil)];
+                [self enableSubmitButton];
             }
         } else {
             [self doComment];
@@ -57,6 +58,7 @@
 
 - (void)signinManagerDidFail {
     [self hideActivityIndicator];
+    [self enableSubmitButton];
 }
 
 - (void)showActivityIndicator {
