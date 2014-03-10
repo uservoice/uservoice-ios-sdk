@@ -199,9 +199,10 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
 + (BOOL)isConnectionError:(NSError *)error {
     return ([error domain] == NSURLErrorDomain) && (
-        [error code] == -1001 ||
-        [error code] == -1004 ||
-        [error code] == -1009);
+        [error code] == NSURLErrorTimedOut ||
+        [error code] == NSURLErrorCannotConnectToHost ||
+        [error code] == NSURLErrorNetworkConnectionLost ||
+        [error code] == NSURLErrorNotConnectedToInternet);
 }
 
 + (BOOL)isUVRecordInvalid:(NSError *)error {

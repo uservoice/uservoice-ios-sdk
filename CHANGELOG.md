@@ -5,6 +5,7 @@
 * Fix a bug where the post idea form submit button would be incorrectly hidden
 * Add `navigationBarActivityIndicatorColor` customization option
 * Show cancel button rather than back button while user is submitting an idea or ticket
+* Add NSURLErrorNetworkConnectionLost to list of errors treated as connectivity errors
 
 ## 3.0.3 (2014-02-25) ##
 
