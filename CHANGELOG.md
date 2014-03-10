@@ -6,6 +6,7 @@
 * Add `navigationBarActivityIndicatorColor` customization option
 * Show cancel button rather than back button while user is submitting an idea or ticket
 * Add NSURLErrorNetworkConnectionLost to list of errors treated as connectivity errors
+* Add email format validation
 
 ## 3.0.3 (2014-02-25) ##
 
