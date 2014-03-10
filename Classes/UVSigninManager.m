@@ -14,14 +14,23 @@
 #import "UVUtils.h"
 #import "UVRequestToken.h"
 #import "UVBabayaga.h"
+#import <Foundation/NSRegularExpression.h>
 
 @implementation UVSigninManager {
     NSInteger _state;
     UVCallback *_callback;
+    NSRegularExpression *_emailFormat;
 }
 
 + (UVSigninManager *)manager {
     return [self new];
+}
+
+- (UVSigninManager *)init {
+    if ((self = [super init])) {
+        _emailFormat = [NSRegularExpression regularExpressionWithPattern:@"\\A(\\w[-+.\\w!\\#\\$%&'\\*\\+\\-/=\\?\\^_`\\{\\|\\}~]*@([-\\w]*\\.)+[a-zA-Z]{2,9})\\z" options:NSRegularExpressionCaseInsensitive error:nil];
+    }
+    return self;
 }
 
 - (void)showEmailAlertView {
@@ -85,6 +94,24 @@
     [_alertView show];
 }
 
+- (void)showUnknownError {
+    [self clearAlertViewDelegate];
+    _alertView = [UIAlertView new];
+    _alertView.title = NSLocalizedStringFromTableInBundle(@"There was a problem logging you in.", @"UserVoice", [UserVoice bundle], nil);
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Done", @"UserVoice", [UserVoice bundle], nil)];
+    [_alertView show];
+    [self invokeDidFail];
+}
+
+- (void)showEmailFormatError {
+    [self clearAlertViewDelegate];
+    _alertView = [UIAlertView new];
+    _alertView.title = NSLocalizedStringFromTableInBundle(@"Please enter a valid email address.", @"UserVoice", [UserVoice bundle], nil);
+    [_alertView addButtonWithTitle:NSLocalizedStringFromTableInBundle(@"Done", @"UserVoice", [UserVoice bundle], nil)];
+    [_alertView show];
+    [self invokeDidFail];
+}
+
 - (void)signInWithCallback:(UVCallback *)callback {
     if ([self user]) {
         [callback invokeCallback:nil];
@@ -104,6 +131,8 @@
 - (void)signInWithEmail:(NSString *)theEmail name:(NSString *)theName callback:(UVCallback *)callback {
     if (self.user && [self.user.email isEqualToString:theEmail]) {
         [callback invokeCallback:nil];
+    } else if ([_emailFormat numberOfMatchesInString:theEmail options:0 range:NSMakeRange(0, [theEmail length])] == 0) {
+        [self showEmailFormatError];
     } else {
         _state = STATE_EMAIL;
         _email = theEmail;
@@ -223,6 +252,8 @@
         } else {
             [UVUser findOrCreateWithEmail:_email andName:_name andDelegate:self];
         }
+    } else if (_state == STATE_EMAIL) {
+        [self showUnknownError];
     } else if ([UVUtils isAuthError:error] || [UVUtils isNotFoundError:error]) {
         [self showFailedAlertView];
     }
