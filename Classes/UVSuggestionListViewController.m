@@ -49,23 +49,20 @@
 }
 
 - (void)retrieveMoreSuggestions {
-    NSInteger page = (_suggestions.count / SUGGESTIONS_PAGE_SIZE) + 1;
+    NSInteger page = (_forum.suggestions.count / SUGGESTIONS_PAGE_SIZE) + 1;
     [self showActivityIndicator];
     [UVSuggestion getWithForum:_forum page:page delegate:self];
 }
 
 - (void)populateSuggestions {
-    _suggestions = [NSMutableArray arrayWithCapacity:10];
     _forum.suggestions = [NSMutableArray arrayWithCapacity:10];
     [self retrieveMoreSuggestions];
 }
 
 - (void)didRetrieveSuggestions:(NSArray *)theSuggestions {
     if (theSuggestions.count > 0) {
-        [_suggestions addObjectsFromArray:theSuggestions];
+        [_forum.suggestions addObjectsFromArray:theSuggestions];
     }
-
-    [_forum.suggestions addObjectsFromArray:theSuggestions];
     [self hideActivityIndicator];
     [_tableView reloadData];
 }
@@ -126,7 +123,7 @@
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    [self customizeCellForSuggestion:[_suggestions objectAtIndex:indexPath.row] cell:cell];
+    [self customizeCellForSuggestion:[_forum.suggestions objectAtIndex:indexPath.row] cell:cell];
 }
 
 - (void)initCellForResult:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -168,7 +165,7 @@
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
     if (theTableView == _tableView) {
-        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < _suggestions.count) ? @"Suggestion" : @"Load";
+        identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < _forum.suggestions.count) ? @"Suggestion" : @"Load";
     } else {
         identifier = @"Result";
     }
@@ -183,9 +180,7 @@
     if (section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView) {
         return 1;
     } else if (theTableView == _tableView) {
-        int loadedCount = _suggestions.count;
-        int suggestionsCount = _forum.suggestionsCount;
-        return loadedCount + (loadedCount >= suggestionsCount || suggestionsCount < SUGGESTIONS_PAGE_SIZE ? 0 : 1);
+        return _forum.suggestions.count + (_forum.suggestions.count < _forum.suggestionsCount || _loading ? 1 : 0);
     } else {
         return _searchResults.count;
     }
@@ -200,7 +195,7 @@
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView) {
         return 44;
-    } else if (theTableView == _tableView && indexPath.row < _suggestions.count) {
+    } else if (theTableView == _tableView && indexPath.row < _forum.suggestions.count) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
     } else if (theTableView != _tableView) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Result" indexPath:indexPath];
@@ -232,8 +227,8 @@
     if (theTableView == _tableView) {
         if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
             [self composeButtonTapped];
-        } else if (indexPath.row < _suggestions.count) {
-            [self showSuggestion:[_suggestions objectAtIndex:indexPath.row]];
+        } else if (indexPath.row < _forum.suggestions.count) {
+            [self showSuggestion:[_forum.suggestions objectAtIndex:indexPath.row]];
         } else {
             [self retrieveMoreSuggestions];
         }
@@ -317,10 +312,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    if (_forum) {
-        if (!_suggestions) {
-            [self populateSuggestions];
-        }
+    if (_forum && !_forum.suggestions.count) {
+        [self populateSuggestions];
     }
     [_tableView reloadData];
 }
