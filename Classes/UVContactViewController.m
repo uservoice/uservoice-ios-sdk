@@ -59,7 +59,7 @@
                                                                              target:self
                                                                              action:@selector(next)];
     [self loadDraft];
-    self.navigationItem.rightBarButtonItem.enabled = (_fieldsView.textView.text.length > 0);
+    self.navigationItem.rightBarButtonItem.enabled = ([_fieldsView.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length > 0);
     self.view = view;
 }
 
@@ -69,8 +69,9 @@
 }
 
 - (void)textViewDidChange:(UVTextView *)theTextEditor {
-    self.navigationItem.rightBarButtonItem.enabled = (_fieldsView.textView.text.length > 0);
-    _instantAnswerManager.searchText = theTextEditor.text;
+    NSString *text = [theTextEditor.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    self.navigationItem.rightBarButtonItem.enabled = (text.length > 0);
+    _instantAnswerManager.searchText = text;
 }
 
 - (void)didUpdateInstantAnswers {

@@ -44,8 +44,9 @@
         _titleField.text = _initialText;
     }
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:_titleField queue:nil usingBlock:^(NSNotification *note) {
-        _instantAnswerManager.searchText = _titleField.text;
-        self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
+        NSString *text = [_titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        _instantAnswerManager.searchText = text;
+        self.navigationItem.rightBarButtonItem.enabled = (text.length > 0);
     }];
 
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Description (optional)", @"UserVoice", [UserVoice bundle], nil);
@@ -112,7 +113,7 @@
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(next)];
-    self.navigationItem.rightBarButtonItem.enabled = (_titleField.text.length > 0);
+    self.navigationItem.rightBarButtonItem.enabled = ([_titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length > 0);
     [self registerForKeyboardNotifications];
     _didCreateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(didCreateSuggestion:)];
     _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];

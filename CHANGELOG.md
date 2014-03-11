@@ -7,6 +7,7 @@
 * Show cancel button rather than back button while user is submitting an idea or ticket
 * Add NSURLErrorNetworkConnectionLost to list of errors treated as connectivity errors
 * Add email format validation
+* Trim whitespace before enabling Next button on contact and post idea forms 
 
 ## 3.0.3 (2014-02-25) ##
 
