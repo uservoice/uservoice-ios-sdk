@@ -12,6 +12,7 @@
 * Clean up idea pagination code
 * Fix a bug related to text area wrapping
 * Work around an iOS bug related to using UISearchDisplayController with UIModalPresentationStyleFormSheet
+* Add a stylesheet option for status bar style
 
 ## 3.0.3 (2014-02-25) ##
 

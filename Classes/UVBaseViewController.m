@@ -496,6 +496,10 @@
     return field;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [UVStyleSheet instance].preferredStatusBarStyle;
+}
+
 #pragma mark ===== iPad search bar hack =====
 
 - (void)correctSearchDisplayFrames:(UISearchDisplayController *)controller {
@@ -532,7 +536,7 @@
     });
 }
 
-#pragma mark - UVSigninManageDelegate
+#pragma mark - UVSigninManagerDelegate
 
 - (void)signinManagerDidSignIn:(UVUser *)user {
     [self hideActivityIndicator];
