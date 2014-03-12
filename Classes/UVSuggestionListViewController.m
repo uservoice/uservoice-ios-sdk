@@ -254,6 +254,33 @@
     [UVSuggestion searchWithForum:_forum query:searchBar.text delegate:self];
 }
 
+#pragma mark ===== UISearchDisplayControllerDelegate Methods =====
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+    controller.searchBar.showsScopeBar = NO;
+    if (IOS7 && IPAD) {
+        [self correctFramesForSearchDisplayControllerBeginSearch:NO searchDisplayController:_searchController];
+    }
+}
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    if (IOS7 && IPAD) {
+        [self correctFramesForSearchDisplayControllerBeginSearch:YES searchDisplayController:_searchController];
+    }
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
+    if (IOS7 && IPAD) {
+        [self correctSearchDisplayFrames:_searchController];
+    }
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+    if (IOS7 && IPAD) {
+        controller.searchResultsTableView.contentInset = UIEdgeInsetsMake(self.searchController.searchBar.frame.size.height, 0.f, 0.f, 0.f);
+    }
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)loadView {

@@ -229,10 +229,6 @@
     return YES;
 }
 
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    controller.searchBar.showsScopeBar = NO;
-}
-
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
     _filter = searchBar.selectedScopeButtonIndex;
     [_searchController.searchResultsTableView reloadData];
@@ -242,6 +238,35 @@
     _instantAnswerManager.searchText = searchBar.text;
     [_instantAnswerManager search];
 }
+
+#pragma mark ===== UISearchDisplayControllerDelegate Methods =====
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+    controller.searchBar.showsScopeBar = NO;
+    if (IOS7 && IPAD) {
+        [self correctFramesForSearchDisplayControllerBeginSearch:NO searchDisplayController:_searchController];
+    }
+}
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    if (IOS7 && IPAD) {
+        [self correctFramesForSearchDisplayControllerBeginSearch:YES searchDisplayController:_searchController];
+    }
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
+    if (IOS7 && IPAD) {
+        [self correctSearchDisplayFrames:_searchController];
+    }
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+    if (IOS7 && IPAD) {
+        controller.searchResultsTableView.contentInset = UIEdgeInsetsMake(self.searchController.searchBar.frame.size.height, 0.f, 0.f, 0.f);
+    }
+}
+
+#pragma mark ===== Search handling =====
 
 - (void)didUpdateInstantAnswers {
     if (_searchController.active)

@@ -11,6 +11,7 @@
 * Reload ideas after user posts an idea
 * Clean up idea pagination code
 * Fix a bug related to text area wrapping
+* Work around an iOS bug related to using UISearchDisplayController with UIModalPresentationStyleFormSheet
 
 ## 3.0.3 (2014-02-25) ##
 

@@ -90,4 +90,7 @@
 - (UITextField *)configureView:(UIView *)view label:(NSString *)labelText placeholder:(NSString *)placeholderText;
 - (UIView *)poweredByView;
 
+- (void)correctSearchDisplayFrames:(UISearchDisplayController *)controller;
+- (void)correctFramesForSearchDisplayControllerBeginSearch:(BOOL)beginSearch searchDisplayController:(UISearchDisplayController *)controller;
+
 @end
