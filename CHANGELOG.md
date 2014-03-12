@@ -10,6 +10,7 @@
 * Trim whitespace before enabling Next button on contact and post idea forms 
 * Reload ideas after user posts an idea
 * Clean up idea pagination code
+* Fix a bug related to text area wrapping
 
 ## 3.0.3 (2014-02-25) ##
 
