@@ -201,7 +201,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0 && [UVSession currentSession].config.showForum)
+    if (section == 0 && ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs))
         return nil;
     else if ([UVSession currentSession].config.topicId)
         return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
