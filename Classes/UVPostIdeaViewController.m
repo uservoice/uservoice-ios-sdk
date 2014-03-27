@@ -21,6 +21,7 @@
 @implementation UVPostIdeaViewController {
     BOOL _proceed;
     BOOL _sending;
+    BOOL _canceled;
     UVDetailsFormViewController *_detailsController;
     UVTextWithFieldsView *_fieldsView;
 }
@@ -248,6 +249,10 @@
                          callback:_didCreateCallback];
 }
 
+- (void)cancel {
+    _canceled = YES;
+}
+
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:SUBMIT_IDEA];
     UVSuccessViewController *next = [UVSuccessViewController new];
@@ -255,7 +260,9 @@
     next.text = NSLocalizedStringFromTableInBundle(@"Your feedback has been posted to our feedback forum.", @"UserVoice", [UserVoice bundle], nil);
     [self.navigationController setViewControllers:@[next] animated:YES];
     // force forum view to reload suggestions
-    [UVSession currentSession].forum.suggestions = nil;
+    if (!_canceled) {
+        [UVSession currentSession].forum.suggestions = nil;
+    }
     _sending = NO;
 }
 

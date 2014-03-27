@@ -197,6 +197,11 @@
     self.navigationItem.hidesBackButton = NO;
 }
 
-
+- (void)dismiss {
+    if ([_delegate respondsToSelector:@selector(cancel)]) {
+        [_delegate cancel];
+    }
+    [super dismiss];
+}
 
 @end
