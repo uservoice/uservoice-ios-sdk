@@ -554,6 +554,10 @@
     [self registerForKeyboardNotifications];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.tableView setContentOffset:self.tableView.contentOffset animated:NO];
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
