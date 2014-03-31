@@ -44,22 +44,6 @@
 }
 
 
-- (void)target:(id)target performSelectorOnMainThread:(SEL)selector withObjects:(NSArray *)objects {
-    NSMethodSignature *signature = [target methodSignatureForSelector:selector];
-    if (signature) {
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-        [invocation setTarget:target];
-        [invocation setSelector:selector];
-        
-        for (int i = 0; i < objects.count; i++) {
-            id obj = [objects objectAtIndex:i];
-            [invocation setArgument:&obj atIndex:(i + 2)];
-        }
-        
-        [invocation performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:YES];
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Concurrent NSOperation Methods
 - (void)start {
@@ -132,7 +116,9 @@
     //HRLOG(@"Server responded with:%i, %@", [response statusCode], [NSHTTPURLResponse localizedStringForStatusCode:[response statusCode]]);
     
     if ([_delegate respondsToSelector:@selector(restConnection:didReceiveResponse:object:)]) {
-        [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReceiveResponse:object:) withObjects:@[connection, response, _object]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate restConnection:connection didReceiveResponse:response object:_object];
+        });
     }
     
     NSError *error = nil;
@@ -140,7 +126,9 @@
     
     if(error) {
         if([_delegate respondsToSelector:@selector(restConnection:didReceiveError:response:object:)]) {
-            [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReceiveError:response:object:) withObjects:@[connection, error, response, _object]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_delegate restConnection:connection didReceiveError:error response:response object:_object];
+            });
             [connection cancel];
             [self finish];
         }
@@ -156,7 +144,9 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {  
     //HRLOG(@"Connection failed: %@", [error localizedDescription]);
     if([_delegate respondsToSelector:@selector(restConnection:didFailWithError:object:)]) {        
-        [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didFailWithError:object:) withObjects:@[connection, error, _object]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate restConnection:connection didFailWithError:error object:_object];
+        });
     }
     
     [self finish];
@@ -171,7 +161,9 @@
         if(parseError) {
             NSString *rawString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
             if([_delegate respondsToSelector:@selector(restConnection:didReceiveParseError:responseBody:object:)]) {
-                [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReceiveParseError:responseBody:object:) withObjects:@[connection, parseError, rawString, _object]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_delegate restConnection:connection didReceiveParseError:parseError responseBody:rawString object:_object];
+                });
             }
             [self finish];
             return;
@@ -179,7 +171,9 @@
     }
 
     if([_delegate respondsToSelector:@selector(restConnection:didReturnResource:object:)]) {        
-        [self target:_delegate performSelectorOnMainThread:@selector(restConnection:didReturnResource:object:) withObjects:@[connection, results, _object]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_delegate restConnection:connection didReturnResource:results object:_object];
+        });
     }
         
     [self finish];
