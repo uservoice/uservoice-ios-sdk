@@ -41,6 +41,7 @@
     BOOL _subscribing;
     BOOL _loading;
     UVCallback *_subscribeCallback;
+    UISwitch *_toggle;
 }
 
 - (id)init {
@@ -398,6 +399,18 @@
     [_suggestion unsubscribe:self];
 }
 
+- (void)signinManagerDidFail {
+    _subscribing = NO;
+    [_toggle setOn:_suggestion.subscribed];
+    [super signinManagerDidFail];
+}
+
+- (void)didReceiveError:(NSError *)error {
+    _subscribing = NO;
+    [_toggle setOn:_suggestion.subscribed];
+    [super didReceiveError:error];
+}
+
 #pragma mark ===== Basic View Methods =====
 
 - (void)keyboardDidHide:(NSNotification*)notification {
@@ -482,19 +495,19 @@
         this.backgroundColor = [UIColor clearColor];
         this.textColor = people.textColor;
 
-        UISwitch *toggle = [UISwitch new];
+        _toggle = [UISwitch new];
         if (_suggestion.subscribed) {
-            toggle.on = YES;
+            _toggle.on = YES;
         }
-        [toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
+        [_toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
 
         NSArray *constraints = @[
             @"|[border]|", @"V:|[border(==1)]",
-            @"|-[want]", @"|-[people]-4-[heart(==12)]-4-[this]", @"[toggle]-|",
-            @"V:|-14-[want]-2-[people]", @"V:[want]-6-[heart(==11)]", @"V:[want]-2-[this]", @"V:|-16-[toggle]"
+            @"|-[want]", @"|-[people]-4-[heart(==12)]-4-[this]", @"[_toggle]-|",
+            @"V:|-14-[want]-2-[people]", @"V:[want]-6-[heart(==11)]", @"V:[want]-2-[this]", @"V:|-16-[_toggle]"
         ];
         [self configureView:footer
-                   subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this, toggle)
+                   subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this, _toggle)
                 constraints:constraints];
     }
 

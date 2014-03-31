@@ -227,6 +227,7 @@
 }
 
 - (void)signinManagerDidFail {
+    _sending = NO;
     [_detailsController hideActivityIndicator];
 }
 
