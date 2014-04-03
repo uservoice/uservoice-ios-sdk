@@ -54,7 +54,7 @@
              category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
-             callback:(UVCallback *)callback;
+             delegate:(id<UVModelDelegate>)delegate;
 
 - (id)subscribe:(id<UVModelDelegate>)delegate;
 - (id)unsubscribe:(id<UVModelDelegate>)delegate;

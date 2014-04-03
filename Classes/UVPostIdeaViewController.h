@@ -13,7 +13,6 @@
 @class UVTextView;
 
 @interface UVPostIdeaViewController : UVBaseViewController<UVInstantAnswersDelegate, UITextViewDelegate> {
-    UVCallback *_didCreateCallback;
     UVCallback *_didAuthenticateCallback;
     NSInteger _selectedCategoryId;
 }

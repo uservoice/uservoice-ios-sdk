@@ -49,7 +49,7 @@
              category:(NSInteger)categoryId
                 title:(NSString *)title
                  text:(NSString *)text
-             callback:(UVCallback *)callback {
+             delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:[NSString stringWithFormat:@"/forums/%d/suggestions.json", (int)forum.forumId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             @"true", @"subscribe",
@@ -60,8 +60,8 @@
                             nil];
     return [[self class] postPath:path
                        withParams:params
-                           target:callback
-                         selector:@selector(invokeCallback:)
+                           target:delegate
+                         selector:@selector(didCreateSuggestion:)
                           rootKey:@"suggestion"];
 }
 

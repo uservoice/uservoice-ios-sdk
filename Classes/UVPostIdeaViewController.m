@@ -116,7 +116,6 @@
                                                                              action:@selector(next)];
     self.navigationItem.rightBarButtonItem.enabled = ([_titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length > 0);
     [self registerForKeyboardNotifications];
-    _didCreateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(didCreateSuggestion:)];
     _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];
     [self updateLayout];
 }
@@ -247,7 +246,7 @@
                          category:_selectedCategoryId
                             title:_titleField.text
                              text:_fieldsView.textView.text
-                         callback:_didCreateCallback];
+                         delegate:self];
 }
 
 - (void)cancel {

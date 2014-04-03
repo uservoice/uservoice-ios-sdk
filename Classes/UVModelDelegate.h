@@ -33,5 +33,6 @@
 - (void)didCreateUser:(UVUser *)user;
 - (void)didSendForgotPassword:(UVUser *)user;
 - (void)didIdentifyUser:(UVUser *)user;
+- (void)didCreateSuggestion:(UVSuggestion *)user;
 
 @end
