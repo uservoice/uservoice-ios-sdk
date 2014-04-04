@@ -87,7 +87,8 @@
 - (void)sendTrack:(NSString *)event props:(NSDictionary *)props {
     // NSLog(@"sending track: %@", event);
     NSInteger subdomainId = [UVSession currentSession].clientConfig.subdomain.subdomainId;
-    NSString *path = [NSString stringWithFormat:@"%d/%@/%@", (int)subdomainId, CHANNEL, event];
+    NSString *channel = [event isEqualToString:VIEW_APP] ? EXTERNAL_CHANNEL : CHANNEL;
+    NSString *path = [NSString stringWithFormat:@"%d/%@/%@", (int)subdomainId, channel, event];
     if (_uvts) {
         path = [NSString stringWithFormat:@"%@/%@", path, _uvts];
     }

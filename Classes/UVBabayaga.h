@@ -10,6 +10,7 @@
 #import "HRResponseDelegate.h"
 
 #define CHANNEL @"i"
+#define EXTERNAL_CHANNEL @"x"
 
 #define VIEW_APP        @"g"
 #define VIEW_FORUM      @"m"
