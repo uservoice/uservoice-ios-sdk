@@ -9,7 +9,7 @@
 #import "UVBaseViewController.h"
 #import "UVArticle.h"
 
-@interface UVArticleViewController : UVBaseViewController<UIActionSheetDelegate>
+@interface UVArticleViewController : UVBaseViewController<UIActionSheetDelegate, UIWebViewDelegate>
 
 @property (nonatomic, retain) UVArticle *article;
 @property (nonatomic, retain) UIWebView *webView;
