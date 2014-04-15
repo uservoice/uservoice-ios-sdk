@@ -81,6 +81,7 @@
     _requestToken = nil;
     _user = nil;
     _clientConfig = nil;
+    _yOAuthConsumer = nil;
 }
 
 - (YOAuthConsumer *)yOAuthConsumer {
