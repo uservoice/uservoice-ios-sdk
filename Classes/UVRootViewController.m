@@ -20,6 +20,7 @@
 #import "UVInitialLoadManager.h"
 #import "UVPostIdeaViewController.h"
 #import "UVContactViewController.h"
+#import "UVBabayaga.h"
 
 @implementation UVRootViewController
 
@@ -36,6 +37,7 @@
 }
 
 - (void)pushNextView {
+    [UVBabayaga track:VIEW_CHANNEL];
     UVSession *session = [UVSession currentSession];
     if ((![UVAccessToken exists] || session.user) && session.clientConfig && [self.navigationController.viewControllers count] == 1) {
         CATransition* transition = [CATransition animation];

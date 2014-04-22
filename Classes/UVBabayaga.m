@@ -15,6 +15,7 @@
 #import "UVUtils.h"
 #import "UVRequestContext.h"
 #import "HRFormatJson.h"
+#import "UVConfig.h"
 
 @implementation UVBabayaga {
     NSMutableArray *_queue;
@@ -46,10 +47,6 @@
     [UVBabayaga track:event props:@{@"text" : text, @"ids" : ids}];
 }
 
-+ (void)flush {
-    [[UVBabayaga instance] flush];
-}
-
 - (id)init {
     self = [super init];
     if (self) {
@@ -70,25 +67,15 @@
 }
 
 - (void)track:(NSString *)event props:(NSDictionary *)props {
-    if ([UVSession currentSession].clientConfig) {
-       [self sendTrack:event props:props];
-    } else {
-        [_queue addObject:props ? @{@"event" : event, @"props" : props} : @{@"event": event}];
-    }
-}
-
-- (void)flush {
-    for (NSDictionary *dict in _queue) {
-        [self track:[dict objectForKey:@"event"] props:[dict objectForKey:@"props"]];
-    }
-    _queue = [NSMutableArray new];
-}
-
-- (void)sendTrack:(NSString *)event props:(NSDictionary *)props {
     // NSLog(@"sending track: %@", event);
-    NSInteger subdomainId = [UVSession currentSession].clientConfig.subdomain.subdomainId;
+    NSString *subdomain;
+    if ([UVSession currentSession].clientConfig) {
+        subdomain = [NSString stringWithFormat:@"%d", (int)[UVSession currentSession].clientConfig.subdomain.subdomainId];
+    } else {
+        subdomain = [[UVSession currentSession].config.site componentsSeparatedByString:@"."][0];
+    }
     NSString *channel = [event isEqualToString:VIEW_APP] ? EXTERNAL_CHANNEL : CHANNEL;
-    NSString *path = [NSString stringWithFormat:@"%d/%@/%@", (int)subdomainId, channel, event];
+    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", subdomain, channel, event];
     if (_uvts) {
         path = [NSString stringWithFormat:@"%@/%@", path, _uvts];
     }
