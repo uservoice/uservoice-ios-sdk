@@ -27,8 +27,6 @@ static NSBundle *userVoiceBundle;
     [UVBabayaga instance].userTraits = [config traits];
     [UVSession currentSession].config = config;
     [UVBabayaga track:VIEW_APP];
-    // preload client config so that babayaga can flush
-    [[UVSession currentSession] preloadClientConfig];
 }
 
 + (NSBundle *)bundle {
@@ -45,7 +43,6 @@ static NSBundle *userVoiceBundle;
 }
 
 + (UINavigationController *)getNavigationControllerForUserVoiceControllers:(NSArray *)viewControllers {
-    [UVBabayaga track:VIEW_CHANNEL];
     [UVSession currentSession].isModal = YES;
     UINavigationController *navigationController = [UVNavigationController new];
     [UVUtils applyStylesheetToNavigationController:navigationController];

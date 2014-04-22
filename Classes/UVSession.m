@@ -14,7 +14,6 @@
 #import "UVForum.h"
 #import "UVSubdomain.h"
 #import "UVUtils.h"
-#import "UVBabayaga.h"
 #import "UVUser.h"
 #import <stdlib.h>
 
@@ -29,14 +28,6 @@
     }
 
     return currentSession;
-}
-
-- (void)preloadClientConfig {
-    [UVClientConfig getWithDelegate:self];
-}
-
-- (void)didRetrieveClientConfig:(UVClientConfig *)clientConfig {
-    self.clientConfig = clientConfig;
 }
 
 - (BOOL)loggedIn {
@@ -59,7 +50,6 @@
 
 - (void)setClientConfig:(UVClientConfig *)newConfig {
     _clientConfig = newConfig;
-    [UVBabayaga flush];
 }
 
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {

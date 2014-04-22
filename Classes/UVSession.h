@@ -43,6 +43,5 @@
 
 - (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope;
 - (void)clear;
-- (void)preloadClientConfig;
 
 @end
