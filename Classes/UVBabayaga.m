@@ -17,9 +17,7 @@
 #import "HRFormatJson.h"
 #import "UVConfig.h"
 
-@implementation UVBabayaga {
-    NSMutableArray *_queue;
-}
+@implementation UVBabayaga
 
 + (UVBabayaga *)instance {
     static UVBabayaga *_instance;
@@ -50,7 +48,6 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _queue = [NSMutableArray new];
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
         _uvts = [prefs stringForKey:@"uv-uvts"];
     }
