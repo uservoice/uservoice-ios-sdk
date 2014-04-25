@@ -66,13 +66,16 @@
 - (void)track:(NSString *)event props:(NSDictionary *)props {
     // NSLog(@"sending track: %@", event);
     NSString *subdomain;
+    NSString *route;
     if ([UVSession currentSession].clientConfig) {
         subdomain = [NSString stringWithFormat:@"%d", (int)[UVSession currentSession].clientConfig.subdomain.subdomainId];
+        route = @"t";
     } else {
         subdomain = [[UVSession currentSession].config.site componentsSeparatedByString:@"."][0];
+        route = @"t/k";
     }
     NSString *channel = [event isEqualToString:VIEW_APP] ? EXTERNAL_CHANNEL : CHANNEL;
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", subdomain, channel, event];
+    NSString *path = [NSString stringWithFormat:@"%@/%@/%@/%@", route, subdomain, channel, event];
     if (_uvts) {
         path = [NSString stringWithFormat:@"%@/%@", path, _uvts];
     }
@@ -93,7 +96,7 @@
         [params setObject:encoded forKey:@"d"];
     }
     NSDictionary *opts = @{
-        kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com/t/"],
+        kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com/"],
         kHRClassAttributesDelegateKey : self,
         @"params" : params
     };
