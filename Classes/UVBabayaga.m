@@ -75,7 +75,7 @@
         route = @"t/k";
     }
     NSString *channel = [event isEqualToString:VIEW_APP] ? EXTERNAL_CHANNEL : CHANNEL;
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@/%@", route, subdomain, channel, event];
+    NSString *path = [NSString stringWithFormat:@"/%@/%@/%@/%@", route, subdomain, channel, event];
     if (_uvts) {
         path = [NSString stringWithFormat:@"%@/%@", path, _uvts];
     }
@@ -96,7 +96,7 @@
         [params setObject:encoded forKey:@"d"];
     }
     NSDictionary *opts = @{
-        kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com/"],
+        kHRClassAttributesBaseURLKey  : [NSURL URLWithString:@"https://by.uservoice.com"],
         kHRClassAttributesDelegateKey : self,
         @"params" : params
     };

@@ -281,6 +281,7 @@
 #pragma mark - Class Methods
 + (HRRequestOperation *)requestWithMethod:(HRRequestMethod)method path:(NSString*)urlPath options:(NSDictionary*)requestOptions object:(id)obj {
     id operation = [[self alloc] initWithMethod:method path:urlPath options:requestOptions object:obj];
+    // NSLog(@"%@", urlPath);
     [[HROperationQueue sharedOperationQueue] addOperation:operation];
     return operation;
 }
