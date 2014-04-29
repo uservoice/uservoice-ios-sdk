@@ -1,6 +1,6 @@
 ## master ##
 
-## 3.0.1 (2014-04-29) ##
+## 3.1.0 (2014-04-29) ##
 
 * Fix a bug where the comment form submit button would be incorrectly disabled
 * Show an error message when the user tries to submit a comment with no text
