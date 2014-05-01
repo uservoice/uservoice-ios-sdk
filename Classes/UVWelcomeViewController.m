@@ -48,6 +48,9 @@
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Feedback Forum", @"UserVoice", [UserVoice bundle], nil);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
+- (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     NSString *detail;
     if ([UVSession currentSession].forum.suggestionsCount == 1) {
         detail = NSLocalizedStringFromTableInBundle(@"1 idea", @"UserVoice", [UserVoice bundle], nil);
@@ -323,6 +326,11 @@
     }
 
     [_tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [_tableView reloadData];
+    [super viewWillAppear:animated];
 }
 
 @end

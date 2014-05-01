@@ -30,7 +30,8 @@
               withParams:params
                   target:delegate
                 selector:@selector(didRetrieveSuggestions:)
-                 rootKey:@"suggestions"];
+                 rootKey:@"suggestions"
+                 context:@"suggestions_load"];
 }
 
 + (id)searchWithForum:(UVForum *)forum query:(NSString *)query delegate:(id<UVModelDelegate>)delegate {

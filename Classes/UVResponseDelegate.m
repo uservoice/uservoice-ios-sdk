@@ -12,6 +12,7 @@
 #import "UVSession.h"
 #import "UVCustomField.h"
 #import "UVRequestContext.h"
+#import "UVForum.h"
 
 @implementation UVResponseDelegate
 
@@ -37,6 +38,11 @@
     } else {
         if ([resource respondsToSelector:@selector(objectForKey:)]) {
             NSDictionary *dict = (NSDictionary *)resource;
+            
+            if ([requestContext.context isEqualToString:@"suggestions_load"]) {
+                // update the forum suggestions count. hopefully have better pagination.
+                [UVSession currentSession].forum.suggestionsCount = [dict[@"response_data"][@"total_records"] intValue];
+            }
 
             if ([dict objectForKey:@"token"] && ![requestContext.context isEqualToString:@"request-token"]) {
                 // check for any tokens returned and set a current on session
