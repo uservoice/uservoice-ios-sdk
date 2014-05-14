@@ -238,13 +238,13 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     [navigationController.navigationBar setBackgroundImage:styles.navigationBarBackgroundImage forBarMetrics:UIBarMetricsDefault];
     NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes];
     if (styles.navigationBarTextColor) {
-        [navbarTitleTextAttributes setObject:styles.navigationBarTextColor forKey:UITextAttributeTextColor];
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextColor forKey:NSForegroundColorAttributeName];
     }
     if (styles.navigationBarTextShadowColor) {
-        [navbarTitleTextAttributes setObject:styles.navigationBarTextShadowColor forKey:UITextAttributeTextShadowColor];
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextShadowColor forKey:NSShadowAttributeName];
     }
     if (styles.navigationBarFont) {
-        [navbarTitleTextAttributes setObject:styles.navigationBarFont forKey:UITextAttributeFont];
+        [navbarTitleTextAttributes setObject:styles.navigationBarFont forKey:NSFontAttributeName];
     }
     [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }
