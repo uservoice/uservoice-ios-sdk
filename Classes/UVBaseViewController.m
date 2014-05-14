@@ -532,7 +532,7 @@
     [self.navigationController setNavigationBarHidden:beginSearch animated:YES];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self correctSearchDisplayFrames:controller];
-        [_tableView setContentOffset:CGPointMake(0, -44) animated:YES];
+        [self->_tableView setContentOffset:CGPointMake(0, -44) animated:YES];
     });
 }
 
