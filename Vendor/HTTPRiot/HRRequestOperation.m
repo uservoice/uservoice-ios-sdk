@@ -288,7 +288,7 @@
 
 + (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError * __autoreleasing *)error {
     NSInteger code = [response statusCode];
-    NSUInteger ucode = [[NSNumber numberWithInt:code] unsignedIntValue];
+    NSUInteger ucode = [[NSNumber numberWithInteger:code] unsignedIntValue];
     NSRange okRange = NSMakeRange(200, 201);
     
     if(NSLocationInRange(ucode, okRange)) {

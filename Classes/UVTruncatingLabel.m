@@ -52,7 +52,7 @@
         if ([lines count] > 3) {
             CGSize moreSize = [_moreLabel intrinsicContentSize];
             self.text = [NSString stringWithFormat:@"%@%@%@", [lines objectAtIndex:0], [lines objectAtIndex:1], [lines objectAtIndex:2]];
-            int i = [self.text length] - 1;
+            int i = (int)[self.text length] - 1;
             CGRect r = [self rectForLetterAtIndex:i];
             while (self.effectiveWidth - r.origin.x - r.size.width < (20 + moreSize.width) && i > 0) {
                 i--;

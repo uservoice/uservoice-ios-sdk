@@ -21,7 +21,7 @@
                                     (int)suggestion.forumId,
                                     (int)suggestion.suggestionId]];
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [[NSNumber numberWithInt:page] stringValue],
+                            [[NSNumber numberWithInteger:page] stringValue],
                             @"page",
                             nil];
     return [self getPath:path
