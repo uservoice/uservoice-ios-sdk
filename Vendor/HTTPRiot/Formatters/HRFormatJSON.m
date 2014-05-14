@@ -18,11 +18,11 @@
     return @"application/json";
 }
 
-+ (id)decode:(NSData *)data error:(NSError **)error {
++ (id)decode:(NSData *)data error:(NSError * __autoreleasing *)error {
     return [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
 }
 
-+ (NSString *)encode:(id)data error:(NSError **)error {
++ (NSString *)encode:(id)data error:(NSError * __autoreleasing *)error {
     return [UVUtils encodeJSON:data];
 }
 @end

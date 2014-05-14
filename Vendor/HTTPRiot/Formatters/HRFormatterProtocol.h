@@ -35,7 +35,7 @@
  * @param data Raw data to be decoded.
  * @param error Returns any errors that happened while decoding.
  */
-+ (id)decode:(NSData *)data error:(NSError **)error;
++ (id)decode:(NSData *)data error:(NSError * __autoreleasing *)error;
 
 /**
  * Takes an Obj-C data type and turns it into the proper format.
@@ -43,5 +43,5 @@
  * @param object The Obj-C object to be encoded by the formatter.
  * @param error Returns any errors that happened while encoding.
  */
-+ (NSString *)encode:(id)object error:(NSError **)error;
++ (NSString *)encode:(id)object error:(NSError * __autoreleasing *)error;
 @end

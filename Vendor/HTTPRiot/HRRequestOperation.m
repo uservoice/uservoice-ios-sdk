@@ -18,7 +18,7 @@
 - (void)setAuthHeadersForRequest:(NSMutableURLRequest *)request;
 - (NSMutableURLRequest *)configuredRequest;
 - (NSURL *)composedURL;
-+ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError **)error;
++ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError * __autoreleasing *)error;
 + (NSString *)buildQueryStringFromParams:(NSDictionary *)params;
 - (void)finish;
 @end
@@ -286,7 +286,7 @@
     return operation;
 }
 
-+ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError **)error {
++ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError * __autoreleasing *)error {
     NSInteger code = [response statusCode];
     NSUInteger ucode = [[NSNumber numberWithInt:code] unsignedIntValue];
     NSRange okRange = NSMakeRange(200, 201);
