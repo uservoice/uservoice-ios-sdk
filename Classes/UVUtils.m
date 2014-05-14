@@ -109,7 +109,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		memset(decodingTable, CHAR_MAX, 256);
 		NSUInteger i;
 		for (i = 0; i < 64; i++)
-			decodingTable[(short)encodingTable[i]] = i;
+			decodingTable[(short)encodingTable[i]] = (char)i;
 	}
 	
 	const char *characters = [string cStringUsingEncoding:NSASCIIStringEncoding];
@@ -148,11 +148,11 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		}
 		
 		//  Decode the characters in the buffer to bytes.
-		bytes[length++] = (buffer[0] << 2) | (buffer[1] >> 4);
+		bytes[length++] = (char)(buffer[0] << 2) | (buffer[1] >> 4);
 		if (bufferLength > 2)
-			bytes[length++] = (buffer[1] << 4) | (buffer[2] >> 2);
+			bytes[length++] = (char)(buffer[1] << 4) | (buffer[2] >> 2);
 		if (bufferLength > 3)
-			bytes[length++] = (buffer[2] << 6) | buffer[3];
+			bytes[length++] = (char)(buffer[2] << 6) | buffer[3];
 	}
 	
 	realloc(bytes, length);

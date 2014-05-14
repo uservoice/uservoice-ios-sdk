@@ -37,7 +37,7 @@
         }
     }
 
-    int linesThatFit = floor(self.frame.size.height / self.font.lineHeight);
+    int linesThatFit = (int)floor(self.frame.size.height / self.font.lineHeight);
     int totalLines = self.numberOfLines == 0 ? [lines count] : MIN([lines count], self.numberOfLines);
     int linesDisplayed = MIN(linesThatFit, totalLines);
     CGFloat targetLineWidth = [targetLine sizeWithFont:self.font].width;
