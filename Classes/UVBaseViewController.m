@@ -301,7 +301,7 @@
 
 - (void)keyboardWillShow:(NSNotification*)notification {
     if (IPAD) {
-        CGFloat formSheetHeight = 576;
+        NSInteger formSheetHeight = 576;
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
             _kbHeight = formSheetHeight - 352;
         } else {
@@ -311,7 +311,7 @@
         NSDictionary* info = [notification userInfo];
         CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
         // Convert from window space to view space to account for orientation
-        _kbHeight = [self.view convertRect:rect fromView:nil].size.height;
+        _kbHeight = (NSInteger)[self.view convertRect:rect fromView:nil].size.height;
     }
 }
 
@@ -464,7 +464,7 @@
             if (width < 400) {
                 margin = 10;
             } else {
-                margin = MAX(31, MIN(45, width*0.06));
+                margin = MAX(31, MIN(45, width*0.06f));
             }
         } else {
             margin = width - 10;
@@ -532,7 +532,7 @@
     [self.navigationController setNavigationBarHidden:beginSearch animated:YES];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self correctSearchDisplayFrames:controller];
-        [_tableView setContentOffset:CGPointMake(0, -44) animated:YES];
+        [self->_tableView setContentOffset:CGPointMake(0, -44) animated:YES];
     });
 }
 

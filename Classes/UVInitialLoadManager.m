@@ -136,7 +136,7 @@
 - (void)didLoadUser {
     _userDone = YES;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
-        [UVForum getWithId:[UVSession currentSession].config.forumId delegate:self];
+        [UVForum getWithId:(int)[UVSession currentSession].config.forumId delegate:self];
     } else {
         _forumDone = YES;
     }

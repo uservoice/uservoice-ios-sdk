@@ -159,7 +159,7 @@
     label.text = field[@"required"] ? [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ (required)", @"UserVoice", [UserVoice bundle], nil), field[@"name"]] : field[@"name"];
     text.text = _selectedFieldValues[field[@"name"]][@"label"];
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:text queue:nil usingBlock:^(NSNotification *note) {
-        _selectedFieldValues[field[@"name"]] = @{ @"id" : text.text, @"label" : text.text};
+        self->_selectedFieldValues[field[@"name"]] = @{ @"id" : text.text, @"label" : text.text};
     }];
 }
 

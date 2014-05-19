@@ -45,8 +45,8 @@
         _titleField.text = _initialText;
     }
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification object:_titleField queue:nil usingBlock:^(NSNotification *note) {
-        NSString *text = [_titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        _instantAnswerManager.searchText = text;
+        NSString *text = [self->_titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        self->_instantAnswerManager.searchText = text;
         self.navigationItem.rightBarButtonItem.enabled = (text.length > 0);
     }];
 

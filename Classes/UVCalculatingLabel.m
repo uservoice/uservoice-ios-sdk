@@ -7,6 +7,7 @@
 //
 
 #import "UVCalculatingLabel.h"
+#import "UVUtils.h"
 
 @implementation UVCalculatingLabel
 
@@ -20,7 +21,7 @@
 
     CGFloat frameWidth = [self effectiveWidth];
     NSString *letter = [self.text substringWithRange:NSMakeRange(index, 1)];
-    CGSize letterSize = [letter sizeWithFont:self.font];
+    CGSize letterSize = [UVUtils string:letter sizeWithFont:self.font];
     
     NSArray *lines = [self breakString];
     int targetLineNumber = 0, targetColumnNumber = 0, elapsedChars = 0;
@@ -32,17 +33,17 @@
             targetLineNumber++;
         } else {
             targetLine = line;
-            targetColumnNumber = index - elapsedChars;
+            targetColumnNumber = (int)index - elapsedChars;
             break;
         }
     }
 
-    int linesThatFit = floor(self.frame.size.height / self.font.lineHeight);
-    int totalLines = self.numberOfLines == 0 ? [lines count] : MIN([lines count], self.numberOfLines);
+    int linesThatFit = (int)floor(self.frame.size.height / self.font.lineHeight);
+    int totalLines = (int)(self.numberOfLines == 0 ? [lines count] : MIN([lines count], self.numberOfLines));
     int linesDisplayed = MIN(linesThatFit, totalLines);
-    CGFloat targetLineWidth = [targetLine sizeWithFont:self.font].width;
+    CGFloat targetLineWidth = [UVUtils string:targetLine sizeWithFont:self.font].width;
     
-    CGFloat x = [[targetLine substringWithRange:NSMakeRange(0, targetColumnNumber)] sizeWithFont:self.font].width;
+    CGFloat x = [UVUtils string:[targetLine substringWithRange:NSMakeRange(0, targetColumnNumber)] sizeWithFont:self.font].width;
     CGFloat y = self.frame.size.height/2 - (linesDisplayed*self.font.lineHeight)/2 + self.font.lineHeight*targetLineNumber;
     
     if (self.textAlignment == NSTextAlignmentCenter)
@@ -56,7 +57,7 @@
 - (NSArray *)breakString {
     NSMutableArray *lines = [NSMutableArray array];
     CGFloat frameWidth = [self effectiveWidth];
-    int len = [self.text length];
+    int len = (int)[self.text length];
     int lineStartOffset = 0;
     int lastBreakChar = -1;
 
@@ -67,7 +68,7 @@
         if ([currentChar isEqualToString:@" "] || [currentChar isEqualToString:@"-"])
             lastBreakChar = i;
         
-        CGSize currentSize = [currentLine sizeWithFont:self.font constrainedToSize:CGSizeMake(frameWidth, 1000) lineBreakMode:self.lineBreakMode];
+        CGSize currentSize = [UVUtils string:currentLine sizeWithFont:self.font constrainedToSize:CGSizeMake(frameWidth, 1000) lineBreakMode:self.lineBreakMode];
         
         // TODO: Add support for hard breaks (\n)
         if (currentSize.height > self.font.lineHeight) {

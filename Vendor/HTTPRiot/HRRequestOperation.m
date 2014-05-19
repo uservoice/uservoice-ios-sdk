@@ -18,7 +18,7 @@
 - (void)setAuthHeadersForRequest:(NSMutableURLRequest *)request;
 - (NSMutableURLRequest *)configuredRequest;
 - (NSURL *)composedURL;
-+ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError **)error;
++ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError * __autoreleasing *)error;
 + (NSString *)buildQueryStringFromParams:(NSDictionary *)params;
 - (void)finish;
 @end
@@ -115,9 +115,9 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {    
     //HRLOG(@"Server responded with:%i, %@", [response statusCode], [NSHTTPURLResponse localizedStringForStatusCode:[response statusCode]]);
     
-    if ([_delegate respondsToSelector:@selector(restConnection:didReceiveResponse:object:)]) {
+    if ([self.delegate respondsToSelector:@selector(restConnection:didReceiveResponse:object:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate restConnection:connection didReceiveResponse:response object:_object];
+            [self.delegate restConnection:connection didReceiveResponse:response object:self->_object];
         });
     }
     
@@ -125,9 +125,9 @@
     [[self class] handleResponse:(NSHTTPURLResponse *)response error:&error];
     
     if(error) {
-        if([_delegate respondsToSelector:@selector(restConnection:didReceiveError:response:object:)]) {
+        if([self.delegate respondsToSelector:@selector(restConnection:didReceiveError:response:object:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_delegate restConnection:connection didReceiveError:error response:response object:_object];
+                [self.delegate restConnection:connection didReceiveError:error response:response object:self->_object];
             });
             [connection cancel];
             [self finish];
@@ -143,9 +143,9 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {  
     //HRLOG(@"Connection failed: %@", [error localizedDescription]);
-    if([_delegate respondsToSelector:@selector(restConnection:didFailWithError:object:)]) {        
+    if([self.delegate respondsToSelector:@selector(restConnection:didFailWithError:object:)]) {        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate restConnection:connection didFailWithError:error object:_object];
+            [self.delegate restConnection:connection didFailWithError:error object:self->_object];
         });
     }
     
@@ -160,9 +160,9 @@
                 
         if(parseError) {
             NSString *rawString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
-            if([_delegate respondsToSelector:@selector(restConnection:didReceiveParseError:responseBody:object:)]) {
+            if([self.delegate respondsToSelector:@selector(restConnection:didReceiveParseError:responseBody:object:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [_delegate restConnection:connection didReceiveParseError:parseError responseBody:rawString object:_object];
+                    [self.delegate restConnection:connection didReceiveParseError:parseError responseBody:rawString object:self->_object];
                 });
             }
             [self finish];
@@ -170,9 +170,9 @@
         }
     }
 
-    if([_delegate respondsToSelector:@selector(restConnection:didReturnResource:object:)]) {        
+    if([self.delegate respondsToSelector:@selector(restConnection:didReturnResource:object:)]) {        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_delegate restConnection:connection didReturnResource:results object:_object];
+            [self.delegate restConnection:connection didReturnResource:results object:self->_object];
         });
     }
         
@@ -286,9 +286,9 @@
     return operation;
 }
 
-+ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError **)error {
++ (id)handleResponse:(NSHTTPURLResponse *)response error:(NSError * __autoreleasing *)error {
     NSInteger code = [response statusCode];
-    NSUInteger ucode = [[NSNumber numberWithInt:code] unsignedIntValue];
+    NSUInteger ucode = [[NSNumber numberWithInteger:code] unsignedIntValue];
     NSRange okRange = NSMakeRange(200, 201);
     
     if(NSLocationInRange(ucode, okRange)) {

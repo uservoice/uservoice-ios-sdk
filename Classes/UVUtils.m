@@ -109,7 +109,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		memset(decodingTable, CHAR_MAX, 256);
 		NSUInteger i;
 		for (i = 0; i < 64; i++)
-			decodingTable[(short)encodingTable[i]] = i;
+			decodingTable[(short)encodingTable[i]] = (char)i;
 	}
 	
 	const char *characters = [string cStringUsingEncoding:NSASCIIStringEncoding];
@@ -148,11 +148,11 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 		}
 		
 		//  Decode the characters in the buffer to bytes.
-		bytes[length++] = (buffer[0] << 2) | (buffer[1] >> 4);
+		bytes[length++] = (char)(buffer[0] << 2) | (buffer[1] >> 4);
 		if (bufferLength > 2)
-			bytes[length++] = (buffer[1] << 4) | (buffer[2] >> 2);
+			bytes[length++] = (char)(buffer[1] << 4) | (buffer[2] >> 2);
 		if (bufferLength > 3)
-			bytes[length++] = (buffer[2] << 6) | buffer[3];
+			bytes[length++] = (char)(buffer[2] << 6) | buffer[3];
 	}
 	
 	realloc(bytes, length);
@@ -238,13 +238,13 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     [navigationController.navigationBar setBackgroundImage:styles.navigationBarBackgroundImage forBarMetrics:UIBarMetricsDefault];
     NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes];
     if (styles.navigationBarTextColor) {
-        [navbarTitleTextAttributes setObject:styles.navigationBarTextColor forKey:UITextAttributeTextColor];
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextColor forKey:NSForegroundColorAttributeName];
     }
     if (styles.navigationBarTextShadowColor) {
-        [navbarTitleTextAttributes setObject:styles.navigationBarTextShadowColor forKey:UITextAttributeTextShadowColor];
+        [navbarTitleTextAttributes setObject:styles.navigationBarTextShadowColor forKey:NSShadowAttributeName];
     }
     if (styles.navigationBarFont) {
-        [navbarTitleTextAttributes setObject:styles.navigationBarFont forKey:UITextAttributeFont];
+        [navbarTitleTextAttributes setObject:styles.navigationBarFont forKey:NSFontAttributeName];
     }
     [navigationController.navigationBar setTitleTextAttributes:navbarTitleTextAttributes];
 }
@@ -286,6 +286,51 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
 + (UIImageView *)imageViewWithImageNamed:(NSString *)name {
     return [[UIImageView alloc] initWithImage:[UVUtils imageNamed:name]];
+}
+
++ (CGSize)string:(NSString *)string sizeWithFont:(UIFont *)font {
+    CGSize sizeWithFont = CGSizeZero;
+    
+    if ([string respondsToSelector:@selector(sizeWithAttributes:)]) {
+        sizeWithFont = [string sizeWithAttributes:@{NSFontAttributeName: font}];
+    } else {
+        // this means we are running on a system older than iOS7, since `sizeWithAttributes:` was added in iOS7.
+        // so we need to use `sizeWithFont:`
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        sizeWithFont = [string sizeWithFont:font];
+#pragma clang diagnostic pop
+    }
+    
+    return sizeWithFont;
+}
+
++ (CGSize)string:(NSString *)string sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode {
+    CGSize sizeWithFont = CGSizeZero;
+    
+    if ([string respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = lineBreakMode;
+        
+        NSDictionary * attributes = @{NSFontAttributeName : font,
+                                      NSParagraphStyleAttributeName : [paragraphStyle copy]};
+        
+        sizeWithFont = [string boundingRectWithSize:size
+                                            options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                         attributes:attributes
+                                            context:nil].size;
+    } else {
+        // this means we are running on a system older than iOS7, since `sizeWithAttributes:` was added in iOS7.
+        // so we need to use `sizeWithFont:`
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        sizeWithFont = [string sizeWithFont:font constrainedToSize:size lineBreakMode:lineBreakMode];
+#pragma clang diagnostic pop
+    }
+    
+    return sizeWithFont;
 }
 
 
