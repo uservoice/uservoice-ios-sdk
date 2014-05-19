@@ -39,4 +39,10 @@
 // merged user and account traits
 - (NSDictionary *)traits;
 
+- (void)addAttachmentNamed:(NSString *)fileName
+               contentType:(NSString *)contentType
+         base64encodedData:(NSString *)data;
+
+- (NSArray *)attachments;
+
 @end

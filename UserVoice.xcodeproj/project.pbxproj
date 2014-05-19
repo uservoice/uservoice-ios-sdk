@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A37C3D11929A96B00942423 /* UVAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A37C3CF1929A96B00942423 /* UVAttachment.h */; };
+		3A37C3D21929A96B00942423 /* UVAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A37C3D01929A96B00942423 /* UVAttachment.m */; };
 		6474C33614BB8D5D00F6A2F0 /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6474C33714BB8D5D00F6A2F0 /* UserVoice.h */; };
 		80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B5291C13A16A2F008709D2 /* UVCustomField.h */; };
 		80B5291F13A16A2F008709D2 /* UVCustomField.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B5291D13A16A2F008709D2 /* UVCustomField.m */; };
@@ -142,6 +144,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A37C3CF1929A96B00942423 /* UVAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVAttachment.h; sourceTree = "<group>"; };
+		3A37C3D01929A96B00942423 /* UVAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVAttachment.m; sourceTree = "<group>"; };
 		6474C33714BB8D5D00F6A2F0 /* UserVoice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UserVoice.h; path = Include/UserVoice.h; sourceTree = SOURCE_ROOT; };
 		80B5291C13A16A2F008709D2 /* UVCustomField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomField.h; sourceTree = "<group>"; };
 		80B5291D13A16A2F008709D2 /* UVCustomField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomField.m; sourceTree = "<group>"; };
@@ -402,6 +406,8 @@
 			children = (
 				D92767F915597F3700E17EF1 /* UVArticle.h */,
 				D92767FA15597F3800E17EF1 /* UVArticle.m */,
+				3A37C3CF1929A96B00942423 /* UVAttachment.h */,
+				3A37C3D01929A96B00942423 /* UVAttachment.m */,
 				AC3121F6108FC46500000D5F /* UVBaseModel.h */,
 				AC3121F7108FC46500000D5F /* UVBaseModel.m */,
 				AC1B18D210D878D0002B03F7 /* UVCategory.h */,
@@ -677,6 +683,7 @@
 				D2620F0411B597290053EA4C /* HRFormatJSON.h in Headers */,
 				D2620F0811B597290053EA4C /* HRFormatterProtocol.h in Headers */,
 				D9CB6548181877F2006B05D7 /* UVPostIdeaViewController.h in Headers */,
+				3A37C3D11929A96B00942423 /* UVAttachment.h in Headers */,
 				D2620F0911B597290053EA4C /* HRGlobal.h in Headers */,
 				D2620F0B11B597290053EA4C /* HROperationQueue.h in Headers */,
 				D9E8B6A818105CC8003C7E07 /* UVInstantAnswerManager.h in Headers */,
@@ -828,6 +835,7 @@
 				D96FAE79165C3DF100A384CC /* UVSigninManager.m in Sources */,
 				D9E8B6A918105CC9003C7E07 /* UVInstantAnswerManager.m in Sources */,
 				D9C35BD6166E7DB0004FAA89 /* UVTruncatingLabel.m in Sources */,
+				3A37C3D21929A96B00942423 /* UVAttachment.m in Sources */,
 				D9C35BDA166E7E00004FAA89 /* UVCalculatingLabel.m in Sources */,
 				D9A7A66518185F7500EBF41E /* UVSuccessViewController.m in Sources */,
 				D9C35BE4167680F2004FAA89 /* UVInitialLoadManager.m in Sources */,
