@@ -288,5 +288,50 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     return [[UIImageView alloc] initWithImage:[UVUtils imageNamed:name]];
 }
 
++ (CGSize)string:(NSString *)string sizeWithFont:(UIFont *)font {
+    CGSize sizeWithFont = CGSizeZero;
+    
+    if ([string respondsToSelector:@selector(sizeWithAttributes:)]) {
+        sizeWithFont = [string sizeWithAttributes:@{NSFontAttributeName: font}];
+    } else {
+        // this means we are running on a system older than iOS7, since `sizeWithAttributes:` was added in iOS7.
+        // so we need to use `sizeWithFont:`
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        sizeWithFont = [string sizeWithFont:font];
+#pragma clang diagnostic pop
+    }
+    
+    return sizeWithFont;
+}
+
++ (CGSize)string:(NSString *)string sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode {
+    CGSize sizeWithFont = CGSizeZero;
+    
+    if ([string respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = lineBreakMode;
+        
+        NSDictionary * attributes = @{NSFontAttributeName : font,
+                                      NSParagraphStyleAttributeName : [paragraphStyle copy]};
+        
+        sizeWithFont = [string boundingRectWithSize:size
+                                            options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                         attributes:attributes
+                                            context:nil].size;
+    } else {
+        // this means we are running on a system older than iOS7, since `sizeWithAttributes:` was added in iOS7.
+        // so we need to use `sizeWithFont:`
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        sizeWithFont = [string sizeWithFont:font constrainedToSize:size lineBreakMode:lineBreakMode];
+#pragma clang diagnostic pop
+    }
+    
+    return sizeWithFont;
+}
+
 
 @end

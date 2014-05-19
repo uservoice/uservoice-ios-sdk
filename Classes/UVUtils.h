@@ -35,4 +35,21 @@
 + (UIImage *)imageNamed:(NSString *)name;
 + (UIImageView *)imageViewWithImageNamed:(NSString *)name;
 
+/**
+ *  Method used to calculate sizeWithFont for both iOS7+later (`sizeWithAttributes:`) and iOS6+earlier(`sizeWithFont:`)
+ *
+ *  @param font the font for the calculus
+ *  @return the size result
+ */
++ (CGSize)string:(NSString *)string sizeWithFont:(UIFont *)font;
+
+/**
+ *  Method used to calculate sizeWithFont for both iOS7+later (`boundingRectWithSize:options:attributes:context:`)
+ *    and iOS6+earlier(`sizeWithFont:constrainedToSize:lineBreakMode:`)
+ *
+ *  @param font the font for the calculus
+ *  @return the size result
+ */
++ (CGSize)string:(NSString *)string sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode;
+
 @end

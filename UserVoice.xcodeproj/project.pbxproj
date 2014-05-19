@@ -139,8 +139,6 @@
 		D9E8B6A818105CC8003C7E07 /* UVInstantAnswerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E8B6A618105CC8003C7E07 /* UVInstantAnswerManager.h */; };
 		D9E8B6A918105CC9003C7E07 /* UVInstantAnswerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */; };
 		D9F2060414C08A8100F4441E /* UVDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F2060314C08A8100F4441E /* UVDelegate.h */; };
-		DAC87BE01923A60600B3B93B /* NSString+UV_UIStringDrawing.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC87BDE1923A60600B3B93B /* NSString+UV_UIStringDrawing.h */; };
-		DAC87BE11923A60600B3B93B /* NSString+UV_UIStringDrawing.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC87BDF1923A60600B3B93B /* NSString+UV_UIStringDrawing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -294,8 +292,6 @@
 		D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVInstantAnswerManager.m; sourceTree = "<group>"; };
 		D9F2060314C08A8100F4441E /* UVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDelegate.h; sourceTree = "<group>"; };
 		D9FAD0E618AE7DBB00EC193B /* UVModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVModelDelegate.h; sourceTree = "<group>"; };
-		DAC87BDE1923A60600B3B93B /* NSString+UV_UIStringDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UV_UIStringDrawing.h"; sourceTree = "<group>"; };
-		DAC87BDF1923A60600B3B93B /* NSString+UV_UIStringDrawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UV_UIStringDrawing.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,8 +374,6 @@
 				D9E8B6A618105CC8003C7E07 /* UVInstantAnswerManager.h */,
 				D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */,
 				D9FAD0E618AE7DBB00EC193B /* UVModelDelegate.h */,
-				DAC87BDE1923A60600B3B93B /* NSString+UV_UIStringDrawing.h */,
-				DAC87BDF1923A60600B3B93B /* NSString+UV_UIStringDrawing.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -692,7 +686,6 @@
 				D2620F1211B597290053EA4C /* HTTPRiot.h in Headers */,
 				D2620F1311B597290053EA4C /* HTTPRiot_Prefix.pch in Headers */,
 				D24BDE6211DAE3FA00B26012 /* UVImageView.h in Headers */,
-				DAC87BE01923A60600B3B93B /* NSString+UV_UIStringDrawing.h in Headers */,
 				D24BE09F11DB1B7C00B26012 /* UVTextView.h in Headers */,
 				D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */,
 				80B5291E13A16A2F008709D2 /* UVCustomField.h in Headers */,
@@ -832,7 +825,6 @@
 				D95B33071655A78900B87A23 /* UVCommentViewController.m in Sources */,
 				D96FAE701656E63D00A384CC /* UVHelpTopic.m in Sources */,
 				D96FAE751656F50D00A384CC /* UVHelpTopicViewController.m in Sources */,
-				DAC87BE11923A60600B3B93B /* NSString+UV_UIStringDrawing.m in Sources */,
 				D96FAE79165C3DF100A384CC /* UVSigninManager.m in Sources */,
 				D9E8B6A918105CC9003C7E07 /* UVInstantAnswerManager.m in Sources */,
 				D9C35BD6166E7DB0004FAA89 /* UVTruncatingLabel.m in Sources */,
