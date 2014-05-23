@@ -6,7 +6,7 @@
 
 /********** Uncategorized **********/
 
-"%@ (required)" = "%@ (required)";
+"%@ (required)" = "%@ (обязательно)";
 
 "%@ ideas" = "%@ ideas";
 
@@ -22,15 +22,15 @@
 
 "A suggestion with this title already exists. Please change the title." = "Предложение с таким названием уже существует. Измените название.";
 
-"Add a comment" = "Add a comment";
+"Add a comment" = "Добавьте комментарий";
 
-"Additional Details" = "Additional Details";
+"Additional Details" = "Дополнительные сведения";
 
 "All" = "Все";
 
 "All Articles" = "Все статьи";
 
-"Are any of these helpful?" = "Are any of these helpful?";
+"Are any of these helpful?" = "Что-нибудь из этого полезно?";
 
 "Articles" = "Статьи";
 
@@ -48,7 +48,7 @@
 
 "Do you still want to contact us?" = "Все равно написать нам?";
 
-"Do you still want to post your own idea?" = "Do you still want to post your own idea?";
+"Do you still want to post your own idea?" = "Всё равно хотите опубликовать свою идею?";
 
 "Don't save" = "Не сохранять";
 
@@ -58,7 +58,7 @@
 
 "Enter UserVoice password for %@" = "Введите пароль UserVoice для %@";
 
-"enter value" = "enter value";
+"enter value" = "введите значение";
 
 "Enter your email" = "Введите эл. адрес";
 
@@ -72,31 +72,31 @@
 
 "Forgot password" = "Забыли пароль";
 
-"Give feedback or ask for help..." = "Give feedback or ask for help...";
+"Give feedback or ask for help..." = "Оставьте отзыв или обратитесь за помощью...";
 
-"Great! Glad we could help." = "Great! Glad we could help.";
+"Great! Glad we could help." = "Прекрасно! Рады, что смогли помочь.";
 
-"I want this" = "I want this";
+"I want this" = "Мне это нужно";
 
-"I want this!" = "I want this!";
+"I want this!" = "Мне это нужно!";
 
 "Ideas" = "Идеи";
 
 "Knowledge Base" = "База знаний";
 
-"Knowledge base" = "Knowledge base";
+"Knowledge base" = "База знаний";
 
 "Load more" = "Загрузить еще";
 
-"Loading..." = "Loading...";
+"Loading..." = "Загрузка...";
 
-"Message sent!" = "Message sent!";
+"Message sent!" = "Сообщение отправлено!";
 
-"more" = "more";
+"more" = "ещё";
 
 "Name" = "Имя";
 
-"Next" = "Next";
+"Next" = "Далее";
 
 "No" = "Нет";
 
@@ -106,47 +106,47 @@
 
 "Password reset email sent to %@" = "Password reset email sent to %@";
 
-"Please enter some text before submitting your comment." = "Please enter some text before submitting your comment.";
+"Please enter some text before submitting your comment." = "Для отправки комментария введите свой какой-нибудь текст.";
 
-"Please enter your email address before submitting your comment." = "Please enter your email address before submitting your comment.";
+"Please enter your email address before submitting your comment." = "Для отправки комментария введите свой электронный адрес.";
 
 "Please enter your email address before submitting your ticket." = "Для отправки запроса введите свой электронный адрес.";
 
-"Please fill out all required fields." = "Please fill out all required fields.";
+"Please fill out all required fields." = "Пожалуйса, заполните все обязательные поля.";
 
 "Post" = "Опубликовать";
 
 "Post an idea" = "Опубликовать идею";
 
-"Powered by UserVoice" = "Powered by UserVoice";
+"Powered by UserVoice" = "Созданно UserVoice";
 
-"Related articles" = "Related articles";
+"Related articles" = "Похожие статьи";
 
-"Related feedback" = "Related feedback";
+"Related feedback" = "Похожие отзывы";
 
 "Save draft" = "Сохранить черновик";
 
 "Search" = "Поиск";
 
-"Search forum" = "Search forum";
+"Search forum" = "Поиск по форуму";
 
 "select" = "select";
 
 "Send" = "Отослать";
 
-"Send us a message" = "Send us a message";
+"Send us a message" = "Послать сообщение";
 
 "Sign in" = "Войти";
 
-"Skip" = "Skip";
+"Skip" = "Пропустить";
 
 "Sorry, there was an error in the application." = "Ошибка в приложении.";
 
-"Thank you!" = "Thank you!";
+"Thank you!" = "Спасибо!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Возможна неполадка подключения к сети. Проверьте подключение и повторите попытку.";
 
-"There was a problem logging you in." = "There was a problem logging you in.";
+"There was a problem logging you in." = "Неполадки при авторизации.";
 
 "this" = "this";
 
@@ -164,9 +164,9 @@
 
 "Was this article helpful?" = "Полезна ли эта статья?";
 
-"We'll be in touch." = "We'll be in touch.";
+"We'll be in touch." = "Мы будем на связи.";
 
-"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.";
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Когда Вы опубликуете идею на форуме, другие люди смогут подписаться на неё и оставлять комментарии. Когда мы ответим на идею, Вы будете уведомлены.";
 
 "Would you like to contact us?" = "Хотите связаться с нами?";
 
@@ -178,8 +178,8 @@
 
 "Yes, go to my message" = "Да, перейти к моему сообщению";
 
-"Yes, I want to post my idea" = "Yes, I want to post my idea";
+"Yes, I want to post my idea" = "Да, я хочу опубликовать мою идею";
 
-"Your feedback has been posted to our feedback forum." = "Your feedback has been posted to our feedback forum.";
+"Your feedback has been posted to our feedback forum." = "Ваш отзыв был опубликован на нашем форуме.";
 
 "“Anonymous”" = "«Анонимно»";
