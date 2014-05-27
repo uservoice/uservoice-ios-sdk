@@ -10,7 +10,7 @@
 
 @interface UVAttachment : NSObject
 
-@property (nonatomic, strong) NSString *base64encodedData;
+@property (nonatomic, strong) NSString *base64EncodedData;
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *contentType; // e.g., "image/jpeg"
 

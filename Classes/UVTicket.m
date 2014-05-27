@@ -69,7 +69,7 @@
         for (UVAttachment *attachment in attachments) {
             [params setObject:attachment.fileName forKey:[NSString stringWithFormat:@"ticket[attachments][%li][name]", (long)index]];
             
-            [params setObject:attachment.base64encodedData forKey:[NSString stringWithFormat:@"ticket[attachments][%li][data]", (long)index]];
+            [params setObject:attachment.base64EncodedData forKey:[NSString stringWithFormat:@"ticket[attachments][%li][data]", (long)index]];
             
             [params setObject:attachment.contentType forKey:[NSString stringWithFormat:@"ticket[attachments][%li][content_type]", (long)index]];
             index++;

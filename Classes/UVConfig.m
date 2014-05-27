@@ -123,12 +123,12 @@
     return self;
 }
 
-- (void)addAttachmentNamed:(NSString *)fileName contentType:(NSString *)contentType base64encodedData:(NSString *)data
+- (void)addAttachmentNamed:(NSString *)fileName contentType:(NSString *)contentType base64EncodedData:(NSString *)data
 {
     UVAttachment *attachment = [[UVAttachment alloc] init];
     attachment.fileName = fileName;
     attachment.contentType = contentType;
-    attachment.base64encodedData = data;
+    attachment.base64EncodedData = data;
     
     if (! _attachments) {
         _attachments = [NSMutableArray array];

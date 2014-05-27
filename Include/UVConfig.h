@@ -41,7 +41,7 @@
 
 - (void)addAttachmentNamed:(NSString *)fileName
                contentType:(NSString *)contentType
-         base64encodedData:(NSString *)data;
+         base64EncodedData:(NSString *)data;
 
 - (NSArray *)attachments;
 
