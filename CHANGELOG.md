@@ -1,5 +1,8 @@
 ## master ##
 
+* Fix a bug where certain back buttons would be missing on iOS 6
+* Add an API for adding attachments to tickets (thanks to nighthawk)
+
 ## 3.1.0 (2014-04-29) ##
 
 * Fix a bug where the comment form submit button would be incorrectly disabled
@@ -9,7 +12,7 @@
 * Show cancel button rather than back button while user is submitting an idea or ticket
 * Add NSURLErrorNetworkConnectionLost to list of errors treated as connectivity errors
 * Add email format validation
-* Trim whitespace before enabling Next button on contact and post idea forms 
+* Trim whitespace before enabling Next button on contact and post idea forms
 * Reload ideas after user posts an idea
 * Clean up idea pagination code
 * Fix a bug related to text area wrapping
