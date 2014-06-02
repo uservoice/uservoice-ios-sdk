@@ -371,7 +371,9 @@
     if (indexPath.section == 1 && indexPath.row == 0) {
         [self presentModalViewController:[[UVCommentViewController alloc] initWithSuggestion:_suggestion]];
     } else if (indexPath.section == 2 && indexPath.row == _comments.count) {
-        [self retrieveMoreComments];
+        if (!_loading) {
+            [self retrieveMoreComments];
+        }
     }
 }
 

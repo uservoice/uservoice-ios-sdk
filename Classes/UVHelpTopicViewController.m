@@ -52,7 +52,9 @@
         next.article = article;
         [self.navigationController pushViewController:next animated:YES];
     } else if (indexPath.section == 0) {
-        [self retrieveMoreArticles];
+        if (!_loading) {
+            [self retrieveMoreArticles];
+        }
     } else {
         [self presentModalViewController:[UVContactViewController new]];
     }

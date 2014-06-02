@@ -234,7 +234,9 @@
         } else if (indexPath.row < _forum.suggestions.count) {
             [self showSuggestion:[_forum.suggestions objectAtIndex:indexPath.row]];
         } else {
-            [self retrieveMoreSuggestions];
+            if (!_loading) {
+                [self retrieveMoreSuggestions];
+            }
         }
     } else {
         [self showSuggestion:[_searchResults objectAtIndex:indexPath.row]];
