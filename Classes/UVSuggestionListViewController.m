@@ -214,6 +214,10 @@
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
     UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion];
+    if (IOS7 && IPAD && _searchController.active) {
+        // this is a workaround. formsheet + uisearchcontroller is horribly buggy on iOS 7
+        _searchController.active = NO;
+    }
     [self.navigationController pushViewController:next animated:YES];
 }
 

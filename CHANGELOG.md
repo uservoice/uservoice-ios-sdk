@@ -2,6 +2,7 @@
 
 * Fix a bug where certain back buttons would be missing on iOS 6
 * Add an API for adding attachments to tickets (thanks to nighthawk)
+* Fix a bug where the nav bar gets lost on the iPad on iOS 7 after searching
 
 ## 3.1.0 (2014-04-29) ##
 

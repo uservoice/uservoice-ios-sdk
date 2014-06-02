@@ -180,6 +180,10 @@
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (theTableView == _searchController.searchResultsTableView) {
+        if (IOS7 && IPAD) {
+            // this is a workaround. formsheet + uisearchcontroller is horribly buggy on iOS 7
+            _searchController.active = NO;
+        }
         [_instantAnswerManager pushViewFor:[self.searchResults objectAtIndex:indexPath.row] parent:self];
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
