@@ -15,6 +15,7 @@
 // ticket[subject]       String - required
 // ticket[submitted_via] String - Your name for where this ticket came from (ex: web, email)
 // ticket[user_agent]    String
+// ticket[attachments]   Array  - Strings for 'name', 'data' (base64 encoded) and 'contentType'
 
 #import "UVTicket.h"
 #import "UVCustomField.h"
@@ -22,6 +23,7 @@
 #import "UVConfig.h"
 #import "UVBabayaga.h"
 #import "UVDeflection.h"
+#import "UVAttachment.h"
 
 @implementation UVTicket
 
@@ -59,6 +61,19 @@
 
     if ([UVBabayaga instance].uvts) {
         [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
+    }
+    
+    if ([UVSession currentSession].config.attachments) {
+        NSArray *attachments = [UVSession currentSession].config.attachments;
+        NSInteger index = 0;
+        for (UVAttachment *attachment in attachments) {
+            [params setObject:attachment.fileName forKey:[NSString stringWithFormat:@"ticket[attachments][%li][name]", (long)index]];
+            
+            [params setObject:attachment.base64EncodedData forKey:[NSString stringWithFormat:@"ticket[attachments][%li][data]", (long)index]];
+            
+            [params setObject:attachment.contentType forKey:[NSString stringWithFormat:@"ticket[attachments][%li][content_type]", (long)index]];
+            index++;
+        }
     }
 
     return [[self class] postPath:path

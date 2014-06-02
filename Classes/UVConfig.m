@@ -9,6 +9,13 @@
 #import "UVConfig.h"
 #import "UVSession.h"
 #import "UVClientConfig.h"
+#import "UVAttachment.h"
+
+@interface UVConfig ()
+
+@property (nonatomic, strong) NSMutableArray *attachments;
+
+@end
 
 @implementation UVConfig
 
@@ -114,6 +121,19 @@
         _guid = theGuid;
     }
     return self;
+}
+
+- (void)addAttachmentNamed:(NSString *)fileName contentType:(NSString *)contentType base64EncodedData:(NSString *)data
+{
+    UVAttachment *attachment = [[UVAttachment alloc] init];
+    attachment.fileName = fileName;
+    attachment.contentType = contentType;
+    attachment.base64EncodedData = data;
+    
+    if (! _attachments) {
+        _attachments = [NSMutableArray array];
+    }
+    [_attachments addObject:attachment];
 }
 
 @end
