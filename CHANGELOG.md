@@ -5,6 +5,8 @@
 * Fix a bug where the nav bar gets lost on the iPad on iOS 7 after searching
 * Fix an issue where tapping a "Loading..." cell would load the same data multiple times
 * Fix perf issue related to truncated (expandable) labels
+* Handle inconsistent suggestion counts from API more gracefully
+* Fix background of Load More cells on iOS 6
 
 ## 3.1.0 (2014-04-29) ##
 
