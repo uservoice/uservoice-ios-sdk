@@ -39,10 +39,12 @@
     if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
         [[UserVoice delegate] userVoiceRequestsDismissal];
     } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-        if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
-            [[UserVoice delegate] userVoiceWasDismissed];
-        }
+        [self dismissViewControllerAnimated:YES
+                                 completion:^{
+                                     if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
+                                         [[UserVoice delegate] userVoiceWasDismissed];
+                                     }
+                                 }];
     }
 }
 
