@@ -1,4 +1,4 @@
-//
+ //
 //  UVCalculatingLabel.m
 //  UserVoice
 //
@@ -15,7 +15,7 @@
     return self.frame.size.width;
 }
 
-- (CGRect)rectForLetterAtIndex:(NSUInteger)index {
+- (CGRect)rectForLetterAtIndex:(NSUInteger)index lines:(NSArray *)lines {
     if (index > [self.text length] - 1)
         return CGRectZero;
 
@@ -23,7 +23,6 @@
     NSString *letter = [self.text substringWithRange:NSMakeRange(index, 1)];
     CGSize letterSize = [UVUtils string:letter sizeWithFont:self.font];
     
-    NSArray *lines = [self breakString];
     int targetLineNumber = 0, targetColumnNumber = 0, elapsedChars = 0;
     NSString *targetLine = nil;
     for (int i = 0; i < [lines count]; i++) {
@@ -65,13 +64,19 @@
         int currentLineLength = i - lineStartOffset;
         NSString *currentChar = [self.text substringWithRange:NSMakeRange(i, 1)];
         NSString *currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength)];
-        if ([currentChar isEqualToString:@" "] || [currentChar isEqualToString:@"-"])
+        if ([currentChar isEqualToString:@" "] || [currentChar isEqualToString:@"-"]) {
             lastBreakChar = i;
+        } else if ([currentChar isEqualToString:@"\n"]) {
+            currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength + 1)];
+            lineStartOffset = i + 1;
+            lastBreakChar = -1;
+            [lines addObject:currentLine];
+            continue;
+        }
         
         CGSize currentSize = [UVUtils string:currentLine sizeWithFont:self.font constrainedToSize:CGSizeMake(frameWidth, 1000) lineBreakMode:self.lineBreakMode];
         
-        // TODO: Add support for hard breaks (\n)
-        if (currentSize.height > self.font.lineHeight) {
+        if (currentSize.height > self.font.lineHeight || currentSize.width > frameWidth) {
             if (lastBreakChar == -1 || self.lineBreakMode == NSLineBreakByCharWrapping) {
                 currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength)];
                 lineStartOffset = i;

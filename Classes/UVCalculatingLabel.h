@@ -12,6 +12,6 @@
 
 - (CGFloat)effectiveWidth;
 - (NSArray *)breakString;
-- (CGRect)rectForLetterAtIndex:(NSUInteger)index;
+- (CGRect)rectForLetterAtIndex:(NSUInteger)index lines:(NSArray *)lines;
 
 @end
