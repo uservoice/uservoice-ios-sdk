@@ -39,9 +39,10 @@
     if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceRequestsDismissal)]) {
         [[UserVoice delegate] userVoiceRequestsDismissal];
     } else {
+        __weak UVBaseViewController *_weakSelf = self;
         [self dismissViewControllerAnimated:YES
                                  completion:^{
-                                     if (_firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
+                                     if (_weakSelf.firstController && [[UserVoice delegate] respondsToSelector:@selector(userVoiceWasDismissed)]) {
                                          [[UserVoice delegate] userVoiceWasDismissed];
                                      }
                                  }];
