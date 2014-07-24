@@ -15,6 +15,7 @@
         _subdomainId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
         _name = [self objectOrNilForDict:dict key:@"name"];
         _host = [self objectOrNilForDict:dict key:@"host"];
+        _key = [self objectOrNilForDict:dict key:@"key"];
         _defaultSort = [self objectOrNilForDict:dict key:@"default_sort"];
     }
     return self;
