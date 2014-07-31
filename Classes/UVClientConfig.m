@@ -48,6 +48,9 @@
         if ([dict objectForKey:@"white_label"] != [NSNull null]) {
             _whiteLabel = [(NSNumber *)[dict objectForKey:@"white_label"] boolValue];
         }
+        if ([dict objectForKey:@"display_suggestions_by_rank"] != [NSNull null]) {
+            _displaySuggestionsByRank = [(NSNumber *)[dict objectForKey:@"display_suggestions_by_rank"] boolValue];
+        }
 
         NSDictionary *subdomainDict = [self objectOrNilForDict:dict key:@"subdomain"];
         _subdomain = [[UVSubdomain alloc] initWithDictionary:subdomainDict];

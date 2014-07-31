@@ -16,6 +16,8 @@
 #import "UVSuggestionDetailsViewController.h"
 #import "UVInstantAnswersViewController.h"
 #import "UVUtils.h"
+#import "UVSession.h"
+#import "UVClientConfig.h"
 
 #define TITLE 20
 #define SUBSCRIBER_COUNT 21
@@ -170,7 +172,11 @@
     UILabel *status = (UILabel *)[cell.contentView viewWithTag:STATUS];
     UIView *statusColor = [cell.contentView viewWithTag:STATUS_COLOR];
     title.text = suggestion.title;
-    subs.text = [NSString stringWithFormat:@"%d", (int)suggestion.subscriberCount];
+    if ([UVSession currentSession].clientConfig.displaySuggestionsByRank) {
+        subs.text = suggestion.rankString;
+    } else {
+        subs.text = [NSString stringWithFormat:@"%d", (int)suggestion.subscriberCount];
+    }
     [(CALayer *)statusColor.layer.sublayers.lastObject setBackgroundColor:suggestion.statusColor.CGColor];
     status.textColor = suggestion.statusColor;
     status.text = [suggestion.status uppercaseString];

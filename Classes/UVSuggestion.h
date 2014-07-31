@@ -42,6 +42,7 @@
 @property (nonatomic, readonly) NSString *categoryString;
 @property (nonatomic, assign) BOOL subscribed;
 @property (nonatomic, assign) NSInteger weight;
+@property (nonatomic, assign) NSInteger rank;
 
 // Retrieves a page (10 items) of suggestions.
 + (id)getWithForum:(UVForum *)forum page:(NSInteger)page delegate:(id<UVModelDelegate>)delegate;
@@ -61,5 +62,6 @@
 
 - (UIColor *)statusColor;
 - (NSString *)responseUserWithTitle;
+- (NSString *)rankString;
 
 @end

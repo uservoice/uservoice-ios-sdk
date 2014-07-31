@@ -90,6 +90,28 @@
     return self.statusHexColor ? [UVUtils parseHexColor:self.statusHexColor] : [UIColor clearColor];
 }
 
+- (NSString *)rankString {
+    NSString *suffix;
+    if (_rank % 100 > 10 && _rank % 100 < 14) {
+        suffix = @"th";
+    } else {
+        switch (_rank % 10) {
+        case 1:
+            suffix = @"st";
+            break;
+        case 2:
+            suffix = @"nd";
+            break;
+        case 3:
+            suffix = @"rd";
+            break;
+        default:
+            suffix = @"th";
+        }
+    }
+    return [NSString stringWithFormat:@"%d%@", (int)_rank, suffix];
+}
+
 - (id)initWithDictionary:(NSDictionary *)dict {
     if ((self = [super init])) {
         _suggestionId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
@@ -101,6 +123,7 @@
         _createdAt = [self parseJsonDate:[dict objectForKey:@"created_at"]];
         _subscribed = [(NSNumber *)[self objectOrNilForDict:dict key:@"subscribed"] boolValue];
         _weight = [(NSNumber *)[self objectOrNilForDict:dict key:@"normalized_weight"] integerValue];
+        _rank = [(NSNumber *)[self objectOrNilForDict:dict key:@"rank"] integerValue];
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
         if (statusDict) {
             _status = [statusDict objectForKey:@"name"];

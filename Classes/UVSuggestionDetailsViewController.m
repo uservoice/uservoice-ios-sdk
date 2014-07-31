@@ -106,14 +106,19 @@
 - (void)updateSuggestion:(UVSuggestion *)theSuggestion {
     _suggestion.subscribed = theSuggestion.subscribed;
     _suggestion.subscriberCount = theSuggestion.subscriberCount;
+    _suggestion.rank = theSuggestion.rank;
     [self updateSubscriberCount];
 }
 
 - (void)updateSubscriberCount {
-    if (_suggestion.subscriberCount == 1) {
-        _subscriberCount.text = NSLocalizedStringFromTableInBundle(@"1 person", @"UserVoice", [UserVoice bundle], nil);
+    if ([UVSession currentSession].clientConfig.displaySuggestionsByRank) {
+        _subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Ranked %@", @"UserVoice", [UserVoice bundle], nil), _suggestion.rankString];
     } else {
-        _subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%d people", @"UserVoice", [UserVoice bundle], nil), _suggestion.subscriberCount];
+        if (_suggestion.subscriberCount == 1) {
+            _subscriberCount.text = NSLocalizedStringFromTableInBundle(@"1 person", @"UserVoice", [UserVoice bundle], nil);
+        } else {
+            _subscriberCount.text = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%d people", @"UserVoice", [UserVoice bundle], nil), _suggestion.subscriberCount];
+        }
     }
 }
 
@@ -445,6 +450,9 @@
     table.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, _footerHeight, 0);
     _tableView = table;
 
+    BOOL byRank = [UVSession currentSession].clientConfig.displaySuggestionsByRank;
+    NSArray *constraints;
+
     UIView *footer = [UIView new];
     footer.backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:0.97f alpha:1.0f];
     UIView *border = [UIView new];
@@ -469,13 +477,21 @@
         [want setTitleColor:want.tintColor forState:UIControlStateNormal];
         [want addTarget:self action:@selector(subscribe) forControlEvents:UIControlEventTouchUpInside];
 
-        NSArray *constraints = @[
-            @"|[border]|", @"V:|[border(==1)]",
-            @"|-[people]-4-[heart(==12)]-4-[this]", @"[want]-|",
-            @"V:|-14-[people]", @"V:|-18-[heart(==11)]", @"V:|-14-[this]", @"V:|-6-[want]"
-        ];
+        if (byRank) {
+            constraints = @[
+                @"|[border]|", @"V:|[border(==1)]",
+                @"|-[people]", @"[want]-|",
+                @"V:|-14-[people]", @"V:|-6-[want]"
+            ];
+        } else {
+            constraints = @[
+                @"|[border]|", @"V:|[border(==1)]",
+                @"|-[people]-4-[heart(==12)]-4-[this]", @"[want]-|",
+                @"V:|-14-[people]", @"V:|-18-[heart(==11)]", @"V:|-14-[this]", @"V:|-6-[want]"
+            ];
+        }
         [self configureView:footer
-                   subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this)
+                   subviews:byRank ? NSDictionaryOfVariableBindings(border, people) : NSDictionaryOfVariableBindings(border, want, people, heart, this)
                 constraints:constraints];
     } else {
         UILabel *want = [UILabel new];
@@ -503,13 +519,21 @@
         }
         [_toggle addTarget:self action:@selector(toggleSubscribed) forControlEvents:UIControlEventValueChanged];
 
-        NSArray *constraints = @[
-            @"|[border]|", @"V:|[border(==1)]",
-            @"|-[want]", @"|-[people]-4-[heart(==12)]-4-[this]", @"[_toggle]-|",
-            @"V:|-14-[want]-2-[people]", @"V:[want]-6-[heart(==11)]", @"V:[want]-2-[this]", @"V:|-16-[_toggle]"
-        ];
+        if (byRank) {
+            constraints = @[
+                @"|[border]|", @"V:|[border(==1)]",
+                @"|-[want]", @"|-[people]", @"[_toggle]-|",
+                @"V:|-14-[want]-2-[people]", @"V:|-16-[_toggle]"
+            ];
+        } else {
+            constraints = @[
+                @"|[border]|", @"V:|[border(==1)]",
+                @"|-[want]", @"|-[people]-4-[heart(==12)]-4-[this]", @"[_toggle]-|",
+                @"V:|-14-[want]-2-[people]", @"V:[want]-6-[heart(==11)]", @"V:[want]-2-[this]", @"V:|-16-[_toggle]"
+            ];
+        }
         [self configureView:footer
-                   subviews:NSDictionaryOfVariableBindings(border, want, people, heart, this, _toggle)
+                   subviews:byRank ? NSDictionaryOfVariableBindings(border, want, people, _toggle) : NSDictionaryOfVariableBindings(border, want, people, heart, this, _toggle)
                 constraints:constraints];
     }
 
