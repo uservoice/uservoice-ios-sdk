@@ -1,5 +1,10 @@
 ## master ##
 
+## 3.1.2 (2014-08-01) ##
+
+* Updated Portuguese translation
+* Added support for displaying ideas by rank
+
 ## 3.1.1 (2014-07-24) ##
 
 * Fix a bug where certain back buttons would be missing on iOS 6
