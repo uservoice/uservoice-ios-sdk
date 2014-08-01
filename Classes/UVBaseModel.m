@@ -30,8 +30,8 @@
 }
 
 + (NSURL *)baseURL {
-    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".us.com"];
-    BOOL useHttps = range.location == NSNotFound; // not pointing to a us.com (aka dev) url => use https
+    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".uservoice.com"];
+    BOOL useHttps = range.location != NSNotFound;
     return [self siteURLWithHTTPS:useHttps];
 }
 
