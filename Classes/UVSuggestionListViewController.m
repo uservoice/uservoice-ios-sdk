@@ -108,8 +108,8 @@
     layer.frame = CGRectMake(0, 0, 9, 9);
     [statusColor.layer addSublayer:layer];
     NSArray *constraints = @[
-        @"|-[title]-|",
-        @"|-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]",
+        @"|-16-[title]-|",
+        @"|-16-[heart(==9)]-3-[subs]-10-[statusColor(==9)]-5-[status]",
         @"V:|-12-[title]-6-[heart(==9)]",
         @"V:[title]-6-[statusColor(==9)]",
         @"V:[title]-4-[status]",
