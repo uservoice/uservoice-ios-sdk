@@ -312,7 +312,7 @@
         }
     } else {
         NSDictionary* info = [notification userInfo];
-        CGRect rect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+        CGRect rect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
         // Convert from window space to view space to account for orientation
         _kbHeight = (NSInteger)[self.view convertRect:rect fromView:nil].size.height;
     }
