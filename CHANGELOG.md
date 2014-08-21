@@ -1,5 +1,9 @@
 ## master ##
 
+* iOS 8 fixes
+* Simplified behavior of search boxes when inside a form sheet
+* Updated Chinese translation
+
 ## 3.1.2 (2014-08-01) ##
 
 * Updated Portuguese translation
