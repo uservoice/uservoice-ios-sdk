@@ -341,7 +341,7 @@
     UINavigationController *navigationController = [UINavigationController new];
     [UVUtils applyStylesheetToNavigationController:navigationController];
     navigationController.viewControllers = @[viewController];
-    if (IPAD)
+    if (FORMSHEET)
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
@@ -501,42 +501,6 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [UVStyleSheet instance].preferredStatusBarStyle;
-}
-
-#pragma mark ===== iPad search bar hack =====
-
-- (void)correctSearchDisplayFrames:(UISearchDisplayController *)controller {
-    CGRect superviewFrame = controller.searchBar.superview.frame;
-    superviewFrame.origin.y = 0.f;
-    controller.searchBar.superview.frame = superviewFrame;
-
-    UIView *dimmingView = nil;
-    NSMutableArray *views = [NSMutableArray array];
-    [views addObject:self.view];
-    while (dimmingView == nil && views.count > 0) {
-        UIView *subview = [views firstObject];
-        if ([NSStringFromClass(subview.class) hasSuffix:@"DimmingView"]) {
-            dimmingView = subview;
-        } else {
-            [views addObjectsFromArray:subview.subviews];
-        }
-        [views removeObjectAtIndex:0];
-    }
-    [views removeAllObjects];
-    if (dimmingView) {
-        CGRect dimmingFrame = dimmingView.superview.frame;
-        dimmingFrame.origin.y = controller.searchBar.frame.size.height;
-        dimmingFrame.size.height = self.view.frame.size.height - dimmingFrame.origin.y;
-        dimmingView.superview.frame = dimmingFrame;
-    }
-}
-
-- (void)correctFramesForSearchDisplayControllerBeginSearch:(BOOL)beginSearch searchDisplayController:(UISearchDisplayController *)controller {
-    [self.navigationController setNavigationBarHidden:beginSearch animated:YES];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self correctSearchDisplayFrames:controller];
-        [self->_tableView setContentOffset:CGPointMake(0, -44) animated:YES];
-    });
 }
 
 #pragma mark - UVSigninManagerDelegate

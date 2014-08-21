@@ -73,8 +73,12 @@
     for (UVSuggestion *suggestion in theSuggestions) {
         [ids addObject:[NSNumber numberWithInteger:suggestion.suggestionId]];
     }
-    [UVBabayaga track:SEARCH_IDEAS searchText:_searchController.searchBar.text ids:ids];
-    [_searchController.searchResultsTableView reloadData];
+    [UVBabayaga track:SEARCH_IDEAS searchText:_searchBar.text ids:ids];
+    if (FORMSHEET) {
+        [_tableView reloadData];
+    } else {
+        [_searchController.searchResultsTableView reloadData];
+    }
 }
 
 #pragma mark ===== UITableViewDataSource Methods =====
@@ -168,7 +172,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
-    if (theTableView == _tableView) {
+    if (theTableView == _tableView && !_searching) {
         identifier = (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) ? @"Add" : (indexPath.row < _forum.suggestions.count) ? @"Suggestion" : @"Load";
     } else {
         identifier = @"Result";
@@ -181,9 +185,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView) {
+    if (section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView && !_searching) {
         return 1;
-    } else if (theTableView == _tableView) {
+    } else if (theTableView == _tableView && !_searching) {
         return _forum.suggestions.count + (_forum.suggestions.count < _forum.suggestionsCount || _loading ? 1 : 0);
     } else {
         return _searchResults.count;
@@ -191,17 +195,17 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [UVSession currentSession].config.showPostIdea && tableView == _tableView ? 2 : 1;
+    return [UVSession currentSession].config.showPostIdea && tableView == _tableView && !_searching ? 2 : 1;
 }
 
 #pragma mark ===== UITableViewDelegate Methods =====
 
 - (CGFloat)tableView:(UITableView *)theTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView) {
+    if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea && theTableView == _tableView && !_searching) {
         return 44;
-    } else if (theTableView == _tableView && indexPath.row < _forum.suggestions.count) {
+    } else if (theTableView == _tableView && !_searching && indexPath.row < _forum.suggestions.count) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Suggestion" indexPath:indexPath];
-    } else if (theTableView != _tableView) {
+    } else if (theTableView != _tableView || _searching) {
         return [self heightForDynamicRowWithReuseIdentifier:@"Result" indexPath:indexPath];
     } else {
         return 44;
@@ -209,7 +213,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if ((section == 0 && [UVSession currentSession].config.showPostIdea) || tableView != _tableView) {
+    if ((section == 0 && [UVSession currentSession].config.showPostIdea) || tableView != _tableView || _searching) {
         return nil;
     } else {
         return _forum.prompt;
@@ -218,21 +222,17 @@
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
     UVSuggestionDetailsViewController *next = [[UVSuggestionDetailsViewController alloc] initWithSuggestion:suggestion];
-    if (IOS7 && IPAD && _searchController.active) {
-        // this is a workaround. formsheet + uisearchcontroller is horribly buggy on iOS 7
-        _searchController.active = NO;
-    }
     [self.navigationController pushViewController:next animated:YES];
 }
 
 - (void)composeButtonTapped {
     UVPostIdeaViewController *next = [UVPostIdeaViewController new];
-    next.initialText = _searchController.searchBar.text;
+    next.initialText = _searchBar.text;
     [self presentModalViewController:next];
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (theTableView == _tableView) {
+    if (theTableView == _tableView && !_searching) {
         if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
             [self composeButtonTapped];
         } else if (indexPath.row < _forum.suggestions.count) {
@@ -249,46 +249,36 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return tableView == _tableView ? 30 : 0;
+    return tableView == _tableView && !_searching ? 30 : 0;
 }
 
 #pragma mark ===== UISearchBarDelegate Methods =====
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    [_searchController setActive:YES animated:YES];
     [searchBar setShowsCancelButton:YES animated:YES];
+    if (FORMSHEET) {
+        _searching = YES;
+        [_tableView reloadData];
+    } else {
+        [_searchController setActive:YES animated:YES];
+    }
     return YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    _searchBar.showsScopeBar = NO;
+    if (FORMSHEET) {
+        [_searchBar setShowsCancelButton:NO animated:YES];
+        _searchBar.text = @"";
+        _searchResults = [NSArray array];
+        [_searchBar resignFirstResponder];
+        _searching = NO;
+        [_tableView reloadData];
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [UVSuggestion searchWithForum:_forum query:searchBar.text delegate:self];
-}
-
-#pragma mark ===== UISearchDisplayControllerDelegate Methods =====
-
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    controller.searchBar.showsScopeBar = NO;
-    if (IOS7 && IPAD) {
-        [self correctFramesForSearchDisplayControllerBeginSearch:NO searchDisplayController:_searchController];
-    }
-}
-
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    if (IOS7 && IPAD) {
-        [self correctFramesForSearchDisplayControllerBeginSearch:YES searchDisplayController:_searchController];
-    }
-}
-
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-    if (IOS7 && IPAD) {
-        [self correctSearchDisplayFrames:_searchController];
-    }
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
-    if (IOS7 && IPAD) {
-        controller.searchResultsTableView.contentInset = UIEdgeInsetsMake(self.searchController.searchBar.frame.size.height, 0.f, 0.f, 0.f);
-    }
 }
 
 #pragma mark ===== Basic View Methods =====
@@ -298,15 +288,15 @@
     [UVBabayaga track:VIEW_FORUM id:_forum.forumId];
     [self setupGroupedTableView];
 
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
-    searchBar.placeholder = NSLocalizedStringFromTableInBundle(@"Search forum", @"UserVoice", [UserVoice bundle], nil);
-    searchBar.delegate = self;
-
-    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-    _searchController.delegate = self;
-    _searchController.searchResultsDataSource = self;
-    _searchController.searchResultsDelegate = self;
-    _tableView.tableHeaderView = searchBar;
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+    _searchBar.placeholder = NSLocalizedStringFromTableInBundle(@"Search forum", @"UserVoice", [UserVoice bundle], nil);
+    _searchBar.delegate = self;
+    if (!FORMSHEET) {
+        _searchController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+        _searchController.searchResultsDataSource = self;
+        _searchController.searchResultsDelegate = self;
+    }
+    _tableView.tableHeaderView = _searchBar;
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
         _tableView.tableFooterView = self.poweredByView;

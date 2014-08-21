@@ -7,11 +7,19 @@
 //
 
 #define IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define FORMSHEET (self.parentViewController.view.frame.size.width < [UIScreen mainScreen].bounds.size.width)
 
 #ifdef __IPHONE_7_0
-    #define IOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7)
+#define IOS7 ([UIDevice currentDevice].systemVersion.floatValue >= 7)
 #else
-    #define IOS7 (NO)
+#define IOS7 (NO)
+#endif
+
+
+#ifdef __IPHONE_8_0
+#define IOS8 ([UIDevice currentDevice].systemVersion.floatValue >= 8)
+#else
+#define IOS8 (NO)
 #endif
 
 #define UIColorFromRGB(rgbValue) [UIColor \
