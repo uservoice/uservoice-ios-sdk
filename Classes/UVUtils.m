@@ -198,11 +198,11 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 }
 
 + (BOOL)isConnectionError:(NSError *)error {
-    return ([error domain] == NSURLErrorDomain) && (
-        [error code] == NSURLErrorTimedOut ||
-        [error code] == NSURLErrorCannotConnectToHost ||
-        [error code] == NSURLErrorNetworkConnectionLost ||
-        [error code] == NSURLErrorNotConnectedToInternet);
+    return ([error.domain isEqualToString:NSURLErrorDomain]) && (
+        error.code == NSURLErrorTimedOut ||
+        error.code == NSURLErrorCannotConnectToHost ||
+        error.code == NSURLErrorNetworkConnectionLost ||
+        error.code == NSURLErrorNotConnectedToInternet);
 }
 
 + (BOOL)isUVRecordInvalid:(NSError *)error {
