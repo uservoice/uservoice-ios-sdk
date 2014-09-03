@@ -1,5 +1,7 @@
 ## master ##
 
+## 3.2.0 (2014-09-03) ##
+
 * iOS 8 fixes
 * Simplified behavior of search boxes when inside a form sheet
 * Updated Chinese translation
