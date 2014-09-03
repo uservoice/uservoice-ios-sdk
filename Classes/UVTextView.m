@@ -51,9 +51,11 @@
     if (_added && self.text.length != 0) {
         [_placeholderLabel removeFromSuperview];
         _added = NO;
+        _constraintsAdded = NO;
     } else if (!_added && self.text.length == 0) {
         [self addSubview:_placeholderLabel];
         _added = YES;
+        [self layoutSubviews];
     }
 }
 
