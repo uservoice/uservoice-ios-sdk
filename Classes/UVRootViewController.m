@@ -98,7 +98,8 @@
     [self.view addSubview:loading];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     _loader = [UVInitialLoadManager loadWithDelegate:self action:@selector(pushNextView)];
 }
 
