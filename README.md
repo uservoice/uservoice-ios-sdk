@@ -1,4 +1,4 @@
-## UserVoice iOS SDK
+## UserVoice iOS SDK ([download demo app](https://itunes.apple.com/us/app/uservoice-help-center/id907516756))
 
 The UserVoice iOS SDK allows you to integrate a native UserVoice experience directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
 
@@ -8,7 +8,11 @@ Binary builds of the SDK are available for download:
 * Current release is iOS 8 compatible: [3.2.0](https://github.com/uservoice/uservoice-ios-sdk/releases/tag/3.2.0) (updated 2014-09-03)
 * See [Releases](https://github.com/uservoice/uservoice-ios-sdk/releases) for release notes and previous versions
 
-We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
+Example apps:
+* You can try the SDK using your own UserVoice account with our demo [Help Center app, available in the App Store](https://itunes.apple.com/us/app/uservoice-help-center/id907516756).
+* We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
+
+Screenshots:
 
 ![InstantAnswers](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-instant-answers-3.0.gif) &nbsp; ![Subscribe to ideas](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-subscribe-3.0.gif)
 
