@@ -5,19 +5,12 @@ The UserVoice iOS SDK allows you to integrate a native UserVoice experience dire
 To get started, you will need to have a free UserVoice account to connect to. Go to [uservoice.com/mobile/](https://uservoice.com/mobile/) to sign up for free.
 
 Binary builds of the SDK are available for download:
-* Current release: [3.2.0](https://github.com/uservoice/uservoice-ios-sdk/releases/tag/3.2.0) (updated 2014-09-03)
+* Current release is iOS 8 compatible: [3.2.0](https://github.com/uservoice/uservoice-ios-sdk/releases/tag/3.2.0) (updated 2014-09-03)
 * See [Releases](https://github.com/uservoice/uservoice-ios-sdk/releases) for release notes and previous versions
 
 We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
 ![InstantAnswers](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-instant-answers-3.0.gif) &nbsp; ![Subscribe to ideas](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-subscribe-3.0.gif)
-
-## Upgrading from 2.0.x
-
-* You should pass your `UVConfig` to `+[UserVoice initialize:]` shortly after app launch so that we can provide you with accurate usage reports.
-* If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.
-* You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.
-* We are dropping support for versions of iOS prior to 6.0. (See note about [iOS versions](#ios-versions))
 
 ## Installation
 
@@ -34,7 +27,6 @@ See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.m
 Alternatively, if you are using CocoaPods just add the following to your Podfile.
 
     pod 'uservoice-iphone-sdk', '~> 3.2'
-
 
 ## API
 
@@ -185,6 +177,13 @@ UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"C
 [UserVoice initialize:config];
 ```
 
+## Upgrading from 2.0.x
+
+* You should pass your `UVConfig` to `+[UserVoice initialize:]` shortly after app launch so that we can provide you with accurate usage reports.
+* If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.
+* You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.
+* We are dropping support for versions of iOS prior to 6.0. (See note about [iOS versions](#ios-versions))
+
 Give us feedback!
 --------
 
@@ -238,7 +237,7 @@ site](http://translate.uservoice.com/).
 iOS Versions
 ------------
 
-* UserVoice for iOS 3.0 is designed for iOS 7 with backwards compatibility for iOS 6
+* UserVoice for iOS 3.0 is designed for iOS 8 with backwards compatibility for iOS 6
 * To support earlier versions you would have to go back to UserVoice for iOS 2.0
 
 If you want to use UserVoice for iOS 3.0 in your app, but your app also supports iOS 5 or earlier, you will need to tweak your build settings to prevent your app from crashing on launch on old versions of iOS. This is because UserVoice for iOS is typically installed as a static library, and it references classes that are not available on iOS 5. There are 2 options:
