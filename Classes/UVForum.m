@@ -8,6 +8,7 @@
 
 #import "UVForum.h"
 #import "UVCategory.h"
+#import "UVUtils.h"
 
 @implementation UVForum
 
@@ -22,11 +23,10 @@
 - (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         _forumId = [(NSNumber *)[dict objectForKey:@"id"] integerValue];
-        _name = [self objectOrNilForDict:dict key:@"name"];
+        _name = [UVUtils decodeHTMLEntities:[self objectOrNilForDict:dict key:@"name"]];
 
         NSDictionary *topic = [[self objectOrNilForDict:dict key:@"topics"] objectAtIndex:0];
         
-        _example = [topic objectForKey:@"example"];
         _prompt = [topic objectForKey:@"prompt"];
         _suggestionsCount = [(NSNumber *)[topic objectForKey:@"open_suggestions_count"] integerValue];
 

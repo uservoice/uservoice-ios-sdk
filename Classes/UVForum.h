@@ -14,7 +14,6 @@
 @property (nonatomic, assign) NSInteger forumId;
 @property (nonatomic, assign) BOOL isPrivate;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *example;
 @property (nonatomic, retain) NSString *prompt;
 @property (nonatomic, assign) NSInteger suggestionsCount;
 @property (nonatomic, retain) NSMutableArray *categories;
