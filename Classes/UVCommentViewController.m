@@ -88,7 +88,7 @@
     _suggestion.commentsCount = comment.updatedCommentCount;
     UINavigationController *navController = (UINavigationController *)self.presentingViewController;
     UVSuggestionDetailsViewController *previous = (UVSuggestionDetailsViewController *)[navController.viewControllers lastObject];
-    [previous reloadComments];
+    [previous commentCreated:comment];
     [self dismiss];
 }
 

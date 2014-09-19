@@ -542,16 +542,38 @@
             constraints:@[@"V:|[table]|", @"V:[footer]|", @"|[table]|", @"|[footer]|"]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:_footerHeight]];
     [self.view bringSubviewToFront:footer];
-    [self reloadComments];
+
+    _allCommentsRetrieved = NO;
+    _comments = [NSMutableArray arrayWithCapacity:10];
+    [self retrieveMoreComments];
+
     [self updateSubscriberCount];
 }
 
 - (void)initNavigationItem {}
 
-- (void)reloadComments {
-    _allCommentsRetrieved = NO;
-    _comments = [NSMutableArray arrayWithCapacity:10];
-    [self retrieveMoreComments];
+/*
+ * The point of this is to put a newly created comment at the top of the list
+ * without screwing things up too badly. This has to be done because the new
+ * comment won't actually appear in the list until spam filtering is done, and
+ * we don't know when that will be.
+ *
+ * Cutting the comment list down to 1 page with the new comment artificially
+ * inserted at the top seems like the best way to do this. Pagination will
+ * be slightly inaccurate if another comment was created since the first page
+ * was loaded, or if the new comment gets caught in the spam filter. However,
+ * that kind of inaccuracy is to be expected for offset-based pagination.
+ */
+- (void)commentCreated:(UVComment *)comment {
+    NSMutableArray *newComments = [NSMutableArray arrayWithCapacity:10];
+    [newComments addObject:comment];
+    for (int i=0; i < MIN(9, _comments.count); i++) {
+        [newComments addObject:[_comments objectAtIndex:i]];
+    }
+    if (_comments.count > 9)
+        _allCommentsRetrieved = NO;
+    _comments = newComments;
+    [_tableView reloadData];
 }
 
 - (void)showActivityIndicator {

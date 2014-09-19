@@ -24,6 +24,6 @@
 @property (nonatomic, retain) NSString *deflectingType;
 
 - (id)initWithSuggestion:(UVSuggestion *)theSuggestion;
-- (void)reloadComments;
+- (void)commentCreated:(UVComment *)comment;
 
 @end
