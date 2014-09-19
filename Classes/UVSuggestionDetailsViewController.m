@@ -491,7 +491,7 @@
             ];
         }
         [self configureView:footer
-                   subviews:byRank ? NSDictionaryOfVariableBindings(border, people) : NSDictionaryOfVariableBindings(border, want, people, heart, this)
+                   subviews:byRank ? NSDictionaryOfVariableBindings(border, people, want) : NSDictionaryOfVariableBindings(border, want, people, heart, this)
                 constraints:constraints];
     } else {
         UILabel *want = [UILabel new];
