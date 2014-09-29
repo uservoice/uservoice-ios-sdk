@@ -11,15 +11,10 @@
 
 @implementation UVCalculatingLabel
 
-- (CGFloat)effectiveWidth {
-    return self.frame.size.width;
-}
-
-- (CGRect)rectForLetterAtIndex:(NSUInteger)index lines:(NSArray *)lines {
+- (CGRect)rectForLetterAtIndex:(NSUInteger)index lines:(NSArray *)lines width:(CGFloat)frameWidth {
     if (index > [self.text length] - 1)
         return CGRectZero;
 
-    CGFloat frameWidth = [self effectiveWidth];
     NSString *letter = [self.text substringWithRange:NSMakeRange(index, 1)];
     CGSize letterSize = [UVUtils string:letter sizeWithFont:self.font];
     
@@ -53,9 +48,8 @@
     return CGRectMake(x, y, letterSize.width, letterSize.height);
 }
 
-- (NSArray *)breakString {
+- (NSArray *)breakString:(CGFloat)frameWidth {
     NSMutableArray *lines = [NSMutableArray array];
-    CGFloat frameWidth = [self effectiveWidth];
     int len = (int)[self.text length];
     int lineStartOffset = 0;
     int lastBreakChar = -1;
@@ -66,9 +60,9 @@
         NSString *currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength)];
         if ([currentChar isEqualToString:@" "] || [currentChar isEqualToString:@"-"]) {
             lastBreakChar = i;
-        } else if ([currentChar isEqualToString:@"\n"]) {
-            currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength + 1)];
-            lineStartOffset = i + 1;
+        } else if ([currentChar isEqualToString:@"\n"] && currentLineLength > 0) {
+            currentLine = [self.text substringWithRange:NSMakeRange(lineStartOffset, currentLineLength)];
+            lineStartOffset = i;
             lastBreakChar = -1;
             [lines addObject:currentLine];
             continue;

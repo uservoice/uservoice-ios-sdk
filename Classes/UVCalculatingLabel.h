@@ -10,8 +10,7 @@
 
 @interface UVCalculatingLabel : UILabel
 
-- (CGFloat)effectiveWidth;
-- (NSArray *)breakString;
-- (CGRect)rectForLetterAtIndex:(NSUInteger)index lines:(NSArray *)lines;
+- (NSArray *)breakString:(CGFloat)frameWidth;
+- (CGRect)rectForLetterAtIndex:(NSUInteger)index lines:(NSArray *)lines width:(CGFloat)frameWidth;
 
 @end

@@ -244,7 +244,6 @@
     UVTruncatingLabel *desc = [UVTruncatingLabel new];
     desc.font = [UIFont systemFontOfSize:14];
     desc.fullText = _suggestion.text;
-    desc.numberOfLines = 0;
     desc.delegate = self;
     desc.tag = SUGGESTION_DESCRIPTION;
 
@@ -289,7 +288,6 @@
         text.font = [UIFont systemFontOfSize:13];
         text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
         text.fullText = _suggestion.responseText;
-        text.numberOfLines = 0;
         text.delegate = self;
         text.tag = ADMIN_RESPONSE;
 

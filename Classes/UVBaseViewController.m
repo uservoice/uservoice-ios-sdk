@@ -18,6 +18,7 @@
 #import "UVSigninManager.h"
 #import "UVKeyboardUtils.h"
 #import "UVUtils.h"
+#import "UVTruncatingLabel.h"
 
 @implementation UVBaseViewController
 
@@ -274,6 +275,9 @@
                     [label setPreferredMaxLayoutWidth:label.frame.size.width];
                 }
                 [label setBackgroundColor:[UIColor clearColor]];
+            } else if ([view isKindOfClass:[UVTruncatingLabel class]]) {
+                UVTruncatingLabel *label = (UVTruncatingLabel *)view;
+                [label setPreferredMaxLayoutWidth:label.frame.size.width];
             }
         }
     }
