@@ -1,9 +1,12 @@
 ## master ##
 
+## 3.2.1 (2014-09-30) ##
+
 * Fix issue where comments would not appear in the comments list after being posted
 * Fix crash related to instant answer results that are displayed by rank
 * Fix a rotation-related visual artifact that some people experienced on sdk launch
 * Unescape html entities in forum names
+* Fix missing "more" text on iOS 8
 
 ## 3.2.0 (2014-09-03) ##
 
