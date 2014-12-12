@@ -347,6 +347,11 @@
     [_tableView reloadData];
 }
 
+- (void)dismiss {    
+    _instantAnswerManager.delegate = nil;
+    [super dismiss];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [_tableView reloadData];
     [super viewWillAppear:animated];
