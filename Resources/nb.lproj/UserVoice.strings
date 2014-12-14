@@ -6,31 +6,31 @@
 
 /********** Uncategorized **********/
 
-"%@ (required)" = "%@ (required)";
+"%@ (required)" = "%@ (obligatorisk)";
 
-"%@ ideas" = "%@ ideas";
+"%@ ideas" = "%@ idéer";
 
-"%d people" = "%d people";
+"%d people" = "%d personer";
 
-"(none)" = "(none)";
+"(none)" = "(ingen)";
 
 "(required)" = "(obligatorisk)";
 
-"1 idea" = "1 idea";
+"1 idea" = "1 idé";
 
 "1 person" = "1 person";
 
-"A suggestion with this title already exists. Please change the title." = "Det finnes allerede et forslag med denne tittelen. Endre tittelen.";
+"A suggestion with this title already exists. Please change the title." = "Det finnes allerede et forslag med denne tittelen. Vær vennlig å endre tittelen.";
 
-"Add a comment" = "Add a comment";
+"Add a comment" = "Legg til en kommentar";
 
-"Additional Details" = "Additional Details";
+"Additional Details" = "Flere detaljer";
 
 "All" = "Alle";
 
 "All Articles" = "Alle artikler";
 
-"Are any of these helpful?" = "Are any of these helpful?";
+"Are any of these helpful?" = "Er noen av disse til hjelp?";
 
 "Articles" = "Artikler";
 
@@ -48,7 +48,7 @@
 
 "Do you still want to contact us?" = "Vil du fremdeles kontakte oss?";
 
-"Do you still want to post your own idea?" = "Do you still want to post your own idea?";
+"Do you still want to post your own idea?" = "Vil du fortsatt sende inn din egen idé?";
 
 "Don't save" = "Ikke lagre";
 
@@ -58,7 +58,7 @@
 
 "Enter UserVoice password for %@" = "Skriv inn UserVoice-passordet for %@";
 
-"enter value" = "enter value";
+"enter value" = "legg inn verdi";
 
 "Enter your email" = "Skriv inn e-postadressen din";
 
@@ -72,31 +72,31 @@
 
 "Forgot password" = "Glemt passord";
 
-"Give feedback or ask for help..." = "Give feedback or ask for help...";
+"Give feedback or ask for help..." = "Gi tilbakemelding eller be om hjelp...";
 
-"Great! Glad we could help." = "Great! Glad we could help.";
+"Great! Glad we could help." = "Kjempe! Glad vi kunne være til hjelp.";
 
-"I want this" = "I want this";
+"I want this" = "Jeg vil ha dette";
 
-"I want this!" = "I want this!";
+"I want this!" = "Jeg vil ha dette!";
 
-"Ideas" = "Ideer";
+"Ideas" = "Idéer";
 
 "Knowledge Base" = "Kunnskapsbase";
 
-"Knowledge base" = "Knowledge base";
+"Knowledge base" = "Kunnskapsbase";
 
-"Load more" = "Last flere";
+"Load more" = "Last inn flere";
 
-"Loading..." = "Loading...";
+"Loading..." = "Laster inn...";
 
-"Message sent!" = "Message sent!";
+"Message sent!" = "Meldingen er sendt!";
 
-"more" = "more";
+"more" = "mere";
 
 "Name" = "Navn";
 
-"Next" = "Next";
+"Next" = "Neste";
 
 "No" = "Nei";
 
@@ -104,15 +104,15 @@
 
 "OK" = "OK";
 
-"Password reset email sent to %@" = "Password reset email sent to %@";
+"Password reset email sent to %@" = "Epost med resetting av epost er sendt til %@";
 
-"Please enter some text before submitting your comment." = "Please enter some text before submitting your comment.";
+"Please enter some text before submitting your comment." = "Vær vennlig å skriv inn noe tekst før du sender inn kommentaren din.";
 
-"Please enter your email address before submitting your comment." = "Please enter your email address before submitting your comment.";
+"Please enter your email address before submitting your comment." = "Vær vennlig å skriv inn din epostadresse før du sender inn din kommentar.";
 
 "Please enter your email address before submitting your ticket." = "Skriv inn e-postadressen din før du sender saken.";
 
-"Please fill out all required fields." = "Please fill out all required fields.";
+"Please fill out all required fields." = "Vær vennlig og fyll ut alle de påkrevde feltene.";
 
 "Post" = "Legg inn";
 
@@ -120,39 +120,39 @@
 
 "Powered by UserVoice" = "Powered by UserVoice";
 
-"Related articles" = "Related articles";
+"Related articles" = "Relaterte artikler";
 
-"Related feedback" = "Related feedback";
+"Related feedback" = "Relaterte tilbakemeldinger";
 
 "Save draft" = "Lagre kladd";
 
 "Search" = "Søk";
 
-"Search forum" = "Search forum";
+"Search forum" = "Søk i forumet";
 
-"select" = "select";
+"select" = "velg";
 
 "Send" = "Send";
 
-"Send us a message" = "Send us a message";
+"Send us a message" = "Send oss en melding";
 
 "Sign in" = "Logg på";
 
-"Skip" = "Skip";
+"Skip" = "Hopp over";
 
 "Sorry, there was an error in the application." = "Beklager, det oppstod en feil i programmet.";
 
-"Thank you!" = "Thank you!";
+"Thank you!" = "Tusen takk!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Det har oppstått et problem med nettverksforbindelsen. Kontroller forbindelsen og prøv på nytt.";
 
-"There was a problem logging you in." = "There was a problem logging you in.";
+"There was a problem logging you in." = "Det oppstod et problem med å logge deg inn.";
 
-"this" = "this";
+"this" = "dette";
 
 "This application didn't configure UserVoice properly" = "Dette programmet konfigurerte ikke UserVoice på riktig måte";
 
-"this idea" = "this idea";
+"this idea" = "denne idéen";
 
 "Title" = "Tittel";
 
@@ -164,9 +164,9 @@
 
 "Was this article helpful?" = "Var denne artikkelen nyttig?";
 
-"We'll be in touch." = "We'll be in touch.";
+"We'll be in touch." = "Vi vil kontakte deg.";
 
-"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.";
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Når du sender inn en idé på vårt forum,vil andre være istand til å abonnere på den og skrive kommentarer. Du vil få en melding når vi svarer på idéen.";
 
 "Would you like to contact us?" = "Vil du kontakte oss?";
 
@@ -178,8 +178,8 @@
 
 "Yes, go to my message" = "Ja, gå til meldingen min";
 
-"Yes, I want to post my idea" = "Yes, I want to post my idea";
+"Yes, I want to post my idea" = "Ja, Jeg ønsker å sende inn idéen min";
 
-"Your feedback has been posted to our feedback forum." = "Your feedback has been posted to our feedback forum.";
+"Your feedback has been posted to our feedback forum." = "Dine tilbakemeldinger er blitt sent inn til vårt tilbakemeldingsforum.";
 
 "“Anonymous”" = "\"Anonym\"";
