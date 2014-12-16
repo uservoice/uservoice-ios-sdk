@@ -12,8 +12,6 @@
 
 "%d people" = "%d gente";
 
-"(none)" = "(none)";
-
 "(required)" = "(obligatorio)";
 
 "1 idea" = "1 idea";
@@ -117,8 +115,6 @@
 "Post" = "Publicar";
 
 "Post an idea" = "Publicar una idea";
-
-"Powered by UserVoice" = "Powered by UserVoice";
 
 "Related articles" = "Artículos relacionados";
 
