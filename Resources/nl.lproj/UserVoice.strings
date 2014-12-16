@@ -6,13 +6,31 @@
 
 /********** Uncategorized **********/
 
+"%@ (required)" = "%@ (Verplicht)";
+
+"%@ ideas" = "%@ ideeën";
+
+"%d people" = "%d mensen";
+
+"(none)" = "(Geen)";
+
 "(required)" = "(verplicht)";
 
+"1 idea" = "1 idee";
+
+"1 person" = "1 persoon";
+
 "A suggestion with this title already exists. Please change the title." = "Een suggestie met deze naam bestaat al. Wijzig de naam.";
+
+"Add a comment" = "Voeg een reactie toe";
+
+"Additional Details" = "Extra details";
 
 "All" = "Alles";
 
 "All Articles" = "Alle artikelen";
+
+"Are any of these helpful?" = "Zijn een van deze nuttig?";
 
 "Articles" = "Artikelen";
 
@@ -40,6 +58,8 @@
 
 "Enter UserVoice password for %@" = "Geef UserVoice-wachtwoord op voor %@";
 
+"enter value" = "voeren waarde";
+
 "Enter your email" = "Geef je e-mailadres op";
 
 "Error" = "Fout";
@@ -52,11 +72,31 @@
 
 "Forgot password" = "Wachtwoord vergeten";
 
+"Give feedback or ask for help..." = "Geef feedback of om hulp te vragen ...";
+
+"Great! Glad we could help." = "Geweldig! Blij dat we konden helpen.";
+
+"I want this" = "Ik wil deze";
+
+"I want this!" = "Ik wil deze!";
+
 "Ideas" = "Ideeën";
+
+"Knowledge Base" = "Kennisbank";
+
+"Knowledge base" = "Kennisbasis";
 
 "Load more" = "Meer laden";
 
+"Loading..." = "Laden ...";
+
+"Message sent!" = "Bericht verzonden!";
+
+"more" = "meer";
+
 "Name" = "Naam";
+
+"Next" = "Volgende";
 
 "No" = "Nee";
 
@@ -64,25 +104,59 @@
 
 "OK" = "OK";
 
+"Password reset email sent to %@" = "Password reset e-mail gestuurd naar %@";
+
+"Please enter a valid email address." = "Vul een geldig e-mailadres.";
+
+"Please enter some text before submitting your comment." = "U dient een tekst voor het indienen van uw reactie.";
+
+"Please enter your email address before submitting your comment." = "Vul uw e-mailadres vóór het indienen van uw reactie.";
+
 "Please enter your email address before submitting your ticket." = "Geef je e-mailadres op alvorens je ticket in te dienen.";
+
+"Please fill out all required fields." = "Vul alle verplichte velden in.";
 
 "Post" = "Publiceren";
 
 "Post an idea" = "Idee publiceren";
 
+"Powered by UserVoice" = "Powered by UserVoice";
+
+"Ranked %@" = "Gerangschikt %@";
+
+"Related articles" = "Gerelateerde artikelen";
+
+"Related feedback" = "Verwante feedback";
+
 "Save draft" = "Concept opslaan";
 
 "Search" = "Zoeken";
 
+"Search forum" = "Zoeken forum";
+
+"select" = "kiezen";
+
 "Send" = "Verzenden";
+
+"Send us a message" = "Stuur ons een bericht";
 
 "Sign in" = "Aanmelden";
 
+"Skip" = "Overslaan";
+
 "Sorry, there was an error in the application." = "Er is een fout in de toepassing opgetreden.";
+
+"Thank you!" = "Dank je wel!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Er is mogelijk een probleem met je netwerkverbinding. Controleer de verbinding en probeer het opnieuw.";
 
+"There was a problem logging you in." = "Er was een probleem je te loggen in.";
+
+"this" = "dit";
+
 "This application didn't configure UserVoice properly" = "Deze toepassing heeft UserVoice niet goed geconfigureerd";
+
+"this idea" = "dit idee";
 
 "Title" = "Naam";
 
@@ -94,6 +168,10 @@
 
 "Was this article helpful?" = "Was dit artikel nuttig?";
 
+"We'll be in touch." = "We houden contact.";
+
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Wanneer u een idee op ons forum te posten, zullen anderen kunnen abonneren en opmerkingen te maken. Wanneer we reageren op het idee, dan heb je een melding.";
+
 "Would you like to contact us?" = "Wil je contact met ons opnemen?";
 
 "Write a comment..." = "Schrijf een opmerking...";
@@ -103,5 +181,9 @@
 "Yes!" = "Ja!";
 
 "Yes, go to my message" = "Ja, ga naar mijn bericht";
+
+"Yes, I want to post my idea" = "Ja, ik wil mijn idee te posten";
+
+"Your feedback has been posted to our feedback forum." = "Uw feedback is geplaatst op ons feedback forum.";
 
 "“Anonymous”" = "“Anoniem”";

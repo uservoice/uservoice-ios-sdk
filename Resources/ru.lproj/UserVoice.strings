@@ -8,7 +8,17 @@
 
 "%@ (required)" = "%@ (обязательно)";
 
+"%@ ideas" = "%@ идеи";
+
+"%d people" = "%d люди";
+
+"(none)" = "(Нет)";
+
 "(required)" = "(обязательно)";
+
+"1 idea" = "1 идея";
+
+"1 person" = "1 человек";
 
 "A suggestion with this title already exists. Please change the title." = "Предложение с таким названием уже существует. Измените название.";
 
@@ -94,6 +104,10 @@
 
 "OK" = "OK";
 
+"Password reset email sent to %@" = "Восстановление пароля электронное письмо, отправленное %@";
+
+"Please enter a valid email address." = "Пожалуйста, введите действительный адрес электронной почты.";
+
 "Please enter some text before submitting your comment." = "Для отправки комментария введите свой какой-нибудь текст.";
 
 "Please enter your email address before submitting your comment." = "Для отправки комментария введите свой электронный адрес.";
@@ -108,6 +122,8 @@
 
 "Powered by UserVoice" = "Созданно UserVoice";
 
+"Ranked %@" = "Занимает %@";
+
 "Related articles" = "Похожие статьи";
 
 "Related feedback" = "Похожие отзывы";
@@ -117,6 +133,8 @@
 "Search" = "Поиск";
 
 "Search forum" = "Поиск по форуму";
+
+"select" = "выбрать";
 
 "Send" = "Отослать";
 
@@ -134,7 +152,11 @@
 
 "There was a problem logging you in." = "Неполадки при авторизации.";
 
+"this" = "это";
+
 "This application didn't configure UserVoice properly" = "В этом приложении неправильно настроено UserVoice";
+
+"this idea" = "эта идея";
 
 "Title" = "Название";
 

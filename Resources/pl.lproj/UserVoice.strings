@@ -6,13 +6,31 @@
 
 /********** Uncategorized **********/
 
+"%@ (required)" = "%@ (Wymagane)";
+
+"%@ ideas" = "%@ pomysły";
+
+"%d people" = "%d ludzie";
+
+"(none)" = "(Brak)";
+
 "(required)" = "(wymagane)";
 
+"1 idea" = "1 pomysłem";
+
+"1 person" = "1 osoba";
+
 "A suggestion with this title already exists. Please change the title." = "Sugestia o tym tytule już istnieje. Zmień tytuł.";
+
+"Add a comment" = "Dodaj komentarz";
+
+"Additional Details" = "Dodatkowe informacje";
 
 "All" = "Wszystkie";
 
 "All Articles" = "Wszystkie artykuły";
+
+"Are any of these helpful?" = "Czy któraś z nich była pomocna?";
 
 "Articles" = "Artykuły";
 
@@ -30,6 +48,8 @@
 
 "Do you still want to contact us?" = "Czy nadal chcesz się z nami skontaktować?";
 
+"Do you still want to post your own idea?" = "Czy nadal chcesz opublikować swój własny pomysł?";
+
 "Don't save" = "Nie zapisuj";
 
 "Done" = "Gotowe";
@@ -37,6 +57,8 @@
 "Email" = "E-mail";
 
 "Enter UserVoice password for %@" = "Wprowadź hasło usługi UserVoice dla: %@";
+
+"enter value" = "wprowadzić wartość";
 
 "Enter your email" = "Podaj adres e-mail";
 
@@ -50,13 +72,31 @@
 
 "Forgot password" = "Nie pamiętam hasła";
 
+"Give feedback or ask for help..." = "Prześlij opinię lub poprosić o pomoc ...";
+
+"Great! Glad we could help." = "Świetne! Cieszę się, że mogliśmy pomóc.";
+
+"I want this" = "Chcę to";
+
+"I want this!" = "Chcę to!";
+
 "Ideas" = "Pomysły";
 
 "Knowledge Base" = "Baza wiedzy";
 
+"Knowledge base" = "Baza wiedzy";
+
 "Load more" = "Wczytaj więcej";
 
+"Loading..." = "Ładowanie ...";
+
+"Message sent!" = "Wiadomość wysłana!";
+
+"more" = "więcej";
+
 "Name" = "Nazwa";
+
+"Next" = "Następny";
 
 "No" = "Nie";
 
@@ -64,25 +104,59 @@
 
 "OK" = "OK";
 
+"Password reset email sent to %@" = "E-mail wysłany do resetowania hasła %@";
+
+"Please enter a valid email address." = "Proszę podać poprawny adres e-mail.";
+
+"Please enter some text before submitting your comment." = "Proszę podać tekst przed wysłaniem komentarza.";
+
+"Please enter your email address before submitting your comment." = "Podaj swój adres e-mail przed wysłaniem komentarza.";
+
 "Please enter your email address before submitting your ticket." = "Przed wysłaniem zgłoszenia podaj swój adres e-mail.";
+
+"Please fill out all required fields." = "Proszę wypełnić wszystkie wymagane pola.";
 
 "Post" = "Opublikuj";
 
 "Post an idea" = "Opublikuj pomysł";
 
+"Powered by UserVoice" = "Powered by UserVoice";
+
+"Ranked %@" = "Miejsce %@";
+
+"Related articles" = "Powiązane artykuły";
+
+"Related feedback" = "Podobne informacje zwrotne";
+
 "Save draft" = "Zapisz kopię roboczą";
 
 "Search" = "Szukaj";
 
+"Search forum" = "Szukaj na forum";
+
+"select" = "wybierać";
+
 "Send" = "Wyślij";
+
+"Send us a message" = "Wyślij nam wiadomość";
 
 "Sign in" = "Zaloguj się";
 
+"Skip" = "Skip";
+
 "Sorry, there was an error in the application." = "Przepraszamy. Wystąpił błąd w aplikacji.";
+
+"Thank you!" = "Dziękujemy!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Prawdopodobnie wystąpił problem z Twoim połączeniem sieciowym. Sprawdź łączność i spróbuj ponownie.";
 
+"There was a problem logging you in." = "Wystąpił problem podczas logowania się.";
+
+"this" = "to";
+
 "This application didn't configure UserVoice properly" = "Aplikacja nie skonfigurowała poprawnie aplikacji UserVoice";
+
+"this idea" = "ten pomysł";
 
 "Title" = "Tytuł";
 
@@ -94,6 +168,10 @@
 
 "Was this article helpful?" = "Czy ten artykuł był pomocny?";
 
+"We'll be in touch." = "Będziemy w kontakcie.";
+
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Kiedy po pomysł na naszym forum, inni będą mogli się do niej zapisać i przedstawić swoje uwagi. Kiedy w odpowiedzi na pomysł, będziesz otrzymywać powiadomienia.";
+
 "Would you like to contact us?" = "Czy chcesz się z nami skontaktować?";
 
 "Write a comment..." = "Napisz komentarz...";
@@ -103,5 +181,9 @@
 "Yes!" = "Tak!";
 
 "Yes, go to my message" = "Tak, przejdź do mojej wiadomości";
+
+"Yes, I want to post my idea" = "Tak, chcę, aby umieścić swój pomysł";
+
+"Your feedback has been posted to our feedback forum." = "Twoja opinia została wysłana do naszego forum zwrotnego.";
 
 "“Anonymous”" = "„Anonimowo”";

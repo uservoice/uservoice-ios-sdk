@@ -6,13 +6,31 @@
 
 /********** Uncategorized **********/
 
+"%@ (required)" = "%@ (จำเป็น)";
+
+"%@ ideas" = "%@ ความคิด";
+
+"%d people" = "%d คน";
+
+"(none)" = "(ไม่มี)";
+
 "(required)" = "(จำเป็น)";
 
+"1 idea" = "1 ความคิด";
+
+"1 person" = "1 คน";
+
 "A suggestion with this title already exists. Please change the title." = "มีคำแนะนำชื่อนี้อยู่แล้วโปรดเปลี่ยนชื่อ";
+
+"Add a comment" = "เพิ่มความคิดเห็น";
+
+"Additional Details" = "รายละเอียดเพิ่มเติม";
 
 "All" = "ทั้งหมด";
 
 "All Articles" = "บทความทั้งหมด";
+
+"Are any of these helpful?" = "มีใด ๆ เหล่านี้เป็นประโยชน์หรือไม่";
 
 "Articles" = "บทความ";
 
@@ -30,6 +48,8 @@
 
 "Do you still want to contact us?" = "คุณยังต้องการติดต่อเราอยู่ไหม";
 
+"Do you still want to post your own idea?" = "คุณยังคงต้องการที่จะโพสต์ความคิดของคุณเอง?";
+
 "Don't save" = "ไม่บันทึก";
 
 "Done" = "เสร็จสิ้น";
@@ -37,6 +57,8 @@
 "Email" = "อีเมล";
 
 "Enter UserVoice password for %@" = "ใส่รหัสผ่าน UserVoice สำหรับ%@";
+
+"enter value" = "ป้อนค่า";
 
 "Enter your email" = "ใส่อีเมลของคุณ";
 
@@ -50,6 +72,14 @@
 
 "Forgot password" = "ลืมรหัสผ่าน";
 
+"Give feedback or ask for help..." = "แสดงความคิดเห็นหรือขอความช่วยเหลือ ...";
+
+"Great! Glad we could help." = "ที่ดี! ดีใจที่เราสามารถช่วย";
+
+"I want this" = "ผมอยากให้เรื่องนี้";
+
+"I want this!" = "ผมอยากให้เรื่องนี้!";
+
 "Ideas" = "ความคิด";
 
 "Knowledge Base" = "ฐานความรู้";
@@ -57,6 +87,12 @@
 "Knowledge base" = "Knowledge base";
 
 "Load more" = "โหลดเพิ่ม";
+
+"Loading..." = "กำลังโหลด ...";
+
+"Message sent!" = "ข้อความที่ส่ง!";
+
+"more" = "มากกว่า";
 
 "Name" = "ชื่อ";
 
@@ -68,17 +104,41 @@
 
 "OK" = "ตกลง";
 
+"Password reset email sent to %@" = "อีเมล์รีเซ็ตรหัสผ่านส่งไปยัง %@";
+
+"Please enter a valid email address." = "กรุณาใส่อีเมล์ที่ถูกต้อง";
+
+"Please enter some text before submitting your comment." = "กรุณาใส่ข้อความบางส่วนก่อนที่จะส่งความคิดเห็นของคุณ";
+
+"Please enter your email address before submitting your comment." = "โปรดป้อนที่อยู่อีเมลของคุณก่อนที่จะส่งความคิดเห็นของคุณ";
+
 "Please enter your email address before submitting your ticket." = "โปรดใส่ที่อยู่เมลก่อนจะส่งคำร้องของคุณ";
+
+"Please fill out all required fields." = "กรุณากรอกข้อมูลที่จำเป็นทั้งหมด";
 
 "Post" = "โพสต์";
 
 "Post an idea" = "โพสต์ความคิด";
 
+"Powered by UserVoice" = "Powered by UserVoice";
+
+"Ranked %@" = "การจัดอันดับ %@";
+
+"Related articles" = "บทความที่เกี่ยวข้อง";
+
+"Related feedback" = "ข้อเสนอแนะที่เกี่ยวข้อง";
+
 "Save draft" = "บันทึกร่างจดหมาย";
 
 "Search" = "ค้นหา";
 
+"Search forum" = "ฟอรั่มค้นหา";
+
+"select" = "เลือก";
+
 "Send" = "ส่ง";
+
+"Send us a message" = "ส่งข้อความถึงเรา";
 
 "Sign in" = "ลงชื่อเข้า";
 
@@ -86,9 +146,17 @@
 
 "Sorry, there was an error in the application." = "ขออภัย เกิดข้อผิดพลาดในแอพพลิเคชั่นนี้";
 
+"Thank you!" = "ขอขอบคุณ!";
+
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "ดูเหมือนจะมีปัญหาในการเชื่อมต่อเครือข่าย โปรดตรวจสอบการเชื่อมต่อของคุณแล้วลองใหม่";
 
+"There was a problem logging you in." = "มีปัญหาในการเข้าสู่ระบบคุณในการเป็น";
+
+"this" = "นี้";
+
 "This application didn't configure UserVoice properly" = "แอพพลิเคชั่นนี้ไม่ได้ตั้งค่า UserVoice อย่างถูกต้อง";
+
+"this idea" = "ความคิดนี้";
 
 "Title" = "ชื่อ";
 
@@ -100,6 +168,10 @@
 
 "Was this article helpful?" = "บทความนี้มีประโยชน์หรือไม่";
 
+"We'll be in touch." = "เราจะติดต่อ";
+
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "เมื่อคุณโพสต์ความคิดในฟอรั่มของเราคนอื่น ๆ จะสามารถที่จะสมัครเป็นสมาชิกและให้ความเห็น เมื่อเราตอบสนองต่อความคิดของคุณจะได้รับการแจ้งเตือน";
+
 "Would you like to contact us?" = "ต้องการติดต่อเราใช่หรือไม่";
 
 "Write a comment..." = "เขียนความเห็น...";
@@ -109,5 +181,9 @@
 "Yes!" = "ใช่!";
 
 "Yes, go to my message" = "ใช่ ไปที่ข้อความของฉัน";
+
+"Yes, I want to post my idea" = "ใช่ฉันต้องการที่จะโพสต์ความคิดของฉัน";
+
+"Your feedback has been posted to our feedback forum." = "ความคิดเห็นของคุณได้รับการโพสต์ในฟอรั่มความคิดเห็นของเรา";
 
 "“Anonymous”" = "“ไม่ระบุชื่อ”";

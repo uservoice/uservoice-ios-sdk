@@ -6,13 +6,31 @@
 
 /********** Uncategorized **********/
 
+"%@ (required)" = "%@ (Vaaditaan)";
+
+"%@ ideas" = "%@ ideoita";
+
+"%d people" = "%d ihmiset";
+
+"(none)" = "(Ei mitään)";
+
 "(required)" = "(vaaditaan)";
 
+"1 idea" = "1 idea";
+
+"1 person" = "1 henkilö";
+
 "A suggestion with this title already exists. Please change the title." = "Samanniminen ehdotus on jo olemassa. Käytä jotakin muuta nimeä.";
+
+"Add a comment" = "Lisää kommentti";
+
+"Additional Details" = "Tarkemmat tiedot";
 
 "All" = "Kaikki";
 
 "All Articles" = "Kaikki artikkelit";
+
+"Are any of these helpful?" = "Ovatko näitä hyödyllisiä?";
 
 "Articles" = "Artikkelit";
 
@@ -40,6 +58,8 @@
 
 "Enter UserVoice password for %@" = "Anna UserVoice-salasana: %@";
 
+"enter value" = "Syötä arvo";
+
 "Enter your email" = "Anna sähköpostiosoitteesi";
 
 "Error" = "Virhe";
@@ -52,13 +72,31 @@
 
 "Forgot password" = "Salasana on unohtunut";
 
+"Give feedback or ask for help..." = "Anna palautetta tai pyydä apua ...";
+
+"Great! Glad we could help." = "Hienoa! Glad voisimme auttaa.";
+
+"I want this" = "Haluan tämän";
+
+"I want this!" = "Haluan tämän!";
+
 "Ideas" = "Ideat";
 
 "Knowledge Base" = "Tietopankki";
 
+"Knowledge base" = "Knowledge base";
+
 "Load more" = "Lataa lisää";
 
+"Loading..." = "Ladataan ...";
+
+"Message sent!" = "Viesti lähetetty!";
+
+"more" = "lisää";
+
 "Name" = "Nimi";
+
+"Next" = "Seuraava";
 
 "No" = "Ei";
 
@@ -66,25 +104,59 @@
 
 "OK" = "OK";
 
+"Password reset email sent to %@" = "Salasanan sähköposti lähetetään %@";
+
+"Please enter a valid email address." = "Kirjoita voimassa oleva sähköpostiosoite.";
+
+"Please enter some text before submitting your comment." = "Kirjoita tekstiä ennen kuin lähetät kommenttisi.";
+
+"Please enter your email address before submitting your comment." = "Kirjoita sähköpostiosoitteesi, ennen kuin lähetät kommenttisi.";
+
 "Please enter your email address before submitting your ticket." = "Anna sähköpostiosoitteesi ennen pyynnön lähettämistä.";
+
+"Please fill out all required fields." = "Täytä kaikki pakolliset kentät.";
 
 "Post" = "Lähetä";
 
 "Post an idea" = "Lähetä idea";
 
+"Powered by UserVoice" = "Powered by UserVoice";
+
+"Ranked %@" = "Sijalla %@";
+
+"Related articles" = "Aiheeseen liittyviä artikkeleita";
+
+"Related feedback" = "Liittyvät palaute";
+
 "Save draft" = "Tallenna luonnos";
 
 "Search" = "Etsi";
 
+"Search forum" = "Haku foorumi";
+
+"select" = "valita";
+
 "Send" = "Lähetä";
+
+"Send us a message" = "Lähetä meille viesti";
 
 "Sign in" = "Kirjaudu sisään";
 
+"Skip" = "Hyppiä";
+
 "Sorry, there was an error in the application." = "Valitettavasti sovelluksessa tapahtui virhe.";
+
+"Thank you!" = "Kiitos!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Verkkoyhteydessäsi näyttää olevan jokin ongelma. Tarkista yhteytesi toimivuus ja yritä uudelleen.";
 
+"There was a problem logging you in." = "Oli ongelma kirjautumisen sinua.";
+
+"this" = "tämä";
+
 "This application didn't configure UserVoice properly" = "Tämä sovellus ei määrittänyt UserVoice-ohjelmaa oikein";
+
+"this idea" = "tämä ajatus";
 
 "Title" = "Nimike";
 
@@ -96,6 +168,10 @@
 
 "Was this article helpful?" = "Oliko tämä artikkeli hyödyllinen?";
 
+"We'll be in touch." = "Otamme yhteyttä.";
+
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Kun lähetät idea meidän foorumi, toiset pystyy tilata sen ja tehdä huomautuksia. Kun me vastaamme idea, voit saada ilmoituksen.";
+
 "Would you like to contact us?" = "Haluatko ottaa meihin yhteyttä?";
 
 "Write a comment..." = "Kirjoita kommentti…";
@@ -105,5 +181,9 @@
 "Yes!" = "Kyllä!";
 
 "Yes, go to my message" = "Kyllä, siirry viestiini";
+
+"Yes, I want to post my idea" = "Kyllä, haluan lähettää ideani";
+
+"Your feedback has been posted to our feedback forum." = "Palautteesi on lähetetty palautefoorumiltamme.";
 
 "“Anonymous”" = "\"Anonyymi\"";

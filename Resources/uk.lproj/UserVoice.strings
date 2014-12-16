@@ -6,13 +6,31 @@
 
 /********** Uncategorized **********/
 
+"%@ (required)" = "%@ (Обов'язково)";
+
+"%@ ideas" = "%@ ідеї";
+
+"%d people" = "%d люди";
+
+"(none)" = "(Ні)";
+
 "(required)" = "(обов'язково)";
 
+"1 idea" = "1 ідея";
+
+"1 person" = "1 людина";
+
 "A suggestion with this title already exists. Please change the title." = "Пропозиція з такою назвою вже існує. Змініть назву.";
+
+"Add a comment" = "Додати коментар";
+
+"Additional Details" = "Додаткові подробиці";
 
 "All" = "Усі";
 
 "All Articles" = "Усі статті";
+
+"Are any of these helpful?" = "Хто-небудь з них корисні?";
 
 "Articles" = "Статті";
 
@@ -30,6 +48,8 @@
 
 "Do you still want to contact us?" = "Усе одно бажаєте написати нам?";
 
+"Do you still want to post your own idea?" = "Ви все ще хочете розмістити свою ідею?";
+
 "Don't save" = "Не зберігати";
 
 "Done" = "Виконано";
@@ -37,6 +57,8 @@
 "Email" = "Ел. пошта";
 
 "Enter UserVoice password for %@" = "Уведіть пароль UserVoice для %@";
+
+"enter value" = "введіть значення";
 
 "Enter your email" = "Уведіть адресу ел. пошти";
 
@@ -50,37 +72,91 @@
 
 "Forgot password" = "Забутий пароль";
 
+"Give feedback or ask for help..." = "Написати відгук чи звернутися по допомогу ...";
+
+"Great! Glad we could help." = "Відмінно! Раді, що змогли допомогти.";
+
+"I want this" = "Я хочу, щоб це";
+
+"I want this!" = "Я хочу це!";
+
 "Ideas" = "Ідеї";
 
 "Knowledge Base" = "База знань";
 
+"Knowledge base" = "База знань";
+
 "Load more" = "Завантажити ще";
 
+"Loading..." = "Loading ...";
+
+"Message sent!" = "Повідомлення відправлено!";
+
+"more" = "більше";
+
 "Name" = "Ім'я";
+
+"Next" = "Наступний";
 
 "No" = "Ні";
 
 "No, I'm done" = "Ні, досить";
 
+"OK" = "Добре";
+
+"Password reset email sent to %@" = "Відновлення пароля електронний лист, відправлений %@";
+
+"Please enter a valid email address." = "Будь ласка, введіть дійсну адресу електронної пошти.";
+
+"Please enter some text before submitting your comment." = "Будь ласка, введіть текст перед відправкою коментаря.";
+
+"Please enter your email address before submitting your comment." = "Будь ласка, введіть Вашу адресу електронної пошти перед відправкою коментаря.";
+
 "Please enter your email address before submitting your ticket." = "Щоб надіслати запит, уведіть свою адресу електронної пошти.";
+
+"Please fill out all required fields." = "Будь ласка, заповніть всі обов'язкові поля.";
 
 "Post" = "Опублікувати";
 
 "Post an idea" = "Опублікувати ідею";
 
+"Powered by UserVoice" = "Працює на UserVoice";
+
+"Ranked %@" = "Займає %@";
+
+"Related articles" = "Статті за темою";
+
+"Related feedback" = "Пов'язані зворотного зв'язку";
+
 "Save draft" = "Зберегти чернетку";
 
 "Search" = "Пошук";
 
+"Search forum" = "Пошук по форуму";
+
+"select" = "вибрати";
+
 "Send" = "Надіслати";
+
+"Send us a message" = "Надішліть нам повідомлення";
 
 "Sign in" = "Увійти";
 
+"Skip" = "Пропускати";
+
 "Sorry, there was an error in the application." = "Помилка в застосунку.";
+
+"Thank you!" = "Спасибі!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Схоже, сталася помилка підключення до мережі. Перевірте підключення та повторіть спробу.";
 
+"There was a problem logging you in." = "Був проблема реєстрації Вас.";
+
+"this" = "це";
+
 "This application didn't configure UserVoice properly" = "У цьому застосунку неправильно налаштовано UserVoice";
+
+"this idea" = "ця ідея";
 
 "Title" = "Назва";
 
@@ -92,6 +168,10 @@
 
 "Was this article helpful?" = "Чи була ця стаття корисною?";
 
+"We'll be in touch." = "Ми будемо на зв'язку.";
+
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Коли ви розміщуєте ідею на нашому форумі, інші користувачі зможуть підписатися на нього і висловити свої зауваження. Коли ми ставитеся до ідеї, ви будете отримувати повідомлення.";
+
 "Would you like to contact us?" = "Бажаєте звернутися до нас?";
 
 "Write a comment..." = "Написати коментар…";
@@ -101,5 +181,9 @@
 "Yes!" = "Так!";
 
 "Yes, go to my message" = "Так, перейти до мого повідомлення";
+
+"Yes, I want to post my idea" = "Так, я хочу розмістити свою ідею";
+
+"Your feedback has been posted to our feedback forum." = "Ваша зворотний зв'язок була розміщена в наш форум зворотного зв'язку.";
 
 "“Anonymous”" = "«Анонімно»";

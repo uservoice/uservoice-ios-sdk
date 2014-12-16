@@ -6,13 +6,31 @@
 
 /********** Uncategorized **********/
 
+"%@ (required)" = "%@ (Povinné)";
+
+"%@ ideas" = "%@ nápady";
+
+"%d people" = "%d ľudia";
+
+"(none)" = "(None)";
+
 "(required)" = "(povinné)";
 
+"1 idea" = "1. idea";
+
+"1 person" = "1 osoba";
+
 "A suggestion with this title already exists. Please change the title." = "Návrh s týmto názvom už existuje. Zmeňte prosím názov.";
+
+"Add a comment" = "Pridať komentár";
+
+"Additional Details" = "Ďalšie podrobnosti";
 
 "All" = "Všetko";
 
 "All Articles" = "Všetky články";
+
+"Are any of these helpful?" = "Sú niektoré z nich užitočná?";
 
 "Articles" = "Články";
 
@@ -30,6 +48,8 @@
 
 "Do you still want to contact us?" = "Chcete nás stále kontaktovať?";
 
+"Do you still want to post your own idea?" = "Myslíte si napriek tomu chcete písať svoje vlastné predstavu?";
+
 "Don't save" = "Neukladať";
 
 "Done" = "Hotovo";
@@ -37,6 +57,8 @@
 "Email" = "E-mail";
 
 "Enter UserVoice password for %@" = "Zadajte heslo UserVoice pre %@";
+
+"enter value" = "zadajte hodnotu";
 
 "Enter your email" = "Zadajte svoj e-mail";
 
@@ -50,13 +72,31 @@
 
 "Forgot password" = "Zabudnuté heslo";
 
+"Give feedback or ask for help..." = "Dajte nám spätnú väzbu, alebo požiadať o pomoc ...";
+
+"Great! Glad we could help." = "Skvelé! Som rád, že sme mohli pomôcť.";
+
+"I want this" = "Chcem, aby to";
+
+"I want this!" = "Chcem, aby to!";
+
 "Ideas" = "Nápady";
 
 "Knowledge Base" = "Databáza znalostí";
 
+"Knowledge base" = "Znalostná báza";
+
 "Load more" = "Načítať ďalšie";
 
+"Loading..." = "Loading ...";
+
+"Message sent!" = "Správa bola odoslaná!";
+
+"more" = "viac";
+
 "Name" = "Názov";
+
+"Next" = "Ďalší";
 
 "No" = "Nie";
 
@@ -64,25 +104,59 @@
 
 "OK" = "OK";
 
+"Password reset email sent to %@" = "Email resetovanie hesla odoslaný %@";
+
+"Please enter a valid email address." = "Zadajte platnú e-mailovú adresu.";
+
+"Please enter some text before submitting your comment." = "Pred odoslaním svoj komentár Zadajte nejaký text.";
+
+"Please enter your email address before submitting your comment." = "Pred odoslaním svoj komentár, zadajte svoju e-mailovú adresu.";
+
 "Please enter your email address before submitting your ticket." = "Pred odoslaním vášho lístka zadajte prosím vašu e-mailovú adresu.";
+
+"Please fill out all required fields." = "Vyplňte prosím všetky povinné polia.";
 
 "Post" = "Zverejniť";
 
 "Post an idea" = "Zverejniť nápad";
 
+"Powered by UserVoice" = "Powered by UserVoice";
+
+"Ranked %@" = "Zaradil %@";
+
+"Related articles" = "Súvisiace články";
+
+"Related feedback" = "Súvisiaci spätná väzba";
+
 "Save draft" = "Uložiť koncept";
 
 "Search" = "Vyhľadať";
 
+"Search forum" = "Hľadať forum";
+
+"select" = "vybrať";
+
 "Send" = "Odoslať";
+
+"Send us a message" = "Pošlite nám správu";
 
 "Sign in" = "Prihlásiť sa";
 
+"Skip" = "Preskočiť";
+
 "Sorry, there was an error in the application." = "Ľutujeme, ale v aplikácii sa vyskytla chyba.";
+
+"Thank you!" = "Ďakujem vám!";
 
 "There appears to be a problem with your network connection, please check your connectivity and try again." = "Zdá sa, že je problém s vašim pripojením na sieť. Skontrolujte prosím svoje pripojenie a skúste to znovu.";
 
+"There was a problem logging you in." = "Tam bol problém prihlásení vás.";
+
+"this" = "to";
+
 "This application didn't configure UserVoice properly" = "Táto aplikácia nenakonfigurovala UserVoice správne.";
+
+"this idea" = "táto myšlienka";
 
 "Title" = "Názov";
 
@@ -94,6 +168,10 @@
 
 "Was this article helpful?" = "Pomohol vám tento článok?";
 
+"We'll be in touch." = "Budeme v kontakte.";
+
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Pri pridaní predstavu o našom fóre, niektoré budú môcť objednať a vzniesť pripomienky. Keď sme sa reagovať na myšlienke, dostanete upozornení.";
+
 "Would you like to contact us?" = "Chcete nás kontaktovať?";
 
 "Write a comment..." = "Napíšte komentár...";
@@ -103,5 +181,9 @@
 "Yes!" = "Áno!";
 
 "Yes, go to my message" = "Áno, prejsť na moju správu";
+
+"Yes, I want to post my idea" = "Áno, chcem, aby ste mohli písať môj nápad";
+
+"Your feedback has been posted to our feedback forum." = "Váš názor bol vyslaný do našej spätnej väzby fórum.";
 
 "“Anonymous”" = "\"Anonymný\"";

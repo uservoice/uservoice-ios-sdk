@@ -106,6 +106,8 @@
 
 "Password reset email sent to %@" = "密碼重設信已寄至 %@";
 
+"Please enter a valid email address." = "請輸入有效的電子郵件地址。";
+
 "Please enter some text before submitting your comment." = "送出意見前，請先輸入文字。";
 
 "Please enter your email address before submitting your comment." = "送出意見前，請先輸入你的電郵地址。";
@@ -117,6 +119,10 @@
 "Post" = "發表";
 
 "Post an idea" = "發表意見";
+
+"Powered by UserVoice" = "本站由UserVoice";
+
+"Ranked %@" = "排名%@";
 
 "Related articles" = "相關文章";
 

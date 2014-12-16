@@ -12,6 +12,8 @@
 
 "%d people" = "%d gente";
 
+"(none)" = "(Ninguno)";
+
 "(required)" = "(obligatorio)";
 
 "1 idea" = "1 idea";
@@ -104,6 +106,8 @@
 
 "Password reset email sent to %@" = "Se envió un correo a %@, para tu cambio de Contraseña";
 
+"Please enter a valid email address." = "Por favor, introduce una dirección de correo electrónico válida.";
+
 "Please enter some text before submitting your comment." = "Por favor ingresa un texto antes de enviar tu comentario.";
 
 "Please enter your email address before submitting your comment." = "Por favor ingresa tu cuenta de correo antes de enviar tu comentario.";
@@ -115,6 +119,10 @@
 "Post" = "Publicar";
 
 "Post an idea" = "Publicar una idea";
+
+"Powered by UserVoice" = "Desarrollado por UserVoice";
+
+"Ranked %@" = "Clasificado %@";
 
 "Related articles" = "Artículos relacionados";
 
