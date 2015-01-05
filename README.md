@@ -18,19 +18,17 @@ Screenshots:
 
 ## Installation
 
-* Download the latest build.
+The recommended way to install the UserVoice SDK is to use CocoaPods.
+
+    pod 'uservoice-iphone-sdk', '~> 3.2'
+
+Alternatively, you can install by hand:
+
+* Download the latest [build](https://github.com/uservoice/uservoice-ios-sdk/releases).
 * Drag `UVHeaders`, `UVResources`, and `libUserVoice.a` into your project.
   * When adding the folders, make sure you have "Create groups for any added folders" selected rather than "Create folder references for any added folders".
 * Note that the `.h` files in  `UVHeaders` do not need to be added to your target.
 * Add QuartzCore and SystemConfiguration frameworks to your project.
-
-See [DEV.md](https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md) if you want to build the SDK yourself.
-
-## CocoaPods
-
-Alternatively, if you are using CocoaPods just add the following to your Podfile.
-
-    pod 'uservoice-iphone-sdk', '~> 3.2'
 
 ## API
 
