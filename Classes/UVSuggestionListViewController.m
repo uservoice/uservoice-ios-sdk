@@ -346,8 +346,13 @@
 }
 
 - (void)dealloc {
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
+    if (_searchBar) {
+        _searchBar.delegate = nil;
+    }
+    if (_searchController) {
+        _searchController.searchResultsDataSource = nil;
+        _searchController.searchResultsDelegate = nil;
+    }
 }
 
 @end

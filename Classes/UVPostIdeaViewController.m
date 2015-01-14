@@ -271,4 +271,13 @@
     _sending = NO;
 }
 
+- (void)dealloc {
+    if (_instantAnswerManager) {
+        _instantAnswerManager.delegate = nil;
+    }
+    if (_detailsController) {
+        _detailsController.delegate = nil;
+    }
+}
+
 @end
