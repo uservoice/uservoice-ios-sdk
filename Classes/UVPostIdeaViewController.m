@@ -264,9 +264,10 @@
     next.titleText = NSLocalizedStringFromTableInBundle(@"Thank you!", @"UserVoice", [UserVoice bundle], nil);
     next.text = NSLocalizedStringFromTableInBundle(@"Your feedback has been posted to our feedback forum.", @"UserVoice", [UserVoice bundle], nil);
     [self.navigationController setViewControllers:@[next] animated:YES];
-    // force forum view to reload suggestions
     if (!_canceled) {
-        [UVSession currentSession].forum.suggestions = nil;
+        if ([_delegate respondsToSelector:@selector(ideaWasCreated:)]) {
+            [_delegate ideaWasCreated:theSuggestion];
+        }
     }
     _sending = NO;
 }

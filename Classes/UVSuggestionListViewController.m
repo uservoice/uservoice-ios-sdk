@@ -228,6 +228,7 @@
 - (void)composeButtonTapped {
     UVPostIdeaViewController *next = [UVPostIdeaViewController new];
     next.initialText = _searchBar.text;
+    next.delegate = self;
     [self presentModalViewController:next];
 }
 
@@ -314,6 +315,11 @@
                                                                                 target:self
                                                                                 action:@selector(dismiss)];
     }
+    
+    if (_forum && !_forum.suggestions.count) {
+        [self populateSuggestions];
+        [_tableView reloadData];
+    }
 }
 
 - (void)showActivityIndicator {
@@ -336,12 +342,9 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    if (_forum && !_forum.suggestions.count) {
-        [self populateSuggestions];
-    }
+- (void)ideaWasCreated:(UVSuggestion *)suggestion {
+    _forum.suggestions = nil;
+    [self populateSuggestions];
     [_tableView reloadData];
 }
 
