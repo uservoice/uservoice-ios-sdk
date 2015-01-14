@@ -908,6 +908,8 @@
 					armv7,
 					armv7s,
 					arm64,
+					i386,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -977,6 +979,8 @@
 					armv7,
 					armv7s,
 					arm64,
+					i386,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1131,6 +1135,8 @@
 					armv7,
 					armv7s,
 					arm64,
+					i386,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
