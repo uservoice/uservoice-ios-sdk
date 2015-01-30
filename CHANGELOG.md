@@ -1,5 +1,12 @@
 ## master ##
 
+## 3.2.3 (2015-01-30) ##
+
+* Fix a bug where launching the contact form from an article would fail
+* Fix a bug related to suggestion list on iPad after posting an idea
+* Clear all delegates on dealloc to prevent crashes
+* Hide the "more" label if there is no description text
+
 ## 3.2.2 (2015-01-06) ##
 
 * Fix implementation of navigationBarTextShadowColor
