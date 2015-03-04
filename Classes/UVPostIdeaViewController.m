@@ -261,6 +261,7 @@
 - (void)didCreateSuggestion:(UVSuggestion *)theSuggestion {
     [UVBabayaga track:SUBMIT_IDEA];
     UVSuccessViewController *next = [UVSuccessViewController new];
+    next.firstController = self.firstController;
     next.titleText = NSLocalizedStringFromTableInBundle(@"Thank you!", @"UserVoice", [UserVoice bundle], nil);
     next.text = NSLocalizedStringFromTableInBundle(@"Your feedback has been posted to our feedback forum.", @"UserVoice", [UserVoice bundle], nil);
     [self.navigationController setViewControllers:@[next] animated:YES];
