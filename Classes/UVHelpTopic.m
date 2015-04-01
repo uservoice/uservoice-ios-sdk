@@ -14,7 +14,7 @@
 + (id)getAllWithDelegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/topics.json"];
     return [self getPath:path
-              withParams:nil
+              withParams:@{@"per_page":@"99"}
                   target:delegate
                 selector:@selector(didRetrieveHelpTopics:)
                  rootKey:@"topics"];
