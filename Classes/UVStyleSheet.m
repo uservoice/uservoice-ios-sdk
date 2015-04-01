@@ -18,6 +18,7 @@ static UVStyleSheet *instance;
         instance.loadingViewBackgroundColor = [UIColor colorWithRed:0.902f green:0.902f blue:0.902f alpha:1.0f];
         instance.preferredStatusBarStyle = UIStatusBarStyleDefault;
         instance.navigationBarTintColor = [UINavigationBar appearance].tintColor;
+        instance.navigationBarTranslucency = YES;
     }
     return instance;
 }

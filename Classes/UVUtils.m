@@ -235,6 +235,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     } else {
         navigationController.navigationBar.tintColor = styles.navigationBarBackgroundColor;
     }
+    navigationController.navigationBar.translucent = styles.navigationBarTranslucency;
     [navigationController.navigationBar setBackgroundImage:styles.navigationBarBackgroundImage forBarMetrics:UIBarMetricsDefault];
     NSMutableDictionary *navbarTitleTextAttributes = [[NSMutableDictionary alloc] initWithDictionary:navigationController.navigationBar.titleTextAttributes];
     if (styles.navigationBarTextColor) {
