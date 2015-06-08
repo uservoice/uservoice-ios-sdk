@@ -200,7 +200,7 @@
     // We are the top modal, make to sure that parent modals use our size
     if (self.needNestedModalHack && self.presentedViewController == nil && self.presentingViewController) {
         for (UIViewController* parent = self.presentingViewController;
-             parent.presentingViewController;
+             [parent isKindOfClass:UVBaseViewController.class]&&parent.presentingViewController;
              parent = parent.presentingViewController) {
             parent.view.superview.frame = parent.presentedViewController.view.superview.frame;
         }
@@ -214,7 +214,7 @@
     // We are the top modal, make to sure that parent modals are hidden during transition
     if (self.needNestedModalHack && self.presentedViewController == nil && self.presentingViewController) {
         for (UIViewController* parent = self.presentingViewController;
-             parent.presentingViewController;
+             [parent isKindOfClass:UVBaseViewController.class]&&parent.presentingViewController;
              parent = parent.presentingViewController) {
             parent.view.superview.hidden = YES;
         }
@@ -227,7 +227,7 @@
     // We are the top modal, make to sure that parent modals are shown after animation
     if (self.needNestedModalHack && self.presentedViewController == nil && self.presentingViewController) {
         for (UIViewController* parent = self.presentingViewController;
-             parent.presentingViewController;
+            [parent isKindOfClass:UVBaseViewController.class]&&parent.presentingViewController;
              parent = parent.presentingViewController) {
             parent.view.superview.hidden = NO;
         }
