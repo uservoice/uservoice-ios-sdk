@@ -87,7 +87,12 @@
 }
 
 - (UIColor *)statusColor {
-    return self.statusHexColor ? [UVUtils parseHexColor:self.statusHexColor] : [UIColor clearColor];
+    if (!self.status) {
+        return [UIColor clearColor];
+    } else if (!self.statusHexColor) {
+        return [UIColor blackColor];
+    }
+    return [UVUtils parseHexColor:self.statusHexColor];
 }
 
 - (NSString *)rankString {
@@ -127,7 +132,7 @@
         NSDictionary *statusDict = [self objectOrNilForDict:dict key:@"status"];
         if (statusDict) {
             _status = [statusDict objectForKey:@"name"];
-            _statusHexColor = [statusDict objectForKey:@"hex_color"];
+            _statusHexColor = [self objectOrNilForDict:statusDict key:@"hex_color"];
         }
         NSDictionary *creator = [self objectOrNilForDict:dict key:@"creator"];
         if (creator) {
