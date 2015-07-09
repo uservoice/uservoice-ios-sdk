@@ -171,6 +171,7 @@
     [self clearDraft];
     [UVBabayaga track:SUBMIT_TICKET];
     UVSuccessViewController *next = [UVSuccessViewController new];
+    next.firstController = self.firstController;
     next.titleText = NSLocalizedStringFromTableInBundle(@"Message sent!", @"UserVoice", [UserVoice bundle], nil);
     next.text = NSLocalizedStringFromTableInBundle(@"We'll be in touch.", @"UserVoice", [UserVoice bundle], nil);
     [self.navigationController setViewControllers:@[next] animated:YES];
