@@ -28,6 +28,7 @@
         NSDictionary *topic = [[self objectOrNilForDict:dict key:@"topics"] objectAtIndex:0];
         
         _prompt = [topic objectForKey:@"prompt"];
+        _prompt = [UVUtils decodeHTMLEntities:_prompt];
         _suggestionsCount = [(NSNumber *)[topic objectForKey:@"open_suggestions_count"] integerValue];
 
         _categories = [NSMutableArray array];
