@@ -118,16 +118,21 @@
     [self registerForKeyboardNotifications];
     _didAuthenticateCallback = [[UVCallback alloc] initWithTarget:self selector:@selector(createSuggestion)];
     [self updateLayout];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+-(void)didRotate:(id)sender{
+    [self updateLayout];
+    [_fieldsView performSelector:@selector(updateLayout) withObject:nil afterDelay:0];
 }
 
 - (void)updateLayout {
     _topConstraint.constant = (IOS7 ? (IPAD ? 44 : (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 64 : 52)) : 0);
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
+        
         _desc.hidden = NO;
         [self.view removeConstraint:_descConstraint];
-    } else {
-        _desc.hidden = YES;
-        [self.view addConstraint:_descConstraint];
+        
     }
     if (!IOS7) {
         _desc.preferredMaxLayoutWidth = 0;
@@ -136,17 +141,19 @@
     }
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self updateLayout];
-    [_fieldsView performSelector:@selector(updateLayout) withObject:nil afterDelay:0];
-}
-
 - (void)keyboardDidShow:(NSNotification *)note {
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
-        _keyboardConstraint.constant = -_kbHeight-10;
+    // fine tune the offsets so the description shows well above landscape in different device sizes
+    
+    int heightOffset = 20;
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        if(IPAD){
+            heightOffset = 50;
+        }
+        _keyboardConstraint.constant = -_kbHeight-heightOffset;
     } else {
-        _keyboardConstraint.constant = -_kbHeight+10;
+        if(!SCREEN4ORLOWERLANDSCAPE){
+            _keyboardConstraint.constant = -_kbHeight-heightOffset+15;
+        }
     }
     [self.view layoutIfNeeded];
     [_fieldsView updateLayout];
