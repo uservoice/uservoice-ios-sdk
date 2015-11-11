@@ -53,17 +53,19 @@
 }
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UVForum *forum = [[UVSession currentSession].forums objectAtIndex:[indexPath row]];
     cell.backgroundColor = [UIColor whiteColor];
-    cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Feedback Forum", @"UserVoice", [UserVoice bundle], nil);
+    cell.textLabel.text = NSLocalizedStringFromTableInBundle(forum.name, @"UserVoice", [UserVoice bundle], nil);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)customizeCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     NSString *detail;
-    if ([UVSession currentSession].forum.suggestionsCount == 1) {
+    UVForum *forum = [[UVSession currentSession].forums objectAtIndex:[indexPath row]];
+    if (forum.suggestionsCount == 1) {
         detail = NSLocalizedStringFromTableInBundle(@"1 idea", @"UserVoice", [UserVoice bundle], nil);
     } else {
-        detail = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ ideas", @"UserVoice", [UserVoice bundle], nil), [UVUtils formatInteger:[UVSession currentSession].forum.suggestionsCount]];
+        detail = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ ideas", @"UserVoice", [UserVoice bundle], nil), [UVUtils formatInteger:forum.suggestionsCount]];
     }
     cell.detailTextLabel.text = detail;
 }
@@ -120,6 +122,7 @@
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"";
     NSInteger style = UITableViewCellStyleValue1;
+    
     if (theTableView == _searchController.searchResultsTableView || _searching) {
         id model = [self.searchResults objectAtIndex:indexPath.row];
         if ([model isMemberOfClass:[UVArticle class]]) {
@@ -131,11 +134,11 @@
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs)
             identifier = @"Contact";
-        else if (indexPath.section == 0 && [UVSession currentSession].config.showForum)
-            identifier = @"Forum";
         else if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea)
             identifier = @"PostIdea";
-        else if ([self showArticles])
+        else if (([UVSession currentSession].config.showForum) && indexPath.section == 1)
+            identifier = @"Forum";
+        else if (([self showArticles]) && indexPath.section == 2)
             identifier = @"Article";
         else
             identifier = @"Topic";
@@ -167,8 +170,9 @@
 
         if ([UVSession currentSession].config.showKnowledgeBase && ([[UVSession currentSession].topics count] > 0 || [[UVSession currentSession].articles count] > 0))
             sections++;
-        
-        if ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea)
+        if(([[UVSession currentSession].forums count] > 0) && [UVSession currentSession].config.showForum)
+            sections++;
+        if ([UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea)
             sections++;
 
         return sections;
@@ -179,8 +183,10 @@
     if (theTableView == _searchController.searchResultsTableView || _searching) {
         return self.searchResults.count;
     } else {
-        if (section == 0 && ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea))
-            return (([UVSession currentSession].config.showForum || [UVSession currentSession].config.showPostIdea) && [UVSession currentSession].config.showContactUs) ? 2 : 1;
+        if (section == 0 && ([UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea))
+            return (([UVSession currentSession].config.showPostIdea) && [UVSession currentSession].config.showContactUs) ? 2 : 1;
+        else if ([UVSession currentSession].config.showForum && ([[UVSession currentSession].forums count] > 0))
+            return [[UVSession currentSession].forums count];
         else if ([self showArticles])
             return [[UVSession currentSession].articles count];
         else
@@ -194,8 +200,10 @@
     } else {
         if (indexPath.section == 0 && indexPath.row == 0 && [UVSession currentSession].config.showContactUs) {
             [self presentModalViewController:[UVContactViewController new]];
-        } else if (indexPath.section == 0 && [UVSession currentSession].config.showForum) {
+        } else if (indexPath.section == 1 && [UVSession currentSession].config.showForum) {
             UVSuggestionListViewController *next = [UVSuggestionListViewController new];
+            UVForum *forum = [[UVSession currentSession].forums objectAtIndex:(int)[indexPath row]];
+            next.forum = forum;
             [self.navigationController pushViewController:next animated:YES];
         } else if (indexPath.section == 0 && [UVSession currentSession].config.showPostIdea) {
             [self presentModalViewController:[UVPostIdeaViewController new]];
@@ -218,8 +226,10 @@
 - (NSString *)tableView:(UITableView *)theTableView titleForHeaderInSection:(NSInteger)section {
     if (theTableView == _searchController.searchResultsTableView || _searching)
         return nil;
-    else if (section == 0 && ([UVSession currentSession].config.showForum || [UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea))
+    else if (section == 0 && ( [UVSession currentSession].config.showContactUs || [UVSession currentSession].config.showPostIdea))
         return nil;
+    else if (section == 1 && (([UVSession currentSession].forums > 0 ) && [UVSession currentSession].config.showForum))
+        return NSLocalizedStringFromTableInBundle(@"Forums", @"UserVoice", [UserVoice bundle], nil);
     else if ([UVSession currentSession].config.topicId)
         return [((UVHelpTopic *)[[UVSession currentSession].topics objectAtIndex:0]) name];
     else

@@ -15,5 +15,6 @@
 
 @property (nonatomic,retain) UVInstantAnswerManager *instantAnswerManager;
 @property (nonatomic,retain) NSString *loadedDraft;
+@property (nonatomic, retain) UVForum *forum;
 
 @end

@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSMutableDictionary *externalIds;
 @property (nonatomic, retain) NSArray *topics;
 @property (nonatomic, retain) NSArray *articles;
+@property (nonatomic, retain) NSMutableArray *forums;
 @property (nonatomic, retain) NSString *flashTitle;
 @property (nonatomic, retain) NSString *flashMessage;
 @property (nonatomic, retain) UVSuggestion *flashSuggestion;

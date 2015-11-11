@@ -43,7 +43,6 @@
 
 - (id)init {
     if ((self = [super init])) {
-        _forum = [UVSession currentSession].forum;
     }
     return self;
 }

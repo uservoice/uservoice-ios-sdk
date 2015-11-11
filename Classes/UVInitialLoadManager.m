@@ -113,7 +113,17 @@
 
 - (void)didRetrieveForum:(UVForum *)forum {
     if (_dismissed) return;
-    [UVSession currentSession].forum = forum;
+   if([[UVSession currentSession].config.forumIds count]> 0){
+        if([UVSession currentSession].forums == nil){
+            [UVSession currentSession].forums = [[NSMutableArray alloc] init];
+        }
+        [[UVSession currentSession].forums addObject:forum];
+    } else {
+        [UVSession currentSession].forum = forum;
+    }
+    //remove
+//    [UVSession currentSession].forum = forum;
+    
     _forumDone = YES;
     [self checkComplete];
 }
@@ -136,7 +146,16 @@
 - (void)didLoadUser {
     _userDone = YES;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
-        [UVForum getWithId:(int)[UVSession currentSession].config.forumId delegate:self];
+        if([[UVSession currentSession].config.forumIds count] > 0){
+            for(NSString *idString in [UVSession currentSession].config.forumIds){
+                int value = (int)[idString intValue];
+                NSLog(@"about to get this forumid: %d", value);
+                [UVForum getWithId:value delegate:self];
+                
+            }
+        } else {
+            [UVForum getWithId:(int)[UVSession currentSession].config.forumId delegate:self];
+        }
     } else {
         _forumDone = YES;
     }

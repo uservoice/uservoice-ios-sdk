@@ -9,10 +9,12 @@
 #import "UVDetailsFormViewController.h"
 #import "UVValueSelectViewController.h"
 #import "UVStyleSheet.h"
+#import "UVSession.h"
 
 #define LABEL 100
 #define VALUE 101
 #define TEXT 102
+#define ROW_HEIGHT 44
 
 @implementation UVDetailsFormViewController
 
@@ -26,6 +28,16 @@
                                                                               style:UIBarButtonItemStyleDone
                                                                              target:self
                                                                              action:@selector(send)];
+    if([self showForumPicker]){
+        _pickerData = [[NSMutableArray alloc] init];
+        for(UVForum *forum in [UVSession currentSession].forums){
+            [_pickerData addObject:forum.name];
+        }
+        _forumPicker.dataSource = _pickerData;
+        _forumPicker.delegate = self;
+    } else {
+        _forum = [UVSession currentSession].forum;
+    }
     if (_helpText) {
         UIView *help = [UIView new];
         help.frame = CGRectMake(0, 0, 0, 80);
@@ -40,6 +52,10 @@
     }
 }
 
+-(BOOL)showForumPicker{
+    return ([[UVSession currentSession].forums count] > 0);
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_tableView reloadData];
@@ -52,14 +68,19 @@
 }
 
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section {
-    return (section == 0) ? 2 : _fields.count;
+    return (section == 0) ? 3 : _fields.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier;
     BOOL selectable = NO;
     if (indexPath.section == 0) {
-        identifier = (indexPath.row == 0) ? @"Email" : @"Name";
+        if(indexPath.row == 0)
+           identifier = @"Email";
+        else if (indexPath.row == 1)
+            identifier = @"Name";
+        else if (indexPath.row == 2 && ([self showForumPicker]))
+            identifier = @"ForumDropdown";
     } else {
         NSDictionary *field = _fields[indexPath.row];
         if ([field[@"values"] count] > 0) {
@@ -74,7 +95,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 44;
+        return ROW_HEIGHT;
     } else {
         NSDictionary *field = _fields[indexPath.row];
         if ([field[@"values"] count] > 0) {
@@ -174,6 +195,57 @@
 - (void)initCellForName:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     self.nameField = [self configureView:cell.contentView label:NSLocalizedStringFromTableInBundle(@"Name", @"UserVoice", [UserVoice bundle], nil) placeholder:NSLocalizedStringFromTableInBundle(@"“Anonymous”", @"UserVoice", [UserVoice bundle], nil)];
     _nameField.text = self.userName;
+}
+
+
+- (void)initCellForForumDropdown:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    UILabel *label = [UILabel new];
+    label.text = [NSString stringWithFormat:@"%@:", NSLocalizedStringFromTableInBundle(@"Forum", @"UserVoice", [UserVoice bundle], nil)];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor grayColor];
+    [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+
+    label.frame = CGRectMake(18, 0, 75, ROW_HEIGHT+10);
+    _forumPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(80, 0, 200, ROW_HEIGHT+10)];
+    _forumPicker.delegate = self;
+    [cell addSubview:_forumPicker];
+    [cell addSubview:label];
+
+
+}
+
+#pragma mark === picker methods ===
+// The number of columns of data
+- (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// The number of rows of data
+- (int)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return (int)_pickerData.count;
+}
+
+// The data to return for the row and component (column) that's being passed in
+- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return _pickerData[row];
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    UILabel* tView = (UILabel*)view;
+    if (!tView){
+        tView = [UILabel new];
+        tView.font = [UIFont systemFontOfSize:13];
+        tView.text = _pickerData[row];
+    }
+    return tView;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    _forum = (UVForum *)[[UVSession currentSession].forums objectAtIndex:row];
 }
 
 #pragma mark ===== Misc =====

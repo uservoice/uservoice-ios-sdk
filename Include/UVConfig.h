@@ -27,6 +27,7 @@
 @property (nonatomic, retain) NSDictionary *customFields;
 @property (nonatomic, assign) NSInteger topicId;
 @property (nonatomic, assign) NSInteger forumId;
+@property (nonatomic, retain) NSArray *forumIds;
 @property (nonatomic, assign) BOOL showForum;
 @property (nonatomic, assign) BOOL showPostIdea;
 @property (nonatomic, assign) BOOL showContactUs;
