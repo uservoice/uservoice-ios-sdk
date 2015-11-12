@@ -119,10 +119,9 @@
         }
         [[UVSession currentSession].forums addObject:forum];
     } else {
+        //still supporting defaultId
         [UVSession currentSession].forum = forum;
     }
-    //remove
-//    [UVSession currentSession].forum = forum;
     
     _forumDone = YES;
     [self checkComplete];
@@ -147,9 +146,9 @@
     _userDone = YES;
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
         if([[UVSession currentSession].config.forumIds count] > 0){
+            [UVSession currentSession].forums = [NSMutableArray new];
             for(NSString *idString in [UVSession currentSession].config.forumIds){
                 int value = (int)[idString intValue];
-                NSLog(@"about to get this forumid: %d", value);
                 [UVForum getWithId:value delegate:self];
                 
             }

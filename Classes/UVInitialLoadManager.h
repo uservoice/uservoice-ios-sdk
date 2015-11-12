@@ -19,6 +19,7 @@
     BOOL _topicsDone;
     BOOL _articlesDone;
     BOOL _configDone;
+    BOOL _forumsDone;
     BOOL _forumDone;
 }
 

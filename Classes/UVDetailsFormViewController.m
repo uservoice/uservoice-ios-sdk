@@ -53,7 +53,7 @@
 }
 
 -(BOOL)showForumPicker{
-    return ([[UVSession currentSession].forums count] > 0);
+    return ((_forum == nil) && ([[UVSession currentSession].forums count] > 0));
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -216,13 +216,13 @@
 
 #pragma mark === picker methods ===
 // The number of columns of data
-- (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+- (long)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
 }
 
 // The number of rows of data
-- (int)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+- (long)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return (int)_pickerData.count;
 }
@@ -251,6 +251,7 @@
 #pragma mark ===== Misc =====
 
 - (void)send {
+    [UVSession currentSession].forum = _forum; // TODO should change del methods to pass in forum
     [_delegate sendWithEmail:_emailField.text name:_nameField.text fields:_selectedFieldValues];
 }
 
@@ -270,6 +271,7 @@
 }
 
 - (void)dismiss {
+    _forum = nil;
     if ([_delegate respondsToSelector:@selector(cancel)]) {
         [_delegate cancel];
     }

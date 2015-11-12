@@ -42,7 +42,12 @@
 }
 
 - (id)init {
+    
     if ((self = [super init])) {
+        if(_forum == nil){
+            UVSession *session = [UVSession currentSession];
+            _forum = [UVSession currentSession].forum;
+        }
     }
     return self;
 }
@@ -226,6 +231,7 @@
 
 - (void)composeButtonTapped {
     UVPostIdeaViewController *next = [UVPostIdeaViewController new];
+    next.forum = _forum;
     next.initialText = _searchBar.text;
     next.delegate = self;
     [self presentModalViewController:next];

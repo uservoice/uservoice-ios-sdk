@@ -179,6 +179,7 @@
     if (_proceed) return;
     [self showActivityIndicator];
     _proceed = YES;
+    _instantAnswerManager.forum = _forum;
     [_instantAnswerManager search];
     if (!_instantAnswerManager.loading) {
         [self didUpdateInstantAnswers];
@@ -201,11 +202,12 @@
     _detailsController.delegate = self;
     _detailsController.helpText = NSLocalizedStringFromTableInBundle(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", [UserVoice bundle], nil);
     _detailsController.sendTitle = NSLocalizedStringFromTableInBundle(@"Post", @"UserVoice", [UserVoice bundle], nil);
-    UVForum *forum = [UVSession currentSession].forum;
-    if (forum.categories && forum.categories.count > 0) {
+//    UVForum *forum = [UVSession currentSession].forum;
+    
+    if (_forum.categories && _forum.categories.count > 0) {
         NSMutableArray *values = [NSMutableArray array];
         [values addObject:@{ @"id" : @"", @"label" : NSLocalizedStringFromTableInBundle(@"(none)", @"UserVoice", [UserVoice bundle], nil) }];
-        for (UVCategory *category in forum.categories) {
+        for (UVCategory *category in _forum.categories) {
             [values addObject:@{ @"id" : [NSString stringWithFormat:@"%d", (int)category.categoryId], @"label" : category.name }];
         }
         _detailsController.fields = @[ @{
@@ -247,7 +249,7 @@
 
 - (void)createSuggestion {
     _sending = YES;
-    [UVSuggestion createWithForum:[UVSession currentSession].forum
+    [UVSuggestion createWithForum:_forum
                          category:_selectedCategoryId
                             title:_titleField.text
                              text:_fieldsView.textView.text

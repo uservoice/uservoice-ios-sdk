@@ -9,6 +9,7 @@
 #import "UVBaseViewController.h"
 #import "UVInstantAnswerManager.h"
 #import "UVCallback.h"
+#import "UVForum.h"
 
 @class UVTextView;
 @class UVSuggestion;
@@ -31,5 +32,6 @@
 @property (nonatomic, retain) NSLayoutConstraint *descConstraint;
 @property (nonatomic, retain) UILabel *desc;
 @property (nonatomic, assign) id<UVPostIdeaDelegate> delegate;
+@property (nonatomic, retain) UVForum *forum;
 
 @end

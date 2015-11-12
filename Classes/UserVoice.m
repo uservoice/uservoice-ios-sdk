@@ -137,6 +137,7 @@ static NSBundle *userVoiceBundle;
     [self presentUserVoiceForumForParentViewController:parentViewController];
 }
 
+
 + (void)setExternalId:(NSString *)identifier forScope:(NSString *)scope {
     [[UVSession currentSession] setExternalId:identifier forScope:scope];
 }

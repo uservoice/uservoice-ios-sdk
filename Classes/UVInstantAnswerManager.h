@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UVModelDelegate.h"
+#import "UVForum.h"
 
 @class UVArticle;
 @class UVSuggestion;
@@ -36,6 +37,7 @@
 @property (nonatomic, retain) NSString *articleHelpfulPrompt;
 @property (nonatomic, retain) NSString *articleReturnMessage;
 @property (nonatomic, retain) NSString *deflectingType;
+@property (nonatomic, retain) UVForum *forum;
 
 /*
  * An array of interleaved ideas and articles

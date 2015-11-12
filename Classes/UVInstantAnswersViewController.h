@@ -14,5 +14,6 @@
 @property (nonatomic, assign) BOOL articlesFirst;
 @property (nonatomic, retain) UVInstantAnswerManager *instantAnswerManager;
 @property (nonatomic, retain) NSString *deflectingType;
+@property (nonatomic, retain) UVForum *forum;
 
 @end
