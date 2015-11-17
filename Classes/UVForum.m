@@ -37,6 +37,7 @@
             [_categories addObject:[[UVCategory alloc] initWithDictionary:categoryDict]];
         }
     }
+    
     return self;
 }
 
