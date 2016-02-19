@@ -10,3 +10,4 @@ profile
 .idea
 *.swp
 dist
+Carthage/
