@@ -92,6 +92,142 @@
 		D2BEEBB91367436D00EBC307 /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
 		D2BEEBBA1367436D00EBC307 /* UVTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BEEBB81367436D00EBC307 /* UVTicket.m */; };
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
+		D36839F71C77464C0036064E /* UserVoiceSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = D36839F61C77464C0036064E /* UserVoiceSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D36839FD1C77471D0036064E /* UVBabayaga.m in Sources */ = {isa = PBXBuildFile; fileRef = D96CF04B17CD02480055B619 /* UVBabayaga.m */; };
+		D36839FE1C77471D0036064E /* UVDeflection.m in Sources */ = {isa = PBXBuildFile; fileRef = D99BC43D17EB751500AED65E /* UVDeflection.m */; };
+		D36839FF1C77471D0036064E /* UVArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927680B1559CB4000E17EF1 /* UVArticleViewController.m */; };
+		D3683A001C77471D0036064E /* UVBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE461610ACC158003D8751 /* UVBaseViewController.m */; };
+		D3683A011C77471D0036064E /* UVValueSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC91B2C9112F320700D84566 /* UVValueSelectViewController.m */; };
+		D3683A021C77471D0036064E /* UVRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC1B16FD10D80EAE002B03F7 /* UVRootViewController.m */; };
+		D3683A031C77471D0036064E /* UVSuggestionDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC04F4F3109A3D4A00551F2D /* UVSuggestionDetailsViewController.m */; };
+		D3683A041C77471D0036064E /* UVSuggestionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31239E1090EB3700000D5F /* UVSuggestionListViewController.m */; };
+		D3683A051C77471D0036064E /* UVWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC1B16CA10D7F586002B03F7 /* UVWelcomeViewController.m */; };
+		D3683A061C77471D0036064E /* UVCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95B33051655A78900B87A23 /* UVCommentViewController.m */; };
+		D3683A071C77471D0036064E /* UVHelpTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE731656F50D00A384CC /* UVHelpTopicViewController.m */; };
+		D3683A081C77471D0036064E /* UVContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427A7181194F6002F716B /* UVContactViewController.m */; };
+		D3683A091C77471D0036064E /* UVInstantAnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427AB1811B90E002F716B /* UVInstantAnswersViewController.m */; };
+		D3683A0A1C77471D0036064E /* UVDetailsFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427AF1815905D002F716B /* UVDetailsFormViewController.m */; };
+		D3683A0B1C77471D0036064E /* UVSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A7A66318185F7500EBF41E /* UVSuccessViewController.m */; };
+		D3683A0C1C77471D0036064E /* UVPostIdeaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9CB6547181877F2006B05D7 /* UVPostIdeaViewController.m */; };
+		D3683A0D1C77471D0036064E /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
+		D3683A0E1C77471D0036064E /* UVAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A37C3D01929A96B00942423 /* UVAttachment.m */; };
+		D3683A0F1C77471D0036064E /* UVBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AC3121F7108FC46500000D5F /* UVBaseModel.m */; };
+		D3683A101C77471D0036064E /* UVCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AC1B18D310D878D0002B03F7 /* UVCategory.m */; };
+		D3683A111C77471D0036064E /* UVClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31220D108FC57700000D5F /* UVClientConfig.m */; };
+		D3683A121C77471D0036064E /* UVComment.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEE442D10AB370F003D8751 /* UVComment.m */; };
+		D3683A131C77471D0036064E /* UVCustomField.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B5291D13A16A2F008709D2 /* UVCustomField.m */; };
+		D3683A141C77471D0036064E /* UVForum.m in Sources */ = {isa = PBXBuildFile; fileRef = AC1BA2EE10BB4931002C8712 /* UVForum.m */; };
+		D3683A151C77471D0036064E /* UVSubdomain.m in Sources */ = {isa = PBXBuildFile; fileRef = D24540BF11B095AA00C7E4BA /* UVSubdomain.m */; };
+		D3683A161C77471D0036064E /* UVSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = AC3127E910976ED800000D5F /* UVSuggestion.m */; };
+		D3683A171C77471D0036064E /* UVTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BEEBB81367436D00EBC307 /* UVTicket.m */; };
+		D3683A181C77471D0036064E /* UVAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D24A382011A09121005BC3F3 /* UVAccessToken.m */; };
+		D3683A191C77471D0036064E /* UVRequestToken.m in Sources */ = {isa = PBXBuildFile; fileRef = D9522010163726EE00A7081D /* UVRequestToken.m */; };
+		D3683A1A1C77471D0036064E /* UVUser.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312728109667CE00000D5F /* UVUser.m */; };
+		D3683A1B1C77471D0036064E /* UVHelpTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */; };
+		D3683A1C1C77471D0036064E /* UVCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = C184F7E917B5AD7C00DBB38C /* UVCallback.m */; };
+		D3683A1D1C77471D0036064E /* UVImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BDE6111DAE3FA00B26012 /* UVImageView.m */; };
+		D3683A1E1C77471D0036064E /* UVTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D24BE09E11DB1B7C00B26012 /* UVTextView.m */; };
+		D3683A1F1C77471D0036064E /* UVTruncatingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C35BD4166E7DB0004FAA89 /* UVTruncatingLabel.m */; };
+		D3683A201C77471D0036064E /* UVCalculatingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C35BD8166E7E00004FAA89 /* UVCalculatingLabel.m */; };
+		D3683A211C77471D0036064E /* UVTextWithFieldsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A60891857972A00D028DE /* UVTextWithFieldsView.m */; };
+		D3683A221C77471D0036064E /* UserVoice.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31201F108CE4B100000D5F /* UserVoice.m */; };
+		D3683A231C77471D0036064E /* UVNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9D404811643261400D9CECA /* UVNavigationController.m */; };
+		D3683A241C77471D0036064E /* UVConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312082108CFD9F00000D5F /* UVConfig.m */; };
+		D3683A251C77471D0036064E /* UVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B1D1DB14ACCBE700D9189F /* UVImageCache.m */; };
+		D3683A261C77471D0036064E /* UVResponseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31259C109263F600000D5F /* UVResponseDelegate.m */; };
+		D3683A271C77471D0036064E /* UVSession.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31242410911C8600000D5F /* UVSession.m */; };
+		D3683A281C77471D0036064E /* UVStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312B1F109914C100000D5F /* UVStyleSheet.m */; };
+		D3683A291C77471D0036064E /* UVKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D99AFAA5164AC1A30061F50C /* UVKeyboardUtils.m */; };
+		D3683A2A1C77471D0036064E /* UVSigninManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D96FAE77165C3DF100A384CC /* UVSigninManager.m */; };
+		D3683A2B1C77471D0036064E /* UVInitialLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C35BE2167680F2004FAA89 /* UVInitialLoadManager.m */; };
+		D3683A2C1C77471D0036064E /* UVRequestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F23DE16EFD8B1003F6850 /* UVRequestContext.m */; };
+		D3683A2D1C77471D0036064E /* UVUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F23E4172EFD2A003F6850 /* UVUtils.m */; };
+		D3683A2E1C77471D0036064E /* UVInstantAnswerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E8B6A718105CC8003C7E07 /* UVInstantAnswerManager.m */; };
+		D3683A2F1C77471D0036064E /* HRFormatJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EB711B597290053EA4C /* HRFormatJSON.m */; };
+		D3683A301C77471D0036064E /* HRGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EBC11B597290053EA4C /* HRGlobal.m */; };
+		D3683A311C77471D0036064E /* HROperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EBE11B597290053EA4C /* HROperationQueue.m */; };
+		D3683A321C77471D0036064E /* HRRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EC011B597290053EA4C /* HRRequestOperation.m */; };
+		D3683A331C77471D0036064E /* HRRestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2620EC311B597290053EA4C /* HRRestModel.m */; };
+		D3683A341C77471D0036064E /* YOAuthConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312524109231D800000D5F /* YOAuthConsumer.m */; };
+		D3683A351C77471D0036064E /* YOAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312526109231D800000D5F /* YOAuthRequest.m */; };
+		D3683A361C77471D0036064E /* YOAuthSignatureMethod_HMAC-SHA1.m in Sources */ = {isa = PBXBuildFile; fileRef = AC312529109231D800000D5F /* YOAuthSignatureMethod_HMAC-SHA1.m */; };
+		D3683A371C77471D0036064E /* YOAuthSignatureMethod_PLAINTEXT.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31252B109231D800000D5F /* YOAuthSignatureMethod_PLAINTEXT.m */; };
+		D3683A381C77471D0036064E /* YOAuthToken.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31252D109231D800000D5F /* YOAuthToken.m */; };
+		D3683A391C77471D0036064E /* YOAuthUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AC31252F109231D800000D5F /* YOAuthUtil.m */; };
+		D3683A3A1C7747270036064E /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = AC31251A109231D800000D5F /* Base64Transcoder.c */; };
+		D3683A3B1C7747380036064E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		D3683A3C1C77473C0036064E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
+		D3683A3D1C7747430036064E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2620D2D11B589FE0053EA4C /* SystemConfiguration.framework */; };
+		D3683A3E1C77476D0036064E /* UVConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312081108CFD9F00000D5F /* UVConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3683A3F1C77476D0036064E /* UserVoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6474C33714BB8D5D00F6A2F0 /* UserVoice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3683A401C77476D0036064E /* UVStyleSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312B1E109914C100000D5F /* UVStyleSheet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3683A411C77476D0036064E /* UVDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9F2060314C08A8100F4441E /* UVDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3683A421C77476D0036064E /* UVBabayaga.h in Headers */ = {isa = PBXBuildFile; fileRef = D96CF04A17CD02480055B619 /* UVBabayaga.h */; };
+		D3683A431C77476D0036064E /* UVDeflection.h in Headers */ = {isa = PBXBuildFile; fileRef = D99BC43C17EB751500AED65E /* UVDeflection.h */; };
+		D3683A441C77476D0036064E /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
+		D3683A451C77476D0036064E /* UVBaseViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE461510ACC158003D8751 /* UVBaseViewController.h */; };
+		D3683A461C77476D0036064E /* UVValueSelectViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC91B2C8112F320700D84566 /* UVValueSelectViewController.h */; };
+		D3683A471C77476D0036064E /* UVRootViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC1B16FC10D80EAE002B03F7 /* UVRootViewController.h */; };
+		D3683A481C77476D0036064E /* UVSuggestionDetailsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC04F4F2109A3D4A00551F2D /* UVSuggestionDetailsViewController.h */; };
+		D3683A491C77476D0036064E /* UVSuggestionListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31239D1090EB3700000D5F /* UVSuggestionListViewController.h */; };
+		D3683A4A1C77476D0036064E /* UVWelcomeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AC1B16C910D7F586002B03F7 /* UVWelcomeViewController.h */; };
+		D3683A4B1C77476D0036064E /* UVCommentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D95B33041655A78900B87A23 /* UVCommentViewController.h */; };
+		D3683A4C1C77476D0036064E /* UVHelpTopicViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE721656F50D00A384CC /* UVHelpTopicViewController.h */; };
+		D3683A4D1C77476D0036064E /* UVContactViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427A6181194F6002F716B /* UVContactViewController.h */; };
+		D3683A4E1C77476D0036064E /* UVInstantAnswersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */; };
+		D3683A4F1C77476D0036064E /* UVDetailsFormViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AE1815905D002F716B /* UVDetailsFormViewController.h */; };
+		D3683A501C77476D0036064E /* UVSuccessViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9A7A66218185F7500EBF41E /* UVSuccessViewController.h */; };
+		D3683A511C77476D0036064E /* UVPostIdeaViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9CB6546181877F2006B05D7 /* UVPostIdeaViewController.h */; };
+		D3683A521C77476D0036064E /* UVArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = D92767F915597F3700E17EF1 /* UVArticle.h */; };
+		D3683A531C77476D0036064E /* UVAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A37C3CF1929A96B00942423 /* UVAttachment.h */; };
+		D3683A541C77476D0036064E /* UVBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = AC3121F6108FC46500000D5F /* UVBaseModel.h */; };
+		D3683A551C77476D0036064E /* UVCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = AC1B18D210D878D0002B03F7 /* UVCategory.h */; };
+		D3683A561C77476D0036064E /* UVClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31220C108FC57700000D5F /* UVClientConfig.h */; };
+		D3683A571C77476D0036064E /* UVComment.h in Headers */ = {isa = PBXBuildFile; fileRef = ACEE442C10AB370F003D8751 /* UVComment.h */; };
+		D3683A581C77476D0036064E /* UVCustomField.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B5291C13A16A2F008709D2 /* UVCustomField.h */; };
+		D3683A591C77476D0036064E /* UVForum.h in Headers */ = {isa = PBXBuildFile; fileRef = AC1BA2ED10BB4931002C8712 /* UVForum.h */; };
+		D3683A5A1C77476D0036064E /* UVSubdomain.h in Headers */ = {isa = PBXBuildFile; fileRef = D24540BE11B095AA00C7E4BA /* UVSubdomain.h */; };
+		D3683A5B1C77476D0036064E /* UVSuggestion.h in Headers */ = {isa = PBXBuildFile; fileRef = AC3127E810976ED800000D5F /* UVSuggestion.h */; };
+		D3683A5C1C77476D0036064E /* UVTicket.h in Headers */ = {isa = PBXBuildFile; fileRef = D2BEEBB71367436D00EBC307 /* UVTicket.h */; };
+		D3683A5D1C77476E0036064E /* UVAccessToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D24A381F11A09121005BC3F3 /* UVAccessToken.h */; };
+		D3683A5E1C77476E0036064E /* UVRequestToken.h in Headers */ = {isa = PBXBuildFile; fileRef = D952200F163726EE00A7081D /* UVRequestToken.h */; };
+		D3683A5F1C77476E0036064E /* UVUser.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312727109667CE00000D5F /* UVUser.h */; };
+		D3683A601C77476E0036064E /* UVHelpTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE6D1656E63D00A384CC /* UVHelpTopic.h */; };
+		D3683A611C77476E0036064E /* UVCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = C184F7E817B5AD7C00DBB38C /* UVCallback.h */; };
+		D3683A621C77476E0036064E /* UVImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BDE6011DAE3FA00B26012 /* UVImageView.h */; };
+		D3683A631C77476E0036064E /* UVTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = D24BE09D11DB1B7C00B26012 /* UVTextView.h */; };
+		D3683A641C77476E0036064E /* UVTruncatingLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = D9C35BD3166E7DB0004FAA89 /* UVTruncatingLabel.h */; };
+		D3683A651C77476E0036064E /* UVCalculatingLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = D9C35BD7166E7E00004FAA89 /* UVCalculatingLabel.h */; };
+		D3683A661C77476E0036064E /* UVTextWithFieldsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D90A60881857972A00D028DE /* UVTextWithFieldsView.h */; };
+		D3683A671C77476E0036064E /* UVNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D404801643261300D9CECA /* UVNavigationController.h */; };
+		D3683A681C77476E0036064E /* UVImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B1D1DA14ACCBE700D9189F /* UVImageCache.h */; };
+		D3683A691C77476E0036064E /* UVResponseDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31259B109263F600000D5F /* UVResponseDelegate.h */; };
+		D3683A6A1C77476E0036064E /* UVSession.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31242310911C8600000D5F /* UVSession.h */; };
+		D3683A6B1C77476E0036064E /* UVKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D99AFAA4164AC1A30061F50C /* UVKeyboardUtils.h */; };
+		D3683A6C1C77476E0036064E /* UVSigninManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D96FAE76165C3DF100A384CC /* UVSigninManager.h */; };
+		D3683A6D1C77476F0036064E /* UVInitialLoadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D9C35BE1167680F2004FAA89 /* UVInitialLoadManager.h */; };
+		D3683A6E1C77476F0036064E /* UVRequestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = D95F23DD16EFD8B1003F6850 /* UVRequestContext.h */; };
+		D3683A6F1C77476F0036064E /* UVUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = D95F23E3172EFD2A003F6850 /* UVUtils.h */; };
+		D3683A701C77476F0036064E /* UVDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = D909DD4117CD3CAA00ECE395 /* UVDefines.h */; };
+		D3683A711C77476F0036064E /* UVInstantAnswerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D9E8B6A618105CC8003C7E07 /* UVInstantAnswerManager.h */; };
+		D3683A721C77476F0036064E /* UVModelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9FAD0E618AE7DBB00EC193B /* UVModelDelegate.h */; };
+		D3683A731C77476F0036064E /* HRFormatJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EB611B597290053EA4C /* HRFormatJSON.h */; };
+		D3683A741C77476F0036064E /* HRFormatterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EBA11B597290053EA4C /* HRFormatterProtocol.h */; };
+		D3683A751C77476F0036064E /* HRGlobal.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EBB11B597290053EA4C /* HRGlobal.h */; };
+		D3683A761C77476F0036064E /* HROperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EBD11B597290053EA4C /* HROperationQueue.h */; };
+		D3683A771C77476F0036064E /* HRRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EBF11B597290053EA4C /* HRRequestOperation.h */; };
+		D3683A781C7747700036064E /* HRResponseDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC111B597290053EA4C /* HRResponseDelegate.h */; };
+		D3683A791C7747700036064E /* HRRestModel.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC211B597290053EA4C /* HRRestModel.h */; };
+		D3683A7A1C7747700036064E /* HTTPRiot.h in Headers */ = {isa = PBXBuildFile; fileRef = D2620EC411B597290053EA4C /* HTTPRiot.h */; };
+		D3683A7B1C7747700036064E /* Base64Transcoder.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31251B109231D800000D5F /* Base64Transcoder.h */; };
+		D3683A7C1C7747700036064E /* YOAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312522109231D800000D5F /* YOAuth.h */; };
+		D3683A7D1C7747700036064E /* YOAuthConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312523109231D800000D5F /* YOAuthConsumer.h */; };
+		D3683A7E1C7747700036064E /* YOAuthRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312525109231D800000D5F /* YOAuthRequest.h */; };
+		D3683A7F1C7747700036064E /* YOAuthSignatureMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312527109231D800000D5F /* YOAuthSignatureMethod.h */; };
+		D3683A801C7747710036064E /* YOAuthSignatureMethod_HMAC-SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = AC312528109231D800000D5F /* YOAuthSignatureMethod_HMAC-SHA1.h */; };
+		D3683A811C7747710036064E /* YOAuthSignatureMethod_PLAINTEXT.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31252A109231D800000D5F /* YOAuthSignatureMethod_PLAINTEXT.h */; };
+		D3683A821C7747710036064E /* YOAuthToken.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31252C109231D800000D5F /* YOAuthToken.h */; };
+		D3683A831C7747710036064E /* YOAuthUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = AC31252E109231D800000D5F /* YOAuthUtil.h */; };
 		D90A608A1857972A00D028DE /* UVTextWithFieldsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D90A60881857972A00D028DE /* UVTextWithFieldsView.h */; };
 		D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A60891857972A00D028DE /* UVTextWithFieldsView.m */; };
 		D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */; settings = {ASSET_TAGS = (); }; };
@@ -236,6 +372,9 @@
 		D2BEEBB71367436D00EBC307 /* UVTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTicket.h; sourceTree = "<group>"; };
 		D2BEEBB81367436D00EBC307 /* UVTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTicket.m; sourceTree = "<group>"; };
 		D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D36839F41C77464C0036064E /* UserVoice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UserVoice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D36839F61C77464C0036064E /* UserVoiceSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserVoiceSDK.h; sourceTree = "<group>"; };
+		D36839F81C77464C0036064E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D909DD4117CD3CAA00ECE395 /* UVDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDefines.h; sourceTree = "<group>"; };
 		D90A60881857972A00D028DE /* UVTextWithFieldsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextWithFieldsView.h; sourceTree = "<group>"; };
 		D90A60891857972A00D028DE /* UVTextWithFieldsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextWithFieldsView.m; sourceTree = "<group>"; };
@@ -313,6 +452,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D36839F01C77464C0036064E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3683A3D1C7747430036064E /* SystemConfiguration.framework in Frameworks */,
+				D3683A3C1C77473C0036064E /* QuartzCore.framework in Frameworks */,
+				D3683A3B1C7747380036064E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -320,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				D2AAC07E0554694100DB518D /* libUserVoice.a */,
+				D36839F41C77464C0036064E /* UserVoice.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -332,6 +482,7 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				AC312517109231A200000D5F /* Vendor */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
+				D36839F51C77464C0036064E /* UserVoiceSDK */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				AC61BF4B1089119500BCD3F2 /* CoreGraphics.framework */,
@@ -596,6 +747,15 @@
 			path = Formatters;
 			sourceTree = "<group>";
 		};
+		D36839F51C77464C0036064E /* UserVoiceSDK */ = {
+			isa = PBXGroup;
+			children = (
+				D36839F61C77464C0036064E /* UserVoiceSDK.h */,
+				D36839F81C77464C0036064E /* Info.plist */,
+			);
+			path = UserVoiceSDK;
+			sourceTree = "<group>";
+		};
 		D96CF04E17CD1BA10055B619 /* Metrics */ = {
 			isa = PBXGroup;
 			children = (
@@ -727,6 +887,84 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D36839F11C77464C0036064E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D36839F71C77464C0036064E /* UserVoiceSDK.h in Headers */,
+				D3683A3F1C77476D0036064E /* UserVoice.h in Headers */,
+				D3683A3E1C77476D0036064E /* UVConfig.h in Headers */,
+				D3683A411C77476D0036064E /* UVDelegate.h in Headers */,
+				D3683A401C77476D0036064E /* UVStyleSheet.h in Headers */,
+				D3683A421C77476D0036064E /* UVBabayaga.h in Headers */,
+				D3683A431C77476D0036064E /* UVDeflection.h in Headers */,
+				D3683A441C77476D0036064E /* UVArticleViewController.h in Headers */,
+				D3683A451C77476D0036064E /* UVBaseViewController.h in Headers */,
+				D3683A461C77476D0036064E /* UVValueSelectViewController.h in Headers */,
+				D3683A471C77476D0036064E /* UVRootViewController.h in Headers */,
+				D3683A481C77476D0036064E /* UVSuggestionDetailsViewController.h in Headers */,
+				D3683A491C77476D0036064E /* UVSuggestionListViewController.h in Headers */,
+				D3683A4A1C77476D0036064E /* UVWelcomeViewController.h in Headers */,
+				D3683A4B1C77476D0036064E /* UVCommentViewController.h in Headers */,
+				D3683A4C1C77476D0036064E /* UVHelpTopicViewController.h in Headers */,
+				D3683A4D1C77476D0036064E /* UVContactViewController.h in Headers */,
+				D3683A4E1C77476D0036064E /* UVInstantAnswersViewController.h in Headers */,
+				D3683A4F1C77476D0036064E /* UVDetailsFormViewController.h in Headers */,
+				D3683A501C77476D0036064E /* UVSuccessViewController.h in Headers */,
+				D3683A511C77476D0036064E /* UVPostIdeaViewController.h in Headers */,
+				D3683A521C77476D0036064E /* UVArticle.h in Headers */,
+				D3683A531C77476D0036064E /* UVAttachment.h in Headers */,
+				D3683A541C77476D0036064E /* UVBaseModel.h in Headers */,
+				D3683A551C77476D0036064E /* UVCategory.h in Headers */,
+				D3683A561C77476D0036064E /* UVClientConfig.h in Headers */,
+				D3683A571C77476D0036064E /* UVComment.h in Headers */,
+				D3683A581C77476D0036064E /* UVCustomField.h in Headers */,
+				D3683A591C77476D0036064E /* UVForum.h in Headers */,
+				D3683A5A1C77476D0036064E /* UVSubdomain.h in Headers */,
+				D3683A5B1C77476D0036064E /* UVSuggestion.h in Headers */,
+				D3683A5C1C77476D0036064E /* UVTicket.h in Headers */,
+				D3683A5D1C77476E0036064E /* UVAccessToken.h in Headers */,
+				D3683A5E1C77476E0036064E /* UVRequestToken.h in Headers */,
+				D3683A5F1C77476E0036064E /* UVUser.h in Headers */,
+				D3683A601C77476E0036064E /* UVHelpTopic.h in Headers */,
+				D3683A611C77476E0036064E /* UVCallback.h in Headers */,
+				D3683A621C77476E0036064E /* UVImageView.h in Headers */,
+				D3683A631C77476E0036064E /* UVTextView.h in Headers */,
+				D3683A641C77476E0036064E /* UVTruncatingLabel.h in Headers */,
+				D3683A651C77476E0036064E /* UVCalculatingLabel.h in Headers */,
+				D3683A661C77476E0036064E /* UVTextWithFieldsView.h in Headers */,
+				D3683A671C77476E0036064E /* UVNavigationController.h in Headers */,
+				D3683A681C77476E0036064E /* UVImageCache.h in Headers */,
+				D3683A691C77476E0036064E /* UVResponseDelegate.h in Headers */,
+				D3683A6A1C77476E0036064E /* UVSession.h in Headers */,
+				D3683A6B1C77476E0036064E /* UVKeyboardUtils.h in Headers */,
+				D3683A6C1C77476E0036064E /* UVSigninManager.h in Headers */,
+				D3683A6D1C77476F0036064E /* UVInitialLoadManager.h in Headers */,
+				D3683A6E1C77476F0036064E /* UVRequestContext.h in Headers */,
+				D3683A6F1C77476F0036064E /* UVUtils.h in Headers */,
+				D3683A701C77476F0036064E /* UVDefines.h in Headers */,
+				D3683A711C77476F0036064E /* UVInstantAnswerManager.h in Headers */,
+				D3683A721C77476F0036064E /* UVModelDelegate.h in Headers */,
+				D3683A731C77476F0036064E /* HRFormatJSON.h in Headers */,
+				D3683A741C77476F0036064E /* HRFormatterProtocol.h in Headers */,
+				D3683A751C77476F0036064E /* HRGlobal.h in Headers */,
+				D3683A761C77476F0036064E /* HROperationQueue.h in Headers */,
+				D3683A771C77476F0036064E /* HRRequestOperation.h in Headers */,
+				D3683A781C7747700036064E /* HRResponseDelegate.h in Headers */,
+				D3683A791C7747700036064E /* HRRestModel.h in Headers */,
+				D3683A7A1C7747700036064E /* HTTPRiot.h in Headers */,
+				D3683A7B1C7747700036064E /* Base64Transcoder.h in Headers */,
+				D3683A7C1C7747700036064E /* YOAuth.h in Headers */,
+				D3683A7D1C7747700036064E /* YOAuthConsumer.h in Headers */,
+				D3683A7E1C7747700036064E /* YOAuthRequest.h in Headers */,
+				D3683A7F1C7747700036064E /* YOAuthSignatureMethod.h in Headers */,
+				D3683A801C7747710036064E /* YOAuthSignatureMethod_HMAC-SHA1.h in Headers */,
+				D3683A811C7747710036064E /* YOAuthSignatureMethod_PLAINTEXT.h in Headers */,
+				D3683A821C7747710036064E /* YOAuthToken.h in Headers */,
+				D3683A831C7747710036064E /* YOAuthUtil.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -747,6 +985,24 @@
 			productReference = D2AAC07E0554694100DB518D /* libUserVoice.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		D36839F31C77464C0036064E /* UserVoiceSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D36839FC1C77464C0036064E /* Build configuration list for PBXNativeTarget "UserVoiceSDK" */;
+			buildPhases = (
+				D36839EF1C77464C0036064E /* Sources */,
+				D36839F01C77464C0036064E /* Frameworks */,
+				D36839F11C77464C0036064E /* Headers */,
+				D36839F21C77464C0036064E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UserVoiceSDK;
+			productName = UserVoiceSDK;
+			productReference = D36839F41C77464C0036064E /* UserVoice.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -755,6 +1011,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "UserVoice Inc";
+				TargetAttributes = {
+					D36839F31C77464C0036064E = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "UserVoice" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -778,9 +1039,20 @@
 			projectRoot = "";
 			targets = (
 				D2AAC07D0554694100DB518D /* UserVoice */,
+				D36839F31C77464C0036064E /* UserVoiceSDK */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D36839F21C77464C0036064E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D2AAC07B0554694100DB518D /* Sources */ = {
@@ -850,6 +1122,75 @@
 				D95F23E016EFD8B1003F6850 /* UVRequestContext.m in Sources */,
 				D95F23E6172EFD2A003F6850 /* UVUtils.m in Sources */,
 				C184F7EB17B5AD7C00DBB38C /* UVCallback.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D36839EF1C77464C0036064E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3683A3A1C7747270036064E /* Base64Transcoder.c in Sources */,
+				D36839FD1C77471D0036064E /* UVBabayaga.m in Sources */,
+				D36839FE1C77471D0036064E /* UVDeflection.m in Sources */,
+				D36839FF1C77471D0036064E /* UVArticleViewController.m in Sources */,
+				D3683A001C77471D0036064E /* UVBaseViewController.m in Sources */,
+				D3683A011C77471D0036064E /* UVValueSelectViewController.m in Sources */,
+				D3683A021C77471D0036064E /* UVRootViewController.m in Sources */,
+				D3683A031C77471D0036064E /* UVSuggestionDetailsViewController.m in Sources */,
+				D3683A041C77471D0036064E /* UVSuggestionListViewController.m in Sources */,
+				D3683A051C77471D0036064E /* UVWelcomeViewController.m in Sources */,
+				D3683A061C77471D0036064E /* UVCommentViewController.m in Sources */,
+				D3683A071C77471D0036064E /* UVHelpTopicViewController.m in Sources */,
+				D3683A081C77471D0036064E /* UVContactViewController.m in Sources */,
+				D3683A091C77471D0036064E /* UVInstantAnswersViewController.m in Sources */,
+				D3683A0A1C77471D0036064E /* UVDetailsFormViewController.m in Sources */,
+				D3683A0B1C77471D0036064E /* UVSuccessViewController.m in Sources */,
+				D3683A0C1C77471D0036064E /* UVPostIdeaViewController.m in Sources */,
+				D3683A0D1C77471D0036064E /* UVArticle.m in Sources */,
+				D3683A0E1C77471D0036064E /* UVAttachment.m in Sources */,
+				D3683A0F1C77471D0036064E /* UVBaseModel.m in Sources */,
+				D3683A101C77471D0036064E /* UVCategory.m in Sources */,
+				D3683A111C77471D0036064E /* UVClientConfig.m in Sources */,
+				D3683A121C77471D0036064E /* UVComment.m in Sources */,
+				D3683A131C77471D0036064E /* UVCustomField.m in Sources */,
+				D3683A141C77471D0036064E /* UVForum.m in Sources */,
+				D3683A151C77471D0036064E /* UVSubdomain.m in Sources */,
+				D3683A161C77471D0036064E /* UVSuggestion.m in Sources */,
+				D3683A171C77471D0036064E /* UVTicket.m in Sources */,
+				D3683A181C77471D0036064E /* UVAccessToken.m in Sources */,
+				D3683A191C77471D0036064E /* UVRequestToken.m in Sources */,
+				D3683A1A1C77471D0036064E /* UVUser.m in Sources */,
+				D3683A1B1C77471D0036064E /* UVHelpTopic.m in Sources */,
+				D3683A1C1C77471D0036064E /* UVCallback.m in Sources */,
+				D3683A1D1C77471D0036064E /* UVImageView.m in Sources */,
+				D3683A1E1C77471D0036064E /* UVTextView.m in Sources */,
+				D3683A1F1C77471D0036064E /* UVTruncatingLabel.m in Sources */,
+				D3683A201C77471D0036064E /* UVCalculatingLabel.m in Sources */,
+				D3683A211C77471D0036064E /* UVTextWithFieldsView.m in Sources */,
+				D3683A221C77471D0036064E /* UserVoice.m in Sources */,
+				D3683A231C77471D0036064E /* UVNavigationController.m in Sources */,
+				D3683A241C77471D0036064E /* UVConfig.m in Sources */,
+				D3683A251C77471D0036064E /* UVImageCache.m in Sources */,
+				D3683A261C77471D0036064E /* UVResponseDelegate.m in Sources */,
+				D3683A271C77471D0036064E /* UVSession.m in Sources */,
+				D3683A281C77471D0036064E /* UVStyleSheet.m in Sources */,
+				D3683A291C77471D0036064E /* UVKeyboardUtils.m in Sources */,
+				D3683A2A1C77471D0036064E /* UVSigninManager.m in Sources */,
+				D3683A2B1C77471D0036064E /* UVInitialLoadManager.m in Sources */,
+				D3683A2C1C77471D0036064E /* UVRequestContext.m in Sources */,
+				D3683A2D1C77471D0036064E /* UVUtils.m in Sources */,
+				D3683A2E1C77471D0036064E /* UVInstantAnswerManager.m in Sources */,
+				D3683A2F1C77471D0036064E /* HRFormatJSON.m in Sources */,
+				D3683A301C77471D0036064E /* HRGlobal.m in Sources */,
+				D3683A311C77471D0036064E /* HROperationQueue.m in Sources */,
+				D3683A321C77471D0036064E /* HRRequestOperation.m in Sources */,
+				D3683A331C77471D0036064E /* HRRestModel.m in Sources */,
+				D3683A341C77471D0036064E /* YOAuthConsumer.m in Sources */,
+				D3683A351C77471D0036064E /* YOAuthRequest.m in Sources */,
+				D3683A361C77471D0036064E /* YOAuthSignatureMethod_HMAC-SHA1.m in Sources */,
+				D3683A371C77471D0036064E /* YOAuthSignatureMethod_PLAINTEXT.m in Sources */,
+				D3683A381C77471D0036064E /* YOAuthToken.m in Sources */,
+				D3683A391C77471D0036064E /* YOAuthUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,6 +1446,157 @@
 			};
 			name = Release;
 		};
+		D36839F91C77464C0036064E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SIGN_COMPARE = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				INFOPLIST_FILE = UserVoiceSDK/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uservoice.UserVoiceSDK;
+				PRODUCT_MODULE_NAME = UserVoice;
+				PRODUCT_NAME = UserVoice;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D36839FA1C77464C0036064E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SIGN_COMPARE = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				INFOPLIST_FILE = UserVoiceSDK/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uservoice.UserVoiceSDK;
+				PRODUCT_MODULE_NAME = UserVoice;
+				PRODUCT_NAME = UserVoice;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D36839FB1C77464C0036064E /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SIGN_COMPARE = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				INFOPLIST_FILE = UserVoiceSDK/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uservoice.UserVoiceSDK;
+				PRODUCT_MODULE_NAME = UserVoice;
+				PRODUCT_NAME = UserVoice;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Distribution;
+		};
 		EE4E1CF4157AA27B002DDA60 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1220,6 +1712,16 @@
 				1DEB922308733DC00010E9CD /* Debug */,
 				1DEB922408733DC00010E9CD /* Release */,
 				EE4E1CF4157AA27B002DDA60 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D36839FC1C77464C0036064E /* Build configuration list for PBXNativeTarget "UserVoiceSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D36839F91C77464C0036064E /* Debug */,
+				D36839FA1C77464C0036064E /* Release */,
+				D36839FB1C77464C0036064E /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
