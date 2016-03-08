@@ -31,7 +31,7 @@ static NSBundle *userVoiceBundle;
 
 + (NSBundle *)bundle {
     if (!userVoiceBundle) {
-        NSURL *url = [[NSBundle mainBundle] URLForResource:@"UserVoice" withExtension:@"bundle"];
+        NSURL *url = [[NSBundle bundleForClass:self] URLForResource:@"UserVoice" withExtension:@"bundle"];
         if (url) {
             userVoiceBundle = [NSBundle bundleWithURL:url];
         }
