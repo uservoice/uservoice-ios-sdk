@@ -1,5 +1,20 @@
 ## master ##
 
+## 3.2.4 (2016-03-08)
+
+* Fix a bug where the userVoiceWasDismissed callback was not always called
+* Bump the maximum number of topics to display on the portal from 10 to 100
+* Fix a bug where admins would see unpublished articles in the sdk
+* Update nl localization
+* Fix a bug where presentation on the iPad could potentially mess with the frame of the host controller
+* Fix a bug where status display was broken if there was no specified color for that status
+* Open links within articles in Safari
+* Update jp localization
+* Fix a bug where html entities were shown in forum prompt
+* Display images and articles to fit display width
+* Update zh-Hant localization
+* Fix bundle path for iOS 8.1
+
 ## 3.2.3 (2015-01-30) ##
 
 * Fix a bug where launching the contact form from an article would fail
