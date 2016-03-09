@@ -457,7 +457,21 @@
     CGFloat width = self.view.frame.size.width;
     CGFloat accessoryWidth = 0;
     CGFloat margin = 0;
-    if (IOS7) {
+    if (IOS8) {
+        if (IPAD || IPHONE_PLUS) {
+            if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+                accessoryWidth = 38;
+            } else if (accessoryType == UITableViewCellAccessoryCheckmark) {
+                accessoryWidth = 44;
+            }
+        } else {
+            if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
+                accessoryWidth = 34;
+            } else if (accessoryType == UITableViewCellAccessoryCheckmark) {
+                accessoryWidth = 40;
+            }
+        }
+    } else if (IOS7) {
         if (accessoryType == UITableViewCellAccessoryDisclosureIndicator) {
             accessoryWidth = 33;
         } else if (accessoryType == UITableViewCellAccessoryCheckmark) {

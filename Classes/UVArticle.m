@@ -23,7 +23,7 @@
     return [self getPath:path
               withParams:params
                   target:delegate
-                selector:@selector(didRetrieveArticles:)
+                selector:@selector(didRetrieveArticles:pagination:)
                  rootKey:@"articles"];
 }
 
@@ -33,7 +33,7 @@
     return [self getPath:path
               withParams:params
                   target:delegate
-                selector:@selector(didRetrieveArticles:)
+                selector:@selector(didRetrieveArticles:pagination:)
                  rootKey:@"articles"];
 }
 

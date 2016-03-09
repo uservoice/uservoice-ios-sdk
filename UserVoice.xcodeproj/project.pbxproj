@@ -94,6 +94,8 @@
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
 		D90A608A1857972A00D028DE /* UVTextWithFieldsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D90A60881857972A00D028DE /* UVTextWithFieldsView.h */; };
 		D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A60891857972A00D028DE /* UVTextWithFieldsView.m */; };
+		D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */; settings = {ASSET_TAGS = (); }; };
+		D90B211E1C90ABEE00B52A9E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; settings = {ASSET_TAGS = (); }; };
 		D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = D92767F915597F3700E17EF1 /* UVArticle.h */; };
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
@@ -237,6 +239,8 @@
 		D909DD4117CD3CAA00ECE395 /* UVDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UVDefines.h; sourceTree = "<group>"; };
 		D90A60881857972A00D028DE /* UVTextWithFieldsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVTextWithFieldsView.h; sourceTree = "<group>"; };
 		D90A60891857972A00D028DE /* UVTextWithFieldsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVTextWithFieldsView.m; sourceTree = "<group>"; };
+		D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVPaginationInfo.h; sourceTree = "<group>"; };
+		D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVPaginationInfo.m; sourceTree = "<group>"; };
 		D92767F915597F3700E17EF1 /* UVArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVArticle.h; sourceTree = "<group>"; };
 		D92767FA15597F3800E17EF1 /* UVArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVArticle.m; sourceTree = "<group>"; };
 		D92767FE1559B0E800E17EF1 /* uv_article.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uv_article.png; sourceTree = "<group>"; };
@@ -436,6 +440,8 @@
 				D96FAE6E1656E63D00A384CC /* UVHelpTopic.m */,
 				C184F7E817B5AD7C00DBB38C /* UVCallback.h */,
 				C184F7E917B5AD7C00DBB38C /* UVCallback.m */,
+				D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */,
+				D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -713,6 +719,7 @@
 				D9C35BD5166E7DB0004FAA89 /* UVTruncatingLabel.h in Headers */,
 				D94427AC1811B90E002F716B /* UVInstantAnswersViewController.h in Headers */,
 				D9C35BD9166E7E00004FAA89 /* UVCalculatingLabel.h in Headers */,
+				D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */,
 				D9C35BE3167680F2004FAA89 /* UVInitialLoadManager.h in Headers */,
 				D95F23DF16EFD8B1003F6850 /* UVRequestContext.h in Headers */,
 				D95F23E5172EFD2A003F6850 /* UVUtils.h in Headers */,
@@ -785,6 +792,7 @@
 				AC3121FA108FC46500000D5F /* UVBaseModel.m in Sources */,
 				AC312210108FC57700000D5F /* UVClientConfig.m in Sources */,
 				AC3123A11090EB3700000D5F /* UVSuggestionListViewController.m in Sources */,
+				D90B211E1C90ABEE00B52A9E /* UVPaginationInfo.m in Sources */,
 				D94427AD1811B90E002F716B /* UVInstantAnswersViewController.m in Sources */,
 				D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */,
 				AC31242710911C8600000D5F /* UVSession.m in Sources */,

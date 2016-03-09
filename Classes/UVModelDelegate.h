@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 UserVoice Inc. All rights reserved.
 //
 
-@class UVRequestContext, UVClientConfig, UVSuggestion, UVComment, UVForum, UVAccessToken, UVTicket, UVHelpTopic, UVRequestToken, UVUser;
+@class UVRequestContext, UVClientConfig, UVSuggestion, UVComment, UVForum, UVAccessToken, UVTicket, UVHelpTopic, UVRequestToken, UVUser, UVPaginationInfo;
 
 @protocol UVModelDelegate <NSObject>
 @optional
@@ -23,10 +23,10 @@
 - (void)didRetrieveForum:(UVForum *)forum;
 - (void)didRetrieveAccessToken:(UVAccessToken *)accessToken;
 - (void)didCreateTicket:(UVTicket *)ticket;
-- (void)didRetrieveArticles:(NSArray *)articles;
+- (void)didRetrieveArticles:(NSArray *)articles pagination:(UVPaginationInfo *)pagination;
 - (void)didRetrieveInstantAnswers:(NSArray *)instantAnswers;
 - (void)didRetrieveRequestToken:(UVRequestToken *)requestToken;
-- (void)didRetrieveHelpTopics:(NSArray *)topics;
+- (void)didRetrieveHelpTopics:(NSArray *)topics pagination:(UVPaginationInfo *)pagination;
 - (void)didRetrieveHelpTopic:(UVHelpTopic *)topic;
 - (void)didDiscoverUser:(UVUser *)user;
 - (void)didRetrieveCurrentUser:(UVUser *)user;

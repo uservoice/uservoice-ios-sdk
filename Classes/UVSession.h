@@ -16,6 +16,7 @@
 @class YOAuthConsumer;
 @class UVSuggestion;
 @class UVForum;
+@class UVPaginationInfo;
 
 // Keeps track of data such as the user's login state, app configuration, etc.
 // during the course of a single UserVoice session.
@@ -33,7 +34,9 @@
 @property (nonatomic, retain) UVRequestToken *requestToken;
 @property (nonatomic, retain) NSMutableDictionary *externalIds;
 @property (nonatomic, retain) NSArray *topics;
+@property (nonatomic, retain) UVPaginationInfo *topicPagination;
 @property (nonatomic, retain) NSArray *articles;
+@property (nonatomic, retain) UVPaginationInfo *articlePagination;
 @property (nonatomic, retain) NSString *flashTitle;
 @property (nonatomic, retain) NSString *flashMessage;
 @property (nonatomic, retain) UVSuggestion *flashSuggestion;

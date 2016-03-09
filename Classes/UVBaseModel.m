@@ -173,8 +173,9 @@
 }
 
 + (void)didReturnModel:(id)model context:(UVRequestContext *)context {
-    if (context.callback.methodSignature.numberOfArguments > 2)
+    if (context.callback.methodSignature.numberOfArguments > 2) {
         [context.callback setArgument:&model atIndex:2];
+    }
 
     // TODO it would be nice to optionally pass the context here, but there
     // isn't an easy way to do it with the way the callback is defined
@@ -182,9 +183,14 @@
     [context.callback invoke];
 }
 
-+ (void)didReturnModels:(NSArray *)models context:(UVRequestContext *)context {
-    if (context.callback.methodSignature.numberOfArguments > 2)
++ (void)didReturnModels:(NSArray *)models pagination:(UVPaginationInfo *)pagination context:(UVRequestContext *)context {
+    if (context.callback.methodSignature.numberOfArguments > 2) {
         [context.callback setArgument:&models atIndex:2];
+    }
+    
+    if (context.callback.methodSignature.numberOfArguments > 3) {
+        [context.callback setArgument:&pagination atIndex:3];
+    }
 
     [context.callback invoke];
 }

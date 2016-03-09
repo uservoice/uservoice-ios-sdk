@@ -101,7 +101,7 @@
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
             [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId page:1 delegate:self];
         } else {
-            [UVHelpTopic getAllWithDelegate:self];
+            [UVHelpTopic getTopicsWithPage:1 delegate:self];
             [UVArticle getArticlesWithPage:1 delegate:self];
         }
     } else {
@@ -150,16 +150,18 @@
     [self checkComplete];
 }
 
-- (void)didRetrieveHelpTopics:(NSArray *)topics {
+- (void)didRetrieveHelpTopics:(NSArray *)topics pagination:(UVPaginationInfo *)pagination {
     if (_dismissed) return;
     [UVSession currentSession].topics = [topics filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"articleCount > 0"]];
+    [UVSession currentSession].topicPagination = pagination;
     _topicsDone = YES;
     [self checkComplete];
 }
 
-- (void)didRetrieveArticles:(NSArray *)articles {
+- (void)didRetrieveArticles:(NSArray *)articles pagination:(UVPaginationInfo *)pagination {
     if (_dismissed) return;
     [UVSession currentSession].articles = articles;
+    [UVSession currentSession].articlePagination = pagination;
     _articlesDone = YES;
     [self checkComplete];
 }
