@@ -11,6 +11,7 @@
 #import "UVModelDelegate.h"
 
 @class UVRequestContext;
+@class UVPaginationInfo;
 
 @interface UVBaseModel : HRRestModel {
 
@@ -39,7 +40,7 @@
 // Processes the returned model(s) and invokes the specified callback. Should not
 // need to be overridden in subclasses.
 + (void)didReturnModel:(id)model context:(UVRequestContext *)requestContext;
-+ (void)didReturnModels:(NSArray *)models context:(UVRequestContext *)requestContext;
++ (void)didReturnModels:(NSArray *)models pagination:(UVPaginationInfo *)pagination context:(UVRequestContext *)requestContext;
 
 // Any of the different types of HTTPRiot errors result in this method being
 // called. Invokes the didReceiveError: selector on the callback target. Can be

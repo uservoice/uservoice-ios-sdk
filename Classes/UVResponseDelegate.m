@@ -13,6 +13,7 @@
 #import "UVCustomField.h"
 #import "UVRequestContext.h"
 #import "UVForum.h"
+#import "UVPaginationInfo.h"
 
 @implementation UVResponseDelegate
 
@@ -59,7 +60,8 @@
                 for (id item in root) {
                     [models addObject:[requestContext.modelClass modelForDictionary:item]];
                 }
-                [requestContext.modelClass didReturnModels:models context:object];
+                UVPaginationInfo *pagination = [self getPaginationInfo:dict[@"response_data"]];
+                [requestContext.modelClass didReturnModels:models pagination:pagination context:object];
             } else {
                 [requestContext.modelClass didReturnModel:[requestContext.modelClass modelForDictionary:root] context:object];
             }
@@ -81,5 +83,14 @@
     UVRequestContext *requestContext = (UVRequestContext *)object;
     [requestContext.modelClass didReceiveError:error context:object];
 }
+
+- (UVPaginationInfo *)getPaginationInfo:(NSDictionary *)dict {
+    UVPaginationInfo *pagination = [UVPaginationInfo new];
+    pagination.page = [(NSNumber *)[dict objectForKey:@"page"] integerValue];
+    pagination.pageSize = [(NSNumber *)[dict objectForKey:@"per_page"] integerValue];
+    pagination.totalRecords = [(NSNumber *)[dict objectForKey:@"total_records"] integerValue];
+    return pagination;
+}
+
 
 @end

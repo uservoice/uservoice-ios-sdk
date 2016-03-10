@@ -11,12 +11,12 @@
 
 @implementation UVHelpTopic
 
-+ (id)getAllWithDelegate:(id<UVModelDelegate>)delegate {
++ (id)getTopicsWithPage:(NSInteger)page delegate:(id<UVModelDelegate>)delegate {
     NSString *path = [self apiPath:@"/topics.json"];
     return [self getPath:path
-              withParams:@{@"per_page":@"100"}
+              withParams:@{@"per_page":@"100", @"page":[NSString stringWithFormat:@"%d", (int)page]}
                   target:delegate
-                selector:@selector(didRetrieveHelpTopics:)
+                selector:@selector(didRetrieveHelpTopics:pagination:)
                  rootKey:@"topics"];
 }
 

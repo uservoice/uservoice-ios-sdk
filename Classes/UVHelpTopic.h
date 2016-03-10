@@ -14,7 +14,7 @@
 @property (nonatomic, assign) NSInteger topicId;
 @property (nonatomic, assign) NSInteger articleCount;
 
-+ (id)getAllWithDelegate:(id<UVModelDelegate>)delegate;
++ (id)getTopicsWithPage:(NSInteger)page delegate:(id<UVModelDelegate>)delegate;
 + (id)getTopicWithId:(NSInteger)topicId delegate:(id<UVModelDelegate>)delegate;
 
 @end
