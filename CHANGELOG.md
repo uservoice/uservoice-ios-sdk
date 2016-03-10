@@ -1,5 +1,9 @@
 ## master ##
 
+## 3.2.5 (2016-03-10)
+
+* Add pagination support on portal view
+
 ## 3.2.4 (2016-03-08)
 
 * Fix a bug where the userVoiceWasDismissed callback was not always called
