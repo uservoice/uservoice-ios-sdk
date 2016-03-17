@@ -96,17 +96,15 @@
     UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
     _configDone = YES;
     [self loadUser];
+    
     if (clientConfig.ticketsEnabled) {
         if ([UVSession currentSession].config.topicId) {
             [UVHelpTopic getTopicWithId:[UVSession currentSession].config.topicId delegate:self];
-            [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId page:1 delegate:self];
         } else {
             [UVHelpTopic getTopicsWithPage:1 delegate:self];
-            [UVArticle getArticlesWithPage:1 delegate:self];
         }
     } else {
         _topicsDone = YES;
-        _articlesDone = YES;
     }
     [self checkComplete];
 }
@@ -116,6 +114,19 @@
     [UVSession currentSession].forum = forum;
     _forumDone = YES;
     [self checkComplete];
+}
+
+- (void)getArticlesWithToken{
+     UVClientConfig *clientConfig = [UVSession currentSession].clientConfig;
+    if (clientConfig.ticketsEnabled) {
+        if ([UVSession currentSession].config.topicId) {
+           [UVArticle getArticlesWithTopicId:[UVSession currentSession].config.topicId page:1 delegate:self];
+        } else {
+           [UVArticle getArticlesWithPage:1 delegate:self];
+        }
+    } else {
+        _articlesDone = YES;
+    }
 }
 
 - (void)didCreateUser:(UVUser *)theUser {
@@ -135,6 +146,8 @@
 
 - (void)didLoadUser {
     _userDone = YES;
+    [self getArticlesWithToken];
+
     if ([UVSession currentSession].clientConfig.feedbackEnabled) {
         [UVForum getWithId:(int)[UVSession currentSession].config.forumId delegate:self];
     } else {
