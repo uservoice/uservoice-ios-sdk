@@ -9,4 +9,5 @@ xcuserdata
 profile
 .idea
 *.swp
+Pods
 dist

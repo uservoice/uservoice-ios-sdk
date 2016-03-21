@@ -1,5 +1,9 @@
 ## master ##
 
+## 3.2.6 (2016-03-22)
+
+* Fix the issues surrounding recently added security to articles API endpoint
+
 ## 3.2.5 (2016-03-10)
 
 * Add pagination support on portal view
