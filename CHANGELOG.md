@@ -1,6 +1,10 @@
 ## master ##
 
-## 3.2.6 (2016-03-22)
+## 3.2.7 (2016-03-21)
+
+* Fix a crash caused by a null page number in an api response
+
+## 3.2.6 (2016-03-21)
 
 * Fix the issues surrounding recently added security to articles API endpoint
 
