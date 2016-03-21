@@ -60,7 +60,7 @@
                 for (id item in root) {
                     [models addObject:[requestContext.modelClass modelForDictionary:item]];
                 }
-                UVPaginationInfo *pagination = [self getPaginationInfo:dict[@"response_data"]];
+                UVPaginationInfo *pagination = [self getPaginationInfo:[self objectOrNilForDict:dict key:@"response_data"]];
                 [requestContext.modelClass didReturnModels:models pagination:pagination context:object];
             } else {
                 [requestContext.modelClass didReturnModel:[requestContext.modelClass modelForDictionary:root] context:object];
@@ -86,10 +86,18 @@
 
 - (UVPaginationInfo *)getPaginationInfo:(NSDictionary *)dict {
     UVPaginationInfo *pagination = [UVPaginationInfo new];
-    pagination.page = [(NSNumber *)[dict objectForKey:@"page"] integerValue];
-    pagination.pageSize = [(NSNumber *)[dict objectForKey:@"per_page"] integerValue];
-    pagination.totalRecords = [(NSNumber *)[dict objectForKey:@"total_records"] integerValue];
+    pagination.page = [(NSNumber *)[self objectOrNilForDict:dict key:@"page"] integerValue];
+    pagination.pageSize = [(NSNumber *)[self objectOrNilForDict:dict key:@"per_page"] integerValue];
+    pagination.totalRecords = [(NSNumber *)[self objectOrNilForDict:dict key:@"total_records"] integerValue];
     return pagination;
+}
+
+- (id)objectOrNilForDict:(NSDictionary *)dict key:(id)key {
+    id object = [dict objectForKey:key];
+    if ([[NSNull null] isEqual:object]) {
+        object = nil;
+    }
+    return object;
 }
 
 
