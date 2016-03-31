@@ -209,7 +209,7 @@ The UserVoice Platform, including iOS & Android SDKs, is not COPPA compliant and
 Give us feedback!
 --------
 
-You can share feedback on our [Mobile SDKs forum](http://feedback.uservoice.com/forums/64519-mobile-sdks).
+You can share feedback on our [Mobile SDKs forum](https://feedback.uservoice.com/forums/64513-developer-api-sdks).
 
 FAQs
 --------
