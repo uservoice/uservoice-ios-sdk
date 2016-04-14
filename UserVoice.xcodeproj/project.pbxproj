@@ -94,8 +94,8 @@
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
 		D90A608A1857972A00D028DE /* UVTextWithFieldsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D90A60881857972A00D028DE /* UVTextWithFieldsView.h */; };
 		D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A60891857972A00D028DE /* UVTextWithFieldsView.m */; };
-		D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */; settings = {ASSET_TAGS = (); }; };
-		D90B211E1C90ABEE00B52A9E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; settings = {ASSET_TAGS = (); }; };
+		D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */; };
+		D90B211E1C90ABEE00B52A9E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; };
 		D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = D92767F915597F3700E17EF1 /* UVArticle.h */; };
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
@@ -149,6 +149,7 @@
 		3A37C3CF1929A96B00942423 /* UVAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVAttachment.h; sourceTree = "<group>"; };
 		3A37C3D01929A96B00942423 /* UVAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVAttachment.m; sourceTree = "<group>"; };
 		6474C33714BB8D5D00F6A2F0 /* UserVoice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UserVoice.h; path = Include/UserVoice.h; sourceTree = SOURCE_ROOT; };
+		70D9A20D1CBFA4E300D8BAA0 /* af.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = af.lproj; sourceTree = "<group>"; };
 		80B5291C13A16A2F008709D2 /* UVCustomField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomField.h; sourceTree = "<group>"; };
 		80B5291D13A16A2F008709D2 /* UVCustomField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomField.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* UserVoice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -551,6 +552,7 @@
 		D2620C4B11B586230053EA4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				70D9A20D1CBFA4E300D8BAA0 /* af.lproj */,
 				BC1F064016BBF700006E9027 /* de.lproj */,
 				D986ADEB1624C8E5008291AA /* it.lproj */,
 				D986ADEE1624C8E5008291AA /* nl.lproj */,
