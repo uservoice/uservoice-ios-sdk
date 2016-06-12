@@ -35,6 +35,10 @@
 #define STATUS_COLOR 23
 #define LOADING 30
 
+@interface UVSuggestionListViewController()
+@property (nonatomic, retain) UISearchDisplayController *searchController;
+@end
+
 @implementation UVSuggestionListViewController {
     UITableViewCell *_templateCell;
     UILabel *_loadingLabel;

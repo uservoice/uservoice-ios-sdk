@@ -29,6 +29,10 @@
 
 #define LOADING 30
 
+@interface UVWelcomeViewController ()
+@property (nonatomic, retain) UISearchDisplayController *searchController;
+@end
+
 @implementation UVWelcomeViewController {
     NSInteger _filter;
     BOOL _allHelpRowsLoaded;

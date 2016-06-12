@@ -16,6 +16,11 @@
 #import "UVBabayaga.h"
 #import <Foundation/NSRegularExpression.h>
 
+@interface UVSigninManager()
+@property (nonatomic, retain) UIAlertView *alertView;
+@end
+
+
 @implementation UVSigninManager {
     NSInteger _state;
     UVCallback *_callback;
