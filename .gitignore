@@ -11,3 +11,4 @@ profile
 *.swp
 Pods
 dist
+Carthage/
