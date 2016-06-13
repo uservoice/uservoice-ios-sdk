@@ -1,0 +1,272 @@
+/* No comment provided by engineer. */
+"%@ (required)" = "%@ (nodig)";
+
+/* No comment provided by engineer. */
+"%@ ideas" = "%@ Idees";
+
+/* No comment provided by engineer. */
+"%d people" = "%d mense";
+
+/* No comment provided by engineer. */
+"(none)" = "(geen)";
+
+/* No comment provided by engineer. */
+"(required)" = "(nodig)";
+
+/* No comment provided by engineer. */
+"1 idea" = "1 idee";
+
+/* No comment provided by engineer. */
+"1 person" = "1 persoon";
+
+/* No comment provided by engineer. */
+"A suggestion with this title already exists. Please change the title." = "'n Voorstel met die titel bestaan reeds. Verander asseblief die titel.";
+
+/* No comment provided by engineer. */
+"Add a comment" = "Voeg kommentaar by";
+
+/* No comment provided by engineer. */
+"Additional Details" = "Addisionele details";
+
+/* No comment provided by engineer. */
+"All" = "Alles";
+
+/* No comment provided by engineer. */
+"All Articles" = "Alle artikels";
+
+/* No comment provided by engineer. */
+"Are any of these helpful?" = "Help enige van hierdie?";
+
+/* No comment provided by engineer. */
+"Articles" = "Artikels";
+
+/* No comment provided by engineer. */
+"Back" = "Terug";
+
+/* No comment provided by engineer. */
+"Cancel" = "Kanselleer";
+
+/* No comment provided by engineer. */
+"Category" = "Kategorie";
+
+/* No comment provided by engineer. */
+"Close" = "Maak toe";
+
+/* No comment provided by engineer. */
+"Comment" = "Kommentaar";
+
+/* No comment provided by engineer. */
+"Description (optional)" = "Beskrywing (opsioneel)";
+
+/* No comment provided by engineer. */
+"Do you still want to contact us?" = "Wil jy ons nog kontak?";
+
+/* No comment provided by engineer. */
+"Do you still want to post your own idea?" = "Wil jy nog jou eie idee plaas?";
+
+/* No comment provided by engineer. */
+"Don't save" = "Moenie stoor nie";
+
+/* No comment provided by engineer. */
+"Done" = "Klaar";
+
+/* No comment provided by engineer. */
+"Email" = "E-pos";
+
+/* No comment provided by engineer. */
+"Enter UserVoice password for %@" = "Vul UserVoice wagwoord in vir %@";
+
+/* No comment provided by engineer. */
+"enter value" = "vul waarde in";
+
+/* No comment provided by engineer. */
+"Enter your email" = "Vul jou e-pos in";
+
+/* No comment provided by engineer. */
+"Error" = "Fout";
+
+/* No comment provided by engineer. */
+"Feedback" = "Terugvoer";
+
+/* No comment provided by engineer. */
+"Feedback & Support" = "Terugvoer & Ondersteuning";
+
+/* No comment provided by engineer. */
+"Feedback Forum" = "Terugvoerforum";
+
+/* No comment provided by engineer. */
+"Forgot password" = "Wagwoord vergeet";
+
+/* No comment provided by engineer. */
+"Give feedback or ask for help..." = "Gee terugvoer of vra vir hulp...";
+
+/* No comment provided by engineer. */
+"Great! Glad we could help." = "Fantasties! Bly ons kon help.";
+
+/* No comment provided by engineer. */
+"I want this" = "Ek soek dit";
+
+/* No comment provided by engineer. */
+"I want this!" = "Ek soek dit!";
+
+/* No comment provided by engineer. */
+"Ideas" = "Idees";
+
+/* No comment provided by engineer. */
+"Knowledge Base" = "Kennisbasis";
+
+/* No comment provided by engineer. */
+"Knowledge base" = "Kennisbasis";
+
+/* No comment provided by engineer. */
+"Load more" = "Laai meer";
+
+/* No comment provided by engineer. */
+"Loading..." = "laai....";
+
+/* No comment provided by engineer. */
+"Message sent!" = "Boodskap gestuur!";
+
+/* No comment provided by engineer. */
+"more" = "meer";
+
+/* No comment provided by engineer. */
+"Name" = "Naam";
+
+/* No comment provided by engineer. */
+"Next" = "Volgende";
+
+/* No comment provided by engineer. */
+"No" = "Nee";
+
+/* No comment provided by engineer. */
+"No, I'm done" = "Nee, ek is klaar";
+
+/* No comment provided by engineer. */
+"OK" = "Ok";
+
+/* No comment provided by engineer. */
+"Password reset email sent to %@" = "Wagwoord herstel e-pos gestuur na %@";
+
+/* No comment provided by engineer. */
+"Please enter a valid email address." = "Tik asb n geldige e-posadres in.";
+
+/* No comment provided by engineer. */
+"Please enter some text before submitting your comment." = "Vul asseblief teks in voor jy jou kommentaar stuur.";
+
+/* No comment provided by engineer. */
+"Please enter your email address before submitting your comment." = "Vul jou e-posadres in voor jy jou kommentaar stuur";
+
+/* No comment provided by engineer. */
+"Please enter your email address before submitting your ticket." = "Vul jou e-posadres in voor jy jou kaartjie stuur.";
+
+/* No comment provided by engineer. */
+"Please fill out all required fields." = "Vul asseblief die nodige velde in.";
+
+/* No comment provided by engineer. */
+"Post" = "Plaas";
+
+/* No comment provided by engineer. */
+"Post an idea" = "Plaas 'n idee";
+
+/* No comment provided by engineer. */
+"Powered by UserVoice" = "Gedryf deur UserVoice";
+
+/* No comment provided by engineer. */
+"Ranked %@" = "Rang %@";
+
+/* No comment provided by engineer. */
+"Related articles" = "Verwante artikels";
+
+/* No comment provided by engineer. */
+"Related feedback" = "Verwante terugvoer";
+
+/* No comment provided by engineer. */
+"Save draft" = "Stoor 'n kopie";
+
+/* No comment provided by engineer. */
+"Search" = "Soek";
+
+/* No comment provided by engineer. */
+"Search forum" = "Soek op die forum";
+
+/* No comment provided by engineer. */
+"select" = "Kies";
+
+/* No comment provided by engineer. */
+"Send" = "Stuur";
+
+/* No comment provided by engineer. */
+"Send us a message" = "Stuur vir ons 'n boodskap";
+
+/* No comment provided by engineer. */
+"Sign in" = "Teken in";
+
+/* No comment provided by engineer. */
+"Skip" = "Skip";
+
+/* No comment provided by engineer. */
+"Sorry, there was an error in the application." = "Jammer, daar was n fout met die app.";
+
+/* No comment provided by engineer. */
+"Thank you!" = "Dankie!";
+
+/* No comment provided by engineer. */
+"There appears to be a problem with your network connection, please check your connectivity and try again." = "Dit lyk asof daar 'n probleem is met jou verbinding, maak asb seker en probeer weer.";
+
+/* No comment provided by engineer. */
+"There was a problem logging you in." = "Daar was 'n probleem om jou in te teken.";
+
+/* No comment provided by engineer. */
+"this" = "hierdie";
+
+/* No comment provided by engineer. */
+"This application didn't configure UserVoice properly" = "Hierdie app het nie UserVoice reg gelaai nie";
+
+/* No comment provided by engineer. */
+"this idea" = "hierdie idee";
+
+/* No comment provided by engineer. */
+"Title" = "Titel";
+
+/* No comment provided by engineer. */
+"Try again" = "Probeer weer";
+
+/* No comment provided by engineer. */
+"User name" = "Gebruikersnaam";
+
+/* No comment provided by engineer. */
+"View idea" = "Kyk na die idee";
+
+/* No comment provided by engineer. */
+"Was this article helpful?" = "Was die artikel hulpvaardig?";
+
+/* No comment provided by engineer. */
+"We'll be in touch." = "Ons sal in kontak wees";
+
+/* No comment provided by engineer. */
+"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified." = "Wanneer jy n idee op ons forum publiseer, kan ander op dit inteken en kommentaar lewer. As ons op jou idee reageer, sal in in kennis gestel word.";
+
+/* No comment provided by engineer. */
+"Would you like to contact us?" = "Wil jy ons kontak?";
+
+/* No comment provided by engineer. */
+"Write a comment..." = "Lewer kommentaar...";
+
+/* No comment provided by engineer. */
+"Yes" = "Ja";
+
+/* No comment provided by engineer. */
+"Yes!" = "Ja!";
+
+/* No comment provided by engineer. */
+"Yes, go to my message" = "ja, gaan na my boodskap toe";
+
+/* No comment provided by engineer. */
+"Yes, I want to post my idea" = "Ja, ek wil my idee plaas";
+
+/* No comment provided by engineer. */
+"Your feedback has been posted to our feedback forum." = "Jou kommentaar is gepubliseer op die forum.";
+
+/* No comment provided by engineer. */
+"“Anonymous”" = "\"Anoniem\"";

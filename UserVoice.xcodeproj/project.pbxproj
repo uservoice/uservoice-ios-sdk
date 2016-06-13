@@ -285,6 +285,7 @@
 		3A37C3CF1929A96B00942423 /* UVAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVAttachment.h; sourceTree = "<group>"; };
 		3A37C3D01929A96B00942423 /* UVAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVAttachment.m; sourceTree = "<group>"; };
 		6474C33714BB8D5D00F6A2F0 /* UserVoice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UserVoice.h; path = Include/UserVoice.h; sourceTree = SOURCE_ROOT; };
+		70D9A20D1CBFA4E300D8BAA0 /* af.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = af.lproj; sourceTree = "<group>"; };
 		80B5291C13A16A2F008709D2 /* UVCustomField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVCustomField.h; sourceTree = "<group>"; };
 		80B5291D13A16A2F008709D2 /* UVCustomField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVCustomField.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* UserVoice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -702,6 +703,7 @@
 		D2620C4B11B586230053EA4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				70D9A20D1CBFA4E300D8BAA0 /* af.lproj */,
 				BC1F064016BBF700006E9027 /* de.lproj */,
 				D986ADEB1624C8E5008291AA /* it.lproj */,
 				D986ADEE1624C8E5008291AA /* nl.lproj */,

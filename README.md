@@ -244,7 +244,7 @@ If you have any other questions please contact support@uservoice.com.
 Translations
 ------------
 
-UserVoice for iOS now has support for the following locales: ca, cs, da, de,
+UserVoice for iOS now has support for the following locales: af, ca, cs, da, de,
 el, en-GB, en, es, fi, fr, hr, hu, id, it, ja, ko, ms, nb, nl, pl, pt-PT, pt,
 ro, ru, sk, sv, th, tr, uk, vi, zh-Hans, zh-Hant.
 
