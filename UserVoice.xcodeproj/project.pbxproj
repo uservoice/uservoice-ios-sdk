@@ -94,8 +94,8 @@
 		D2C4B58F11C182CD00AD1C1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C4B58E11C182CD00AD1C1A /* QuartzCore.framework */; };
 		D90A608A1857972A00D028DE /* UVTextWithFieldsView.h in Headers */ = {isa = PBXBuildFile; fileRef = D90A60881857972A00D028DE /* UVTextWithFieldsView.h */; };
 		D90A608B1857972A00D028DE /* UVTextWithFieldsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D90A60891857972A00D028DE /* UVTextWithFieldsView.m */; };
-		D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */; settings = {ASSET_TAGS = (); }; };
-		D90B211E1C90ABEE00B52A9E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; settings = {ASSET_TAGS = (); }; };
+		D90B211D1C90ABEE00B52A9E /* UVPaginationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90B211B1C90ABEE00B52A9E /* UVPaginationInfo.h */; };
+		D90B211E1C90ABEE00B52A9E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; };
 		D92767FB15597F3800E17EF1 /* UVArticle.h in Headers */ = {isa = PBXBuildFile; fileRef = D92767F915597F3700E17EF1 /* UVArticle.h */; };
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
@@ -753,7 +753,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "UserVoice Inc";
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "UserVoice" */;
@@ -912,13 +912,6 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7,
-					armv7s,
-					arm64,
-					i386,
-					x86_64,
-				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -983,13 +976,6 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7,
-					armv7s,
-					arm64,
-					i386,
-					x86_64,
-				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1054,8 +1040,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1085,8 +1075,11 @@
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1114,8 +1107,11 @@
 				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1139,13 +1135,6 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7,
-					armv7s,
-					arm64,
-					i386,
-					x86_64,
-				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
