@@ -23,7 +23,9 @@ static NSInteger interactionIdentifier;
 + (void)trackDeflection:(NSString *)kind deflectingType:(NSString *)deflectingType deflector:(UVBaseModel *)model {
     NSMutableDictionary *params = [self deflectionParams];
     [params setObject:kind forKey:@"kind"];
-    [params setObject:deflectingType forKey:@"deflecting_type"];
+    if(deflectingType){
+        [params setObject:deflectingType forKey:@"deflecting_type"];
+    }
     if ([model isKindOfClass:[UVArticle class]]) {
         UVArticle *article = (UVArticle *)model;
         [params setObject:@"Faq" forKey:@"deflector_type"];
@@ -90,14 +92,18 @@ static NSInteger interactionIdentifier;
 
 + (NSMutableDictionary *)deflectionParams {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if ([UVBabayaga instance].uvts) {
+    UVBabayaga *inst = (UVBabayaga *)[UVBabayaga instance];
+    
+    if (inst && inst.uvts != nil) {
         // there should be one, but don't crash if there isn't!
-        [params setObject:[UVBabayaga instance].uvts forKey:@"uvts"];
+        [params setObject:inst.uvts forKey:@"uvts"];
+        [params setObject:@"ios" forKey:@"channel"];
+        if(searchText){
+            [params setObject:searchText forKey:@"search_term"];
+        }
+        [params setObject:[NSString stringWithFormat:@"%d", (int)[self interactionIdentifier]] forKey:@"interaction_identifier"];
+        [params setObject:[NSString stringWithFormat:@"%d", (int)[UVSession currentSession].clientConfig.subdomain.subdomainId] forKey:@"subdomain_id"];
     }
-    [params setObject:@"ios" forKey:@"channel"];
-    [params setObject:searchText forKey:@"search_term"];
-    [params setObject:[NSString stringWithFormat:@"%d", (int)[self interactionIdentifier]] forKey:@"interaction_identifier"];
-    [params setObject:[NSString stringWithFormat:@"%d", (int)[UVSession currentSession].clientConfig.subdomain.subdomainId] forKey:@"subdomain_id"];
     return params;
 }
 
