@@ -12,6 +12,7 @@
 #import "UVSession.h"
 #import "UVAccessToken.h"
 #import "YOAuthToken.h"
+#import "YOAuthUtil.h"
 #import "UserVoice.h"
 #import "UVResponseDelegate.h"
 #import "UVRequestContext.h"
@@ -119,12 +120,16 @@
     return callback;
 }
 
-+ (UVRequestContext *)requestContextWithTarget:(id<UVModelDelegate>)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
++ (UVRequestContext *)requestContextWithTarget:(id<UVModelDelegate>)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context method:(NSString *)httpMethod path:(NSString *)path params:(NSDictionary *)params jsonPayload:(NSDictionary *)jsonPayload {
     UVRequestContext *requestContext = [UVRequestContext new];
     requestContext.modelClass = self;
     requestContext.rootKey = rootKey;
     requestContext.context = context;
     requestContext.callback = [self invocationWithTarget:target selector:selector];
+    requestContext.httpMethod = httpMethod;
+    requestContext.path = path;
+    requestContext.params = params;
+    requestContext.jsonPayload = jsonPayload;
     return requestContext;
 }
 
@@ -133,7 +138,7 @@
 }
 
 + (id)getPath:(NSString *)path withParams:(NSDictionary *)params target:(id<UVModelDelegate>)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context method:@"GET" path:path params:params jsonPayload:nil];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"GET"];
     return [self getPath:path withOptions:opts object:requestContext];
 }
@@ -143,7 +148,7 @@
 }
 
 + (id)postPath:(NSString *)path withParams:(NSDictionary *)params target:(id<UVModelDelegate>)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context method:@"POST" path:path params:params jsonPayload:nil];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"POST"];
     return [self postPath:path withOptions:opts object:requestContext];
 }
@@ -153,7 +158,7 @@
 }
 
 + (id)putPath:(NSString *)path withParams:(NSDictionary *)params target:(id<UVModelDelegate>)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context method:@"PUT" path:path params:params jsonPayload:nil];
     NSDictionary *opts = [self optionsForPath:path params:params method:@"PUT"];
     return [self putPath:path withOptions:opts object:requestContext];
 }
@@ -163,7 +168,7 @@
 }
 
 + (id)putPath:(NSString *)path withJSON:(NSDictionary *)payload target:(id<UVModelDelegate>)target selector:(SEL)selector rootKey:(NSString *)rootKey context:(NSString *)context {
-    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context];
+    UVRequestContext *requestContext = [self requestContextWithTarget:target selector:selector rootKey:rootKey context:context method:@"PUT" path:path params:nil jsonPayload:payload];
     NSDictionary *opts = [self optionsForPath:path JSON:payload method:@"PUT"];
     return [self putPath:path withOptions:opts object:requestContext];
 }
@@ -198,10 +203,36 @@
 + (void)didReceiveError:(NSError *)error context:(UVRequestContext *)context {
     NSLog(@"UserVoice SDK network error: %@", error);
 
+    // retry with offset if there is a timestamp problem
+    NSDictionary *errorInfo = error.userInfo;
+    if ([errorInfo[@"oauth_problem"] isEqualToString:@"timestamp_refused"]) {
+        NSInteger serverTime = [(NSNumber *)[errorInfo objectForKey:@"server_time"] integerValue];
+        [YOAuthUtil setTimestampOffset:serverTime - time(NULL)];
+        [self retryRequest:context];
+        return;
+    }
+
     if ([context.callback.target respondsToSelector:@selector(didReceiveError:context:)])
         [context.callback.target performSelector:@selector(didReceiveError:context:) withObject:error withObject:context];
     else if ([context.callback.target respondsToSelector:@selector(didReceiveError:)])
         [context.callback.target performSelector:@selector(didReceiveError:) withObject:error];
+}
+
++ (void)retryRequest:(UVRequestContext *)context {
+    NSDictionary *opts;
+    if (context.jsonPayload) {
+        opts = [self optionsForPath:context.path JSON:context.jsonPayload method:context.httpMethod];
+    } else {
+        opts = [self optionsForPath:context.path params:context.params method:context.httpMethod];
+    }
+    
+    if ([context.httpMethod isEqualToString:@"GET"]) {
+        [self getPath:context.path withOptions:opts object:context];
+    } else if ([context.httpMethod isEqualToString:@"POST"]) {
+        [self postPath:context.path withOptions:opts object:context];
+    } else if ([context.httpMethod isEqualToString:@"PUT"]) {
+        [self putPath:context.path withOptions:opts object:context];
+    }
 }
 
 - (id)initWithDictionary:(NSDictionary *)dict {

@@ -12,6 +12,10 @@
 
 static NSString *const kOAuthVersion= @"1.0";
 
+static long timestampOffset = 0L;
+
+#define OFFSET_KEY @"uv-timestamp-offset"
+
 @implementation YOAuthUtil
 
 + (NSString *)oauth_nonce {
@@ -23,7 +27,19 @@ static NSString *const kOAuthVersion= @"1.0";
 }
 
 + (NSString *)oauth_timestamp {
-    return [NSString stringWithFormat:@"%ld", time(NULL)];
+    return [NSString stringWithFormat:@"%ld", time(NULL) + timestampOffset];
+}
+
++ (void)setTimestampOffset:(long)offset {
+    timestampOffset = offset;
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setInteger:offset forKey:OFFSET_KEY];
+    [prefs synchronize];
+}
+
++ (void)loadTimestampOffset {
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    timestampOffset = [prefs integerForKey:OFFSET_KEY];
 }
 
 + (NSString *)oauth_version {
