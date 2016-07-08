@@ -15,5 +15,9 @@
 @property (nonatomic, retain) NSString *context;
 @property (nonatomic, retain) NSInvocation *callback;
 @property (nonatomic, retain) NSString *rootKey;
+@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain) NSDictionary *params;
+@property (nonatomic, retain) NSDictionary *jsonPayload;
+@property (nonatomic, retain) NSString *httpMethod;
 
 @end

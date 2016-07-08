@@ -21,6 +21,7 @@
 #import "UVForum.h"
 #import "UVBabayaga.h"
 #import "UVBaseViewController.h"
+#import "YOAuthUtil.h"
 
 @implementation UVInitialLoadManager {
     UIAlertView *_errorAlertView;
@@ -42,6 +43,7 @@
 }
 
 - (void)beginLoad {
+    [YOAuthUtil loadTimestampOffset];
     if ([UVSession currentSession].clientConfig) {
         [self didLoadClientConfig];
     } else {

@@ -33,4 +33,10 @@
  */
 + (NSString *)oauth_version;
 
+/**
+ * Timestamp offset handling for OAuth clock sync
+ */
++ (void)setTimestampOffset:(long)offset;
++ (void)loadTimestampOffset;
+
 @end
