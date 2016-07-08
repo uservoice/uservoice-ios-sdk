@@ -1,5 +1,13 @@
 ## master ##
 
+## 3.2.8 (2016-07-08)
+
+* Implement OAuth clock sync
+* Update Xcode settings
+* Update some translations
+* Fix warnings
+* Add carthage support
+
 ## 3.2.7 (2016-03-21)
 
 * Fix a crash caused by a null page number in an api response
