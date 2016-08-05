@@ -236,6 +236,7 @@
 		D92767FC15597F3800E17EF1 /* UVArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D92767FA15597F3800E17EF1 /* UVArticle.m */; };
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
 		D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927680B1559CB4000E17EF1 /* UVArticleViewController.m */; };
+		D92B447D1D54F1B0008E233E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; };
 		D94427A8181194F6002F716B /* UVContactViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427A6181194F6002F716B /* UVContactViewController.h */; };
 		D94427A9181194F6002F716B /* UVContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427A7181194F6002F716B /* UVContactViewController.m */; };
 		D94427AC1811B90E002F716B /* UVInstantAnswersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */; };
@@ -1131,6 +1132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D92B447D1D54F1B0008E233E /* UVPaginationInfo.m in Sources */,
 				D3683A3A1C7747270036064E /* Base64Transcoder.c in Sources */,
 				D36839FD1C77471D0036064E /* UVBabayaga.m in Sources */,
 				D36839FE1C77471D0036064E /* UVDeflection.m in Sources */,
