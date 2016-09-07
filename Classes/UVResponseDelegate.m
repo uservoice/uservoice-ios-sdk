@@ -30,9 +30,13 @@
     if (requestContext.statusCode >= 400) {
         NSDictionary *userInfo = nil;
 
-        if ([resource respondsToSelector:@selector(objectForKey:)])
-            userInfo = [resource objectForKey:@"errors"];
-
+        if ([resource respondsToSelector:@selector(objectForKey:)]) {
+            id errors = [resource objectForKey:@"errors"];
+            if (errors && ![errors isKindOfClass:[NSDictionary class]]) {
+              errors = @{ @"errors": errors };
+            }
+            userInfo = errors;
+        }
         NSError *error = [NSError errorWithDomain:@"uservoice" code:requestContext.statusCode userInfo:userInfo];
         [requestContext.modelClass didReceiveError:error context:object];
 
