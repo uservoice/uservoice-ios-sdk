@@ -1,5 +1,8 @@
 ## master ##
 
+## 3.2.9 (2016-09-07)
+* Fix a crash caused by receiving a 429 rate limit response
+
 ## 3.2.8 (2016-07-08)
 
 * Implement OAuth clock sync
