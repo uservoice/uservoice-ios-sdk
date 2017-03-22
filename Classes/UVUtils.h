@@ -16,7 +16,6 @@
 + (NSString *)URLDecode:(NSString *)str;
 + (NSString *)decodeHTMLEntities:(NSString *)str;
 + (NSString *)encodeJSON:(id)obj;
-+ (NSData *)decode64:(NSString *)string;
 + (NSString *)encodeData64:(NSData *)data;
 + (NSString *)encode64:(NSString *)data;
 + (UIColor *)parseHexColor:(NSString *)str;
