@@ -91,11 +91,11 @@ article.
 
     config.topicId = 123;
 
-### Custom Fields
+### Ticket Fields
 
-You can set custom field values on the `UVConfig` object. These will be used
+You can set ticket field values on the `UVConfig` object. These will be used
 associated with any tickets the user creates during their session. You can
-also use this to set default values for custom fields on the contact form.
+also use this to set default values for ticket fields on the contact form.
 
 Note: You must first configure these fields in the UserVoice admin console.
 If you pass fields that are not recognized by the server, they will be ignored.
