@@ -225,7 +225,7 @@
         [self alertError:NSLocalizedStringFromTableInBundle(@"Please enter your email address before submitting your ticket.", @"UserVoice", [UserVoice bundle], nil)];
     } else {
         [_detailsController showActivityIndicator];
-        _selectedCategoryId = [fields[@"Category"][@"id"] integerValue];
+        _selectedCategoryId = [fields[NSLocalizedStringFromTableInBundle(@"Category", @"UserVoice", [UserVoice bundle], nil)][@"id"] integerValue];
         [self requireUserAuthenticated:email name:name callback:_didAuthenticateCallback];
     }
 }
