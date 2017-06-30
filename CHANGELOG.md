@@ -1,7 +1,7 @@
 ## master ##
 
 ## 3.3.10 (2017-06-30)
-* Fix a bug when including category when submitting a suggestion
+* Fix a bug when submitting a suggestion with a category in non-English locales
 
 ## 3.2.9 (2016-09-07)
 * Fix a crash caused by receiving a 429 rate limit response
