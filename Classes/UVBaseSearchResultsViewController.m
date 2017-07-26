@@ -9,7 +9,7 @@
 #import "UVBaseSearchResultsViewController.h"
 
 @interface UVBaseSearchResultsViewController ()
-
+- (UITableViewCell *)setupCellForRow:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
 @end
 
 @implementation UVBaseSearchResultsViewController
@@ -35,6 +35,11 @@
     }
 }
 
+- (UITableViewCell *)setupCellForRow:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    NSAssert(NO, @"Must be implemented in subclass!");
+    return nil;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {    
@@ -46,11 +51,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SEL setupCellSelector = NSSelectorFromString(@"setupCellForRow:indexPath:");
-    if ([self respondsToSelector:setupCellSelector]) {
-        return [self performSelector:setupCellSelector withObject:tableView withObject:indexPath];
-    }
-    return nil;
+    return [self setupCellForRow:tableView indexPath:indexPath];
 }
 
 #pragma mark - Table view delegate

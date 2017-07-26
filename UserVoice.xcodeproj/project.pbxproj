@@ -247,6 +247,7 @@
 		D927680C1559CB4000E17EF1 /* UVArticleViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D927680A1559CB3F00E17EF1 /* UVArticleViewController.h */; };
 		D927680D1559CB4000E17EF1 /* UVArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927680B1559CB4000E17EF1 /* UVArticleViewController.m */; };
 		D92B447D1D54F1B0008E233E /* UVPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D90B211C1C90ABEE00B52A9E /* UVPaginationInfo.m */; };
+		D93466741F2952F900905BB6 /* UVBaseSearchResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4121CA821D9898A400D2156F /* UVBaseSearchResultsViewController.m */; };
 		D94427A8181194F6002F716B /* UVContactViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427A6181194F6002F716B /* UVContactViewController.h */; };
 		D94427A9181194F6002F716B /* UVContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D94427A7181194F6002F716B /* UVContactViewController.m */; };
 		D94427AC1811B90E002F716B /* UVInstantAnswersViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D94427AA1811B90E002F716B /* UVInstantAnswersViewController.h */; };
@@ -1222,6 +1223,7 @@
 				D3683A311C77471D0036064E /* HROperationQueue.m in Sources */,
 				D3683A321C77471D0036064E /* HRRequestOperation.m in Sources */,
 				D3683A331C77471D0036064E /* HRRestModel.m in Sources */,
+				D93466741F2952F900905BB6 /* UVBaseSearchResultsViewController.m in Sources */,
 				D3683A341C77471D0036064E /* YOAuthConsumer.m in Sources */,
 				D3683A351C77471D0036064E /* YOAuthRequest.m in Sources */,
 				D3683A361C77471D0036064E /* YOAuthSignatureMethod_HMAC-SHA1.m in Sources */,
