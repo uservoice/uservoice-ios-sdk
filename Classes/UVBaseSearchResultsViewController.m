@@ -50,6 +50,7 @@
     if ([self respondsToSelector:setupCellSelector]) {
         return [self performSelector:setupCellSelector withObject:tableView withObject:indexPath];
     }
+    return nil;
 }
 
 #pragma mark - Table view delegate
