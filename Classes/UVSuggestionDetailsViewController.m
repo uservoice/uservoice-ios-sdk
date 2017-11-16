@@ -183,8 +183,8 @@
 
     NSArray *constraints = @[
         @"|-16-[avatar(==40)]-[name]",
-        @"[date]-|",
-        @"[avatar]-[text]-|",
+        @"[date]-16-|",
+        @"[avatar]-[text]-16-|",
         @"V:|-14-[avatar(==40)]",
         @"V:|-14-[name]-[text]",
         @"V:|-14-[date]"
@@ -299,10 +299,10 @@
         admin.minimumScaleFactor = 0.5;
 
         NSArray *constraints = @[
-            @"|-16-[statusColor(==10)]-[status]-|",
-            @"[date]-|",
-            @"|-16-[text]-[avatar(==40)]-|",
-            @"|-16-[admin]-|",
+            @"|-16-[statusColor(==10)]-[status]-16-|",
+            @"[date]-16-|",
+            @"|-16-[text]-[avatar(==40)]-16-|",
+            @"|-16-[admin]-16-|",
             @"V:|-14-[statusColor(==10)]",
             @"V:|-12-[status]",
             @"V:|-12-[date]-[avatar(==40)]",
@@ -455,6 +455,9 @@
     footer.backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:0.97f alpha:1.0f];
     UIView *border = [UIView new];
     border.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.0f];
+    UIView *bg = [UIView new];
+    bg.translatesAutoresizingMaskIntoConstraints = NO;
+    bg.backgroundColor = footer.backgroundColor;
     if (_instantAnswers) {
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:14];
@@ -536,10 +539,12 @@
     }
 
     [self configureView:self.view
-               subviews:NSDictionaryOfVariableBindings(table, footer)
-            constraints:@[@"V:|[table]|", @"V:[footer]|", @"|[table]|", @"|[footer]|"]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:_footerHeight]];
+               subviews:NSDictionaryOfVariableBindings(table, footer, bg)
+            constraints:@[@"V:|[table]|", @"V:[footer][bg]|", @"|[table]|", @"|[footer]|", @"|[bg]|"]];
+    [self.view addConstraint:[footer.heightAnchor constraintEqualToConstant:_footerHeight]];
+    [self.view addConstraint:[footer.bottomAnchor constraintEqualToAnchor:self.view.readableContentGuide.bottomAnchor]];
     [self.view bringSubviewToFront:footer];
+    [self.view bringSubviewToFront:bg];
 
     _allCommentsRetrieved = NO;
     _comments = [NSMutableArray arrayWithCapacity:10];

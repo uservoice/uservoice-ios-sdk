@@ -319,7 +319,7 @@
         [_searchController.searchBar sizeToFit];
         _searchController.searchBar.delegate = self;
         _searchController.searchBar.placeholder = NSLocalizedStringFromTableInBundle(@"Search", @"UserVoice", [UserVoice bundle], nil);
-        if ([UVSession currentSession].config.showForum ) {
+        if ([UVSession currentSession].config.showForum) {
             _searchController.searchBar.scopeButtonTitles = @[NSLocalizedStringFromTableInBundle(@"All", @"UserVoice", [UserVoice bundle], nil), NSLocalizedStringFromTableInBundle(@"Articles", @"UserVoice", [UserVoice bundle], nil), NSLocalizedStringFromTableInBundle(@"Ideas", @"UserVoice", [UserVoice bundle], nil)];
         }
         
@@ -327,7 +327,11 @@
             _searchController.hidesNavigationBarDuringPresentation = NO;
         }
         
-        _tableView.tableHeaderView = _searchController.searchBar;
+        if (@available(iOS 11.0, *)) {
+            self.navigationItem.searchController = _searchController;
+        } else {
+            _tableView.tableHeaderView = _searchController.searchBar;
+        }
     }
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {

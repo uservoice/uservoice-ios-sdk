@@ -522,6 +522,9 @@
 
 - (CGFloat)cellWidthForStyle:(UITableViewStyle)style accessoryType:(UITableViewCellAccessoryType)accessoryType {
     CGFloat width = self.view.frame.size.width;
+    if (@available(iOS 11.0, *)) {
+        width -= self.view.safeAreaInsets.left + self.view.safeAreaInsets.right;
+    }
     CGFloat accessoryWidth = 0;
     CGFloat margin = 0;
     if (IOS8) {

@@ -224,7 +224,11 @@
         _searchController.hidesNavigationBarDuringPresentation = false;
     }
     
-    _tableView.tableHeaderView = _searchController.searchBar;
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.searchController = _searchController;
+    } else {
+        _tableView.tableHeaderView = _searchController.searchBar;
+    }
 
     if (![UVSession currentSession].clientConfig.whiteLabel) {
         _tableView.tableFooterView = self.poweredByView;

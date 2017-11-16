@@ -12,3 +12,5 @@ profile
 Pods
 dist
 Carthage/
+UserVoice\ Demo.xcodeproj
+UserVoice\ SDK.xcworkspace
