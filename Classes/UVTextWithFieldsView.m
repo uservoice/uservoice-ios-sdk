@@ -34,13 +34,6 @@
     return self;
 }
 
-//- (void)didMoveToSuperview {
-//    for (UIView *view in self.subviews) {
-//        CGFloat constant = (view == _textView) ? -32.0 : 0;
-//        [self.superview addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.superview attribute:NSLayoutAttributeWidth multiplier:1.0 constant:constant]];
-//    }
-//}
-
 - (void)textViewDidChange:(UITextView *)textView {
     if (!IOS7) {
         [self updateLayout];

@@ -140,7 +140,7 @@
 }
 
 - (void)keyboardDidHide:(NSNotification *)note {
-    _keyboardConstraint.constant = 0;
+    _keyboardConstraint.constant = -10;
     [self.view layoutIfNeeded];
 }
 
