@@ -229,7 +229,7 @@
     } else {
         _tableView.tableHeaderView = _searchController.searchBar;
     }
-    
+
     if (![UVSession currentSession].clientConfig.whiteLabel) {
         _tableView.tableFooterView = self.poweredByView;
     }

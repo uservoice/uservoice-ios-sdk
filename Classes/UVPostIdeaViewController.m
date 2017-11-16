@@ -73,7 +73,6 @@
         @"V:[_fieldsView][sep(==1)]-[desc]",
         @"V:[sep][bg]|"
     ];
-    
 
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(_fieldsView, sep, desc, bg)
@@ -87,7 +86,7 @@
     self.topConstraint = [_fieldsView.topAnchor constraintEqualToAnchor:view.readableContentGuide.topAnchor];
     [view addConstraint:_topConstraint];
     self.descConstraint = [desc.heightAnchor constraintEqualToConstant:0];
-    
+
     self.view = view;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
