@@ -116,7 +116,9 @@
 
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(_fieldsView)
-            constraints:@[@"|[_fieldsView]|", @"V:|[_fieldsView]|"]];
+            constraints:@[@"V:|[_fieldsView]|"]];
+    [view addConstraint:[_fieldsView.leftAnchor constraintEqualToAnchor:view.readableContentGuide.leftAnchor]];
+    [view addConstraint:[_fieldsView.rightAnchor constraintEqualToAnchor:view.readableContentGuide.rightAnchor]];
 
     self.view = view;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)

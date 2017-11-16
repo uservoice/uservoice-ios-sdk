@@ -30,6 +30,7 @@
     CGFloat footerHeight = 46;
     _webView = [UIWebView new];
     _webView.delegate = self;
+//    _webView.scalesPageToFit = YES;
     NSString *section = _article.topicName ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTableInBundle(@"Knowledge Base", @"UserVoice", [UserVoice bundle], nil), _article.topicName] : NSLocalizedStringFromTableInBundle(@"Knowledge base", @"UserVoice", [UserVoice bundle], nil);
     NSString *linkColor;
     if (IOS7) {
@@ -37,7 +38,7 @@
     } else {
         linkColor = @"default";
     }
-    NSString *html = [NSString stringWithFormat:@"<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/><style>a { color: %@; } img { max-width: 100%%; width: auto; height: auto; }</style></head><body class=\"typeset\" style=\"font-family: HelveticaNeue; margin: 1em; font-size: 15px\"><h5 style='font-weight: normal; color: #999; font-size: 13px'>%@</h5><h3 style='margin-top: 10px; margin-bottom: 20px; font-size: 18px; font-family: HelveticaNeue-Medium; font-weight: normal; line-height: 1.3'>%@</h3>%@</body></html>", linkColor, section, _article.question, _article.answerHTML];
+    NSString *html = [NSString stringWithFormat:@"<html><head><meta name=\"viewport\" content=\"user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0\"/><link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.uservoice.com/stylesheets/vendor/typeset.css\"/><style>a { color: %@; } img { max-width: 100%%; width: auto; height: auto; }</style></head><body class=\"typeset\" style=\"font-family: HelveticaNeue; margin: 1em; font-size: 15px\"><h5 style='font-weight: normal; color: #999; font-size: 13px'>%@</h5><h3 style='margin-top: 10px; margin-bottom: 20px; font-size: 18px; font-family: HelveticaNeue-Medium; font-weight: normal; line-height: 1.3'>%@</h3>%@</body></html>", linkColor, section, _article.question, _article.answerHTML];
     _webView.backgroundColor = [UIColor whiteColor];
     for (UIView* shadowView in [[_webView scrollView] subviews]) {
         if ([shadowView isKindOfClass:[UIImageView class]]) {
@@ -50,6 +51,9 @@
 
     UIView *footer = [UIView new];
     footer.backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:0.97f alpha:1.0f];
+    UIView *bg = [UIView new];
+    bg.backgroundColor = footer.backgroundColor;
+    bg.translatesAutoresizingMaskIntoConstraints = NO;
     UIView *border = [UIView new];
     border.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.0f];
     UILabel *label = [UILabel new];
@@ -77,10 +81,12 @@
             constraints:constraints];
 
     [self configureView:self.view
-               subviews:NSDictionaryOfVariableBindings(_webView, footer)
-            constraints:@[@"V:|[_webView]|", @"V:[footer]|", @"|[_webView]|", @"|[footer]|"]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:footer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:footerHeight]];
+               subviews:NSDictionaryOfVariableBindings(_webView, footer, bg)
+            constraints:@[@"V:|[_webView]|", @"V:[footer][bg]|", @"|[_webView]|", @"|[footer]|", @"|[bg]|"]];
+    [self.view addConstraint:[footer.heightAnchor constraintEqualToConstant:footerHeight]];
+    [self.view addConstraint:[footer.bottomAnchor constraintEqualToAnchor:self.view.readableContentGuide.bottomAnchor]];
     [self.view bringSubviewToFront:footer];
+    [self.view bringSubviewToFront:bg];
 }
 
 

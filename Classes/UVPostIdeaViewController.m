@@ -67,23 +67,25 @@
     self.desc = desc;
 
     NSArray *constraints = @[
-        @"|[_fieldsView]|",
         @"|[sep]|",
         @"|-[desc]-|",
         @"|[bg]|",
         @"V:[_fieldsView][sep(==1)]-[desc]",
         @"V:[sep][bg]|"
     ];
+    
 
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(_fieldsView, sep, desc, bg)
             constraints:constraints];
     [view bringSubviewToFront:desc];
+    [view addConstraint:[_fieldsView.leftAnchor constraintEqualToAnchor:view.readableContentGuide.leftAnchor]];
+    [view addConstraint:[_fieldsView.rightAnchor constraintEqualToAnchor:view.readableContentGuide.rightAnchor]];
 
     self.keyboardConstraint = [NSLayoutConstraint constraintWithItem:desc
                                                            attribute:NSLayoutAttributeBottom
                                                            relatedBy:NSLayoutRelationEqual
-                                                              toItem:view
+                                                              toItem:view.readableContentGuide
                                                            attribute:NSLayoutAttributeBottom
                                                           multiplier:1.0
                                                             constant:-_kbHeight-10];
@@ -91,10 +93,10 @@
     self.topConstraint = [NSLayoutConstraint constraintWithItem:_fieldsView
                                                       attribute:NSLayoutAttributeTop
                                                       relatedBy:NSLayoutRelationEqual
-                                                         toItem:view
+                                                         toItem:view.readableContentGuide
                                                       attribute:NSLayoutAttributeTop
                                                      multiplier:1.0
-                                                       constant:64];
+                                                       constant:0];
     [view addConstraint:_topConstraint];
     self.descConstraint = [NSLayoutConstraint constraintWithItem:desc
                                                        attribute:NSLayoutAttributeHeight
@@ -103,6 +105,7 @@
                                                        attribute:NSLayoutAttributeNotAnAttribute
                                                       multiplier:1
                                                        constant:0];
+    
     self.view = view;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Cancel", @"UserVoice", [UserVoice bundle], nil)
@@ -121,7 +124,7 @@
 }
 
 - (void)updateLayout {
-    _topConstraint.constant = (IOS7 ? (IPAD ? 44 : (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 64 : 52)) : 0);
+    //_topConstraint.constant = (IOS7 ? (IPAD ? 44 : (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) ? 64 : 52)) : 0);
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
         _desc.hidden = NO;
         [self.view removeConstraint:_descConstraint];
@@ -143,17 +146,21 @@
 }
 
 - (void)keyboardDidShow:(NSNotification *)note {
+    CGFloat offset = 0;
+    if (@available(iOS 11.0, *)) {
+        offset = self.view.safeAreaInsets.bottom;
+    }
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) || IPAD) {
-        _keyboardConstraint.constant = -_kbHeight-10;
+        _keyboardConstraint.constant = -_kbHeight-10+offset;
     } else {
-        _keyboardConstraint.constant = -_kbHeight+10;
+        _keyboardConstraint.constant = -_kbHeight+10+offset;
     }
     [self.view layoutIfNeeded];
     [_fieldsView updateLayout];
 }
 
 - (void)keyboardDidHide:(NSNotification *)note {
-    _keyboardConstraint.constant = -10;
+    _keyboardConstraint.constant = 0;
     [self.view layoutIfNeeded];
 }
 
