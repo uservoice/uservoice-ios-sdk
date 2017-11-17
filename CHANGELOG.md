@@ -1,5 +1,8 @@
 ## master ##
 
+## 3.2.11 (2017-11-17)
+* Various fixes for iPhone X
+
 ## 3.2.11 (2017-10-03)
 * Fix a build issue
 
