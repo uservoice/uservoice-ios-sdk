@@ -87,25 +87,6 @@ specify a forum, it will use the default forum for your account.
 
     config.forumId = 123;
 
-### Specify a help topic
-
-You can also specify a help topic by id. If you don't then it will display a
-list of all topics in your account, as long as they contain at least one
-article.
-
-    config.topicId = 123;
-
-### Ticket Fields
-
-You can set ticket field values on the `UVConfig` object. These will be used
-associated with any tickets the user creates during their session. You can
-also use this to set default values for ticket fields on the contact form.
-
-Note: You must first configure these fields in the UserVoice admin console.
-If you pass fields that are not recognized by the server, they will be ignored.
-
-    config.customFields = @{@"Key" : @"Value"};
-
 ### Toggle features
 
 You can turn off certain features of the SDK if you do not want to use them. By
@@ -198,7 +179,6 @@ The SDK relies on being able to obtain a client key to communicate with the User
 UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"CLIENT_KEY" andSecret:@"CLIENT_SECRET"];
 [UserVoice initialize:config];
 ```
-
 ### Kids Apps
 
 The UserVoice Platform, including iOS & Android SDKs, is not COPPA compliant and should not be used in apps marketed at children.
@@ -209,6 +189,25 @@ The UserVoice Platform, including iOS & Android SDKs, is not COPPA compliant and
 * If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.
 * You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.
 * We are dropping support for versions of iOS prior to 6.0. (See note about [iOS versions](#ios-versions))
+
+### Specify a help topic
+
+You can also specify a help topic by id. If you don't then it will display a
+list of all topics in your account, as long as they contain at least one
+article.
+
+    config.topicId = 123;
+
+### Ticket Fields
+
+You can set ticket field values on the `UVConfig` object. These will be used
+associated with any tickets the user creates during their session. You can
+also use this to set default values for ticket fields on the contact form.
+
+Note: You must first configure these fields in the UserVoice admin console.
+If you pass fields that are not recognized by the server, they will be ignored.
+
+    config.customFields = @{@"Key" : @"Value"};
 
 Give us feedback!
 --------
