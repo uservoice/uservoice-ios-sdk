@@ -172,7 +172,7 @@ The library will detect and display in the language the device is set to provide
 
 Note: UserVoice for iOS does **not** support private **forums**. This section is relevant to those using sitewide privacy.
 
-The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the mobile settings section of the UserVoice admin console. Private sites are not supported unless the user is authenticated.
+The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the UserVoice admin console. Navigate to "Settings" - "Integratoins" - "API key and secret". Private sites are not supported unless the user is authenticated.
 
 
 ```
