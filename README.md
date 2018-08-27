@@ -1,4 +1,4 @@
-## UserVoice iOS SDK ([download demo app](https://itunes.apple.com/us/app/uservoice-help-center/id907516756))
+## UserVoice iOS SDK
 
 In this article, we will walk you through your options for setting up the iOS SDK.
 If you need features not outlined in this article, please share them as feature requests on our feedback forum [here](https://feedback.uservoice.com/forums/64513-developer-api-sdks/category/162129-mobile-sdks-any).
@@ -13,8 +13,7 @@ Binary builds of the SDK are available for download:
 * See [Releases](https://github.com/uservoice/uservoice-ios-sdk/releases) for release notes and previous versions
 
 Example apps:
-* You can try the SDK using your own UserVoice account with our demo [Help Center app, available in the App Store](https://itunes.apple.com/us/app/uservoice-help-center/id907516756).
-* We also have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
+* We have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
 
 Screenshots:
 
@@ -172,7 +171,7 @@ The library will detect and display in the language the device is set to provide
 
 Note: UserVoice for iOS does **not** support private **forums**. This section is relevant to those using sitewide privacy.
 
-The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the mobile settings section of the UserVoice admin console. Private sites are not supported unless the user is authenticated.
+The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the "Integrations" settings section of the UserVoice admin console. Private sites are not supported unless the user is authenticated.
 
 
 ```
