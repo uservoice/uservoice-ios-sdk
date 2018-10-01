@@ -331,4 +331,4 @@ To do this, they will need:
 * Isolate the problem to the few lines that call the SDK, plus the minimum boilerplate necessary to compile and run the example.
 * If we will need example secrets or a test account, make that clear in the code or accompanying explanation.
 
-Once filed, you can also reach out to our support team at questions@uservoice.com
+Once filed, you can also reach out to our support team at support@uservoice.com
