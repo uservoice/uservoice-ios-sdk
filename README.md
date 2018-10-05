@@ -1,23 +1,17 @@
+# DEPRECATED
+
+[![deprecated](http://badges.github.io/stability-badges/dist/deprecated.svg)](http://github.com/badges/stability-badges)
+
+This module is no longer maintained by UserVoice, [please consider using our API](https://developer.uservoice.com/docs/api/v2/reference/)
+
+We are encouraging the community to take the ownership of this module.
+Please open an issue if you are willing to become the new maintainer.
+
+---
+
 ## UserVoice iOS SDK
 
-In this article, we will walk you through your options for setting up the iOS SDK.
-If you need features not outlined in this article, please share them as feature requests on our feedback forum [here](https://feedback.uservoice.com/forums/64513-developer-api-sdks/category/162129-mobile-sdks-any).
-That is the best channel for requesting additional functionality.
-
 The UserVoice iOS SDK allows you to integrate a native UserVoice experience directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
-
-To get started, you will need to have a free UserVoice account to connect to. Go to [uservoice.com/mobile/](https://uservoice.com/mobile/) to sign up for free.
-
-Binary builds of the SDK are available for download:
-* Current release: [3.2.12](https://github.com/uservoice/uservoice-ios-sdk/releases/tag/3.2.12) (updated 2017-11-17)
-* See [Releases](https://github.com/uservoice/uservoice-ios-sdk/releases) for release notes and previous versions
-
-Example apps:
-* We have an [example app](https://github.com/uservoice/uservoice-iphone-example) on GitHub that demonstrates how to build and integrate the SDK.
-
-Screenshots:
-
-![InstantAnswers](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-instant-answers-3.0.gif) &nbsp; ![Subscribe to ideas](https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-subscribe-3.0.gif)
 
 ## Installation
 
@@ -241,8 +235,6 @@ Nope. UserVoice for iOS follows all of Apple’s policies to make sure you can c
 **Can I customize the look and feel to match my app?**
 Yes. You can customize the colors of the UserVoice modal dialogs by creating your own stylesheet. Check out the [customization](#customizing-colors) for more info.
 
-If you have any other questions please contact support@uservoice.com.
-
 Translations
 ------------
 
@@ -310,25 +302,3 @@ limitations under the License.
 
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/f5b60bff0fbee98bc0e43f57eb49576f "githalytics.com")](http://githalytics.com/uservoice/uservoice-iphone-sdk)
-
-### Reporting Issues
-
-If you are finding an issue, first make sure you are using the latest version of the SDK:
-
-Latest Android SDK version here: https://github.com/uservoice/uservoice-ios-sdk/releases
-
-If you are on the latest version, you need to file an issue on our [github issues page](https://github.com/uservoice/uservoice-ios-sdk/issues) with the following information:
-
-* What behavior are you currently seeing? (ie. response, error, screen)
-
-* What behavior did you expect to see?
-
-Our engineers have requested example code from your team, which they can download example, run, and plainly see the resulting problem.  
-
-To do this, they will need:
-
-* The minimum amount of code required to demonstrate the problem using a [secret gist](gist.github.com).  
-* Isolate the problem to the few lines that call the SDK, plus the minimum boilerplate necessary to compile and run the example.
-* If we will need example secrets or a test account, make that clear in the code or accompanying explanation.
-
-Once filed, you can also reach out to our support team at questions@uservoice.com
