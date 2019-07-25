@@ -1,3 +1,5 @@
+:no_entry: [DEPRECATED] This repository is no longer actively maintained. You may fork the project but we are no longer accepting pull requests or new issues. You may reach out to support@uservoice.com with questions.
+
 ## UserVoice iOS SDK
 
 The UserVoice iOS SDK allows you to integrate a native UserVoice experience directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.
